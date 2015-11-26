@@ -17,7 +17,7 @@ Import the theme in your GWT Module
 ```xml
 <inherits name="gwt.material.addins.GwtMaterialAddins"/>
 ```
-#Extra Components
+##Extra Components
 <ul>
 <li>Time Picker</li>
 <li>Subheader</li>
@@ -27,3 +27,6 @@ Import the theme in your GWT Module
 <li>CutOut</li>
 <li>Coming Soon</li>
 </ul>
+
+##Follow Us
+<a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a>
