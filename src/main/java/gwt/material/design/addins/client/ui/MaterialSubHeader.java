@@ -39,10 +39,16 @@ import gwt.material.design.client.ui.html.Span;
  * tiles are either displayed inline with tiles or can be associated with content, for
  * example, in an adjacent column.
  *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * }
+ * </pre>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  *{@code
- * <m:MaterialSubHeader text="Unread Messages" textColor="purple"/>
+ * <m.addins:MaterialSubHeader text="Unread Messages" textColor="purple"/>
  * }
  * </pre>
  *
