@@ -26,14 +26,14 @@
 
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.gwt.core.Core"/>
-    <inherits name='gwt.material.addins.Resources'/>
+    <inherits name='gwt.material.design.addins.Resources'/>
     <inherits name="gwt.material.design.GwtMaterialDesignBasic"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path='client'/>
 
     <!-- Specify the app entry point class -->
-    <entry-point class='gwt.material.addins.client.MaterialAddins'/>
+    <entry-point class='gwt.material.design.addins.client.MaterialAddins'/>
 
     <set-configuration-property name="CssResource.enableGss" value="true"/>
     <set-configuration-property name="CssResource.legacy" value="true"/>

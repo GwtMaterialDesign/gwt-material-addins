@@ -1,4 +1,4 @@
-package gwt.material.addins.client.ui;
+package gwt.material.design.addins.client.ui;
 
 /*
  * #%L GwtMaterial %% Copyright (C) 2015 GwtMaterialDesign %% Licensed under the Apache License,

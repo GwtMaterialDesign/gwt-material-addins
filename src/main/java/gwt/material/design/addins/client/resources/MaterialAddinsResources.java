@@ -1,4 +1,4 @@
-package gwt.material.addins.client.resources;
+package gwt.material.design.addins.client.resources;
 
 /*
  * #%L

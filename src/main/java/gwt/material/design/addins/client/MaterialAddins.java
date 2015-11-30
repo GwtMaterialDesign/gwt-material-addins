@@ -1,4 +1,4 @@
-package gwt.material.addins.client;
+package gwt.material.design.addins.client;
 
 /*
  * #%L
@@ -24,7 +24,7 @@ package gwt.material.addins.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.resources.client.TextResource;
-import gwt.material.addins.client.resources.MaterialAddinsResources;
+import gwt.material.design.addins.client.resources.MaterialAddinsResources;
 
 /**
  * Created by Mark Kevin on 11/26/2015.
