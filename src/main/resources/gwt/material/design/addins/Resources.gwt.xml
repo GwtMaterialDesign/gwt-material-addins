@@ -26,5 +26,4 @@
     <public path="public"/>
 
     <stylesheet src="css/addins.css"/>
-    <stylesheet src="css/timepicker.css"/>
 </module>
