@@ -21,12 +21,27 @@ Import the theme in your GWT Module
 <ul>
 <li>Time Picker</li>
 <li>Subheader</li>
-<li>Autocomplete</li>
 <li>Window Modal</li>
 <li>Steppers</li>
 <li>CutOut</li>
-<li>Coming Soon</li>
 </ul>
+
+##Package Information
+### java
+``` gwt.material.design.addins.client ``` - Main / Parent Package for Entry Point Classes <br/>
+``` gwt.material.design.addins.client.base ``` - Base Widgets e.g. ButtonBase <br/>
+``` gwt.material.design.addins.client.base.helper ``` Helper Classes for widgets e.g. UiHelper <br/>
+``` gwt.material.design.addins.client.base.mixin ``` Java Mixins Classes e.g. TypeMixins <br/>
+``` gwt.material.design.addins.client.constants ``` Enum Constants e.g. SideNavTypes <br/>
+``` gwt.material.design.addins.client.events ``` Custom Events for custom widget e.g. ClearActiveEvent <br/>
+``` gwt.material.design.addins.client.resources ``` Resource Interface definitions for js files e.g. MaterialResources <br/>
+``` gwt.material.design.addins.client.ui ``` Main Addin Components e.g. MaterialSubHeader <br/>
+
+### resources
+``` gwt.material.design.addins.client.resources ``` Where module.gwt.xml is located e.g. GWTMaterialAddins.gwt.xml <br/>
+``` gwt.material.design.addins.client.resources.img ``` Image Resources of Addins module <br/>
+``` gwt.material.design.addins.client.resources.js ``` Javascript Files of Addins module <br/>
+``` gwt.material.design.addins.public.css ```  CSS Files of Addins Module <br/>
 
 ##Follow Us
 <a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a>
