@@ -37,9 +37,17 @@ import gwt.material.design.client.ui.MaterialPanel;
 
 /**
 * Material Time Picker -  provide a simple way to select a single value from a pre-determined set.
+*
+* <h3>XML Namespace Declaration</h3>
+* <pre>
+* {@code
+* xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+* }
+* </pre>
+*
 * <h3>UiBinder Usage:</h3>
 * <pre>
-*{@code <m:MaterialTimePicker placeholder="Time Arrival" />
+*{@code <m.addins:MaterialTimePicker placeholder="Time Arrival" />
 * </pre>
 * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
 * @author kevzlou7979

@@ -50,13 +50,20 @@ import gwt.material.design.client.base.helper.ColorHelper;
  *
  * You can use {@link CloseHandler}s to be notified when the cut out is closed.
  *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * }
+ * </pre>
+ *
  * <h3>UiBinder Usage:</h3>
  *
  * <pre>
  * {@code
- * <m:MaterialCutOut ui:field="cutOut">
+ * <m.addins:MaterialCutOut ui:field="cutOut">
  *      <!-- add any widgets here -->
- * </m:MaterialCutOut>
+ * </m.addins:MaterialCutOut>
  * }
  * </pre>
  *
