@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.helper.ColorHelper;
 
 //@formatter:off
 
@@ -375,12 +376,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
 
         // adding it to the body (on Chrome the component must be added to the
         // DOM before getting computed values).
-        RootPanel.get().add(temp);
-
-        String computed = getComputedBackgroundColor(temp.getElement()).toLowerCase();
-
-        // remove from the DOM after the evaluation
-        temp.removeFromParent();
+        String computed = ColorHelper.setupComputedBackgroundColor(backgroundColor);
 
         // convert rgb to rgba, considering the opacity field
         if (opacity < 1 && computed.startsWith("rgb(")) {
@@ -390,15 +386,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
 
         computedBackgroundColor = computed;
     }
-    
-    /**
-     * Native call to getComputedStyle.
-     */
-    private native String getComputedBackgroundColor(Element e)/*-{
-        var cs = $wnd.document.defaultView.getComputedStyle(e, null);
-        return cs.getPropertyValue('background-color');
-    }-*/;
-    
+
     @Override
     public HandlerRegistration addCloseHandler(CloseHandler<MaterialCutOut> handler) {
         return addHandler(handler, CloseEvent.getType());
