@@ -1,0 +1,47 @@
+.step {
+    position: relative;
+    min-height: 32px;
+}
+.step > div:first-child {
+    position: static;
+    height: 0;
+}
+.step > div:last-child {
+    margin-left: 32px;
+    padding-left: 16px;
+    min-height: 72px;
+}
+.circle {
+    background: #4285f4;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+    position: relative;
+    color: white;
+    text-align: center;
+}
+.line {
+    position: absolute;
+    border-left: 1px solid gainsboro;
+    left: 16px;
+    bottom: 10px;
+    top: 42px;
+}
+.step:last-child .line {
+    display: none;
+}
+.title {
+    line-height: 32px;
+    font-weight: bold;
+}
+.body {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.step.inactive .body{
+    display: none;
+}
+.step.inactive .circle{
+    background-color: #9e9e9e;
+}

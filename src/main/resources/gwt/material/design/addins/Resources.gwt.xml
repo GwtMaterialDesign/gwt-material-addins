@@ -29,4 +29,5 @@
     <stylesheet src="css/subheader.css"/>
     <stylesheet src="css/timepicker.css"/>
     <stylesheet src="css/window.css"/>
+    <stylesheet src="css/stepper.css"/>
 </module>
