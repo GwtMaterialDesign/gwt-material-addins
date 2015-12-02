@@ -24,12 +24,12 @@ package gwt.material.design.addins.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.resources.MaterialAddinsResources;
+import gwt.material.design.addins.client.resources.MaterialAddinsResourcesDebug;
 
 /**
  * Created by Mark Kevin on 11/26/2015.
  */
-public class MaterialAddins implements EntryPoint {
+public class MaterialAddinsDebug implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
@@ -37,8 +37,8 @@ public class MaterialAddins implements EntryPoint {
     }
 
     public void load() {
-        inject(MaterialAddinsResources.INSTANCE.timepickerJs());
-        inject(MaterialAddinsResources.INSTANCE.stickyHeaderJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.timepickerJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.stickyJs());
     }
 
     protected void inject(TextResource resource) {

@@ -24,12 +24,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface MaterialAddinsResources extends ClientBundle {
-    MaterialAddinsResources INSTANCE = GWT.create(MaterialAddinsResources.class);
+public interface MaterialAddinsResourcesDebug extends ClientBundle {
+    MaterialAddinsResourcesDebug INSTANCE = GWT.create(MaterialAddinsResourcesDebug.class);
 
-    @Source("js/timepicker.min.js")
+    @Source("js/timepicker.js")
     TextResource timepickerJs();
 
-    @Source("js/stickyheaders.min.js")
-    TextResource stickyHeaderJs();
+    @Source("js/stickyheaders.js")
+    TextResource stickyJs();
 }
