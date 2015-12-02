@@ -41,7 +41,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 * <pre>
 *{@code <m:MaterialTimePicker placeholder="Time Arrival" />
 * </pre>
-* @see <a href="http://gwt-material-demo.herokuapp.com/#pickers">Material Pickers</a>
+* @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
 * @author kevzlou7979
 * @author Ben Dol
 */

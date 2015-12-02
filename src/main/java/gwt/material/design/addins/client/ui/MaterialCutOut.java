@@ -72,7 +72,7 @@ import gwt.material.design.client.base.helper.ColorHelper;
  * class for the focus box.
  * 
  * @author gilberto-torrezan
- *
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#cutouts">Material SubHeaders</a>
  */
 // @formatter:on
 public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<MaterialCutOut>,
