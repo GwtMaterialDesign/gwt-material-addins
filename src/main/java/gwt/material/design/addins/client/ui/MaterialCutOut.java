@@ -47,11 +47,11 @@ import gwt.material.design.client.base.helper.ColorHelper;
 /**
  * MaterialCutOut is a fullscreen modal-like component to show users about new
  * features or important elements of the document.
- * 
+ *
  * You can use {@link CloseHandler}s to be notified when the cut out is closed.
- * 
+ *
  * <h3>UiBinder Usage:</h3>
- * 
+ *
  * <pre>
  * {@code
  * <m:MaterialCutOut ui:field="cutOut">
@@ -59,31 +59,31 @@ import gwt.material.design.client.base.helper.ColorHelper;
  * </m:MaterialCutOut>
  * }
  * </pre>
- * 
+ *
  * <h3>Java Usage:</h3>
  * {@code
  * MaterialCutOut cutOut = ... //create using new or using UiBinder
  * cutOut.setTarget(myTargetWidget); //the widget or element you want to focus
  * cutOut.openCutOut(); //shows the modal over the page
  * }
- * 
+ *
  * <h3>Custom styling:</h3> You use change the cut out style by using the
  * <code>material-cutout</code> class, and <code>material-cutout-focus</code>
  * class for the focus box.
- * 
+ *
  * @author gilberto-torrezan
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#cutouts">Material SubHeaders</a>
  */
 // @formatter:on
 public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<MaterialCutOut>,
-    HasClickHandlers, HasCircle {
+        HasClickHandlers, HasCircle {
 
     private String backgroundColor = "blue";
     private double opacity = 0.8;
-    
+
     private String animationDuration = "0.5s";
     private String animationTimingFunction = "ease";
-    
+
     private String computedBackgroundColor;
     private int cutOutPadding = 10;
     private boolean circle = false;
@@ -114,31 +114,31 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
         style.setPosition(Position.ABSOLUTE);
         style.setZIndex(-1);
     }
-    
+
     @Override
     public void setBackgroundColor(String bgColor) {
         backgroundColor = bgColor;
         //resetting the computedBackgroundColor
         computedBackgroundColor = null;
     }
-    
+
     @Override
     public String getBackgroundColor() {
         return backgroundColor;
     }
-    
+
     @Override
     public void setOpacity(double opacity) {
         this.opacity = opacity;
         //resetting the computedBackgroundColor
         computedBackgroundColor = null;
     }
-    
+
     @Override
     public double getOpacity() {
         return opacity;
     }
-    
+
     /**
      * @return the animation duration of the opening cut out
      */
@@ -149,7 +149,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
     /**
      * Sets the animation duration of the opening cut out.
      * The default is 0.5s.
-     * 
+     *
      * @param animationDuration
      *            The duration in CSS time unit, such as s and ms.
      */
@@ -166,7 +166,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
 
     /**
      * Sets the animation timing fucntion of the opening cut out.
-     * 
+     *
      * @param animationTimingFunction
      *            The speed curve of the animation, such as ease (the default), linear and
      *            ease-in-out
@@ -216,11 +216,11 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
     public void setTarget(Element targetElement) {
         this.targetElement = targetElement;
     }
-    
+
     /**
      * Sets the target widget to be focused by the cut out. Its the same as
      * calling setTarget(widget.getElement());
-     * 
+     *
      * @see #setTarget(Element)
      */
     public void setTarget(Widget widget) {
@@ -237,7 +237,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
     /**
      * Opens the modal cut out taking all the screen. The target element should
      * be set before calling this method.
-     * 
+     *
      * @throws IllegalStateException
      *             if the target element is <code>null</code>
      * @see #setTargetElement(Element)
@@ -251,11 +251,11 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
         if (computedBackgroundColor == null){
             setupComputedBackgroundColor();
         }
-        
+
         String focusId = focus.getId();
         setupAnimation(focusId + "-animation", computedBackgroundColor);
-        focus.getStyle().setProperty("animation", focusId + "-animation " + 
-            animationDuration +" " + animationTimingFunction + " forwards");
+        focus.getStyle().setProperty("animation", focusId + "-animation " +
+                animationDuration +" " + animationTimingFunction + " forwards");
 
         if (circle) {
             focus.getStyle().setProperty("borderRadius", "50%");
@@ -263,7 +263,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
             focus.getStyle().clearProperty("borderRadius");
         }
         setupCutOutPosition(focus, targetElement, cutOutPadding);
-        
+
         //disables scrolling
         Window.enableScrolling(false);
 
@@ -299,7 +299,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
 
     /**
      * Closes the cut out.
-     * 
+     *
      * @param autoClosed
      *            Notifies with the modal was auto closed or closed by user
      *            action
@@ -307,7 +307,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
     public void closeCutOut(boolean autoClosed) {
         //re-enables scrolling
         Window.enableScrolling(true);
-        
+
         getElement().getStyle().setDisplay(Display.NONE);
 
         // if the component added himself to the document, it must remove
@@ -318,43 +318,43 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
         }
         CloseEvent.fire(this, this, autoClosed);
     }
-    
+
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     private native void setupCutOutPosition(Element cutOut, Element relativeTo, int padding)/*-{
         var rect = relativeTo.getBoundingClientRect();
-        
+
         var top = rect.top;
         var left = rect.left;
         var width = rect.right - rect.left;
-        var height = rect.bottom - rect.top; 
-        
+        var height = rect.bottom - rect.top;
+
         top -= padding;
         left -= padding;
         width += padding * 2;
         height += padding * 2;
-        
+
         cutOut.style.top = top + 'px';
         cutOut.style.left = left + 'px';
         cutOut.style.width = width + 'px';
         cutOut.style.height = height + 'px';
     }-*/;
-    
+
     /**
      * Creates the CSS animation of the opening cut out.
      */
     private native void setupAnimation(String animationId, String color)/*-{
         var sheet = $doc.styleSheets[0];
-        
+
         var animationSelector = '@keyframes '+animationId;
         var animationFrames = '{' +
-             'from {box-shadow: 0px 0px 0px 0rem '+color+';}' +
-             'to {box-shadow: 0px 0px 0px 100rem '+color+';}' +
-        '}'
+            'from {box-shadow: 0px 0px 0px 0rem '+color+';}' +
+            'to {box-shadow: 0px 0px 0px 100rem '+color+';}' +
+            '}'
         sheet.insertRule(animationSelector + animationFrames, 0);
     }-*/;
-    
+
     /**
      * Gets the computed background color, based on the backgroundColor CSS
      * class.
@@ -380,8 +380,8 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
 
         // convert rgb to rgba, considering the opacity field
         if (opacity < 1 && computed.startsWith("rgb(")) {
-            computed = computed.replace("rgb(", "rgba(").replace(")", 
-            ", " + opacity + ")");
+            computed = computed.replace("rgb(", "rgba(").replace(")",
+                    ", " + opacity + ")");
         }
 
         computedBackgroundColor = computed;
