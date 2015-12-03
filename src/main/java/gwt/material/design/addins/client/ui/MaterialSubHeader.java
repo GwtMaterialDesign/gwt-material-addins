@@ -23,7 +23,11 @@ package gwt.material.design.addins.client.ui;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasText;
+import gwt.material.design.addins.client.constants.SubHeaderType;
 import gwt.material.design.client.base.HasIcon;
+import gwt.material.design.client.base.HasType;
+import gwt.material.design.client.base.mixin.CssTypeMixin;
+import gwt.material.design.client.constants.FABType;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
@@ -56,12 +60,13 @@ import gwt.material.design.client.ui.html.Span;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material SubHeaders</a>
  */
 //@formatter:on
-public class MaterialSubHeader extends Div implements HasText, HasIcon {
+public class MaterialSubHeader extends Div implements HasText, HasIcon, HasType<SubHeaderType> {
 
     private MaterialIcon icon = new MaterialIcon();
     private Span span = new Span();
 
     private boolean initialized = false;
+    private final CssTypeMixin<SubHeaderType, MaterialSubHeader> typeMixin = new CssTypeMixin<>(this);
 
     public MaterialSubHeader() {
         setStyleName("subheader");
@@ -136,4 +141,14 @@ public class MaterialSubHeader extends Div implements HasText, HasIcon {
     private native void initialize(Element e) /*-{
         $wnd.stickyHeaders.load($wnd.jQuery(".subheader"));
     }-*/;
+
+    @Override
+    public void setType(SubHeaderType type) {
+        typeMixin.setType(type);
+    }
+
+    @Override
+    public SubHeaderType getType() {
+        return typeMixin.getType();
+    }
 }

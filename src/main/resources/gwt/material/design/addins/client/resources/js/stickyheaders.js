@@ -31,26 +31,28 @@ var stickyHeaders = (function() {
       var $thisSticky = $(this),
           $stickyPosition = $thisSticky.data('originalPosition');
 
-      if ($stickyPosition <= $window.scrollTop()) {
+      if($thisSticky.hasClass("pinned")){
+        if ($stickyPosition <= $window.scrollTop()) {
 
-        var $nextSticky = $stickies.eq(i + 1),
-            $nextStickyPosition = $nextSticky.data('originalPosition') - $thisSticky.data('originalHeight');
+          var $nextSticky = $stickies.eq(i + 1),
+              $nextStickyPosition = $nextSticky.data('originalPosition') - $thisSticky.data('originalHeight');
 
-        $thisSticky.addClass("fixed z-depth-1");
+          $thisSticky.addClass("fixed z-depth-1");
 
-        if ($nextSticky.length > 0 && $thisSticky.offset().top >= $nextStickyPosition) {
+          if ($nextSticky.length > 0 && $thisSticky.offset().top >= $nextStickyPosition) {
 
-          $thisSticky.addClass("absolute").css("top", $nextStickyPosition);
-        }
-      } else {
+            $thisSticky.addClass("absolute").css("top", $nextStickyPosition);
+          }
+        } else {
 
-        var $prevSticky = $stickies.eq(i - 1);
+          var $prevSticky = $stickies.eq(i - 1);
 
-        $thisSticky.removeClass("fixed z-depth-1");
+          $thisSticky.removeClass("fixed z-depth-1");
 
-        if ($prevSticky.length > 0 && $window.scrollTop() <= $thisSticky.data('originalPosition') - $thisSticky.data('originalHeight')) {
+          if ($prevSticky.length > 0 && $window.scrollTop() <= $thisSticky.data('originalPosition') - $thisSticky.data('originalHeight')) {
 
-          $prevSticky.removeClass("absolute").removeAttr("style");
+            $prevSticky.removeClass("absolute").removeAttr("style");
+          }
         }
       }
     });

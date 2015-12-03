@@ -15,3 +15,7 @@
 .subheader.fixed.absolute {
     position: absolute;
 }
+.subheader.static{
+    position: initial !important;
+    box-shadow: none !important;;
+}
