@@ -25,6 +25,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.ComplexWidget;
+import gwt.material.design.client.base.HasAxis;
+import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.constants.Axis;
 
 //@formatter:off
 
@@ -57,10 +60,12 @@ import gwt.material.design.client.base.ComplexWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStepper extends ComplexWidget {
+public class MaterialStepper extends ComplexWidget implements HasAxis {
 
     private int totalSteps = 0;
     private int currentStep = 0;
+
+    private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
     public MaterialStepper (){
         super(Document.get().createDivElement());
@@ -141,5 +146,15 @@ public class MaterialStepper extends ComplexWidget {
 
     public int getCurrentStep() {
         return currentStep;
+    }
+
+    @Override
+    public void setAxis(Axis axis) {
+        axisMixin.setCssName(axis);
+    }
+
+    @Override
+    public Axis getAxis() {
+        return axisMixin.getCssName();
     }
 }

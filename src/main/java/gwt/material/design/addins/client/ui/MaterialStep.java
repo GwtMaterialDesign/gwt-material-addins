@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasActive;
+import gwt.material.design.client.base.HasTitle;
+import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
@@ -56,10 +58,9 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStep extends ComplexWidget implements HasActive {
+public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
 
     private int step;
-    private String title;
 
     // containers
     private Div conCircle = new Div();
@@ -69,6 +70,7 @@ public class MaterialStep extends ComplexWidget implements HasActive {
     private Div divCircle = new Div();
     private Div divLine = new Div();
     private Div divTitle = new Div();
+    private Div divDescription = new Div();
     private Div divBody = new Div();
 
     private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
@@ -92,6 +94,20 @@ public class MaterialStep extends ComplexWidget implements HasActive {
     }
 
     @Override
+    protected void onLoad() {
+        super.onLoad();
+        if(getParent() instanceof  MaterialStepper){
+            MaterialStepper stepper = (MaterialStepper) getParent();
+            if(stepper.getAxis() == Axis.HORIZONTAL){
+                conCircle.add(divTitle);
+            }else{
+                conBody.insert(divTitle, 0);
+            }
+            conCircle.add(divLine);
+        }
+    }
+
+    @Override
     public void add(Widget child) {
         divBody.add(child);
     }
@@ -106,14 +122,15 @@ public class MaterialStep extends ComplexWidget implements HasActive {
     }
 
     @Override
-    public String getTitle() {
-        return title;
+    public void setTitle(String title) {
+        divTitle.getElement().setInnerHTML(title);
     }
 
     @Override
-    public void setTitle(String title) {
-        this.title = title;
-        divTitle.getElement().setInnerHTML(title);
+    public void setDescription(String description) {
+        divDescription.setStyleName("description");
+        divDescription.getElement().setInnerHTML(description);
+        conBody.insert(divDescription, 1);
     }
 
     @Override

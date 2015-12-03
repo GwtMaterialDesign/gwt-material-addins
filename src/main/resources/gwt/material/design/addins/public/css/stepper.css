@@ -1,17 +1,20 @@
-.step {
+.stepper .step {
     position: relative;
     min-height: 32px;
+    padding: 24px;
 }
-.step > div:first-child {
-    position: static;
-    height: 0;
+.stepper .step:hover {
+    background: #F6F6F6;
 }
-.step > div:last-child {
+.stepper .step > div:first-child {
+    position: static; height: 0;
+}
+.stepper .step > div:last-child {
     margin-left: 32px;
     padding-left: 16px;
-    min-height: 72px;
+    min-height: 24px;
 }
-.circle {
+.stepper .circle {
     background: #4285f4;
     width: 32px;
     height: 32px;
@@ -21,27 +24,72 @@
     color: white;
     text-align: center;
 }
-.line {
+.stepper .line {
     position: absolute;
     border-left: 1px solid gainsboro;
-    left: 16px;
-    bottom: 10px;
-    top: 42px;
+    left: 40px;
+    bottom: -12px;
+    top: 68px;
+    z-index: 1;
 }
-.step:last-child .line {
-    display: none;
+.stepper .step:last-child .line {
+    display: none !important;
 }
-.title {
+.stepper .title {
     line-height: 32px;
-    font-weight: bold;
+    font-weight: 500;
 }
-.body {
-    padding-top: 12px;
-    padding-bottom: 12px;
+.stepper .body {
+    padding-bottom: 28px;
+    padding-top: 8px;
 }
-.step.inactive .body{
+.stepper .description {
+    line-height: 0.1;
+    font-size: 1em;
+    padding-bottom: 24px;
+    color: #989898;
+}
+/** Horizontal **/
+.stepper.horizontal {
+    line-height: 72px;
+    position: relative;
+}
+.stepper.horizontal .step {
+    display: inline-block;
+}
+.stepper.horizontal .step .line, .stepper.horizontal .step .circle, .stepper.horizontal .step .title {
+    display: inline-block;
+}
+.stepper.horizontal .step .line {
+    border-left: 0px;
+    position: inherit;
+    border-top: 1px solid gainsboro;
+    width: 100px;
+    margin-bottom: 5px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.stepper.horizontal .step .title {
+    margin-left: 8px;
+}
+.stepper.horizontal .step .body {
+    line-height: initial;
+}
+.stepper.horizontal .step > div:last-child {
+    position: absolute;
+    width: 90vw;
+    top: 93px;
+    margin-left: 0px;
+    padding-left: 0px;
+    margin: auto;
+}
+.stepper .step.inactive .title{
+    color: #C9C9C9;
+    font-weight: 400;
+}
+.stepper .step.inactive .body{
     display: none;
 }
-.step.inactive .circle{
+.stepper .step.inactive .circle{
     background-color: #9e9e9e;
 }
