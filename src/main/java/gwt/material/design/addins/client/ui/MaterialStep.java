@@ -100,10 +100,13 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
             MaterialStepper stepper = (MaterialStepper) getParent();
             if(stepper.getAxis() == Axis.HORIZONTAL){
                 conCircle.add(divTitle);
+                conCircle.add(divLine);
+                conCircle.add(divDescription);
             }else{
                 conBody.insert(divTitle, 0);
+                conCircle.add(divLine);
             }
-            conCircle.add(divLine);
+
         }
     }
 

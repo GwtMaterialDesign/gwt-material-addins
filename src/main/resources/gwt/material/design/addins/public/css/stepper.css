@@ -75,9 +75,11 @@
 .stepper.horizontal .step .title {
     margin-left: 8px;
 }
+.stepper.horizontal .step .description{
+    margin-left: 40px;
+}
 .stepper.horizontal .step .body {
     line-height: initial;
-    margin-right: 50px;
 }
 .stepper.horizontal .step > div:last-child {
     position: absolute;
@@ -86,6 +88,7 @@
     margin-left: 0px;
     padding-left: 0px;
     margin: auto;
+    left: 0px;
 }
 .stepper .step.inactive .title{
     color: #C9C9C9;
