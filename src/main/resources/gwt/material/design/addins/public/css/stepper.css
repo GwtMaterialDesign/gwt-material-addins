@@ -51,11 +51,14 @@
 }
 /** Horizontal **/
 .stepper.horizontal {
-    line-height: 72px;
+    line-height: 0px;
     position: relative;
 }
 .stepper.horizontal .step {
     display: inline-block;
+    height: 72px;
+    padding-top: 20px;
+    position: initial;
 }
 .stepper.horizontal .step .line, .stepper.horizontal .step .circle, .stepper.horizontal .step .title {
     display: inline-block;
@@ -67,17 +70,18 @@
     width: 100px;
     margin-bottom: 5px;
     margin-left: 8px;
-    margin-right: 8px;
+    margin-right: -36px;
 }
 .stepper.horizontal .step .title {
     margin-left: 8px;
 }
 .stepper.horizontal .step .body {
     line-height: initial;
+    margin-right: 50px;
 }
 .stepper.horizontal .step > div:last-child {
     position: absolute;
-    width: 90vw;
+    width: 100%;
     top: 93px;
     margin-left: 0px;
     padding-left: 0px;
