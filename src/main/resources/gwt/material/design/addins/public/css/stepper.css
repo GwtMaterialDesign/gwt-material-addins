@@ -100,7 +100,7 @@
 .stepper .step.inactive .circle{
     background-color: #9e9e9e;
 }
-.stepper.horizontal .step > div:first-child i {
+.stepper .step > div:first-child i {
     font-size: 36px;
     vertical-align: middle;
 }
