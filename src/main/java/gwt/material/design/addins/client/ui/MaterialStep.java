@@ -25,8 +25,11 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasActive;
+import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
@@ -58,9 +61,11 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
+public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, HasError {
 
     private int step;
+    private String title;
+    private String description;
 
     // containers
     private Div conCircle = new Div();
@@ -73,6 +78,8 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
     private Div divDescription = new Div();
     private Div divBody = new Div();
 
+    private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
+    private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
     private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
 
     public MaterialStep() {
@@ -96,7 +103,7 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(getParent() instanceof  MaterialStepper){
+        if(getParent() instanceof MaterialStepper){
             MaterialStepper stepper = (MaterialStepper) getParent();
             if(stepper.getAxis() == Axis.HORIZONTAL){
                 conCircle.add(divTitle);
@@ -126,14 +133,24 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
 
     @Override
     public void setTitle(String title) {
+        this.title = title;
         divTitle.getElement().setInnerHTML(title);
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     @Override
     public void setDescription(String description) {
+        this.description = description;
         divDescription.setStyleName("description");
         divDescription.getElement().setInnerHTML(description);
         conBody.insert(divDescription, 1);
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -144,5 +161,37 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle {
     @Override
     public boolean isActive() {
         return activeMixin.isActive();
+    }
+
+    @Override
+    public void setError(String error) {
+        removeStyleName("success");
+        addStyleName("error");
+        applyIconStatus(iconError, "red", error);
+    }
+
+    @Override
+    public void setSuccess(String success) {
+        removeStyleName("error");
+        addStyleName("success");
+        applyIconStatus(iconSuccess, "blue", success);
+    }
+
+    @Override
+    public void clearErrorOrSuccess() {
+        iconError.removeFromParent();
+        iconSuccess.removeFromParent();
+        conCircle.insert(divCircle, 0);
+        removeStyleName("error");
+        removeStyleName("success");
+    }
+
+
+    private void applyIconStatus(MaterialIcon icon, String color, String description){
+        iconError.removeFromParent();
+        iconSuccess.removeFromParent();
+        divCircle.removeFromParent();
+        conCircle.insert(icon, 0);
+        divDescription.getElement().setInnerHTML(description);
     }
 }

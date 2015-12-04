@@ -26,6 +26,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasAxis;
+import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
 
@@ -60,10 +61,10 @@ import gwt.material.design.client.constants.Axis;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStepper extends ComplexWidget implements HasAxis {
+public class MaterialStepper extends ComplexWidget implements HasAxis, HasError {
 
     private int totalSteps = 0;
-    private int currentStep = 0;
+    private int currentStepIndex = 0;
 
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
@@ -82,20 +83,21 @@ public class MaterialStepper extends ComplexWidget implements HasAxis {
      * Go to next Step , used by linear stepper
      */
     public void nextStep() {
-        if(currentStep >= getWidgetCount() - 1){
+        if(currentStepIndex >= getWidgetCount() - 1){
             GWT.log("You have reach the maximum step.");
         }else{
-            Widget w = getWidget(currentStep);
+            Widget w = getWidget(currentStepIndex);
             if(w instanceof MaterialStep){
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
+                step.setSuccess(step.getDescription());
 
                 // next step
                 int nextStepIndex = getWidgetIndex(step) + 1;
                 MaterialStep nextStep = (MaterialStep) getWidget(nextStepIndex);
                 nextStep.setActive(true);
             }
-            currentStep++;
+            currentStepIndex++;
         }
     }
 
@@ -103,8 +105,8 @@ public class MaterialStepper extends ComplexWidget implements HasAxis {
      * Go to previous step , used by linear stepper.
      */
     public void prevStep() {
-        if(currentStep > 0) {
-            Widget w = getWidget(currentStep);
+        if(currentStepIndex > 0) {
+            Widget w = getWidget(currentStepIndex);
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
@@ -114,7 +116,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis {
                 MaterialStep prevStep = (MaterialStep) getWidget(prevStepIndex);
                 prevStep.setActive(true);
             }
-            currentStep--;
+            currentStepIndex--;
         }else{
             GWT.log("You have reach the minimum step.");
         }
@@ -137,15 +139,23 @@ public class MaterialStepper extends ComplexWidget implements HasAxis {
         if(w instanceof MaterialStep){
             ((MaterialStep) w).setActive(true);
         }
-        currentStep = step - 1;
+        currentStepIndex = step - 1;
     }
 
-    public void setCurrentStep(int currentStep) {
-        this.currentStep = currentStep;
+    /**
+     * Reset the Stepper to initial step (first step)
+     */
+    public void reset() {
+        goToStep(1);
+        clearErrorOrSuccess();
     }
 
-    public int getCurrentStep() {
-        return currentStep;
+    public void setCurrentStepIndex(int currentStepIndex) {
+        this.currentStepIndex = currentStepIndex;
+    }
+
+    public int getCurrentStepIndex() {
+        return currentStepIndex;
     }
 
     @Override
@@ -156,5 +166,33 @@ public class MaterialStepper extends ComplexWidget implements HasAxis {
     @Override
     public Axis getAxis() {
         return axisMixin.getCssName();
+    }
+
+    /**
+     * Gets the current step component
+     * @return
+     */
+    public MaterialStep getCurrentStep() {
+        return (MaterialStep) getWidget(getCurrentStepIndex());
+    }
+
+    @Override
+    public void setError(String error) {
+        getCurrentStep().setError(error);
+    }
+
+    @Override
+    public void setSuccess(String success) {
+        getCurrentStep().setSuccess(success);
+    }
+
+    @Override
+    public void clearErrorOrSuccess() {
+        for(int i = 0; i < totalSteps; i++){
+            Widget w = getWidget(i);
+            if(w instanceof MaterialStep){
+                ((MaterialStep) w).clearErrorOrSuccess();
+            }
+        }
     }
 }
