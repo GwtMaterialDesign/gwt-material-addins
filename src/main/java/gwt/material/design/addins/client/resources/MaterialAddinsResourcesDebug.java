@@ -31,5 +31,8 @@ public interface MaterialAddinsResourcesDebug extends ClientBundle {
     TextResource timepickerJs();
 
     @Source("js/stickyheaders.js")
-    TextResource stickyJs();
+    TextResource subHeaderJs();
+
+    @Source("js/cta.js")
+    TextResource pathAnimatorJs();
 }

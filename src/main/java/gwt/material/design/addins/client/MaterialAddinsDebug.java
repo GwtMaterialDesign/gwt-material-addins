@@ -38,7 +38,8 @@ public class MaterialAddinsDebug implements EntryPoint {
 
     public void load() {
         inject(MaterialAddinsResourcesDebug.INSTANCE.timepickerJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.stickyJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.subHeaderJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.pathAnimatorJs());
     }
 
     protected void inject(TextResource resource) {
