@@ -2,6 +2,7 @@
     position: relative;
     min-height: 32px;
     padding: 24px;
+    cursor: pointer
 }
 .stepper .step:hover {
     background: #F6F6F6;

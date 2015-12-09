@@ -21,6 +21,11 @@ package gwt.material.design.addins.client.ui;
  */
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.base.ComplexWidget;
@@ -30,6 +35,9 @@ import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.animate.MaterialAnimator;
+import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
@@ -61,7 +69,7 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, HasError {
+public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, HasError, HasClickHandlers {
 
     private int step;
     private String title;
@@ -81,6 +89,7 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, 
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
     private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
+    private MaterialStepper stepper;
 
     public MaterialStep() {
         super(Document.get().createDivElement());
@@ -104,7 +113,7 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, 
     protected void onLoad() {
         super.onLoad();
         if(getParent() instanceof MaterialStepper){
-            MaterialStepper stepper = (MaterialStepper) getParent();
+            stepper = (MaterialStepper) getParent();
             if(stepper.getAxis() == Axis.HORIZONTAL){
                 conCircle.add(divTitle);
                 conCircle.add(divLine);
@@ -115,6 +124,12 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, 
             }
 
         }
+        addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                stepper.goToStep(step);
+            }
+        });
     }
 
     @Override
@@ -193,5 +208,14 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, 
         divCircle.removeFromParent();
         conCircle.insert(icon, 0);
         divDescription.getElement().setInnerHTML(description);
+    }
+
+    public Div getDivBody() {
+        return divBody;
+    }
+
+    @Override
+    public HandlerRegistration addClickHandler(ClickHandler handler) {
+        return addDomHandler(handler, ClickEvent.getType());
     }
 }
