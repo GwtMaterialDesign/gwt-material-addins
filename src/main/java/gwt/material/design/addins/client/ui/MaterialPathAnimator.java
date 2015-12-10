@@ -23,9 +23,29 @@ package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Element;
 
+//@formatter:off
+
 /**
- * Created by Mark Kevin on 12/7/2015.
+ * Custom component that provides meaningfull transition between two elements to show visual continuity.
+ *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ *{@code
+    MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
+ * }
+ * </pre>
+ *
+ * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#pathAnimator">Material Path Animator</a>
  */
+//@formatter:on
 public class MaterialPathAnimator {
 
     public static native void animate(Element source, Element target) /*-{
