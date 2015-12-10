@@ -30,4 +30,5 @@
     <stylesheet src="css/timepicker.css"/>
     <stylesheet src="css/window.css"/>
     <stylesheet src="css/stepper.css"/>
+    <stylesheet src="css/morph.css"/>
 </module>
