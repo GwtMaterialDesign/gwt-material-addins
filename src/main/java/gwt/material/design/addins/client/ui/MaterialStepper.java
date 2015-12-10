@@ -29,6 +29,11 @@ import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.ui.MaterialLoader;
+import gwt.material.design.client.ui.animate.MaterialAnimator;
+import gwt.material.design.client.ui.animate.Transition;
+import gwt.material.design.client.ui.html.Div;
+import gwt.material.design.client.ui.html.Span;
 
 //@formatter:off
 
@@ -65,12 +70,16 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
 
     private int totalSteps = 0;
     private int currentStepIndex = 0;
+    private Div divFeedback = new Div();
+    private Span feedback = new Span();
 
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
     public MaterialStepper (){
         super(Document.get().createDivElement());
         setStyleName("stepper");
+        divFeedback.setStyleName("feedback");
+        divFeedback.add(feedback);
     }
 
     @Override
@@ -194,5 +203,20 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
                 ((MaterialStep) w).clearErrorOrSuccess();
             }
         }
+    }
+
+    public String getFeedback() {
+        return feedback.getElement().getInnerHTML();
+    }
+
+    public void setFeedback(String feedbackText) {
+        feedback.setText(feedbackText);
+        MaterialAnimator.animate(Transition.FADEINUP, feedback, 500);
+        MaterialLoader.showLoading(true, getCurrentStep().getDivBody());
+        add(divFeedback);
+    }
+
+    public void hideFeedback() {
+        divFeedback.removeFromParent();
     }
 }

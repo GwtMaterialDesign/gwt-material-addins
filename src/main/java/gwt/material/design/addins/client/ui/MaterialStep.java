@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.mixin.ActiveMixin;
@@ -35,9 +34,6 @@ import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.animate.MaterialAnimator;
-import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
