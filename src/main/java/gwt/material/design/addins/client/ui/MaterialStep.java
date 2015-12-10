@@ -34,6 +34,7 @@ import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
@@ -120,7 +121,7 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, 
             }
 
         }
-        addClickHandler(new ClickHandler() {
+        conCircle.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 stepper.goToStep(step);
@@ -212,6 +213,6 @@ public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, 
 
     @Override
     public HandlerRegistration addClickHandler(ClickHandler handler) {
-        return addDomHandler(handler, ClickEvent.getType());
+        return divCircle.addDomHandler(handler, ClickEvent.getType());
     }
 }

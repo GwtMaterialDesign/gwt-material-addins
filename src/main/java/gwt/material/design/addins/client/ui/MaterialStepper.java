@@ -205,17 +205,28 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
         }
     }
 
+    /**
+     * Get feedback message
+     * @return
+     */
     public String getFeedback() {
         return feedback.getElement().getInnerHTML();
     }
 
-    public void setFeedback(String feedbackText) {
+    /**
+     * Show feedback message and circular loader on body container
+     * @param feedbackText
+     */
+    public void showFeedback(String feedbackText) {
         feedback.setText(feedbackText);
         MaterialAnimator.animate(Transition.FADEINUP, feedback, 500);
         MaterialLoader.showLoading(true, getCurrentStep().getDivBody());
         add(divFeedback);
     }
 
+    /**
+     * Hide feeback message and circular loader on body container
+     */
     public void hideFeedback() {
         divFeedback.removeFromParent();
     }
