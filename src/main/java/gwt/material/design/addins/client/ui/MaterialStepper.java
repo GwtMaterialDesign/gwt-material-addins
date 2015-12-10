@@ -225,7 +225,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
     }
 
     /**
-     * Hide feeback message and circular loader on body container
+     * Hide feedback message and circular loader on body container
      */
     public void hideFeedback() {
         divFeedback.removeFromParent();
