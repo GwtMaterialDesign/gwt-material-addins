@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.ui;
 
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 
 //@formatter:off
 
@@ -38,7 +39,7 @@ import com.google.gwt.dom.client.Element;
  * <h3>UiBinder Usage:</h3>
  * <pre>
  *{@code
-    MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
+MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
  * }
  * </pre>
  *
@@ -48,15 +49,59 @@ import com.google.gwt.dom.client.Element;
 //@formatter:on
 public class MaterialPathAnimator {
 
-    public static native void animate(Element source, Element target) /*-{
-      $wnd.cta(source, target);
-    }-*/;
+    /**
+     * Default animate method using Opacity Transition.
+     * @param source
+     * @param target
+     */
+    public static void animate(Element source,final Element target) {
+        Runnable defaultCallback = new Runnable() {
+            @Override
+            public void run() {
+                target.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                target.getStyle().setOpacity(1);
+            }
+        };
+        animate(source, target, defaultCallback);
+    }
 
+    /**
+     * Custom path animator method with callback.
+     * @param source
+     * @param target
+     * @param callback
+     */
     public static native void animate(Element source, Element target, Runnable callback)/*-{
         $wnd.cta(source, target, function () {
             if(callback != null) {
                 callback.@java.lang.Runnable::run()();
             }
         });
+    }-*/;
+
+    /**
+     * Default Reverse animate method to return to original state of Source component
+     * @param source
+     * @param target
+     */
+    public static void reverseAnimate(final Element source,final Element target) {
+        Runnable defaultCallback = new Runnable() {
+            @Override
+            public void run() {
+                target.getStyle().setVisibility(Style.Visibility.HIDDEN);
+                target.getStyle().setOpacity(0);
+            }
+        };
+        reverseAnimate(source,target, defaultCallback);
+    }
+
+    /**
+     * Reverse animation of the target component to return to original state of the source component with Custom Callback.
+     * @param source
+     * @param target
+     */
+    public static native void reverseAnimate(Element source, Element target, Runnable callback) /*-{
+        callback.@java.lang.Runnable::run()();
+        $wnd.cta(target, source);
     }-*/;
 }

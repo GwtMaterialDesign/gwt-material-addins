@@ -31,4 +31,5 @@
     <stylesheet src="css/window.css"/>
     <stylesheet src="css/stepper.css"/>
     <stylesheet src="css/morph.css"/>
+    <stylesheet src="css/overlay.css"/>
 </module>
