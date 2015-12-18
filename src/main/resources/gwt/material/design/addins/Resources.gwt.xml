@@ -32,4 +32,5 @@
     <stylesheet src="css/stepper.css"/>
     <stylesheet src="css/morph.css"/>
     <stylesheet src="css/overlay.css"/>
+    <stylesheet src="css/waterfall.css"/>
 </module>

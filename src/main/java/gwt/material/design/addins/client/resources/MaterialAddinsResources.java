@@ -35,4 +35,7 @@ public interface MaterialAddinsResources extends ClientBundle {
 
     @Source("js/cta.min.js")
     TextResource pathAnimatorJs();
+
+    @Source("js/waterfall.min.js")
+    TextResource waterfallJs();
 }

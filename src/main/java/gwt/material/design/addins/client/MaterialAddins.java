@@ -40,6 +40,7 @@ public class MaterialAddins implements EntryPoint {
         inject(MaterialAddinsResources.INSTANCE.timepickerJs());
         inject(MaterialAddinsResources.INSTANCE.subHeaderJs());
         inject(MaterialAddinsResources.INSTANCE.pathAnimatorJs());
+        inject(MaterialAddinsResources.INSTANCE.waterfallJs());
     }
 
     protected void inject(TextResource resource) {

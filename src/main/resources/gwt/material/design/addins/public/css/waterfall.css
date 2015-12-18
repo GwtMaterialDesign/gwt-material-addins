@@ -1,0 +1,9 @@
+.waterfall{
+    margin-top: 64px;
+    height: 200px;
+}
+@media only screen and (max-width: 992px) {
+    .waterfall{
+        margin-top: 56px;
+    }
+}
