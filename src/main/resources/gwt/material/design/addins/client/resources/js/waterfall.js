@@ -1,11 +1,12 @@
-function initWaterfall(showCallback, hideCallback) {
+function initWaterfall(showCallback, hideCallback, offset) {
     $('nav').pushpin({ top: $('.waterfall').offset().height });
+    $('nav').addClass('z-depth-0');
 
     var callbacks = $.Callbacks();
 
     function stickyScroll(e) {
 
-        if( window.pageYOffset > 200) {
+        if( window.pageYOffset > offset) {
             $('nav').removeClass('z-depth-0');
             $('nav').addClass('z-depth-1');
         }else{
