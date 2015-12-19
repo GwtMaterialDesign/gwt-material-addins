@@ -259,6 +259,9 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
             setupComputedBackgroundColor();
         }
 
+        //disables scrolling
+        Window.enableScrolling(false);
+
         String focusId = focus.getId();
         setupAnimation(focusId + "-animation", computedBackgroundColor);
         focus.getStyle().setProperty("animation", focusId + "-animation " +
@@ -270,9 +273,6 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
             focus.getStyle().clearProperty("borderRadius");
         }
         setupCutOutPosition(focus, targetElement, cutOutPadding);
-
-        //disables scrolling
-        Window.enableScrolling(false);
 
         Window.addResizeHandler(new ResizeHandler() {
             @Override
