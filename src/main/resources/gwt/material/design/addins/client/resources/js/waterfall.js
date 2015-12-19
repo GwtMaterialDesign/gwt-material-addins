@@ -3,15 +3,21 @@ function initWaterfall(showCallback, hideCallback, offset) {
     $('nav').addClass('z-depth-0');
 
     var callbacks = $.Callbacks();
-
+    var show;
     function stickyScroll(e) {
 
         if( window.pageYOffset > offset) {
-            $('nav').removeClass('z-depth-0');
-            $('nav').addClass('z-depth-1');
+            if (show !== true) {
+                $('nav').removeClass('z-depth-0');
+                $('nav').addClass('z-depth-1');
+                show = true;
+            }
         }else{
-            $('nav').removeClass('z-depth-1');
-            $('nav').addClass('z-depth-0');
+            if (show === true) {
+                $('nav').removeClass('z-depth-1');
+                $('nav').addClass('z-depth-0');
+                show = false;
+            }
         }
 
         if( window.pageYOffset > 1) {
@@ -24,6 +30,5 @@ function initWaterfall(showCallback, hideCallback, offset) {
         }
     }
 
-    // Scroll handler to toggle classes.
     window.addEventListener('scroll', stickyScroll, false);
 }

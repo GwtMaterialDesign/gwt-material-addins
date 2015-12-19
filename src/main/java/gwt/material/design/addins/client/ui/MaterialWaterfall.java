@@ -22,15 +22,38 @@ package gwt.material.design.addins.client.ui;
 
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.ComplexWidget;
-import gwt.material.design.client.ui.animate.MaterialAnimator;
-import gwt.material.design.client.ui.animate.Transition;
+
+//@formatter:off
 
 /**
- * Created by Mark Kevin on 12/18/2015.
+ * Material Waterfall - Act like a collapsible header below the nav bar component when scrolling up / down to provide delightful transition of components.
+ *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ *
+ * <pre>
+ *{@code
+ *
+ <m:MaterialWaterfall backgroundColor="blue" textColor="white" height="280px">
+    <m:MaterialPanel addStyleNames="container" paddingTop="20">
+        <m:MaterialTitle title="GWT Material" description="Google Material Design UI / UX for GWT Applications."/>
+        <m:MaterialAnchorButton text="Get Started" size="LARGE" backgroundColor="blue lighten-2" textColor="white"/>
+    </m:MaterialPanel>
+</m:MaterialWaterfall>
+ *
+ * </pre>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
+ * @author kevzlou7979
  */
+//@formatter:on
 public class MaterialWaterfall extends ComplexWidget {
 
     private Runnable openCallback;

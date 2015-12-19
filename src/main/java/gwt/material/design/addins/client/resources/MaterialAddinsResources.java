@@ -38,4 +38,7 @@ public interface MaterialAddinsResources extends ClientBundle {
 
     @Source("js/waterfall.min.js")
     TextResource waterfallJs();
+
+    @Source("js/scrollfire.min.js")
+    TextResource scrollFireJs();
 }

@@ -41,6 +41,7 @@ public class MaterialAddinsDebug implements EntryPoint {
         inject(MaterialAddinsResourcesDebug.INSTANCE.subHeaderJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.pathAnimatorJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.waterfallJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.scrollFireJs());
     }
 
     protected void inject(TextResource resource) {
