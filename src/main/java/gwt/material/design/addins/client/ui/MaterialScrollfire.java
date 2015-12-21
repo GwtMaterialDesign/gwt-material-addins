@@ -20,7 +20,6 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 
@@ -50,12 +49,18 @@ MaterialScrollfire.apply(Element e, Runnable runnableCallback);
 //@formatter:on
 public class MaterialScrollfire {
 
-    public static native void apply(Element element, Runnable runnable) /*-{
-        var offset = $wnd.jQuery(element).offset().top;
-        var callback = $entry(function() {
-            runnable.@java.lang.Runnable::run()();
+    public static void apply(Element element, Runnable callback) {
+        String uid = DOM.createUniqueId();
+        element.setId(uid);
+        apply("#" + uid, callback);
+    }
+
+    public static native void apply(String selector, Runnable callback) /*-{
+        var offset = 100;
+        var callbackFn = $entry(function() {
+            callback.@java.lang.Runnable::run()();
         });
-        $wnd.apply(offset, callback);
+        $wnd.apply(selector, offset, callbackFn);
     }-*/;
 
 }
