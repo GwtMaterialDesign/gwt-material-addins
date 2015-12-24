@@ -20,10 +20,9 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.client.base.ComplexWidget;
+import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
 
@@ -54,7 +53,7 @@ import gwt.material.design.client.base.ComplexWidget;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialWaterfall extends ComplexWidget {
+public class MaterialWaterfall extends MaterialWidget {
 
     private Runnable openCallback;
     private Runnable closeCallback;

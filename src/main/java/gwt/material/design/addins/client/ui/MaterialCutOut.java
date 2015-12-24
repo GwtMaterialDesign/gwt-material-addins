@@ -38,8 +38,8 @@ import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 
 //@formatter:off
@@ -82,7 +82,7 @@ import gwt.material.design.client.base.helper.ColorHelper;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#cutouts">Material SubHeaders</a>
  */
 // @formatter:on
-public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<MaterialCutOut>,
+public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
         HasClickHandlers, HasCircle {
 
     private String backgroundColor = "blue";
@@ -369,7 +369,7 @@ public class MaterialCutOut extends ComplexWidget implements HasCloseHandlers<Ma
     private void setupComputedBackgroundColor() {
         // temp is just a widget created to evaluate the computed background
         // color
-        ComplexWidget temp = new ComplexWidget(Document.get().createDivElement());
+        MaterialWidget temp = new MaterialWidget(Document.get().createDivElement());
         temp.setBackgroundColor(backgroundColor);
 
         // setting a style to make it invisible for the user

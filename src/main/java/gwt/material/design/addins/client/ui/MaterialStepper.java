@@ -20,13 +20,12 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.ui.MaterialLoader;
@@ -66,7 +65,7 @@ import gwt.material.design.client.ui.html.Span;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStepper extends ComplexWidget implements HasAxis, HasError {
+public class MaterialStepper extends MaterialWidget implements HasAxis, HasError {
 
     private int totalSteps = 0;
     private int currentStepIndex = 0;
@@ -89,7 +88,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
     }
 
     /**
-     * Go to next Step , used by linear stepper
+     * Go to next Step , used by linear stepper.
      */
     public void nextStep() {
         if(currentStepIndex >= getWidgetCount() - 1){
@@ -133,7 +132,6 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
 
     /**
      * Go to specific step manually by setting which step you want to go.
-     * @param step
      */
     public void goToStep(int step){
         totalSteps = getWidgetCount();
@@ -152,7 +150,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
     }
 
     /**
-     * Reset the Stepper to initial step (first step)
+     * Reset the Stepper to initial step (first step).
      */
     public void reset() {
         goToStep(1);
@@ -178,8 +176,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
     }
 
     /**
-     * Gets the current step component
-     * @return
+     * Gets the current step component.
      */
     public MaterialStep getCurrentStep() {
         return (MaterialStep) getWidget(getCurrentStepIndex());
@@ -206,8 +203,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
     }
 
     /**
-     * Get feedback message
-     * @return
+     * Get feedback message.
      */
     public String getFeedback() {
         return feedback.getElement().getInnerHTML();
@@ -215,7 +211,6 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
 
     /**
      * Show feedback message and circular loader on body container
-     * @param feedbackText
      */
     public void showFeedback(String feedbackText) {
         feedback.setText(feedbackText);
@@ -225,7 +220,7 @@ public class MaterialStepper extends ComplexWidget implements HasAxis, HasError 
     }
 
     /**
-     * Hide feedback message and circular loader on body container
+     * Hide feedback message and circular loader on body container.
      */
     public void hideFeedback() {
         divFeedback.removeFromParent();

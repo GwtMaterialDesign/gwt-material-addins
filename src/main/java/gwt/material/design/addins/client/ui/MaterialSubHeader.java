@@ -27,7 +27,6 @@ import gwt.material.design.addins.client.constants.SubHeaderType;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
-import gwt.material.design.client.constants.FABType;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;

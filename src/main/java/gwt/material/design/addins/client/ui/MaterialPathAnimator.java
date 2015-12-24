@@ -20,7 +20,6 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 
@@ -51,8 +50,6 @@ public class MaterialPathAnimator {
 
     /**
      * Default animate method using Opacity Transition.
-     * @param source
-     * @param target
      */
     public static void animate(Element source,final Element target) {
         Runnable defaultCallback = new Runnable() {
@@ -67,9 +64,6 @@ public class MaterialPathAnimator {
 
     /**
      * Custom path animator method with callback.
-     * @param source
-     * @param target
-     * @param callback
      */
     public static native void animate(Element source, Element target, Runnable callback)/*-{
         $wnd.cta(source, target, function () {
@@ -80,9 +74,7 @@ public class MaterialPathAnimator {
     }-*/;
 
     /**
-     * Default Reverse animate method to return to original state of Source component
-     * @param source
-     * @param target
+     * Default Reverse animate method to return to original state of Source component.
      */
     public static void reverseAnimate(final Element source,final Element target) {
         Runnable defaultCallback = new Runnable() {
@@ -96,9 +88,8 @@ public class MaterialPathAnimator {
     }
 
     /**
-     * Reverse animation of the target component to return to original state of the source component with Custom Callback.
-     * @param source
-     * @param target
+     * Reverse animation of the target component to return to original
+     * state of the source component with Custom Callback.
      */
     public static native void reverseAnimate(Element source, Element target, Runnable callback) /*-{
         callback.@java.lang.Runnable::run()();

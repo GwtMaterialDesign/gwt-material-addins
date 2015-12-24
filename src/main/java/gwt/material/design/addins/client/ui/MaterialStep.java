@@ -27,14 +27,13 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.mixin.ActiveMixin;
-import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasActive;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasTitle;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
@@ -66,7 +65,7 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStep extends ComplexWidget implements HasActive, HasTitle, HasError, HasClickHandlers {
+public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasClickHandlers {
 
     private int step;
     private String title;

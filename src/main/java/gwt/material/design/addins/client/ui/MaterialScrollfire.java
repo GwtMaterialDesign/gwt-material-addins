@@ -21,7 +21,6 @@ package gwt.material.design.addins.client.ui;
  */
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 
 //@formatter:off
 
@@ -62,5 +61,4 @@ public class MaterialScrollfire {
         });
         $wnd.apply(selector, offset, callbackFn);
     }-*/;
-
 }
