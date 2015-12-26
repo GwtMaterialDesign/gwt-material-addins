@@ -19,11 +19,15 @@ Import the theme in your GWT Module
 ```
 ##Extra Components
 <ul>
-<li>Time Picker</li>
+<li>Autcomplete</li>
+<li>Cutout</li>
+<li>Icon Morph</li>
+<li>Path Animator</li>
+<li>Scroll Fire</li>
 <li>Subheader</li>
-<li>Window Modal</li>
 <li>Steppers</li>
-<li>CutOut</li>
+<li>Time Picker</li>
+<li>Waterfall</li>
 </ul>
 
 ##Package Information
