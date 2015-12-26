@@ -62,5 +62,4 @@ public class MaterialScrollfire {
         });
         $wnd.apply(selector, offset, callbackFn);
     }-*/;
-
 }

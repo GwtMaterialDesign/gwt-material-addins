@@ -20,19 +20,12 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import gwt.material.design.client.base.ComplexWidget;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.html.Icon;
 
 //@formatter:off
 
@@ -60,7 +53,7 @@ import gwt.material.design.client.ui.html.Icon;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#morphingIcons">Material Icon Morph</a>
  */
 //@formatter:on
-public class MaterialIconMorph extends ComplexWidget {
+public class MaterialIconMorph extends MaterialWidget {
 
     private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);
 

@@ -20,18 +20,13 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.client.base.ComplexWidget;
+import gwt.material.design.client.base.MaterialWidget;
 
-/**
- * Created by Mark Kevin on 12/14/2015.
- */
-public class MaterialOverlay extends ComplexWidget {
+public class MaterialOverlay extends MaterialWidget {
 
     public MaterialOverlay() {
         super(Document.get().createDivElement());
         setStyleName("overlay-panel");
     }
-
 }

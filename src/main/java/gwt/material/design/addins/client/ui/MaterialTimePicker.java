@@ -22,10 +22,10 @@ package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.client.base.ComplexWidget;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
 import gwt.material.design.client.base.HasPlaceholder;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.constants.InputType;
 import gwt.material.design.client.constants.Orientation;
@@ -54,7 +54,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 * @author Ben Dol
 */
 //@formatter:on
-public class MaterialTimePicker extends ComplexWidget implements HasError, HasPlaceholder, HasOrientation {
+public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation {
 
     MaterialPanel panel = new MaterialPanel();
     MaterialInput input = new MaterialInput();
