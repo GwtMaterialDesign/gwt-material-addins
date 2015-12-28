@@ -15,7 +15,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 
 Import the theme in your GWT Module
 ```xml
-<inherits name="gwt.material.addins.GwtMaterialAddins"/>
+<inherits name="gwt.material.design.addins.GwtMaterialAddins"/>
 ```
 ##Extra Components
 <ul>
