@@ -61,7 +61,8 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     private String time;
     private String placeholder;
-    private boolean autoClose;
+    private boolean autoClose = true;
+    private boolean hour24;
     private Orientation orientation = Orientation.PORTRAIT;
 
     private MaterialLabel lblError = new MaterialLabel();
@@ -109,6 +110,18 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     public void setAutoClose(boolean autoClose) {
         this.autoClose = autoClose;
+    }
+
+    /**
+     * False (default) change to 24 hours system.
+     * @return
+     */
+    public boolean isHour24() {
+        return hour24;
+    }
+
+    public void setHour24(boolean hour24) {
+        this.hour24 = hour24;
     }
 
     /**
@@ -160,13 +173,14 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     public void initTimePicker() {
-        initTimePicker(input.getElement(), getOrientation().getCssName(), isAutoClose());
+        initTimePicker(input.getElement(), getOrientation().getCssName(), isAutoClose(), isHour24());
     }
 
-    protected native void initTimePicker(Element e, String orientation, boolean autoClose) /*-{
+    protected native void initTimePicker(Element e, String orientation, boolean autoClose, boolean hour24) /*-{
         $wnd.jQuery(e).lolliclock({
             autoclose: autoClose,
-            orientation: orientation
+            orientation: orientation,
+            hour24: hour24
         });
         $wnd.jQuery(e).blur();
     }-*/;
