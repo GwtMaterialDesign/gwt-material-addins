@@ -26,6 +26,7 @@
     <public path="public"/>
 
     <stylesheet src="css/autocomplete.css"/>
+    <stylesheet src="css/bubble.css"/>
     <stylesheet src="css/sideprofile.css"/>
     <stylesheet src="css/subheader.css"/>
     <stylesheet src="css/timepicker.css"/>

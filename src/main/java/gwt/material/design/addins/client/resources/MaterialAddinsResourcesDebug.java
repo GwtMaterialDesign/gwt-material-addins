@@ -41,4 +41,7 @@ public interface MaterialAddinsResourcesDebug extends ClientBundle {
 
     @Source("js/scrollfire.js")
     TextResource scrollFireJs();
+
+    @Source("js/bubble.js")
+    TextResource bubbleJs();
 }

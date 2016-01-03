@@ -41,4 +41,7 @@ public interface MaterialAddinsResources extends ClientBundle {
 
     @Source("js/scrollfire.min.js")
     TextResource scrollFireJs();
+
+    @Source("js/bubble.min.js")
+    TextResource bubbleJs();
 }
