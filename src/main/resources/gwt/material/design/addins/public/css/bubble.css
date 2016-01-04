@@ -11,7 +11,7 @@
     word-wrap: break-word;
     box-shadow: 0 4px 8px rgba(0, 0, 0, .28);
     border-radius: 3px;
-    z-index: 999;
+    z-index: 1;
     font-size: 0.9rem;
 }
 .triangle{
