@@ -66,6 +66,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         triangle.setStyleName("triangle");
         positionMixin = new CssNameMixin<>(triangle);
         add(triangle);
+        setShadow(1);
     }
 
     @Override

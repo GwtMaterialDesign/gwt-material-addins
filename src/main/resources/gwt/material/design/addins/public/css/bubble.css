@@ -9,8 +9,9 @@
     max-width: 40%;
     display: block;
     word-wrap: break-word;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .28);
     border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     z-index: 1;
     font-size: 0.9rem;
 }
