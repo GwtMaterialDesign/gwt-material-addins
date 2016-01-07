@@ -30,9 +30,11 @@
 }
 .anim-container.morphed .source {
     opacity: 1;
+    visibility: visible;
 }
 .anim-container.morphed .target {
     opacity: 0;
+    visibility: hidden;
 }
 
 .anim-container.tiny {
