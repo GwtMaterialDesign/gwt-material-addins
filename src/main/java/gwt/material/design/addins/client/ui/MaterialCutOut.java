@@ -88,6 +88,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private String backgroundColor = "blue";
     private double opacity = 0.8;
 
+    private boolean animated = true;
     private String animationDuration = "0.5s";
     private String animationTimingFunction = "ease";
 
@@ -95,6 +96,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private int cutOutPadding = 10;
     private boolean circle = false;
     private boolean autoAddedToDocument = false;
+    private String viewportOverflow;
     private Element targetElement;
     private Element focus;
 
@@ -240,6 +242,21 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     public Element getTargetElement() {
         return targetElement;
     }
+    
+    /**
+     * Enables or disables the open animation of the cut out.
+     * The default is <code>true</code>.
+     */
+    public void setAnimated(boolean animated) {
+        this.animated = animated;
+    }
+    
+    /**
+     * @return If the animation of the cut out is enabled when opening.
+     */
+    public boolean isAnimated() {
+        return animated;
+    }
 
     /**
      * Opens the modal cut out taking all the screen. The target element should
@@ -259,13 +276,19 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             setupComputedBackgroundColor();
         }
 
-        //disables scrolling
-        Window.enableScrolling(false);
+        //temporarily disables scrolling by setting the overflow of the page to hidden
+        Style docStyle = Document.get().getDocumentElement().getStyle();
+        viewportOverflow = docStyle.getOverflow();
+        docStyle.setProperty("overflow", "hidden");
 
         String focusId = focus.getId();
-        setupAnimation(focusId + "-animation", computedBackgroundColor);
-        focus.getStyle().setProperty("animation", focusId + "-animation " +
-                animationDuration +" " + animationTimingFunction + " forwards");
+        if (animated && setupAnimation(focusId + "-animation", computedBackgroundColor)){
+            focus.getStyle().setProperty("animation", focusId + "-animation " +
+                animationDuration +" " + animationTimingFunction + " forwards");            
+        }
+        else { //css animation is disabled or not supported
+            focus.getStyle().setProperty("boxShadow", "0px 0px 0px 100rem "+computedBackgroundColor);
+        }
 
         if (circle) {
             focus.getStyle().setProperty("borderRadius", "50%");
@@ -312,8 +335,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      *            action
      */
     public void closeCutOut(boolean autoClosed) {
-        //re-enables scrolling
-        Window.enableScrolling(true);
+        //restore the old overflow of the page
+        Document.get().getDocumentElement().getStyle().setProperty("overflow", viewportOverflow);
 
         getElement().getStyle().setDisplay(Display.NONE);
 
@@ -351,15 +374,40 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Creates the CSS animation of the opening cut out.
      */
-    private native void setupAnimation(String animationId, String color)/*-{
-        var sheet = $doc.styleSheets[0];
-
-        var animationSelector = '@keyframes '+animationId;
-        var animationFrames = '{' +
-            'from {box-shadow: 0px 0px 0px 0rem '+color+';}' +
-            'to {box-shadow: 0px 0px 0px 100rem '+color+';}' +
-            '}'
-        sheet.insertRule(animationSelector + animationFrames, 0);
+    private native boolean setupAnimation(String animationId, String color)/*-{
+        //code from https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Detecting_CSS_animation_support
+        var animation = false,
+            animationstring = 'animation',
+            keyframeprefix = '',
+            domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
+            pfx  = '',
+            elm = document.createElement('div');
+        
+        if( elm.style.animationName !== undefined ) { animation = true; }    
+        
+        if( animation === false ) {
+          for( var i = 0; i < domPrefixes.length; i++ ) {
+            if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
+              pfx = domPrefixes[ i ];
+              animationstring = pfx + 'Animation';
+              keyframeprefix = '-' + pfx.toLowerCase() + '-';
+              animation = true;
+              break;
+            }
+          }
+        }
+        
+        if( animation ) {
+            var sheet = $doc.styleSheets[0];
+    
+            var animationSelector = '@' + keyframeprefix + 'keyframes '+animationId;
+            var animationFrames = '{' +
+                'from {box-shadow: 0px 0px 0px 0rem '+color+';}' +
+                'to {box-shadow: 0px 0px 0px 100rem '+color+';}' +
+                '}'
+            sheet.insertRule(animationSelector + animationFrames, 0);            
+        }
+        return animation;
     }-*/;
 
     /**
