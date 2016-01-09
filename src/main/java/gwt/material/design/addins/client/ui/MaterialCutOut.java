@@ -20,6 +20,12 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
+import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.helper.ColorHelper;
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -30,17 +36,17 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.client.base.HasCircle;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.helper.ColorHelper;
 
 //@formatter:off
 
@@ -91,6 +97,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private boolean animated = true;
     private String animationDuration = "0.5s";
     private String animationTimingFunction = "ease";
+    private String backgroundSize = "100rem";
 
     private String computedBackgroundColor;
     private int cutOutPadding = 10;
@@ -103,7 +110,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     public MaterialCutOut() {
         super(Document.get().createDivElement());
         focus = Document.get().createDivElement();
-        focus.setId(DOM.createUniqueId());
         getElement().appendChild(focus);
 
         setStyleName("material-cutout");
@@ -257,6 +263,25 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     public boolean isAnimated() {
         return animated;
     }
+    
+    /**
+     * Sets the radius size of the Cut Out background. By default, it takes the whole page
+     * by using 100rem as size.
+     * 
+     * @param backgroundSize 
+     *          The size of the background of the Cut Out. You can use any supported 
+     *          CSS unit for box shadows, such as rem and px.
+     */
+    public void setBackgroundSize(String backgroundSize) {
+        this.backgroundSize = backgroundSize;
+    }
+    
+    /**
+     * @return The radius size of the background of the Cut Out.
+     */
+    public String getBackgroundSize() {
+        return backgroundSize;
+    }
 
     /**
      * Opens the modal cut out taking all the screen. The target element should
@@ -281,13 +306,20 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         viewportOverflow = docStyle.getOverflow();
         docStyle.setProperty("overflow", "hidden");
 
-        String focusId = focus.getId();
-        if (animated && setupAnimation(focusId + "-animation", computedBackgroundColor)){
-            focus.getStyle().setProperty("animation", focusId + "-animation " +
-                animationDuration +" " + animationTimingFunction + " forwards");            
+        setupTransition();
+        if (animated){
+            focus.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem "+computedBackgroundColor);
+            
+            //the animation will take place after the boxshadow is set by the deferred command
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override
+                public void execute() {
+                    focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+                }
+            });
         }
-        else { //css animation is disabled or not supported
-            focus.getStyle().setProperty("boxShadow", "0px 0px 0px 100rem "+computedBackgroundColor);
+        else {
+            focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
 
         if (circle) {
@@ -331,8 +363,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Closes the cut out.
      *
      * @param autoClosed
-     *            Notifies with the modal was auto closed or closed by user
-     *            action
+     *            Notifies with the modal was auto closed or closed by user action
      */
     public void closeCutOut(boolean autoClosed) {
         //restore the old overflow of the page
@@ -370,45 +401,17 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         cutOut.style.width = width + 'px';
         cutOut.style.height = height + 'px';
     }-*/;
-
-    /**
-     * Creates the CSS animation of the opening cut out.
-     */
-    private native boolean setupAnimation(String animationId, String color)/*-{
-        //code from https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Detecting_CSS_animation_support
-        var animation = false,
-            animationstring = 'animation',
-            keyframeprefix = '',
-            domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
-            pfx  = '',
-            elm = document.createElement('div');
-        
-        if( elm.style.animationName !== undefined ) { animation = true; }    
-        
-        if( animation === false ) {
-          for( var i = 0; i < domPrefixes.length; i++ ) {
-            if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
-              pfx = domPrefixes[ i ];
-              animationstring = pfx + 'Animation';
-              keyframeprefix = '-' + pfx.toLowerCase() + '-';
-              animation = true;
-              break;
-            }
-          }
-        }
-        
-        if( animation ) {
-            var sheet = $doc.styleSheets[0];
     
-            var animationSelector = '@' + keyframeprefix + 'keyframes '+animationId;
-            var animationFrames = '{' +
-                'from {box-shadow: 0px 0px 0px 0rem '+color+';}' +
-                'to {box-shadow: 0px 0px 0px 100rem '+color+';}' +
-                '}'
-            sheet.insertRule(animationSelector + animationFrames, 0);            
+    private void setupTransition(){
+        if (animated){
+            focus.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
+            focus.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);            
         }
-        return animation;
-    }-*/;
+        else {
+            focus.getStyle().clearProperty("WebkitTransition");
+            focus.getStyle().clearProperty("transition");
+        }
+    }
 
     /**
      * Gets the computed background color, based on the backgroundColor CSS
@@ -435,8 +438,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
         // convert rgb to rgba, considering the opacity field
         if (opacity < 1 && computed.startsWith("rgb(")) {
-            computed = computed.replace("rgb(", "rgba(").replace(")",
-                    ", " + opacity + ")");
+            computed = computed.replace("rgb(", "rgba(").replace(")", ", " + opacity + ")");
         }
 
         computedBackgroundColor = computed;
