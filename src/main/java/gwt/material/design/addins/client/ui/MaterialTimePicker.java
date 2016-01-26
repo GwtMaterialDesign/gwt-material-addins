@@ -61,7 +61,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     private String time;
     private String placeholder;
-    private boolean autoClose = true;
+    private boolean autoClose;
     private boolean hour24;
     private Orientation orientation = Orientation.PORTRAIT;
 
