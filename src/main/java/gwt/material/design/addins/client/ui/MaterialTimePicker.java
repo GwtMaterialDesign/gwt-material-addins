@@ -71,9 +71,9 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"));
-        panel.add(lblError);
         input.setType(InputType.TEXT);
         panel.add(input);
+        panel.add(lblError);
         add(panel);
     }
 
