@@ -1,0 +1,9 @@
+.icon-composite {
+	position: relative;
+}
+
+.icon-composite i {
+	position: absolute;
+	top: 0;
+	left: 0;
+}

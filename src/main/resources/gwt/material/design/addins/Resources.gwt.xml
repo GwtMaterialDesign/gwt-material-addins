@@ -35,4 +35,5 @@
     <stylesheet src="css/morph.css"/>
     <stylesheet src="css/overlay.css"/>
     <stylesheet src="css/waterfall.css"/>
+    <stylesheet src="css/iconcomposite.css"/>
 </module>
