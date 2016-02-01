@@ -1,8 +1,9 @@
 /** Tree Item **/
 .tree-item{
     clear: both;
-    margin-left: 32px;
     margin-top: 10px;
+    margin-left: 20px;
+    height: 20px;
 }
 
 .tree-item i{
@@ -14,4 +15,8 @@
     height: 2em;
     float: left;
     margin-right: 8px;
+}
+
+.tree-item.selected > .tree-header span{
+    font-weight: bold;
 }
