@@ -1,0 +1,17 @@
+/** Tree Item **/
+.tree-item{
+    clear: both;
+    margin-left: 32px;
+    margin-top: 10px;
+}
+
+.tree-item i{
+    margin-top: -2px;
+}
+
+.tree-item img{
+    width: 2em;
+    height: 2em;
+    float: left;
+    margin-right: 8px;
+}
