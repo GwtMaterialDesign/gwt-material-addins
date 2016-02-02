@@ -1,9 +1,14 @@
 /** Tree Item **/
+.tree{
+    overflow: auto;
+}
+.tree-item .tree-header{
+    white-space: nowrap;
+}
 .tree-item{
     clear: both;
     margin-top: 10px;
     margin-left: 20px;
-    height: 20px;
 }
 
 .tree-item i{

@@ -82,4 +82,26 @@ public interface HasTreeItems {
      * @return
      */
     Object getObject();
+
+    /**
+     * Expand the tree item's content
+     */
+    void expand();
+
+    /**
+     * Collapse the tree item's content
+     */
+    void collapse();
+
+    /**
+     * Set the value of hide variable (boolean)
+     * @param hide
+     */
+    void setHide(boolean hide);
+
+    /**
+     * Gets the value of hide variable (boolean)
+     * @return
+     */
+    boolean isHide();
 }

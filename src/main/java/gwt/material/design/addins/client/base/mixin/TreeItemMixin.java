@@ -110,4 +110,26 @@ public class TreeItemMixin<T extends Widget & HasFontSize> extends AbstractMixin
     public Object getObject() {
         return object;
     }
+
+    @Override
+    public void expand() {
+        for(MaterialTreeItem item : getTreeItems()){
+            item.setVisible(true);
+        }
+    }
+
+    @Override
+    public void collapse() {
+        for(MaterialTreeItem item : getTreeItems()){
+            item.setVisible(false);
+        }
+    }
+
+    public boolean isHide() {
+        return hide;
+    }
+
+    public void setHide(boolean hide) {
+        this.hide = hide;
+    }
 }

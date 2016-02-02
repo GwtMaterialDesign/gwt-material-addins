@@ -141,5 +141,53 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     public void setSetSelectedTree(MaterialTreeItem setSelectedTree) {
         this.setSelectedTree = setSelectedTree;
     }
+
+
+    /**
+     * Expand all tree item's content
+     */
+    public void expand() {
+        for(Widget w : getChildren()){
+            if(w instanceof MaterialTreeItem){
+                expandItems((MaterialTreeItem) w);
+            }
+        }
+    }
+
+    /**
+     * Recursive function to expand each tree item
+     * @param item
+     */
+    private void expandItems(MaterialTreeItem item) {
+        item.expand();
+        item.setHide(true);
+        for(MaterialTreeItem t : item.getTreeItems()){
+            expandItems(t);
+        }
+    }
+
+    /**
+     * Collapse all tree item's content
+     */
+    public void collapse() {
+        for(Widget w : getChildren()){
+            if(w instanceof MaterialTreeItem){
+                collapseItems((MaterialTreeItem)w);
+            }
+        }
+    }
+
+    /**
+     * Recursive function to collapse each tree item
+     * @param item
+     */
+    private void collapseItems(MaterialTreeItem item) {
+        item.collapse();
+        item.setHide(false);
+        for(MaterialTreeItem t : item.getTreeItems()){
+            collapseItems(t);
+        }
+    }
+
 }
 

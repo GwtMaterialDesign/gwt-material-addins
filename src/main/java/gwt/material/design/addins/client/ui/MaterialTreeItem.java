@@ -196,4 +196,24 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         return treeItemMixin.getObject();
     }
 
+    @Override
+    public void expand() {
+        treeItemMixin.expand();
+    }
+
+    @Override
+    public void collapse() {
+        treeItemMixin.collapse();
+    }
+
+    @Override
+    public void setHide(boolean hide) {
+        treeItemMixin.setHide(hide);
+    }
+
+    @Override
+    public boolean isHide() {
+        return treeItemMixin.isHide();
+    }
+
 }
