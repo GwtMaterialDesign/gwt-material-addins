@@ -25,7 +25,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.HasTreeItems;
 import gwt.material.design.addins.client.base.mixin.TreeItemMixin;
@@ -74,7 +73,6 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     private final TreeItemMixin<MaterialTreeItem> treeItemMixin = new TreeItemMixin<>(this);
 
     public MaterialTreeItem() {
-        TreeItem i;
         setStyleName("tree-item");
         divHeader.setStyleName("tree-header");
         add(divHeader);
@@ -214,6 +212,31 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     @Override
     public boolean isHide() {
         return treeItemMixin.isHide();
+    }
+
+    @Override
+    public void addItem(MaterialTreeItem item) {
+       treeItemMixin.addItem(item);
+    }
+
+    @Override
+    public void removeItem(MaterialTreeItem item) {
+        treeItemMixin.removeItem(item);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        treeItemMixin.removeItem(index);
+    }
+
+    @Override
+    public void insertItem(MaterialTreeItem item, int index) {
+        treeItemMixin.insertItem(item, index);
+    }
+
+    @Override
+    public void removeFromTree() {
+        treeItemMixin.removeFromTree();
     }
 
 }

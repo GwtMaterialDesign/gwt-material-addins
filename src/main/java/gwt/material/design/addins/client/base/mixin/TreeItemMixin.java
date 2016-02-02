@@ -20,6 +20,7 @@ package gwt.material.design.addins.client.base.mixin;
  * #L%
  */
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -129,7 +130,48 @@ public class TreeItemMixin<T extends Widget & HasFontSize> extends AbstractMixin
         return hide;
     }
 
+    @Override
+    public void addItem(MaterialTreeItem item) {
+        getMaterialTreeItem().add(item);
+        getMaterialTreeItem().expand();
+        getMaterialTreeItem().getTree().initTree(getMaterialTreeItem());
+    }
+
+    @Override
+    public void removeItem(MaterialTreeItem item) {
+        getMaterialTreeItem().remove(item);
+        getMaterialTreeItem().getTree().initTree(getMaterialTreeItem());
+    }
+
+    @Override
+    public void removeItem(int index) {
+        getMaterialTreeItem().remove(getMaterialTreeItem().getWidget(index));
+        getMaterialTreeItem().getTree().initTree(getMaterialTreeItem());
+    }
+
+    @Override
+    public void insertItem(MaterialTreeItem item, int index) {
+        getMaterialTreeItem().insert(item, index);
+        getMaterialTreeItem().expand();
+        getMaterialTreeItem().getTree().initTree(getMaterialTreeItem());
+    }
+
+    @Override
+    public void removeFromTree() {
+        getMaterialTreeItem().removeFromParent();
+        getMaterialTreeItem().getTree().initTree(getMaterialTreeItem());
+    }
+
     public void setHide(boolean hide) {
         this.hide = hide;
+    }
+
+    private MaterialTreeItem getMaterialTreeItem(){
+        if(uiObject instanceof MaterialTreeItem){
+            return (MaterialTreeItem)uiObject;
+        }else{
+            GWT.log("Widget is not instanceof MaterialTreeItem");
+            return null;
+        }
     }
 }

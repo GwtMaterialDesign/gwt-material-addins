@@ -65,17 +65,11 @@ import gwt.material.design.client.base.MaterialWidget;
 // @formatter:on
 public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>, HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
 
-    private MaterialTreeItem setSelectedTree;
+    private MaterialTreeItem selectedTree;
 
     public MaterialTree() {
         super(Document.get().createDivElement());
         setStyleName("tree");
-    }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        initSelectionEvent();
     }
 
     private void initSelectionEvent() {
@@ -90,26 +84,38 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
                 }
                 MaterialTreeItem treeItem = event.getSelectedItem();
                 treeItem.addStyleName("selected");
+                setSelectedTree(treeItem);
             }
         });
     }
 
     @Override
     public void add(Widget child) {
-        super.add(child);
         if(child instanceof MaterialTreeItem){
-            initTree((MaterialTreeItem) child);
+            super.add(child);
         }else{
             GWT.log("Material Tree must contain on Material Tree Items");
         }
     }
 
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+        for(Widget w : getChildren()){
+            if(w instanceof MaterialTreeItem){
+                initTree((MaterialTreeItem) w);
+            }
+        }
+    }
+
     // Recursive function to set the parent of tree item
-    private void initTree(MaterialTreeItem item) {
+    public void initTree(MaterialTreeItem item) {
         item.setTree(this);
         for(MaterialTreeItem treeItem : item.getTreeItems()){
             initTree(treeItem);
         }
+        initSelectionEvent();
     }
 
     private void clearItemSelectedStyles(MaterialTreeItem item) {
@@ -134,12 +140,12 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(handler, SelectionEvent.getType());
     }
 
-    public MaterialTreeItem getSetSelectedTree() {
-        return setSelectedTree;
+    public MaterialTreeItem getSelectedTree() {
+        return selectedTree;
     }
 
-    public void setSetSelectedTree(MaterialTreeItem setSelectedTree) {
-        this.setSelectedTree = setSelectedTree;
+    public void setSelectedTree(MaterialTreeItem selectedTree) {
+        this.selectedTree = selectedTree;
     }
 
 
@@ -188,6 +194,5 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
             collapseItems(t);
         }
     }
-
 }
 

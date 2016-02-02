@@ -104,4 +104,34 @@ public interface HasTreeItems {
      * @return
      */
     boolean isHide();
+
+    /**
+     * Adds item into it's parent tree item.
+     * @param item
+     */
+    void addItem(MaterialTreeItem item);
+
+    /**
+     * Removes a given material tree item.
+     * @param item
+     */
+    void removeItem(MaterialTreeItem item);
+
+    /**
+     * Remmoves a given material item with given index
+     * @param index
+     */
+    void removeItem(int index);
+
+    /**
+     * Inserts an item with given index
+     * @param item
+     * @param index
+     */
+    void insertItem(MaterialTreeItem item, int index);
+
+    /**
+     * Removes this tree item to it's parent tree node
+     */
+    void removeFromTree();
 }
