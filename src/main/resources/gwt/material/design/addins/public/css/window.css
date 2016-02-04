@@ -1,20 +1,66 @@
-.material-window nav .nav-wrapper {
-    width: 100% !important;
+/** Window Modal **/
+.window-overlay{
+    position: fixed;
+    z-index: 999;
+    top: -100px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 125%;
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    will-change: opacity;
+    visibility: hidden;
+    opacity: 0;
 }
 
-.material-window header,.material-window main {
+.window-overlay .window-content{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 10%;
+    background-color: #fafafa;
     padding: 0;
+    max-height: 80%;
+    width: 70%;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 2px;
+    will-change: top, opacity;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    transition: 0.5s ease;
+    -moz-transition: 0.5s ease;
+    -webkit-transition: 0.5s ease;
 }
 
-.material-window-maximize {
+.window-overlay .window-content .window-toolbar{
+    background-color: #2196f3;
+    color: #fff;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.window-content .window-title{
+    color: #fff;
+    font-size: 1.1em;
+    float: left;
+}
+
+.window-content .window-action{
+    font-size: 16px;
+    float: right;
+    margin-left: 12px;
+}
+
+.window-content.maximize{
     width: 100% !important;
     height: 100% !important;
     top: 0 !important;
     max-height: 100% !important;
 }
 
-.material-window-maximize {
-    transition: 0.2s all;
-    -webkit-transition: 0.2s all;
-    -moz-transition: 0.2s all;
+.window-overlay.open{
+    visibility: visible !important;
+    opacity: 1 !important;
 }
