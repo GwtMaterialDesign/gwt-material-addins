@@ -64,3 +64,10 @@
     visibility: visible !important;
     opacity: 1 !important;
 }
+
+@media only screen and (max-width: 992px) {
+    .window-content{
+        width: 80% !important;
+    }
+
+}
