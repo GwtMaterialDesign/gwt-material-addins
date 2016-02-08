@@ -1,6 +1,7 @@
 /** Tree Item **/
 .tree{
     overflow: auto;
+    width: 100%;
 }
 .tree-item .tree-header{
     white-space: nowrap;
