@@ -1,21 +1,31 @@
 .subheader {
     background: #fff;
-    padding: 10px 20px;
     position: relative;
-    z-index: 1;
-    color: #fff;
+    z-index: 995;
+    padding: 12px;
 }
 .subheader.fixed {
     position: fixed;
     top: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 999;
+    width: 200px;
+    z-index: 0;
 }
 .subheader.fixed.absolute {
     position: absolute;
 }
-.subheader.static{
-    position: initial !important;
-    box-shadow: none !important;;
+.subheader-container {
+    overflow: auto;
+    position: relative;
+    padding: 0px !important;
+}
+.subheader-container .collection{
+    margin: 0 !important;
+}
+.top_holder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    min-height: 5px;
+    width: 100%;
+    z-index: 995;
 }
