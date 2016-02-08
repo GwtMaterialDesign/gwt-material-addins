@@ -25,8 +25,8 @@ import gwt.material.design.client.constants.CssType;
 import gwt.material.design.client.constants.FABType;
 
 public enum SubHeaderType implements CssType {
-    STATIC("static"),
-    PINNED("pinned");
+    STATIC("subheader-static"),
+    PINNED("subheader-pinned");
 
     private final String cssClass;
 

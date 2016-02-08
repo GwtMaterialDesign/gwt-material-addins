@@ -1,68 +1,61 @@
-var stickyHeaders = (function() {
+function initSubheader(stickyElem, containerElem) {
+  jQuery(document).ready(function(){
+    var newStickies = new stickyTitles(stickyElem, containerElem);
+    newStickies.load();
+    $(containerElem).on("scroll", function() {
+      newStickies.scroll();
+    });
+  });
+}
 
-  var $window = $(window),
-      $stickies;
+function stickyTitles(stickyElem, containerElem) {
+  var stickies = jQuery(stickyElem);
+  var container = jQuery(containerElem);
+  container.addClass("subheader-container");
 
-  var load = function(stickies) {
+  /** Added top holder component **/
+  var topHolder = document.createElement("div");
+  $(topHolder).addClass("top_holder");
+  container.prepend(topHolder);
+  this.load = function() {
 
-    if (typeof stickies === "object" && stickies instanceof jQuery && stickies.length > 0) {
 
-      $stickies = stickies.each(function() {
+    stickies.each(function(){
 
-        var $thisSticky = $(this).wrap('<div class="followWrap" />');
+      var thisSticky = jQuery(this).wrap('<div class="followWrap" />');
+      thisSticky.parent().height(thisSticky.outerHeight());
 
-        $thisSticky
-            .data('originalPosition', $thisSticky.offset().top)
-            .data('originalHeight', $thisSticky.outerHeight())
-            .parent()
-            .height($thisSticky.outerHeight());
-      });
+      jQuery.data(thisSticky[0], 'pos', thisSticky.position().top);
 
-      $window.off("scroll.stickies").on("scroll.stickies", function() {
-        _whenScrolling();
-      });
-    }
-  };
+    });
+  }
 
-  var _whenScrolling = function() {
+  this.scroll = function() {
+    $(topHolder).css('top',  container.scrollTop());
+    $(topHolder).addClass("z-depth-1");
+    stickies.each(function(i){
+      var thisSticky = jQuery(this),
+          nextSticky = stickies.eq(i+1),
+          prevSticky = stickies.eq(i-1),
+          pos = jQuery.data(thisSticky[0], 'pos');
 
-    $stickies.each(function(i) {
+      if(container.scrollTop() == 0){
+        $(topHolder).hide();
+      }else{
+        $(topHolder).show();
+      }
 
-      var $thisSticky = $(this),
-          $stickyPosition = $thisSticky.data('originalPosition');
+      if (pos <= container.scrollTop()) {
+        $(topHolder).html('');
+        thisSticky.clone().appendTo($(topHolder));
 
-      if($thisSticky.hasClass("pinned")){
-        if ($stickyPosition <= $window.scrollTop()) {
-
-          var $nextSticky = $stickies.eq(i + 1),
-              $nextStickyPosition = $nextSticky.data('originalPosition') - $thisSticky.data('originalHeight');
-
-          $thisSticky.addClass("fixed z-depth-1");
-
-          if ($nextSticky.length > 0 && $thisSticky.offset().top >= $nextStickyPosition) {
-
-            $thisSticky.addClass("absolute").css("top", $nextStickyPosition);
-          }
-        } else {
-
-          var $prevSticky = $stickies.eq(i - 1);
-
-          $thisSticky.removeClass("fixed z-depth-1");
-
-          if ($prevSticky.length > 0 && $window.scrollTop() <= $thisSticky.data('originalPosition') - $thisSticky.data('originalHeight')) {
-
-            $prevSticky.removeClass("absolute").removeAttr("style");
-          }
+      } else {
+        thisSticky.removeAttr('style').show();
+        if (prevSticky.length > 0 && container.offset().top <= jQuery.data(thisSticky[0], 'pos')  - prevSticky.outerHeight()) {
+          prevSticky.removeClass("absolute").removeAttr("style");
         }
+
       }
     });
-  };
-
-  return {
-    load: load
-  };
-})();
-
-$(function() {
-  stickyHeaders.load($(".followMeBar"));
-});
+  }
+}
