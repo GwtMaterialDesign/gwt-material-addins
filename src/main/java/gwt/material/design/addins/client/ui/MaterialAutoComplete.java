@@ -627,7 +627,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
             return this.suggestionPopup.isAnimationEnabled();
         }
 
-        private boolean isSuggestionListShowing() {
+        public boolean isSuggestionListShowing() {
             return this.suggestionPopup.isShowing();
         }
 
