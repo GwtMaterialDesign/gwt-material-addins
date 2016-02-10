@@ -83,6 +83,12 @@ import com.google.gwt.user.client.ui.Widget;
  * <h3>Custom styling:</h3> You use change the cut out style by using the
  * <code>material-cutout</code> class, and <code>material-cutout-focus</code>
  * class for the focus box.
+ * 
+ * <h3>Notice:</h3>On some iOS devices, on mobile Safari, the CutOut may not open when the
+ * {@link #setCircle(boolean)} is set to <code>true</code>. This is because of problems on Safari
+ * with box-shadows over rounded borders. To avoid this issue you can disable the circle. Check the 
+ * <a href="https://github.com/GwtMaterialDesign/gwt-material/issues/227">issue 227</a> for details.
+ * 
  *
  * @author gilberto-torrezan
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#cutouts">Material SubHeaders</a>
