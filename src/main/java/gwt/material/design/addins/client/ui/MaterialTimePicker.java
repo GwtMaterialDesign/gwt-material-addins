@@ -138,7 +138,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     @Override
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-        input.getElement().setAttribute("placeholder", "Time");
+        input.getElement().setAttribute("placeholder", placeholder);
     }
 
     /**
