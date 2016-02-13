@@ -13,7 +13,7 @@
     min-height: 0px;
     line-height: 0px;
 }
-.menu-bar .dropdown-content li > a, .dropdown-content li > span {
+.menu-bar .dropdown-content li > a, .menu-bar .dropdown-content li > span {
     font-size: 12px !important;
     min-height: 0px;
     line-height: 16px;
