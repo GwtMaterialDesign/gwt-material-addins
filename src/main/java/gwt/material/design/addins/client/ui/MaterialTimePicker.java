@@ -188,4 +188,9 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     private native String getTime(Element e)/*-{
         return $wnd.jQuery(e).val();
     }-*/;
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        input.setEnabled(enabled);
+    }
 }
