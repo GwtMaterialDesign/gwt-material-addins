@@ -27,6 +27,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.constants.Restriction;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
@@ -43,6 +44,7 @@ import gwt.material.design.client.ui.animate.Transition;
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
 
     private MaterialWidget window = new MaterialWidget(Document.get().createDivElement());
+    private MaterialWidget content = new MaterialWidget(Document.get().createDivElement());
 
     // Toolbar elements
     private MaterialWidget toolbar = new MaterialWidget(Document.get().createDivElement());
@@ -61,7 +63,8 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     public MaterialWindow() {
         super(Document.get().createDivElement());
-        window.setStyleName("window-content");
+        window.setStyleName("window");
+        content.setStyleName("content");
         super.add(window);
         setStyleName("window-overlay");
         initWindow();
@@ -83,6 +86,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
         window.add(toolbar);
+        window.add(content);
 
         // Add handlers to action buttons
         iconMaximize.addClickHandler(new ClickHandler() {
@@ -109,11 +113,17 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
                 }
             }
         });
+
+        // Add a draggable header
+        MaterialDnd dnd = new MaterialDnd();
+        dnd.setTarget(window);
+        dnd.setIgnoreFrom(content);
+        dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
     }
 
     @Override
     public void add(Widget child) {
-        window.add(child);
+        content.add(child);
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.HasDraggable;
+import gwt.material.design.addins.client.constants.Restriction;
 
 //@formatter:off
 
@@ -52,20 +53,53 @@ import gwt.material.design.addins.client.base.HasDraggable;
 //@formatter:on
 public class MaterialDnd implements HasDraggable {
 
+    private boolean inertia = true;
     private Widget target;
     private Widget ignoreFrom;
+    private Restriction restriction = new Restriction();
 
     public MaterialDnd() {}
 
-    private native void initDraggable(Element target, Element ignoreFrom) /*-{
+    public boolean isInertia() {
+        return inertia;
+    }
+
+    public void setInertia(boolean inertia) {
+        this.inertia = inertia;
+    }
+
+    @Override
+    public void setTarget(final Widget target) {
+        this.target = target;
+        if(!target.isAttached()) {
+            target.addAttachHandler(new AttachEvent.Handler() {
+                @Override
+                public void onAttachOrDetach(AttachEvent event) {
+                    if(event.isAttached()) {
+                        initDraggable(target.getElement(), isInertia(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
+                                restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
+                    }
+                }
+            });
+        } else {
+            initDraggable(target.getElement(), isInertia(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
+                    restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
+        }
+    }
+
+    /**
+     * Initialize the draggable widget and it's properties
+     * @param target
+     */
+    private native void initDraggable(Element target, boolean inertia, String restriction, boolean endOnly,
+                                      double top, double left, double bottom, double right) /*-{
         $wnd.interact(target)
-            .ignoreFrom(ignoreFrom)
             .draggable({
-                inertia: true,
+                inertia: inertia,
                 restrict: {
-                    restriction: "parent",
-                    endOnly: true,
-                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                    restriction: restriction,
+                    endOnly: endOnly,
+                    elementRect: { top: top, left: left, bottom: bottom, right: right}
                 },
                 onmove: dragMoveListener,
             });
@@ -85,34 +119,50 @@ public class MaterialDnd implements HasDraggable {
     }-*/;
 
     @Override
-    public void setTarget(final Widget target) {
-        this.target = target;
-        if(!target.isAttached()) {
-            target.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initDraggable(target.getElement(), ignoreFrom.getElement());
-                    }
-                }
-            });
-        } else {
-            initDraggable(target.getElement(), ignoreFrom.getElement());
-        }
-    }
-
-    @Override
     public Widget getTarget() {
         return target;
     }
 
     @Override
-    public void setIgnoreFrom(Widget ignoreFrom) {
+    public void setIgnoreFrom(final Widget ignoreFrom) {
         this.ignoreFrom = ignoreFrom;
+        if(!target.isAttached() && !ignoreFrom.isAttached()) {
+            ignoreFrom.addAttachHandler(new AttachEvent.Handler() {
+                @Override
+                public void onAttachOrDetach(AttachEvent event) {
+                    if(event.isAttached()) {
+                        initIgnoreFrom(target.getElement(), ignoreFrom.getElement());
+                    }
+                }
+            });
+        }else {
+            initIgnoreFrom(target.getElement(), ignoreFrom.getElement());
+        }
     }
+
+    /**
+     * Initialize the ignoreFrom function to exclude any widget from dragging
+     * @param target
+     * @param ignoreFrom
+     */
+    private native void initIgnoreFrom(Element target, Element ignoreFrom) /*-{
+        $wnd.interact(target).ignoreFrom(ignoreFrom);
+    }-*/;
 
     @Override
     public Widget isIgnoreFrom() {
         return ignoreFrom;
     }
+
+    @Override
+    public void setRestriction(Restriction restriction) {
+        this.restriction = restriction;
+    }
+
+    @Override
+    public Restriction getRestriction() {
+        return restriction;
+    }
+
+
 }

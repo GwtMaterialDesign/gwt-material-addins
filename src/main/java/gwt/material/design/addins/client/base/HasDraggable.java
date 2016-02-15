@@ -21,15 +21,44 @@ package gwt.material.design.addins.client.base;
  */
 
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.constants.Restriction;
 import gwt.material.design.client.base.MaterialWidget;
 
 public interface HasDraggable {
 
+    /**
+     * Sets the target widget to apply draggable feature
+     * @param target
+     */
     void setTarget(Widget target);
 
+    /**
+     * Gets the draggable target
+     * @return
+     */
     Widget getTarget();
 
+    /**
+     * Sets the ignoreFrom widget to exclude from dragging
+     * @param ignoreFrom
+     */
     void setIgnoreFrom(Widget ignoreFrom);
 
+    /**
+     * Gets the ignoreFrom widget
+     * @return
+     */
     Widget isIgnoreFrom();
+
+    /**
+     * Sets the restriction properties of dnd feature
+     * @param restriction
+     * @see <a href="http://interactjs.io/docs/restriction/#restrict">Documentation</a>
+     */
+    void setRestriction(Restriction restriction);
+
+    /**
+     * Gets the restriction properties
+     */
+    Restriction getRestriction();
 }
