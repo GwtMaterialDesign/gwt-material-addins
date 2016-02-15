@@ -44,4 +44,7 @@ public interface MaterialAddinsResourcesDebug extends ClientBundle {
 
     @Source("js/bubble.js")
     TextResource bubbleJs();
+
+    @Source("js/interact.js")
+    TextResource interactJs();
 }

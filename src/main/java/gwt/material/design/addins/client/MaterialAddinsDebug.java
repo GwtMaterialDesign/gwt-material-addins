@@ -24,6 +24,7 @@ package gwt.material.design.addins.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.addins.client.resources.MaterialAddinsResources;
 import gwt.material.design.addins.client.resources.MaterialAddinsResourcesDebug;
 
 /**
@@ -43,6 +44,7 @@ public class MaterialAddinsDebug implements EntryPoint {
         inject(MaterialAddinsResourcesDebug.INSTANCE.waterfallJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.scrollFireJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.bubbleJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.interactJs());
     }
 
     protected void inject(TextResource resource) {

@@ -44,4 +44,8 @@ public interface MaterialAddinsResources extends ClientBundle {
 
     @Source("js/bubble.min.js")
     TextResource bubbleJs();
+
+    @Source("js/interact.min.js")
+    TextResource interactJs();
+
 }
