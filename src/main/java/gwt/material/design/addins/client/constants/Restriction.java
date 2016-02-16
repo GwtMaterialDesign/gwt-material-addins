@@ -52,9 +52,10 @@ public class Restriction {
     private Restrict restriction = Restrict.PARENT;
     private boolean endOnly = true;
     private double top = 0;
-    private double right = 0;
-    private double bottom = 0;
     private double left = 0;
+    private double right = 1;
+    private double bottom = 1;
+
 
     public Restriction() {}
 

@@ -53,7 +53,7 @@ import gwt.material.design.addins.client.constants.Restriction;
 //@formatter:on
 public class MaterialDnd implements HasDraggable {
 
-    private boolean inertia = true;
+    private boolean inertia;
     private Widget target;
     private Widget ignoreFrom;
     private Restriction restriction = new Restriction();
