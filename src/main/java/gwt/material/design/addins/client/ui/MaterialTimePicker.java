@@ -22,6 +22,9 @@ package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
 import gwt.material.design.client.base.HasPlaceholder;
@@ -54,7 +57,7 @@ import gwt.material.design.client.ui.MaterialPanel;
  * @author Ben Dol
  */
 //@formatter:on
-public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation {
+public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation, HasCloseHandlers<String>, HasOpenHandlers<String> {
 
     MaterialPanel panel = new MaterialPanel();
     MaterialInput input = new MaterialInput();
@@ -173,14 +176,26 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     public void initTimePicker() {
-        initTimePicker(input.getElement(), getOrientation().getCssName(), isAutoClose(), isHour24());
+        initTimePicker(DOM.createUniqueId(), input.getElement(), getOrientation().getCssName(), isAutoClose(), isHour24());
     }
 
-    protected native void initTimePicker(Element e, String orientation, boolean autoClose, boolean hour24) /*-{
+    protected native void initTimePicker(String clockId, Element e, String orientation, boolean autoClose, boolean hour24) /*-{
+        var that = this;
         $wnd.jQuery(e).lolliclock({
             autoclose: autoClose,
             orientation: orientation,
-            hour24: hour24
+            hour24: hour24,
+            uniqueId: clockId,
+            afterShow: function() {
+                that.@gwt.material.design.addins.client.ui.MaterialTimePicker::fireOpenEvent()();
+            },
+            beforeHide: function() {
+                var hour = $wnd.jQuery('#' + clockId).find('.lolliclock-hours').find('.lolliclock-time-new').html();
+                var minutes = $wnd.jQuery('#' + clockId).find('.lolliclock-minutes').find('.lolliclock-time-new').html();
+                var suffix = $wnd.jQuery('#' + clockId).find('.lolliclock-am-pm').html();
+                var time =  hour + ':' + minutes + " " + suffix;
+                that.@gwt.material.design.addins.client.ui.MaterialTimePicker::fireCloseEvent(*)(time);
+            }
         });
         $wnd.jQuery(e).blur();
     }-*/;
@@ -192,5 +207,23 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     @Override
     public void setEnabled(boolean enabled) {
         input.setEnabled(enabled);
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(CloseHandler<String> handler) {
+        return addHandler(handler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<String> handler) {
+        return addHandler(handler, OpenEvent.getType());
+    }
+
+    private void fireCloseEvent(String time) {
+        CloseEvent.fire(this, time);
+    }
+
+    private void fireOpenEvent() {
+        OpenEvent.fire(this, time);
     }
 }
