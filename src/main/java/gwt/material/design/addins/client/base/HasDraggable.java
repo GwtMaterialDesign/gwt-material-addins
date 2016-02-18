@@ -20,9 +20,10 @@ package gwt.material.design.addins.client.base;
  * #L%
  */
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.constants.Restriction;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.addins.client.events.*;
 
 public interface HasDraggable {
 
@@ -61,4 +62,24 @@ public interface HasDraggable {
      * Gets the restriction properties
      */
     Restriction getRestriction();
+
+    /**
+     * Add a drag start handler
+     * @param handler
+     */
+    HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler);
+
+    /**
+     * Add a drag move handler
+     * @param handler
+     */
+    HandlerRegistration addDragMoveHandler(DragMoveEvent.DragMoveHandler handler);
+
+    /**
+     * Add a drag end handler
+     * @param handler
+     */
+    HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler);
+
+
 }

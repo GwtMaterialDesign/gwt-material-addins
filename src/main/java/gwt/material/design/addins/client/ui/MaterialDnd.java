@@ -21,11 +21,17 @@ package gwt.material.design.addins.client.ui;
  */
 
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.HasDraggable;
 import gwt.material.design.addins.client.constants.Restriction;
+import gwt.material.design.addins.client.events.*;
+import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
 
@@ -51,14 +57,16 @@ import gwt.material.design.addins.client.constants.Restriction;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#dnd">Drag and Drop</a>
  */
 //@formatter:on
-public class MaterialDnd implements HasDraggable {
+public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     private boolean inertia;
     private Widget target;
     private Widget ignoreFrom;
     private Restriction restriction = new Restriction();
 
-    public MaterialDnd() {}
+    public MaterialDnd() {
+        super(Document.get().createDivElement());
+    }
 
     public boolean isInertia() {
         return inertia;
@@ -93,6 +101,7 @@ public class MaterialDnd implements HasDraggable {
      */
     private native void initDraggable(Element target, boolean inertia, String restriction, boolean endOnly,
                                       double top, double left, double bottom, double right) /*-{
+        var that = this;
         $wnd.interact(target)
             .draggable({
                 inertia: inertia,
@@ -101,8 +110,18 @@ public class MaterialDnd implements HasDraggable {
                     endOnly: endOnly,
                     elementRect: { top: top, left: left, bottom: bottom, right: right}
                 },
+                onstart: dragStartListener,
                 onmove: dragMoveListener,
+                onend: dragEndListener,
             });
+
+        function dragEndListener(event) {
+            that.@gwt.material.design.addins.client.ui.MaterialDnd::fireDragEndEvent()();
+        }
+
+        function dragStartListener(event) {
+            that.@gwt.material.design.addins.client.ui.MaterialDnd::fireDragStartEvent()();
+        }
 
         function dragMoveListener (event) {
             var target = event.target,
@@ -115,6 +134,7 @@ public class MaterialDnd implements HasDraggable {
 
             target.setAttribute('data-x', x);
             target.setAttribute('data-y', y);
+            that.@gwt.material.design.addins.client.ui.MaterialDnd::fireDragMoveEvent()();
         }
     }-*/;
 
@@ -164,5 +184,30 @@ public class MaterialDnd implements HasDraggable {
         return restriction;
     }
 
+    @Override
+    public HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler) {
+        return addHandler(handler, DragStartEvent.TYPE);
+    }
 
+    private void fireDragStartEvent() {
+        DragStartEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addDragMoveHandler(DragMoveEvent.DragMoveHandler handler) {
+        return addHandler(handler, DragMoveEvent.TYPE);
+    }
+
+    private void fireDragMoveEvent() {
+        DragMoveEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler) {
+        return addHandler(handler, DragEndEvent.TYPE);
+    }
+
+    private void fireDragEndEvent() {
+        DragEndEvent.fire(this);
+    }
 }
