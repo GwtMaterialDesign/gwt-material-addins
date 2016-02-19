@@ -13,9 +13,12 @@ ul.multiValueSuggestBox-list {
     margin-bottom: 15px;
     border-bottom: 1px solid #9e9e9e;
 }
+
 .gwt-SuggestBoxPopup .item {
     padding-left: 20px !important;
+    padding: 12px;
 }
+
 .gwt-SuggestBoxPopup .item img {
     border-radius: 12px;
     float: left;
