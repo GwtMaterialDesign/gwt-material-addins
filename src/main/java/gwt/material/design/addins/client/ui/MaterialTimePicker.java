@@ -226,4 +226,14 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     private void fireOpenEvent() {
         OpenEvent.fire(this, time);
     }
+
+    @Override
+    public void clear() {
+        clearTimePickerValue(input.getElement());
+    }
+
+    private native void clearTimePickerValue(Element e) /*-{
+        $wnd.jQuery(e).val('');
+    }-*/;
+
 }
