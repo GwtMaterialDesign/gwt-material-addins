@@ -321,12 +321,21 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     @Override
     public void setValue(Date time) {
+        
+        if(this.time.equals(time)) {
+            return;
+        }
+
         this.time = time;
         this.fireValueChangeEvent();
     }
 
     @Override
     public void setValue(Date time, boolean fireEvents) {
+        
+        if(this.time.equals(time)) {
+            return;
+        }
         
         this.time = time;
         
