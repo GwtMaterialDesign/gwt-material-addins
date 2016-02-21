@@ -350,7 +350,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         }
         
         if(this.time == time) {
-            return;
+            return; // No change
         }
         
         this.time = time;
