@@ -228,6 +228,9 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
             orientation: orientation,
             hour24: hour24,
             uniqueId: clockId,
+            beforeShow: function() {
+                that.@gwt.material.design.addins.client.ui.MaterialTimePicker::beforeShow()();
+            },
             afterShow: function() {
                 that.@gwt.material.design.addins.client.ui.MaterialTimePicker::afterShow()();
             },
@@ -236,16 +239,24 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
                 var minutes = $wnd.jQuery('#' + clockId).find('.lolliclock-minutes').find('.lolliclock-time-new').html();
                 var suffix = $wnd.jQuery('#' + clockId).find('.lolliclock-am-pm').html();
                 var time =  hour + ':' + minutes + " " + suffix;
-                that.@gwt.material.design.addins.client.ui.MaterialTimePicker::afterHide(*)(time);
+                that.@gwt.material.design.addins.client.ui.MaterialTimePicker::afterHide(*)();
             }
         });
         $wnd.jQuery(e).blur();
     }-*/;
     
+    
     /**
      * Called after the lolliclock event <code>afterShow</code>.
      */
-    private void afterShow() {
+    protected void beforeShow() {
+        this.input.getElement().blur();
+    }
+    
+    /**
+     * Called after the lolliclock event <code>afterShow</code>.
+     */
+    protected void afterShow() {
         this.fireOpenEvent();
     }
         
@@ -256,17 +267,22 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      *            The time given by lolliclock in 12-hours <code>hh:mm aa</code>
      *            format.
      */
-    private void afterHide(String time) {
+    protected void afterHide() {
         
-        DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
-        Date parsedDate = hour12DateTimeFormat.parse(time);
+        String timeString = this.getTime(this.input.getElement());
         
+        Date parsedDate = null;
+
         if(this.hour24 == true) {
             DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
-            time = hour24DateTimeFormat.format(parsedDate);
+            parsedDate = hour24DateTimeFormat.parse(timeString);
+        } else {
+            DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
+            parsedDate = hour12DateTimeFormat.parse(timeString);
         }
+        
         this.setValue(parsedDate);
-        this.fireCloseEvent(time);
+        this.fireCloseEvent();
     }
     
     private native String getTime(Element e)/*-{
@@ -288,7 +304,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         return this.addHandler(handler, OpenEvent.getType());
     }
 
-    private void fireCloseEvent(String time) {
+    private void fireCloseEvent() {
         CloseEvent.fire(this, this.time);
     }
 
@@ -327,12 +343,14 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     @Override
     public void setValue(Date time, boolean fireEvents) {
         
-        if(this.time.equals(time)) {
-            return;
+        if(this.time != null) {
+            if(this.time.equals(time)) {
+                return;
+            }
         }
         
         this.time = time;
-        
+             
         if(fireEvents == true) {
             this.fireValueChangeEvent();
         }
