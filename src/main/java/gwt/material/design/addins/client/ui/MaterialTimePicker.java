@@ -250,7 +250,11 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      * Called after the lolliclock event <code>afterShow</code>.
      */
     protected void beforeShow() {
+        
         this.input.getElement().blur();
+        
+        // Add 'valid' for visual feedback.
+        this.input.getElement().setClassName("valid");
     }
     
     /**
@@ -282,6 +286,10 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         }
         
         this.setValue(parsedDate);
+        
+        // Remove 'valid' after hide.
+        this.panel.getElement().removeClassName("valid");
+        
         this.fireCloseEvent();
     }
     
