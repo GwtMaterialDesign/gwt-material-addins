@@ -290,7 +290,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
                     parsedDate = hour12DateTimeFormat.parse(timeString);
                 }
             } catch(Exception e) {
-                // silently catch parse errors
+                // Silently catch parse errors
             }
         }
         
