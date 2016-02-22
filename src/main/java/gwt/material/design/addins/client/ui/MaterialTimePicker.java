@@ -2,6 +2,8 @@ package gwt.material.design.addins.client.ui;
 
 import java.util.Date;
 
+import com.google.gwt.dom.builder.shared.InputBuilder;
+
 /*
  * #%L
  * GwtMaterial
@@ -24,6 +26,7 @@ import java.util.Date;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -36,12 +39,15 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ValueBox;
 
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.InputType;
 import gwt.material.design.client.constants.Orientation;
 import gwt.material.design.client.ui.MaterialInput;
@@ -84,6 +90,9 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     /** The current value held by the time picker. */
     private Date time;
+    
+    /** */
+    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, "valid");
     
     private final ErrorMixin<MaterialTimePicker, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
     
@@ -253,8 +262,8 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         
         this.input.getElement().blur();
 
-        // Add 'valid' for visual feedback.
-        this.input.getElement().setClassName("valid");
+        // Add class 'valid' for visual feedback.
+        this.validMixin.setOn(true);
     }
     
     /**
@@ -285,13 +294,10 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
             parsedDate = hour12DateTimeFormat.parse(timeString);
         }
         
-        // Remove 'valid' after hide.
-        this.panel.getElement().removeAttribute("valid");
-        
         this.setValue(parsedDate);
         
-        // Remove 'valid' after hide.
-        this.panel.getElement().removeClassName("valid");
+        // Remove class 'valid' after hide.
+        this.validMixin.setOn(false);
         
         this.fireCloseEvent();
     }
@@ -365,10 +371,26 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         }
         
         this.time = time;
+        
+        String timeString = null;
+        
+        if(this.hour24 == true) {
+            DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
+            timeString = hour24DateTimeFormat.format(time);
+        } else {
+            DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
+            timeString = hour12DateTimeFormat.format(time);
+        }
+        
+        this.setValue(this.input.getElement(), timeString);
              
         if(fireEvents == true) {
             this.fireValueChangeEvent();
         }
     }
+    
+    private native void setValue(Element e, String time) /*-{
+        $wnd.jQuery(e).val(time);
+    }-*/;
 
 }
