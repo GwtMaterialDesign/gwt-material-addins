@@ -285,13 +285,15 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         String timeString = this.getTime(this.input.getElement());
         
         Date parsedDate = null;
-
-        if(this.hour24 == true) {
-            DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
-            parsedDate = hour24DateTimeFormat.parse(timeString);
-        } else {
-            DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
-            parsedDate = hour12DateTimeFormat.parse(timeString);
+        
+        if(timeString.equals("") == false && timeString != null) {
+            if(this.hour24 == true) {
+                DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
+                parsedDate = hour24DateTimeFormat.parse(timeString);
+            } else {
+                DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
+                parsedDate = hour12DateTimeFormat.parse(timeString);
+            }
         }
         
         this.setValue(parsedDate);
