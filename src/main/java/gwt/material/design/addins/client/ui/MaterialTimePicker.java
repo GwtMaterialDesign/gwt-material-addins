@@ -2,8 +2,6 @@ package gwt.material.design.addins.client.ui;
 
 import java.util.Date;
 
-import com.google.gwt.dom.builder.shared.InputBuilder;
-
 /*
  * #%L
  * GwtMaterial
@@ -26,7 +24,6 @@ import com.google.gwt.dom.builder.shared.InputBuilder;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -39,8 +36,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.ValueBox;
 
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
@@ -73,7 +68,6 @@ import gwt.material.design.client.ui.MaterialPanel;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
  * @author kevzlou7979
  * @author Ben Dol
- * @author silentsnooc
  */
 //@formatter:on
 public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation,
@@ -285,13 +279,19 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         String timeString = this.getTime(this.input.getElement());
         
         Date parsedDate = null;
-
-        if(this.hour24 == true) {
-            DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
-            parsedDate = hour24DateTimeFormat.parse(timeString);
-        } else {
-            DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
-            parsedDate = hour12DateTimeFormat.parse(timeString);
+        
+        if(timeString.equals("") == false && timeString != null) {
+            try {
+                if(this.hour24 == true) {
+                    DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
+                    parsedDate = hour24DateTimeFormat.parse(timeString);
+                } else {
+                    DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
+                    parsedDate = hour12DateTimeFormat.parse(timeString);
+                }
+            } catch(Exception e) {
+                // silently catch parse errors
+            }
         }
         
         this.setValue(parsedDate);
