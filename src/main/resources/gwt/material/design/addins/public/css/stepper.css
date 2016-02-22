@@ -1,7 +1,7 @@
 .stepper .step {
     position: relative;
     min-height: 32px;
-    padding: 24px;
+    padding: 12px;
     cursor: pointer
 }
 .stepper .step:hover {
@@ -28,9 +28,9 @@
 .stepper .line {
     position: absolute;
     border-left: 1px solid gainsboro;
-    left: 40px;
-    bottom: -12px;
-    top: 68px;
+    left: 28px;
+    bottom: 0px;
+    top: 56px;
     z-index: 1;
 }
 .stepper .step:last-child .line {
