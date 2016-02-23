@@ -75,6 +75,8 @@ import gwt.material.design.client.base.MaterialWidget;
 //@formatter:on
 public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
 
+    private final String DISABLED = "disabled-swipe";
+
     public MaterialSwipeablePanel() {
         super(Document.get().createDivElement());
         setStyleName("swipeable");
@@ -84,7 +86,9 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     protected void onLoad() {
         super.onLoad();
         for(Widget w : getChildren()) {
-            initSwipeable(w.getElement(), w);
+            if(!w.getStyleName().contains(DISABLED)) {
+                initSwipeable(w.getElement(), w);
+            }
         }
     }
 
@@ -196,5 +200,11 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
      */
     public void fireSwipeRightEvent(Widget target) {
         SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
+    }
+
+    public void setDisable(Widget... widgets) {
+        for(Widget w : widgets){
+            w.addStyleName(DISABLED);
+        }
     }
 }
