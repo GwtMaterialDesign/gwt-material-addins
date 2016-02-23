@@ -45,7 +45,7 @@ import gwt.material.design.addins.client.events.SwipeRightEvent;
 import gwt.material.design.client.base.MaterialWidget;
 
 /**
- * A panel that alows any of its nested children to be swiped away.
+ * A panel that allows any of its nested children to be swiped away.
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
@@ -195,6 +195,6 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
      * @param target
      */
     public void fireSwipeRightEvent(Widget target) {
-        SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
+        SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
     }
 }
