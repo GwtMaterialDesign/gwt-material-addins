@@ -33,6 +33,7 @@
     <stylesheet src="css/timepicker.css"/>
     <stylesheet src="css/window.css"/>
     <stylesheet src="css/stepper.css"/>
+    <stylesheet src="css/swipeable.css"/>
     <stylesheet src="css/morph.css"/>
     <stylesheet src="css/overlay.css"/>
     <stylesheet src="css/menubar.css"/>
