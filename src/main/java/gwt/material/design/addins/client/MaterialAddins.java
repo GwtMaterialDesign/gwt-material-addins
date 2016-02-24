@@ -44,6 +44,7 @@ public class MaterialAddins implements EntryPoint {
         inject(MaterialAddinsResources.INSTANCE.scrollFireJs());
         inject(MaterialAddinsResources.INSTANCE.bubbleJs());
         inject(MaterialAddinsResources.INSTANCE.interactJs());
+        inject(MaterialAddinsResources.INSTANCE.masonryJs());
     }
 
     protected void inject(TextResource resource) {

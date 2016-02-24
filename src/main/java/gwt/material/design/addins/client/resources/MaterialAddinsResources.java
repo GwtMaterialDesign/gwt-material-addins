@@ -48,4 +48,7 @@ public interface MaterialAddinsResources extends ClientBundle {
     @Source("js/interact.min.js")
     TextResource interactJs();
 
+    @Source("js/masonry.min.js")
+    TextResource masonryJs();
+
 }

@@ -47,4 +47,7 @@ public interface MaterialAddinsResourcesDebug extends ClientBundle {
 
     @Source("js/interact.js")
     TextResource interactJs();
+
+    @Source("js/masonry.js")
+    TextResource masonryJs();
 }
