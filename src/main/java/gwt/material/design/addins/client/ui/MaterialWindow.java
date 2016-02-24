@@ -208,4 +208,8 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void setBackgroundColor(String bgColor) {
         window.setBackgroundColor(bgColor);
     }
+
+    public boolean isOpen() {
+        return open;
+    }
 }
