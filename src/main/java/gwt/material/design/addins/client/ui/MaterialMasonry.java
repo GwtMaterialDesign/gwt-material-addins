@@ -20,7 +20,9 @@ package gwt.material.design.addins.client.ui;
  * #L%
  */
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialRow;
 
 //@formatter:off
@@ -38,7 +40,7 @@ import gwt.material.design.client.ui.MaterialRow;
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {
- * @code 
+ * @code
  * <m.addins:MaterialMasonry>
  *     <m:MaterialColumn grid="l1" padding="4" backgroundColor="blue" height="200px">
  *         <m:MaterialLabel text="1"/>
@@ -57,9 +59,15 @@ public class MaterialMasonry extends MaterialRow {
     private boolean percentPosition = true;
     private boolean originLeft = true;
     private boolean originTop = true;
-    private double transitionDuration;
+    private double transitionDuration = 400;
+    private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
-    public MaterialMasonry() {}
+    public MaterialMasonry() {
+        addStyleName("masonry-row");
+        sizerDiv.setWidth("8.3333%");
+        sizerDiv.setStyleName("col-sizer");
+        add(sizerDiv);
+    }
 
     @Override
     protected void onLoad() {
@@ -79,11 +87,12 @@ public class MaterialMasonry extends MaterialRow {
         var that = this;
         var grid = $wnd.jQuery(e).masonry({
             // options...
-            itemSelector: that.@gwt.material.design.addins.client.ui.MaterialMasonry::getItemSelector()(),
+            itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.ui.MaterialMasonry::getItemSelector()(),
             percentPosition: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isPercentPosition()(),
             originLeft: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginLeft()(),
             originTop: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginTop()(),
-            transitionDuration: that.@gwt.material.design.addins.client.ui.MaterialMasonry::getTransitionDuration()() + 'ms'
+            transitionDuration: that.@gwt.material.design.addins.client.ui.MaterialMasonry::getTransitionDuration()() + 'ms',
+            columnWidth: '.col-sizer'
         });
         // change size of item by toggling gigante class
         grid.on( 'click', '.col', function() {
@@ -166,7 +175,13 @@ public class MaterialMasonry extends MaterialRow {
         return transitionDuration;
     }
 
+    /**
+     * Sets the transition duration in milliseconds, if 0 then there will be no transition
+     * @param transitionDuration
+     */
     public void setTransitionDuration(double transitionDuration) {
         this.transitionDuration = transitionDuration;
     }
+
+
 }
