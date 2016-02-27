@@ -20,14 +20,21 @@ Import the theme in your GWT Module
 ##Extra Components
 <ul>
 <li>Autcomplete</li>
-<li>Cutout</li>
+<li>Bubble</li>
+<li>Cutouts</li>
+<li>Dnd</li>
 <li>Icon Morph</li>
+<li>Masonry</li>
+<li>Menubar</li>
 <li>Path Animator</li>
-<li>Scroll Fire</li>
-<li>Subheader</li>
+<li>Scrollfire</li>
 <li>Steppers</li>
-<li>Time Picker</li>
+<li>Subheaders</li>
+<li>Swipeable</li>
+<li>Time Pickers</li>
+<li>Tree View</li>
 <li>Waterfall</li>
+<li>Window</li>
 </ul>
 
 ##Package Information
