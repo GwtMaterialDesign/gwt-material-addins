@@ -26,44 +26,11 @@ import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.resources.client.TextResource;
 import gwt.material.design.addins.client.resources.MaterialAddinsResources;
 
-/**
- * Created by Mark Kevin on 11/26/2015.
- */
-public class MaterialAddins implements EntryPoint {
+public class MaterialAddins extends MaterialAddinsBase implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        load();
+        super.load();
     }
 
-    public void load() {
-        inject(MaterialAddinsResources.INSTANCE.timepickerJs());
-        inject(MaterialAddinsResources.INSTANCE.subHeaderJs());
-        inject(MaterialAddinsResources.INSTANCE.pathAnimatorJs());
-        inject(MaterialAddinsResources.INSTANCE.waterfallJs());
-        inject(MaterialAddinsResources.INSTANCE.scrollFireJs());
-        inject(MaterialAddinsResources.INSTANCE.bubbleJs());
-        inject(MaterialAddinsResources.INSTANCE.interactJs());
-        inject(MaterialAddinsResources.INSTANCE.masonryJs());
-        inject(MaterialAddinsResources.INSTANCE.tinymceJs());
-    }
-
-    protected void inject(TextResource resource) {
-        inject(resource, true, false);
-    }
-
-    protected void injectDebug(TextResource resource) {
-        inject(resource, false, true);
-    }
-
-    protected void inject(TextResource resource, boolean removeTag, boolean sourceUrl) {
-        String text = resource.getText() +
-                (sourceUrl ? "//# sourceURL="+resource.getName()+".js" : "");
-
-        // Inject the script resource
-        ScriptInjector.fromString(text)
-                .setWindow(ScriptInjector.TOP_WINDOW)
-                .setRemoveTag(removeTag)
-                .inject();
-    }
 }

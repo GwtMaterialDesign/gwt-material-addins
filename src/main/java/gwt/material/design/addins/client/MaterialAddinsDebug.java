@@ -29,13 +29,14 @@ import gwt.material.design.addins.client.resources.MaterialAddinsResourcesDebug;
 /**
  * Created by Mark Kevin on 11/26/2015.
  */
-public class MaterialAddinsDebug implements EntryPoint {
+public class MaterialAddinsDebug extends MaterialAddinsBase implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
         load();
     }
 
+    @Override
     public void load() {
         inject(MaterialAddinsResourcesDebug.INSTANCE.timepickerJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.subHeaderJs());
@@ -46,24 +47,5 @@ public class MaterialAddinsDebug implements EntryPoint {
         inject(MaterialAddinsResourcesDebug.INSTANCE.interactJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.masonryJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.tinymceJs());
-    }
-
-    protected void inject(TextResource resource) {
-        inject(resource, true, false);
-    }
-
-    protected void injectDebug(TextResource resource) {
-        inject(resource, false, true);
-    }
-
-    protected void inject(TextResource resource, boolean removeTag, boolean sourceUrl) {
-        String text = resource.getText() +
-                (sourceUrl ? "//# sourceURL="+resource.getName()+".js" : "");
-
-        // Inject the script resource
-        ScriptInjector.fromString(text)
-                .setWindow(ScriptInjector.TOP_WINDOW)
-                .setRemoveTag(removeTag)
-                .inject();
     }
 }
