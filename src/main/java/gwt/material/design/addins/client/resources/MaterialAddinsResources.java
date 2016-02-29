@@ -51,4 +51,7 @@ public interface MaterialAddinsResources extends ClientBundle {
     @Source("js/masonry.min.js")
     TextResource masonryJs();
 
+    @Source("js/tinymce.min.js")
+    TextResource tinymceJs();
+
 }
