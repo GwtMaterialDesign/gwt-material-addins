@@ -1,7 +1,5 @@
 <img src="http://i.imgur.com/k7iZMbE.png" />
 # gwt-material-addins [![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins)
-
-<br/>
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
 ## Usage
