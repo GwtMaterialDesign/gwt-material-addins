@@ -39,8 +39,43 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * HTML5 {@code MediaDevices.getUserMedia()} (Streams API). This widget can capture images from the video, to allow
  * the upload to the server of photos from the camera.
  * </p>
+ * 
+ * <h3>UiBinder Usage:</h3>
+ * <p><pre>
+ * {@code
+ * <m.addins:MaterialCameraCapture ui:field="camera" />
+ * }
+ * </pre></p>
+ * 
+ * <h3>Java Usage:</h3>
+ * <p><pre>
+ *  if (MaterialCameraCapture.isSupported()){
+ *      MaterialCameraCapture camera = new MaterialCameraCapture();
+ *      camera.addCameraCaptureHandler(new CameraCaptureHandler() {
+ *          {@literal @}Override
+ *          public void onCameraCaptureChange(CameraCaptureEvent event) {
+ *              if (event.getCaptureStatus() == CaptureStatus.ERRORED){
+ *                  Window.alert("Error on starting the camera capture: " + event.getErrorMessage());
+ *                  ((MaterialCameraCapture)event.getSource()).removeFromParent();
+ *              }
+ *          }
+ *      });
+ *      add(camera); //adds to the layout
+ *  }
+ *  else {
+ *      Window.alert("Sorry, your browser doesn't support the camera capture.");
+ *  }
+ * </pre></p>
+ *
+ * <h3>Styling:</h3>
  * <p>
- * Note that this widget only works on pages served by a secure protocol (HTTPS). For the browser compatibility,
+ * To limit the width of the camera capture widget on mobile devices, you can use {@code max-width: 100%} on the widget.
+ * The browser will take care of the aspect ratio of the video.
+ * </p>
+ * 
+ * <h3>Notice:</h3>
+ * <p>
+ * This widget only works on pages served by a secure protocol (HTTPS). For the browser compatibility,
  * access <a href="http://caniuse.com/#feat=stream">http://caniuse.com/#feat=stream</a>
  * </p>
  * 
@@ -105,6 +140,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      */
     public void play() {
         if (!isSupported()) {
+            onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
         VideoElement el = getElement().cast();
@@ -121,6 +157,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      */
     public void restart() {
         if (!isSupported()) {
+            onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
         nativePlay(getElement());
