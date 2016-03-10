@@ -39,14 +39,14 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * HTML5 {@code MediaDevices.getUserMedia()} (Streams API). This widget can capture images from the video, to allow
  * the upload to the server of photos from the camera.
  * </p>
- * 
+ *
  * <h3>UiBinder Usage:</h3>
  * <p><pre>
  * {@code
  * <m.addins:MaterialCameraCapture ui:field="camera" />
  * }
  * </pre></p>
- * 
+ *
  * <h3>Java Usage:</h3>
  * <p><pre>
  *  if (MaterialCameraCapture.isSupported()){
@@ -72,13 +72,13 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * To limit the width of the camera capture widget on mobile devices, you can use {@code max-width: 100%} on the widget.
  * The browser will take care of the aspect ratio of the video.
  * </p>
- * 
+ *
  * <h3>Notice:</h3>
  * <p>
  * This widget only works on pages served by a secure protocol (HTTPS). For the browser compatibility,
  * access <a href="http://caniuse.com/#feat=stream">http://caniuse.com/#feat=stream</a>
  * </p>
- * 
+ *
  * @author gilberto-torrezan
  */
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
@@ -92,7 +92,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     /**
      * Captures the current frame of the video to an image data URL. It's the same as calling
      * {@link #captureToDataURL(String)} using "image/png".
-     * 
+     *
      * @return The Data URL of the captured image, which can be used as "src" on an "img" element
      * or sent to the server
      */
@@ -102,9 +102,9 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
     /**
      * Captures the current frame of the video to an image data URL.
-     * 
+     *
      * @param mimeType The type of the output image, such as "image/png" or "image/jpeg".
-     * 
+     *
      * @return The Data URL of the captured image, which can be used as "src" on an "img" element
      * or sent to the server
      */
@@ -150,7 +150,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             el.play();
         }
     }
-    
+
     /**
      * Restarts the video stream from the camera. 
      * The user is requested again by the browser to allow the application to use the camera.
@@ -192,35 +192,35 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      * Native call to the streams API
      */
     protected native void nativePlay(Element video)/*-{
-       var navigator = $wnd.navigator;
-       var widget = this;
-       
-       var onSuccess = function(stream) {
-           var vendorURL = $wnd.URL || $wnd.webkitURL;
-           video.src = vendorURL.createObjectURL(stream);
-           video.play();
-           widget.@com.feelvision.client.components.MaterialCameraCapture::onCameraCaptureLoad()();
-       };
-       
-       var onFailure = function(err) {
-           console.log("MaterialCameraCapture: An error occured! " + err);
-           widget.@com.feelvision.client.components.MaterialCameraCapture::onCameraCaptureError(Ljava/lang/String;)(err.message);
-       };
-       
-       //using premisses
-       if (navigator.mediaDevices.getUserMedia){
-           var p = navigator.mediaDevices.getUserMedia({video: true, audio: false});
-           p.then(onSuccess);
-           //workaround for the catch keyword. See https://groups.google.com/forum/#!topic/google-web-toolkit/t1KGh-7KL-k
-           p["catch"](onFailure);
-       }
-       else {
-           navigator.getMedia = (navigator.getUserMedia ||
-           navigator.webkitGetUserMedia ||
-           navigator.mozGetUserMedia ||
-           navigator.msGetUserMedia);
-           navigator.getMedia({video: true, audio: false}, onSuccess, onFailure);
-       }
+        var navigator = $wnd.navigator;
+        var widget = this;
+
+        var onSuccess = function(stream) {
+            var vendorURL = $wnd.URL || $wnd.webkitURL;
+            video.src = vendorURL.createObjectURL(stream);
+            video.play();
+            widget.@gwt.material.design.addins.client.ui.MaterialCameraCapture::onCameraCaptureLoad()();
+        };
+
+        var onFailure = function(err) {
+            console.log("MaterialCameraCapture: An error occured! " + err);
+            widget.@gwt.material.design.addins.client.ui.MaterialCameraCapture::onCameraCaptureError(Ljava/lang/String;)(err.message);
+        };
+
+        //using premisses
+        if (navigator.mediaDevices.getUserMedia){
+            var p = navigator.mediaDevices.getUserMedia({video: true, audio: false});
+            p.then(onSuccess);
+            //workaround for the catch keyword. See https://groups.google.com/forum/#!topic/google-web-toolkit/t1KGh-7KL-k
+            p["catch"](onFailure);
+        }
+        else {
+            navigator.getMedia = (navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia);
+            navigator.getMedia({video: true, audio: false}, onSuccess, onFailure);
+        }
     }-*/;
 
     /**
@@ -229,18 +229,18 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     protected native String nativeCaptureToDataURL(CanvasElement canvas, Element video, String mimeType)/*-{
         var width = video.videoWidth;
         var height = video.videoHeight;
-        
+
         if (isNaN(width) || isNaN(height)) {
             width = video.clientWidth;
             height = video.clientHeight;
         }
-        
+
         canvas.width = width;
         canvas.height = height;
-        
+
         var context = canvas.getContext('2d');
         context.drawImage(video, 0, 0, width, height);
-        
+
         var data = canvas.toDataURL(mimeType);
         return data;
     }-*/;
@@ -248,15 +248,15 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     /**
      * Tests if the browser supports the Streams API. This should be called before creating any
      * MaterialCameraCapture widgets to avoid errors on the browser.
-     * 
+     *
      * @return <code>true</code> if the browser supports this widget, <code>false</code> otherwise 
      */
     public static native boolean isSupported()/*-{
-      return !!(navigator.mediaDevices.getUserMedia ||
-          navigator.getUserMedia ||
-          navigator.webkitGetUserMedia ||
-          navigator.mozGetUserMedia ||
-          navigator.msGetUserMedia);
+        return !!(navigator.mediaDevices.getUserMedia ||
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
     }-*/;
 
     /**
