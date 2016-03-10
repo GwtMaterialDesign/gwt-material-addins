@@ -22,10 +22,12 @@ package gwt.material.design.addins.client.ui;
 
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.constants.Restriction;
 import gwt.material.design.client.base.MaterialWidget;
@@ -38,9 +40,33 @@ import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.animate.MaterialAnimator;
 import gwt.material.design.client.ui.animate.Transition;
 
+//@formatter:off
+
 /**
- * Created by Mark Kevin on 2/3/2016.
+ * Window is another kind of Modal but it has a header toolbar for maximizing and close the window. Also you can attached a tab component on its content.
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ * {@code
+ *  <m:MaterialWindow ui:field="window" />
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ * {@code
+ *  // Opening a window
+ *  window.openWindow();
+ *
+ *  // Closing a window
+ *  window.closeWindow();
+ * }
+ * </pre>
+ *
+ * @author kevzlou7979
+ * @see <a href="http://gwt-material-demo.herokuapp.com/#autocompletes">Material AutoComplete</a>
  */
+//@formatter:on
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
 
     private MaterialWidget window = new MaterialWidget(Document.get().createDivElement());
@@ -170,6 +196,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
             @Override
             public void run() {
                 closeMixin.setOn(false);
+                RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
             }
         };
         MaterialAnimator.animate(Transition.ZOOMOUT, window, 0, callback);
