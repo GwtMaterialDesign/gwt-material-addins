@@ -26,7 +26,7 @@ import gwt.material.design.client.base.MaterialWidget;
 
 public class MaterialOverlay extends MaterialWidget {
 
-    static{
+    static {
         MaterialResourceInjector.injectCss(MaterialOverlayClientBundle.overlayCss);
     }
 

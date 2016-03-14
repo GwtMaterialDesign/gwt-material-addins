@@ -77,7 +77,7 @@ import gwt.material.design.client.base.MaterialWidget;
 //@formatter:on
 public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
 
-    static{
+    static {
         MaterialResourceInjector.injectCss(MaterialSwipeablePanelClientBundle.swipeableCss);
     }
 

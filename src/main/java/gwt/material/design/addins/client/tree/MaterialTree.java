@@ -67,7 +67,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>, HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
 
 
-    static{
+    static {
         MaterialResourceInjector.injectCss(MaterialTreeClientBundle.treeCss);
     }
 

@@ -63,7 +63,7 @@ import gwt.material.design.client.base.MaterialWidget;
 //@formatter:on
 public class MaterialMenuBar extends MaterialWidget {
 
-    static{
+    static {
        MaterialResourceInjector.injectCss(MaterialMenuBarClientBundle.menubarCss);
     }
 

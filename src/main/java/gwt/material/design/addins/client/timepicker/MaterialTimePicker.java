@@ -66,7 +66,7 @@ import java.util.Date;
 public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date> {
 
-    static{
+    static {
         MaterialResourceInjector.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
         MaterialResourceInjector.injectCss(MaterialTimePickerClientBundle.timepickerCss);
     }

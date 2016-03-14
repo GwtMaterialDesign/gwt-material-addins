@@ -60,7 +60,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     private MaterialWidget triangle;
     private final CssNameMixin<MaterialWidget, Position> positionMixin;
 
-    static{
+    static {
         MaterialResourceInjector.injectJs(MaterialBubbleClientBundle.INSTANCE.bubbleJs());
         MaterialResourceInjector.injectCss(MaterialBubbleClientBundle.bubbleCss);
     }

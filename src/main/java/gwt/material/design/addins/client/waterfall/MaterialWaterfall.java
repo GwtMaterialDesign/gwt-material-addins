@@ -56,7 +56,7 @@ import gwt.material.design.client.base.MaterialWidget;
 //@formatter:on
 public class MaterialWaterfall extends MaterialWidget {
 
-    static{
+    static {
         MaterialResourceInjector.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
         MaterialResourceInjector.injectCss(MaterialWaterfallClientBundle.waterfallCss);
     }

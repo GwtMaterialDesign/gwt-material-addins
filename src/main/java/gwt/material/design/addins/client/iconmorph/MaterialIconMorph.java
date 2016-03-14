@@ -56,7 +56,7 @@ import gwt.material.design.client.ui.MaterialToast;
 //@formatter:on
 public class MaterialIconMorph extends MaterialWidget {
 
-    static{
+    static {
         MaterialResourceInjector.injectCss(MaterialIconMorphClientBundle.morphCss);
     }
 

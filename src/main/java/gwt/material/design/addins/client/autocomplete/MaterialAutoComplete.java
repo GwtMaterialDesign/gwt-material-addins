@@ -63,7 +63,7 @@ import java.util.*;
 //@formatter:on
 public class MaterialAutoComplete extends MaterialWidget implements HasError, HasPlaceholder, HasValue<List<? extends SuggestOracle.Suggestion>>, HasProgress, HasKeyUpHandlers, HasType<AutocompleteType> {
 
-    static{
+    static {
         MaterialResourceInjector.injectCss(MaterialAutoCompleteClientBundle.autocompleteCss);
     }
 

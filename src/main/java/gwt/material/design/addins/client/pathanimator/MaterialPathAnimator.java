@@ -49,7 +49,7 @@ MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
 //@formatter:on
 public class MaterialPathAnimator {
 
-    static{
+    static {
         MaterialResourceInjector.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
     }
 

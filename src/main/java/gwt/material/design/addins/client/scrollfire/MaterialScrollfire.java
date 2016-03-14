@@ -50,7 +50,7 @@ MaterialScrollfire.apply(Element e, Runnable runnableCallback);
 //@formatter:on
 public class MaterialScrollfire {
 
-    static{
+    static {
         MaterialResourceInjector.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs());
     }
 

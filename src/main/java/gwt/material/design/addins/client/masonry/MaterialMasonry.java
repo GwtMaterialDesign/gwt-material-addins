@@ -56,7 +56,7 @@ import gwt.material.design.client.ui.MaterialRow;
 //@formatter:on
 public class MaterialMasonry extends MaterialRow {
 
-    static{
+    static {
         MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
     }
     

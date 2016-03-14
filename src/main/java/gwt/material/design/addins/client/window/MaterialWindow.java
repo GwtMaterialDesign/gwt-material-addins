@@ -71,7 +71,7 @@ import gwt.material.design.client.ui.animate.Transition;
 //@formatter:on
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
 
-    static{
+    static {
         MaterialResourceInjector.injectCss(MaterialWindowClientBundle.windowCss);
     }
 
