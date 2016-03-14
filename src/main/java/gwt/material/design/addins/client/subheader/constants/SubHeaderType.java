@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.subheader.constants;
 
 /*
  * #%L
@@ -20,14 +20,25 @@ package gwt.material.design.addins.client;
  * #L%
  */
 
+import gwt.material.design.client.base.helper.EnumHelper;
+import gwt.material.design.client.constants.CssType;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.resources.MaterialAddinsResources;
+public enum SubHeaderType implements CssType {
+    STATIC("subheader-static"),
+    PINNED("subheader-pinned");
 
-public class MaterialAddins implements EntryPoint {
+    private final String cssClass;
+
+    SubHeaderType(final String cssClass) {
+        this.cssClass = cssClass;
+    }
 
     @Override
-    public void onModuleLoad() {}
+    public String getCssName() {
+        return cssClass;
+    }
+
+    public static SubHeaderType fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, SubHeaderType.class, STATIC);
+    }
 }

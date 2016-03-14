@@ -1,10 +1,10 @@
-package gwt.material.design.addins.client.resources;
+package gwt.material.design.addins.client.subheader;
 
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,23 +20,23 @@ package gwt.material.design.addins.client.resources;
  * #L%
  */
 
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface MaterialAddinsResources extends ClientBundle {
-    MaterialAddinsResources INSTANCE = GWT.create(MaterialAddinsResources.class);
+/**
+ * Created by Mark Kevin on 3/13/2016.
+ */
+interface MaterialSubHeaderClientBundle extends ClientBundle {
 
-    @Source("../../../../../../../resources/gwt/material/design/addins/client/timepicker/resources/js/timepicker.min.js")
-    TextResource timepickerJs();
+    MaterialSubHeaderClientBundle INSTANCE = GWT.create(MaterialSubHeaderClientBundle.class);
 
-    @Source("../../../../../../../resources/gwt/material/design/addins/client/waterfall/resources/js/waterfall.min.js")
-    TextResource waterfallJs();
+    String subheaderCss = "subheader.css";
 
-    @Source("js/tinymce.min.js")
-    TextResource tinymceJs();
-
-    @Source("../../../../../../../resources/gwt/material/design/addins/client/subheader/resources/js/subheader.min.js")
+    @Source("resources/js/subheader.min.js")
     TextResource subheaderJs();
 
+    @Source("resources/js/subheader.js")
+    TextResource subheaderJsDebug();
 }

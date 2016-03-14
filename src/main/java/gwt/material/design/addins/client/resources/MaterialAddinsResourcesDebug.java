@@ -27,30 +27,15 @@ import com.google.gwt.resources.client.TextResource;
 public interface MaterialAddinsResourcesDebug extends ClientBundle {
     MaterialAddinsResourcesDebug INSTANCE = GWT.create(MaterialAddinsResourcesDebug.class);
 
-    @Source("js/timepicker.js")
+    @Source("../../../../../../../resources/gwt/material/design/addins/client/timepicker/resources/js/timepicker.js")
     TextResource timepickerJs();
 
-    @Source("js/stickyheaders.js")
-    TextResource subHeaderJs();
-
-    @Source("js/cta.js")
-    TextResource pathAnimatorJs();
-
-    @Source("js/waterfall.js")
+    @Source("../../../../../../../resources/gwt/material/design/addins/client/waterfall/resources/js/waterfall.js")
     TextResource waterfallJs();
-
-    @Source("js/scrollfire.js")
-    TextResource scrollFireJs();
-
-    @Source("js/bubble.js")
-    TextResource bubbleJs();
-
-    @Source("js/interact.js")
-    TextResource interactJs();
-
-    @Source("js/masonry.js")
-    TextResource masonryJs();
 
     @Source("js/tinymce.js")
     TextResource tinymceJs();
+
+    @Source("../../../../../../../resources/gwt/material/design/addins/client/subheader/resources/js/subheader.js")
+    TextResource subheaderJs();
 }

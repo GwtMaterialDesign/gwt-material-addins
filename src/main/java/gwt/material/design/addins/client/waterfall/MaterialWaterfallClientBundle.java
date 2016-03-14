@@ -1,10 +1,10 @@
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.waterfall;
 
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,22 @@ package gwt.material.design.addins.client;
  */
 
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.ScriptInjector;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.resources.MaterialAddinsResources;
 
-public class MaterialAddins implements EntryPoint {
+/**
+ * Created by Mark Kevin on 3/13/2016.
+ */
+interface MaterialWaterfallClientBundle extends ClientBundle {
 
-    @Override
-    public void onModuleLoad() {}
+    MaterialWaterfallClientBundle INSTANCE = GWT.create(MaterialWaterfallClientBundle.class);
+
+    String waterfallCss = "waterfall.css";
+
+    @Source("resources/js/waterfall.min.js")
+    TextResource waterfallJs();
+
+    @Source("resources/js/waterfall.js")
+    TextResource waterfallJsDebug();
 }

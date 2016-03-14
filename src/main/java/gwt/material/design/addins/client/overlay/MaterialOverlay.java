@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.overlay;
 
 /*
  * #%L
@@ -20,14 +20,18 @@ package gwt.material.design.addins.client;
  * #L%
  */
 
+import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.client.base.MaterialWidget;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.resources.MaterialAddinsResources;
+public class MaterialOverlay extends MaterialWidget {
 
-public class MaterialAddins implements EntryPoint {
+    static{
+        MaterialResourceInjector.injectCss(MaterialOverlayClientBundle.overlayCss);
+    }
 
-    @Override
-    public void onModuleLoad() {}
+    public MaterialOverlay() {
+        super(Document.get().createDivElement());
+        setStyleName("overlay-panel");
+    }
 }
