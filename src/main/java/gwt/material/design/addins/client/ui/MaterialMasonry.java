@@ -9,9 +9,9 @@ package gwt.material.design.addins.client.ui;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -85,21 +85,24 @@ public class MaterialMasonry extends MaterialRow {
      */
     private native void initMasonry(Element e) /*-{
         var that = this;
-        var grid = $wnd.jQuery(e).masonry({
-            // options...
-            itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.ui.MaterialMasonry::getItemSelector()(),
-            percentPosition: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isPercentPosition()(),
-            originLeft: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginLeft()(),
-            originTop: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginTop()(),
-            transitionDuration: that.@gwt.material.design.addins.client.ui.MaterialMasonry::getTransitionDuration()() + 'ms',
-            columnWidth: '.col-sizer'
-        });
-        // change size of item by toggling gigante class
-        grid.on( 'click', '.col', function() {
-            $(this).toggleClass('gigante');
-            // trigger layout after item size changes
-            grid.masonry('layout');
-            grid.masonry('reloadItems');
+        $wnd.jQuery(window).ready(function() {
+            var grid = $wnd.jQuery(e).masonry({
+                // options...
+                itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.ui.MaterialMasonry::getItemSelector()(),
+                percentPosition: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isPercentPosition()(),
+                originLeft: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginLeft()(),
+                originTop: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginTop()(),
+                transitionDuration: that.@gwt.material.design.addins.client.ui.MaterialMasonry::getTransitionDuration()() + 'ms',
+                columnWidth: '.col-sizer'
+            });
+            // change size of item by toggling gigante class
+            grid.on( 'click', '.col', function() {
+                $(this).toggleClass('gigante');
+                // trigger layout after item size changes
+                grid.masonry('layout');
+                grid.masonry('reloadItems');
+            });
+
         });
     }-*/;
 
