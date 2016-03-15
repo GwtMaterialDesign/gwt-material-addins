@@ -26,7 +26,8 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Created by Mark Kevin on 3/14/2016.
+ * Client Bundle for Dnd component
+ * @author kevzlou7979
  */
 public interface MaterialDndClientBundle extends ClientBundle {
 

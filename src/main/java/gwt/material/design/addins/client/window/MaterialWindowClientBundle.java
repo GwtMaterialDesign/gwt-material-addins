@@ -24,7 +24,8 @@ package gwt.material.design.addins.client.window;
 import com.google.gwt.resources.client.ClientBundle;
 
 /**
- * Created by Mark Kevin on 3/13/2016.
+ * Client Bundle for Window component
+ * @author kevzlou7979
  */
 interface MaterialWindowClientBundle extends ClientBundle {
 

@@ -21,12 +21,11 @@ package gwt.material.design.addins.client.autocomplete;
  */
 
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
 
 /**
- * Created by Mark Kevin on 3/14/2016.
+ * Client Bundle for Autocomplete component
+ * @author kevzlou7979
  */
 public interface MaterialAutoCompleteClientBundle extends ClientBundle {
 

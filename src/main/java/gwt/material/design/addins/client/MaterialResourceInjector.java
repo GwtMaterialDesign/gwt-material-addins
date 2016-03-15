@@ -27,7 +27,8 @@ import com.google.gwt.dom.client.*;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Created by Mark Kevin on 3/14/2016.
+ * Resource Injector for injecting external resources such as javascript and css files.
+ * @author kevzlou7979
  */
 public class MaterialResourceInjector {
 

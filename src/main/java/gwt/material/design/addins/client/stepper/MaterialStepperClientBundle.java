@@ -24,7 +24,8 @@ package gwt.material.design.addins.client.stepper;
 import com.google.gwt.resources.client.ClientBundle;
 
 /**
- * Created by Mark Kevin on 3/13/2016.
+ * Client Bundle for Stepper component
+ * @author kevzlou7979
  */
 interface MaterialStepperClientBundle extends ClientBundle {
 

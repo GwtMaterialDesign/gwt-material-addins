@@ -26,7 +26,8 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Created by Mark Kevin on 3/13/2016.
+ * Client Bundle for Scrollfire component
+ * @author kevzlou7979
  */
 interface MaterialScrollfireClientBundle extends ClientBundle {
 
