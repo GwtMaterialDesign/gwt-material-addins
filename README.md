@@ -19,6 +19,7 @@ Import the theme in your GWT Module
 <ul>
 <li>Autcomplete</li>
 <li>Bubble</li>
+<li>Camera Capture</li>
 <li>Cutouts</li>
 <li>Dnd</li>
 <li>Icon Morph</li>
@@ -33,6 +34,9 @@ Import the theme in your GWT Module
 <li>Tree View</li>
 <li>Waterfall</li>
 <li>Window</li>
+<li>File Uploader (On Going)</li>
+<li>Document Viewer (On Going)</li>
+<li>Rich Editor (WYSIWYG - On Going) </li> 
 </ul>
 
 ##Package Information
