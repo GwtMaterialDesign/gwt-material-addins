@@ -20,14 +20,9 @@ package gwt.material.design.addins.client.stepper;
  * #L%
  */
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.stepper.base.mixin.ActiveMixin;
 import gwt.material.design.client.base.HasActive;
+import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
@@ -35,6 +30,15 @@ import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Div;
+
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 
 //@formatter:off
 
@@ -65,7 +69,7 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasClickHandlers {
+public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasAxis, HasSelectionHandlers<MaterialStep> {
 
     private int step;
     private String title;
@@ -85,7 +89,8 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
     private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
-    private MaterialStepper stepper;
+    
+    private Axis axis = Axis.VERTICAL;
 
     public MaterialStep() {
         super(Document.get().createDivElement());
@@ -103,29 +108,18 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         divLine.setStyleName("line");
         divTitle.setStyleName("title");
         divBody.setStyleName("body");
-    }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        if(getParent() instanceof MaterialStepper){
-            stepper = (MaterialStepper) getParent();
-            if(stepper.getAxis() == Axis.HORIZONTAL){
-                conCircle.add(divTitle);
-                conCircle.add(divLine);
-                conCircle.add(divDescription);
-            }else{
-                conBody.insert(divTitle, 0);
-                conCircle.add(divLine);
-            }
-
-        }
-        conCircle.addClickHandler(new ClickHandler() {
+        
+        ClickHandler handler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                stepper.goToStep(step);
+                if (isEnabled() && isVisible()){
+                    SelectionEvent.fire(MaterialStep.this, MaterialStep.this);                    
+                }
             }
-        });
+        };
+        conCircle.addClickHandler(handler);
+        divTitle.addClickHandler(handler);
+        divDescription.addClickHandler(handler);
     }
 
     @Override
@@ -209,9 +203,33 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public Div getDivBody() {
         return divBody;
     }
+    
+    @Override
+    public void setAxis(Axis axis) {
+        if (axis == null){
+            axis = Axis.VERTICAL;
+        }
+        this.axis = axis;
+        switch (axis){
+        case HORIZONTAL:
+            conCircle.add(divTitle);
+            conCircle.add(divLine);
+            conCircle.add(divDescription);
+            break;
+        case VERTICAL:
+            conBody.insert(divTitle, 0);
+            conCircle.add(divLine);
+            break;
+        }
+    }
+    
+    @Override
+    public Axis getAxis() {
+        return axis;
+    }
 
     @Override
-    public HandlerRegistration addClickHandler(ClickHandler handler) {
-        return divCircle.addDomHandler(handler, ClickEvent.getType());
+    public HandlerRegistration addSelectionHandler(SelectionHandler<MaterialStep> handler) {
+        return this.addHandler(handler, SelectionEvent.getType());
     }
 }
