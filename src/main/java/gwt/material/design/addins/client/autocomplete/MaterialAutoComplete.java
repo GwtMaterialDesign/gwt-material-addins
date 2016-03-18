@@ -31,7 +31,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
 import gwt.material.design.addins.client.autocomplete.base.MaterialSuggestionOracle;
 import gwt.material.design.addins.client.MaterialResourceInjector;
-import gwt.material.design.addins.client.constants.AutocompleteType;
+import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;

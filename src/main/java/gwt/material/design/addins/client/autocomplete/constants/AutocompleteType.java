@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.constants;
+package gwt.material.design.addins.client.autocomplete.constants;
 
 /*
  * #%L
