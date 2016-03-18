@@ -51,7 +51,11 @@ MaterialScrollfire.apply(Element e, Runnable runnableCallback);
 public class MaterialScrollfire {
 
     static {
-        MaterialResourceInjector.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs());
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialScrollfireDebugClientBundle.INSTANCE.scrollfireDebugJs());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs());
+        }
     }
 
     public static void apply(Element element, Runnable callback) {

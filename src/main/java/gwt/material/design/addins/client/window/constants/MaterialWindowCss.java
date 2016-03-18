@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.stepper;
+package gwt.material.design.addins.client.window.constants;
 
 /*
  * #%L
@@ -21,13 +21,12 @@ package gwt.material.design.addins.client.stepper;
  */
 
 
-import com.google.gwt.resources.client.ClientBundle;
-
 /**
- * Client Bundle for Stepper component
+ * CSS Resource links for waterfall component
  * @author kevzlou7979
  */
-interface MaterialStepperClientBundle extends ClientBundle {
+public interface MaterialWindowCss {
 
-    String stepperCss = "stepper.css";
+    String windowCss = "window.css";
+
 }

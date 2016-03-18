@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.dnd;
+package gwt.material.design.addins.client.timepicker.constants;
 
 /*
  * #%L
@@ -21,18 +21,12 @@ package gwt.material.design.addins.client.dnd;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
-
 /**
- * Client Bundle for Dnd component
+ * CSS Resource links for time picker component
  * @author kevzlou7979
  */
-public interface MaterialDndClientBundle extends ClientBundle {
+public interface MaterialTimePickerCss {
 
-    MaterialDndClientBundle INSTANCE = GWT.create(MaterialDndClientBundle.class);
+    String timepickerCss = "timepicker.css";
 
-    @Source("resources/js/interact.min.js")
-    TextResource dndJs();
 }

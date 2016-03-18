@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.swipeable;
+package gwt.material.design.addins.client.overlay.constants;
 
 /*
  * #%L
@@ -21,13 +21,12 @@ package gwt.material.design.addins.client.swipeable;
  */
 
 
-import com.google.gwt.resources.client.ClientBundle;
-
 /**
- * Client Bundle for Swipeable Panel component
+ * CSS Resource links for overlay component
  * @author kevzlou7979
  */
-interface MaterialSwipeablePanelClientBundle extends ClientBundle {
+public interface MaterialOverlayCss {
 
-    String swipeableCss = "swipeable.css";
+    String overlayCss = "overlay.css";
+
 }

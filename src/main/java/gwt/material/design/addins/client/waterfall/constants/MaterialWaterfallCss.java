@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.autocomplete;
+package gwt.material.design.addins.client.waterfall.constants;
 
 /*
  * #%L
@@ -21,14 +21,12 @@ package gwt.material.design.addins.client.autocomplete;
  */
 
 
-import com.google.gwt.resources.client.ClientBundle;
-
 /**
- * Client Bundle for Autocomplete component
+ * CSS Resource links for waterfall component
  * @author kevzlou7979
  */
-public interface MaterialAutoCompleteClientBundle extends ClientBundle {
+public interface MaterialWaterfallCss {
 
-    String autocompleteCss = "autocomplete.css";
+    String waterfallCss = "waterfall.css";
 
 }

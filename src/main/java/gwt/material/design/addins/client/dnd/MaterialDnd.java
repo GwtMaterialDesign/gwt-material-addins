@@ -61,7 +61,12 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     static {
-        MaterialResourceInjector.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
+        }
+
     }
 
     private boolean inertia;

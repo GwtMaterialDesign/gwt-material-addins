@@ -33,11 +33,6 @@ interface MaterialTimePickerClientBundle extends ClientBundle {
 
     MaterialTimePickerClientBundle INSTANCE = GWT.create(MaterialTimePickerClientBundle.class);
 
-    String timepickerCss = "timepicker.css";
-
     @Source("resources/js/timepicker.min.js")
     TextResource timepickerJs();
-
-    @Source("resources/js/timepicker.js")
-    TextResource timepickerJsDebug();
 }

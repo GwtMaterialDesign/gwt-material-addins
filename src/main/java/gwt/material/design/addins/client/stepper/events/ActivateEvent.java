@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.events;
+package gwt.material.design.addins.client.stepper.events;
 
 /*
  * #%L

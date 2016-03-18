@@ -29,9 +29,10 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
-import gwt.material.design.addins.client.autocomplete.base.MaterialSuggestionOracle;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.autocomplete.base.MaterialSuggestionOracle;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
+import gwt.material.design.addins.client.autocomplete.constants.MaterialAutoCompleteCss;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
@@ -64,7 +65,7 @@ import java.util.*;
 public class MaterialAutoComplete extends MaterialWidget implements HasError, HasPlaceholder, HasValue<List<? extends SuggestOracle.Suggestion>>, HasProgress, HasKeyUpHandlers, HasType<AutocompleteType> {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialAutoCompleteClientBundle.autocompleteCss);
+        MaterialResourceInjector.injectCss(MaterialAutoCompleteCss.autocompleteCss);
     }
 
     private List<String> itemValues = new ArrayList<>();

@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.dnd;
+package gwt.material.design.addins.client.subheader;
 
 /*
  * #%L
@@ -26,13 +26,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Dnd component
+ * Client Bundle for Subheader component
  * @author kevzlou7979
  */
-public interface MaterialDndClientBundle extends ClientBundle {
+interface MaterialSubHeaderDebugClientBundle extends ClientBundle {
 
-    MaterialDndClientBundle INSTANCE = GWT.create(MaterialDndClientBundle.class);
+    MaterialSubHeaderDebugClientBundle INSTANCE = GWT.create(MaterialSubHeaderDebugClientBundle.class);
 
-    @Source("resources/js/interact.min.js")
-    TextResource dndJs();
+    @Source("resources/js/subheader.js")
+    TextResource subheaderJsDebug();
 }

@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.dnd;
+package gwt.material.design.addins.client.timepicker;
 
 /*
  * #%L
@@ -26,13 +26,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Dnd component
+ * Client Bundle for TimePicker component
  * @author kevzlou7979
  */
-public interface MaterialDndClientBundle extends ClientBundle {
+interface MaterialTimePickerDebugClientBundle extends ClientBundle {
 
-    MaterialDndClientBundle INSTANCE = GWT.create(MaterialDndClientBundle.class);
+    MaterialTimePickerDebugClientBundle INSTANCE = GWT.create(MaterialTimePickerDebugClientBundle.class);
 
-    @Source("resources/js/interact.min.js")
-    TextResource dndJs();
+    @Source("resources/js/timepicker.js")
+    TextResource timepickerJsDebug();
 }

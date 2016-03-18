@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.tree;
+package gwt.material.design.addins.client.dnd;
 
 /*
  * #%L
@@ -21,13 +21,18 @@ package gwt.material.design.addins.client.tree;
  */
 
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Tree component
+ * Client Bundle for Dnd component
  * @author kevzlou7979
  */
-interface MaterialTreeClientBundle extends ClientBundle {
+public interface MaterialDndDebugClientBundle extends ClientBundle {
 
-    String treeCss = "tree.css";
+    MaterialDndDebugClientBundle INSTANCE = GWT.create(MaterialDndDebugClientBundle.class);
+
+    @Source("resources/js/interact.js")
+    TextResource dndDebugJs();
 }

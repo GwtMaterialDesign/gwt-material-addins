@@ -40,8 +40,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
+import gwt.material.design.addins.client.swipeable.constants.MaterialSwipeableCss;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
 import gwt.material.design.client.base.MaterialWidget;
@@ -78,7 +79,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialSwipeablePanelClientBundle.swipeableCss);
+        MaterialResourceInjector.injectCss(MaterialSwipeableCss.swipeableCss);
     }
 
     private final String DISABLED = "disabled-swipe";

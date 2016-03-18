@@ -33,11 +33,7 @@ interface MaterialSubHeaderClientBundle extends ClientBundle {
 
     MaterialSubHeaderClientBundle INSTANCE = GWT.create(MaterialSubHeaderClientBundle.class);
 
-    String subheaderCss = "subheader.css";
-
     @Source("resources/js/subheader.min.js")
     TextResource subheaderJs();
 
-    @Source("resources/js/subheader.js")
-    TextResource subheaderJsDebug();
 }

@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.menubar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.menubar.constants.MaterialMenuBarCss;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -64,7 +65,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialMenuBar extends MaterialWidget {
 
     static {
-       MaterialResourceInjector.injectCss(MaterialMenuBarClientBundle.menubarCss);
+        MaterialResourceInjector.injectCss(MaterialMenuBarCss.menubarCss);
     }
 
     public MaterialMenuBar() {

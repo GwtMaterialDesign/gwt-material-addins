@@ -23,6 +23,7 @@ package gwt.material.design.addins.client.sideprofile;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.resources.client.ImageResource;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.sideprofile.constants.MaterialSideProfileCss;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -60,7 +61,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialSideProfile extends MaterialWidget implements HasImage {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialSideProfileClientBundle.sideprofileCss);
+        MaterialResourceInjector.injectCss(MaterialSideProfileCss.sideprofileCss);
     }
 
     private String url;

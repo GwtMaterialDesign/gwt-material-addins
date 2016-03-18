@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.window;
+package gwt.material.design.addins.client.bubble.constants;
 
 /*
  * #%L
@@ -21,13 +21,12 @@ package gwt.material.design.addins.client.window;
  */
 
 
-import com.google.gwt.resources.client.ClientBundle;
-
 /**
- * Client Bundle for Window component
+ * CSS Resource links for icon morph component
  * @author kevzlou7979
  */
-interface MaterialWindowClientBundle extends ClientBundle {
+public interface MaterialBubbleCss {
 
-    String windowCss = "window.css";
+    String bubbleCss = "bubble.css";
+
 }

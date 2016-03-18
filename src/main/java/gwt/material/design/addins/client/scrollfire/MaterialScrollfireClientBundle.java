@@ -36,6 +36,4 @@ interface MaterialScrollfireClientBundle extends ClientBundle {
     @Source("resources/js/scrollfire.min.js")
     TextResource scrollfireJs();
 
-    @Source("resources/js/scrollfire.js")
-    TextResource scrollfireDebugJs();
 }

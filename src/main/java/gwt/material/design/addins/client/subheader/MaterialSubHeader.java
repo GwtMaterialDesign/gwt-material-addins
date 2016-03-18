@@ -23,6 +23,7 @@ package gwt.material.design.addins.client.subheader;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.subheader.constants.MaterialSubHeaderCss;
 import gwt.material.design.client.base.AbstractIconButton;
 
 //@formatter:off
@@ -50,8 +51,12 @@ import gwt.material.design.client.base.AbstractIconButton;
 public class MaterialSubHeader extends AbstractIconButton{
 
     static {
-        MaterialResourceInjector.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
-        MaterialResourceInjector.injectCss(MaterialSubHeaderClientBundle.subheaderCss);
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
+        }
+        MaterialResourceInjector.injectCss(MaterialSubHeaderCss.subheaderCss);
     }
 
     public MaterialSubHeader() {

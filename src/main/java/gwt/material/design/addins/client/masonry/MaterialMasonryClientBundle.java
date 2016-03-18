@@ -35,7 +35,4 @@ interface MaterialMasonryClientBundle extends ClientBundle {
 
     @Source("resources/js/masonry.min.js")
     TextResource masonryJs();
-
-    @Source("resources/js/masonry.js")
-    TextResource masonryJsDebug();
 }

@@ -22,12 +22,13 @@ package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.overlay.constants.MaterialOverlayCss;
 import gwt.material.design.client.base.MaterialWidget;
 
 public class MaterialOverlay extends MaterialWidget {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialOverlayClientBundle.overlayCss);
+        MaterialResourceInjector.injectCss(MaterialOverlayCss.overlayCss);
     }
 
     public MaterialOverlay() {

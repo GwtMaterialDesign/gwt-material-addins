@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
+import gwt.material.design.addins.client.window.constants.MaterialWindowCss;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
@@ -72,7 +73,7 @@ import gwt.material.design.client.ui.animate.Transition;
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
 
     static {
-        MaterialResourceInjector.injectCss(MaterialWindowClientBundle.windowCss);
+        MaterialResourceInjector.injectCss(MaterialWindowCss.windowCss);
     }
 
     private MaterialWidget window = new MaterialWidget(Document.get().createDivElement());

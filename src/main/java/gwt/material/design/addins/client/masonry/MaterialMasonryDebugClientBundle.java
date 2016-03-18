@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.overlay;
+package gwt.material.design.addins.client.masonry;
 
 /*
  * #%L
@@ -21,13 +21,18 @@ package gwt.material.design.addins.client.overlay;
  */
 
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Overlay component
+ * Client Bundle for Masonry component
  * @author kevzlou7979
  */
-interface MaterialOverlayClientBundle extends ClientBundle {
+interface MaterialMasonryDebugClientBundle extends ClientBundle {
 
-    String overlayCss = "overlay.css";
+    MaterialMasonryDebugClientBundle INSTANCE = GWT.create(MaterialMasonryDebugClientBundle.class);
+
+    @Source("resources/js/masonry.js")
+    TextResource masonryJsDebug();
 }

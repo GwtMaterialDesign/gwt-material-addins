@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.menubar;
+package gwt.material.design.addins.client.tree.constants;
 
 /*
  * #%L
@@ -21,15 +21,12 @@ package gwt.material.design.addins.client.menubar;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
-
 /**
- * Client Bundle for Menubar component
+ * CSS Resource links for tree component
  * @author kevzlou7979
  */
-interface MaterialMenuBarClientBundle extends ClientBundle {
+public interface MaterialTreeCss {
 
-    String menubarCss = "menubar.css";
+    String treeCss = "tree.css";
+
 }

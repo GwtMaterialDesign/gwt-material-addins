@@ -1,10 +1,10 @@
-package gwt.material.design.addins.client.dnd;
+package gwt.material.design.addins.client;
 
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,12 @@ package gwt.material.design.addins.client.dnd;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.core.client.EntryPoint;
 
-/**
- * Client Bundle for Dnd component
- * @author kevzlou7979
- */
-public interface MaterialDndClientBundle extends ClientBundle {
+public class MaterialAddinsDebug implements EntryPoint {
 
-    MaterialDndClientBundle INSTANCE = GWT.create(MaterialDndClientBundle.class);
-
-    @Source("resources/js/interact.min.js")
-    TextResource dndJs();
+    @Override
+    public void onModuleLoad() {
+        MaterialResourceInjector.setDebug(true);
+    }
 }

@@ -26,5 +26,7 @@ import com.google.gwt.core.client.EntryPoint;
 public class MaterialAddins implements EntryPoint {
 
     @Override
-    public void onModuleLoad() {}
+    public void onModuleLoad() {
+        MaterialResourceInjector.setDebug(false);
+    }
 }

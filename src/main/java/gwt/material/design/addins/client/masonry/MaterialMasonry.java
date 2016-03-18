@@ -57,7 +57,11 @@ import gwt.material.design.client.ui.MaterialRow;
 public class MaterialMasonry extends MaterialRow {
 
     static {
-        MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
+        }
     }
     
     private String itemSelector = ".col";
@@ -93,11 +97,11 @@ public class MaterialMasonry extends MaterialRow {
         $wnd.jQuery(window).ready(function() {
             var grid = $wnd.jQuery(e).masonry({
                 // options...
-                itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.ui.MaterialMasonry::getItemSelector()(),
-                percentPosition: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isPercentPosition()(),
-                originLeft: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginLeft()(),
-                originTop: that.@gwt.material.design.addins.client.ui.MaterialMasonry::isOriginTop()(),
-                transitionDuration: that.@gwt.material.design.addins.client.ui.MaterialMasonry::getTransitionDuration()() + 'ms',
+                itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
+                percentPosition: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isPercentPosition()(),
+                originLeft: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginLeft()(),
+                originTop: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginTop()(),
+                transitionDuration: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getTransitionDuration()() + 'ms',
                 columnWidth: '.col-sizer'
             });
             // change size of item by toggling gigante class

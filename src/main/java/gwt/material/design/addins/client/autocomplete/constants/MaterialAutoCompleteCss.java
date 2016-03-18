@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.iconmorph;
+package gwt.material.design.addins.client.autocomplete.constants;
 
 /*
  * #%L
@@ -21,16 +21,11 @@ package gwt.material.design.addins.client.iconmorph;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
-
 /**
- * Client Bundle for IconMorph component
+ * CSS Resource links for autocomplete component
  * @author kevzlou7979
  */
-public interface MaterialIconMorphClientBundle{
+public interface MaterialAutoCompleteCss {
 
-    String morphCss = "morph.css";
-
+    String autocompleteCss = "autocomplete.css";
 }

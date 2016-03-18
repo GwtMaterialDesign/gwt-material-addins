@@ -33,11 +33,6 @@ interface MaterialBubbleClientBundle extends ClientBundle {
 
     MaterialBubbleClientBundle INSTANCE = GWT.create(MaterialBubbleClientBundle.class);
 
-    String bubbleCss = "bubble.css";
-
     @Source("resources/js/bubble.min.js")
     TextResource bubbleJs();
-
-    @Source("resources/js/bubble.js")
-    TextResource bubbleJsDebug();
 }

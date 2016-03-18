@@ -32,6 +32,7 @@ import com.google.gwt.resources.client.TextResource;
  */
 public class MaterialResourceInjector {
 
+    private static boolean debug;
     private static HeadElement head;
 
     public static void injectCss(String resource) {
@@ -69,8 +70,25 @@ public class MaterialResourceInjector {
                 .inject();
     }
 
-        public static void injectCss(TextResource resource) {
+    public static void injectCss(TextResource resource) {
         StyleInjector.inject(resource.getText());
     }
 
+    /**
+     * Check if the module imported is debugged or not
+     * @return
+     */
+    public static boolean isDebug() {
+        return debug;
+    }
+
+    /**
+     * Will set the javascript resources into it's corresponding value
+     * true - imports debuggable js files (xxx.min.js)
+     * false - imports production js files (xxx.js)
+     * @param debug
+     */
+    public static void setDebug(boolean debug) {
+        MaterialResourceInjector.debug = debug;
+    }
 }

@@ -33,11 +33,6 @@ interface MaterialWaterfallClientBundle extends ClientBundle {
 
     MaterialWaterfallClientBundle INSTANCE = GWT.create(MaterialWaterfallClientBundle.class);
 
-    String waterfallCss = "waterfall.css";
-
     @Source("resources/js/waterfall.min.js")
     TextResource waterfallJs();
-
-    @Source("resources/js/waterfall.js")
-    TextResource waterfallJsDebug();
 }

@@ -20,7 +20,17 @@ package gwt.material.design.addins.client.stepper;
  * #L%
  */
 
-import gwt.material.design.addins.client.stepper.MaterialStep;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
+import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.stepper.constants.MaterialStepperCss;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.MaterialWidget;
@@ -31,16 +41,6 @@ import gwt.material.design.client.ui.animate.MaterialAnimator;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Span;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 
 //@formatter:off
 
@@ -74,6 +74,10 @@ import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandle
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>, HasSelectionChangedHandlers {
+
+    static {
+        MaterialResourceInjector.injectCss(MaterialStepperCss.stepperCss);
+    }
 
     private int currentStepIndex = 0;
     private Div divFeedback = new Div();

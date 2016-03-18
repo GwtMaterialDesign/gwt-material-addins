@@ -50,7 +50,11 @@ MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
 public class MaterialPathAnimator {
 
     static {
-        MaterialResourceInjector.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
+        }
     }
 
     /**

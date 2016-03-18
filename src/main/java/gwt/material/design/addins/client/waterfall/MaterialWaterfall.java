@@ -23,6 +23,7 @@ package gwt.material.design.addins.client.waterfall;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.waterfall.constants.MaterialWaterfallCss;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -57,8 +58,12 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialWaterfall extends MaterialWidget {
 
     static {
-        MaterialResourceInjector.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
-        MaterialResourceInjector.injectCss(MaterialWaterfallClientBundle.waterfallCss);
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
+        }
+        MaterialResourceInjector.injectCss(MaterialWaterfallCss.waterfallCss);
     }
 
     private Runnable openCallback;

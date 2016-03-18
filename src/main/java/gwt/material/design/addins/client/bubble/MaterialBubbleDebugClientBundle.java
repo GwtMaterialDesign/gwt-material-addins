@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.dnd;
+package gwt.material.design.addins.client.bubble;
 
 /*
  * #%L
@@ -26,13 +26,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Dnd component
+ * Client Bundle for Bubble component
  * @author kevzlou7979
  */
-public interface MaterialDndClientBundle extends ClientBundle {
+interface MaterialBubbleDebugClientBundle extends ClientBundle {
 
-    MaterialDndClientBundle INSTANCE = GWT.create(MaterialDndClientBundle.class);
+    MaterialBubbleDebugClientBundle INSTANCE = GWT.create(MaterialBubbleDebugClientBundle.class);
 
-    @Source("resources/js/interact.min.js")
-    TextResource dndJs();
+    @Source("resources/js/bubble.js")
+    TextResource bubbleJsDebug();
 }

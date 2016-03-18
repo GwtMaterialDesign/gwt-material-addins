@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.sideprofile;
+package gwt.material.design.addins.client.swipeable.constants;
 
 /*
  * #%L
@@ -21,13 +21,12 @@ package gwt.material.design.addins.client.sideprofile;
  */
 
 
-import com.google.gwt.resources.client.ClientBundle;
-
 /**
- * Client Bundle for SideProfile component
+ * CSS Resource links for swipeable panel component
  * @author kevzlou7979
  */
-interface MaterialSideProfileClientBundle extends ClientBundle {
+public interface MaterialSwipeableCss {
 
-    String sideprofileCss = "sideprofile.css";
+    String swipeableCss = "swipeable.css";
+
 }

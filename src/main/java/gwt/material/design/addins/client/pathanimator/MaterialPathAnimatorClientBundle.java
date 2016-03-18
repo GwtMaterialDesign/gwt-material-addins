@@ -36,6 +36,4 @@ interface MaterialPathAnimatorClientBundle extends ClientBundle {
     @Source("resources/js/cta.min.js")
     TextResource pathanimatorJs();
 
-    @Source("resources/js/cta.js")
-    TextResource pathanimatorDebugJs();
 }
