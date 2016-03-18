@@ -537,7 +537,7 @@
      * @class tinymce.util.Delay
      */
     define("tinymce/util/Delay", [
-        "tinymce/util/Promise"
+        "tinymce.js/util/Promise"
     ], function(Promise) {
         var requestAnimationFramePromise;
 
@@ -734,7 +734,7 @@
      * @class tinymce.dom.EventUtils
      */
     define("tinymce/dom/EventUtils", [
-        "tinymce/util/Delay"
+        "tinymce.js/util/Delay"
     ], function(Delay) {
         "use strict";
 
@@ -3696,8 +3696,8 @@
      * @class tinymce.util.Tools
      */
     define("tinymce/util/Tools", [
-        "tinymce/Env",
-        "tinymce/util/Arr"
+        "tinymce.js/Env",
+        "tinymce.js/util/Arr"
     ], function(Env, Arr) {
         /**
          * Removes whitespace from the beginning and end of a string.
@@ -4156,10 +4156,10 @@
      * @class tinymce.dom.DomQuery
      */
     define("tinymce/dom/DomQuery", [
-        "tinymce/dom/EventUtils",
-        "tinymce/dom/Sizzle",
-        "tinymce/util/Tools",
-        "tinymce/Env"
+        "tinymce.js/dom/EventUtils",
+        "tinymce.js/dom/Sizzle",
+        "tinymce.js/util/Tools",
+        "tinymce.js/Env"
     ], function(EventUtils, Sizzle, Tools, Env) {
         var doc = document, push = Array.prototype.push, slice = Array.prototype.slice;
         var rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/;
@@ -6218,7 +6218,7 @@
      * @class tinymce.dom.Range
      */
     define("tinymce/dom/Range", [
-        "tinymce/util/Tools"
+        "tinymce.js/util/Tools"
     ], function(Tools) {
         // Range constructor
         function Range(dom) {
@@ -7010,7 +7010,7 @@
      * @version 3.4
      */
     define("tinymce/html/Entities", [
-        "tinymce/util/Tools"
+        "tinymce.js/util/Tools"
     ], function(Tools) {
         var makeMap = Tools.makeMap;
 
@@ -7277,8 +7277,8 @@
      * @private
      */
     define("tinymce/dom/StyleSheetLoader", [
-        "tinymce/util/Tools",
-        "tinymce/util/Delay"
+        "tinymce.js/util/Tools",
+        "tinymce.js/util/Delay"
     ], function(Tools, Delay) {
         "use strict";
 
@@ -7475,16 +7475,16 @@
      * tinymce.activeEditor.dom.addClass('someid', 'someclass');
      */
     define("tinymce/dom/DOMUtils", [
-        "tinymce/dom/Sizzle",
-        "tinymce/dom/DomQuery",
-        "tinymce/html/Styles",
-        "tinymce/dom/EventUtils",
-        "tinymce/dom/TreeWalker",
-        "tinymce/dom/Range",
-        "tinymce/html/Entities",
-        "tinymce/Env",
-        "tinymce/util/Tools",
-        "tinymce/dom/StyleSheetLoader"
+        "tinymce.js/dom/Sizzle",
+        "tinymce.js/dom/DomQuery",
+        "tinymce.js/html/Styles",
+        "tinymce.js/dom/EventUtils",
+        "tinymce.js/dom/TreeWalker",
+        "tinymce.js/dom/Range",
+        "tinymce.js/html/Entities",
+        "tinymce.js/Env",
+        "tinymce.js/util/Tools",
+        "tinymce.js/dom/StyleSheetLoader"
     ], function(Sizzle, $, Styles, EventUtils, TreeWalker, Range, Entities, Env, Tools, StyleSheetLoader) {
         // Shorten names
         var each = Tools.each, is = Tools.is, grep = Tools.grep, trim = Tools.trim;
@@ -9347,8 +9347,8 @@
  * });
      */
     define("tinymce/dom/ScriptLoader", [
-        "tinymce/dom/DOMUtils",
-        "tinymce/util/Tools"
+        "tinymce.js/dom/DOMUtils",
+        "tinymce.js/util/Tools"
     ], function(DOMUtils, Tools) {
         var DOM = DOMUtils.DOM;
         var each = Tools.each, grep = Tools.grep;
@@ -9582,8 +9582,8 @@
      * @class tinymce.AddOnManager
      */
     define("tinymce/AddOnManager", [
-        "tinymce/dom/ScriptLoader",
-        "tinymce/util/Tools"
+        "tinymce.js/dom/ScriptLoader",
+        "tinymce.js/util/Tools"
     ], function(ScriptLoader, Tools) {
         var each = Tools.each;
 
@@ -10004,8 +10004,8 @@
      * @class tinymce.caret.CaretContainer
      */
     define("tinymce/caret/CaretContainer", [
-        "tinymce/dom/NodeType",
-        "tinymce/text/Zwsp"
+        "tinymce.js/dom/NodeType",
+        "tinymce.js/text/Zwsp"
     ], function(NodeType, Zwsp) {
         var isElement = NodeType.isElement,
             isText = NodeType.isText;
@@ -10156,10 +10156,10 @@
      * @class tinymce.dom.RangeUtils
      */
     define("tinymce/dom/RangeUtils", [
-        "tinymce/util/Tools",
-        "tinymce/dom/TreeWalker",
-        "tinymce/dom/NodeType",
-        "tinymce/caret/CaretContainer"
+        "tinymce.js/util/Tools",
+        "tinymce.js/dom/TreeWalker",
+        "tinymce.js/dom/NodeType",
+        "tinymce.js/caret/CaretContainer"
     ], function(Tools, TreeWalker, NodeType, CaretContainer) {
         var each = Tools.each,
             isContentEditableFalse = NodeType.isContentEditableFalse,
@@ -10788,9 +10788,9 @@
      * @private
      */
     define("tinymce/NodeChange", [
-        "tinymce/dom/RangeUtils",
-        "tinymce/Env",
-        "tinymce/util/Delay"
+        "tinymce.js/dom/RangeUtils",
+        "tinymce.js/Env",
+        "tinymce.js/util/Delay"
     ], function(RangeUtils, Env, Delay) {
         return function(editor) {
             var lastRng, lastPath = [];
@@ -11452,7 +11452,7 @@
      * @version 3.4
      */
     define("tinymce/html/Schema", [
-        "tinymce/util/Tools"
+        "tinymce.js/util/Tools"
     ], function(Tools) {
         var mapCache = {}, dummyObj = {};
         var makeMap = Tools.makeMap, each = Tools.each, extend = Tools.extend, explode = Tools.explode, inArray = Tools.inArray;
@@ -12487,9 +12487,9 @@
      * @version 3.4
      */
     define("tinymce/html/SaxParser", [
-        "tinymce/html/Schema",
-        "tinymce/html/Entities",
-        "tinymce/util/Tools"
+        "tinymce.js/html/Schema",
+        "tinymce.js/html/Entities",
+        "tinymce.js/util/Tools"
     ], function(Schema, Entities, Tools) {
         var each = Tools.each;
 
@@ -12934,10 +12934,10 @@
      * @version 3.4
      */
     define("tinymce/html/DomParser", [
-        "tinymce/html/Node",
-        "tinymce/html/Schema",
-        "tinymce/html/SaxParser",
-        "tinymce/util/Tools"
+        "tinymce.js/html/Node",
+        "tinymce.js/html/Schema",
+        "tinymce.js/html/SaxParser",
+        "tinymce.js/util/Tools"
     ], function(Node, Schema, SaxParser, Tools) {
         var makeMap = Tools.makeMap, each = Tools.each, explode = Tools.explode, extend = Tools.extend;
 
@@ -13759,8 +13759,8 @@
      * @version 3.4
      */
     define("tinymce/html/Writer", [
-        "tinymce/html/Entities",
-        "tinymce/util/Tools"
+        "tinymce.js/html/Entities",
+        "tinymce.js/util/Tools"
     ], function(Entities, Tools) {
         var makeMap = Tools.makeMap;
 
@@ -13958,8 +13958,8 @@
      * @version 3.4
      */
     define("tinymce/html/Serializer", [
-        "tinymce/html/Writer",
-        "tinymce/html/Schema"
+        "tinymce.js/html/Writer",
+        "tinymce.js/html/Schema"
     ], function(Writer, Schema) {
         /**
          * Constructs a new Serializer instance.
@@ -14116,16 +14116,16 @@
      * @class tinymce.dom.Serializer
      */
     define("tinymce/dom/Serializer", [
-        "tinymce/dom/DOMUtils",
-        "tinymce/html/DomParser",
-        "tinymce/html/SaxParser",
-        "tinymce/html/Entities",
-        "tinymce/html/Serializer",
-        "tinymce/html/Node",
-        "tinymce/html/Schema",
-        "tinymce/Env",
-        "tinymce/util/Tools",
-        "tinymce/text/Zwsp"
+        "tinymce.js/dom/DOMUtils",
+        "tinymce.js/html/DomParser",
+        "tinymce.js/html/SaxParser",
+        "tinymce.js/html/Entities",
+        "tinymce.js/html/Serializer",
+        "tinymce.js/html/Node",
+        "tinymce.js/html/Schema",
+        "tinymce.js/Env",
+        "tinymce.js/util/Tools",
+        "tinymce.js/text/Zwsp"
     ], function(DOMUtils, DomParser, SaxParser, Entities, Serializer, Node, Schema, Env, Tools, Zwsp) {
         var each = Tools.each, trim = Tools.trim;
         var DOM = DOMUtils.DOM, tempAttrs = ["data-mce-selected"];
@@ -15133,7 +15133,7 @@
      * This file exposes a set of the common KeyCodes for use. Please grow it as needed.
      */
     define("tinymce/util/VK", [
-        "tinymce/Env"
+        "tinymce.js/Env"
     ], function(Env) {
         return {
             BACKSPACE: 8,
@@ -15177,11 +15177,11 @@
      * @class tinymce.dom.ControlSelection
      */
     define("tinymce/dom/ControlSelection", [
-        "tinymce/util/VK",
-        "tinymce/util/Tools",
-        "tinymce/util/Delay",
-        "tinymce/Env",
-        "tinymce/dom/NodeType"
+        "tinymce.js/util/VK",
+        "tinymce.js/util/Tools",
+        "tinymce.js/util/Delay",
+        "tinymce.js/Env",
+        "tinymce.js/dom/NodeType"
     ], function(VK, Tools, Delay, Env, NodeType) {
         var isContentEditableFalse = NodeType.isContentEditableFalse;
 

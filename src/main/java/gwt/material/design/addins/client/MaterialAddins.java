@@ -22,9 +22,6 @@ package gwt.material.design.addins.client;
 
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.resources.MaterialAddinsResources;
 
 public class MaterialAddins implements EntryPoint {
 
