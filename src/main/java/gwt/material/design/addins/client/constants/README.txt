@@ -1,1 +1,0 @@
-Enum Constants e.g. SideNavTypes
