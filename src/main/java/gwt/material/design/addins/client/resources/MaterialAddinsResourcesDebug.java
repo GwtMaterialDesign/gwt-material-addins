@@ -53,4 +53,8 @@ public interface MaterialAddinsResourcesDebug extends ClientBundle {
 
     @Source("js/tinymce.js")
     TextResource tinymceJs();
+
+    @Source("js/touchsplitter.js")
+    TextResource touchsplitterJs();
+
 }

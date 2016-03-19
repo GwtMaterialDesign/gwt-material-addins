@@ -47,5 +47,6 @@ public class MaterialAddinsDebug extends MaterialAddinsBase implements EntryPoin
         inject(MaterialAddinsResourcesDebug.INSTANCE.interactJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.masonryJs());
         inject(MaterialAddinsResourcesDebug.INSTANCE.tinymceJs());
+        inject(MaterialAddinsResourcesDebug.INSTANCE.touchsplitterJs());
     }
 }
