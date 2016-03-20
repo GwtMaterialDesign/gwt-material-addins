@@ -24,9 +24,6 @@ package gwt.material.design.addins.client.constants;
 import gwt.material.design.client.base.helper.EnumHelper;
 import gwt.material.design.client.constants.CssType;
 
-/**
- * Created by Mark Kevin on 11/25/2015.
- */
 public enum Dock implements CssType {
     LEFT("left"),
     RIGHT("right"),
