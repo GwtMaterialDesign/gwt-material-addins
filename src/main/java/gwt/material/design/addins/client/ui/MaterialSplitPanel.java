@@ -56,6 +56,7 @@ public class MaterialSplitPanel extends MaterialWidget {
     private double topMax;
     private double bottomMin;
     private double bottomMax;
+    private double barPosition = 50;
     private Dock dock = Dock.LEFT;
     private Axis axis = Axis.HORIZONTAL;
 
@@ -67,92 +68,203 @@ public class MaterialSplitPanel extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initSplitter(getElement(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
+        initSplitter(getElement(), getBarPosition(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
     }
 
-    private native void initSplitter(Element e, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
+    /**
+     * Initialize the splitter component
+     * @param e - The element you need to split
+     * @param barPosition - The position of the bar based on percentage by default it's 50%
+     * @param rightMax - The maximum right space while dragging the splitter bar horizontally
+     * @param rightMin - The minimum right space while dragging the splitter bar horizontally
+     * @param leftMax - The maximum left space while dragging the splitter bar horizontally
+     * @param leftMin - The minimum left space while dragging the splitter bar horizontally
+     * @param topMax - The maximum top space while dragging the splitter bar vertically
+     * @param topMin - The minimum top space while dragging the splitter bar vertically
+     * @param bottomMin - The minimum bottom space while dragging the splitter bar vertically
+     * @param bottomMax - The maximum bottom space while dragging the splitter bar vertically
+     * @param dock - When clicking on the white line located in the middle of splitter bar, depends on docking position it will collapse to that direction
+     * @param orientation - There are two types of orientation : HORIZONTAL (Default) and VERTICAL
+     */
+    private native void initSplitter(Element e,double barPosition, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
         $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(e).touchSplit({thickness: "8px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
+            $wnd.jQuery(e).touchSplit({barPosition: barPosition, thickness: "8px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
         });
     }-*/;
 
+    /**
+     * Get the Maximum left space
+     * @return
+     */
     public double getLeftMax() {
         return leftMax;
     }
 
+    /**
+     * Set the Maximum left space while dragging horizontally
+     * @param leftMax
+     */
     public void setLeftMax(double leftMax) {
         this.leftMax = leftMax;
     }
 
+    /**
+     * Get the Minimum left max space
+     * @return
+     */
     public double getLeftMin() {
         return leftMin;
     }
 
+    /**
+     * Set the Minimum left space while dragging horizontally
+     * @param leftMin
+     */
     public void setLeftMin(double leftMin) {
         this.leftMin = leftMin;
     }
 
+    /**
+     * Get the Maximum right space
+     * @return
+     */
     public double getRightMax() {
         return rightMax;
     }
 
+    /**
+     * Set the Maximum right space while dragging horizontally
+     * @param rightMax
+     */
     public void setRightMax(double rightMax) {
         this.rightMax = rightMax;
     }
 
+    /**
+     * Get the minimum right space
+     * @return
+     */
     public double getRightMin() {
         return rightMin;
     }
 
+    /**
+     * Set the minimum right space while dragging horizontally
+     * @param rightMin
+     */
     public void setRightMin(double rightMin) {
         this.rightMin = rightMin;
     }
 
+    /**
+     * Get the axis orientation of splitter component
+     * @return
+     */
     public Axis getAxis() {
         return axis;
     }
 
+    /**
+     * Set the axis orientation of splitter component (HORIZONTAL(Default) and VERTICAL)
+     * @param axis
+     */
     public void setAxis(Axis axis) {
         this.axis = axis;
     }
 
+    /**
+     * Get the dock value
+     * @return
+     */
     public Dock getDock() {
         return dock;
     }
 
+    /**
+     * Set the dock value (LEFT, RIGHT -> HORIZONTAL AXIS and TOP,LEFT -> VERTICAL AXIS)
+     * @param dock
+     */
     public void setDock(Dock dock) {
         this.dock = dock;
     }
 
+    /**
+     * Get the minimum top space
+     * @return
+     */
     public double getTopMin() {
         return topMin;
     }
 
+    /**
+     * Set the minimum top space while dragging vertically
+     * @param topMin
+     */
     public void setTopMin(double topMin) {
         this.topMin = topMin;
     }
 
+    /**
+     * Get the maximum top space
+     * @return
+     */
     public double getTopMax() {
         return topMax;
     }
 
+    /**
+     * Set the maximum top space while dragging vertically
+     * @param topMax
+     */
     public void setTopMax(double topMax) {
         this.topMax = topMax;
     }
 
+    /**
+     * Get the minimum bottom space
+     * @return
+     */
     public double getBottomMin() {
         return bottomMin;
     }
 
+    /**
+     * Set the minimum bottom space while dragging vertically
+     * @param bottomMin
+     */
     public void setBottomMin(double bottomMin) {
         this.bottomMin = bottomMin;
     }
 
+    /**
+     * Get the maximum bottom space
+     * @return
+     */
     public double getBottomMax() {
         return bottomMax;
     }
 
+    /**
+     * Set the maximum bottom space while dragging vertically
+     * @param bottomMax
+     */
     public void setBottomMax(double bottomMax) {
         this.bottomMax = bottomMax;
+    }
+
+    /**
+     * Get the bar position in percent divided by 100
+     * @return
+     */
+    public double getBarPosition() {
+        return barPosition / 100;
+    }
+
+    /**
+     * Set the bar position in percent
+     * @param barPosition
+     */
+    public void setBarPosition(double barPosition) {
+        this.barPosition = barPosition;
     }
 }
