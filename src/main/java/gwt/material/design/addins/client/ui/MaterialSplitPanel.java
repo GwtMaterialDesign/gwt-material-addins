@@ -62,7 +62,6 @@ public class MaterialSplitPanel extends MaterialWidget {
 
     public MaterialSplitPanel() {
         super(Document.get().createDivElement());
-        setStyleName("row");
     }
 
     @Override
