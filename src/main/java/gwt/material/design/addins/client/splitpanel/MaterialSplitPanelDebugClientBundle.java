@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.waterfall.constants;
+package gwt.material.design.addins.client.splitpanel;
 
 /*
  * #%L
@@ -21,12 +21,18 @@ package gwt.material.design.addins.client.waterfall.constants;
  */
 
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
+
 /**
- * CSS Resource links for waterfall component
+ * Client Bundle for Splitter component
  * @author kevzlou7979
  */
-public interface MaterialWaterfallCss {
+interface MaterialSplitPanelDebugClientBundle extends ClientBundle {
 
-    String waterfallCss = "waterfall.css";
+    MaterialSplitPanelDebugClientBundle INSTANCE = GWT.create(MaterialSplitPanelDebugClientBundle.class);
 
+    @Source("resources/js/touchsplitter.min.js")
+    TextResource splitPanelJs();
 }

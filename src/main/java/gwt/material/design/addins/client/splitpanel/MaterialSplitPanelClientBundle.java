@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.waterfall;
+package gwt.material.design.addins.client.splitpanel;
 
 /*
  * #%L
@@ -26,13 +26,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Tree component
+ * Client Bundle for Splitter component
  * @author kevzlou7979
  */
-interface MaterialWaterfallClientBundle extends ClientBundle {
+interface MaterialSplitPanelClientBundle extends ClientBundle {
 
-    MaterialWaterfallClientBundle INSTANCE = GWT.create(MaterialWaterfallClientBundle.class);
+    MaterialSplitPanelClientBundle INSTANCE = GWT.create(MaterialSplitPanelClientBundle.class);
 
-    @Source("resources/js/waterfall.min.js")
-    TextResource waterfallJs();
+    @Source("resources/js/touchsplitter.min.js")
+    TextResource splitPanelJs();
 }
