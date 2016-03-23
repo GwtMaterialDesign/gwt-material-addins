@@ -57,4 +57,7 @@ public interface MaterialAddinsResourcesDebug extends ClientBundle {
     @Source("js/touchsplitter.js")
     TextResource touchsplitterJs();
 
+    @Source("js/dropzone.js")
+    TextResource dropzoneJs();
+
 }
