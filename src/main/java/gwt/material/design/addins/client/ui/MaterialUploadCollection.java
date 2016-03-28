@@ -55,6 +55,7 @@ public class MaterialUploadCollection extends MaterialCollection {
         // Upload Information - Error message
         errorWrapper.setStyleName("dz-error-message");
         errorMessage.setDataAttribute("data-dz-errormessage", "");
+        errorMessage.setId("error-message");
         errorWrapper.add(errorMessage);
         dropInfo.add(errorWrapper);
 
