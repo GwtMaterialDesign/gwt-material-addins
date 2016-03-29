@@ -26,6 +26,14 @@ import gwt.material.design.addins.client.events.*;
 public interface HasFileUpload {
 
     /**
+     * The user dropped something onto the dropzone
+     * @param handler
+     */
+    HandlerRegistration addDropHandlert(DropEvent.DropHandler handler);
+
+    void fireDropEvent();
+
+    /**
      * The user started to drag anywhere
      * @param handler
      */
