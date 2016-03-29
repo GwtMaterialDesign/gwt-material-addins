@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.constants;
+package gwt.material.design.addins.client.events;
 
 /*
  * #%L
@@ -21,29 +21,29 @@ package gwt.material.design.addins.client.constants;
  */
 
 
-import gwt.material.design.client.base.helper.EnumHelper;
-import gwt.material.design.client.constants.CssType;
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HasHandlers;
 
-/**
- * Defaults to "post" and can be changed to "put" if necessary.
- * @author kevzlou7979
- */
-public enum FileMethod implements CssType {
-    POST("post"),
-    PUT("put");
+public class ErrorEvent extends GwtEvent<ErrorEvent.ErrorHandler> {
 
-    private final String cssClass;
+    public interface ErrorHandler extends EventHandler {
+        void onError(ErrorEvent event);
+    }
 
-    FileMethod(final String cssClass) {
-        this.cssClass = cssClass;
+    public static final Type<ErrorHandler> TYPE = new Type<>();
+
+    public static void fire(HasHandlers source) {
+        source.fireEvent(new ErrorEvent());
     }
 
     @Override
-    public String getCssName() {
-        return cssClass;
+    public Type<ErrorHandler> getAssociatedType() {
+        return TYPE;
     }
 
-    public static FileMethod fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, FileMethod.class, POST);
+    @Override
+    protected void dispatch(ErrorHandler handler) {
+        handler.onError(this);
     }
 }

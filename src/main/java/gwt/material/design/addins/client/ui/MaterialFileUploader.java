@@ -23,8 +23,12 @@ package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.base.HasFileUpload;
 import gwt.material.design.addins.client.constants.FileMethod;
+import gwt.material.design.addins.client.events.*;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialToast;
 
 //@formatter:off
 
@@ -41,7 +45,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#fileuploader">File Uploader</a>
  */
 //@formatter:on
-public class MaterialFileUploader extends MaterialWidget {
+public class MaterialFileUploader extends MaterialWidget implements HasFileUpload {
 
     private String url; // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
     private int maxFileSize = 20; // 20MB by default for max file size
@@ -74,6 +78,7 @@ public class MaterialFileUploader extends MaterialWidget {
      * @param url
      */
     private native void initDropzone(Element e, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles) /*-{
+        var that = this;
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery("#zdrop-template");
             var previewContainer = $wnd.jQuery("#previews").html();
@@ -94,15 +99,48 @@ public class MaterialFileUploader extends MaterialWidget {
                 clickable: "#upload-label"
             });
 
+            zdrop.on('drop', function () {
+                $wnd.jQuery('.fileuploader').removeClass("active");
+            });
+
+            zdrop.on('dragstart', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragStartEvent()();
+            });
+
+            zdrop.on('dragend', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragEndEvent()();
+            });
+
+            zdrop.on('dragenter', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragEnterEvent()();
+                $wnd.jQuery('.fileuploader').addClass("active");
+            });
+
+            zdrop.on('dragover', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragOverEvent()();
+            });
+
+            zdrop.on('dragleave', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragLeaveEvent()();
+                $wnd.jQuery('.fileuploader').removeClass("active");
+            });
+
             zdrop.on("addedfile", function(file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireAddedFileEvent()();
                 totalFiles += 1;
                 $wnd.jQuery('.preview-container').css('visibility', 'visible');
                 $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on("removedfile", function(file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireRemovedFileEvent()();
                 totalFiles -= 1;
                 $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+            });
+
+            zdrop.on('error', function (file, response) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireErrorEvent()();
+                file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
             });
 
             zdrop.on("totaluploadprogress", function (progress) {
@@ -113,23 +151,28 @@ public class MaterialFileUploader extends MaterialWidget {
                 progr.style.width = progress + "%";
             });
 
-            zdrop.on('drop', function () {
-                $wnd.jQuery('.fileuploader').removeClass("active");
+            zdrop.on('sending', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSendingEvent()();
             });
 
-            zdrop.on('dragenter', function () {
-                $wnd.jQuery('.fileuploader').addClass("active");
+            zdrop.on('success', function (file, response) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSuccessEvent()();
             });
 
-            zdrop.on('dragleave', function () {
-                $wnd.jQuery('.fileuploader').removeClass("active");
+            zdrop.on('complete', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCompleteEvent()();
             });
 
-            zdrop.on('error', function (file, response) {
-                file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
+            zdrop.on('canceled', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCancelEvent()();
             });
 
-            zdrop.on('maxfilesexceeded ', function() {
+            zdrop.on('maxfilesreached', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesReachEvent()();
+            });
+
+            zdrop.on('maxfilesexceeded', function() {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesExceededEvent()();
                 Materialize.toast('You have reached the maximum files to be uploaded.', 4000);
             });
         });
@@ -230,5 +273,145 @@ public class MaterialFileUploader extends MaterialWidget {
      */
     public void setAcceptedFiles(String acceptedFiles) {
         this.acceptedFiles = acceptedFiles;
+    }
+
+    @Override
+    public HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler) {
+        return addHandler(handler, DragStartEvent.TYPE);
+    }
+
+    @Override
+    public void fireDragStartEvent() {
+        DragStartEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler) {
+        return addHandler(handler, DragEndEvent.TYPE);
+    }
+
+    @Override
+    public void fireDragEndEvent() {
+        DragEndEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addDragEnterHandler(DragEnterEvent.DragEnterHandler handler) {
+        return addHandler(handler, DragEnterEvent.TYPE);
+    }
+
+    @Override
+    public void fireDragEnterEvent() {
+        DragEnterEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addDragOverHandler(DragOverEvent.DragOverHandler handler) {
+        return addHandler(handler, DragOverEvent.TYPE);
+    }
+
+    @Override
+    public void fireDragOverEvent() {
+        DragOverEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addDragLeaveHandler(DragLeaveEvent.DragLeaveHandler handler) {
+        return addHandler(handler, DragLeaveEvent.TYPE);
+    }
+
+    @Override
+    public void fireDragLeaveEvent() {
+        DragLeaveEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addAddedFileHandler(AddedFileEvent.AddedFileHandler handler) {
+        return addHandler(handler, AddedFileEvent.TYPE);
+    }
+
+    @Override
+    public void fireAddedFileEvent() {
+        AddedFileEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addRemovedFileHandler(RemovedFileEvent.RemovedFileHandler handler) {
+        return addHandler(handler, RemovedFileEvent.TYPE);
+    }
+
+    @Override
+    public void fireRemovedFileEvent() {
+        RemovedFileEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler) {
+        return addHandler(handler, ErrorEvent.TYPE);
+    }
+
+    @Override
+    public void fireErrorEvent() {
+        ErrorEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addSendingHandler(SendingEvent.SendingHandler handler) {
+        return addHandler(handler, SendingEvent.TYPE);
+    }
+
+    @Override
+    public void fireSendingEvent() {
+        SendingEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler handler) {
+        return addHandler(handler, SuccessEvent.TYPE);
+    }
+
+    @Override
+    public void fireSuccessEvent() {
+        SuccessEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler) {
+        return addHandler(handler, CompleteEvent.TYPE);
+    }
+
+    @Override
+    public void fireCompleteEvent() {
+        CompleteEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addCancelHandler(CanceledEvent.CanceledHandler handler) {
+        return addHandler(handler, CanceledEvent.TYPE);
+    }
+
+    @Override
+    public void fireCancelEvent() {
+        CanceledEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addMaxFilesReachHandler(MaxFilesReachedEvent.MaxFilesReachedHandler handler) {
+        return addHandler(handler, MaxFilesReachedEvent.TYPE);
+    }
+
+    @Override
+    public void fireMaxFilesReachEvent() {
+        MaxFilesReachedEvent.fire(this);
+    }
+
+    @Override
+    public HandlerRegistration addMaxFilesExceededHandler(MaxFilesExceededEvent.MaxFilesExceededHandler handler) {
+        return addHandler(handler, MaxFilesExceededEvent.TYPE);
+    }
+
+    @Override
+    public void fireMaxFilesExceededEvent() {
+        MaxFilesReachedEvent.fire(this);
     }
 }
