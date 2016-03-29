@@ -44,6 +44,7 @@ public class MaterialAddinsBase implements EntryPoint {
         inject(MaterialAddinsResources.INSTANCE.masonryJs());
         inject(MaterialAddinsResources.INSTANCE.tinymceJs());
         inject(MaterialAddinsResources.INSTANCE.touchsplitterJs());
+        inject(MaterialAddinsResources.INSTANCE.dropzoneJs());
     }
 
     protected void inject(TextResource resource) {

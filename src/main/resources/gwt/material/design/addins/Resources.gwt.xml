@@ -40,4 +40,5 @@
     <stylesheet src="css/waterfall.css"/>
     <stylesheet src="css/window.css"/>
     <stylesheet src="css/touchsplitter.css"/>
+    <stylesheet src="css/dropzone.css"/>
 </module>

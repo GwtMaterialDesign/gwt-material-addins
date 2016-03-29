@@ -1,1 +1,0 @@
-Custom Events for custom widget e.g. ClearActiveEvent
