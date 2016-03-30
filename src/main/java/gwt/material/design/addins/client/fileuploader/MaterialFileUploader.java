@@ -49,19 +49,17 @@ public class MaterialFileUploader extends MaterialWidget {
     public MaterialFileUploader() {
         super(Document.get().createDivElement());
         setStyleName("fileuploader");
+        setId("zdrop");
+        add(new MaterialUploadPreview());
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        initDropzone(getUrl());
+        initDropzone();
     }
 
-    /**
-     * Initialize the dropzone component passing with the form url
-     * @param url
-     */
-    public void initDropzone(String url) {
+    public void initDropzone() {
         initDropzone(getElement(), getUrl(), getMaxFileSize(), isAutoQueue());
     }
 
@@ -72,73 +70,58 @@ public class MaterialFileUploader extends MaterialWidget {
      * @param url
      */
     private native void initDropzone(Element e, String url, int maxFileSize, boolean autoQueue) /*-{
-        var previewNode = $wnd.jQuery(e);
-        previewNode.id = "";
-        var previewTemplate = previewNode.parentNode.innerHTML;
-        previewNode.parentNode.removeChild(previewNode);
+        $wnd.jQuery(document).ready(function() {
+            var previewNode = $wnd.jQuery("#zdrop-template");
+            var previewContainer = $wnd.jQuery("#previews").html();
+            previewNode.id = "";
+            var previewTemplate = previewNode.parent().html();
 
-        var totalFiles = 0;
+            var totalFiles = 0;
 
-        var zdrop = new $wnd.Dropzone(target, {
-            url: url,
-            maxFilesize:20,
-            previewTemplate: previewTemplate,
-            autoQueue: true,
-            previewsContainer: "#previews",
-            clickable: "#upload-label"
+            var zdrop = new $wnd.Dropzone("#zdrop", {
+                url: url,
+                maxFilesize:20,
+                previewTemplate: previewTemplate,
+                autoQueue: true,
+                previewsContainer: "#previews",
+                clickable: "#upload-label"
+            });
+
+            zdrop.on("addedfile", function(file) {
+                totalFiles += 1;
+                $wnd.jQuery('.preview-container').css('visibility', 'visible');
+                $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+            });
+
+            zdrop.on("removedfile", function(file) {
+                totalFiles -= 1;
+                $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+            });
+
+            zdrop.on("totaluploadprogress", function (progress) {
+                var progr = document.querySelector(".progress .determinate");
+                if (progr === undefined || progr === null)
+                    return;
+
+                progr.style.width = progress + "%";
+            });
+
+            zdrop.on('dragenter', function () {
+                $wnd.jQuery('.fileuploader').addClass("active");
+            });
+
+            zdrop.on('dragleave', function () {
+                $wnd.jQuery('.fileuploader').removeClass("active");
+            });
+
+            zdrop.on('drop', function () {
+                $wnd.jQuery('.fileuploader').removeClass("active");
+            });
+
+            zdrop.on('error', function (file, error) {
+
+            });
         });
-
-        zdrop.on("addedfile", function(file) {
-            totalFiles += 1;
-            $wnd.jQuery('.preview-container').css('visibility', 'visible');
-            $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
-        });
-
-        zdrop.on("removedfile", function(file) {
-            totalFiles -= 1;
-            $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
-        });
-
-        zdrop.on("totaluploadprogress", function (progress) {
-            var progr = document.querySelector(".progress .determinate");
-            if (progr === undefined || progr === null)
-                return;
-
-            progr.style.width = progress + "%";
-        });
-
-        zdrop.on('dragenter', function () {
-            $wnd.jQuery('.fileuploader').addClass("active");
-        });
-
-        zdrop.on('dragleave', function () {
-            $wnd.jQuery('.fileuploader').removeClass("active");
-        });
-
-        zdrop.on('drop', function () {
-            $wnd.jQuery('.fileuploader').removeClass("active");
-        });
-
-        var toggle = true;
-
-        $wnd.jQuery('#controller').click(function() {
-            if(toggle){
-                $wnd.jQuery('#previews').css('visibility', 'hidden');
-                $wnd.jQuery('#controller').html("keyboard_arrow_up");
-                $wnd.jQuery('#previews').css('height', '0px');
-                toggle = false;
-            }else{
-                $wnd.jQuery('#previews').css('visibility', 'visible');
-                $wnd.jQuery('#controller').html("keyboard_arrow_down");
-                $wnd.jQuery('#previews').css('height', 'initial');
-                toggle = true;
-            }
-        });
-
-        $wnd.jQuery('#close').click(function() {
-            $wnd.jQuery('.preview-container').css('visibility', 'hidden');
-        });
-
     }-*/;
 
     /**
@@ -188,4 +171,5 @@ public class MaterialFileUploader extends MaterialWidget {
     public void setAutoQueue(boolean autoQueue) {
         this.autoQueue = autoQueue;
     }
+
 }
