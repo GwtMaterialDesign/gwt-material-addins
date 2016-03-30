@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.fileuploader.constants;
+package gwt.material.design.addins.client.fileuploader.events;
 
 /*
  * #%L
@@ -21,29 +21,29 @@ package gwt.material.design.addins.client.fileuploader.constants;
  */
 
 
-import gwt.material.design.client.base.helper.EnumHelper;
-import gwt.material.design.client.constants.CssType;
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HasHandlers;
 
-/**
- * Defaults to "post" and can be changed to "put" if necessary.
- * @author kevzlou7979
- */
-public enum FileMethod implements CssType {
-    POST("post"),
-    PUT("put");
+public class DropEvent extends GwtEvent<DropEvent.DropHandler> {
 
-    private final String cssClass;
+    public interface DropHandler extends EventHandler {
+        void onDrop(DropEvent event);
+    }
 
-    FileMethod(final String cssClass) {
-        this.cssClass = cssClass;
+    public static final Type<DropHandler> TYPE = new Type<>();
+
+    public static void fire(HasHandlers source) {
+        source.fireEvent(new DropEvent());
     }
 
     @Override
-    public String getCssName() {
-        return cssClass;
+    public Type<DropHandler> getAssociatedType() {
+        return TYPE;
     }
 
-    public static FileMethod fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, FileMethod.class, POST);
+    @Override
+    protected void dispatch(DropHandler handler) {
+        handler.onDrop(this);
     }
 }
