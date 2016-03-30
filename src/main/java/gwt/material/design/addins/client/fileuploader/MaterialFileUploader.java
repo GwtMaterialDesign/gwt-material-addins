@@ -24,11 +24,13 @@ package gwt.material.design.addins.client.fileuploader;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
+import gwt.material.design.addins.client.fileuploader.constants.MaterialFileUploaderCss;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -50,6 +52,15 @@ import java.util.Date;
  */
 //@formatter:on
 public class MaterialFileUploader extends MaterialWidget implements HasFileUpload<UploadFile> {
+
+    static {
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectDebugJs(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug());
+        } else {
+            MaterialResourceInjector.injectJs(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs());
+        }
+        MaterialResourceInjector.injectCss(MaterialFileUploaderCss.dropzoneCss);
+    }
 
     private String url; // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
     private int maxFileSize = 20; // 20MB by default for max file size
