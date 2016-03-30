@@ -115,47 +115,47 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on('drop', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDropEvent()();
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDropEvent()();
                 $wnd.jQuery('.fileuploader').removeClass("active");
             });
 
             zdrop.on('dragstart', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragStartEvent()();
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragStartEvent()();
             });
 
             zdrop.on('dragend', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragEndEvent()();
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragEndEvent()();
             });
 
             zdrop.on('dragenter', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragEnterEvent()();
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragEnterEvent()();
                 $wnd.jQuery('.fileuploader').addClass("active");
             });
 
             zdrop.on('dragover', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragOverEvent()();
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragOverEvent()();
             });
 
             zdrop.on('dragleave', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDragLeaveEvent()();
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragLeaveEvent()();
                 $wnd.jQuery('.fileuploader').removeClass("active");
             });
 
             zdrop.on("addedfile", function(file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireAddedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireAddedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles += 1;
                 $wnd.jQuery('.preview-container').css('visibility', 'visible');
                 $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on("removedfile", function(file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireRemovedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireRemovedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles -= 1;
                 $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on('error', function (file, response) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 if(response.indexOf("404") >= 0) {
                     file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
                 }
@@ -170,27 +170,27 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on('sending', function (file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
             zdrop.on('success', function (file, response) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
             zdrop.on('complete', function (file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
             zdrop.on('canceled', function (file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCancelEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireCancelEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
             zdrop.on('maxfilesreached', function (file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesReachEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireMaxFilesReachEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
             zdrop.on('maxfilesexceeded', function(file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesExceededEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireMaxFilesExceededEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 Materialize.toast('You have reached the maximum files to be uploaded.', 4000);
             });
         });
