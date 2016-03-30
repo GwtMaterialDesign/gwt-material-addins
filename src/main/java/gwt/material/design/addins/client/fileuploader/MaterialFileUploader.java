@@ -101,6 +101,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on('drop', function () {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireDropEvent()();
                 $wnd.jQuery('.fileuploader').removeClass("active");
             });
 
@@ -274,6 +275,16 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      */
     public void setAcceptedFiles(String acceptedFiles) {
         this.acceptedFiles = acceptedFiles;
+    }
+
+    @Override
+    public HandlerRegistration addDropHandlert(DropEvent.DropHandler handler) {
+        return addHandler(handler, DropEvent.TYPE);
+    }
+
+    @Override
+    public void fireDropEvent() {
+        DropEvent.fire(this);
     }
 
     @Override

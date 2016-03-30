@@ -21,9 +21,19 @@ package gwt.material.design.addins.client.fileuploader.base;
  */
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.dnd.events.DragEndEvent;
+import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.events.*;
 
 public interface HasFileUpload {
+
+    /**
+     * The user dropped something onto the dropzone
+     * @param handler
+     */
+    HandlerRegistration addDropHandlert(DropEvent.DropHandler handler);
+
+    void fireDropEvent();
 
     /**
      * The user started to drag anywhere
