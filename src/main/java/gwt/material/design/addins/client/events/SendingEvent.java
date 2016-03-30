@@ -23,27 +23,44 @@ package gwt.material.design.addins.client.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.base.HasFileUpload;
 
-public class SendingEvent extends GwtEvent<SendingEvent.SendingHandler> {
+public class SendingEvent<T> extends GwtEvent<SendingEvent.SendingHandler<T>> {
 
-    public interface SendingHandler extends EventHandler {
-        void onSending(SendingEvent event);
+    private static Type<SendingHandler<?>> TYPE;
+
+    public interface SendingHandler<T> extends EventHandler {
+        void onSending(SendingEvent<T> event);
     }
 
-    public static final Type<SendingHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            SendingEvent<T> event = new SendingEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new SendingEvent());
+    public static Type<SendingHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<SendingHandler<?>>());
+    }
+
+    private final T target;
+
+    protected SendingEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<SendingHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<SendingHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(SendingHandler handler) {
+    protected void dispatch(SendingHandler<T> handler) {
         handler.onSending(this);
     }
 }

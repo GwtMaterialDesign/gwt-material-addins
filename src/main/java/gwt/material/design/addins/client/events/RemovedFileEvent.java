@@ -23,27 +23,44 @@ package gwt.material.design.addins.client.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.base.HasFileUpload;
 
-public class RemovedFileEvent extends GwtEvent<RemovedFileEvent.RemovedFileHandler> {
+public class RemovedFileEvent<T> extends GwtEvent<RemovedFileEvent.RemovedFileHandler<T>> {
 
-    public interface RemovedFileHandler extends EventHandler {
-        void onRemovedFile(RemovedFileEvent event);
+    private static Type<RemovedFileHandler<?>> TYPE;
+
+    public interface RemovedFileHandler<T> extends EventHandler {
+        void onRemovedFile(RemovedFileEvent<T> event);
     }
 
-    public static final Type<RemovedFileHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            RemovedFileEvent<T> event = new RemovedFileEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new RemovedFileEvent());
+    public static Type<RemovedFileHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<RemovedFileHandler<?>>());
+    }
+
+    private final T target;
+
+    protected RemovedFileEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<RemovedFileHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<RemovedFileHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(RemovedFileHandler handler) {
+    protected void dispatch(RemovedFileHandler<T> handler) {
         handler.onRemovedFile(this);
     }
 }
