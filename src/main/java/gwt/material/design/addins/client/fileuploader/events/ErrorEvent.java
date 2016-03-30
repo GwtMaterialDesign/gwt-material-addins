@@ -1,6 +1,6 @@
 package gwt.material.design.addins.client.fileuploader.events;
 
-/*
+ /*
  * #%L
  * GwtMaterial
  * %%
@@ -23,27 +23,44 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 
-public class ErrorEvent extends GwtEvent<ErrorEvent.ErrorHandler> {
+public class ErrorEvent<T> extends GwtEvent<ErrorEvent.ErrorHandler<T>> {
 
-    public interface ErrorHandler extends EventHandler {
-        void onError(ErrorEvent event);
+    private static Type<ErrorHandler<?>> TYPE;
+
+    public interface ErrorHandler<T> extends EventHandler {
+        void onError(ErrorEvent<T> event);
     }
 
-    public static final Type<ErrorHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            ErrorEvent<T> event = new ErrorEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new ErrorEvent());
+    public static Type<ErrorHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<ErrorHandler<?>>());
+    }
+
+    private final T target;
+
+    protected ErrorEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<ErrorHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<ErrorHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(ErrorHandler handler) {
+    protected void dispatch(ErrorHandler<T> handler) {
         handler.onError(this);
     }
 }

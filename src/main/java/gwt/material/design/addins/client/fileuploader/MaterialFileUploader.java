@@ -24,12 +24,15 @@ package gwt.material.design.addins.client.fileuploader;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
+
+import java.util.Date;
 
 //@formatter:off
 
@@ -46,7 +49,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#fileuploader">File Uploader</a>
  */
 //@formatter:on
-public class MaterialFileUploader extends MaterialWidget implements HasFileUpload {
+public class MaterialFileUploader extends MaterialWidget implements HasFileUpload<UploadFile> {
 
     private String url; // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
     private int maxFileSize = 20; // 20MB by default for max file size
@@ -128,21 +131,23 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on("addedfile", function(file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireAddedFileEvent()();
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireAddedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles += 1;
                 $wnd.jQuery('.preview-container').css('visibility', 'visible');
                 $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on("removedfile", function(file) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireRemovedFileEvent()();
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireRemovedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles -= 1;
                 $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on('error', function (file, response) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireErrorEvent()();
-                file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                if(response.indexOf("404") >= 0) {
+                    file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
+                }
             });
 
             zdrop.on("totaluploadprogress", function (progress) {
@@ -153,28 +158,28 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 progr.style.width = progress + "%";
             });
 
-            zdrop.on('sending', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSendingEvent()();
+            zdrop.on('sending', function (file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
             zdrop.on('success', function (file, response) {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSuccessEvent()();
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
-            zdrop.on('complete', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCompleteEvent()();
+            zdrop.on('complete', function (file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
-            zdrop.on('canceled', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCancelEvent()();
+            zdrop.on('canceled', function (file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireCancelEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
-            zdrop.on('maxfilesreached', function () {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesReachEvent()();
+            zdrop.on('maxfilesreached', function (file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesReachEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
             });
 
-            zdrop.on('maxfilesexceeded', function() {
-                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesExceededEvent()();
+            zdrop.on('maxfilesexceeded', function(file) {
+                that.@gwt.material.design.addins.client.ui.MaterialFileUploader::fireMaxFilesExceededEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 Materialize.toast('You have reached the maximum files to be uploaded.', 4000);
             });
         });
@@ -278,7 +283,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    public HandlerRegistration addDropHandlert(DropEvent.DropHandler handler) {
+    public HandlerRegistration addDropHandler(DropEvent.DropHandler handler) {
         return addHandler(handler, DropEvent.TYPE);
     }
 
@@ -338,92 +343,92 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    public HandlerRegistration addAddedFileHandler(AddedFileEvent.AddedFileHandler handler) {
-        return addHandler(handler, AddedFileEvent.TYPE);
+    public HandlerRegistration addAddedFileHandler(AddedFileEvent.AddedFileHandler<UploadFile> handler) {
+        return addHandler(handler, AddedFileEvent.getType());
     }
 
     @Override
-    public void fireAddedFileEvent() {
-        AddedFileEvent.fire(this);
+    public void fireAddedFileEvent(String fileName, String lastModified, String size, String type) {
+        AddedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addRemovedFileHandler(RemovedFileEvent.RemovedFileHandler handler) {
-        return addHandler(handler, RemovedFileEvent.TYPE);
+    public HandlerRegistration addRemovedFileHandler(RemovedFileEvent.RemovedFileHandler<UploadFile> handler) {
+        return addHandler(handler, RemovedFileEvent.getType());
     }
 
     @Override
-    public void fireRemovedFileEvent() {
-        RemovedFileEvent.fire(this);
+    public void fireRemovedFileEvent(String fileName, String lastModified, String size, String type) {
+        RemovedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler) {
-        return addHandler(handler, ErrorEvent.TYPE);
+    public HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler<UploadFile> handler) {
+        return addHandler(handler, ErrorEvent.getType());
     }
 
     @Override
-    public void fireErrorEvent() {
-        ErrorEvent.fire(this);
+    public void fireErrorEvent(String fileName, String lastModified, String size, String type) {
+        ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addSendingHandler(SendingEvent.SendingHandler handler) {
-        return addHandler(handler, SendingEvent.TYPE);
+    public HandlerRegistration addSendingHandler(SendingEvent.SendingHandler<UploadFile> handler) {
+        return addHandler(handler, SendingEvent.getType());
     }
 
     @Override
-    public void fireSendingEvent() {
-        SendingEvent.fire(this);
+    public void fireSendingEvent(String fileName, String lastModified, String size, String type) {
+        SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler handler) {
-        return addHandler(handler, SuccessEvent.TYPE);
+    public HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler<UploadFile> handler) {
+        return addHandler(handler, SuccessEvent.getType());
     }
 
     @Override
-    public void fireSuccessEvent() {
-        SuccessEvent.fire(this);
+    public void fireSuccessEvent(String fileName, String lastModified, String size, String type) {
+        SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler) {
-        return addHandler(handler, CompleteEvent.TYPE);
+    public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler<UploadFile> handler) {
+        return addHandler(handler, CompleteEvent.getType());
     }
 
     @Override
-    public void fireCompleteEvent() {
-        CompleteEvent.fire(this);
+    public void fireCompleteEvent(String fileName, String lastModified, String size, String type) {
+        CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addCancelHandler(CanceledEvent.CanceledHandler handler) {
-        return addHandler(handler, CanceledEvent.TYPE);
+    public HandlerRegistration addCancelHandler(CanceledEvent.CanceledHandler<UploadFile> handler) {
+        return addHandler(handler, CanceledEvent.getType());
     }
 
     @Override
-    public void fireCancelEvent() {
-        CanceledEvent.fire(this);
+    public void fireCancelEvent(String fileName, String lastModified, String size, String type) {
+        CanceledEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addMaxFilesReachHandler(MaxFilesReachedEvent.MaxFilesReachedHandler handler) {
-        return addHandler(handler, MaxFilesReachedEvent.TYPE);
+    public HandlerRegistration addMaxFilesReachHandler(MaxFilesReachedEvent.MaxFilesReachedHandler<UploadFile> handler) {
+        return addHandler(handler, MaxFilesReachedEvent.getType());
     }
 
     @Override
-    public void fireMaxFilesReachEvent() {
-        MaxFilesReachedEvent.fire(this);
+    public void fireMaxFilesReachEvent(String fileName, String lastModified, String size, String type) {
+        MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 
     @Override
-    public HandlerRegistration addMaxFilesExceededHandler(MaxFilesExceededEvent.MaxFilesExceededHandler handler) {
-        return addHandler(handler, MaxFilesExceededEvent.TYPE);
+    public HandlerRegistration addMaxFilesExceededHandler(MaxFilesExceededEvent.MaxFilesExceededHandler<UploadFile> handler) {
+        return addHandler(handler, MaxFilesExceededEvent.getType());
     }
 
     @Override
-    public void fireMaxFilesExceededEvent() {
-        MaxFilesReachedEvent.fire(this);
+    public void fireMaxFilesExceededEvent(String fileName, String lastModified, String size, String type) {
+        MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
     }
 }

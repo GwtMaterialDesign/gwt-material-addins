@@ -23,27 +23,44 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 
-public class CanceledEvent extends GwtEvent<CanceledEvent.CanceledHandler> {
+public class CanceledEvent<T> extends GwtEvent<CanceledEvent.CanceledHandler<T>> {
 
-    public interface CanceledHandler extends EventHandler {
-        void onCanceled(CanceledEvent event);
+    private static Type<CanceledHandler<?>> TYPE;
+
+    public interface CanceledHandler<T> extends EventHandler {
+        void onCanceled(CanceledEvent<T> event);
     }
 
-    public static final Type<CanceledHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            CanceledEvent<T> event = new CanceledEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new CanceledEvent());
+    public static Type<CanceledHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<CanceledHandler<?>>());
+    }
+
+    private final T target;
+
+    protected CanceledEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<CanceledHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<CanceledHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(CanceledHandler handler) {
+    protected void dispatch(CanceledHandler<T> handler) {
         handler.onCanceled(this);
     }
 }

@@ -23,27 +23,44 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 
-public class MaxFilesReachedEvent extends GwtEvent<MaxFilesReachedEvent.MaxFilesReachedHandler> {
+public class MaxFilesReachedEvent<T> extends GwtEvent<MaxFilesReachedEvent.MaxFilesReachedHandler<T>> {
 
-    public interface MaxFilesReachedHandler extends EventHandler {
-        void onMaxFilesReached(MaxFilesReachedEvent event);
+    private static Type<MaxFilesReachedHandler<?>> TYPE;
+
+    public interface MaxFilesReachedHandler<T> extends EventHandler {
+        void onMaxFilesReached(MaxFilesReachedEvent<T> event);
     }
 
-    public static final Type<MaxFilesReachedHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            MaxFilesReachedEvent<T> event = new MaxFilesReachedEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new MaxFilesReachedEvent());
+    public static Type<MaxFilesReachedHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<MaxFilesReachedHandler<?>>());
+    }
+
+    private final T target;
+
+    protected MaxFilesReachedEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<MaxFilesReachedHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<MaxFilesReachedHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(MaxFilesReachedHandler handler) {
+    protected void dispatch(MaxFilesReachedHandler<T> handler) {
         handler.onMaxFilesReached(this);
     }
 }
