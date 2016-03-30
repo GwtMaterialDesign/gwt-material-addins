@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.splitpanel.constants;
 
 /*
  * #%L
@@ -21,12 +21,27 @@ package gwt.material.design.addins.client;
  */
 
 
-import com.google.gwt.core.client.EntryPoint;
+import gwt.material.design.client.base.helper.EnumHelper;
+import gwt.material.design.client.constants.CssType;
 
-public class MaterialAddins implements EntryPoint {
+public enum Dock implements CssType {
+    LEFT("left"),
+    RIGHT("right"),
+    TOP("top"),
+    BOTTOM("bottom");
+
+    private final String cssClass;
+
+    Dock(final String cssClass) {
+        this.cssClass = cssClass;
+    }
 
     @Override
-    public void onModuleLoad() {
-        MaterialResourceInjector.setDebug(false);
+    public String getCssName() {
+        return cssClass;
+    }
+
+    public static Dock fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, Dock.class, LEFT);
     }
 }

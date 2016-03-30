@@ -22,32 +22,11 @@ package gwt.material.design.addins.client;
 
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.resources.MaterialAddinsResourcesDebug;
 
-/**
- * Created by Mark Kevin on 11/26/2015.
- */
-public class MaterialAddinsDebug extends MaterialAddinsBase implements EntryPoint {
+public class MaterialAddinsDebug implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        load();
-    }
-
-    @Override
-    public void load() {
-        inject(MaterialAddinsResourcesDebug.INSTANCE.timepickerJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.subHeaderJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.pathAnimatorJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.waterfallJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.scrollFireJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.bubbleJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.interactJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.masonryJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.tinymceJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.touchsplitterJs());
-        inject(MaterialAddinsResourcesDebug.INSTANCE.dropzoneJs());
+        MaterialResourceInjector.setDebug(true);
     }
 }

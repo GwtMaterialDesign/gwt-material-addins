@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.stepper.base.mixin;
 
 /*
  * #%L
@@ -21,12 +21,16 @@ package gwt.material.design.addins.client;
  */
 
 
-import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.UIObject;
 
-public class MaterialAddins implements EntryPoint {
+/**
+ * @author Sven Jacobs
+ */
+public abstract class AbstractMixin<T extends UIObject> {
 
-    @Override
-    public void onModuleLoad() {
-        MaterialResourceInjector.setDebug(false);
+    public T uiObject;
+
+    public AbstractMixin(final T uiObject) {
+        this.uiObject = uiObject;
     }
 }

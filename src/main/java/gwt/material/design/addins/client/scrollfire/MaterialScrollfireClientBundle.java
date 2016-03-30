@@ -1,10 +1,10 @@
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.scrollfire;
 
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,19 @@ package gwt.material.design.addins.client;
  */
 
 
-import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-public class MaterialAddins implements EntryPoint {
+/**
+ * Client Bundle for Scrollfire component
+ * @author kevzlou7979
+ */
+interface MaterialScrollfireClientBundle extends ClientBundle {
 
-    @Override
-    public void onModuleLoad() {
-        MaterialResourceInjector.setDebug(false);
-    }
+    MaterialScrollfireClientBundle INSTANCE = GWT.create(MaterialScrollfireClientBundle.class);
+
+    @Source("resources/js/scrollfire.min.js")
+    TextResource scrollfireJs();
+
 }
