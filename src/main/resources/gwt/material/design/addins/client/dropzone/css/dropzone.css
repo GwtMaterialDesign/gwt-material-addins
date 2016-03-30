@@ -85,6 +85,9 @@
 .preview-container #previews.collection{
   margin: 0;
 }
+.preview-container #previews.collection .collection-item:nth-child(1){
+  display: none;
+}
 .preview-container #previews.collection .collection-item{
   position: relative;
 }
@@ -102,7 +105,6 @@
 }
 .preview-container #previews.collection .dz-error-message{
   font-size: 0.8em;
-  margin-top: -12px;
   color: #F44336;
 }
 .preview-container .header{

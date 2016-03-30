@@ -23,6 +23,7 @@ package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -42,9 +43,12 @@ import gwt.material.design.client.base.MaterialWidget;
 //@formatter:on
 public class MaterialFileUploader extends MaterialWidget {
 
-    private String url;
-    private int maxFileSize;
+    private String url; // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
+    private int maxFileSize = 20; // 20MB by default for max file size
     private boolean autoQueue = true;
+    private FileMethod method = FileMethod.POST; // Defaults to "post" and can be changed to "put" if necessary.
+    private int maxFiles = 100; // If the number of files you upload exceeds, the event maxfilesexceeded will be called. By default it's 100 files.
+    private String acceptedFiles = ""; // The default implementation of accept checks the file's mime type or extension against this list. This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement());
@@ -60,7 +64,7 @@ public class MaterialFileUploader extends MaterialWidget {
     }
 
     public void initDropzone() {
-        initDropzone(getElement(), getUrl(), getMaxFileSize(), isAutoQueue());
+        initDropzone(getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles());
     }
 
     /**
@@ -69,7 +73,7 @@ public class MaterialFileUploader extends MaterialWidget {
      * @param e
      * @param url
      */
-    private native void initDropzone(Element e, String url, int maxFileSize, boolean autoQueue) /*-{
+    private native void initDropzone(Element e, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles) /*-{
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery("#zdrop-template");
             var previewContainer = $wnd.jQuery("#previews").html();
@@ -80,9 +84,12 @@ public class MaterialFileUploader extends MaterialWidget {
 
             var zdrop = new $wnd.Dropzone("#zdrop", {
                 url: url,
-                maxFilesize:20,
+                maxFilesize: maxFileSize,
+                method: method,
+                maxFiles: maxFiles,
                 previewTemplate: previewTemplate,
-                autoQueue: true,
+                acceptedFiles: acceptedFiles,
+                autoQueue: autoQueue,
                 previewsContainer: "#previews",
                 clickable: "#upload-label"
             });
@@ -106,6 +113,10 @@ public class MaterialFileUploader extends MaterialWidget {
                 progr.style.width = progress + "%";
             });
 
+            zdrop.on('drop', function () {
+                $wnd.jQuery('.fileuploader').removeClass("active");
+            });
+
             zdrop.on('dragenter', function () {
                 $wnd.jQuery('.fileuploader').addClass("active");
             });
@@ -114,12 +125,12 @@ public class MaterialFileUploader extends MaterialWidget {
                 $wnd.jQuery('.fileuploader').removeClass("active");
             });
 
-            zdrop.on('drop', function () {
-                $wnd.jQuery('.fileuploader').removeClass("active");
+            zdrop.on('error', function (file, response) {
+                file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
             });
 
-            zdrop.on('error', function (file, error) {
-
+            zdrop.on('maxfilesexceeded ', function() {
+                Materialize.toast('You have reached the maximum files to be uploaded.', 4000);
             });
         });
     }-*/;
@@ -172,4 +183,52 @@ public class MaterialFileUploader extends MaterialWidget {
         this.autoQueue = autoQueue;
     }
 
+    /**
+     * Get the method param of file uploader
+     * @return
+     */
+    public FileMethod getMethod() {
+        return method;
+    }
+
+    /**
+     * Set the method param of file upload (POST or PUT)
+     * @param method
+     */
+    public void setMethod(FileMethod method) {
+        this.method = method;
+    }
+
+    /**
+     * Get the max number of files.
+     * @return
+     */
+    public int getMaxFiles() {
+        return maxFiles;
+    }
+
+    /**
+     * Set the max number of files, by default it's 100 but if you want to accept only one file just
+     * set the max file to 1
+     * @param maxFiles
+     */
+    public void setMaxFiles(int maxFiles) {
+        this.maxFiles = maxFiles;
+    }
+
+    /**
+     * Get the accepted file string
+     * @return
+     */
+    public String getAcceptedFiles() {
+        return acceptedFiles;
+    }
+
+    /**
+     * Set the default implementation of accept checks the file's mime type or extension against this list. This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
+     * @param acceptedFiles
+     */
+    public void setAcceptedFiles(String acceptedFiles) {
+        this.acceptedFiles = acceptedFiles;
+    }
 }
