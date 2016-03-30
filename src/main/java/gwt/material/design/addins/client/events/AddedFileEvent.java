@@ -1,3 +1,18 @@
+/*
+ * Copyright 2008 Google Inc.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package gwt.material.design.addins.client.events;
 
 /*
@@ -23,27 +38,44 @@ package gwt.material.design.addins.client.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.base.HasFileUpload;
 
-public class AddedFileEvent extends GwtEvent<AddedFileEvent.AddedFileHandler> {
+public class AddedFileEvent<T> extends GwtEvent<AddedFileEvent.AddedFileHandler<T>> {
 
-    public interface AddedFileHandler extends EventHandler {
-        void onAddedFile(AddedFileEvent event);
+    private static Type<AddedFileHandler<?>> TYPE;
+
+    public interface AddedFileHandler<T> extends EventHandler {
+        void onAddedFile(AddedFileEvent<T> event);
     }
 
-    public static final Type<AddedFileHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            AddedFileEvent<T> event = new AddedFileEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new AddedFileEvent());
+    public static Type<AddedFileHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<AddedFileHandler<?>>());
+    }
+
+    private final T target;
+
+    protected AddedFileEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<AddedFileHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<AddedFileHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(AddedFileHandler handler) {
+    protected void dispatch(AddedFileHandler<T> handler) {
         handler.onAddedFile(this);
     }
 }

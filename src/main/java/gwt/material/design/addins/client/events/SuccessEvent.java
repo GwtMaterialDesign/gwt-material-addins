@@ -23,27 +23,44 @@ package gwt.material.design.addins.client.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.base.HasFileUpload;
 
-public class SuccessEvent extends GwtEvent<SuccessEvent.SuccessHandler> {
+public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
 
-    public interface SuccessHandler extends EventHandler {
-        void onSuccess(SuccessEvent event);
+    private static Type<SuccessHandler<?>> TYPE;
+
+    public interface SuccessHandler<T> extends EventHandler {
+        void onSuccess(SuccessEvent<T> event);
     }
 
-    public static final Type<SuccessHandler> TYPE = new Type<>();
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            SuccessEvent<T> event = new SuccessEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new SuccessEvent());
+    public static Type<SuccessHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<SuccessHandler<?>>());
+    }
+
+    private final T target;
+
+    protected SuccessEvent(T target) {
+        this.target = target;
     }
 
     @Override
-    public Type<SuccessHandler> getAssociatedType() {
-        return TYPE;
+    public final Type<SuccessHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
+
+    public T getTarget() {
+        return target;
     }
 
     @Override
-    protected void dispatch(SuccessHandler handler) {
+    protected void dispatch(SuccessHandler<T> handler) {
         handler.onSuccess(this);
     }
 }
