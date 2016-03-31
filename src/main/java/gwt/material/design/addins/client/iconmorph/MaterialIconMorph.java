@@ -22,7 +22,6 @@ package gwt.material.design.addins.client.iconmorph;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialResourceInjector;
-import gwt.material.design.addins.client.iconmorph.constants.MaterialIconMorphCss;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
@@ -58,7 +57,11 @@ import gwt.material.design.client.ui.MaterialToast;
 public class MaterialIconMorph extends MaterialWidget {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialIconMorphCss.iconmorphCss);
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectCss(MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug());
+        } else {
+            MaterialResourceInjector.injectCss(MaterialIconMorphClientBundle.INSTANCE.morphCss());
+        }
     }
 
     private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);

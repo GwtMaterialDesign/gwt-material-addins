@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.timepicker;
+package gwt.material.design.addins.client.swipeable;
 
 /*
  * #%L
@@ -26,16 +26,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for TimePicker component
+ * Client Bundle for Swipeable component
  * @author kevzlou7979
  */
-interface MaterialTimePickerDebugClientBundle extends ClientBundle {
+interface MaterialSwipeableDebugClientBundle extends ClientBundle {
 
-    MaterialTimePickerDebugClientBundle INSTANCE = GWT.create(MaterialTimePickerDebugClientBundle.class);
+    MaterialSwipeableDebugClientBundle INSTANCE = GWT.create(MaterialSwipeableDebugClientBundle.class);
 
-    @Source("resources/js/timepicker.js")
-    TextResource timepickerJsDebug();
-
-    @Source("resources/css/timepicker.css")
-    TextResource timepickerCssDebug();
+    @Source("resources/css/swipeable.css")
+    TextResource swipeableCssDebug();
 }

@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.timepicker;
+package gwt.material.design.addins.client.sideprofile;
 
 /*
  * #%L
@@ -26,16 +26,13 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for TimePicker component
+ * Client Bundle for Side Profile component
  * @author kevzlou7979
  */
-interface MaterialTimePickerDebugClientBundle extends ClientBundle {
+interface MaterialSideProfileDebugClientBundle extends ClientBundle {
 
-    MaterialTimePickerDebugClientBundle INSTANCE = GWT.create(MaterialTimePickerDebugClientBundle.class);
+    MaterialSideProfileDebugClientBundle INSTANCE = GWT.create(MaterialSideProfileDebugClientBundle.class);
 
-    @Source("resources/js/timepicker.js")
-    TextResource timepickerJsDebug();
-
-    @Source("resources/css/timepicker.css")
-    TextResource timepickerCssDebug();
+    @Source("resources/css/sideprofile.css")
+    TextResource sideprofileCssDebug();
 }

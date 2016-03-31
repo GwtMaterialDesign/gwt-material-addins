@@ -1,0 +1,1 @@
+/** Tree **/ .tree{overflow: auto; width: 100%; } .tree-item .tree-header{white-space: nowrap; } .tree-item{clear: both; margin-top: 10px; margin-left: 20px; } .tree-item i{margin-top: -2px; } .tree-item img{width: 2em; height: 2em; float: left; margin-right: 8px; } .tree-item.selected > .tree-header span{font-weight: bold; }

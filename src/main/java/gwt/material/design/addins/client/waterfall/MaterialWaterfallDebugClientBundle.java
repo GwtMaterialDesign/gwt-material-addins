@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.timepicker;
+package gwt.material.design.addins.client.waterfall;
 
 /*
  * #%L
@@ -26,16 +26,16 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for TimePicker component
+ * Client Bundle for Waterfall component
  * @author kevzlou7979
  */
-interface MaterialTimePickerDebugClientBundle extends ClientBundle {
+interface MaterialWaterfallDebugClientBundle extends ClientBundle {
 
-    MaterialTimePickerDebugClientBundle INSTANCE = GWT.create(MaterialTimePickerDebugClientBundle.class);
+    MaterialWaterfallDebugClientBundle INSTANCE = GWT.create(MaterialWaterfallDebugClientBundle.class);
 
-    @Source("resources/js/timepicker.js")
-    TextResource timepickerJsDebug();
+    @Source("resources/js/waterfall.js")
+    TextResource waterfallJsDebug();
 
-    @Source("resources/css/timepicker.css")
-    TextResource timepickerCssDebug();
+    @Source("resources/css/waterfall.css")
+    TextResource waterfallCssDebug();
 }

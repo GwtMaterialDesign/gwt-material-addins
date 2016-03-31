@@ -25,7 +25,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
-import gwt.material.design.addins.client.splitpanel.constants.MaterialSplitPanelCss;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 
@@ -52,11 +51,12 @@ public class MaterialSplitPanel extends MaterialWidget {
 
     static {
         if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());
+            MaterialResourceInjector.injectJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
+            MaterialResourceInjector.injectCss(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss());
         } else {
-            MaterialResourceInjector.injectJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelJs());
+            MaterialResourceInjector.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());
+            MaterialResourceInjector.injectCss(MaterialSplitPanelClientBundle.INSTANCE.splitPanelCss());
         }
-        MaterialResourceInjector.injectCss(MaterialSplitPanelCss.splitPanel);
     }
 
     private double leftMax;

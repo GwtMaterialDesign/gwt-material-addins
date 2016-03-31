@@ -35,4 +35,7 @@ interface MaterialBubbleClientBundle extends ClientBundle {
 
     @Source("resources/js/bubble.min.js")
     TextResource bubbleJs();
+
+    @Source("resources/css/bubble.min.css")
+    TextResource bubbleCss();
 }

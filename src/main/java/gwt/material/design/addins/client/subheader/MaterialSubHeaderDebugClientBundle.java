@@ -35,4 +35,7 @@ interface MaterialSubHeaderDebugClientBundle extends ClientBundle {
 
     @Source("resources/js/subheader.js")
     TextResource subheaderJsDebug();
+
+    @Source("resources/css/subheader.css")
+    TextResource subheaderCssDebug();
 }

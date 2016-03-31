@@ -8,7 +8,6 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.MaterialResourceInjector;
-import gwt.material.design.addins.client.timepicker.constants.MaterialTimePickerCss;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
 import gwt.material.design.client.base.HasPlaceholder;
@@ -70,10 +69,11 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     static {
         if(MaterialResourceInjector.isDebug()) {
             MaterialResourceInjector.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
+            MaterialResourceInjector.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
         } else {
             MaterialResourceInjector.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
+            MaterialResourceInjector.injectCss(MaterialTimePickerClientBundle.INSTANCE.timepickerCss());
         }
-        MaterialResourceInjector.injectCss(MaterialTimePickerCss.timepickerCss);
     }
 
     /** Wraps the actual input. */

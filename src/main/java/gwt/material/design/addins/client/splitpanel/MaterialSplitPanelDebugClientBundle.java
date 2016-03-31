@@ -33,6 +33,9 @@ interface MaterialSplitPanelDebugClientBundle extends ClientBundle {
 
     MaterialSplitPanelDebugClientBundle INSTANCE = GWT.create(MaterialSplitPanelDebugClientBundle.class);
 
-    @Source("resources/js/touchsplitter.min.js")
-    TextResource splitPanelJs();
+    @Source("resources/js/touchsplitter.js")
+    TextResource splitPanelDebugJs();
+
+    @Source("resources/css/touchsplitter.css")
+    TextResource splitPanelDebugCss();
 }

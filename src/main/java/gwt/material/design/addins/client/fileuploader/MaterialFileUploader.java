@@ -56,10 +56,11 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     static {
         if(MaterialResourceInjector.isDebug()) {
             MaterialResourceInjector.injectDebugJs(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug());
+            MaterialResourceInjector.injectCss(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneCssDebug());
         } else {
             MaterialResourceInjector.injectJs(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs());
+            MaterialResourceInjector.injectCss(MaterialFileUploaderClientBundle.INSTANCE.dropzoneCss());
         }
-        MaterialResourceInjector.injectCss(MaterialFileUploaderCss.dropzoneCss);
     }
 
     private String url; // Has to be specified on elements other than form (or when the form doesn't have an action attribute).

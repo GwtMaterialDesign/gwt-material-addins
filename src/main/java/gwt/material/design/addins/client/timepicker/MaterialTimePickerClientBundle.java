@@ -35,4 +35,7 @@ interface MaterialTimePickerClientBundle extends ClientBundle {
 
     @Source("resources/js/timepicker.min.js")
     TextResource timepickerJs();
+
+    @Source("resources/css/timepicker.min.css")
+    TextResource timepickerCss();
 }

@@ -42,7 +42,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
-import gwt.material.design.addins.client.swipeable.constants.MaterialSwipeableCss;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
 import gwt.material.design.client.base.MaterialWidget;
@@ -79,7 +78,11 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialSwipeableCss.swipeableCss);
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
+        } else {
+            MaterialResourceInjector.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
+        }
     }
 
     private final String DISABLED = "disabled-swipe";
@@ -151,11 +154,11 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
                         var fullWidth;
                         if (swipeLeftToRight) {
                             fullWidth = parent.innerWidth();
-                            that.@gwt.material.design.addins.client.ui.MaterialSwipeablePanel::fireSwipeRightEvent(*)(target);
+                            that.@gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel::fireSwipeRightEvent(*)(target);
                         }
                         else {
                             fullWidth = -1 * parent.innerWidth();
-                            that.@gwt.material.design.addins.client.ui.MaterialSwipeablePanel::fireSwipeLeftEvent(*)(target);
+                            that.@gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel::fireSwipeLeftEvent(*)(target);
                         }
 
                         parent.velocity({ translateX: fullWidth,

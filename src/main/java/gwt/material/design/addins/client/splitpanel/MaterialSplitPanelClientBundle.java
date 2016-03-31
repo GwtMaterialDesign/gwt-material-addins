@@ -35,4 +35,7 @@ interface MaterialSplitPanelClientBundle extends ClientBundle {
 
     @Source("resources/js/touchsplitter.min.js")
     TextResource splitPanelJs();
+
+    @Source("resources/css/touchsplitter.min.css")
+    TextResource splitPanelCss();
 }

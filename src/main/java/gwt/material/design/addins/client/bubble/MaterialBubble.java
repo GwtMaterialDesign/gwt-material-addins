@@ -23,7 +23,6 @@ package gwt.material.design.addins.client.bubble;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialResourceInjector;
-import gwt.material.design.addins.client.bubble.constants.MaterialBubbleCss;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
@@ -64,10 +63,11 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     static {
         if(MaterialResourceInjector.isDebug()) {
             MaterialResourceInjector.injectDebugJs(MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug());
+            MaterialResourceInjector.injectCss(MaterialBubbleDebugClientBundle.INSTANCE.bubbleCssDebug());
         } else {
             MaterialResourceInjector.injectJs(MaterialBubbleClientBundle.INSTANCE.bubbleJs());
+            MaterialResourceInjector.injectCss(MaterialBubbleClientBundle.INSTANCE.bubbleCss());
         }
-        MaterialResourceInjector.injectCss(MaterialBubbleCss.bubbleCss);
     }
 
     public MaterialBubble() {

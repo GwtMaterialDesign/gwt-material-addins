@@ -26,7 +26,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Bubble component
+ * Client Bundle for File Uploader component
  * @author kevzlou7979
  */
 interface MaterialFileUploaderClientBundle extends ClientBundle {
@@ -35,4 +35,7 @@ interface MaterialFileUploaderClientBundle extends ClientBundle {
 
     @Source("resources/js/dropzone.min.js")
     TextResource dropzoneJs();
+
+    @Source("resources/css/dropzone.min.css")
+    TextResource dropzoneCss();
 }

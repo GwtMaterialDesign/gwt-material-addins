@@ -30,7 +30,6 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialResourceInjector;
-import gwt.material.design.addins.client.stepper.constants.MaterialStepperCss;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.MaterialWidget;
@@ -76,7 +75,11 @@ import gwt.material.design.client.ui.html.Span;
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>, HasSelectionChangedHandlers {
 
     static {
-        MaterialResourceInjector.injectCss(MaterialStepperCss.stepperCss);
+        if(MaterialResourceInjector.isDebug()) {
+            MaterialResourceInjector.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
+        } else {
+            MaterialResourceInjector.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
+        }
     }
 
     private int currentStepIndex = 0;
