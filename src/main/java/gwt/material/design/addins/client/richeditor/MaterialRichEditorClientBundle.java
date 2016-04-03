@@ -33,7 +33,10 @@ interface MaterialRichEditorClientBundle extends ClientBundle {
 
     MaterialRichEditorClientBundle INSTANCE = GWT.create(MaterialRichEditorClientBundle.class);
 
-    @Source("resources/js/tinymce.min.js")
+    @Source("resources/js/material_note.min.js")
     TextResource richEditorJs();
+
+    @Source("resources/css/material_note.min.css")
+    TextResource richEditorCss();
 
 }

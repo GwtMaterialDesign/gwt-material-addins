@@ -31,14 +31,16 @@ public class MaterialRichEditor extends MaterialWidget {
     static {
         if(MaterialResourceInjector.isDebug()) {
             MaterialResourceInjector.injectDebugJs(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs());
+            MaterialResourceInjector.injectCss(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss());
         } else {
             MaterialResourceInjector.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
+            MaterialResourceInjector.injectCss(MaterialRichEditorClientBundle.INSTANCE.richEditorCss());
         }
     }
 
     public MaterialRichEditor() {
         super(Document.get().createTextAreaElement());
-        setStyleName("richeditor");
+        setStyleName("editor");
     }
 
     @Override
@@ -50,8 +52,34 @@ public class MaterialRichEditor extends MaterialWidget {
     }
 
     private native void initRichEditor(String selector) /*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.tinymce.init({ selector:'#' + selector });
+        var toolbar = [
+            ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['fonts', ['fontsize', 'fontname']],
+            ['color', ['color']],
+            ['undo', ['undo', 'redo', 'help']],
+            ['ckMedia', ['ckImageUploader', 'ckVideoEmbeeder']],
+            ['misc', ['link', 'picture', 'table', 'hr', 'codeview', 'fullscreen']],
+            ['para', ['ul', 'ol', 'paragraph', 'leftButton', 'centerButton', 'rightButton', 'justifyButton', 'outdentButton', 'indentButton']],
+            ['height', ['lineheight']],
+        ];
+
+        $wnd.jQuery('.editor').materialnote({
+            toolbar: toolbar,
+            height: 550,
+            minHeight: 100,
+            defaultBackColor: '#777',
+            defaultTextColor: '#fff'
+        });
+
+        $wnd.jQuery('.editorAir').materialnote({
+            airMode: true,
+            airPopover: [
+                ['color', ['color']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['para', ['ul', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture']]
+            ]
         });
     }-*/;
 }
