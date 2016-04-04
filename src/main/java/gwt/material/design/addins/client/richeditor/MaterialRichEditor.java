@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.richeditor;
 
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.client.base.MaterialWidget;
@@ -38,6 +39,8 @@ public class MaterialRichEditor extends MaterialWidget {
         }
     }
 
+    private boolean airMode;
+
     public MaterialRichEditor() {
         super(Document.get().createTextAreaElement());
         setStyleName("editor");
@@ -48,10 +51,10 @@ public class MaterialRichEditor extends MaterialWidget {
         super.onLoad();
         String id = DOM.createUniqueId();
         setId(id);
-        initRichEditor(id);
+        initRichEditor(getElement(), airMode);
     }
 
-    private native void initRichEditor(String selector) /*-{
+    private native void initRichEditor(Element e, boolean airMode) /*-{
         var toolbar = [
             ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
             ['fonts', ['fontsize', 'fontname']],
@@ -63,23 +66,22 @@ public class MaterialRichEditor extends MaterialWidget {
             ['height', ['lineheight']],
         ];
 
-        $wnd.jQuery('.editor').materialnote({
+        $wnd.jQuery(e).materialnote({
             toolbar: toolbar,
+            airMode: airMode,
             height: 550,
             minHeight: 100,
             defaultBackColor: '#777',
             defaultTextColor: '#fff'
         });
 
-        $wnd.jQuery('.editorAir').materialnote({
-            airMode: true,
-            airPopover: [
-                ['color', ['color']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['para', ['ul', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', 'picture']]
-            ]
-        });
     }-*/;
+
+    public boolean isAirMode() {
+        return airMode;
+    }
+
+    public void setAirMode(boolean airMode) {
+        this.airMode = airMode;
+    }
 }
