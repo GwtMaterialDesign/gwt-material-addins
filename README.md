@@ -15,6 +15,18 @@ Import the theme in your GWT Module
 ```xml
 <inherits name="gwt.material.design.addins.GwtMaterialAddins"/>
 ```
+Define the ui:binder with single import (e.g Bubble and Timer Picker using a single package import)
+```xml
+xmlns:ma="urn:import:gwt.material.design.addins.client"
+
+<!-- Bubble -->
+<ma:bubble.MaterialBubble >
+  <m:MaterialLabel text="Bubble" />
+</ma:bubble.MaterialBubble>
+<!-- Time Picker -->
+<ma:timpicker:MaterialTimePicker placeholder="Time Arrival"/>
+```
+
 ##Extra Components
 <ul>
 <li>Autcomplete</li>
