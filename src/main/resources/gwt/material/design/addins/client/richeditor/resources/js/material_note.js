@@ -3458,6 +3458,18 @@
                 $editable[0].appendChild(child[index]);
             }
         };
+
+        this.reset = function($editable) {
+            $editable.html('');
+        };
+
+        this.html = function($editable, html) {
+            $editable.html(html);
+        };
+
+        this.getHTML = function($editable) {
+            return $editable.html();
+        };
         /**
          * @method currentStyle
          *
@@ -7467,6 +7479,7 @@
 
             return this;
         }
+
     });
 }));
 

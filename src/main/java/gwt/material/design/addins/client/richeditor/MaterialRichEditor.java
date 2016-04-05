@@ -21,13 +21,41 @@ package gwt.material.design.addins.client.richeditor;
  */
 
 
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
+import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
+import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialToast;
 
-public class MaterialRichEditor extends MaterialWidget {
+//@formatter:off
+/**
+ * Provides a great Rich Editor with amazing options built with Material Design Look and Feel
+ *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ *{@code
+ * <m.addins:MaterialRichEditor />
+ * }
+ * </pre>
+ *
+ * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#richeditor">Material Rich Editor</a>
+ */
+//@formatter:on
+public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTML {
 
     static {
         if(MaterialResourceInjector.isDebug()) {
@@ -39,37 +67,45 @@ public class MaterialRichEditor extends MaterialWidget {
         }
     }
 
-    private boolean airMode;
-
-    public MaterialRichEditor() {
-        super(Document.get().createTextAreaElement());
-        setStyleName("editor");
-    }
-
     @Override
     protected void onLoad() {
         super.onLoad();
-        String id = DOM.createUniqueId();
-        setId(id);
-        initRichEditor(getElement(), airMode);
+        initRichEditor(getElement(), isAirMode(), getPlaceholder(), getHeight(), extractOptions(getStyleOptions()), extractOptions(getFontOptions()), extractOptions(getColorOptions()), extractOptions(getUndoOptions()), extractOptions(getCkMediaOptions()), extractOptions(getMiscOptions()), extractOptions(getParaOptions()), extractOptions(getHeightOptions()));
     }
 
-    private native void initRichEditor(Element e, boolean airMode) /*-{
+    /**
+     * Intialize the rich editor with custom properties
+     * @param e
+     * @param airMode
+     * @param placeholder
+     * @param height
+     * @param styleOptions
+     * @param fontOptions
+     * @param colorOptions
+     * @param undoOptions
+     * @param ckMediaOptions
+     * @param miscOptions
+     * @param paraOptions
+     * @param heightOptions
+     */
+    private native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
         var toolbar = [
-            ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'clear']],
-            ['fonts', ['fontsize', 'fontname']],
-            ['color', ['color']],
-            ['undo', ['undo', 'redo', 'help']],
-            ['ckMedia', ['ckImageUploader', 'ckVideoEmbeeder']],
-            ['misc', ['link', 'picture', 'table', 'hr', 'codeview', 'fullscreen']],
-            ['para', ['ul', 'ol', 'paragraph', 'leftButton', 'centerButton', 'rightButton', 'justifyButton', 'outdentButton', 'indentButton']],
-            ['height', ['lineheight']],
+            ['style', styleOptions],
+            ['para', paraOptions],
+            ['height', heightOptions],
+            ['undo', undoOptions],
+            ['fonts', fontOptions],
+            ['color', colorOptions],
+            ['ckMedia', ckMediaOptions],
+            ['misc', miscOptions],
         ];
 
         $wnd.jQuery(e).materialnote({
             toolbar: toolbar,
             airMode: airMode,
-            height: 550,
+            followingToolbar: false,
+            placeholder: placeholder,
+            height: height,
             minHeight: 100,
             defaultBackColor: '#777',
             defaultTextColor: '#fff'
@@ -77,11 +113,57 @@ public class MaterialRichEditor extends MaterialWidget {
 
     }-*/;
 
-    public boolean isAirMode() {
-        return airMode;
+    @Override
+    public String getHTML() {
+        return getElement().getInnerHTML();
     }
 
-    public void setAirMode(boolean airMode) {
-        this.airMode = airMode;
+    @Override
+    public void setHTML(String html) {
+        getElement().setInnerHTML(html);
     }
+
+    @Override
+    public String getText() {
+        return getElement().getInnerText();
+    }
+
+    @Override
+    public void setText(String text) {
+        getElement().setInnerText(text);
+    }
+
+    /**
+     * Insert custom text inside the note zone
+     * @param text
+     */
+    public void insertText(String text) {
+        insertText(getElement(), text);
+    }
+
+    /**
+     * Insert custom text inside the note zone with JSNI function
+     * @param e
+     * @param text
+     */
+    private native void insertText(Element e, String text) /*-{
+        $wnd.jQuery(document).ready(function() {
+            $wnd.jQuery(e).materialnote('insertText', text);
+        });
+    }-*/;
+
+    @Override
+    public void clear() {
+        clear(getElement());
+    }
+
+    /**
+     * Clear the note editor with element as param
+     * @param e
+     */
+    private native void clear(Element e) /*-{
+        $wnd.jQuery(document).ready(function() {
+            $wnd.jQuery(e).materialnote('reset');
+        });
+    }-*/;
 }
