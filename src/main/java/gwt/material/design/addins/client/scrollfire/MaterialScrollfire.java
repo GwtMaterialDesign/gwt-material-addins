@@ -65,10 +65,12 @@ public class MaterialScrollfire {
     }
 
     public static native void apply(String selector, Runnable callback) /*-{
-        var offset = 100;
-        var callbackFn = $entry(function() {
-            callback.@java.lang.Runnable::run()();
+        $wnd.jQuery(document).ready(function() {
+            var offset = 100;
+            var callbackFn = $entry(function() {
+                callback.@java.lang.Runnable::run()();
+            });
+            $wnd.apply(selector, offset, callbackFn);
         });
-        $wnd.apply(selector, offset, callbackFn);
     }-*/;
 }

@@ -75,10 +75,12 @@ public class MaterialPathAnimator {
      * Custom path animator method with callback.
      */
     public static native void animate(Element source, Element target, Runnable callback)/*-{
-        $wnd.cta(source, target, function () {
-            if(callback != null) {
-                callback.@java.lang.Runnable::run()();
-            }
+        $wnd.jQuery(document).ready(function() {
+            $wnd.cta(source, target, function () {
+                if(callback != null) {
+                    callback.@java.lang.Runnable::run()();
+                }
+            });
         });
     }-*/;
 
@@ -101,7 +103,9 @@ public class MaterialPathAnimator {
      * state of the source component with Custom Callback.
      */
     public static native void reverseAnimate(Element source, Element target, Runnable callback) /*-{
-        callback.@java.lang.Runnable::run()();
-        $wnd.cta(target, source);
+        $wnd.jQuery(document).ready(function() {
+            callback.@java.lang.Runnable::run()();
+            $wnd.cta(target, source);
+        });
     }-*/;
 }
