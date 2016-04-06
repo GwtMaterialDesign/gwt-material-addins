@@ -100,7 +100,7 @@
   color: #000;
   background-color: #e9e9e9;
   margin: 0;
-  z-index: 999 !important;
+  z-index: 995 !important;
   padding: 2%;
 }
 .note-editor .note-toolbar ul {
@@ -314,8 +314,7 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   padding: 0 9px !important;
-  background-color: #FFFFFF;
-}
+  background-color: #e9e9e9; }
 
 .note-popover .popover .popover-content .note-para .dropdown-menu, .note-toolbar .note-para .dropdown-menu {
   min-width: 172px;
@@ -448,7 +447,7 @@
   width: 312px;
   height: 130px;
   background-size: 26px 26px;
-  background-image: repeating-linear-gradient(0deg, #E9E9E9, #FFFFFF 2px, transparent 2px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 2px, #f0f0f0 2px, #F0F0F0 26px);
+  background-image: repeating-linear-gradient(0deg, #FFFFFF, #FFFFFF 2px, transparent 2px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 2px, #E9E9E9 2px, #E9E9E9 26px);
 }
 
 .note-popover .popover .popover-content .btn-group .note-table .note-dimension-picker .note-dimension-picker-highlighted,
@@ -458,7 +457,7 @@
   width: 26px;
   height: 26px;
   background-size: 26px 26px;
-  background-image: repeating-linear-gradient(0deg, #FFFFFF, #FFFFFF 2px, transparent 2px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 2px, #B8B6B6 2px, #B8B6B6 26px);
+  background-image: repeating-linear-gradient(0deg, #fff, #fff 2px, transparent 2px, transparent 26px), repeating-linear-gradient(-90deg, transparent, transparent 2px, #9e9e9e 2px, #9e9e9e 26px);
 }
 
 .note-popover .popover .popover-content .note-style h1,

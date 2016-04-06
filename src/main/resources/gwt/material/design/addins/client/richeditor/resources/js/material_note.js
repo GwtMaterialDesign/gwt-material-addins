@@ -4873,10 +4873,6 @@
                 }
                 chunk = new Array(level + 1).join('    ') + chunk.trim();
 
-                //console.log(level);
-                //console.log(chunk);
-                //console.log(code);
-
                 if (code.length === 0) {
                     return chunk;
                 }
@@ -5689,9 +5685,6 @@
                 c: Math.ceil(posOffset.x / gridUnit) || 1,
                 r: Math.ceil(posOffset.y / gridUnit) || 1
             };
-            /*console.log(posOffset);
-             console.log(dim);
-             console.log('------------------');*/
 
             var tableOptions = [];
             if ($hoverableOption.is(':checked')) tableOptions.push('hoverable');
@@ -6715,8 +6708,6 @@
                 var invertedKeyMap = func.invertObject(keyMap);
                 var $buttons = $container.find('.btn');
 
-                console.log($container);
-
                 $buttons.each(function(i, elBtn) {
                     var $btn = $(elBtn);
                     var sShortcut = invertedKeyMap[$btn.data('event')];
@@ -6890,13 +6881,10 @@
             // >>>>>>> CK - following toolbar
             // following toolbar
             function followingBar() {
-                // $(window).unbind('scroll');
-                // console.log($._data( $(window)[0], "events" ));
                 $(window).scroll(function() {
                     var isFullscreen = $editor.hasClass('fullscreen');
 
                     if (isFullscreen) {
-                        console.log("fullscreen");
                         return false;
                     }
 
@@ -6914,7 +6902,6 @@
                     // check if the web app is currently using another static bar
                     otherBarHeight = $("." + options.otherStaticBarClass).outerHeight();
                     if (!otherBarHeight) otherBarHeight = 0;
-                    //console.log(otherBarHeight);
 
                     currentOffset = $(document).scrollTop();
                     toolbarOffset = toolbar.offset().top;
