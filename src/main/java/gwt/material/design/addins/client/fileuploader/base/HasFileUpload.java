@@ -21,12 +21,12 @@ package gwt.material.design.addins.client.fileuploader.base;
  */
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.events.*;
-import com.google.gwt.event.shared.HasHandlers;
 
-public interface HasFileUpload<T> extends HasHandlers{
+public interface HasFileUpload<T> extends HasHandlers {
 
     /**
      * The user dropped something onto the dropzone
@@ -98,7 +98,7 @@ public interface HasFileUpload<T> extends HasHandlers{
      */
     HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler<T> handler);
 
-    void fireErrorEvent(String fileName, String lastModified, String size, String type);
+    void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
 
     /**
      * Called just before each file is sent. Gets the xhr object and the formData objects as second and third parameters, so you can modify them (for example to add a CSRF token) or add additional data.
