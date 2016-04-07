@@ -29,8 +29,8 @@ import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
+import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
-import gwt.material.design.addins.client.fileuploader.constants.MaterialFileUploaderCss;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -156,10 +156,15 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on('error', function (file, response) {
-                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
-                if(response.indexOf("404") >= 0) {
-                    file.previewElement.querySelector("#error-message").innerHTML = "There's a problem uploading your file.";
+                var code = '200';
+                if(file.xhr !== undefined) {
+                    code = file.xhr.status;
                 }
+                if(response.indexOf("404") >= 0) {
+                    response = "There's a problem uploading your file.";
+                }
+                file.previewElement.querySelector("#error-message").innerHTML = response;
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, code, response);
             });
 
             zdrop.on("totaluploadprogress", function (progress) {
@@ -380,8 +385,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    public void fireErrorEvent(String fileName, String lastModified, String size, String type) {
-        ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+    public void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
+        ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type), new UploadResponse(responseCode, responseMessage));
     }
 
     @Override
