@@ -27,29 +27,27 @@ import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
-import gwt.material.design.client.ui.MaterialToast;
 
 //@formatter:off
-
 /**
  * Provides a great Rich Editor with amazing options built with Material Design Look and Feel
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
  *{@code
- * <m.addins:MaterialRichEditor />
+ * <ma:MaterialRichEditor placeholder="Type anything in here..."/>
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#richeditor">Material Rich Editor</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#richeditor">Material Rich Editor</a>
  */
 //@formatter:on
 public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTML {

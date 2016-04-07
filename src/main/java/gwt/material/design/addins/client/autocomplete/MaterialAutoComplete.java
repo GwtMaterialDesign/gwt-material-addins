@@ -54,11 +54,17 @@ import java.util.Map.Entry;
  * autocomplete values.
  * </p>
  *
- * <h3>UiBinder Usage:</h3>
- * 
+ * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- *  <m:MaterialAutoComplete ui:field="autocomplete" placeholder="States" />}
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ * {@code
+ *  <ma:autocomplete.MaterialAutoComplete ui:field="autocomplete" placeholder="States" />}
  * </pre>
  * 
  * <h3>Java Usage:</h3>
@@ -149,7 +155,7 @@ import java.util.Map.Entry;
  *
  * @author kevzlou7979
  * @author gilberto-torrezan
- * @see <a href="http://gwt-material-demo.herokuapp.com/#autocompletes">Material AutoComplete</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!autocomplete">Material AutoComplete</a>
  */
 // @formatter:on
 public class MaterialAutoComplete extends MaterialWidget implements HasError, HasPlaceholder,

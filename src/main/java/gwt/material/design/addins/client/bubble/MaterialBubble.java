@@ -37,22 +37,22 @@ import gwt.material.design.client.constants.Position;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
-<m:MaterialBubble backgroundColor="white darken-1" position="LEFT" float="LEFT">
-    <m:MaterialLabel text="I love Material Design"/>
-    <m:MaterialLabel text="Dec 12, 2015" fontSize="0.8" textColor="grey"/>
-</m:MaterialBubble>
+ * {@code
+ * <ma:bubble.MaterialBubble backgroundColor="white darken-1" position="LEFT" float="LEFT">
+ *   <m:MaterialLabel text="I love Material Design"/>
+ *   <m:MaterialLabel text="Dec 12, 2015" fontSize="0.8" textColor="grey"/>
+ * </ma:bubble.MaterialBubble>
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#bubble">Material Bubble</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#bubble">Material Bubble</a>
  */
 //@formatter:on
 public class MaterialBubble extends MaterialWidget implements HasPosition {

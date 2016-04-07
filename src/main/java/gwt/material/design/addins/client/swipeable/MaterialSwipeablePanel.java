@@ -52,7 +52,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
@@ -60,14 +60,14 @@ import gwt.material.design.client.base.MaterialWidget;
  * <pre>
  *{
  * @code
- * <m.addins:MaterialSwipeablePanel ui:field="swipeablePanel" shadow="1" backgroundColor="white" padding="12">
+ * <ma:swipeable.MaterialSwipeablePanel ui:field="swipeablePanel" shadow="1" backgroundColor="white" padding="12">
  *   <m:MaterialLabel text="You can swipe native components. This is a plain label" backgroundColor="yellow" padding="12" />
  *   <m:MaterialCard>
  *     <m:MaterialCardContent>
  *       <m:MaterialLabel text="This is another Card Component that is swipeable." />
  *       </m:MaterialCardContent>
  *     </m:MaterialCard>
- * </m.addins:MaterialSwipeablePanel>
+ * </ma:swipeable.MaterialSwipeablePanel>
  * }
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>

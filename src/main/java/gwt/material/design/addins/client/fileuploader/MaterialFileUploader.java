@@ -30,25 +30,32 @@ import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
-import gwt.material.design.addins.client.fileuploader.constants.MaterialFileUploaderCss;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
 
 import java.util.Date;
 
 //@formatter:off
-
 /**
  * Custom file uploader with Dnd support with the help of dropzone.js. It has multiple
  * feature just like the GWT File Uploader core widget.
+ *
+ * <h3>XML Namespace Declaration</h3>
  * <pre>
- *{@code
- * <m.addins:MaterialFileUploader url="/file/upload"/>
+ * {@code
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ * {@code
+ * <ma:fileuploader.MaterialFileUploader url="/file/upload"/>
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#fileuploader">File Uploader</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#fileuploader">File Uploader</a>
  */
 //@formatter:on
 public class MaterialFileUploader extends MaterialWidget implements HasFileUpload<UploadFile> {

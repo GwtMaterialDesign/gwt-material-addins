@@ -24,6 +24,30 @@ import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.client.base.MaterialWidget;
 
+//@formatter:off
+/**
+ * It's an overlay panel layout wherein you can put as many widgets as you want and design it.
+ * You can do advance stuff by implementing Path Animator into the overlay panel container.
+ *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ *{@code
+ * <ma:overlay.MaterialOverlay background="blue">
+ *      &lt;-- Some content here -->
+ * </ma:overlay.MaterialMenuBar>
+ * }
+ * </pre>
+ *
+ * @author kevzlou7979
+ */
+//@formatter:on
 public class MaterialOverlay extends MaterialWidget {
 
     static {

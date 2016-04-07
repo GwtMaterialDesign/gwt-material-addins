@@ -35,14 +35,13 @@ import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
-
 /**
  * Drag and drop feature on Material Design specs are great UX guide to
  * provide a delightful motion on dragging and dropping gestures.
- * <h3>Initialization</h3>
+ *
+ * <h3>Java Usage</h3>
  * <pre>
  *{@code
- *
  *
  * MaterialDnd dnd = new MaterialDnd();
  * // Set the draggable object
@@ -55,7 +54,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#dnd">Drag and Drop</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#dnd">Drag and Drop</a>
  */
 //@formatter:on
 public class MaterialDnd extends MaterialWidget implements HasDraggable {

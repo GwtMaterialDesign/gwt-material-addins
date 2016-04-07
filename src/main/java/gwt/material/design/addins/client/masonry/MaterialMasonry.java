@@ -34,20 +34,19 @@ import gwt.material.design.client.ui.MaterialRow;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- * {
- * @code
- * <m.addins:MaterialMasonry>
+ * {@code
+ * <ma:masonry.MaterialMasonry>
  *     <m:MaterialColumn grid="l1" padding="4" backgroundColor="blue" height="200px">
  *         <m:MaterialLabel text="1"/>
  *     </m:MaterialColumn>
  *     &lt;-- Other columns here -->
- * </m.addins:MaterialMasonry>
+ * </ma:masonry.MaterialMasonry>
  * }
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>

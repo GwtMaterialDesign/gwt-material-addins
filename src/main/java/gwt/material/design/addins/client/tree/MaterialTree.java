@@ -34,34 +34,31 @@ import gwt.material.design.client.base.MaterialWidget;
  * MaterialTree is a component that wraps all the tree items that provide lists of
  * event handlers like open/close and selection event.
  *
- *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
- *
  * <pre>
  * {@code
- * <m.addins:MaterialTree>
- *     <m.addins:MaterialTreeItem text="Folder 1" iconType="FOLDER" />
- *     <m.addins:MaterialTreeItem text="Folder 2" iconType="FOLDER">
+ * <ma:tree.MaterialTree>
+ *     <ma:tree.MaterialTreeItem text="Folder 1" iconType="FOLDER" />
+ *     <ma:tree.MaterialTreeItem text="Folder 2" iconType="FOLDER">
  *         &lt;-- Image support -->
- *         <m.addins:MaterialTreeItem text="Item 2.1" resource="{res.batman.png}" />
- *         <m.addins:MaterialTreeItem text="Item 2.2" resource="{res.superman.png}" />
- *         <m.addins:MaterialTreeItem text="Item 2.3" resource="{res.spiderman.png}" />
- *     </m.addins:MaterialTreeItem>
- *     <m.addins:MaterialTreeItem text="Folder 3" iconType="FOLDER" />
- * </m.addins:MaterialTree>
+ *         <ma:tree.MaterialTreeItem text="Item 2.1" resource="{res.batman.png}" />
+ *         <ma:tree.MaterialTreeItem text="Item 2.2" resource="{res.superman.png}" />
+ *         <ma:tree.MaterialTreeItem text="Item 2.3" resource="{res.spiderman.png}" />
+ *     </ma:tree.MaterialTreeItem>
+ *     <ma:tree.MaterialTreeItem text="Folder 3" iconType="FOLDER" />
+ * </ma:tree.MaterialTree>
  * }
  * </pre>
  *
- *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#treeview">Tree View</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
 // @formatter:on
 public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>, HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {

@@ -26,7 +26,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for PathAnimator component
+ * Client Bundle for Rich Editor component
  * @author kevzlou7979
  */
 interface MaterialRichEditorDebugClientBundle extends ClientBundle {

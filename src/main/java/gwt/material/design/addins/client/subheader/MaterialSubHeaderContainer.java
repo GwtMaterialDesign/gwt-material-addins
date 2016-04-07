@@ -41,16 +41,16 @@ import gwt.material.design.client.base.mixin.CssTypeMixin;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
- * <m:MaterialSubHeaderContainer height="400px" type="PINNED">
- *     <m.addins:MaterialSubHeader text="Subheader" textColor="pink" />
- * </m:MaterialSubHeaderContainer>
+ * {@code
+ * <ma:subheader.MaterialSubHeaderContainer height="400px" type="PINNED">
+ *     <ma:subheader.MaterialSubHeader text="Subheader" textColor="pink" />
+ * </ma:subheader.MaterialSubHeaderContainer>
  * }
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>

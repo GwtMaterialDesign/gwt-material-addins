@@ -49,27 +49,26 @@ import gwt.material.design.client.ui.html.Span;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
- *
  * <pre>
  * {@code
- *  <m.addins:MaterialStepper ui:field="stepper">
- *      <m.addins:MaterialStep step="1" title="Name of Step 1">
- *          <m.addins:MaterialPanel width="100%" height="300px" backgroundColor="grey lighten-2"/>
- *          <m.addins:MaterialButton ui:field="btnContinue1" text="Continue to Step 2" grid="l4" marginTop="12" backgroundColor="blue" textColor="white" waves="DEFAULT"/>
- *          <m.addins:MaterialButton ui:field="btnPrev1" text="Cancel" grid="l4" marginTop="12" type="FLAT" waves="DEFAULT"/>
- *      </m.addins:MaterialStep>
- *  &lt;!-- Other Step components here -->
- *  </m.addins:MaterialStepper>
+ *  <ma:stepper.MaterialStepper ui:field="stepper">
+ *      <ma:stepper.MaterialStep step="1" title="Name of Step 1">
+ *          <m:MaterialPanel width="100%" height="300px" backgroundColor="grey lighten-2"/>
+ *          <m:MaterialButton ui:field="btnContinue1" text="Continue to Step 2" grid="l4" marginTop="12" backgroundColor="blue" textColor="white" waves="DEFAULT"/>
+ *          <m:MaterialButton ui:field="btnPrev1" text="Cancel" grid="l4" marginTop="12" type="FLAT" waves="DEFAULT"/>
+ *      </ma:stepper.MaterialStep>
+ *      &lt;!-- Other Step components here -->
+ *  </ma:stepper.MaterialStepper>
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#steppers">Material Steppers</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#steppers">Material Steppers</a>
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>, HasSelectionChangedHandlers {

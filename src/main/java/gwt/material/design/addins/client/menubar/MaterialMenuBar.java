@@ -25,7 +25,6 @@ import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
-
 /**
  * Menu bar is a component that bring a good UI UX navigation for Desktop or tablet interface.
  * It may require to have a dropdown components inside menu bar.
@@ -33,14 +32,14 @@ import gwt.material.design.client.base.MaterialWidget;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
  *{@code
- * <m.addins:MaterialMenuBar>
+ * <ma:menubar.MaterialMenuBar>
  *      &lt;!-- Menu Bar link -->
  *      <m:MateriaLink text="File" activates="dp-edit"/>
  *
@@ -53,12 +52,12 @@ import gwt.material.design.client.base.MaterialWidget;
  *          <m:MaterialLabel text="Ctrl + Y" float="RIGHT"/>
  *      </m:MaterialLink>
  *   </m:MaterialDropDown>
- * </m.addins>
+ * </ma:menubar.MaterialMenuBar>
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#menubar">MenuBar</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#menubar">MenuBar</a>
  */
 //@formatter:on
 public class MaterialMenuBar extends MaterialWidget {

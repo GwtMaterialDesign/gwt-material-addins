@@ -27,34 +27,33 @@ import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
-
 /**
- * SideProfile is a component that is attach on SideNav Component. Consists of
+ * SideProfile is a component that is attached on SideNav Component. Consists of
  * Image , Label and link components.
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
-<m:MaterialSideNav type="OPEN" m:id="sideNav" closeOnClick="false" width="280">
-    <m.addins:MaterialSideProfile url="http://static1.squarespace.com/static/51609147e4b0715db61d32b6/521b97cee4b05f031fd12dde/5519e33de4b06a1002802805/1431718693701/?format=1500w">
-        <m:MaterialImage url="http://b.vimeocdn.com/ps/339/488/3394886_300.jpg" />
-        <m:MaterialLabel text="GWT Material" textColor="white"/>
-        <m:MaterialLink text="gwt-material@gmail.com" activates="dropProfile" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white"/>
-    </m.addins:MaterialSideProfile>
-</m:MaterialSideNav>
+ * {@code
+ * <m:MaterialSideNav type="OPEN" m:id="sideNav" closeOnClick="false" width="280">
+ *    <ma:sideprofile.MaterialSideProfile url="http://static1.squarespace.com/static/51609147e4b0715db61d32b6/521b97cee4b05f031fd12dde/5519e33de4b06a1002802805/1431718693701/?format=1500w">
+ *        <m:MaterialImage url="http://b.vimeocdn.com/ps/339/488/3394886_300.jpg" />
+ *        <m:MaterialLabel text="GWT Material" textColor="white"/>
+ *        <m:MaterialLink text="gwt-material@gmail.com" activates="dropProfile" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white"/>
+ *    </ma:sideprofile.MaterialSideProfile>
+ * </m:MaterialSideNav>
  * }
  * </pre>
  *
  * @author kevzlou7979
  * @author Ben Dol
- * @see <a href="http://gwt-material-demo.herokuapp.com/#sidenavs">Material Side Profile</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!sidenavs">Material Side Profile</a>
  */
 //@formatter:on
 public class MaterialSideProfile extends MaterialWidget implements HasImage {

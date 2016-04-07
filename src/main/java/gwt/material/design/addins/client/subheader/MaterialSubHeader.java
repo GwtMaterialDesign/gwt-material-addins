@@ -35,13 +35,15 @@ import gwt.material.design.client.base.AbstractIconButton;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code <m.addins:MaterialSubHeader text="Subheader" textColor="pink" />}
+ * {@code
+ *      <ma:subheader.MaterialSubHeader text="Subheader" textColor="pink" />
+ * }
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
  * @author kevzlou7979

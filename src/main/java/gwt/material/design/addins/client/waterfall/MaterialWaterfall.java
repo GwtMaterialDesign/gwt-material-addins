@@ -26,28 +26,26 @@ import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
-
 /**
  * Material Waterfall - Act like a collapsible header below the nav bar component when scrolling up / down to provide delightful transition of components.
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
- *
  * <pre>
- *{@code
+ * {@code
  *
-<m:MaterialWaterfall backgroundColor="blue" textColor="white" height="280px">
-<m:MaterialPanel addStyleNames="container" paddingTop="20">
-<m:MaterialTitle title="GWT Material" description="Google Material Design UI / UX for GWT Applications."/>
-<m:MaterialAnchorButton text="Get Started" size="LARGE" backgroundColor="blue lighten-2" textColor="white"/>
-</m:MaterialPanel>
-</m:MaterialWaterfall>
+ * <ma:waterfall.MaterialWaterfall backgroundColor="blue" textColor="white" height="280px">
+ *      <m:MaterialPanel addStyleNames="container" paddingTop="20">
+ *          <m:MaterialTitle title="GWT Material" description="Google Material Design UI / UX for GWT Applications."/>
+ *          <m:MaterialAnchorButton text="Get Started" size="LARGE" backgroundColor="blue lighten-2" textColor="white"/>
+ *      </m:MaterialPanel>
+ * </ma:waterfall.MaterialWaterfall>
  *
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>

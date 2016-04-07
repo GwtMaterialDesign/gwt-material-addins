@@ -49,7 +49,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 //@formatter:off
-
 /**
  * MaterialCutOut is a fullscreen modal-like component to show users about new
  * features or important elements of the document.
@@ -59,7 +58,7 @@ import com.google.gwt.user.client.ui.Widget;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
@@ -67,9 +66,9 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * <pre>
  * {@code
- * <m.addins:MaterialCutOut ui:field="cutOut">
+ * <ma:cutout.MaterialCutOut ui:field="cutOut">
  *      <!-- add any widgets here -->
- * </m.addins:MaterialCutOut>
+ * </ma:cutout.MaterialCutOut>
  * }
  * </pre>
  *
@@ -91,7 +90,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  *
  * @author gilberto-torrezan
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#cutouts">Material SubHeaders</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#cutouts">Material Cutouts</a>
  */
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,

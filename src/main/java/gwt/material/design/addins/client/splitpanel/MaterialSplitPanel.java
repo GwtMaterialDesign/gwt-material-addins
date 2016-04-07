@@ -28,23 +28,33 @@ import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 
+//@formatter:off
 /**
  * A high performance content splitter compatible with touch events
+ *
+ * <h3>XML Namespace Declaration</h3>
  * <pre>
- *{@code
-    <m.addins:MaterialSplitPanel height="500px">
-        <m:MaterialPanel grid="l6 m6 s6" backgroundColor="grey lighten-2">
-            <m:MaterialTitle textAlign="CENTER" title="Left Zone" description="Content must be added here"/>
-        </m:MaterialPanel>
-        <m:MaterialPanel grid="l6 m6 s6" backgroundColor="grey lighten-3">
-            <m:MaterialTitle textAlign="CENTER" title="Right Zone" description="Content must be added here"/>
-        </m:MaterialPanel>
-    </m.addins:MaterialSplitPanel>
+ * {@code
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * }
+ * </pre>
+ *
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ * {@code
+ *   <ma:splitpanel.MaterialSplitPanel height="500px">
+ *       <m:MaterialPanel grid="l6 m6 s6" backgroundColor="grey lighten-2">
+ *           <m:MaterialTitle textAlign="CENTER" title="Left Zone" description="Content must be added here"/>
+ *       </m:MaterialPanel>
+ *       <m:MaterialPanel grid="l6 m6 s6" backgroundColor="grey lighten-3">
+ *           <m:MaterialTitle textAlign="CENTER" title="Right Zone" description="Content must be added here"/>
+ *       </m:MaterialPanel>
+ *   </ma:splitpanel.MaterialSplitPanel>
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#splitpanel">Split Panel</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#splitpanel">Split Panel</a>
  */
 //@formatter:on
 public class MaterialSplitPanel extends MaterialWidget {

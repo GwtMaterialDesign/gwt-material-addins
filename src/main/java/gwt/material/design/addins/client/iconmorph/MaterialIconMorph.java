@@ -29,24 +29,23 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialToast;
 
 //@formatter:off
-
 /**
  * Provides visual continuity by morphing two material icons.
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
-<m.addins:MaterialIconMorph iconSize="SMALL">
-    <m:MaterialIcon iconType="POLYMER" addStyleNames="source"/>
-    <m:MaterialIcon iconType="DONE" addStyleNames="target"/>
-</m.addins:MaterialIconMorph>
+ * {@code
+ * <ma:iconmorph.MaterialIconMorph iconSize="SMALL">
+ *    <m:MaterialIcon iconType="POLYMER"/>
+ *    <m:MaterialIcon iconType="DONE"/>
+ * </ma:iconmorph.MaterialIconMorph>
  * }
  * </pre>
  *

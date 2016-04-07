@@ -37,32 +37,29 @@ import gwt.material.design.client.ui.html.Span;
 import java.util.List;
 
 //@formatter:off
-
 /**
  * MaterialTreeItem is a component that is needed by {@link MaterialTree}
- *
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
- *
  * <pre>
  * {@code
  * &lt;-- Icon support -->
- * <m.addins:MaterialTreeItem text="Folder 1" iconType="FOLDER" />
+ * <ma:tree.MaterialTreeItem text="Folder 1" iconType="FOLDER" />
  * &lt;-- Image support -->
- * <m.addins:MaterialTreeItem text="Item 2.1" resource="{res.batman.png}" />
+ * <ma:tree.MaterialTreeItem text="Item 2.1" resource="{res.batman.png}" />
  * }
  * </pre>
  *
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#treeview">Tree View</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
 // @formatter:on
 public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems {

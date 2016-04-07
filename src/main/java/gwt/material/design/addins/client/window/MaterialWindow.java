@@ -47,10 +47,17 @@ import gwt.material.design.client.ui.animate.Transition;
 /**
  * Window is another kind of Modal but it has a header toolbar for maximizing and close the window. Also you can attached a tab component on its content.
  *
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * }
+ * </pre>
+ *
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- *  <m:MaterialWindow ui:field="window" />
+ *  <ma:window.MaterialWindow ui:field="window" />
  * }
  * </pre>
  *
@@ -66,7 +73,7 @@ import gwt.material.design.client.ui.animate.Transition;
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwt-material-demo.herokuapp.com/#autocompletes">Material AutoComplete</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{

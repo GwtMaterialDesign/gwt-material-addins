@@ -25,24 +25,15 @@ import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 
 //@formatter:off
-
 /**
  * Material Scrollfire - executes callback functions depending on how far into the page you've scrolled.
- *
- * <h3>XML Namespace Declaration</h3>
- * <pre>
- * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
- * }
- * </pre>
  *
  * <h3>Java Usage:</h3>
  *
  * <pre>
- *{@code
- *
-MaterialScrollfire.apply(Element e, Runnable runnableCallback);
- *
+ * {@code
+ * MaterialScrollfire.apply(Element e, Runnable runnableCallback);
+ * }
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#scrollfire">Material Scrollfire</a>
  * @author kevzlou7979

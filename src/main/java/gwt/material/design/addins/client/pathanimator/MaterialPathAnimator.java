@@ -25,26 +25,25 @@ import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 
 //@formatter:off
-
 /**
  * Custom component that provides meaningfull transition between two elements to show visual continuity.
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
-MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
+ * {@code
+ * MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
  * }
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#pathAnimator">Material Path Animator</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#pathAnimator">Material Path Animator</a>
  */
 //@formatter:on
 public class MaterialPathAnimator {
