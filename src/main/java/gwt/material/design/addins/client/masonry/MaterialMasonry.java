@@ -34,19 +34,20 @@ import gwt.material.design.client.ui.MaterialRow;
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
- * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
  * }
  * </pre>
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
- * {@code
- * <ma:masonry.MaterialMasonry>
+ * {
+ * @code
+ * <m.addins:MaterialMasonry>
  *     <m:MaterialColumn grid="l1" padding="4" backgroundColor="blue" height="200px">
  *         <m:MaterialLabel text="1"/>
  *     </m:MaterialColumn>
  *     &lt;-- Other columns here -->
- * </ma:masonry.MaterialMasonry>
+ * </m.addins:MaterialMasonry>
  * }
  * </pre>
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
@@ -58,11 +59,13 @@ public class MaterialMasonry extends MaterialRow {
     static {
         if(MaterialResourceInjector.isDebug()) {
             MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
+            MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
         } else {
             MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
+            MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs());
         }
     }
-    
+
     private String itemSelector = ".col";
     private boolean percentPosition = true;
     private boolean originLeft = true;
@@ -94,21 +97,16 @@ public class MaterialMasonry extends MaterialRow {
     private native void initMasonry(Element e) /*-{
         var that = this;
         $wnd.jQuery(window).ready(function() {
-            var grid = $wnd.jQuery(e).masonry({
-                // options...
-                itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
-                percentPosition: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isPercentPosition()(),
-                originLeft: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginLeft()(),
-                originTop: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginTop()(),
-                transitionDuration: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getTransitionDuration()() + 'ms',
-                columnWidth: '.col-sizer'
-            });
-            // change size of item by toggling gigante class
-            grid.on( 'click', '.col', function() {
-                $(this).toggleClass('gigante');
-                // trigger layout after item size changes
-                grid.masonry('layout');
-                grid.masonry('reloadItems');
+            $wnd.jQuery('.masonry-row').imagesLoaded( function() {
+                var grid = $wnd.jQuery(e).masonry({
+                    // options...
+                    itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
+                    percentPosition: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isPercentPosition()(),
+                    originLeft: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginLeft()(),
+                    originTop: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginTop()(),
+                    transitionDuration: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getTransitionDuration()() + 'ms',
+                    columnWidth: '.col-sizer'
+                });
             });
         });
     }-*/;

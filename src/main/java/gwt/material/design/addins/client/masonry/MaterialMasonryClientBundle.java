@@ -35,4 +35,7 @@ interface MaterialMasonryClientBundle extends ClientBundle {
 
     @Source("resources/js/masonry.min.js")
     TextResource masonryJs();
+
+    @Source("resources/js/imageloaded.min.js")
+    TextResource imageLoadedJs();
 }

@@ -35,4 +35,7 @@ interface MaterialMasonryDebugClientBundle extends ClientBundle {
 
     @Source("resources/js/masonry.js")
     TextResource masonryJsDebug();
+
+    @Source("resources/js/imageloaded.js")
+    TextResource imageLoadedJsDebug();
 }
