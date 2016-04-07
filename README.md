@@ -46,27 +46,26 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Tree View</li>
 <li>Waterfall</li>
 <li>Window</li>
-<li>File Uploader (On Going)</li>
-<li>Document Viewer (On Going)</li>
-<li>Rich Editor (WYSIWYG - On Going) </li> 
+<li>File Uploader</li>
+<li>Document Viewer</li>
+<li>Rich Editor</li> 
 </ul>
 
 ##Package Information
 ### java
-``` gwt.material.design.addins.client ``` - Main / Parent Package for Entry Point Classes <br/>
-``` gwt.material.design.addins.client.base ``` - Base Widgets e.g. ButtonBase <br/>
-``` gwt.material.design.addins.client.base.helper ``` Helper Classes for widgets e.g. UiHelper <br/>
-``` gwt.material.design.addins.client.base.mixin ``` Java Mixins Classes e.g. TypeMixins <br/>
-``` gwt.material.design.addins.client.constants ``` Enum Constants e.g. SideNavTypes <br/>
-``` gwt.material.design.addins.client.events ``` Custom Events for custom widget e.g. ClearActiveEvent <br/>
-``` gwt.material.design.addins.client.resources ``` Resource Interface definitions for js files e.g. MaterialResources <br/>
-``` gwt.material.design.addins.client.ui ``` Main Addin Components e.g. MaterialSubHeader <br/>
+``` addin_widget ``` - The name of the addin widget
+``` gwt.material.design.addins.client.addin_widget ``` - Main / Parent Package for Entry Point Classes <br/>
+``` gwt.material.design.addins.client.addin_widget.base ``` - Base Widgets e.g. ButtonBase <br/>
+``` gwt.material.design.addins.client.addin_widget.base.helper ``` Helper Classes for widgets e.g. UiHelper <br/>
+``` gwt.material.design.addins.client.addin_widget.base.mixin ``` Java Mixins Classes e.g. TypeMixins <br/>
+``` gwt.material.design.addins.client.addin_widget.constants ``` Enum Constants e.g. SideNavTypes <br/>
+``` gwt.material.design.addins.client.addin_widget.events ``` Custom Events for custom widget e.g. ClearActiveEvent <br/>
+``` gwt.material.design.addins.client.addin_widget.resources ``` Resource Interface definitions for js files e.g. MaterialResources <br/>
 
 ### resources
-``` gwt.material.design.addins.client.resources ``` Where module.gwt.xml is located e.g. GWTMaterialAddins.gwt.xml <br/>
-``` gwt.material.design.addins.client.resources.img ``` Image Resources of Addins module <br/>
-``` gwt.material.design.addins.client.resources.js ``` Javascript Files of Addins module <br/>
-``` gwt.material.design.addins.public.css ```  CSS Files of Addins Module <br/>
+``` gwt.material.design.addins.client.addin_widget.resources ``` Where module.gwt.xml is located e.g. GWTMaterialAddins.gwt.xml <br/>
+``` gwt.material.design.addins.client.addin_widget.resources.img ``` Image Resources of Addins module <br/>
+``` gwt.material.design.addins.client.addin_widget.resources.js ``` Javascript Files of Addins module <br/>
 
 ##Follow Us
 <a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a>
