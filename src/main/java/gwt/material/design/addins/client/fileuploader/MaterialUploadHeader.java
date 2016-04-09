@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.fileuploader;
 
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -32,6 +33,7 @@ public class MaterialUploadHeader extends MaterialWidget {
     private Span uploadedFiles = new Span();
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
     private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
+    private MaterialUploadPreview preview;
 
     public MaterialUploadHeader() {
         super(Document.get().createDivElement());
@@ -47,28 +49,36 @@ public class MaterialUploadHeader extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initUploadHeader();
+        initUploadHeader(iconClose.getElement(), iconColaps.getElement(), getPreview().getElement(), getPreview().getUploadCollection().getElement());
     }
 
-    private native void initUploadHeader() /*-{
+    private native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
         var toggle = true;
 
-        $wnd.jQuery('#upload-colaps').click(function() {
+        $wnd.jQuery(iconColaps).click(function() {
             if(toggle){
-                $wnd.jQuery('#previews').css('visibility', 'hidden');
-                $wnd.jQuery('#upload-colaps').html("keyboard_arrow_up");
-                $wnd.jQuery('#previews').css('height', '0px');
+                $wnd.jQuery(collection).css('visibility', 'hidden');
+                $wnd.jQuery(iconColaps).html("keyboard_arrow_up");
+                $wnd.jQuery(collection).css('height', '0px');
                 toggle = false;
             }else{
-                $wnd.jQuery('#previews').css('visibility', 'visible');
-                $wnd.jQuery('#upload-colaps').html("keyboard_arrow_down");
-                $wnd.jQuery('#previews').css('height', 'initial');
+                $wnd.jQuery(collection).css('visibility', 'visible');
+                $wnd.jQuery(iconColaps).html("keyboard_arrow_down");
+                $wnd.jQuery(collection).css('height', 'initial');
                 toggle = true;
             }
         });
 
-        $wnd.jQuery('#upload-close').click(function() {
-            $wnd.jQuery('.preview-container').css('visibility', 'hidden');
+        $wnd.jQuery(iconClose).click(function() {
+            $wnd.jQuery(preview).css('visibility', 'hidden');
         });
     }-*/;
+
+    public MaterialUploadPreview getPreview() {
+        return preview;
+    }
+
+    public void setPreview(MaterialUploadPreview preview) {
+        this.preview = preview;
+    }
 }

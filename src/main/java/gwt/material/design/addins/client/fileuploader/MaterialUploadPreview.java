@@ -23,17 +23,22 @@ package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.ui.MaterialCollection;
 
 public class MaterialUploadPreview extends MaterialWidget {
 
-    private MaterialCollection collection = new MaterialCollection();
+    private MaterialUploadCollection uploadCollection = new MaterialUploadCollection();
+    private MaterialUploadHeader uploadHeader = new MaterialUploadHeader();
 
     public MaterialUploadPreview() {
         super(Document.get().createDivElement());
         setStyleName("preview-container");
-        collection.setId("previews");
-        add(new MaterialUploadHeader());
-        add(new MaterialUploadCollection());
+        uploadHeader.setPreview(this);
+        add(uploadHeader);
+        add(uploadCollection);
+    }
+
+
+    public MaterialUploadCollection getUploadCollection() {
+        return uploadCollection;
     }
 }

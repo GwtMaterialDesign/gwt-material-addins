@@ -74,24 +74,24 @@
   visibility: hidden;
   z-index: 999;
 }
-.preview-container #previews{
+.preview-container .previews{
   max-height: 400px;
   overflow: auto;
 }
-.preview-container #previews .zdrop-info{
+.preview-container .previews .zdrop-info{
   width: 88%;
   margin-right: 2%;
 }
-.preview-container #previews.collection{
+.preview-container .previews.collection{
   margin: 0;
 }
-.preview-container #previews.collection .collection-item:nth-child(1){
+.preview-container .previews.collection .collection-item:nth-child(1){
   display: none;
 }
-.preview-container #previews.collection .collection-item{
+.preview-container .previews.collection .collection-item{
   position: relative;
 }
-.preview-container #previews.collection .btn-floating{
+.preview-container .previews.collection .btn-floating{
   opacity: 1 !important;
   width: 1.5em;
   height: 1.5em;
@@ -99,11 +99,11 @@
   top: 20px;
   position: absolute;
 }
-.preview-container #previews.collection .btn-floating i{
+.preview-container .previews.collection .btn-floating i{
   font-size: 1em;
   line-height: 6;
 }
-.preview-container #previews.collection .dz-error-message{
+.preview-container .previews.collection .dz-error-message{
   font-size: 0.8em;
   color: #F44336;
 }

@@ -47,7 +47,7 @@ public class MaterialUploadCollection extends MaterialCollection {
 
     public MaterialUploadCollection() {
         // Element property
-        setId("previews");
+        setStyleName("previews");
         addStyleName("card");
 
         // Collection Item property that contain the upload info, progress bar and action panel
@@ -90,5 +90,9 @@ public class MaterialUploadCollection extends MaterialCollection {
         btnClear.setDataAttribute("data-dz-remove", "");
         secondaryAction.add(btnClear);
         item.add(secondaryAction);
+    }
+
+    public MaterialCollectionItem getItem() {
+        return item;
     }
 }
