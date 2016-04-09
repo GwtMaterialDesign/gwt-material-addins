@@ -37,6 +37,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Icon Morph</li>
 <li>Masonry</li>
 <li>Menubar</li>
+<li>Overlay</li>
 <li>Path Animator</li>
 <li>Scrollfire</li>
 <li>Steppers</li>
