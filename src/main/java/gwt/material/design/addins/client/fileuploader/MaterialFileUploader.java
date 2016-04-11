@@ -121,7 +121,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             setClickable(clickable);
         }
 
-        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable());
+        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable());
     }
 
     /**
@@ -130,7 +130,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * @param e
      * @param url
      */
-    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable) /*-{
+    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery(template);
@@ -183,13 +183,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireAddedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles += 1;
                 $wnd.jQuery(uploadPreview).css('visibility', 'visible');
-                $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+                $wnd.jQuery(uploadedFiles).html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on("removedfile", function(file) {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireRemovedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles -= 1;
-                $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+                $wnd.jQuery(uploadedFiles).html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on('error', function (file, response) {

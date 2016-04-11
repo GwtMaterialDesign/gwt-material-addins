@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.fileuploader;
 
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.IconType;
@@ -41,7 +42,7 @@ public class MaterialUploadCollection extends MaterialCollection {
     private Span errorMessage = new Span();
     private MaterialCollectionSecondary secondaryAction = new MaterialCollectionSecondary();
     private MaterialButton btnClear = new MaterialButton(ButtonType.FLOATING);
-
+    private MaterialIcon previewIcon = new MaterialIcon(IconType.INSERT_DRIVE_FILE);
 
     private MaterialProgress progress = new MaterialProgress();
 
@@ -67,6 +68,10 @@ public class MaterialUploadCollection extends MaterialCollection {
         size.setDataAttribute("data-dz-size", "");
         dropInfo.add(nameWrapper);
 
+        previewIcon.setFloat(Style.Float.LEFT);
+        previewIcon.addStyleName("preview-icon");
+        dropInfo.add(previewIcon);
+
         // Upload Information - Progress bar indication of upload queues
         progress.setType(ProgressType.DETERMINATE);
         progress.getWidget(0).getElement().setAttribute("data-dz-uploadprogress", "");
@@ -82,7 +87,10 @@ public class MaterialUploadCollection extends MaterialCollection {
 
         // Secondary Action Panel
         btnClear.setId("dz-remove");
-        btnClear.setBackgroundColor("red");
+        btnClear.setBackgroundColor("transparent");
+        btnClear.setShadow(0);
+        btnClear.setWaves(WavesType.DEFAULT);
+        btnClear.setCircle(true);
         btnClear.setTextColor("white");
         btnClear.setWaves(WavesType.DEFAULT);
         btnClear.addStyleName("ph");

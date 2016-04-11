@@ -23,8 +23,12 @@ package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Span;
 
@@ -39,7 +43,17 @@ public class MaterialUploadHeader extends MaterialWidget {
         super(Document.get().createDivElement());
         setStyleName("header");
         iconClose.setId("upload-close");
+        iconClose.setCircle(true);
+        iconClose.setWaves(WavesType.DEFAULT);
+        iconClose.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                preview.setVisibility(Style.Visibility.HIDDEN);
+            }
+        });
         iconColaps.setId("upload-colaps");
+        iconColaps.setCircle(true);
+        iconColaps.setWaves(WavesType.DEFAULT);
         uploadedFiles.setId("no-uploaded-files");
         add(uploadedFiles);
         add(iconClose);
@@ -68,10 +82,6 @@ public class MaterialUploadHeader extends MaterialWidget {
                 toggle = true;
             }
         });
-
-        $wnd.jQuery(iconClose).click(function() {
-            $wnd.jQuery(preview).css('visibility', 'hidden');
-        });
     }-*/;
 
     public MaterialUploadPreview getPreview() {
@@ -80,5 +90,9 @@ public class MaterialUploadHeader extends MaterialWidget {
 
     public void setPreview(MaterialUploadPreview preview) {
         this.preview = preview;
+    }
+
+    public Span getUploadedFiles() {
+        return uploadedFiles;
     }
 }

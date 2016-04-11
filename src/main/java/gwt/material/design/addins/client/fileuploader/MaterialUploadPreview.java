@@ -41,4 +41,8 @@ public class MaterialUploadPreview extends MaterialWidget {
     public MaterialUploadCollection getUploadCollection() {
         return uploadCollection;
     }
+
+    public MaterialUploadHeader getUploadHeader() {
+        return uploadHeader;
+    }
 }
