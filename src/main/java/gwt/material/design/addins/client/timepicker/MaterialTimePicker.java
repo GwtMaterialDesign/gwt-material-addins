@@ -228,26 +228,28 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      */
     protected native void initTimePicker(String clockId, Element e, String orientation, boolean autoClose, boolean hour24) /*-{
         var that = this;
-        $wnd.jQuery(e).lolliclock({
-            autoclose: autoClose,
-            orientation: orientation,
-            hour24: hour24,
-            uniqueId: clockId,
-            beforeShow: function() {
-                that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::beforeShow()();
-            },
-            afterShow: function() {
-                that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterShow()();
-            },
-            afterHide: function() {
-                var hour = $wnd.jQuery('#' + clockId).find('.lolliclock-hours').find('.lolliclock-time-new').html();
-                var minutes = $wnd.jQuery('#' + clockId).find('.lolliclock-minutes').find('.lolliclock-time-new').html();
-                var suffix = $wnd.jQuery('#' + clockId).find('.lolliclock-am-pm').html();
-                var time =  hour + ':' + minutes + " " + suffix;
-                that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterHide(*)();
-            }
+        $wnd.jQuery(document).ready(function() {
+            $wnd.jQuery(e).lolliclock({
+                autoclose: autoClose,
+                orientation: orientation,
+                hour24: hour24,
+                uniqueId: clockId,
+                beforeShow: function() {
+                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::beforeShow()();
+                },
+                afterShow: function() {
+                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterShow()();
+                },
+                afterHide: function() {
+                    var hour = $wnd.jQuery('#' + clockId).find('.lolliclock-hours').find('.lolliclock-time-new').html();
+                    var minutes = $wnd.jQuery('#' + clockId).find('.lolliclock-minutes').find('.lolliclock-time-new').html();
+                    var suffix = $wnd.jQuery('#' + clockId).find('.lolliclock-am-pm').html();
+                    var time =  hour + ':' + minutes + " " + suffix;
+                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterHide(*)();
+                }
+            });
+            $wnd.jQuery(e).blur();
         });
-        $wnd.jQuery(e).blur();
     }-*/;
     
     

@@ -91,7 +91,9 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
     }
 
     private native void initSubheaders(String subheader, Element container) /*-{
-        $wnd.initSubheader(subheader, container);
+        $wnd.jQuery(document).ready(function() {
+            $wnd.initSubheader(subheader, container);
+        });
     }-*/;
 
     @Override

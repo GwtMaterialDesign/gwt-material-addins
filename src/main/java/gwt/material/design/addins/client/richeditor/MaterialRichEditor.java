@@ -90,28 +90,30 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param heightOptions
      */
     private native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions, String html) /*-{
-        var toolbar = [
-            ['style', styleOptions],
-            ['para', paraOptions],
-            ['height', heightOptions],
-            ['undo', undoOptions],
-            ['fonts', fontOptions],
-            ['color', colorOptions],
-            ['ckMedia', ckMediaOptions],
-            ['misc', miscOptions],
-        ];
+        $wnd.jQuery(document).ready(function() {
+            var toolbar = [
+                ['style', styleOptions],
+                ['para', paraOptions],
+                ['height', heightOptions],
+                ['undo', undoOptions],
+                ['fonts', fontOptions],
+                ['color', colorOptions],
+                ['ckMedia', ckMediaOptions],
+                ['misc', miscOptions],
+            ];
 
-        $wnd.jQuery(e).materialnote({
-            toolbar: toolbar,
-            airMode: airMode,
-            followingToolbar: false,
-            placeholder: placeholder,
-            height: height,
-            minHeight: 200,
-            defaultBackColor: '#777',
-            defaultTextColor: '#fff'
+            $wnd.jQuery(e).materialnote({
+                toolbar: toolbar,
+                airMode: airMode,
+                followingToolbar: false,
+                placeholder: placeholder,
+                height: height,
+                minHeight: 200,
+                defaultBackColor: '#777',
+                defaultTextColor: '#fff'
+            });
+            $wnd.jQuery(e).materialnote('html', html)
         });
-        $wnd.jQuery(e).materialnote('html', html)
     }-*/;
 
     @Override

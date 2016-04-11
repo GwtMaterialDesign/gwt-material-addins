@@ -111,40 +111,42 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     private native void initDraggable(Element target, boolean inertia, String restriction, boolean endOnly,
                                       double top, double left, double bottom, double right) /*-{
         var that = this;
-        $wnd.interact(target)
-            .draggable({
-                inertia: inertia,
-                restrict: {
-                    restriction: restriction,
-                    endOnly: endOnly,
-                    elementRect: { top: top, left: left, bottom: bottom, right: right}
-                },
-                onstart: dragStartListener,
-                onmove: dragMoveListener,
-                onend: dragEndListener,
-            });
+        $wnd.jQuery(document).ready(function() {
+            $wnd.interact(target)
+                .draggable({
+                    inertia: inertia,
+                    restrict: {
+                        restriction: restriction,
+                        endOnly: endOnly,
+                        elementRect: { top: top, left: left, bottom: bottom, right: right}
+                    },
+                    onstart: dragStartListener,
+                    onmove: dragMoveListener,
+                    onend: dragEndListener,
+                });
 
-        function dragEndListener(event) {
-            that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragEndEvent()();
-        }
+            function dragEndListener(event) {
+                that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragEndEvent()();
+            }
 
-        function dragStartListener(event) {
-            that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragStartEvent()();
-        }
+            function dragStartListener(event) {
+                that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragStartEvent()();
+            }
 
-        function dragMoveListener (event) {
-            var target = event.target,
-                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+            function dragMoveListener (event) {
+                var target = event.target,
+                    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-            target.style.webkitTransform =
-                target.style.transform =
-                    'translate(' + x + 'px, ' + y + 'px)';
+                target.style.webkitTransform =
+                    target.style.transform =
+                        'translate(' + x + 'px, ' + y + 'px)';
 
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
-            that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragMoveEvent()();
-        }
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+                that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragMoveEvent()();
+            }
+        });
     }-*/;
 
     @Override
