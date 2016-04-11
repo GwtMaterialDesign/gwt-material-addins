@@ -24,6 +24,8 @@ package gwt.material.design.addins.client.fileuploader;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
@@ -37,6 +39,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import java.util.Date;
 
 //@formatter:off
+
 /**
  * Custom file uploader with Dnd support with the help of dropzone.js. It has multiple
  * feature just like the GWT File Uploader core widget.
@@ -77,12 +80,14 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private FileMethod method = FileMethod.POST; // Defaults to "post" and can be changed to "put" if necessary.
     private int maxFiles = 100; // If the number of files you upload exceeds, the event maxfilesexceeded will be called. By default it's 100 files.
     private String acceptedFiles = ""; // The default implementation of accept checks the file's mime type or extension against this list. This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
+    private String clickable = "";
+    private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement());
         setStyleName("fileuploader");
         setId("zdrop");
-        add(new MaterialUploadPreview());
+        add(uploadPreview);
     }
 
     @Override
@@ -91,8 +96,32 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         initDropzone();
     }
 
+
+    @Override
+    public void add(Widget child) {
+        super.add(child);
+    }
+
+    public native void fireYes() /*-{
+        alert('Yes');
+    }-*/;
+
+    public native void fireNo() /*-{
+        alert('No');
+    }-*/;
+
     public void initDropzone() {
-        initDropzone(getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles());
+        String previews = DOM.createUniqueId();
+        uploadPreview.getUploadCollection().setId(previews);
+
+        if(getWidget(1) instanceof MaterialUploadLabel){
+            MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
+            String clickable = DOM.createUniqueId();
+            label.getIcon().setId(clickable);
+            setClickable(clickable);
+        }
+
+        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable());
     }
 
     /**
@@ -101,17 +130,17 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * @param e
      * @param url
      */
-    private native void initDropzone(Element e, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles) /*-{
+    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
-            var previewNode = $wnd.jQuery("#zdrop-template");
-            var previewContainer = $wnd.jQuery("#previews").html();
+            var previewNode = $wnd.jQuery(template);
+            var previewContainer = $wnd.jQuery("#" + previews).html();
             previewNode.id = "";
             var previewTemplate = previewNode.parent().html();
 
             var totalFiles = 0;
 
-            var zdrop = new $wnd.Dropzone("#zdrop", {
+            var zdrop = new $wnd.Dropzone(e, {
                 url: url,
                 maxFilesize: maxFileSize,
                 method: method,
@@ -119,13 +148,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 previewTemplate: previewTemplate,
                 acceptedFiles: acceptedFiles,
                 autoQueue: autoQueue,
-                previewsContainer: "#previews",
-                clickable: "#upload-label"
+                previewsContainer: "#" + previews,
+                clickable: "#" + clickable
             });
 
             zdrop.on('drop', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDropEvent()();
-                $wnd.jQuery('.fileuploader').removeClass("active");
+                $wnd.jQuery(e).removeClass("active");
             });
 
             zdrop.on('dragstart', function () {
@@ -138,7 +167,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
             zdrop.on('dragenter', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragEnterEvent()();
-                $wnd.jQuery('.fileuploader').addClass("active");
+                $wnd.jQuery(e).addClass("active");
             });
 
             zdrop.on('dragover', function () {
@@ -147,20 +176,20 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
             zdrop.on('dragleave', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragLeaveEvent()();
-                $wnd.jQuery('.fileuploader').removeClass("active");
+                $wnd.jQuery(e).removeClass("active");
             });
 
             zdrop.on("addedfile", function(file) {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireAddedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles += 1;
-                $wnd.jQuery('.preview-container').css('visibility', 'visible');
-                $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+                $wnd.jQuery(uploadPreview).css('visibility', 'visible');
+                $wnd.jQuery(uploadedFiles).html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on("removedfile", function(file) {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireRemovedFileEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
                 totalFiles -= 1;
-                $wnd.jQuery('#no-uploaded-files').html('Uploaded files ' + totalFiles);
+                $wnd.jQuery(uploadedFiles).html('Uploaded files ' + totalFiles);
             });
 
             zdrop.on('error', function (file, response) {
@@ -450,6 +479,14 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     @Override
     public HandlerRegistration addMaxFilesExceededHandler(MaxFilesExceededEvent.MaxFilesExceededHandler<UploadFile> handler) {
         return addHandler(handler, MaxFilesExceededEvent.getType());
+    }
+
+    public String getClickable() {
+        return clickable;
+    }
+
+    public void setClickable(String clickable) {
+        this.clickable = clickable;
     }
 
     @Override
