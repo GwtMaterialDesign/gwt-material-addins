@@ -22,11 +22,9 @@ package gwt.material.design.addins.client;
 
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.client.ui.MaterialToast;
 
 /**
  * Resource Injector for injecting external resources such as javascript and css files.
@@ -69,17 +67,12 @@ public class MaterialResourceInjector {
         final String text = resource.getText() +
                 (sourceUrl ? "//# sourceURL="+resource.getName()+".js" : "");
 
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+        // Inject the script resource
+        ScriptInjector.fromString(text)
+                .setWindow(ScriptInjector.TOP_WINDOW)
+                .setRemoveTag(removeTag)
+                .inject();
 
-            @Override
-            public void execute() {
-                // Inject the script resource
-                ScriptInjector.fromString(text)
-                        .setWindow(ScriptInjector.TOP_WINDOW)
-                        .setRemoveTag(removeTag)
-                        .inject();
-            }
-        });
     }
 
     public static void injectCss(TextResource resource) {
