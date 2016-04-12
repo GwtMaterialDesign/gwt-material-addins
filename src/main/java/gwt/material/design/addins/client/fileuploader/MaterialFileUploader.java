@@ -35,6 +35,7 @@ import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Display;
 
 import java.util.Date;
 
@@ -82,6 +83,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private String acceptedFiles = ""; // The default implementation of accept checks the file's mime type or extension against this list. This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
     private String clickable = "";
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
+    private boolean preview = true;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement());
@@ -102,25 +104,22 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         super.add(child);
     }
 
-    public native void fireYes() /*-{
-        alert('Yes');
-    }-*/;
-
-    public native void fireNo() /*-{
-        alert('No');
-    }-*/;
-
     public void initDropzone() {
         String previews = DOM.createUniqueId();
         uploadPreview.getUploadCollection().setId(previews);
-
-        if(getWidget(1) instanceof MaterialUploadLabel){
-            MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
+        if(clickable.isEmpty()) {
             String clickable = DOM.createUniqueId();
-            label.getIcon().setId(clickable);
+            if (getWidget(1) instanceof MaterialUploadLabel) {
+                MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
+                label.getIcon().setId(clickable);
+            } else {
+                getWidget(1).getElement().setId(clickable);
+            }
             setClickable(clickable);
         }
-
+        if(!isPreview()){
+            uploadPreview.setDisplay(Display.NONE);
+        }
         initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable());
     }
 
@@ -492,5 +491,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     @Override
     public void fireMaxFilesExceededEvent(String fileName, String lastModified, String size, String type) {
         MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+    }
+
+    public boolean isPreview() {
+        return preview;
+    }
+
+    public void setPreview(boolean preview) {
+        this.preview = preview;
     }
 }
