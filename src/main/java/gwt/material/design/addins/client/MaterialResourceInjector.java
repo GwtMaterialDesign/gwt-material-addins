@@ -58,28 +58,35 @@ public class MaterialResourceInjector {
     }-*/;
 
     public static void injectJs(TextResource resource) {
-        injectJs(resource, true, false);
+        injectJs(resource, true, false, true);
     }
 
     public static void injectDebugJs(TextResource resource) {
-        injectJs(resource, false, true);
+        injectJs(resource, false, true, true);
     }
 
-    public static void injectJs(TextResource resource, final boolean removeTag, boolean sourceUrl) {
+    public static void injectJs(TextResource resource, final boolean removeTag, boolean sourceUrl, boolean isScheduleDeferred) {
         final String text = resource.getText() +
                 (sourceUrl ? "//# sourceURL="+resource.getName()+".js" : "");
 
-        Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+        if(isScheduleDeferred) {
+            Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
-            @Override
-            public void execute() {
-                // Inject the script resource
-                ScriptInjector.fromString(text)
-                        .setWindow(ScriptInjector.TOP_WINDOW)
-                        .setRemoveTag(removeTag)
-                        .inject();
-            }
-        });
+                @Override
+                public void execute() {
+                    // Inject the script resource
+                    ScriptInjector.fromString(text)
+                            .setWindow(ScriptInjector.TOP_WINDOW)
+                            .setRemoveTag(removeTag)
+                            .inject();
+                }
+            });
+        }else{
+            ScriptInjector.fromString(text)
+                    .setWindow(ScriptInjector.TOP_WINDOW)
+                    .setRemoveTag(removeTag)
+                    .inject();
+        }
     }
 
     public static void injectCss(TextResource resource) {

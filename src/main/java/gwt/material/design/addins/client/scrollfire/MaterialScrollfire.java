@@ -43,9 +43,9 @@ public class MaterialScrollfire {
 
     static {
         if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialScrollfireDebugClientBundle.INSTANCE.scrollfireDebugJs());
+            MaterialResourceInjector.injectJs(MaterialScrollfireDebugClientBundle.INSTANCE.scrollfireDebugJs(), false, true, false);
         } else {
-            MaterialResourceInjector.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs());
+            MaterialResourceInjector.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs(), true, false, false);
         }
     }
 
