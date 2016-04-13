@@ -120,7 +120,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         if(!isPreview()){
             uploadPreview.setDisplay(Display.NONE);
         }
-        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable());
+        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview);
     }
 
     /**
@@ -129,7 +129,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * @param e
      * @param url
      */
-    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable) /*-{
+    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable,boolean preview) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery(template);
@@ -138,7 +138,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             var previewTemplate = previewNode.parent().html();
 
             var totalFiles = 0;
-
             var zdrop = new $wnd.Dropzone(e, {
                 url: url,
                 maxFilesize: maxFileSize,
@@ -153,7 +152,9 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
             zdrop.on('drop', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDropEvent()();
-                $wnd.jQuery(e).removeClass("active");
+                if(preview) {
+                    $wnd.jQuery(e).removeClass("active");
+                }
             });
 
             zdrop.on('dragstart', function () {
@@ -166,7 +167,9 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
             zdrop.on('dragenter', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragEnterEvent()();
-                $wnd.jQuery(e).addClass("active");
+                if(preview){
+                    $wnd.jQuery(e).addClass("active");
+                }
             });
 
             zdrop.on('dragover', function () {
@@ -175,7 +178,9 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
             zdrop.on('dragleave', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDragLeaveEvent()();
-                $wnd.jQuery(e).removeClass("active");
+                if(preview) {
+                    $wnd.jQuery(e).removeClass("active");
+                }
             });
 
             zdrop.on("addedfile", function(file) {
@@ -204,10 +209,10 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on("totaluploadprogress", function (progress) {
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireTotalUploadProgressEvent(*)(progress);
                 var progr = document.querySelector(".progress .determinate");
                 if (progr === undefined || progr === null)
                     return;
-
                 progr.style.width = progress + "%";
             });
 
@@ -402,7 +407,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireAddedFileEvent(String fileName, String lastModified, String size, String type) {
-        AddedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        AddedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -412,7 +417,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireRemovedFileEvent(String fileName, String lastModified, String size, String type) {
-        RemovedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        RemovedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -422,7 +427,17 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
-        ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type), new UploadResponse(responseCode, responseMessage));
+        ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
+    }
+
+    @Override
+    public HandlerRegistration addTotalUploadProgressHandler(TotalUploadProgressEvent.TotalUploadProgressHandler handler) {
+        return addHandler(handler, TotalUploadProgressEvent.TYPE);
+    }
+
+    @Override
+    public void fireTotalUploadProgressEvent(double progress) {
+        TotalUploadProgressEvent.fire(this, progress);
     }
 
     @Override
@@ -432,7 +447,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireSendingEvent(String fileName, String lastModified, String size, String type) {
-        SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -442,7 +457,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireSuccessEvent(String fileName, String lastModified, String size, String type) {
-        SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -452,7 +467,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireCompleteEvent(String fileName, String lastModified, String size, String type) {
-        CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -462,7 +477,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireCancelEvent(String fileName, String lastModified, String size, String type) {
-        CanceledEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        CanceledEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -472,7 +487,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireMaxFilesReachEvent(String fileName, String lastModified, String size, String type) {
-        MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     @Override
@@ -490,7 +505,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public void fireMaxFilesExceededEvent(String fileName, String lastModified, String size, String type) {
-        MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Long.parseLong(size), type));
+        MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
 
     public boolean isPreview() {

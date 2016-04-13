@@ -32,12 +32,12 @@ public class UploadFile implements Serializable {
 
     private String name;
     private Date lastModified;
-    private long fileSize;
+    private double fileSize;
     private String type;
 
     public UploadFile() {}
 
-    public UploadFile(String name, Date lastModified, long fileSize, String type) {
+    public UploadFile(String name, Date lastModified, double fileSize, String type) {
         this.name = name;
         this.lastModified = lastModified;
         this.fileSize = fileSize;
@@ -60,11 +60,12 @@ public class UploadFile implements Serializable {
         this.lastModified = lastModified;
     }
 
-    public long getFileSize() {
-        return fileSize;
+    public double getFileSize() {
+        double kb = fileSize / 1024;
+        return kb / 1024;
     }
 
-    public void setFileSize(long fileSize) {
+    public void setFileSize(double fileSize) {
         this.fileSize = fileSize;
     }
 

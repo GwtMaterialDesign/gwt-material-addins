@@ -101,6 +101,15 @@ public interface HasFileUpload<T> extends HasHandlers {
     void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
 
     /**
+     * Called with the total uploadProgress (0-100). This event can be used to show the overall upload progress of all files.
+     * @param handler
+     * @return
+     */
+    HandlerRegistration addTotalUploadProgressHandler(TotalUploadProgressEvent.TotalUploadProgressHandler handler);
+
+    void fireTotalUploadProgressEvent(double progress);
+
+    /**
      * Called just before each file is sent. Gets the xhr object and the formData objects as second and third parameters, so you can modify them (for example to add a CSRF token) or add additional data.
      * @param handler
      */
