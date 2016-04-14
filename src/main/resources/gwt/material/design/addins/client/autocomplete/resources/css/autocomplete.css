@@ -27,7 +27,7 @@ ul.multiValueSuggestBox-list {
     margin-right: 12px;
 }
 .gwt-SuggestBoxPopup {
-    z-index: 1000;
+    z-index: 9999;
     width: 300px !important;
     background: white;
     border-radius: 2px;
