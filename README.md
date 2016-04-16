@@ -31,25 +31,26 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <ul>
 <li>Autcomplete</li>
 <li>Bubble</li>
-<li>Camera Capture</li>
-<li>Cutouts</li>
+<li>Camera</li>
+<li>Cutout</li>
+<li>Document Viewer</li>
 <li>Dnd</li>
+<li>File Uploader</li>
 <li>Icon Morph</li>
 <li>Masonry</li>
 <li>Menubar</li>
 <li>Overlay</li>
 <li>Path Animator</li>
+<li>Rich Editor</li> 
 <li>Scrollfire</li>
+<li>SplitPanel</li>
 <li>Steppers</li>
-<li>Subheaders</li>
+<li>Subheader</li>
 <li>Swipeable</li>
-<li>Time Pickers</li>
+<li>Time Picker</li>
 <li>Tree View</li>
 <li>Waterfall</li>
 <li>Window</li>
-<li>File Uploader</li>
-<li>Document Viewer</li>
-<li>Rich Editor</li> 
 </ul>
 
 ##Package Information
