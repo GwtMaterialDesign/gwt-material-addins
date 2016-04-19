@@ -53,6 +53,9 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Window</li>
 </ul>
 
+##Documentation
+We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apidocs-addins/) for better understanding the usage of addins.
+
 ##Package Information
 ### java
 ``` addin_widget ``` - The name of the addin widget
