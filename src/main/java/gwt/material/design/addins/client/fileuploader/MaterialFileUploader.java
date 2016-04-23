@@ -36,6 +36,7 @@ import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
+import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.Date;
 
@@ -84,6 +85,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private String clickable = "";
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
     private boolean preview = true;
+    private boolean initialize = false;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement());
@@ -95,7 +97,10 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     @Override
     protected void onLoad() {
         super.onLoad();
-        initDropzone();
+        if(!isInitialize()) {
+            initDropzone();
+            setInitialize(true);
+        }
     }
 
 
@@ -514,5 +519,21 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     public void setPreview(boolean preview) {
         this.preview = preview;
+    }
+
+    /**
+     * Check wether the component has been initialized
+     * @return
+     */
+    public boolean isInitialize() {
+        return initialize;
+    }
+
+    /**
+     * Set the initialization of the component
+     * @param initialize
+     */
+    public void setInitialize(boolean initialize) {
+        this.initialize = initialize;
     }
 }
