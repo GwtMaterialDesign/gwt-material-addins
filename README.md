@@ -2,12 +2,21 @@
 # gwt-material-addins [![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins)
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
-## Usage
+## Current Version
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
     <version>1.5.0</version>
+</dependency>
+```
+
+## Snapshot Version
+```xml
+<dependency>
+    <groupId>com.github.gwtmaterialdesign</groupId>
+    <artifactId>gwt-material-addins</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
 </dependency>
 ```
 
