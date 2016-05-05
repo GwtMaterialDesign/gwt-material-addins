@@ -30,8 +30,7 @@ public class MaterialUploadPreview extends MaterialWidget {
     private MaterialUploadHeader uploadHeader = new MaterialUploadHeader();
 
     public MaterialUploadPreview() {
-        super(Document.get().createDivElement());
-        setStyleName("preview-container");
+        super(Document.get().createDivElement(), "preview-container");
         uploadHeader.setPreview(this);
         add(uploadHeader);
         add(uploadCollection);

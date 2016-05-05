@@ -88,8 +88,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private boolean initialize = false;
 
     public MaterialFileUploader() {
-        super(Document.get().createDivElement());
-        setStyleName("fileuploader");
+        super(Document.get().createDivElement(), "fileuploader");
         setId("zdrop");
         add(uploadPreview);
     }

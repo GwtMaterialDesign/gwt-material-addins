@@ -72,8 +72,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
     private final CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin = new CssTypeMixin<>(this);
 
     public MaterialSubHeaderContainer() {
-        super(Document.get().createDivElement());
-        setStyleName("container1");
+        super(Document.get().createDivElement(), "container1");
     }
 
     @Override

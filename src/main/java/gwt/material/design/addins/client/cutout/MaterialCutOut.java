@@ -116,11 +116,10 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private HandlerRegistration scrollHandler;
 
     public MaterialCutOut() {
-        super(Document.get().createDivElement());
+        super(Document.get().createDivElement(), "material-cutout");
         focus = Document.get().createDivElement();
         getElement().appendChild(focus);
 
-        setStyleName("material-cutout");
         Style style = getElement().getStyle();
         style.setWidth(100, Unit.PCT);
         style.setHeight(100, Unit.PCT);

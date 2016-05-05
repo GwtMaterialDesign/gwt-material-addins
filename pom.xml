@@ -14,14 +14,14 @@
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>1.5.0</gwt-material.version>
+        <gwt-material.version>1.5.1-SNAPSHOT</gwt-material.version>
     </properties>
 
     <scm>
         <connection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</connection>
         <developerConnection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</developerConnection>
         <url>http://github.com/GwtMaterialDesign/gwt-material-addins</url>
-        <tag>v1.5.1-SNAPSHOT</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>

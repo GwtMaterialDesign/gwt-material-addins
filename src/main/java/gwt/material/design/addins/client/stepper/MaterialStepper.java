@@ -89,8 +89,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
     public MaterialStepper (){
-        super(Document.get().createDivElement());
-        setStyleName("stepper");
+        super(Document.get().createDivElement(), "stepper");
         divFeedback.setStyleName("feedback");
         divFeedback.add(feedback);
     }

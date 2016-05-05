@@ -71,8 +71,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     }
 
     public MaterialBubble() {
-        super(Document.get().createSpanElement());
-        setStyleName("bubble");
+        super(Document.get().createSpanElement(), "bubble");
         triangle = new MaterialWidget(Document.get().createDivElement());
         triangle.setStyleName("triangle");
         positionMixin = new CssNameMixin<>(triangle);
