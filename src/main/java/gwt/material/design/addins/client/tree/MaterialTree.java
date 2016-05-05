@@ -75,8 +75,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     private MaterialTreeItem selectedTree;
 
     public MaterialTree() {
-        super(Document.get().createDivElement());
-        setStyleName("tree");
+        super(Document.get().createDivElement(), "tree");
     }
 
     private void initSelectionEvent() {

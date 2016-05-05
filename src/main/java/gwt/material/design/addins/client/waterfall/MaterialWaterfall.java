@@ -69,8 +69,7 @@ public class MaterialWaterfall extends MaterialWidget {
     private double offset;
 
     public MaterialWaterfall() {
-        super(Document.get().createDivElement());
-        setStyleName("waterfall");
+        super(Document.get().createDivElement(), "waterfall");
         setShadow(1);
     }
 

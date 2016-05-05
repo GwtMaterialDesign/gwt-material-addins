@@ -66,8 +66,7 @@ public class MaterialIconMorph extends MaterialWidget {
     private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);
 
     public MaterialIconMorph() {
-        super(Document.get().createDivElement());
-        setStyleName("anim-container");
+        super(Document.get().createDivElement(), "anim-container");
         getElement().setAttribute("onclick", "this.classList.toggle('morphed')");
     }
 

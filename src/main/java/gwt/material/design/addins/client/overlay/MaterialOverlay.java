@@ -59,7 +59,6 @@ public class MaterialOverlay extends MaterialWidget {
     }
 
     public MaterialOverlay() {
-        super(Document.get().createDivElement());
-        setStyleName("overlay-panel");
+        super(Document.get().createDivElement(), "overlay-panel");
     }
 }

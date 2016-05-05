@@ -86,8 +86,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private Axis axis = Axis.VERTICAL;
 
     public MaterialStep() {
-        super(Document.get().createDivElement());
-        setStyleName("step");
+        super(Document.get().createDivElement(), "step");
 
         super.add(conCircle);
         conCircle.add(divCircle);

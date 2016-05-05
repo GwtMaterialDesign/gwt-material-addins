@@ -74,7 +74,7 @@ public class MaterialMasonry extends MaterialRow {
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {
-        addStyleName("masonry-row");
+        setInitialClass("masonry-row");
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName("col-sizer");
         add(sizerDiv);

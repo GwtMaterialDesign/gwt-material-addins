@@ -88,8 +88,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     private final String DISABLED = "disabled-swipe";
 
     public MaterialSwipeablePanel() {
-        super(Document.get().createDivElement());
-        setStyleName("swipeable");
+        super(Document.get().createDivElement(), "swipeable");
     }
 
     @Override

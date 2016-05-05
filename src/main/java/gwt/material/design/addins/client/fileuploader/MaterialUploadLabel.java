@@ -34,9 +34,8 @@ public class MaterialUploadLabel extends MaterialWidget implements HasTitle {
     private final TitleMixin<MaterialUploadLabel> titleMixin = new TitleMixin<>(this);
 
     public MaterialUploadLabel() {
-        super(Document.get().createDivElement());
+        super(Document.get().createDivElement(), "upload-label");
         add(icon);
-        setId("upload-label");
     }
 
     @Override

@@ -105,11 +105,10 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
 
     public MaterialWindow() {
-        super(Document.get().createDivElement());
+        super(Document.get().createDivElement(), "window-overlay");
         window.setStyleName("window");
         content.setStyleName("content");
         super.add(window);
-        setStyleName("window-overlay");
         initWindow();
     }
 
