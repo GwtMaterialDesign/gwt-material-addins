@@ -97,7 +97,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     protected void onLoad() {
         super.onLoad();
-        goToStep(currentStepIndex + 1);
+        if(getChildren().size() != 0) {
+            goToStep(currentStepIndex + 1);
+        }
     }
 
     /**
