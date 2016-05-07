@@ -1,5 +1,5 @@
-function initWaterfall(showCallback, hideCallback, offset) {
-    $('nav').pushpin({ top: $('.waterfall').offset().height });
+function initWaterfall(height, showCallback, hideCallback, offset) {
+    $('nav').pushpin({ top: height });
     $('nav').addClass('z-depth-0');
 
     var callbacks = $.Callbacks();
