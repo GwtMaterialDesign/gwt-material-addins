@@ -124,18 +124,6 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
     @Override
     public void setHTML(final String html) {
         this.html = html;
-        if(!this.isAttached()) {
-            addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initRichEditor();
-                    }
-                }
-            });
-        }else {
-            initRichEditor();
-        }
     }
 
     @Override
