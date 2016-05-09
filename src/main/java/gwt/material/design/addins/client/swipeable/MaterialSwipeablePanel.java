@@ -186,13 +186,27 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }-*/;
 
     @Override
-    public HandlerRegistration addSwipeLeft(SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
-        return addHandler(handler, SwipeLeftEvent.getType());
+    public HandlerRegistration addSwipeLeft(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
+        return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
+            @Override
+            public void onSwipeLeft(SwipeLeftEvent<Widget> event) {
+                if(isEnabled()){
+                    handler.onSwipeLeft(event);
+                }
+            }
+        }, SwipeLeftEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addSwipeRight(SwipeRightEvent.SwipeRightHandler<Widget> handler) {
-        return addHandler(handler, SwipeRightEvent.getType());
+    public HandlerRegistration addSwipeRight(final SwipeRightEvent.SwipeRightHandler<Widget> handler) {
+        return addHandler(new SwipeRightEvent.SwipeRightHandler<Widget>() {
+            @Override
+            public void onSwipeRight(SwipeRightEvent<Widget> event) {
+                if(isEnabled()){
+                    handler.onSwipeRight(event);
+                }
+            }
+        }, SwipeRightEvent.getType());
     }
 
     /**
