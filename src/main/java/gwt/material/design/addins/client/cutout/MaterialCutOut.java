@@ -493,13 +493,27 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<MaterialCutOut> handler) {
-        return addHandler(handler, CloseEvent.getType());
+    public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
+        return addHandler(new CloseHandler<MaterialCutOut>() {
+            @Override
+            public void onClose(CloseEvent<MaterialCutOut> event) {
+                if(isEnabled()){
+                    handler.onClose(event);
+                }
+            }
+        }, CloseEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addClickHandler(ClickHandler handler) {
-        return addDomHandler(handler, ClickEvent.getType());
+    public HandlerRegistration addClickHandler(final ClickHandler handler) {
+        return addDomHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if(isEnabled()){
+                    handler.onClick(event);
+                }
+            }
+        }, ClickEvent.getType());
     }
 
 }
