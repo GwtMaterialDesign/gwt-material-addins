@@ -159,7 +159,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         // Add a draggable header
         MaterialDnd dnd = new MaterialDnd();
         dnd.setTarget(window);
-        dnd.setIgnoreFrom(content);
+        dnd.setIgnoreFrom(".content, .window-action");
         dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
     }
 

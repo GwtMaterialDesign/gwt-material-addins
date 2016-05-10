@@ -171,6 +171,30 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
         }
     }
 
+    @Override
+    public void setIgnoreFrom(final String selector) {
+        if(!target.isAttached()){
+            target.addAttachHandler(new AttachEvent.Handler() {
+                @Override
+                public void onAttachOrDetach(AttachEvent event) {
+                    initIgnoreFrom(target.getElement(), selector);
+                }
+            });
+        }else {
+            initIgnoreFrom(target.getElement(), selector);
+        }
+
+    }
+
+    /**
+     * Initialize the ignoreFrom function as selector to exclude any widget from dragging
+     * @param target
+     * @param selector
+     */
+    private native void initIgnoreFrom(Element target, String selector) /*-{
+        $wnd.interact(target).ignoreFrom(selector);
+    }-*/;
+
     /**
      * Initialize the ignoreFrom function to exclude any widget from dragging
      * @param target
