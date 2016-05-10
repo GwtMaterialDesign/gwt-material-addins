@@ -228,13 +228,27 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<Boolean> handler) {
-        return addHandler(handler, CloseEvent.getType());
+    public HandlerRegistration addCloseHandler(final CloseHandler<Boolean> handler) {
+        return addHandler(new CloseHandler<Boolean>() {
+            @Override
+            public void onClose(CloseEvent<Boolean> event) {
+                if(isEnabled()){
+                    handler.onClose(event);
+                }
+            }
+        }, CloseEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<Boolean> handler) {
-        return addHandler(handler, OpenEvent.getType());
+    public HandlerRegistration addOpenHandler(final OpenHandler<Boolean> handler) {
+        return addHandler(new OpenHandler<Boolean>() {
+            @Override
+            public void onOpen(OpenEvent<Boolean> event) {
+                if(isEnabled()){
+                    handler.onOpen(event);
+                }
+            }
+        }, OpenEvent.getType());
     }
 
     @Override

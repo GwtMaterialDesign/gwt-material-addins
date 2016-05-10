@@ -609,8 +609,15 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     }
 
     @Override
-    public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
-        return itemBox.addKeyUpHandler(handler);
+    public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
+        return itemBox.addKeyUpHandler(new KeyUpHandler() {
+            @Override
+            public void onKeyUp(KeyUpEvent event) {
+                if(isEnabled()){
+                    handler.onKeyUp(event);
+                }
+            }
+        });
     }
 
     @Override
@@ -624,8 +631,15 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     }
 
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<Suggestion> handler) {
-        return addHandler(handler, SelectionEvent.getType());
+    public HandlerRegistration addSelectionHandler(final SelectionHandler<Suggestion> handler) {
+        return addHandler(new SelectionHandler<Suggestion>() {
+            @Override
+            public void onSelection(SelectionEvent<Suggestion> event) {
+                if(isEnabled()){
+                    handler.onSelection(event);
+                }
+            }
+        }, SelectionEvent.getType());
     }
 
     /**
@@ -719,8 +733,15 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<? extends Suggestion>> handler) {
-        return addHandler(handler, ValueChangeEvent.getType());
+    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<List<? extends Suggestion>> handler) {
+        return addHandler(new ValueChangeHandler<List<? extends Suggestion>>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<List<? extends Suggestion>> event) {
+                if(isEnabled()){
+                    handler.onValueChange(event);
+                }
+            }
+        }, ValueChangeEvent.getType());
     }
 
     /**
