@@ -22,7 +22,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 
 Import the theme in your GWT Module
 ```xml
-<inherits name="gwt.material.design.addins.GwtMaterialAddins"/>
+<inherits name="gwt.material.design.addins.GWTMaterialAddins"/>
 ```
 Define the ui:binder with single import (e.g Bubble and Timer Picker using a single package import)
 ```xml
