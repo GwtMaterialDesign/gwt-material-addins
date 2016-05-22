@@ -21,12 +21,9 @@ package gwt.material.design.addins.client;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.client.ui.MaterialToast;
 
 /**
  * Resource Injector for injecting external resources such as javascript and css files.
@@ -37,14 +34,6 @@ public class MaterialResourceInjector {
     private static boolean debug;
     private static HeadElement head;
 
-    public static void injectCss(String resource) {
-        LinkElement linkElement = Document.get().createLinkElement();
-        linkElement.setType("text/css");
-        linkElement.setRel("stylesheet");
-        linkElement.setHref(GWT.getModuleBaseURL() + "css/" + resource);
-        getHead().appendChild(linkElement);
-    }
-
     private static HeadElement getHead() {
         if(head == null) {
             Element elt = Document.get().getElementsByTagName("head").getItem(0);
@@ -53,40 +42,22 @@ public class MaterialResourceInjector {
         return head;
     }
 
-    private native static boolean isNotLoadedJquery() /*-{
-        return !$wnd['jQuery'] || (typeof $wnd['jQuery'] !== 'function');
-    }-*/;
-
     public static void injectJs(TextResource resource) {
-        injectJs(resource, true, false, true);
+        injectJs(resource, true, false);
     }
 
     public static void injectDebugJs(TextResource resource) {
-        injectJs(resource, false, true, true);
+        injectJs(resource, false, true);
     }
 
-    public static void injectJs(TextResource resource, final boolean removeTag, boolean sourceUrl, boolean isScheduleDeferred) {
+    public static void injectJs(TextResource resource, boolean removeTag, boolean sourceUrl) {
         final String text = resource.getText() +
-                (sourceUrl ? "//# sourceURL="+resource.getName()+".js" : "");
+            (sourceUrl ? "//# sourceURL="+resource.getName()+".js" : "");
 
-        if(isScheduleDeferred) {
-            Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-
-                @Override
-                public void execute() {
-                    // Inject the script resource
-                    ScriptInjector.fromString(text)
-                            .setWindow(ScriptInjector.TOP_WINDOW)
-                            .setRemoveTag(removeTag)
-                            .inject();
-                }
-            });
-        }else{
-            ScriptInjector.fromString(text)
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .setRemoveTag(removeTag)
-                    .inject();
-        }
+        ScriptInjector.fromString(text)
+            .setWindow(ScriptInjector.TOP_WINDOW)
+            .setRemoveTag(removeTag)
+            .inject();
     }
 
     public static void injectCss(TextResource resource) {
@@ -94,8 +65,7 @@ public class MaterialResourceInjector {
     }
 
     /**
-     * Check if the module imported is debugged or not
-     * @return
+     * Check if the module imported is debugged or not.
      */
     public static boolean isDebug() {
         return debug;
@@ -105,7 +75,6 @@ public class MaterialResourceInjector {
      * Will set the javascript resources into it's corresponding value
      * true - imports debuggable js files (xxx.min.js)
      * false - imports production js files (xxx.js)
-     * @param debug
      */
     public static void setDebug(boolean debug) {
         MaterialResourceInjector.debug = debug;

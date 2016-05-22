@@ -50,9 +50,9 @@ public class MaterialPathAnimator {
 
     static {
         if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs(), false, true, false);
+            MaterialResourceInjector.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
         } else {
-            MaterialResourceInjector.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs(), true, false, false);
+            MaterialResourceInjector.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
         }
     }
 
