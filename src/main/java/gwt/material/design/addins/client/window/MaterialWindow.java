@@ -39,8 +39,6 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.animate.MaterialAnimator;
-import gwt.material.design.client.ui.animate.Transition;
 
 //@formatter:off
 
@@ -196,9 +194,11 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Open the window
      */
     public void openWindow() {
+        if (!this.isAttached()) {
+            RootPanel.get().add(this);
+        }
         this.open = false;
         OpenEvent.fire(this, true);
-        MaterialAnimator.animate(Transition.ZOOMIN, window, 0, 200);
         closeMixin.setOn(true);
     }
 
@@ -206,16 +206,13 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Close the window
      */
     public void closeWindow() {
+        if (this.isAttached()) {
+            this.removeFromParent();
+        }
         this.open = true;
         CloseEvent.fire(this, false);
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                closeMixin.setOn(false);
-                RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-            }
-        };
-        MaterialAnimator.animate(Transition.ZOOMOUT, window, 0, callback);
+        closeMixin.setOn(false);
+        RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
     }
 
     public String getToolbarColor() {
