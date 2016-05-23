@@ -122,6 +122,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
     @Override
     protected void onLoad() {
+        super.onLoad();
         VideoElement el = getElement().cast();
         if (el.getSrc() == null || el.isPaused()) {
             play();

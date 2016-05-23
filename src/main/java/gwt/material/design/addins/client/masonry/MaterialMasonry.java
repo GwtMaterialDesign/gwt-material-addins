@@ -71,10 +71,11 @@ public class MaterialMasonry extends MaterialRow {
     private boolean originLeft = true;
     private boolean originTop = true;
     private double transitionDuration = 400;
+
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {
-        setInitialClass("masonry-row");
+        setInitialClasses("masonry-row");
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName("col-sizer");
         add(sizerDiv);
