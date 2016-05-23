@@ -102,7 +102,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }
     }
 
-
     @Override
     public void add(Widget child) {
         super.add(child);

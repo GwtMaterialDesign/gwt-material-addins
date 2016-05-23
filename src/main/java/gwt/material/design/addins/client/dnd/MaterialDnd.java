@@ -180,16 +180,13 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
                     initIgnoreFrom(target.getElement(), selector);
                 }
             });
-        }else {
+        } else {
             initIgnoreFrom(target.getElement(), selector);
         }
-
     }
 
     /**
      * Initialize the ignoreFrom function as selector to exclude any widget from dragging
-     * @param target
-     * @param selector
      */
     private native void initIgnoreFrom(Element target, String selector) /*-{
         $wnd.interact(target).ignoreFrom(selector);
@@ -197,8 +194,6 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     /**
      * Initialize the ignoreFrom function to exclude any widget from dragging
-     * @param target
-     * @param ignoreFrom
      */
     private native void initIgnoreFrom(Element target, Element ignoreFrom) /*-{
         $wnd.interact(target).ignoreFrom(ignoreFrom);
