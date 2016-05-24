@@ -123,7 +123,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         if(!isPreview()){
             uploadPreview.setDisplay(Display.NONE);
         }
-        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview,withCredentials);
+        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview, isWithCredentials());
     }
 
     /**
@@ -323,7 +323,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * Check whether it's withCredentials or not
      * @return
      */
-    public boolean isWithCredentials(){
+    public boolean isWithCredentials() {
         return withCredentials;
     }
 
@@ -331,7 +331,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * Set the withCredentials boolean value
      * @param withCredentials
      */
-    public void setWithCredentials(boolean withCredentials){
+    public void setWithCredentials(boolean withCredentials) {
         this.withCredentials = withCredentials;
     }
 
