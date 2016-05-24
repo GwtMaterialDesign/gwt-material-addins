@@ -25,6 +25,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -39,8 +41,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.animate.MaterialAnimator;
-import gwt.material.design.client.ui.animate.Transition;
+import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 //@formatter:off
 
@@ -103,6 +104,9 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private boolean maximize = true;
     private boolean open = false;
 
+    private MaterialAnimation openAnimation;
+    private MaterialAnimation closeAnimation;
+
 
     public MaterialWindow() {
         super(Document.get().createDivElement(), "window-overlay");
@@ -127,6 +131,13 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         toolbar.add(link);
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
+        toolbar.addDomHandler(new DoubleClickHandler() {
+            @Override
+            public void onDoubleClick(DoubleClickEvent event) {
+                toggleMaximize();
+                Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+            }
+        }, DoubleClickEvent.getType());
         window.add(toolbar);
         window.add(content);
 
@@ -134,13 +145,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         iconMaximize.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                if(maximize){
-                    setMaximize(true);
-                    maximize = false;
-                }else{
-                    setMaximize(false);
-                    maximize = true;
-                }
+                toggleMaximize();
             }
         });
         iconClose.addClickHandler(new ClickHandler() {
@@ -161,6 +166,16 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         dnd.setTarget(window);
         dnd.setIgnoreFrom(".content, .window-action");
         dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
+    }
+
+    private void toggleMaximize(){
+        if (maximize) {
+            setMaximize(true);
+            maximize = false;
+        } else {
+            setMaximize(false);
+            maximize = true;
+        }
     }
 
     @Override
@@ -196,9 +211,14 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Open the window
      */
     public void openWindow() {
+        if (!this.isAttached()) {
+            RootPanel.get().add(this);
+        }
         this.open = false;
         OpenEvent.fire(this, true);
-        MaterialAnimator.animate(Transition.ZOOMIN, window, 0, 200);
+        if (openAnimation != null) {
+            openAnimation.animate(window);
+        }
         closeMixin.setOn(true);
     }
 
@@ -212,10 +232,13 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
             @Override
             public void run() {
                 closeMixin.setOn(false);
-                RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
             }
         };
-        MaterialAnimator.animate(Transition.ZOOMOUT, window, 0, callback);
+        if (closeAnimation == null) {
+            callback.run();
+        } else {
+            closeAnimation.animate(window, callback);
+        }
     }
 
     public String getToolbarColor() {
@@ -225,6 +248,14 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void setToolbarColor(String toolbarColor) {
         this.toolbarColor = toolbarColor;
         toolbarColorMixin.setBackgroundColor(toolbarColor);
+    }
+
+    public void setOpenAnimation(final MaterialAnimation openAnimation) {
+        this.openAnimation = openAnimation;
+    }
+
+    public void setCloseAnimation(final MaterialAnimation closeAnimation) {
+        this.closeAnimation = closeAnimation;
     }
 
     @Override
