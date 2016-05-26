@@ -31,9 +31,10 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
@@ -80,10 +81,10 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialWindowClientBundle.INSTANCE.windowCss());
+            MaterialDesignBase.injectCss(MaterialWindowClientBundle.INSTANCE.windowCss());
         }
     }
 
@@ -228,16 +229,15 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void closeWindow() {
         this.open = true;
         CloseEvent.fire(this, false);
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                closeMixin.setOn(false);
-            }
-        };
         if (closeAnimation == null) {
-            callback.run();
+            closeMixin.setOn(false);
         } else {
-            closeAnimation.animate(window, callback);
+            closeAnimation.animate(window, new Runnable() {
+                @Override
+                public void run() {
+                    closeMixin.setOn(false);
+                }
+            });
         }
     }
 

@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.subheader;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractIconButton;
 
 //@formatter:off
@@ -51,13 +52,21 @@ import gwt.material.design.client.base.AbstractIconButton;
 //@formatter:on
 public class MaterialSubHeader extends AbstractIconButton{
 
+    private static boolean resourcesLoaded = false;
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
-            MaterialResourceInjector.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());
-        } else {
-            MaterialResourceInjector.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
-            MaterialResourceInjector.injectCss(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss());
+        loadResources();
+    }
+
+    static void loadResources() {
+        if(!resourcesLoaded) {
+            if (MaterialAddins.isDebug()) {
+                MaterialDesignBase.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
+                MaterialDesignBase.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());
+            } else {
+                MaterialDesignBase.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
+                MaterialDesignBase.injectCss(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss());
+            }
+            resourcesLoaded = true;
         }
     }
 
