@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.pathanimator;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 
 //@formatter:off
 /**
@@ -49,10 +50,10 @@ import gwt.material.design.addins.client.MaterialResourceInjector;
 public class MaterialPathAnimator {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
         } else {
-            MaterialResourceInjector.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
+            MaterialDesignBase.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
         }
     }
 

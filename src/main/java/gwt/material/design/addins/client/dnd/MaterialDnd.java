@@ -26,12 +26,13 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.base.HasDraggable;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragMoveEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -60,10 +61,10 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
         } else {
-            MaterialResourceInjector.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
+            MaterialDesignBase.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
         }
 
     }

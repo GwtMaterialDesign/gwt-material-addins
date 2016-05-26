@@ -21,9 +21,9 @@ package gwt.material.design.addins.client.waterfall;
  */
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -56,12 +56,12 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialWaterfall extends MaterialWidget {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
-            MaterialResourceInjector.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
+            MaterialDesignBase.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
-            MaterialResourceInjector.injectCss(MaterialWaterfallClientBundle.INSTANCE.waterfallCss());
+            MaterialDesignBase.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
+            MaterialDesignBase.injectCss(MaterialWaterfallClientBundle.INSTANCE.waterfallCss());
         }
     }
 

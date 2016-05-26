@@ -24,16 +24,9 @@
 <module rename-to='GwtMaterialAddins'>
     <set-configuration-property name="CssResource.conversionMode" value="strict" />
 
-    <inherits name='com.google.gwt.user.User'/>
-    <inherits name="com.google.gwt.core.Core"/>
-    <inherits name="gwt.material.design.GwtMaterialDesignBasic"/>
+    <replace-with class="gwt.material.design.addins.client.StartupState.DebugState">
+        <when-type-is class="gwt.material.design.addins.client.StartupState"/>
+    </replace-with>
 
-    <!-- Specify the paths for translatable code                    -->
-    <source path='client'/>
-
-    <!-- Specify the app entry point class -->
-    <entry-point class='gwt.material.design.addins.client.MaterialAddinsDebug'/>
-
-    <set-configuration-property name="CssResource.enableGss" value="true"/>
-    <set-configuration-property name="CssResource.legacy" value="true"/>
+    <inherits name='gwt.material.design.addins.GwtMaterialAddins'/>
 </module>

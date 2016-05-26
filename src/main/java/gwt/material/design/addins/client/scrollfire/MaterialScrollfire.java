@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.scrollfire;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 
 //@formatter:off
 /**
@@ -42,10 +43,10 @@ import gwt.material.design.addins.client.MaterialResourceInjector;
 public class MaterialScrollfire {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialScrollfireDebugClientBundle.INSTANCE.scrollfireDebugJs());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialScrollfireDebugClientBundle.INSTANCE.scrollfireDebugJs());
         } else {
-            MaterialResourceInjector.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs());
+            MaterialDesignBase.injectJs(MaterialScrollfireClientBundle.INSTANCE.scrollfireJs());
         }
     }
 

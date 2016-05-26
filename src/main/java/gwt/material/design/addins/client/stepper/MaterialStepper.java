@@ -29,7 +29,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.MaterialWidget;
@@ -74,10 +75,10 @@ import gwt.material.design.client.ui.html.Span;
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>, HasSelectionChangedHandlers {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
         } else {
-            MaterialResourceInjector.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
+            MaterialDesignBase.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
         }
     }
 

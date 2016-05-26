@@ -24,8 +24,9 @@ package gwt.material.design.addins.client.richeditor;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HasHTML;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
+import gwt.material.design.client.MaterialDesignBase;
 
 //@formatter:off
 
@@ -53,12 +54,12 @@ import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
 public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTML {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs());
-            MaterialResourceInjector.injectCss(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs());
+            MaterialDesignBase.injectCss(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss());
         } else {
-            MaterialResourceInjector.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
-            MaterialResourceInjector.injectCss(MaterialRichEditorClientBundle.INSTANCE.richEditorCss());
+            MaterialDesignBase.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
+            MaterialDesignBase.injectCss(MaterialRichEditorClientBundle.INSTANCE.richEditorCss());
         }
     }
 
