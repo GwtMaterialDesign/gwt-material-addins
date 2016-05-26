@@ -37,8 +37,7 @@ public class MaterialRichEditorBase extends MaterialWidget implements HasPlaceho
 
 
     public MaterialRichEditorBase() {
-        super(Document.get().createDivElement());
-        setStyleName("editor");
+        super(Document.get().createDivElement(), "editor");
     }
 
     private ToolbarButton[] styleOptions = new ToolbarButton[]

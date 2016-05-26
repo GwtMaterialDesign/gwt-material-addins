@@ -40,8 +40,7 @@ public class MaterialUploadHeader extends MaterialWidget {
     private MaterialUploadPreview preview;
 
     public MaterialUploadHeader() {
-        super(Document.get().createDivElement());
-        setStyleName("header");
+        super(Document.get().createDivElement(), "header");
         iconClose.setId("upload-close");
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);

@@ -62,7 +62,7 @@ public class MaterialSubHeader extends AbstractIconButton{
     }
 
     public MaterialSubHeader() {
-        setStyleName("subheader");
+        super("subheader");
     }
 
     @Override

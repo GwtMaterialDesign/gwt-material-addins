@@ -3,17 +3,18 @@
     <parent>
         <artifactId>gwt-material-parent</artifactId>
         <groupId>com.github.gwtmaterialdesign</groupId>
-        <version>1.5.0</version>
+        <version>1.5.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gwt-material-addins</artifactId>
 
     <name>Gwt Material Addins</name>
+    <version>1.5.1-SNAPSHOT</version>
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>1.5.0</gwt-material.version>
+        <gwt-material.version>1.5.1-SNAPSHOT</gwt-material.version>
     </properties>
 
     <scm>

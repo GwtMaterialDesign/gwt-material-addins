@@ -89,8 +89,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
     public MaterialStepper (){
-        super(Document.get().createDivElement());
-        setStyleName("stepper");
+        super(Document.get().createDivElement(), "stepper");
         divFeedback.setStyleName("feedback");
         divFeedback.add(feedback);
     }
@@ -98,7 +97,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     protected void onLoad() {
         super.onLoad();
-        goToStep(currentStepIndex + 1);
+        if(getChildren().size() != 0) {
+            goToStep(currentStepIndex + 1);
+        }
     }
 
     /**
@@ -353,7 +354,14 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     }
 
     @Override
-    public HandlerRegistration addSelectionChangeHandler(Handler handler) {
-        return addHandler(handler, SelectionChangeEvent.getType());
+    public HandlerRegistration addSelectionChangeHandler(final Handler handler) {
+        return addHandler(new Handler() {
+            @Override
+            public void onSelectionChange(SelectionChangeEvent event) {
+                if(isEnabled()){
+                    handler.onSelectionChange(event);
+                }
+            }
+        }, SelectionChangeEvent.getType());
     }
 }

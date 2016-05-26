@@ -7262,7 +7262,7 @@
 
             this.each(function(idx, holder) {
                 // >>>>>>> CK set id for this editor
-                materialUniqueId = $(holder).attr('id');
+                materialUniqueId = 'note-editor-' + func.uniqueId();
 
                 var $holder = $(holder);
 

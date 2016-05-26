@@ -23,12 +23,12 @@ package gwt.material.design.addins.client.richeditor;
 
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
 
 //@formatter:off
+
 /**
  * Provides a great Rich Editor with amazing options built with Material Design Look and Feel
  *
@@ -62,8 +62,6 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
         }
     }
 
-    private String html = "";
-
     @Override
     protected void onLoad() {
         super.onLoad();
@@ -71,7 +69,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
     }
 
     private void initRichEditor() {
-        initRichEditor(getElement(), isAirMode(), getPlaceholder(), getHeight(), extractOptions(getStyleOptions()), extractOptions(getFontOptions()), extractOptions(getColorOptions()), extractOptions(getUndoOptions()), extractOptions(getCkMediaOptions()), extractOptions(getMiscOptions()), extractOptions(getParaOptions()), extractOptions(getHeightOptions()), getHTML());
+        initRichEditor(getElement(), isAirMode(), getPlaceholder(), getHeight(), extractOptions(getStyleOptions()), extractOptions(getFontOptions()), extractOptions(getColorOptions()), extractOptions(getUndoOptions()), extractOptions(getCkMediaOptions()), extractOptions(getMiscOptions()), extractOptions(getParaOptions()), extractOptions(getHeightOptions()));
     }
 
     /**
@@ -89,7 +87,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param paraOptions
      * @param heightOptions
      */
-    private native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions, String html) /*-{
+    private native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
         $wnd.jQuery(document).ready(function() {
             var toolbar = [
                 ['style', styleOptions],
@@ -112,31 +110,28 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
                 defaultBackColor: '#777',
                 defaultTextColor: '#fff'
             });
-            $wnd.jQuery(e).materialnote('html', html)
         });
     }-*/;
 
+
+
     @Override
     public String getHTML() {
-        return html;
+        return getHTMLCode(getElement());
     }
+
+    private native String getHTMLCode(Element e) /*-{
+        return $wnd.jQuery(e).code();
+    }-*/;
 
     @Override
     public void setHTML(final String html) {
-        this.html = html;
-        if(!this.isAttached()) {
-            addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initRichEditor();
-                    }
-                }
-            });
-        }else {
-            initRichEditor();
-        }
+        setHTMLCode(getElement(), html);
     }
+
+    private native void setHTMLCode(Element e, String html) /*-{
+        $wnd.jQuery(e).code(html);
+    }-*/;
 
     @Override
     public String getText() {

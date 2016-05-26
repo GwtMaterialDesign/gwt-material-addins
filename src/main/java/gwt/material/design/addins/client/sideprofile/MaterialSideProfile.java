@@ -70,8 +70,7 @@ public class MaterialSideProfile extends MaterialWidget implements HasImage {
     private ImageResource resource;
 
     public MaterialSideProfile() {
-        super(Document.get().createDivElement());
-        setStyleName("side-profile");
+        super(Document.get().createDivElement(), "side-profile");
     }
 
     @Override

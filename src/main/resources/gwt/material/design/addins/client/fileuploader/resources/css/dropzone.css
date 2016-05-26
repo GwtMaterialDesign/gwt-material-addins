@@ -7,7 +7,7 @@
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
-.fileuploader #upload-label{
+.fileuploader .upload-label{
   background: #2196F3;
   color: #fff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -32,16 +32,16 @@
 .fileuploader.active{
   background: #2196F3;
 }
-.fileuploader.active #upload-label{
+.fileuploader.active .upload-label{
   background: #fff;
   color: #2196F3;
 }
-.fileuploader #upload-label span.title{
+.fileuploader .upload-label span.title{
   font-size: 1.1em;
   font-weight: bold;
   display: block;
 }
-.fileuploader #upload-label i{
+.fileuploader .upload-label i{
   text-align: center;
   display: block;
   background: white;

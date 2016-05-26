@@ -108,7 +108,10 @@ public class MaterialSplitPanel extends MaterialWidget {
      */
     private native void initSplitter(Element e,double barPosition, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
         $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(e).touchSplit({barPosition: barPosition, thickness: "8px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
+            var splitted = $wnd.jQuery(e);
+            if( splitted[0].touchSplitter == null ) {
+                splitted.touchSplit({barPosition: barPosition, thickness: "8px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
+            }
         });
     }-*/;
 
