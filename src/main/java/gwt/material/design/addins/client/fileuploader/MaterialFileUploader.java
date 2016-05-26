@@ -26,7 +26,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
@@ -34,9 +34,9 @@ import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
-import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.Date;
 
@@ -67,12 +67,12 @@ import java.util.Date;
 public class MaterialFileUploader extends MaterialWidget implements HasFileUpload<UploadFile> {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug());
-            MaterialResourceInjector.injectCss(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug());
+            MaterialDesignBase.injectCss(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneCssDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs());
-            MaterialResourceInjector.injectCss(MaterialFileUploaderClientBundle.INSTANCE.dropzoneCss());
+            MaterialDesignBase.injectJs(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs());
+            MaterialDesignBase.injectCss(MaterialFileUploaderClientBundle.INSTANCE.dropzoneCss());
         }
     }
 

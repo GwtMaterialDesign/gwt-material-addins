@@ -23,8 +23,9 @@ package gwt.material.design.addins.client.splitpanel;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 
@@ -60,12 +61,12 @@ import gwt.material.design.client.constants.Axis;
 public class MaterialSplitPanel extends MaterialWidget {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
-            MaterialResourceInjector.injectCss(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
+            MaterialDesignBase.injectCss(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss());
         } else {
-            MaterialResourceInjector.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());
-            MaterialResourceInjector.injectCss(MaterialSplitPanelClientBundle.INSTANCE.splitPanelCss());
+            MaterialDesignBase.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());
+            MaterialDesignBase.injectCss(MaterialSplitPanelClientBundle.INSTANCE.splitPanelCss());
         }
     }
 

@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.masonry;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialRow;
 
@@ -57,12 +58,12 @@ import gwt.material.design.client.ui.MaterialRow;
 public class MaterialMasonry extends MaterialRow {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
-            MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
+            MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
-            MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs());
+            MaterialDesignBase.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
+            MaterialDesignBase.injectJs(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs());
         }
     }
 

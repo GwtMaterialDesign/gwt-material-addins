@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
@@ -60,13 +59,7 @@ import gwt.material.design.client.base.mixin.CssTypeMixin;
 public class MaterialSubHeaderContainer extends MaterialWidget implements HasType<SubHeaderType>{
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
-            MaterialResourceInjector.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());
-        } else {
-            MaterialResourceInjector.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
-            MaterialResourceInjector.injectCss(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss());
-        }
+        MaterialSubHeader.loadResources();
     }
 
     private final CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin = new CssTypeMixin<>(this);

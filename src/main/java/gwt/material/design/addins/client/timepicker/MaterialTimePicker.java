@@ -7,7 +7,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
 import gwt.material.design.client.base.HasPlaceholder;
@@ -66,12 +67,12 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date> {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
-            MaterialResourceInjector.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
+            MaterialDesignBase.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
-            MaterialResourceInjector.injectCss(MaterialTimePickerClientBundle.INSTANCE.timepickerCss());
+            MaterialDesignBase.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
+            MaterialDesignBase.injectCss(MaterialTimePickerClientBundle.INSTANCE.timepickerCss());
         }
     }
 

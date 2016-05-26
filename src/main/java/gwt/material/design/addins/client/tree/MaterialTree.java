@@ -25,7 +25,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -65,10 +66,10 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
 
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialTreeClientBundle.INSTANCE.treeCss());
+            MaterialDesignBase.injectCss(MaterialTreeClientBundle.INSTANCE.treeCss());
         }
     }
 

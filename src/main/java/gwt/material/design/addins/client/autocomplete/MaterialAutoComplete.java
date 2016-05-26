@@ -27,8 +27,9 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
@@ -159,10 +160,10 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         HasValue<List<? extends Suggestion>>, HasProgress, HasKeyUpHandlers, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss());
+            MaterialDesignBase.injectCss(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss());
         }
     }
 
