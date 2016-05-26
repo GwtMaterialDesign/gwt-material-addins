@@ -22,8 +22,6 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN"
         "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module rename-to='GwtMaterialAddins'>
-    <set-configuration-property name="CssResource.conversionMode" value="strict" />
-
     <replace-with class="gwt.material.design.addins.client.StartupState.DebugState">
         <when-type-is class="gwt.material.design.addins.client.StartupState"/>
     </replace-with>
