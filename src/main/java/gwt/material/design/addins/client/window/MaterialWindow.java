@@ -228,16 +228,15 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void closeWindow() {
         this.open = true;
         CloseEvent.fire(this, false);
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                closeMixin.setOn(false);
-            }
-        };
         if (closeAnimation == null) {
-            callback.run();
+            closeMixin.setOn(false);
         } else {
-            closeAnimation.animate(window, callback);
+            closeAnimation.animate(window, new Runnable() {
+                @Override
+                public void run() {
+                    closeMixin.setOn(false);
+                }
+            });
         }
     }
 
