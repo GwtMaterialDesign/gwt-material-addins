@@ -273,7 +273,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Gets the current step component.
      */
     public MaterialStep getCurrentStep() {
-        if(currentStepIndex >= getWidgetCount() - 1 || currentStepIndex < 0){
+        if(currentStepIndex > getWidgetCount() - 1 || currentStepIndex < 0){
             return null;
         }
         Widget w = getWidget(currentStepIndex);
