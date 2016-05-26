@@ -86,6 +86,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
     private boolean preview = true;
     private boolean initialize = false;
+    private boolean withCredentials = false;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), "fileuploader");
@@ -123,7 +124,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         if(!isPreview()){
             uploadPreview.setDisplay(Display.NONE);
         }
-        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview);
+        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview, isWithCredentials());
     }
 
     /**
@@ -132,7 +133,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * @param e
      * @param url
      */
-    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable,boolean preview) /*-{
+    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable,boolean preview,boolean withCredentials) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery(template);
@@ -150,7 +151,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 acceptedFiles: acceptedFiles,
                 autoQueue: autoQueue,
                 previewsContainer: "#" + previews,
-                clickable: "#" + clickable
+                clickable: "#" + clickable,
+                withCredentials: withCredentials
             });
 
             zdrop.on('drop', function () {
@@ -317,6 +319,23 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     public int getMaxFiles() {
         return maxFiles;
     }
+
+    /**
+     * Check whether it's withCredentials or not
+     * @return
+     */
+    public boolean isWithCredentials() {
+        return withCredentials;
+    }
+
+    /**
+     * Set the withCredentials boolean value
+     * @param withCredentials
+     */
+    public void setWithCredentials(boolean withCredentials) {
+        this.withCredentials = withCredentials;
+    }
+
 
     /**
      * Set the max number of files, by default it's 100 but if you want to accept only one file just
