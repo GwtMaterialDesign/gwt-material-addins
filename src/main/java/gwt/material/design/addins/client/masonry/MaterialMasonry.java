@@ -55,7 +55,7 @@ import gwt.material.design.client.ui.MaterialRow;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow {
+public class MaterialMasonry extends MaterialWidget {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -76,7 +76,7 @@ public class MaterialMasonry extends MaterialRow {
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {
-        setInitialClasses("masonry-row");
+        super(Document.get().createDivElement(), "masonry", "row");
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName("col-sizer");
         add(sizerDiv);
@@ -99,10 +99,10 @@ public class MaterialMasonry extends MaterialRow {
     private native void initMasonry(Element e) /*-{
         var that = this;
         $wnd.jQuery(window).ready(function() {
-            $wnd.jQuery('.masonry-row').imagesLoaded( function() {
+            $wnd.jQuery('.masonry').imagesLoaded( function() {
                 var grid = $wnd.jQuery(e).masonry({
                     // options...
-                    itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
+                    itemSelector: '.masonry >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
                     percentPosition: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isPercentPosition()(),
                     originLeft: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginLeft()(),
                     originTop: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginTop()(),
