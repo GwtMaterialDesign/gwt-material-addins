@@ -55,7 +55,7 @@ import gwt.material.design.client.ui.MaterialRow;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialWidget {
+public class MaterialMasonry extends MaterialRow {
 
     static {
         if(MaterialAddins.isDebug()) {
