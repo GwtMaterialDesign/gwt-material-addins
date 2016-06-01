@@ -115,7 +115,7 @@ public interface HasFileUpload<T> extends HasHandlers {
      */
     HandlerRegistration addSendingHandler(SendingEvent.SendingHandler<T> handler);
 
-    void fireSendingEvent(String fileName, String lastModified, String size, String type);
+    void fireSendingEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
 
     /**
      * The file has been uploaded successfully. Gets the server response as second argument. (This event was called finished previously)
@@ -123,7 +123,7 @@ public interface HasFileUpload<T> extends HasHandlers {
      */
     HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler<T> handler);
 
-    void fireSuccessEvent(String fileName, String lastModified, String size, String type);
+    void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
 
     /**
      * Called when the upload was either successful or erroneous.
@@ -131,7 +131,7 @@ public interface HasFileUpload<T> extends HasHandlers {
      */
     HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler<T> handler);
 
-    void fireCompleteEvent(String fileName, String lastModified, String size, String type);
+    void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
 
     /**
      * Called when a file upload gets canceled.

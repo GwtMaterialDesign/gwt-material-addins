@@ -24,6 +24,7 @@ package gwt.material.design.addins.client.fileuploader.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 
 public class CompleteEvent<T> extends GwtEvent<CompleteEvent.CompleteHandler<T>> {
 
@@ -33,9 +34,9 @@ public class CompleteEvent<T> extends GwtEvent<CompleteEvent.CompleteHandler<T>>
         void onComplete(CompleteEvent<T> event);
     }
 
-    public static <T> void fire(HasFileUpload<T> source, T target) {
+    public static <T> void fire(HasFileUpload<T> source, T target, UploadResponse response) {
         if (TYPE != null) {
-            CompleteEvent<T> event = new CompleteEvent<T>(target);
+            CompleteEvent<T> event = new CompleteEvent<T>(target, response);
             source.fireEvent(event);
         }
     }
@@ -45,9 +46,11 @@ public class CompleteEvent<T> extends GwtEvent<CompleteEvent.CompleteHandler<T>>
     }
 
     private final T target;
+    private final UploadResponse response;
 
-    protected CompleteEvent(T target) {
+    protected CompleteEvent(T target, UploadResponse response) {
         this.target = target;
+        this.response = response;
     }
 
     @Override
@@ -57,6 +60,10 @@ public class CompleteEvent<T> extends GwtEvent<CompleteEvent.CompleteHandler<T>>
 
     public T getTarget() {
         return target;
+    }
+
+    public UploadResponse getResponse() {
+        return response;
     }
 
     @Override
