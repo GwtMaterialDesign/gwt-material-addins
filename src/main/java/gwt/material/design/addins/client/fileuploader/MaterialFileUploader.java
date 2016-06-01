@@ -220,15 +220,15 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             });
 
             zdrop.on('sending', function (file) {
-                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
             });
 
-            zdrop.on('success', function (file, response) {
-                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+            zdrop.on('success', function (file) {
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
             });
 
             zdrop.on('complete', function (file) {
-                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type);
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
             });
 
             zdrop.on('canceled', function (file) {
@@ -526,8 +526,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    public void fireSendingEvent(String fileName, String lastModified, String size, String type) {
-        SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
+    public void fireSendingEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
+        SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
     }
 
     @Override
@@ -543,8 +543,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    public void fireSuccessEvent(String fileName, String lastModified, String size, String type) {
-        SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
+    public void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
+        SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
     }
 
     @Override
@@ -560,8 +560,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    public void fireCompleteEvent(String fileName, String lastModified, String size, String type) {
-        CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
+    public void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
+        CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
     }
 
     @Override
