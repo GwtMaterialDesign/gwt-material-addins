@@ -7,7 +7,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
 </dependency>
 ```
 
@@ -16,7 +16,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.6.0-SNAPSHOT</version>
 </dependency>
 ```
 
