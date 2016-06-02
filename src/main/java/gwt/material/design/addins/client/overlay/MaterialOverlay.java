@@ -21,7 +21,8 @@ package gwt.material.design.addins.client.overlay;
  */
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -51,15 +52,14 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialOverlay extends MaterialWidget {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialOverlayDebugClientBundle.INSTANCE.overlayCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialOverlayDebugClientBundle.INSTANCE.overlayCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialOverlayClientBundle.INSTANCE.overlayCss());
+            MaterialDesignBase.injectCss(MaterialOverlayClientBundle.INSTANCE.overlayCss());
         }
     }
 
     public MaterialOverlay() {
-        super(Document.get().createDivElement());
-        setStyleName("overlay-panel");
+        super(Document.get().createDivElement(), "overlay-panel");
     }
 }

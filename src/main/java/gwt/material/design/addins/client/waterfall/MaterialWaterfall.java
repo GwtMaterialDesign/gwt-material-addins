@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.waterfall;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -55,12 +56,12 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialWaterfall extends MaterialWidget {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
-            MaterialResourceInjector.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
+            MaterialDesignBase.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
-            MaterialResourceInjector.injectCss(MaterialWaterfallClientBundle.INSTANCE.waterfallCss());
+            MaterialDesignBase.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
+            MaterialDesignBase.injectCss(MaterialWaterfallClientBundle.INSTANCE.waterfallCss());
         }
     }
 
@@ -69,8 +70,7 @@ public class MaterialWaterfall extends MaterialWidget {
     private double offset;
 
     public MaterialWaterfall() {
-        super(Document.get().createDivElement());
-        setStyleName("waterfall");
+        super(Document.get().createDivElement(), "waterfall");
         setShadow(1);
     }
 
@@ -98,7 +98,7 @@ public class MaterialWaterfall extends MaterialWidget {
         if(offset == 0){
             offset = getOffsetHeight();
         }
-        initWaterfall(openCallback, closeCallback, offset);
+        initWaterfall(getElement().getOffsetHeight(), openCallback, closeCallback, offset);
     }
 
     public void setCallbacks(Runnable openCallback, Runnable closeCallback) {
@@ -106,7 +106,7 @@ public class MaterialWaterfall extends MaterialWidget {
         this.closeCallback = closeCallback;
     }
 
-    private native void initWaterfall(Runnable openCallback, Runnable closeCallback, double offset) /*-{
+    private native void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) /*-{
         $wnd.jQuery(document).ready(function() {
 
             var openCallbackFn = $entry(function() {
@@ -117,7 +117,7 @@ public class MaterialWaterfall extends MaterialWidget {
                 closeCallback.@java.lang.Runnable::run()();
             });
 
-            $wnd.initWaterfall(openCallbackFn, closeCallbackFn, offset);
+            $wnd.initWaterfall(height, openCallbackFn, closeCallbackFn, offset);
         });
     }-*/;
 

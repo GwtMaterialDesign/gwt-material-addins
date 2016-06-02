@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.bubble;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
@@ -61,18 +62,17 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     private final CssNameMixin<MaterialWidget, Position> positionMixin;
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug());
-            MaterialResourceInjector.injectCss(MaterialBubbleDebugClientBundle.INSTANCE.bubbleCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug());
+            MaterialDesignBase.injectCss(MaterialBubbleDebugClientBundle.INSTANCE.bubbleCssDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialBubbleClientBundle.INSTANCE.bubbleJs());
-            MaterialResourceInjector.injectCss(MaterialBubbleClientBundle.INSTANCE.bubbleCss());
+            MaterialDesignBase.injectJs(MaterialBubbleClientBundle.INSTANCE.bubbleJs());
+            MaterialDesignBase.injectCss(MaterialBubbleClientBundle.INSTANCE.bubbleCss());
         }
     }
 
     public MaterialBubble() {
-        super(Document.get().createSpanElement());
-        setStyleName("bubble");
+        super(Document.get().createSpanElement(), "bubble");
         triangle = new MaterialWidget(Document.get().createDivElement());
         triangle.setStyleName("triangle");
         positionMixin = new CssNameMixin<>(triangle);

@@ -86,8 +86,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private Axis axis = Axis.VERTICAL;
 
     public MaterialStep() {
-        super(Document.get().createDivElement());
-        setStyleName("step");
+        super(Document.get().createDivElement(), "step");
 
         super.add(conCircle);
         conCircle.add(divCircle);
@@ -222,7 +221,14 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     }
 
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<MaterialStep> handler) {
-        return this.addHandler(handler, SelectionEvent.getType());
+    public HandlerRegistration addSelectionHandler(final SelectionHandler<MaterialStep> handler) {
+        return this.addHandler(new SelectionHandler<MaterialStep>() {
+            @Override
+            public void onSelection(SelectionEvent<MaterialStep> event) {
+                if(isEnabled()){
+                    handler.onSelection(event);
+                }
+            }
+        }, SelectionEvent.getType());
     }
 }

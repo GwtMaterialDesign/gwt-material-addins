@@ -122,6 +122,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
     @Override
     protected void onLoad() {
+        super.onLoad();
         VideoElement el = getElement().cast();
         if (el.getSrc() == null || el.isPaused()) {
             play();
@@ -289,8 +290,15 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     }
 
     @Override
-    public HandlerRegistration addCameraCaptureHandler(CameraCaptureHandler handler) {
-        return addHandler(handler, CameraCaptureEvent.getType());
+    public HandlerRegistration addCameraCaptureHandler(final CameraCaptureHandler handler) {
+        return addHandler(new CameraCaptureHandler() {
+            @Override
+            public void onCameraCaptureChange(CameraCaptureEvent event) {
+                if(isEnabled()){
+                    handler.onCameraCaptureChange(event);
+                }
+            }
+        }, CameraCaptureEvent.getType());
     }
 
 }

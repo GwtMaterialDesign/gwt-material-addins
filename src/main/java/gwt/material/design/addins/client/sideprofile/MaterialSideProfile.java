@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.sideprofile;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.resources.client.ImageResource;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -59,10 +60,10 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialSideProfile extends MaterialWidget implements HasImage {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialSideProfileDebugClientBundle.INSTANCE.sideprofileCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialSideProfileDebugClientBundle.INSTANCE.sideprofileCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialSideProfileClientBundle.INSTANCE.sideprofileCss());
+            MaterialDesignBase.injectCss(MaterialSideProfileClientBundle.INSTANCE.sideprofileCss());
         }
     }
 
@@ -70,8 +71,7 @@ public class MaterialSideProfile extends MaterialWidget implements HasImage {
     private ImageResource resource;
 
     public MaterialSideProfile() {
-        super(Document.get().createDivElement());
-        setStyleName("side-profile");
+        super(Document.get().createDivElement(), "side-profile");
     }
 
     @Override

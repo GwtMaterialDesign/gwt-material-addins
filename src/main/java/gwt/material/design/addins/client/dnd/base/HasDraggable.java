@@ -48,6 +48,12 @@ public interface HasDraggable {
     void setIgnoreFrom(Widget ignoreFrom);
 
     /**
+     * Sets the ignoreFrom as selector to exclude from dragging
+     * @param selector - can accept multiple selector separated by comma e.g. input, i, a, .content
+     */
+    void setIgnoreFrom(String selector);
+
+    /**
      * Gets the ignoreFrom widget
      * @return
      */

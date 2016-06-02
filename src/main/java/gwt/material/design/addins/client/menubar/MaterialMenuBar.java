@@ -21,7 +21,8 @@ package gwt.material.design.addins.client.menubar;
  */
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -63,16 +64,15 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialMenuBar extends MaterialWidget {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialMenuBarDebugClientBundle.INSTANCE.menubarCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialMenuBarDebugClientBundle.INSTANCE.menubarCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialMenuBarClientBundle.INSTANCE.menubarCss());
+            MaterialDesignBase.injectCss(MaterialMenuBarClientBundle.INSTANCE.menubarCss());
         }
     }
 
     public MaterialMenuBar() {
-        super(Document.get().createDivElement());
-        setStyleName("menu-bar");
+        super(Document.get().createDivElement(), "menu-bar");
     }
 
 }

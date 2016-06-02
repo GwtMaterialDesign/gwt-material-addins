@@ -21,7 +21,8 @@ package gwt.material.design.addins.client.iconmorph;
  */
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
@@ -56,18 +57,17 @@ import gwt.material.design.client.ui.MaterialToast;
 public class MaterialIconMorph extends MaterialWidget {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialIconMorphClientBundle.INSTANCE.morphCss());
+            MaterialDesignBase.injectCss(MaterialIconMorphClientBundle.INSTANCE.morphCss());
         }
     }
 
     private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);
 
     public MaterialIconMorph() {
-        super(Document.get().createDivElement());
-        setStyleName("anim-container");
+        super(Document.get().createDivElement(), "anim-container");
         getElement().setAttribute("onclick", "this.classList.toggle('morphed')");
     }
 

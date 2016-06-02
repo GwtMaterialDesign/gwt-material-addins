@@ -22,7 +22,8 @@ package gwt.material.design.addins.client.masonry;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialRow;
 
@@ -57,12 +58,12 @@ import gwt.material.design.client.ui.MaterialRow;
 public class MaterialMasonry extends MaterialRow {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
-            MaterialResourceInjector.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
+            MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
-            MaterialResourceInjector.injectJs(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs());
+            MaterialDesignBase.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
+            MaterialDesignBase.injectJs(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs());
         }
     }
 
@@ -71,10 +72,11 @@ public class MaterialMasonry extends MaterialRow {
     private boolean originLeft = true;
     private boolean originTop = true;
     private double transitionDuration = 400;
+
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {
-        addStyleName("masonry-row");
+        super(Document.get().createDivElement(), "masonry", "row");
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName("col-sizer");
         add(sizerDiv);
@@ -97,10 +99,10 @@ public class MaterialMasonry extends MaterialRow {
     private native void initMasonry(Element e) /*-{
         var that = this;
         $wnd.jQuery(window).ready(function() {
-            $wnd.jQuery('.masonry-row').imagesLoaded( function() {
+            $wnd.jQuery('.masonry').imagesLoaded( function() {
                 var grid = $wnd.jQuery(e).masonry({
                     // options...
-                    itemSelector: '.masonry-row >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
+                    itemSelector: '.masonry >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
                     percentPosition: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isPercentPosition()(),
                     originLeft: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginLeft()(),
                     originTop: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginTop()(),

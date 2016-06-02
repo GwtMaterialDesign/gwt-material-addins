@@ -29,7 +29,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.MaterialWidget;
@@ -74,10 +75,10 @@ import gwt.material.design.client.ui.html.Span;
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>, HasSelectionChangedHandlers {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
         } else {
-            MaterialResourceInjector.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
+            MaterialDesignBase.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
         }
     }
 
@@ -89,8 +90,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
     public MaterialStepper (){
-        super(Document.get().createDivElement());
-        setStyleName("stepper");
+        super(Document.get().createDivElement(), "stepper");
         divFeedback.setStyleName("feedback");
         divFeedback.add(feedback);
     }
@@ -98,7 +98,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     protected void onLoad() {
         super.onLoad();
-        goToStep(currentStepIndex + 1);
+        if(getChildren().size() != 0) {
+            goToStep(currentStepIndex + 1);
+        }
     }
 
     /**
@@ -272,7 +274,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Gets the current step component.
      */
     public MaterialStep getCurrentStep() {
-        if(currentStepIndex >= getWidgetCount() - 1 || currentStepIndex < 0){
+        if(currentStepIndex > getWidgetCount() - 1 || currentStepIndex < 0){
             return null;
         }
         Widget w = getWidget(currentStepIndex);
@@ -353,7 +355,14 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     }
 
     @Override
-    public HandlerRegistration addSelectionChangeHandler(Handler handler) {
-        return addHandler(handler, SelectionChangeEvent.getType());
+    public HandlerRegistration addSelectionChangeHandler(final Handler handler) {
+        return addHandler(new Handler() {
+            @Override
+            public void onSelectionChange(SelectionChangeEvent event) {
+                if(isEnabled()){
+                    handler.onSelectionChange(event);
+                }
+            }
+        }, SelectionChangeEvent.getType());
     }
 }

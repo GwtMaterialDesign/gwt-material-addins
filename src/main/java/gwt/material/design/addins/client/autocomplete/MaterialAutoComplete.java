@@ -27,8 +27,9 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
@@ -159,10 +160,10 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         HasValue<List<? extends Suggestion>>, HasProgress, HasKeyUpHandlers, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss());
+            MaterialDesignBase.injectCss(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss());
         }
     }
 
@@ -177,7 +178,8 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     private int limit = 0;
     private MaterialLabel lblError = new MaterialLabel();
     private final ProgressMixin<MaterialAutoComplete> progressMixin = new ProgressMixin<>(this);
-
+    
+    private String selectedChipStyle = "blue white-text";
     private boolean directInputAllowed = true;
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
@@ -260,17 +262,26 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
 
                                     ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
                                     MaterialChip p = (MaterialChip) li.getWidget(0);
-
+                                    
+                                    boolean removable = true;
+                                    
                                     Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
                                     for (Entry<Suggestion, Widget> entry : entrySet) {
                                         if (p.equals(entry.getValue())) {
-                                            suggestionMap.remove(entry.getKey());
-                                            itemsChanged = true;
+                                            if (chipProvider.isChipRemovable(entry.getKey())){
+                                                suggestionMap.remove(entry.getKey());
+                                                itemsChanged = true;                                                
+                                            }
+                                            else {
+                                                removable = false;
+                                            }
                                             break;
                                         }
                                     }
 
-                                    list.remove(li);
+                                    if (removable){
+                                        list.remove(li);                                        
+                                    }
                                 }
                             }
                         }
@@ -278,16 +289,26 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                     case KeyCodes.KEY_DELETE:
                         if (itemBox.getValue().trim().isEmpty()) {
                             for (ListItem li : itemsHighlighted) {
-                                li.removeFromParent();
                                 MaterialChip p = (MaterialChip) li.getWidget(0);
-
+                                
+                                boolean removable = true;
+                                
                                 Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
                                 for (Entry<Suggestion, Widget> entry : entrySet) {
                                     if (p.equals(entry.getValue())) {
-                                        suggestionMap.remove(entry.getKey());
-                                        itemsChanged = true;
+                                        if (chipProvider.isChipRemovable(entry.getKey())){
+                                            suggestionMap.remove(entry.getKey());
+                                            itemsChanged = true;                                            
+                                        }
+                                        else {
+                                            removable = false;
+                                        }
                                         break;
                                     }
+                                }
+                                
+                                if (removable){
+                                    li.removeFromParent();                                   
                                 }
                             }
                             itemsHighlighted.clear();
@@ -356,27 +377,33 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                 return false;
             }
 
-            chip.setIconType(IconType.CLOSE);
             chip.addClickHandler(new ClickHandler() {
                 public void onClick(ClickEvent clickEvent) {
-                    if (itemsHighlighted.contains(displayItem)) {
-                        chip.removeStyleName("blue white-text");
-                        itemsHighlighted.remove(displayItem);
-                    } else {
-                        chip.addStyleName("blue white-text");
-                        itemsHighlighted.add(displayItem);
+                    if (chipProvider.isChipSelectable(suggestion)){
+                        if (itemsHighlighted.contains(displayItem)) {
+                            chip.removeStyleName(selectedChipStyle);
+                            itemsHighlighted.remove(displayItem);
+                        } else {
+                            chip.addStyleName(selectedChipStyle);
+                            itemsHighlighted.add(displayItem);
+                        }
                     }
                 }
-            });
-
-            chip.getIcon().addClickHandler(new ClickHandler() {
-                public void onClick(ClickEvent clickEvent) {
-                    suggestionMap.remove(suggestion);
-                    list.remove(displayItem);
-                    ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
-                    box.showSuggestionList();
-                }
-            });
+            });                
+            
+            if (chip.getIcon() != null){
+                chip.getIcon().addClickHandler(new ClickHandler() {
+                    public void onClick(ClickEvent clickEvent) {
+                        if (chipProvider.isChipRemovable(suggestion)){
+                            suggestionMap.remove(suggestion);
+                            list.remove(displayItem);
+                            itemsHighlighted.remove(displayItem);
+                            ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
+                            box.showSuggestionList();
+                        }
+                    }
+                });                
+            }
 
             suggestionMap.put(suggestion, chip);
             displayItem.add(chip);
@@ -543,6 +570,29 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     public boolean isDirectInputAllowed() {
         return directInputAllowed;
     }
+    
+    /**
+     * Sets the style class applied to chips when they are selected.
+     * <p>
+     * Defaults to "blue white-text".
+     * </p>
+     * 
+     * @param selectedChipStyle
+     *          The class or classes to be applied to selected chips
+     */
+    public void setSelectedChipStyle(String selectedChipStyle) {
+        this.selectedChipStyle = selectedChipStyle;
+    }
+    
+    /**
+     * Returns the style class applied to chips when they are selected.
+     * <p>
+     * Defaults to "blue white-text".
+     * </p>
+     */
+    public String getSelectedChipStyle() {
+        return selectedChipStyle;
+    }
 
     @Override
     public void showProgress(ProgressType type) {
@@ -560,8 +610,15 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     }
 
     @Override
-    public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
-        return itemBox.addKeyUpHandler(handler);
+    public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
+        return itemBox.addKeyUpHandler(new KeyUpHandler() {
+            @Override
+            public void onKeyUp(KeyUpEvent event) {
+                if(isEnabled()){
+                    handler.onKeyUp(event);
+                }
+            }
+        });
     }
 
     @Override
@@ -575,8 +632,15 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     }
 
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<Suggestion> handler) {
-        return addHandler(handler, SelectionEvent.getType());
+    public HandlerRegistration addSelectionHandler(final SelectionHandler<Suggestion> handler) {
+        return addHandler(new SelectionHandler<Suggestion>() {
+            @Override
+            public void onSelection(SelectionEvent<Suggestion> event) {
+                if(isEnabled()){
+                    handler.onSelection(event);
+                }
+            }
+        }, SelectionEvent.getType());
     }
 
     /**
@@ -598,11 +662,41 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
          *         suggestion should be ignored.
          */
         MaterialChip getChip(Suggestion suggestion);
+        
+        /**
+         * Returns whether the chip defined by the suggestion should be selected when the user clicks on it.
+         * 
+         * <p>
+         * Selecion of chips is used to batch remove suggestions, for example.
+         * </p>
+         * 
+         * @param suggestion
+         *            the selected {@link Suggestion}
+         *            
+         * @see MaterialAutoComplete#setSelectedChipStyle(String) 
+         */
+        boolean isChipSelectable(Suggestion suggestion);
+        
+        /**
+         * Returns whether the chip defined by the suggestion should be removed from the autocomplete when clicked on its icon.
+         * 
+         * <p>
+         * Override this method returning <code>false</code> to implement your own logic when the user clicks on the chip icon.
+         * </p>
+         * 
+         * @param suggestion
+         *            the selected {@link Suggestion}
+         */
+        boolean isChipRemovable(Suggestion suggestion);
     }
 
     /**
      * Default implementation of the {@link MaterialChipProvider} interface,
      * used by the {@link gwt.material.design.addins.client.autocomplete.MaterialAutoComplete}.
+     * 
+     * <p>
+     * By default all chips are selectable and removable. The default {@link IconType} used by the chips provided is the {@link IconType#CLOSE}.
+     * </p> 
      *
      * @see gwt.material.design.addins.client.autocomplete.MaterialAutoComplete#setChipProvider(MaterialChipProvider)
      */
@@ -623,14 +717,32 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                 textChip = textChip.replaceAll("[<](/)?img[^>]*[>]", "");
             }
             chip.setText(textChip);
-
+            chip.setIconType(IconType.CLOSE);
+            
             return chip;
+        }
+        
+        @Override
+        public boolean isChipRemovable(Suggestion suggestion) {
+            return true;
+        }
+        
+        @Override
+        public boolean isChipSelectable(Suggestion suggestion) {
+            return true;
         }
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<? extends Suggestion>> handler) {
-        return addHandler(handler, ValueChangeEvent.getType());
+    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<List<? extends Suggestion>> handler) {
+        return addHandler(new ValueChangeHandler<List<? extends Suggestion>>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<List<? extends Suggestion>> event) {
+                if(isEnabled()){
+                    handler.onValueChange(event);
+                }
+            }
+        }, ValueChangeEvent.getType());
     }
 
     /**

@@ -26,12 +26,13 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.base.HasDraggable;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragMoveEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -60,10 +61,10 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
         } else {
-            MaterialResourceInjector.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
+            MaterialDesignBase.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
         }
 
     }
@@ -171,10 +172,29 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
         }
     }
 
+    @Override
+    public void setIgnoreFrom(final String selector) {
+        if(!target.isAttached()){
+            target.addAttachHandler(new AttachEvent.Handler() {
+                @Override
+                public void onAttachOrDetach(AttachEvent event) {
+                    initIgnoreFrom(target.getElement(), selector);
+                }
+            });
+        } else {
+            initIgnoreFrom(target.getElement(), selector);
+        }
+    }
+
+    /**
+     * Initialize the ignoreFrom function as selector to exclude any widget from dragging
+     */
+    private native void initIgnoreFrom(Element target, String selector) /*-{
+        $wnd.interact(target).ignoreFrom(selector);
+    }-*/;
+
     /**
      * Initialize the ignoreFrom function to exclude any widget from dragging
-     * @param target
-     * @param ignoreFrom
      */
     private native void initIgnoreFrom(Element target, Element ignoreFrom) /*-{
         $wnd.interact(target).ignoreFrom(ignoreFrom);
@@ -196,8 +216,15 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     }
 
     @Override
-    public HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler) {
-        return addHandler(handler, DragStartEvent.TYPE);
+    public HandlerRegistration addDragStartHandler(final DragStartEvent.DragStartHandler handler) {
+        return addHandler(new DragStartEvent.DragStartHandler() {
+            @Override
+            public void onDragStart(DragStartEvent event) {
+                if(isEnabled()){
+                    handler.onDragStart(event);
+                }
+            }
+        }, DragStartEvent.TYPE);
     }
 
     private void fireDragStartEvent() {
@@ -205,8 +232,15 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     }
 
     @Override
-    public HandlerRegistration addDragMoveHandler(DragMoveEvent.DragMoveHandler handler) {
-        return addHandler(handler, DragMoveEvent.TYPE);
+    public HandlerRegistration addDragMoveHandler(final DragMoveEvent.DragMoveHandler handler) {
+        return addHandler(new DragMoveEvent.DragMoveHandler() {
+            @Override
+            public void onDragMove(DragMoveEvent event) {
+                if(isEnabled()){
+                    handler.onDragMove(event);
+                }
+            }
+        }, DragMoveEvent.TYPE);
     }
 
     private void fireDragMoveEvent() {
@@ -214,8 +248,15 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     }
 
     @Override
-    public HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler) {
-        return addHandler(handler, DragEndEvent.TYPE);
+    public HandlerRegistration addDragEndHandler(final DragEndEvent.DragEndHandler handler) {
+        return addHandler(new DragEndEvent.DragEndHandler() {
+            @Override
+            public void onDragEnd(DragEndEvent event) {
+                if(isEnabled()){
+                    handler.onDragEnd(event);
+                }
+            }
+        }, DragEndEvent.TYPE);
     }
 
     private void fireDragEndEvent() {

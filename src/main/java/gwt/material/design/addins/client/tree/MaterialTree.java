@@ -25,7 +25,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -65,18 +66,17 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
 
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialTreeClientBundle.INSTANCE.treeCss());
+            MaterialDesignBase.injectCss(MaterialTreeClientBundle.INSTANCE.treeCss());
         }
     }
 
     private MaterialTreeItem selectedTree;
 
     public MaterialTree() {
-        super(Document.get().createDivElement());
-        setStyleName("tree");
+        super(Document.get().createDivElement(), "tree");
     }
 
     private void initSelectionEvent() {
@@ -133,18 +133,39 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     }
 
     @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<MaterialTreeItem> handler) {
-        return addHandler(handler, CloseEvent.getType());
+    public HandlerRegistration addCloseHandler(final CloseHandler<MaterialTreeItem> handler) {
+        return addHandler(new CloseHandler<MaterialTreeItem>() {
+            @Override
+            public void onClose(CloseEvent<MaterialTreeItem> event) {
+                if(isEnabled()){
+                    handler.onClose(event);
+                }
+            }
+        }, CloseEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<MaterialTreeItem> handler) {
-        return addHandler(handler, OpenEvent.getType());
+    public HandlerRegistration addOpenHandler(final OpenHandler<MaterialTreeItem> handler) {
+        return addHandler(new OpenHandler<MaterialTreeItem>() {
+            @Override
+            public void onOpen(OpenEvent<MaterialTreeItem> event) {
+                if(isEnabled()){
+                    handler.onOpen(event);
+                }
+            }
+        }, OpenEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<MaterialTreeItem> handler) {
-        return addHandler(handler, SelectionEvent.getType());
+    public HandlerRegistration addSelectionHandler(final SelectionHandler<MaterialTreeItem> handler) {
+        return addHandler(new SelectionHandler<MaterialTreeItem>() {
+            @Override
+            public void onSelection(SelectionEvent<MaterialTreeItem> event) {
+                if(isEnabled()){
+                    handler.onSelection(event);
+                }
+            }
+        }, SelectionEvent.getType());
     }
 
     public MaterialTreeItem getSelectedTree() {

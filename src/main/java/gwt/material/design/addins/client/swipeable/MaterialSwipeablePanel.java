@@ -40,10 +40,11 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 /**
@@ -78,18 +79,17 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
+            MaterialDesignBase.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
         }
     }
 
     private final String DISABLED = "disabled-swipe";
 
     public MaterialSwipeablePanel() {
-        super(Document.get().createDivElement());
-        setStyleName("swipeable");
+        super(Document.get().createDivElement(), "swipeable");
     }
 
     @Override
@@ -187,13 +187,27 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }-*/;
 
     @Override
-    public HandlerRegistration addSwipeLeft(SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
-        return addHandler(handler, SwipeLeftEvent.getType());
+    public HandlerRegistration addSwipeLeft(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
+        return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
+            @Override
+            public void onSwipeLeft(SwipeLeftEvent<Widget> event) {
+                if(isEnabled()){
+                    handler.onSwipeLeft(event);
+                }
+            }
+        }, SwipeLeftEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addSwipeRight(SwipeRightEvent.SwipeRightHandler<Widget> handler) {
-        return addHandler(handler, SwipeRightEvent.getType());
+    public HandlerRegistration addSwipeRight(final SwipeRightEvent.SwipeRightHandler<Widget> handler) {
+        return addHandler(new SwipeRightEvent.SwipeRightHandler<Widget>() {
+            @Override
+            public void onSwipeRight(SwipeRightEvent<Widget> event) {
+                if(isEnabled()){
+                    handler.onSwipeRight(event);
+                }
+            }
+        }, SwipeRightEvent.getType());
     }
 
     /**

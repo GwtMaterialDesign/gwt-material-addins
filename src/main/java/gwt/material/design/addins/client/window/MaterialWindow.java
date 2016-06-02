@@ -25,13 +25,16 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
@@ -39,8 +42,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.animate.MaterialAnimator;
-import gwt.material.design.client.ui.animate.Transition;
+import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 //@formatter:off
 
@@ -79,10 +81,10 @@ import gwt.material.design.client.ui.animate.Transition;
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectCss(MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug());
         } else {
-            MaterialResourceInjector.injectCss(MaterialWindowClientBundle.INSTANCE.windowCss());
+            MaterialDesignBase.injectCss(MaterialWindowClientBundle.INSTANCE.windowCss());
         }
     }
 
@@ -103,13 +105,15 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private boolean maximize = true;
     private boolean open = false;
 
+    private MaterialAnimation openAnimation;
+    private MaterialAnimation closeAnimation;
+
 
     public MaterialWindow() {
-        super(Document.get().createDivElement());
+        super(Document.get().createDivElement(), "window-overlay");
         window.setStyleName("window");
         content.setStyleName("content");
         super.add(window);
-        setStyleName("window-overlay");
         initWindow();
     }
 
@@ -128,6 +132,13 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         toolbar.add(link);
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
+        toolbar.addDomHandler(new DoubleClickHandler() {
+            @Override
+            public void onDoubleClick(DoubleClickEvent event) {
+                toggleMaximize();
+                Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+            }
+        }, DoubleClickEvent.getType());
         window.add(toolbar);
         window.add(content);
 
@@ -135,13 +146,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         iconMaximize.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                if(maximize){
-                    setMaximize(true);
-                    maximize = false;
-                }else{
-                    setMaximize(false);
-                    maximize = true;
-                }
+                toggleMaximize();
             }
         });
         iconClose.addClickHandler(new ClickHandler() {
@@ -160,8 +165,18 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         // Add a draggable header
         MaterialDnd dnd = new MaterialDnd();
         dnd.setTarget(window);
-        dnd.setIgnoreFrom(content);
+        dnd.setIgnoreFrom(".content, .window-action");
         dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
+    }
+
+    private void toggleMaximize(){
+        if (maximize) {
+            setMaximize(true);
+            maximize = false;
+        } else {
+            setMaximize(false);
+            maximize = true;
+        }
     }
 
     @Override
@@ -197,9 +212,14 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Open the window
      */
     public void openWindow() {
+        if (!this.isAttached()) {
+            RootPanel.get().add(this);
+        }
         this.open = false;
         OpenEvent.fire(this, true);
-        MaterialAnimator.animate(Transition.ZOOMIN, window, 0, 200);
+        if (openAnimation != null) {
+            openAnimation.animate(window);
+        }
         closeMixin.setOn(true);
     }
 
@@ -209,14 +229,16 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void closeWindow() {
         this.open = true;
         CloseEvent.fire(this, false);
-        Runnable callback = new Runnable() {
-            @Override
-            public void run() {
-                closeMixin.setOn(false);
-                RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-            }
-        };
-        MaterialAnimator.animate(Transition.ZOOMOUT, window, 0, callback);
+        if (closeAnimation == null) {
+            closeMixin.setOn(false);
+        } else {
+            closeAnimation.animate(window, new Runnable() {
+                @Override
+                public void run() {
+                    closeMixin.setOn(false);
+                }
+            });
+        }
     }
 
     public String getToolbarColor() {
@@ -228,14 +250,36 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         toolbarColorMixin.setBackgroundColor(toolbarColor);
     }
 
-    @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<Boolean> handler) {
-        return addHandler(handler, CloseEvent.getType());
+    public void setOpenAnimation(final MaterialAnimation openAnimation) {
+        this.openAnimation = openAnimation;
+    }
+
+    public void setCloseAnimation(final MaterialAnimation closeAnimation) {
+        this.closeAnimation = closeAnimation;
     }
 
     @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<Boolean> handler) {
-        return addHandler(handler, OpenEvent.getType());
+    public HandlerRegistration addCloseHandler(final CloseHandler<Boolean> handler) {
+        return addHandler(new CloseHandler<Boolean>() {
+            @Override
+            public void onClose(CloseEvent<Boolean> event) {
+                if(isEnabled()){
+                    handler.onClose(event);
+                }
+            }
+        }, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(final OpenHandler<Boolean> handler) {
+        return addHandler(new OpenHandler<Boolean>() {
+            @Override
+            public void onOpen(OpenEvent<Boolean> event) {
+                if(isEnabled()){
+                    handler.onOpen(event);
+                }
+            }
+        }, OpenEvent.getType());
     }
 
     @Override

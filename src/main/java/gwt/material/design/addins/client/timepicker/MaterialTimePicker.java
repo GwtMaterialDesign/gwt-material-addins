@@ -7,7 +7,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
-import gwt.material.design.addins.client.MaterialResourceInjector;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
 import gwt.material.design.client.base.HasPlaceholder;
@@ -66,12 +67,12 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date> {
 
     static {
-        if(MaterialResourceInjector.isDebug()) {
-            MaterialResourceInjector.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
-            MaterialResourceInjector.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
+            MaterialDesignBase.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
         } else {
-            MaterialResourceInjector.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
-            MaterialResourceInjector.injectCss(MaterialTimePickerClientBundle.INSTANCE.timepickerCss());
+            MaterialDesignBase.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
+            MaterialDesignBase.injectCss(MaterialTimePickerClientBundle.INSTANCE.timepickerCss());
         }
     }
 
@@ -316,13 +317,27 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<Date> handler) {
-        return this.addHandler(handler, CloseEvent.getType());
+    public HandlerRegistration addCloseHandler(final CloseHandler<Date> handler) {
+        return this.addHandler(new CloseHandler<Date>() {
+            @Override
+            public void onClose(CloseEvent<Date> event) {
+                if(isEnabled()){
+                    handler.onClose(event);
+                }
+            }
+        }, CloseEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<Date> handler) {
-        return this.addHandler(handler, OpenEvent.getType());
+    public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
+        return this.addHandler(new OpenHandler<Date>() {
+            @Override
+            public void onOpen(OpenEvent<Date> event) {
+                if(isEnabled()){
+                    handler.onOpen(event);
+                }
+            }
+        }, OpenEvent.getType());
     }
 
     private void fireCloseEvent() {
@@ -347,8 +362,15 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }-*/;
     
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date> handler) {
-        return this.addHandler(handler, ValueChangeEvent.getType());
+    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> handler) {
+        return this.addHandler(new ValueChangeHandler<Date>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Date> event) {
+                if(isEnabled()){
+                    handler.onValueChange(event);
+                }
+            }
+        }, ValueChangeEvent.getType());
     }
 
     @Override
