@@ -31,7 +31,10 @@ public class UploadResponse {
     private String message;
     private String body;
 
-
+    public UploadResponse(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
     public UploadResponse(String code, String message, String body) {
         this.code = code;
         this.message = message;
