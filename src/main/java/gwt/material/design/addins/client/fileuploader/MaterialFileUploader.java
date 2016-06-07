@@ -41,13 +41,13 @@ import gwt.material.design.addins.client.fileuploader.events.RemovedFileEvent;
 import gwt.material.design.addins.client.fileuploader.events.SendingEvent;
 import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
 import gwt.material.design.addins.client.fileuploader.events.TotalUploadProgressEvent;
+import gwt.material.design.addins.client.fileuploader.events.UnauthorizedEvent;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
 
 import java.util.Date;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -169,6 +169,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 																													$wnd.jQuery(document).ready(function() {
 																													var previewNode = $wnd.jQuery(template);
 																													var previewContainer = $wnd.jQuery("#" + previews).html();
+																													var globalResponse = "";
 																													previewNode.id = "";
 																													var previewTemplate = previewNode.parent().html();
 
@@ -232,17 +233,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 																													$wnd.jQuery(uploadedFiles).html('Uploaded files ' + totalFiles);
 																													});
 
-																													zdrop.on('error', function (file, response) {
-																													var code = '200';
-																													if(file.xhr !== undefined) {
-																													code = file.xhr.status;
-																													}
-																													if(response.indexOf("404") >= 0) {
-																													response = "There's a problem uploading your file.";
-																													}
-																													file.previewElement.querySelector("#error-message").innerHTML = response;
-																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, code, response);
-																													});
 
 																													zdrop.on("totaluploadprogress", function (progress) {
 																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireTotalUploadProgressEvent(*)(progress);
@@ -256,12 +246,35 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
 																													});
 
+																													zdrop.on('error', function (file, response) {
+																													var code = '200';
+																													if(file.xhr !== undefined) {
+																													code = file.xhr.status;
+																													}
+																													if(response.indexOf("401") >= 0) {
+																													response = "Unautharized. Probably Your's session expired. Log in and try again.";
+																													globalResponse = response;
+																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireUnauthorizedEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText, response);
+																													}
+																													if(response.indexOf("404") >= 0) {
+																													response = "There's a problem uploading your file.";
+																													globalResponse = response;
+																													}
+																													if(response.indexOf("500") >= 0) {
+																													response = "There's a problem uploading your file.";
+																													globalResponse = response;
+																													}
+																													file.previewElement.querySelector("#error-message").innerHTML = response;
+																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText, response);
+																													});
+																													
 																													zdrop.on('success', function (file, response) {
-																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText, response.body);
+																													globalResponse = response;
+																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText, response);
 																													});
 
 																													zdrop.on('complete', function (file) {
-																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
+																													that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireCompleteEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText, globalResponse);
 																													});
 
 																													zdrop.on('canceled', function (file) {
@@ -545,6 +558,23 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 	}
 
 	@Override
+	public HandlerRegistration addUnauthorizedHandler(final UnauthorizedEvent.UnauthorizedHandler<UploadFile> handler) {
+		return addHandler(new UnauthorizedEvent.UnauthorizedHandler<UploadFile>() {
+			@Override
+			public void onUnauthorized(UnauthorizedEvent<UploadFile> event) {
+				if (isEnabled()) {
+					handler.onUnauthorized(event);
+				}
+			}
+		}, UnauthorizedEvent.getType());
+	}
+
+	@Override
+	public void fireUnauthorizedEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
+		UnauthorizedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
+	}
+
+	@Override
 	public HandlerRegistration addErrorHandler(final ErrorEvent.ErrorHandler<UploadFile> handler) {
 		return addHandler(new ErrorEvent.ErrorHandler<UploadFile>() {
 			@Override
@@ -557,8 +587,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 	}
 
 	@Override
-	public void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
-		ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
+	public void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
+		ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
 	}
 
 	@Override
@@ -591,8 +621,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 	}
 
 	@Override
-	public void fireSendingEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
-		SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
+	public void fireSendingEvent(String fileName, String lastModified, String size, String type) {
+		SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
 	}
 
 	@Override
@@ -600,7 +630,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 		return addHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
 			@Override
 			public void onSuccess(SuccessEvent<UploadFile> event) {
-				GWT.log("---------->___1");
 				if (isEnabled()) {
 					handler.onSuccess(event);
 				}
@@ -610,7 +639,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
 	@Override
 	public void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
-		GWT.log(responseCode + " " + responseMessage + " " + responseBody);
 		SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
 	}
 
@@ -619,7 +647,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 		return addHandler(new CompleteEvent.CompleteHandler<UploadFile>() {
 			@Override
 			public void onComplete(CompleteEvent<UploadFile> event) {
-				GWT.log("---------->2");
 				if (isEnabled()) {
 					handler.onComplete(event);
 				}
@@ -628,8 +655,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 	}
 
 	@Override
-	public void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
-		CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
+	public void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
+		CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
 	}
 
 	@Override

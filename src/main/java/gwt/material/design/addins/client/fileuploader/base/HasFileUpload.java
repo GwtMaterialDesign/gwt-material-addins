@@ -36,6 +36,7 @@ import gwt.material.design.addins.client.fileuploader.events.RemovedFileEvent;
 import gwt.material.design.addins.client.fileuploader.events.SendingEvent;
 import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
 import gwt.material.design.addins.client.fileuploader.events.TotalUploadProgressEvent;
+import gwt.material.design.addins.client.fileuploader.events.UnauthorizedEvent;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
@@ -116,14 +117,26 @@ public interface HasFileUpload<T> extends HasHandlers {
 	void fireRemovedFileEvent(String fileName, String lastModified, String size, String type);
 
 	/**
+	 * An unauthorized error occured. Probably because of session expiration.
+	 * Receives the errorMessage as second parameter and if the error was due to
+	 * the XMLHttpRequest the xhr object as third.
+	 * 
+	 * @param handler
+	 */
+	HandlerRegistration addUnauthorizedHandler(UnauthorizedEvent.UnauthorizedHandler<T> handler);
+
+	void fireUnauthorizedEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
+
+	/**
 	 * An error occured. Receives the errorMessage as second parameter and if
 	 * the error was due to the XMLHttpRequest the xhr object as third.
 	 * 
 	 * @param handler
 	 */
+
 	HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler<T> handler);
 
-	void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
+	void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
 
 	/**
 	 * Called with the total uploadProgress (0-100). This event can be used to
@@ -145,7 +158,7 @@ public interface HasFileUpload<T> extends HasHandlers {
 	 */
 	HandlerRegistration addSendingHandler(SendingEvent.SendingHandler<T> handler);
 
-	void fireSendingEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
+	void fireSendingEvent(String fileName, String lastModified, String size, String type);
 
 	/**
 	 * The file has been uploaded successfully. Gets the server response as
@@ -164,7 +177,7 @@ public interface HasFileUpload<T> extends HasHandlers {
 	 */
 	HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler<T> handler);
 
-	void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
+	void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
 
 	/**
 	 * Called when a file upload gets canceled.
