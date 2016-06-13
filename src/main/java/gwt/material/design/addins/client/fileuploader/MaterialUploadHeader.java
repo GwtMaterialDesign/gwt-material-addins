@@ -20,78 +20,78 @@ package gwt.material.design.addins.client.fileuploader;
  * #L%
  */
 
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Span;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+
 public class MaterialUploadHeader extends MaterialWidget {
 
-    private Span uploadedFiles = new Span();
-    private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
-    private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
-    private MaterialUploadPreview preview;
+	private Span uploadedFiles = new Span();
+	private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
+	private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
+	private MaterialUploadPreview preview;
 
-    public MaterialUploadHeader() {
-        super(Document.get().createDivElement(), "header");
-        iconClose.setId("upload-close");
-        iconClose.setCircle(true);
-        iconClose.setWaves(WavesType.DEFAULT);
-        iconClose.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent clickEvent) {
-                preview.setVisibility(Style.Visibility.HIDDEN);
-            }
-        });
-        iconColaps.setId("upload-colaps");
-        iconColaps.setCircle(true);
-        iconColaps.setWaves(WavesType.DEFAULT);
-        uploadedFiles.setId("no-uploaded-files");
-        add(uploadedFiles);
-        add(iconClose);
-        add(iconColaps);
-    }
+	public MaterialUploadHeader() {
+		super(Document.get().createDivElement(), "header");
+		iconClose.setId("upload-close");
+		iconClose.setCircle(true);
+		iconClose.setWaves(WavesType.DEFAULT);
+		iconClose.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent clickEvent) {
+				preview.setVisibility(Style.Visibility.HIDDEN);
+			}
+		});
+		iconColaps.setId("upload-colaps");
+		iconColaps.setCircle(true);
+		iconColaps.setWaves(WavesType.DEFAULT);
+		uploadedFiles.setId("no-uploaded-files");
+		add(uploadedFiles);
+		add(iconClose);
+		add(iconColaps);
+	}
 
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        initUploadHeader(iconClose.getElement(), iconColaps.getElement(), getPreview().getElement(), getPreview().getUploadCollection().getElement());
-    }
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		initUploadHeader(iconClose.getElement(), iconColaps.getElement(), getPreview().getElement(), getPreview().getUploadCollection().getElement());
+	}
 
-    private native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
-        var toggle = true;
+	private native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
+																														var toggle = true;
 
-        $wnd.jQuery(iconColaps).click(function() {
-            if(toggle){
-                $wnd.jQuery(collection).css('visibility', 'hidden');
-                $wnd.jQuery(iconColaps).html("keyboard_arrow_up");
-                $wnd.jQuery(collection).css('height', '0px');
-                toggle = false;
-            }else{
-                $wnd.jQuery(collection).css('visibility', 'visible');
-                $wnd.jQuery(iconColaps).html("keyboard_arrow_down");
-                $wnd.jQuery(collection).css('height', 'initial');
-                toggle = true;
-            }
-        });
-    }-*/;
+																														$wnd.jQuery(iconColaps).click(function() {
+																														if(toggle){
+																														$wnd.jQuery(collection).css('visibility', 'hidden');
+																														$wnd.jQuery(iconColaps).html("keyboard_arrow_up");
+																														$wnd.jQuery(collection).css('height', '0px');
+																														toggle = false;
+																														}else{
+																														$wnd.jQuery(collection).css('visibility', 'visible');
+																														$wnd.jQuery(iconColaps).html("keyboard_arrow_down");
+																														$wnd.jQuery(collection).css('height', 'initial');
+																														toggle = true;
+																														}
+																														});
+																														}-*/;
 
-    public MaterialUploadPreview getPreview() {
-        return preview;
-    }
+	public MaterialUploadPreview getPreview() {
+		return preview;
+	}
 
-    public void setPreview(MaterialUploadPreview preview) {
-        this.preview = preview;
-    }
+	public void setPreview(MaterialUploadPreview preview) {
+		this.preview = preview;
+	}
 
-    public Span getUploadedFiles() {
-        return uploadedFiles;
-    }
+	public Span getUploadedFiles() {
+		return uploadedFiles;
+	}
 }
