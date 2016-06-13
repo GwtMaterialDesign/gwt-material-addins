@@ -50,7 +50,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * </pre>
  *
  * @author kevzlou7979
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#bubble">Material Bubble</a>
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#avatar">Material Avatar</a>
  */
 //@formatter:on
 public class MaterialAvatar extends MaterialWidget {
