@@ -119,9 +119,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Default constructor.
      */
     public MaterialRating() {
-        super(DOM.createDiv());
-
-        addStyleName("material-rating");
+        super(DOM.createDiv(), "material-rating");
         revalidateLayout();
     }
 
