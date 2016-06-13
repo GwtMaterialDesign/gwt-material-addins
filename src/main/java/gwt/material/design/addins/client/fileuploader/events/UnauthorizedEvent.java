@@ -70,4 +70,5 @@ public class UnauthorizedEvent<T> extends GwtEvent<UnauthorizedEvent.Unauthorize
 	protected void dispatch(UnauthorizedHandler<T> handler) {
 		handler.onUnauthorized(this);
 	}
+
 }
