@@ -20,24 +20,20 @@ package gwt.material.design.addins.client.rating;
  * #L%
  */
 
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialIcon;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialToast;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -50,9 +46,9 @@ import com.google.gwt.user.client.ui.HasValue;
  * rating, but other icons can be set using the
  * {@link #setSelectedRatingIcon(IconType)} method.
  * </p>
- * 
+ *
  * <h3>XML Namespace Declaration</h3>
- * 
+ *
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
@@ -66,17 +62,17 @@ import com.google.gwt.user.client.ui.HasValue;
  * <ma:rating.MaterialRating ui:field="rating" />
  * }
  * </pre>
- * 
+ *
  * To use different icons, for instance, hearts, you can set:
- * 
+ *
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" selectedRatingIcon="FAVORITE" unselectedRatingIcon="FAVORITE_BORDER" textColor="red" />
  * }
  * </pre>
- * 
+ *
  * You can also set the maximum rating (the default is 5):
- * 
+ *
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" maxRating="7" />
@@ -84,7 +80,7 @@ import com.google.gwt.user.client.ui.HasValue;
  * </pre>
  *
  * <h3>Example Java Usage:</h3>
- * 
+ *
  * <pre>
  * {@code
  * MaterialRating rating = ... //create using new or using UiBinder
@@ -94,7 +90,7 @@ import com.google.gwt.user.client.ui.HasValue;
  * int selectedValue = rating.getValue(); // retrieves the selected rating
  * }
  * </pre>
- * 
+ *
  * <h3>Custom styling:</h3>
  * <p>
  * You use change the MaterialRating style by using the
@@ -102,9 +98,9 @@ import com.google.gwt.user.client.ui.HasValue;
  * <code>material-rating-selected</code> CSS class, and unselected the
  * <code>material-rating-unselected</code> CSS class.
  * </p>
- * 
+ *
  * @author gilberto-torrezan
- * 
+ *
  */
 public class MaterialRating extends MaterialWidget implements HasValue<Integer> {
 
@@ -126,7 +122,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     /**
      * Sets the maximum number of icons to show - which represents the maximum
      * selectable rating. The default is 5.
-     * 
+     *
      * @param maxRating
      *            The maximum selectable rating for this component
      */
@@ -138,7 +134,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     /**
      * Returns the maximum selectable rating in this component. The default is
      * 5.
-     * 
+     *
      * @return The maximum rating
      */
     public int getMaxRating() {
@@ -148,18 +144,19 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     /**
      * Sets the {@link IconType} to be used to represent the selected ratings.
      * The default is {@link IconType#STAR}.
-     * 
+     *
      * @param selectedRatingIcon
      *            The icon of the selected ratings
      */
     public void setSelectedRatingIcon(IconType selectedRatingIcon) {
         this.selectedRatingIcon = selectedRatingIcon;
+        revalidateLayout();
     }
 
     /**
      * Returns the {@link IconType} used to represent the selected ratings. The
      * default is {@link IconType#STAR}.
-     * 
+     *
      * @return The icon for selected ratings
      */
     public IconType getSelectedRatingIcon() {
@@ -169,18 +166,19 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     /**
      * Sets the {@link IconType} to be used to represent the not selected
      * ratings. The default is {@link IconType#STAR_BORDER}.
-     * 
+     *
      * @param unselectedRatingIcon
      *            The icon of the unselected ratings
      */
     public void setUnselectedRatingIcon(IconType unselectedRatingIcon) {
         this.unselectedRatingIcon = unselectedRatingIcon;
+        revalidateLayout();
     }
 
     /**
      * Returns the {@link IconType} used to represent the not selected ratings.
      * The default is {@link IconType#STAR_BORDER}.
-     * 
+     *
      * @return The icon for unselected ratings
      */
     public IconType getUnselectedRatingIcon() {
@@ -239,6 +237,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
             add(icon);
             iconList.add(icon);
         }
+        GWT.log(unselectedRatingIcon.getCssName());
         revalidateSelection(currentRating);
     }
 
@@ -292,7 +291,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Sets whether the user can interact with the component or not.
      * Non-editable MaterialRatings can only show values, not allowing users to
      * change them. The default is <code>true</code> (editable).
-     * 
+     *
      * @param editable
      *            <code>true</code> to allow the user change the state of the
      *            component, <code>false</code> otherwise
@@ -304,7 +303,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     /**
      * Returns whether the component is editable by the user. The default is
      * <code>true</code> (editable).
-     * 
+     *
      * @return <code>true</code> if the component is editable by the user,
      *         <code>false</code> otherwise'
      */
