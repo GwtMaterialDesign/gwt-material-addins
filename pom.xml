@@ -10,7 +10,7 @@
     <artifactId>gwt-material-addins</artifactId>
 
     <name>Gwt Material Addins</name>
-    <version>1.6.0-myFork</version>
+    <version>1.5.2-SNAPSHOT</version>
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
