@@ -1,3 +1,9 @@
 target/
 gwt-material-addins.iml
 .idea
+.directory
+.checkstyle
+.classpath
+.project
+.settings/.jsdtscope
+.settings/
