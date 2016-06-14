@@ -28,47 +28,47 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class UnauthorizedEvent<T> extends GwtEvent<UnauthorizedEvent.UnauthorizedHandler<T>> {
 
-	private static Type<UnauthorizedHandler<?>> TYPE;
+    private static Type<UnauthorizedHandler<?>> TYPE;
 
-	public interface UnauthorizedHandler<T> extends EventHandler {
-		void onUnauthorized(UnauthorizedEvent<T> event);
-	}
+    public interface UnauthorizedHandler<T> extends EventHandler {
+        void onUnauthorized(UnauthorizedEvent<T> event);
+    }
 
-	public static <T> void fire(HasFileUpload<T> source, T target, UploadResponse response) {
-		if (TYPE != null) {
-			UnauthorizedEvent<T> event = new UnauthorizedEvent<T>(target, response);
-			source.fireEvent(event);
-		}
-	}
+    public static <T> void fire(HasFileUpload<T> source, T target, UploadResponse response) {
+        if (TYPE != null) {
+            UnauthorizedEvent<T> event = new UnauthorizedEvent<T>(target, response);
+            source.fireEvent(event);
+        }
+    }
 
-	public static Type<UnauthorizedHandler<?>> getType() {
-		return TYPE != null ? TYPE : (TYPE = new Type<UnauthorizedHandler<?>>());
-	}
+    public static Type<UnauthorizedHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<UnauthorizedHandler<?>>());
+    }
 
-	private final T target;
-	private final UploadResponse response;
+    private final T target;
+    private final UploadResponse response;
 
-	protected UnauthorizedEvent(T target, UploadResponse response) {
-		this.target = target;
-		this.response = response;
-	}
+    protected UnauthorizedEvent(T target, UploadResponse response) {
+        this.target = target;
+        this.response = response;
+    }
 
-	@Override
-	public final Type<UnauthorizedHandler<T>> getAssociatedType() {
-		return (Type) TYPE;
-	}
+    @Override
+    public final Type<UnauthorizedHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
 
-	public T getTarget() {
-		return target;
-	}
+    public T getTarget() {
+        return target;
+    }
 
-	public UploadResponse getResponse() {
-		return response;
-	}
+    public UploadResponse getResponse() {
+        return response;
+    }
 
-	@Override
-	protected void dispatch(UnauthorizedHandler<T> handler) {
-		handler.onUnauthorized(this);
-	}
+    @Override
+    protected void dispatch(UnauthorizedHandler<T> handler) {
+        handler.onUnauthorized(this);
+    }
 
 }
