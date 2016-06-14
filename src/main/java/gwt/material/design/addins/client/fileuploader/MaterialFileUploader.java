@@ -422,6 +422,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         this.acceptedFiles = acceptedFiles;
     }
 
+
     @Override
     public HandlerRegistration addDropHandler(final DropEvent.DropHandler handler) {
         return addHandler(new DropEvent.DropHandler() {
