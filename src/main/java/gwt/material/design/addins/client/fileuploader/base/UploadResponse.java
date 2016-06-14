@@ -23,48 +23,48 @@ package gwt.material.design.addins.client.fileuploader.base;
 /**
  * Upload Response with Code (e.g 404, 503, 200) and message
  * ("File Upload url not found etc."
- * 
+ *
  * @author kevzlou7979
  */
 public class UploadResponse {
 
-	private String code;
-	private String message;
-	private String body;
+    private String code;
+    private String message;
+    private String body;
 
-	public UploadResponse(String code, String message) {
-		this.code = code;
-		this.message = message;
-	}
+    public UploadResponse(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
-	public UploadResponse(String code, String message, String body) {
-		this.code = code;
-		this.message = message;
-		this.body = body;
-	}
+    public UploadResponse(String code, String message, String body) {
+        this.code = code;
+        this.message = message;
+        this.body = body;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public String getBody() {
-		return body;
-	}
+    public String getBody() {
+        return body;
+    }
 
-	public void setBody(String body) {
-		this.body = body;
-	}
+    public void setBody(String body) {
+        this.body = body;
+    }
 
 }

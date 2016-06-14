@@ -27,40 +27,40 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class SendingEvent<T> extends GwtEvent<SendingEvent.SendingHandler<T>> {
 
-	private static Type<SendingHandler<?>> TYPE;
+    private static Type<SendingHandler<?>> TYPE;
 
-	public interface SendingHandler<T> extends EventHandler {
-		void onSending(SendingEvent<T> event);
-	}
+    public interface SendingHandler<T> extends EventHandler {
+        void onSending(SendingEvent<T> event);
+    }
 
-	public static <T> void fire(HasFileUpload<T> source, T target) {
-		if (TYPE != null) {
-			SendingEvent<T> event = new SendingEvent<T>(target);
-			source.fireEvent(event);
-		}
-	}
+    public static <T> void fire(HasFileUpload<T> source, T target) {
+        if (TYPE != null) {
+            SendingEvent<T> event = new SendingEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
 
-	public static Type<SendingHandler<?>> getType() {
-		return TYPE != null ? TYPE : (TYPE = new Type<SendingHandler<?>>());
-	}
+    public static Type<SendingHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<SendingHandler<?>>());
+    }
 
-	private final T target;
+    private final T target;
 
-	protected SendingEvent(T target) {
-		this.target = target;
-	}
+    protected SendingEvent(T target) {
+        this.target = target;
+    }
 
-	@Override
-	public final Type<SendingHandler<T>> getAssociatedType() {
-		return (Type) TYPE;
-	}
+    @Override
+    public final Type<SendingHandler<T>> getAssociatedType() {
+        return (Type) TYPE;
+    }
 
-	public T getTarget() {
-		return target;
-	}
+    public T getTarget() {
+        return target;
+    }
 
-	@Override
-	protected void dispatch(SendingHandler<T> handler) {
-		handler.onSending(this);
-	}
+    @Override
+    protected void dispatch(SendingHandler<T> handler) {
+        handler.onSending(this);
+    }
 }
