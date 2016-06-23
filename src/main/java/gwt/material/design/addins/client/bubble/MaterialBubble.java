@@ -92,7 +92,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
      * @param color - color of the bubble
      * @param type - type of the bubble (RIGHT, TOP, LEFT, BOTTOM)
      */
-    private native void initBubble(Element element, String color, String type) /*-{
+    protected native void initBubble(Element element, String color, String type) /*-{
         $wnd.jQuery(document).ready(function() {
             $wnd.jQuery(element).bubble({
                 position: type,

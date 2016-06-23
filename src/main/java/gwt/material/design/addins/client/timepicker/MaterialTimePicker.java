@@ -307,7 +307,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         this.fireCloseEvent();
     }
     
-    private native String getTime(Element e)/*-{
+    protected native String getTime(Element e)/*-{
         return $wnd.jQuery(e).val();
     }-*/;
 
@@ -340,15 +340,15 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         }, OpenEvent.getType());
     }
 
-    private void fireCloseEvent() {
+    protected void fireCloseEvent() {
         CloseEvent.fire(this, this.time);
     }
 
-    private void fireOpenEvent() {
+    protected void fireOpenEvent() {
         OpenEvent.fire(this, this.time);
     }
     
-    private void fireValueChangeEvent() {
+    protected void fireValueChangeEvent() {
         ValueChangeEvent.fire(this, this.time);
     }
 
@@ -357,7 +357,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         this.clearTimePickerValue(this.input.getElement());
     }
 
-    private native void clearTimePickerValue(Element e) /*-{
+    protected native void clearTimePickerValue(Element e) /*-{
         $wnd.jQuery(e).val('');
     }-*/;
     
@@ -415,7 +415,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         }
     }
     
-    private native void setValue(Element e, String time) /*-{
+    protected native void setValue(Element e, String time) /*-{
         $wnd.jQuery(e).val(time);
     }-*/;
 

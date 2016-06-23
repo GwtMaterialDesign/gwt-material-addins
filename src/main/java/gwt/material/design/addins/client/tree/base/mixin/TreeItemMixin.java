@@ -167,7 +167,7 @@ public class TreeItemMixin<T extends Widget & HasFontSize> extends AbstractMixin
         this.hide = hide;
     }
 
-    private MaterialTreeItem getMaterialTreeItem(){
+    protected MaterialTreeItem getMaterialTreeItem(){
         if(uiObject instanceof MaterialTreeItem){
             return (MaterialTreeItem)uiObject;
         }else{
