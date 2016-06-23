@@ -69,7 +69,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
         initRichEditor();
     }
 
-    private void initRichEditor() {
+    protected void initRichEditor() {
         initRichEditor(getElement(), isAirMode(), getPlaceholder(), getHeight(), extractOptions(getStyleOptions()), extractOptions(getFontOptions()), extractOptions(getColorOptions()), extractOptions(getUndoOptions()), extractOptions(getCkMediaOptions()), extractOptions(getMiscOptions()), extractOptions(getParaOptions()), extractOptions(getHeightOptions()));
     }
 
@@ -88,7 +88,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param paraOptions
      * @param heightOptions
      */
-    private native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
+    protected native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
         $wnd.jQuery(document).ready(function() {
             var toolbar = [
                 ['style', styleOptions],
@@ -121,7 +121,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
         return getHTMLCode(getElement());
     }
 
-    private native String getHTMLCode(Element e) /*-{
+    protected native String getHTMLCode(Element e) /*-{
         return $wnd.jQuery(e).code();
     }-*/;
 
@@ -130,7 +130,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
         setHTMLCode(getElement(), html);
     }
 
-    private native void setHTMLCode(Element e, String html) /*-{
+    protected native void setHTMLCode(Element e, String html) /*-{
         $wnd.jQuery(e).code(html);
     }-*/;
 
@@ -157,7 +157,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param e
      * @param text
      */
-    private native void insertText(Element e, String text) /*-{
+    protected native void insertText(Element e, String text) /*-{
         $wnd.jQuery(document).ready(function() {
             $wnd.jQuery(e).materialnote('insertText', text);
         });
@@ -172,7 +172,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * Clear the note editor with element as param
      * @param e
      */
-    private native void clear(Element e) /*-{
+    protected native void clear(Element e) /*-{
         $wnd.jQuery(document).ready(function() {
             $wnd.jQuery(e).materialnote('reset');
         });

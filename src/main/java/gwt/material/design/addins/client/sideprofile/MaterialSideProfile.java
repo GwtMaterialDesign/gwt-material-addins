@@ -80,7 +80,7 @@ public class MaterialSideProfile extends MaterialWidget implements HasImage {
         applyBackground(url);
     }
 
-    private void applyBackground(String url) {
+    protected void applyBackground(String url) {
         getElement().setAttribute("style", "background-image: url(" + url + "); background-size: cover;");
     }
 

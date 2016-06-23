@@ -120,7 +120,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     /**
      * Builds the toolbar
      */
-    private void initWindow() {
+    protected void initWindow() {
         toolbar.setStyleName("window-toolbar");
         link.setStyleName("window-title");
         iconClose.addStyleName("window-action");
@@ -169,7 +169,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
     }
 
-    private void toggleMaximize(){
+    protected void toggleMaximize(){
         if (maximize) {
             setMaximize(true);
             maximize = false;

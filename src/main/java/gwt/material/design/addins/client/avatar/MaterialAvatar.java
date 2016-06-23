@@ -117,7 +117,7 @@ public class MaterialAvatar extends MaterialWidget {
      * @param value
      * @return
      */
-    private native String generateHashCode(String value) /*-{
+    protected native String generateHashCode(String value) /*-{
         return $wnd.md5(value);
     }-*/;
 
@@ -129,7 +129,7 @@ public class MaterialAvatar extends MaterialWidget {
         update();
     }
 
-    private native void update() /*-{
+    protected native void update() /*-{
         $wnd.jdenticon();
     }-*/;
 }

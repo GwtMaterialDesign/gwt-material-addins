@@ -215,7 +215,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     /**
      * Generate and build the List Items to be set on Auto Complete box.
      */
-    private void generateAutoComplete(SuggestOracle suggestions) {
+    protected void generateAutoComplete(SuggestOracle suggestions) {
         list.setStyleName("multiValueSuggestBox-list");
         this.suggestions = suggestions;
         final ListItem item = new ListItem();

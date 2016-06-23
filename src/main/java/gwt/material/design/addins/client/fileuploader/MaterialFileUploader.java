@@ -133,7 +133,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * @param e
      * @param url
      */
-    private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable,boolean preview,boolean withCredentials) /*-{
+    protected native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable,boolean preview,boolean withCredentials) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery(template);

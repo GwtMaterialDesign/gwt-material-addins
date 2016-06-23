@@ -113,7 +113,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
      * @param element
      * @param target
      */
-    private native void initSwipeableElement(Element element, Widget target) /*-{
+    protected native void initSwipeableElement(Element element, Widget target) /*-{
         var that = this;
         var swipeLeftToRight;
         var swipeRightToLeft;
