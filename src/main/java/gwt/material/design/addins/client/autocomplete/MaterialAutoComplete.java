@@ -33,6 +33,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.FocusableMixin;
 import gwt.material.design.client.base.mixin.ProgressMixin;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
@@ -185,6 +186,9 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
 
     private final ErrorMixin<MaterialAutoComplete, MaterialLabel> errorMixin = new ErrorMixin<>(this,
             lblError, list);
+
+    private FocusableMixin<MaterialWidget> focusableMixin;
+
     public final CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin = new CssTypeMixin<>(this);
 
     /**
@@ -429,6 +433,12 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         suggestionMap.clear();
 
         clearErrorOrSuccess();
+    }
+
+    @Override
+    protected FocusableMixin<MaterialWidget> getFocusableMixin() {
+        if(focusableMixin == null) { focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement())); }
+        return focusableMixin;
     }
 
     /**
