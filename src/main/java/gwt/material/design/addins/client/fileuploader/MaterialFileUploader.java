@@ -106,7 +106,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     // or file extensions. Eg.:
     // image/*,application/pdf,.psd
     private String clickable = "";
-    private final MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
+    private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
     private boolean preview = true;
     private boolean initialize = false;
     private boolean withCredentials = false;
@@ -132,12 +132,12 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     public void initDropzone() {
-        final String previews = DOM.createUniqueId();
+        String previews = DOM.createUniqueId();
         uploadPreview.getUploadCollection().setId(previews);
         if (clickable.isEmpty()) {
-            final String clickable = DOM.createUniqueId();
+            String clickable = DOM.createUniqueId();
             if (getWidget(1) instanceof MaterialUploadLabel) {
-                final MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
+                MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
                 label.getIcon().setId(clickable);
             } else {
                 getWidget(1).getElement().setId(clickable);
@@ -159,7 +159,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * @param url
      */
     private native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method,
-                                     boolean autoQueue, String acceptedFiles, String clickable, boolean preview, boolean withCredentials) /*-{
+            boolean autoQueue, String acceptedFiles, String clickable, boolean preview, boolean withCredentials) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function () {
             var previewNode = $wnd.jQuery(template);
