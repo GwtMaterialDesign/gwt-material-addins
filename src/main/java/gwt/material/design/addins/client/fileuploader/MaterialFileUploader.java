@@ -43,9 +43,7 @@ import gwt.material.design.addins.client.fileuploader.events.UnauthorizedEvent;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
-
 import java.util.Date;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -152,10 +150,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(), uploadPreview.getUploadHeader().getUploadedFiles().getElement(),
                 getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview, isWithCredentials());
     }
-
-    public static native void alert(String msg) /*-{
-        $wnd.alert(msg);
-    }-*/;
 
     /**
      * Intialize the dropzone component with element and form url to provide a
