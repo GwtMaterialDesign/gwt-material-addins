@@ -14,14 +14,14 @@
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>1.5.2-SNAPSHOT</gwt-material.version>
+        <gwt-material.version>1.5.1</gwt-material.version>
     </properties>
 
     <scm>
         <connection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</connection>
         <developerConnection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</developerConnection>
         <url>http://github.com/GwtMaterialDesign/gwt-material-addins</url>
-        <tag>v1.5.2-SNAPSHOT</tag>
+        <tag>v1.5.1</tag>
     </scm>
 
     <licenses>
@@ -43,19 +43,6 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
     <dependencies>
         <!-- GwtMaterial -->

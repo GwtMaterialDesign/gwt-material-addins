@@ -20,17 +20,17 @@ package gwt.material.design.addins.client.fileuploader;
  * #L%
  */
 
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.WavesType;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.html.Span;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.constants.WavesType;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.html.Span;
 
 public class MaterialUploadHeader extends MaterialWidget {
 
@@ -68,13 +68,13 @@ public class MaterialUploadHeader extends MaterialWidget {
     private native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
         var toggle = true;
 
-        $wnd.jQuery(iconColaps).click(function() {
-            if(toggle){
+        $wnd.jQuery(iconColaps).click(function () {
+            if (toggle) {
                 $wnd.jQuery(collection).css('visibility', 'hidden');
                 $wnd.jQuery(iconColaps).html("keyboard_arrow_up");
                 $wnd.jQuery(collection).css('height', '0px');
                 toggle = false;
-            }else{
+            } else {
                 $wnd.jQuery(collection).css('visibility', 'visible');
                 $wnd.jQuery(iconColaps).html("keyboard_arrow_down");
                 $wnd.jQuery(collection).css('height', 'initial');

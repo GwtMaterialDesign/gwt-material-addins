@@ -9,9 +9,9 @@ package gwt.material.design.addins.client.fileuploader.events;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,37 +21,39 @@ package gwt.material.design.addins.client.fileuploader.events;
  */
 
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
-
+import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-public class SendingEvent<T> extends GwtEvent<SendingEvent.SendingHandler<T>> {
+public class UnauthorizedEvent<T> extends GwtEvent<UnauthorizedEvent.UnauthorizedHandler<T>> {
 
-    private static Type<SendingHandler<?>> TYPE;
+    private static Type<UnauthorizedHandler<?>> TYPE;
 
-    public interface SendingHandler<T> extends EventHandler {
-        void onSending(SendingEvent<T> event);
+    public interface UnauthorizedHandler<T> extends EventHandler {
+        void onUnauthorized(UnauthorizedEvent<T> event);
     }
 
-    public static <T> void fire(HasFileUpload<T> source, T target) {
+    public static <T> void fire(HasFileUpload<T> source, T target, UploadResponse response) {
         if (TYPE != null) {
-            SendingEvent<T> event = new SendingEvent<T>(target);
+            UnauthorizedEvent<T> event = new UnauthorizedEvent<T>(target, response);
             source.fireEvent(event);
         }
     }
 
-    public static Type<SendingHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<SendingHandler<?>>());
+    public static Type<UnauthorizedHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<UnauthorizedHandler<?>>());
     }
 
     private final T target;
+    private final UploadResponse response;
 
-    protected SendingEvent(T target) {
+    protected UnauthorizedEvent(T target, UploadResponse response) {
         this.target = target;
+        this.response = response;
     }
 
     @Override
-    public final Type<SendingHandler<T>> getAssociatedType() {
+    public final Type<UnauthorizedHandler<T>> getAssociatedType() {
         return (Type) TYPE;
     }
 
@@ -59,8 +61,13 @@ public class SendingEvent<T> extends GwtEvent<SendingEvent.SendingHandler<T>> {
         return target;
     }
 
-    @Override
-    protected void dispatch(SendingHandler<T> handler) {
-        handler.onSending(this);
+    public UploadResponse getResponse() {
+        return response;
     }
+
+    @Override
+    protected void dispatch(UnauthorizedHandler<T> handler) {
+        handler.onUnauthorized(this);
+    }
+
 }
