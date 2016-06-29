@@ -82,7 +82,8 @@
 .preview-container .previews .zdrop-info{
   width: 220px;
   margin-right: 2%;
-  margin-left: 40px;
+  margin-left: 20px;
+  padding-left: 24px;
 }
 .preview-container .previews .zdrop-info .preview-icon{
   background: #EFEFEF;
@@ -117,6 +118,7 @@
   line-height: 1;
   color: #C3C3C3;
   line-height: 1;
+  margin-top: -16px;
 }
 .preview-container .previews .dz-error-message{
   font-size: 0.8em;
@@ -124,7 +126,7 @@
 }
 .preview-container .previews .zdrop-info span:nth-child(2){
   color: #B5B5B5;
-  margin-left: 16px;
+  font-size: 0.8em;
 }
 .preview-container .previews .progress {
   margin-top: 4px;
