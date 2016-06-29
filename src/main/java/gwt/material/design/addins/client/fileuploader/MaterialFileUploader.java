@@ -225,8 +225,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
             });
 
-            zdrop.on('success', function (file) {
-                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
+            zdrop.on('success', function (file, response) {
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSuccessEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, response);
             });
 
             zdrop.on('complete', function (file) {
