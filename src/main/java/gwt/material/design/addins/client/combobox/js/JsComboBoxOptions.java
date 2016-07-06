@@ -21,28 +21,20 @@ package gwt.material.design.addins.client.combobox.js;
  */
 
 
-import com.google.gwt.dom.client.Element;
-import com.workingflows.js.jquery.client.api.JQueryElement;
-import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Created by Mark Kevin on 7/1/2016.
+ * Created by Mark Kevin on 7/4/2016.
  */
-@JsType(isNative = true, name = JsPackage.GLOBAL)
-public class JsComboBox extends JQueryElement {
+@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+public class JsComboBoxOptions {
 
-    @JsMethod(name = "$", namespace = JsPackage.GLOBAL)
-    public static native JsComboBox $(JQueryElement element);
+    @JsProperty
+    public String placeholder;
 
-    @JsMethod(name = "$", namespace = JsPackage.GLOBAL)
-    public static native JsComboBox $(Element element);
-
-    @JsMethod(name = "$", namespace = JsPackage.GLOBAL)
-    public static native JsComboBox $(String selector);
-
-    @JsMethod
-    public native JQueryElement select2(JsComboBoxOptions options);
+    @JsProperty
+    public boolean allowClear;
 
 }

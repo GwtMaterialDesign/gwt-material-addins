@@ -23,9 +23,13 @@ package gwt.material.design.addins.client.combobox;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.html.Label;
 
 import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
@@ -56,7 +60,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox extends MaterialWidget {
+public class MaterialComboBox extends MaterialWidget implements HasPlaceholder {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -68,27 +72,64 @@ public class MaterialComboBox extends MaterialWidget {
         }
     }
 
+    private String placeholder;
+    private boolean allowClear;
+    private Label label = new Label();
+    private MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
+
     public MaterialComboBox() {
-        super(Document.get().createSelectElement());
+        super(Document.get().createDivElement(), "input-field");
     }
 
     @Override
-    protected void onLoad() {
+    public void onLoad() {
         super.onLoad();
         initialize();
     }
 
+    @Override
+    public void add(Widget child) {
+        listbox.add(child);
+    }
+
     protected void initialize() {
-        $(getElement()).select2();
-        setGwtDisplay(Style.Display.BLOCK);
+        label.setInitialClasses("select2label");
+        super.add(listbox);
+        super.add(label);
+        JsComboBoxOptions options = new JsComboBoxOptions();
+        options.allowClear = allowClear;
+        options.placeholder = placeholder;
+        $(listbox.getElement()).select2(options);
+        listbox.setGwtDisplay(Style.Display.BLOCK);
     }
 
     public void setMultiple(boolean value) {
         if(value) {
-            $(getElement()).attr("multiple", "multiple");
+            $(listbox.getElement()).attr("multiple", "multiple");
         }else {
-            $(getElement()).removeAttr("multiple");
+            $(listbox.getElement()).removeAttr("multiple");
         }
     }
 
+    public void setLabel(String text) {
+        label.setText(text);
+    }
+
+    @Override
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    @Override
+    public void setPlaceholder(String placeholder) {
+        this.placeholder = placeholder;
+    }
+
+    public boolean isAllowClear() {
+        return allowClear;
+    }
+
+    public void setAllowClear(boolean allowClear) {
+        this.allowClear = allowClear;
+    }
 }
