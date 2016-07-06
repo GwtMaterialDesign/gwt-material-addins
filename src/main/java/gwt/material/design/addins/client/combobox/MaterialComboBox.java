@@ -74,6 +74,9 @@ public class MaterialComboBox extends MaterialWidget implements HasPlaceholder {
 
     private String placeholder;
     private boolean allowClear;
+    private int limit;
+    private boolean hideSearch;
+
     private Label label = new Label();
     private MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
 
@@ -99,6 +102,10 @@ public class MaterialComboBox extends MaterialWidget implements HasPlaceholder {
         JsComboBoxOptions options = new JsComboBoxOptions();
         options.allowClear = allowClear;
         options.placeholder = placeholder;
+        options.maximumSelectionLength = limit;
+        if(isHideSearch()) {
+            options.minimumResultsForSearch = "Infinity";
+        }
         $(listbox.getElement()).select2(options);
         listbox.setGwtDisplay(Style.Display.BLOCK);
     }
@@ -125,11 +132,32 @@ public class MaterialComboBox extends MaterialWidget implements HasPlaceholder {
         this.placeholder = placeholder;
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        listbox.setEnabled(enabled);
+    }
+
     public boolean isAllowClear() {
         return allowClear;
     }
 
     public void setAllowClear(boolean allowClear) {
         this.allowClear = allowClear;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public boolean isHideSearch() {
+        return hideSearch;
+    }
+
+    public void setHideSearch(boolean hideSearch) {
+        this.hideSearch = hideSearch;
     }
 }

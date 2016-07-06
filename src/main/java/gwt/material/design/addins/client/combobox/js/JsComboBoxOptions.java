@@ -37,4 +37,9 @@ public class JsComboBoxOptions {
     @JsProperty
     public boolean allowClear;
 
+    @JsProperty
+    public int maximumSelectionLength;
+
+    @JsProperty
+    public String minimumResultsForSearch;
 }
