@@ -217,8 +217,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                     globalResponse = response;
                 }
                 if(response.indexOf("500") >= 0) {
-				    response = "There's a problem uploading your file.";
-					globalResponse = response;
+                    response = "There's a problem uploading your file.";
+                    globalResponse = response;
                 }
                 file.previewElement.querySelector("#error-message").innerHTML = response;
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireErrorEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, code, response);
