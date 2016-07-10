@@ -203,6 +203,11 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     public void setSuccess(String success) {
         this.errorMixin.setSuccess(success);
     }
+    
+    @Override
+    public void setHelperText(String helperText) {
+        this.errorMixin.setHelperText(helperText);
+    }
 
     @Override
     public void clearErrorOrSuccess() {

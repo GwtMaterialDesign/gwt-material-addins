@@ -541,6 +541,11 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     public void setSuccess(String success) {
         errorMixin.setSuccess(success);
     }
+    
+    @Override
+    public void setHelperText(String helperText) {
+        errorMixin.setHelperText(helperText);
+    }
 
     @Override
     public void clearErrorOrSuccess() {
