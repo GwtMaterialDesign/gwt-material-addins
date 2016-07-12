@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.fileuploader;
  */
 
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -87,6 +88,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private boolean preview = true;
     private boolean initialize = false;
     private boolean withCredentials = false;
+    private JavaScriptObject zdropElem;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), "fileuploader");
@@ -154,6 +156,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 clickable: "#" + clickable,
                 withCredentials: withCredentials
             });
+
+            that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::setZdropElem(*)(zdrop);
 
             zdrop.on('drop', function () {
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireDropEvent()();
@@ -665,4 +669,20 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     public void setInitialize(boolean initialize) {
         this.initialize = initialize;
     }
+
+    public JavaScriptObject getZdropElem() {
+        return zdropElem;
+    }
+
+    public void setZdropElem(JavaScriptObject zdropElem) {
+        this.zdropElem = zdropElem;
+    }
+
+    public void reset() {
+        reset(getZdropElem());
+    }
+
+    public native void reset(JavaScriptObject zdropElem) /*-{
+        zdropElem.removeAllFiles();
+    }-*/;
 }
