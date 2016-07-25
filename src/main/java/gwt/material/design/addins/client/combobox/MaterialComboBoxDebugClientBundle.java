@@ -33,7 +33,7 @@ public interface MaterialComboBoxDebugClientBundle extends ClientBundle {
 
     MaterialComboBoxDebugClientBundle INSTANCE = GWT.create(MaterialComboBoxDebugClientBundle.class);
 
-    @Source("resources/js/select2.full.js")
+    @Source("resources/js/select2.js")
     TextResource select2DebugJs();
 
     @Source("resources/css/select2.css")

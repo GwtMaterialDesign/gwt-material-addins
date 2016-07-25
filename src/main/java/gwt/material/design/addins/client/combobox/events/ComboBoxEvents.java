@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.combobox;
+package gwt.material.design.addins.client.combobox.events;
 
 /*
  * #%L
@@ -21,22 +21,14 @@ package gwt.material.design.addins.client.combobox;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
-
 /**
- * Client Bundle for ComboBox  component
- * @author kevzlou7979
+ * Created by Mark Kevin on 7/25/2016.
  */
-public interface MaterialComboBoxClientBundle extends ClientBundle {
+public interface ComboBoxEvents {
 
-    MaterialComboBoxClientBundle INSTANCE = GWT.create(MaterialComboBoxClientBundle.class);
-
-    @Source("resources/js/select2.min.js")
-    TextResource select2Js();
-
-    @Source("resources/css/select2.min.css")
-    TextResource select2Css();
+    public static final String CHANGE = "change";
+    public static final String SELECT = "select";
+    public static final String OPEN = "open";
+    public static final String CLOSE = "close";
 
 }
