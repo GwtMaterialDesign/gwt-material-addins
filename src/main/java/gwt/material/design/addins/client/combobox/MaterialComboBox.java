@@ -30,12 +30,13 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasConstrainedValue;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.combobox.base.HasRemoveItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
+import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -73,7 +74,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasConstrainedValue<T>, HasSelectionHandlers<T> {
+public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasConstrainedValue<T>, HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -87,9 +88,11 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
 
     private String placeholder;
     private boolean allowClear;
+    private boolean multiple;
     private int limit;
     private boolean hideSearch;
     private List<T> values = new ArrayList<>();
+    private List<T> selectedValues = new ArrayList<>();
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
 
@@ -111,6 +114,8 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         super.onUnload();
         $(listbox.getElement()).off(ComboBoxEvents.CHANGE);
         $(listbox.getElement()).off(ComboBoxEvents.SELECT);
+        $(listbox.getElement()).off(ComboBoxEvents.OPEN);
+        $(listbox.getElement()).off(ComboBoxEvents.CLOSE);
     }
 
     @Override
@@ -125,7 +130,6 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         } else if(child instanceof Option) {
             String value = ((Option) child).getValue();
             values.add((T) value);
-            MaterialToast.fireToast("Puta");
         }
         listbox.add(child);
     }
@@ -142,6 +146,7 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         if(isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
+
         $(listbox.getElement()).select2(options);
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
@@ -151,15 +156,35 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
             return true;
         });
 
-
         $(listbox.getElement()).on(ComboBoxEvents.SELECT, event -> {
+            if(isMultiple()) {
+                getSelectedValues().add(getValue());
+            }
+
             SelectionEvent.fire(MaterialComboBox.this, getValue());
+            return true;
+        });
+
+        $(listbox.getElement()).on(ComboBoxEvents.UNSELECT, event -> {
+            T last = getSelectedValues().remove(getSelectedValues().size() - 1);
+            RemoveItemEvent.fire(MaterialComboBox.this, last);
+            return true;
+        });
+        
+        $(listbox.getElement()).on(ComboBoxEvents.OPEN, (event1, o) -> {
+            OpenEvent.fire(MaterialComboBox.this, getValue());
+            return true;
+        });
+
+        $(listbox.getElement()).on(ComboBoxEvents.CLOSE, (event1, o) -> {
+            CloseEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
     }
 
-    public void setMultiple(boolean value) {
-        if(value) {
+    public void setMultiple(boolean multiple) {
+        this.multiple = multiple;
+        if(multiple) {
             $(listbox.getElement()).attr("multiple", "multiple");
         }else {
             $(listbox.getElement()).removeAttr("multiple");
@@ -209,6 +234,10 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         this.hideSearch = hideSearch;
     }
 
+    public boolean isMultiple() {
+        return multiple;
+    }
+
     @Override
     public void setAcceptableValues(Collection<T> collection) {
         values.clear();
@@ -219,7 +248,10 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
 
     @Override
     public T getValue() {
-        return values.get(getSelectedIndex());
+        if(getSelectedIndex() != -1) {
+            return values.get(getSelectedIndex());
+        }
+        return null;
     }
 
     public T getSelectedValue() {
@@ -256,7 +288,6 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
             values.add(value);
             optGroup.add(buildOption(text, value));
         }
-        MaterialToast.fireToast("dsadsa");
     }
 
     public void addValue(String text, T value) {
@@ -284,17 +315,19 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     }
 
     public int getSelectedIndex() {
-        Object o = $("#" + uid).find("option:selected").prop("index");
+        Object o = $("#" + uid).find("option:selected").last().prop("index");
         if(o != null) {
             return Integer.parseInt(o.toString());
-        } else {
-            GWT.log("Can't find the selected index.", new IndexOutOfBoundsException());
         }
         return -1;
     }
 
     public List<T> getValues() {
         return values;
+    }
+
+    public List<T> getSelectedValues() {
+        return selectedValues;
     }
 
     @Override
@@ -305,5 +338,20 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<T> openHandler) {
+        return addHandler(openHandler, OpenEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(CloseHandler<T> closeHandler) {
+        return addHandler(closeHandler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler) {
+        return addHandler(handler, RemoveItemEvent.getType());
     }
 }

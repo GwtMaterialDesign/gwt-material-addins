@@ -1,10 +1,10 @@
-package gwt.material.design.addins.client.combobox.events;
+package gwt.material.design.addins.client.combobox.base;
 
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,10 @@ package gwt.material.design.addins.client.combobox.events;
  * #L%
  */
 
-public interface ComboBoxEvents {
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
 
-    public static final String CHANGE = "change";
-    public static final String SELECT = "select2:select";
-    public static final String UNSELECT = "select2:unselect";
-    public static final String OPEN = "select2:open";
-    public static final String CLOSE = "select2:close";
-
+public interface HasRemoveItemHandler<T> extends HasHandlers {
+    HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler);
 }

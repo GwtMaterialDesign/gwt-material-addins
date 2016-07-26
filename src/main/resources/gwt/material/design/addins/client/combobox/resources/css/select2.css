@@ -63,7 +63,9 @@
     border: none;
     font-size: 100%;
     margin-top: 5px;
-    padding: 0
+    padding: 0;
+    width: inherit !important;
+    padding-left: 0px !important;
 }
 
 .select2-container .select2-search--inline .select2-search__field::-webkit-search-cancel-button {
@@ -287,6 +289,7 @@
     color: rgba(0, 0, 0, 0.6);
     line-height: 28px;
     padding-left: 8px;
+    cursor: pointer;
 }
 
 .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__choice, .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__placeholder, .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-search--inline {
