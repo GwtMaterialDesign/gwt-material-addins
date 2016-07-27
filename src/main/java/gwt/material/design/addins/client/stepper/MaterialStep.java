@@ -173,6 +173,11 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         addStyleName("success");
         applyIconStatus(iconSuccess, "blue", success);
     }
+    
+    @Override
+    public void setHelperText(String helperText) {
+        setDescription(helperText);
+    }
 
     @Override
     public void clearErrorOrSuccess() {
