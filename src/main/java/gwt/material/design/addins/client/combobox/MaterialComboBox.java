@@ -392,6 +392,11 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     }
 
     @Override
+    public void setHelperText(String helperText) {
+        errorMixin.setHelperText(helperText);
+    }
+
+    @Override
     public void clearErrorOrSuccess() {
         errorMixin.clearErrorOrSuccess();
     }
