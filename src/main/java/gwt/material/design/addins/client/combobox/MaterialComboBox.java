@@ -106,7 +106,43 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     @Override
     public void onLoad() {
         super.onLoad();
+        label.setInitialClasses("select2label");
+        super.add(listbox);
+        super.add(label);
+        setId(uid);
         initialize();
+
+        listbox.setGwtDisplay(Style.Display.BLOCK);
+
+        $(listbox.getElement()).on(ComboBoxEvents.CHANGE, event -> {
+            ValueChangeEvent.fire(MaterialComboBox.this, getValue());
+            return true;
+        });
+
+        $(listbox.getElement()).on(ComboBoxEvents.SELECT, event -> {
+            if(isMultiple()) {
+                getSelectedValues().add(getValue());
+            }
+
+            SelectionEvent.fire(MaterialComboBox.this, getValue());
+            return true;
+        });
+
+        $(listbox.getElement()).on(ComboBoxEvents.UNSELECT, event -> {
+            T last = getSelectedValues().remove(getSelectedValues().size() - 1);
+            RemoveItemEvent.fire(MaterialComboBox.this, last);
+            return true;
+        });
+
+        $(listbox.getElement()).on(ComboBoxEvents.OPEN, (event1, o) -> {
+            OpenEvent.fire(MaterialComboBox.this, getValue());
+            return true;
+        });
+
+        $(listbox.getElement()).on(ComboBoxEvents.CLOSE, (event1, o) -> {
+            CloseEvent.fire(MaterialComboBox.this, getValue());
+            return true;
+        });
     }
 
     @Override
@@ -134,11 +170,7 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         listbox.add(child);
     }
 
-    protected void initialize() {
-        label.setInitialClasses("select2label");
-        super.add(listbox);
-        super.add(label);
-        setId(uid);
+    public void initialize() {
         JsComboBoxOptions options = new JsComboBoxOptions();
         options.allowClear = allowClear;
         options.placeholder = placeholder;
@@ -146,40 +178,7 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         if(isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
-
         $(listbox.getElement()).select2(options);
-        listbox.setGwtDisplay(Style.Display.BLOCK);
-
-
-        $(listbox.getElement()).on(ComboBoxEvents.CHANGE, event -> {
-            ValueChangeEvent.fire(MaterialComboBox.this, getValue());
-            return true;
-        });
-
-        $(listbox.getElement()).on(ComboBoxEvents.SELECT, event -> {
-            if(isMultiple()) {
-                getSelectedValues().add(getValue());
-            }
-
-            SelectionEvent.fire(MaterialComboBox.this, getValue());
-            return true;
-        });
-
-        $(listbox.getElement()).on(ComboBoxEvents.UNSELECT, event -> {
-            T last = getSelectedValues().remove(getSelectedValues().size() - 1);
-            RemoveItemEvent.fire(MaterialComboBox.this, last);
-            return true;
-        });
-        
-        $(listbox.getElement()).on(ComboBoxEvents.OPEN, (event1, o) -> {
-            OpenEvent.fire(MaterialComboBox.this, getValue());
-            return true;
-        });
-
-        $(listbox.getElement()).on(ComboBoxEvents.CLOSE, (event1, o) -> {
-            CloseEvent.fire(MaterialComboBox.this, getValue());
-            return true;
-        });
     }
 
     public void setMultiple(boolean multiple) {
@@ -263,6 +262,16 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         setValue(t, true);
     }
 
+    public void setValues(List<T> values) {
+        selectedValues.clear();
+        selectedValues.addAll(values);
+        String[] stringValues = new String[values.size()];
+        for(int i = 0; i < values.size(); i++) {
+            stringValues[i] = values.get(i).toString();
+        }
+        $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
+    }
+
     @Override
     public void setValue(T value, boolean fireEvents) {
         int index = getValueIndex(value);
@@ -328,6 +337,14 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
 
     public List<T> getSelectedValues() {
         return selectedValues;
+    }
+
+    public void open() {
+        $(listbox.getElement()).select2("open");
+    }
+
+    public void close() {
+        $(listbox.getElement()).select2("close");
     }
 
     @Override

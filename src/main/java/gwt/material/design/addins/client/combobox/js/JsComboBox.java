@@ -45,4 +45,6 @@ public class JsComboBox extends JQueryElement {
     @JsMethod
     public native JQueryElement select2(JsComboBoxOptions options);
 
+    @JsMethod
+    public native JQueryElement select2(String param);
 }
