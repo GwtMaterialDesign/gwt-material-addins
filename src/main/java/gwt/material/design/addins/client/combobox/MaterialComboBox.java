@@ -35,8 +35,11 @@ import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
 import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -74,7 +77,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasConstrainedValue<T>, HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
+public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasError, HasConstrainedValue<T>, HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -97,7 +100,10 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     private String uid = DOM.createUniqueId();
 
     private Label label = new Label();
+    private MaterialLabel lblError = new MaterialLabel();
     private MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
+
+    private final ErrorMixin<MaterialComboBox, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, this.asWidget());
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), "input-field", "combobox");
@@ -109,6 +115,9 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         label.setInitialClasses("select2label");
         super.add(listbox);
         super.add(label);
+        lblError.setLayoutPosition(Style.Position.ABSOLUTE);
+        lblError.setMarginTop(12);
+        super.add(lblError);
         setId(uid);
         initialize();
 
@@ -370,5 +379,20 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     @Override
     public HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler) {
         return addHandler(handler, RemoveItemEvent.getType());
+    }
+
+    @Override
+    public void setError(String error) {
+        errorMixin.setError(error);
+    }
+
+    @Override
+    public void setSuccess(String success) {
+        errorMixin.setSuccess(success);
+    }
+
+    @Override
+    public void clearErrorOrSuccess() {
+        errorMixin.clearErrorOrSuccess();
     }
 }

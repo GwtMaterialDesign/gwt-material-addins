@@ -716,10 +716,25 @@
 
 .select2label {
     left: 0 !important;
-    font-size: 0.8em !important;
+    font-size: 0.8rem !important;
     transform: translateY(-140%);
 }
 
 .combobox {
     margin-bottom: 16px;
+}
+
+.field-success .select2-selection, .field-error .select2-selection {
+    border: none !important;
+}
+.select2-container--default {
+    font-size: 1rem;
+}
+
+.field-success .select2label {
+    color: #4caf50 !important;
+}
+
+.field-error .select2label {
+    color: #f44336 !important;
 }
