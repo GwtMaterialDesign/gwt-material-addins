@@ -22,6 +22,8 @@ package gwt.material.design.addins.client.masonry;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
@@ -88,7 +90,7 @@ public class MaterialMasonry extends MaterialRow {
         initMasonry();
     }
 
-    protected void initMasonry() {
+    public void initMasonry() {
         initMasonry(getElement());
     }
 
@@ -99,7 +101,7 @@ public class MaterialMasonry extends MaterialRow {
     protected native void initMasonry(Element e) /*-{
         var that = this;
         $wnd.jQuery(window).ready(function() {
-            $wnd.jQuery('.masonry').imagesLoaded( function() {
+            $wnd.jQuery(e).imagesLoaded( function() {
                 var grid = $wnd.jQuery(e).masonry({
                     // options...
                     itemSelector: '.masonry >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
@@ -112,6 +114,75 @@ public class MaterialMasonry extends MaterialRow {
             });
         });
     }-*/;
+
+    @Override
+    public boolean remove(IsWidget child) {
+        Widget widget = (Widget) child;
+        remove(widget.getElement());
+        initMasonry();
+        return true;
+    }
+
+    @Override
+    public boolean remove(Widget w) {
+        return this.remove((IsWidget) w);
+    }
+
+    @Override
+    public boolean remove(int index) {
+        remove(getWidget(index).getElement());
+        return true;
+    }
+
+    /**
+     * Remove the item with Masonry support
+     */
+    protected native void remove(Element e) /*-{
+        $wnd.jQuery(".masonry").masonry("remove", e);
+    }-*/;
+
+    @Override
+    public void clear() {
+        for(Widget widget : getChildren()) {
+            remove(widget.getElement());
+        }
+    }
+
+    @Override
+    protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
+        super.insert(child, container, beforeIndex, domInsert);
+        reload();
+    }
+
+    @Override
+    public void insert(Widget child, int beforeIndex) {
+        super.insert(child, beforeIndex);
+        reload();
+    }
+
+    /**
+     * Reload the layout effective only when adding and inserting items
+     */
+    public void reload() {
+        reload(getElement());
+    }
+
+    protected native void reload(Element e) /*-{
+        $wnd.jQuery(e).masonry("reloadItems");
+        $wnd.jQuery(e).masonry("layout");
+    }-*/;
+
+    @Override
+    public void add(Widget child) {
+        super.add(child);
+        reload();
+    }
+
+    @Override
+    protected void add(Widget child, com.google.gwt.user.client.Element container) {
+        super.add(child, container);
+        reload();
+    }
 
     /**
      * Get the item selector
