@@ -74,11 +74,13 @@ public class MaterialMasonry extends MaterialRow {
     private boolean originLeft = true;
     private boolean originTop = true;
     private double transitionDuration = 400;
+    private boolean initialize;
 
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {
         super(Document.get().createDivElement(), "masonry", "row");
+        enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName("col-sizer");
         add(sizerDiv);
@@ -88,6 +90,9 @@ public class MaterialMasonry extends MaterialRow {
     protected void onLoad() {
         super.onLoad();
         initMasonry();
+        if(!initialize) {
+            initialize = true;
+        }
     }
 
     public void initMasonry() {
@@ -119,7 +124,9 @@ public class MaterialMasonry extends MaterialRow {
     public boolean remove(IsWidget child) {
         Widget widget = (Widget) child;
         remove(widget.getElement());
-        initMasonry();
+        if(initialize) {
+            initMasonry();
+        }
         return true;
     }
 
@@ -151,13 +158,17 @@ public class MaterialMasonry extends MaterialRow {
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
         super.insert(child, container, beforeIndex, domInsert);
-        reload();
+        if(initialize) {
+            reload();
+        }
     }
 
     @Override
     public void insert(Widget child, int beforeIndex) {
         super.insert(child, beforeIndex);
-        reload();
+        if(initialize) {
+            reload();
+        }
     }
 
     /**
@@ -168,20 +179,26 @@ public class MaterialMasonry extends MaterialRow {
     }
 
     protected native void reload(Element e) /*-{
-        $wnd.jQuery(e).masonry("reloadItems");
-        $wnd.jQuery(e).masonry("layout");
+        $wnd.jQuery(window).ready(function() {
+            $wnd.jQuery(e).masonry("reloadItems");
+            $wnd.jQuery(e).masonry("layout");
+        });
     }-*/;
 
     @Override
     public void add(Widget child) {
         super.add(child);
-        reload();
+        if(initialize) {
+            reload();
+        }
     }
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
         super.add(child, container);
-        reload();
+        if(initialize) {
+            reload();
+        }
     }
 
     /**
