@@ -179,6 +179,9 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         listbox.add(child);
     }
 
+    /**
+     * Initialize the combobox component
+     */
     public void initialize() {
         JsComboBoxOptions options = new JsComboBoxOptions();
         options.allowClear = allowClear;
@@ -190,6 +193,9 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         $(listbox.getElement()).select2(options);
     }
 
+    /**
+     * Sets multi-value select boxes.
+     */
     public void setMultiple(boolean multiple) {
         this.multiple = multiple;
         if(multiple) {
@@ -199,6 +205,9 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         }
     }
 
+    /**
+     * Set the upper label above the combobox
+     */
     public void setLabel(String text) {
         label.setText(text);
     }
@@ -218,30 +227,51 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         listbox.setEnabled(enabled);
     }
 
+    /**
+     * Check if allow clear option is enabled
+     */
     public boolean isAllowClear() {
         return allowClear;
     }
 
+    /**
+     * Add a clear button on the right side of the combobox
+     */
     public void setAllowClear(boolean allowClear) {
         this.allowClear = allowClear;
     }
 
+    /**
+     * Get the maximum number of items to be entered on multiple combobox
+     */
     public int getLimit() {
         return limit;
     }
 
+    /**
+     * Set the maximum number of items to be entered on multiple combobox
+     */
     public void setLimit(int limit) {
         this.limit = limit;
     }
 
+    /**
+     * Check whether the search box is enabled on combobox
+     */
     public boolean isHideSearch() {
         return hideSearch;
     }
 
+    /**
+     * Set the option to display the search box inside the combobox component
+     */
     public void setHideSearch(boolean hideSearch) {
         this.hideSearch = hideSearch;
     }
 
+    /**
+     * Check whether the multiple option is enabled
+     */
     public boolean isMultiple() {
         return multiple;
     }
@@ -262,6 +292,12 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         return null;
     }
 
+    /**
+     * Gets the value for currently selected item. If multiple items are
+     * selected, this method will return the value of the first selected item.
+     *
+     * @return the value for selected item, or {@code null} if none is selected
+     */
     public T getSelectedValue() {
         return this.getValue();
     }
@@ -271,6 +307,10 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         setValue(t, true);
     }
 
+    /**
+     * Set directly all the values that will be stored into combobox and build
+     * options into it.
+     */
     public void setValues(List<T> values) {
         selectedValues.clear();
         selectedValues.addAll(values);
@@ -293,14 +333,28 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         }
     }
 
+    /**
+     * Gets the index of the value pass in this method
+     * @param value - The Object you want to pass as value on combobox
+     */
     public int getValueIndex(T value) {
         return values.indexOf(value);
     }
 
+    /**
+     *  Add OptionGroup directly to combobox component
+     *  @param group - Option Group component
+     */
     public void addGroup(OptGroup group) {
         listbox.add(group);
     }
 
+    /**
+     * Add Value directly to combobox component with existing OptGroup
+     * @param text - The text you want to labeled on the option item
+     * @param value - The value you want to pass through in this option
+     * @param optGroup - Add directly this option into the existing group
+     */
     public void addValue(String text, T value, OptGroup optGroup) {
         if(!values.contains(value)) {
             values.add(value);
@@ -308,6 +362,11 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         }
     }
 
+    /**
+     * Add Value directly to combobox component
+     * @param text - The text you want to labeled on the option item
+     * @param value - The value you want to pass through in this option
+     */
     public void addValue(String text, T value) {
         if(!values.contains(value)) {
             values.add(value);
@@ -315,6 +374,9 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         }
     }
 
+    /**
+     * Build the Option Element with provided params
+     */
     protected Option buildOption(String text, T value) {
         Option option = new Option();
         option.setText(text);
@@ -322,6 +384,14 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         return option;
     }
 
+    /**
+     * Sets the currently selected index.
+     *
+     * After calling this method, only the specified item in the list will
+     * remain selected. For a ListBox with multiple selection enabled.
+     *
+     * @param selectedIndex - the index of the item to be selected
+     */
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
         T value = values.get(selectedIndex);
@@ -332,6 +402,12 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         }
     }
 
+    /**
+     * Gets the text for currently selected item. If multiple items are
+     * selected, this method will return the text of the first selected item.
+     *
+     * @return the text for selected item, or {@code null} if none is selected
+     */
     public int getSelectedIndex() {
         Object o = $("#" + uid).find("option:selected").last().prop("index");
         if(o != null) {
@@ -340,18 +416,30 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         return -1;
     }
 
+    /**
+     * Get all the values sets on combobox
+     */
     public List<T> getValues() {
         return values;
     }
 
+    /**
+     * Get the selected vales from multiple combobox
+     */
     public List<T> getSelectedValues() {
         return selectedValues;
     }
 
+    /**
+     * Programmatically open the combobox component
+     */
     public void open() {
         $(listbox.getElement()).select2("open");
     }
 
+    /**
+     * Programmatically close the combobox component
+     */
     public void close() {
         $(listbox.getElement()).select2("close");
     }

@@ -28,7 +28,8 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * Created by Mark Kevin on 7/1/2016.
+ * JSInterop utils for combobox component
+ * @author kevzlou7979
  */
 @JsType(isNative = true, name = JsPackage.GLOBAL)
 public class JsComboBox extends JQueryElement {

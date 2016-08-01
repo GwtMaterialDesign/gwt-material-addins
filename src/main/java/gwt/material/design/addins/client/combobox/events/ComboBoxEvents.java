@@ -20,6 +20,10 @@ package gwt.material.design.addins.client.combobox.events;
  * #L%
  */
 
+/**
+ * Events for Combobox
+ * @author kevzlou7979
+ */
 public interface ComboBoxEvents {
 
     public static final String CHANGE = "change";

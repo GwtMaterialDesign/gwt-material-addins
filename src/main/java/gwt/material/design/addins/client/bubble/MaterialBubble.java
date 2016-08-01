@@ -23,12 +23,15 @@ package gwt.material.design.addins.client.bubble;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Position;
+
+import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 
 //@formatter:off
 
@@ -90,16 +93,14 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
      * Initialize the bubble component
      * @param element - element to be set
      * @param color - color of the bubble
-     * @param type - type of the bubble (RIGHT, TOP, LEFT, BOTTOM)
+     * @param position - position of the bubble (RIGHT, TOP, LEFT, BOTTOM)
      */
-    protected native void initBubble(Element element, String color, String type) /*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(element).bubble({
-                position: type,
-                color: color
-            });
-        });
-    }-*/;
+    protected void initBubble(Element element, String color, String position) {
+        JsBubbleOptions options = new JsBubbleOptions();
+        options.position = position;
+        options.color = color;
+        $(element).bubble(options);
+    }
 
     @Override
     public Position getPosition() {

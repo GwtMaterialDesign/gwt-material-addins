@@ -25,6 +25,10 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.combobox.base.HasRemoveItemHandler;
 
+/**
+ * Combobox event fired once user removes an item from multiple list selection.
+ * @author kevzlou7979
+ */
 public class RemoveItemEvent<T> extends GwtEvent<RemoveItemEvent.RemoveItemHandler<T>> {
 
     private static Type<RemoveItemHandler<?>> TYPE;

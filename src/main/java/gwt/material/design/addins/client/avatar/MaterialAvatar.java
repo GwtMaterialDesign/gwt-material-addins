@@ -22,8 +22,7 @@ package gwt.material.design.addins.client.avatar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.dnd.MaterialDndClientBundle;
-import gwt.material.design.addins.client.dnd.MaterialDndDebugClientBundle;
+import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -117,9 +116,9 @@ public class MaterialAvatar extends MaterialWidget {
      * @param value
      * @return
      */
-    protected native String generateHashCode(String value) /*-{
-        return $wnd.md5(value);
-    }-*/;
+    protected String generateHashCode(String value) {
+        return JsAvatar.md5(value);
+    }
 
     /**
      * Initialize the avatar process - useful when trying to update your avatar
@@ -129,7 +128,7 @@ public class MaterialAvatar extends MaterialWidget {
         update();
     }
 
-    protected native void update() /*-{
-        $wnd.jdenticon();
-    }-*/;
+    protected void update() {
+        JsAvatar.jdenticon();
+    }
 }
