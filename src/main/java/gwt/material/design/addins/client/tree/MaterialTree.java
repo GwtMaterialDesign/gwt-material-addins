@@ -81,18 +81,15 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
 
     protected void initSelectionEvent() {
         // Add selection event
-        addSelectionHandler(new SelectionHandler<MaterialTreeItem>() {
-            @Override
-            public void onSelection(SelectionEvent<MaterialTreeItem> event) {
-                for(Widget item : getChildren()){
-                    if(item instanceof MaterialTreeItem){
-                        clearItemSelectedStyles((MaterialTreeItem) item);
-                    }
+        addSelectionHandler(event -> {
+            for(Widget item : getChildren()){
+                if(item instanceof MaterialTreeItem){
+                    clearItemSelectedStyles((MaterialTreeItem) item);
                 }
-                MaterialTreeItem treeItem = event.getSelectedItem();
-                treeItem.addStyleName("selected");
-                setSelectedTree(treeItem);
             }
+            MaterialTreeItem treeItem = event.getSelectedItem();
+            treeItem.addStyleName("selected");
+            setSelectedTree(treeItem);
         });
     }
 

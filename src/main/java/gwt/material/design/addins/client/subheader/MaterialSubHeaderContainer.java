@@ -25,6 +25,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
+import gwt.material.design.addins.client.subheader.js.JsSubHeader;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
@@ -82,11 +83,9 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
         }
     }
 
-    protected native void initSubheaders(String subheader, Element container) /*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.initSubheader(subheader, container);
-        });
-    }-*/;
+    protected void initSubheaders(String subheader, Element container) {
+        JsSubHeader.initSubheader(subheader, container);
+    }
 
     @Override
     public void setType(SubHeaderType type) {

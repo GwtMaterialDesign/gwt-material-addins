@@ -8,6 +8,7 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasOrientation;
@@ -22,6 +23,8 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 
 import java.util.Date;
+
+import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
 
 /*
  * #%L
@@ -44,6 +47,7 @@ import java.util.Date;
  */
 
 //@formatter:off
+
 /**
  * Material Time Picker - provide a simple way to select a single value from a pre-determined set.
  *
@@ -220,7 +224,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     /**
      * 
-     * @param clockId
+     * @param uniqueId
      *            The clock id for the lolliclock.
      * @param e
      *            The HTML element serving as container for textual content.
@@ -232,31 +236,26 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      *            Set this <true>true</code> for a 24 hours clock;
      *            <code>false</code> otherwise.
      */
-    protected native void initTimePicker(String clockId, Element e, String orientation, boolean autoClose, boolean hour24) /*-{
-        var that = this;
-        $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(e).lolliclock({
-                autoclose: autoClose,
-                orientation: orientation,
-                hour24: hour24,
-                uniqueId: clockId,
-                beforeShow: function() {
-                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::beforeShow()();
-                },
-                afterShow: function() {
-                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterShow()();
-                },
-                afterHide: function() {
-                    var hour = $wnd.jQuery('#' + clockId).find('.lolliclock-hours').find('.lolliclock-time-new').html();
-                    var minutes = $wnd.jQuery('#' + clockId).find('.lolliclock-minutes').find('.lolliclock-time-new').html();
-                    var suffix = $wnd.jQuery('#' + clockId).find('.lolliclock-am-pm').html();
-                    var time =  hour + ':' + minutes + " " + suffix;
-                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterHide(*)();
-                }
-            });
-            $wnd.jQuery(e).blur();
+    protected void initTimePicker(String uniqueId, Element e, String orientation, boolean autoClose, boolean hour24) {
+        $("document").ready(() -> {
+            JsTimePickerOptions options = new JsTimePickerOptions();
+            options.autoclose = autoClose;
+            options.orientation = orientation;
+            options.hour24 = hour24;
+            options.uniqueId = uniqueId;
+            options.beforeShow = () -> {
+                beforeShow();
+            };
+            options.afterShow = () -> {
+                afterShow();
+            };
+            options.afterHide = () -> {
+                afterHide();
+            };
+            $(e).lolliclock(options);
+            $(e).blur();
         });
-    }-*/;
+    }
     
     
     /**
@@ -279,10 +278,6 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         
     /**
      * Called after the lolliclock event <code>afterHide</code>.
-     * 
-     * @param time
-     *            The time given by lolliclock in 12-hours <code>hh:mm aa</code>
-     *            format.
      */
     protected void afterHide() {
         
@@ -311,10 +306,10 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         
         this.fireCloseEvent();
     }
-    
-    protected native String getTime(Element e)/*-{
-        return $wnd.jQuery(e).val();
-    }-*/;
+
+    protected String getTime(Element e) {
+        return $(e).val().toString();
+    }
 
     @Override
     public void setEnabled(boolean enabled) {
@@ -362,10 +357,10 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         this.clearTimePickerValue(this.input.getElement());
     }
 
-    protected native void clearTimePickerValue(Element e) /*-{
-        $wnd.jQuery(e).val('');
-    }-*/;
-    
+    protected void clearTimePickerValue(Element e) {
+        $(e).val("");
+    }
+
     @Override
     public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> handler) {
         return this.addHandler(new ValueChangeHandler<Date>() {
@@ -419,9 +414,8 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
             this.fireValueChangeEvent();
         }
     }
-    
-    protected native void setValue(Element e, String time) /*-{
-        $wnd.jQuery(e).val(time);
-    }-*/;
 
+    protected void setValue(Element e, String time) {
+        $(e).val(time);
+    }
 }

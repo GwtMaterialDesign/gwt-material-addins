@@ -78,20 +78,14 @@ public class MaterialWaterfall extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
         if(openCallback == null && closeCallback == null) {
-            openCallback = new Runnable() {
-                @Override
-                public void run() {
-                    for(Widget w : getChildren()){
-                        w.getElement().getStyle().setOpacity(1);
-                    }
+            openCallback = () -> {
+                for(Widget w : getChildren()){
+                    w.getElement().getStyle().setOpacity(1);
                 }
             };
-            closeCallback = new Runnable() {
-                @Override
-                public void run() {
-                    for(Widget w : getChildren()){
-                        w.getElement().getStyle().setOpacity(0);
-                    }
+            closeCallback = () -> {
+                for(Widget w : getChildren()){
+                    w.getElement().getStyle().setOpacity(0);
                 }
             };
         }

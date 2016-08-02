@@ -132,33 +132,24 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         toolbar.add(link);
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
-        toolbar.addDomHandler(new DoubleClickHandler() {
-            @Override
-            public void onDoubleClick(DoubleClickEvent event) {
-                toggleMaximize();
-                Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-            }
+        toolbar.addDomHandler(event -> {
+            toggleMaximize();
+            Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
         }, DoubleClickEvent.getType());
         window.add(toolbar);
         window.add(content);
 
         // Add handlers to action buttons
-        iconMaximize.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                toggleMaximize();
-            }
+        iconMaximize.addClickHandler(event -> {
+            toggleMaximize();
         });
-        iconClose.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if(open){
-                    openWindow();
-                    open = false;
-                }else{
-                    closeWindow();
-                    open = true;
-                }
+        iconClose.addClickHandler(event -> {
+            if(open){
+                openWindow();
+                open = false;
+            }else{
+                closeWindow();
+                open = true;
             }
         });
 
@@ -232,11 +223,8 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         if (closeAnimation == null) {
             closeMixin.setOn(false);
         } else {
-            closeAnimation.animate(window, new Runnable() {
-                @Override
-                public void run() {
-                    closeMixin.setOn(false);
-                }
+            closeAnimation.animate(window, () -> {
+                closeMixin.setOn(false);
             });
         }
     }
