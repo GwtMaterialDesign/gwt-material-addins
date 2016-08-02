@@ -361,12 +361,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     @Override
     public HandlerRegistration addSelectionChangeHandler(final Handler handler) {
-        return addHandler(new Handler() {
-            @Override
-            public void onSelectionChange(SelectionChangeEvent event) {
-                if(isEnabled()){
-                    handler.onSelectionChange(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onSelectionChange(event);
             }
         }, SelectionChangeEvent.getType());
     }

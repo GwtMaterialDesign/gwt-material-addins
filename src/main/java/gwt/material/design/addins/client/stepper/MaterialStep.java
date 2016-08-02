@@ -101,12 +101,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         divTitle.setStyleName("title");
         divBody.setStyleName("body");
         
-        ClickHandler handler = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if (isEnabled() && isVisible()){
-                    SelectionEvent.fire(MaterialStep.this, MaterialStep.this);                    
-                }
+        ClickHandler handler = event -> {
+            if (isEnabled() && isVisible()){
+                SelectionEvent.fire(MaterialStep.this, MaterialStep.this);
             }
         };
         conCircle.addClickHandler(handler);

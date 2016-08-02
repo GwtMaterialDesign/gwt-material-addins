@@ -25,11 +25,16 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
+import gwt.material.design.addins.client.splitpanel.js.JsSplitPanel;
+import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 
+import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
+
 //@formatter:off
+
 /**
  * A high performance content splitter compatible with touch events
  *
@@ -79,6 +84,7 @@ public class MaterialSplitPanel extends MaterialWidget {
     private double bottomMin;
     private double bottomMax;
     private double barPosition = 50;
+    private double thickness = 8;
     private Dock dock = Dock.LEFT;
     private Axis axis = Axis.HORIZONTAL;
 
@@ -89,7 +95,7 @@ public class MaterialSplitPanel extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initSplitter(getElement(), getBarPosition(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
+        initSplitter(getElement(), getBarPosition(), getThickness(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
     }
 
     /**
@@ -107,14 +113,27 @@ public class MaterialSplitPanel extends MaterialWidget {
      * @param dock - When clicking on the white line located in the middle of splitter bar, depends on docking position it will collapse to that direction
      * @param orientation - There are two types of orientation : HORIZONTAL (Default) and VERTICAL
      */
-    protected native void initSplitter(Element e,double barPosition, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
-        $wnd.jQuery(document).ready(function() {
-            var splitted = $wnd.jQuery(e);
-            if( splitted[0].touchSplitter == null ) {
-                splitted.touchSplit({barPosition: barPosition, thickness: "8px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
+    protected void initSplitter(Element e, double barPosition, double thickness, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMax, double bottomMin, String dock, String orientation) {
+        $("document").ready(() -> {
+            JsSplitPanel splitted = $(e);
+            if(splitted.get(0) != null) {
+                JsSplitPanelOptions options = new JsSplitPanelOptions();
+                options.barPosition = barPosition;
+                options.thickness = thickness + "px";
+                options.rightMax = rightMax;
+                options.rightMin = rightMin;
+                options.leftMax = leftMax;
+                options.leftMin = leftMin;
+                options.topMax = topMax;
+                options.topMin = topMin;
+                options.bottomMax = bottomMax;
+                options.bottomMin = bottomMin;
+                options.dock = dock;
+                options.orientation = orientation;
+                splitted.touchSplit(options);
             }
         });
-    }-*/;
+    }
 
     /**
      * Get the Maximum left space
@@ -290,5 +309,19 @@ public class MaterialSplitPanel extends MaterialWidget {
      */
     public void setBarPosition(double barPosition) {
         this.barPosition = barPosition;
+    }
+
+    /**
+     * Get the bar's thickness in px
+     */
+    public double getThickness() {
+        return thickness;
+    }
+
+    /**
+     * Set the bar's thickness in px
+     */
+    public void setThickness(double thickness) {
+        this.thickness = thickness;
     }
 }
