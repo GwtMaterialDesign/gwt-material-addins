@@ -29,6 +29,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for Time Picker component
+ * @author kevzlou7979
  */
 @JsType(isNative = true, name = JsPackage.GLOBAL)
 public class JsTimePicker extends JQueryElement {

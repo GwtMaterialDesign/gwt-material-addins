@@ -27,6 +27,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * Options for combobox component
+ * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsComboBoxOptions {

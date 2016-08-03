@@ -29,7 +29,8 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * Created by Mark Kevin on 8/3/2016.
+ * JSInterop utils for masonry component
+ * @author kevzlou7979
  */
 @JsType(isNative = true, name = JsPackage.GLOBAL)
 public class JsMasonry extends JQueryElement {

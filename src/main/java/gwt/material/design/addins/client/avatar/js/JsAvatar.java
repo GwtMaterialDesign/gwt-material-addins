@@ -28,6 +28,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for Avatar component
+ * @author kevzlou7979
  */
 @JsType(isNative = true, name = JsPackage.GLOBAL)
 public class JsAvatar extends JQueryElement {

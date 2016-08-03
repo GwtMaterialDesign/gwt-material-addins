@@ -26,7 +26,8 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Created by Mark Kevin on 8/3/2016.
+ * Options for masonry component
+ * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsMasonryOptions {
