@@ -233,76 +233,44 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         item.add(box);
         list.add(item);
 
-        list.addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                box.showSuggestionList();
-            }
+        list.addDomHandler(event -> {
+            box.showSuggestionList();
         }, ClickEvent.getType());
 
-        itemBox.addKeyDownHandler(new KeyDownHandler() {
-            public void onKeyDown(KeyDownEvent event) {
-                boolean itemsChanged = false;
+        itemBox.addKeyDownHandler(event -> {
+            boolean itemsChanged = false;
 
-                switch (event.getNativeKeyCode()) {
-                    case KeyCodes.KEY_ENTER:
-                        if (directInputAllowed) {
-                            String value = itemBox.getValue();
-                            if (value != null && !(value = value.trim()).isEmpty()) {
-                                gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
-                                directInput.setDisplay(value);
-                                directInput.setSuggestion(value);
-                                itemsChanged = addItem(directInput);
-                                itemBox.setValue("");
-                                itemBox.setFocus(true);
-                            }
+            switch (event.getNativeKeyCode()) {
+                case KeyCodes.KEY_ENTER:
+                    if (directInputAllowed) {
+                        String value = itemBox.getValue();
+                        if (value != null && !(value = value.trim()).isEmpty()) {
+                            gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
+                            directInput.setDisplay(value);
+                            directInput.setSuggestion(value);
+                            itemsChanged = addItem(directInput);
+                            itemBox.setValue("");
+                            itemBox.setFocus(true);
                         }
-                        break;
+                    }
+                    break;
 
-                    case KeyCodes.KEY_BACKSPACE:
-                        if (itemBox.getValue().trim().isEmpty()) {
-                            if (itemsHighlighted.isEmpty()) {
-                                if (suggestionMap.size() > 0) {
+                case KeyCodes.KEY_BACKSPACE:
+                    if (itemBox.getValue().trim().isEmpty()) {
+                        if (itemsHighlighted.isEmpty()) {
+                            if (suggestionMap.size() > 0) {
 
-                                    ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
-                                    MaterialChip p = (MaterialChip) li.getWidget(0);
-                                    
-                                    boolean removable = true;
-                                    
-                                    Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
-                                    for (Entry<Suggestion, Widget> entry : entrySet) {
-                                        if (p.equals(entry.getValue())) {
-                                            if (chipProvider.isChipRemovable(entry.getKey())){
-                                                suggestionMap.remove(entry.getKey());
-                                                itemsChanged = true;                                                
-                                            }
-                                            else {
-                                                removable = false;
-                                            }
-                                            break;
-                                        }
-                                    }
-
-                                    if (removable){
-                                        list.remove(li);                                        
-                                    }
-                                }
-                            }
-                        }
-
-                    case KeyCodes.KEY_DELETE:
-                        if (itemBox.getValue().trim().isEmpty()) {
-                            for (ListItem li : itemsHighlighted) {
+                                ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
                                 MaterialChip p = (MaterialChip) li.getWidget(0);
-                                
+
                                 boolean removable = true;
-                                
+
                                 Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
                                 for (Entry<Suggestion, Widget> entry : entrySet) {
                                     if (p.equals(entry.getValue())) {
                                         if (chipProvider.isChipRemovable(entry.getKey())){
                                             suggestionMap.remove(entry.getKey());
-                                            itemsChanged = true;                                            
+                                            itemsChanged = true;
                                         }
                                         else {
                                             removable = false;
@@ -310,39 +278,61 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                                         break;
                                     }
                                 }
-                                
+
                                 if (removable){
-                                    li.removeFromParent();                                   
+                                    list.remove(li);
                                 }
                             }
-                            itemsHighlighted.clear();
                         }
-                        itemBox.setFocus(true);
-                        break;
-                }
+                    }
 
-                if (itemsChanged) {
-                    ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
-                }
+                case KeyCodes.KEY_DELETE:
+                    if (itemBox.getValue().trim().isEmpty()) {
+                        for (ListItem li : itemsHighlighted) {
+                            MaterialChip p = (MaterialChip) li.getWidget(0);
+
+                            boolean removable = true;
+
+                            Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
+                            for (Entry<Suggestion, Widget> entry : entrySet) {
+                                if (p.equals(entry.getValue())) {
+                                    if (chipProvider.isChipRemovable(entry.getKey())){
+                                        suggestionMap.remove(entry.getKey());
+                                        itemsChanged = true;
+                                    }
+                                    else {
+                                        removable = false;
+                                    }
+                                    break;
+                                }
+                            }
+
+                            if (removable){
+                                li.removeFromParent();
+                            }
+                        }
+                        itemsHighlighted.clear();
+                    }
+                    itemBox.setFocus(true);
+                    break;
+            }
+
+            if (itemsChanged) {
+                ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
             }
         });
 
-        itemBox.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                box.showSuggestionList();
-            }
+        itemBox.addClickHandler(event -> {
+            box.showSuggestionList();
         });
 
-        box.addSelectionHandler(new SelectionHandler<Suggestion>() {
-            public void onSelection(SelectionEvent<Suggestion> selectionEvent) {
-                Suggestion selectedItem = selectionEvent.getSelectedItem();
-                itemBox.setValue("");
-                if (addItem(selectedItem)) {
-                    ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
-                }
-                itemBox.setFocus(true);
+        box.addSelectionHandler(selectionEvent ->  {
+            Suggestion selectedItem = selectionEvent.getSelectedItem();
+            itemBox.setValue("");
+            if (addItem(selectedItem)) {
+                ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
             }
+            itemBox.setFocus(true);
         });
 
         panel.add(list);
@@ -381,30 +371,26 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                 return false;
             }
 
-            chip.addClickHandler(new ClickHandler() {
-                public void onClick(ClickEvent clickEvent) {
-                    if (chipProvider.isChipSelectable(suggestion)){
-                        if (itemsHighlighted.contains(displayItem)) {
-                            chip.removeStyleName(selectedChipStyle);
-                            itemsHighlighted.remove(displayItem);
-                        } else {
-                            chip.addStyleName(selectedChipStyle);
-                            itemsHighlighted.add(displayItem);
-                        }
+            chip.addClickHandler(event -> {
+                if (chipProvider.isChipSelectable(suggestion)){
+                    if (itemsHighlighted.contains(displayItem)) {
+                        chip.removeStyleName(selectedChipStyle);
+                        itemsHighlighted.remove(displayItem);
+                    } else {
+                        chip.addStyleName(selectedChipStyle);
+                        itemsHighlighted.add(displayItem);
                     }
                 }
             });                
             
             if (chip.getIcon() != null){
-                chip.getIcon().addClickHandler(new ClickHandler() {
-                    public void onClick(ClickEvent clickEvent) {
-                        if (chipProvider.isChipRemovable(suggestion)){
-                            suggestionMap.remove(suggestion);
-                            list.remove(displayItem);
-                            itemsHighlighted.remove(displayItem);
-                            ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
-                            box.showSuggestionList();
-                        }
+                chip.getIcon().addClickHandler(event -> {
+                    if (chipProvider.isChipRemovable(suggestion)){
+                        suggestionMap.remove(suggestion);
+                        list.remove(displayItem);
+                        itemsHighlighted.remove(displayItem);
+                        ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
+                        box.showSuggestionList();
                     }
                 });                
             }
@@ -626,12 +612,9 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
 
     @Override
     public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
-        return itemBox.addKeyUpHandler(new KeyUpHandler() {
-            @Override
-            public void onKeyUp(KeyUpEvent event) {
-                if(isEnabled()){
-                    handler.onKeyUp(event);
-                }
+        return itemBox.addKeyUpHandler(event -> {
+            if(isEnabled()){
+                handler.onKeyUp(event);
             }
         });
     }

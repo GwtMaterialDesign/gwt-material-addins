@@ -23,9 +23,13 @@ package gwt.material.design.addins.client.pathanimator;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
 //@formatter:off
+
 /**
  * Custom component that provides meaningfull transition between two elements to show visual continuity.
  *
@@ -60,13 +64,10 @@ public class MaterialPathAnimator {
     /**
      * Default animate method using Opacity Transition.
      */
-    public static void animate(Element source,final Element target) {
-        Runnable defaultCallback = new Runnable() {
-            @Override
-            public void run() {
-                target.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                target.getStyle().setOpacity(1);
-            }
+    public static void animate(Element source, final Element target) {
+        Runnable defaultCallback = () -> {
+            target.getStyle().setVisibility(Style.Visibility.VISIBLE);
+            target.getStyle().setOpacity(1);
         };
         animate(source, target, defaultCallback);
     }
@@ -74,26 +75,23 @@ public class MaterialPathAnimator {
     /**
      * Custom path animator method with callback.
      */
-    public static native void animate(Element source, Element target, Runnable callback)/*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.cta(source, target, function () {
+    public static void animate(Element source, Element target, Runnable callback) {
+        $("document").ready(() -> {
+            JsPathAnimator.cta(source, target, () -> {
                 if(callback != null) {
-                    callback.@java.lang.Runnable::run()();
+                    callback.run();
                 }
             });
         });
-    }-*/;
+    }
 
     /**
      * Default Reverse animate method to return to original state of Source component.
      */
-    public static void reverseAnimate(final Element source,final Element target) {
-        Runnable defaultCallback = new Runnable() {
-            @Override
-            public void run() {
-                target.getStyle().setVisibility(Style.Visibility.HIDDEN);
-                target.getStyle().setOpacity(0);
-            }
+    public static void reverseAnimate(final Element source, final Element target) {
+        Runnable defaultCallback = () -> {
+            target.getStyle().setVisibility(Style.Visibility.HIDDEN);
+            target.getStyle().setOpacity(0);
         };
         reverseAnimate(source,target, defaultCallback);
     }
@@ -102,10 +100,10 @@ public class MaterialPathAnimator {
      * Reverse animation of the target component to return to original
      * state of the source component with Custom Callback.
      */
-    public static native void reverseAnimate(Element source, Element target, Runnable callback) /*-{
-        $wnd.jQuery(document).ready(function() {
-            callback.@java.lang.Runnable::run()();
-            $wnd.cta(target, source);
+    public static void reverseAnimate(Element source, Element target, Runnable callback) {
+        $("document").ready(() -> {
+            callback.run();
+            JsPathAnimator.cta(target, source);
         });
-    }-*/;
+    }
 }

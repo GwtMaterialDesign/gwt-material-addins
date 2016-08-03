@@ -202,42 +202,32 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
         iconList.clear();
 
         // same mouse-out handler for all icons
-        MouseOutHandler outHandler = new MouseOutHandler() {
-            @Override
-            public void onMouseOut(MouseOutEvent event) {
-                if (!isEnabled() || !isEditable()) {
-                    return;
-                }
-                revalidateSelection(currentRating);
+        MouseOutHandler outHandler = event -> {
+            if (!isEnabled() || !isEditable()) {
+                return;
             }
+            revalidateSelection(currentRating);
         };
 
         for (int i = 0; i < maxRating; i++) {
             final int rating = i + 1;
             MaterialIcon icon = new MaterialIcon(unselectedRatingIcon);
-            icon.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                    if (!isEnabled() || !isEditable()) {
-                        return;
-                    }
-                    setValue(rating, true);
+            icon.addClickHandler(event -> {
+                if (!isEnabled() || !isEditable()) {
+                    return;
                 }
+                setValue(rating, true);
             });
-            icon.addMouseOverHandler(new MouseOverHandler() {
-                @Override
-                public void onMouseOver(MouseOverEvent event) {
-                    if (!isEnabled() || !isEditable()) {
-                        return;
-                    }
-                    revalidateSelection(rating);
+            icon.addMouseOverHandler(event -> {
+                if (!isEnabled() || !isEditable()) {
+                    return;
                 }
+                revalidateSelection(rating);
             });
             icon.addMouseOutHandler(outHandler);
             add(icon);
             iconList.add(icon);
         }
-        GWT.log(unselectedRatingIcon.getCssName());
         revalidateSelection(currentRating);
     }
 

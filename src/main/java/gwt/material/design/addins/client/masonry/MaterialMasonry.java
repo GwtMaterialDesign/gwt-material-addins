@@ -25,9 +25,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialRow;
+
+import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
 
 //@formatter:off
 
@@ -96,29 +99,27 @@ public class MaterialMasonry extends MaterialRow {
     }
 
     public void initMasonry() {
-        initMasonry(getElement());
+        initMasonryJs(getElement());
     }
 
-    /**
-     * Initialize the masonry component
-     * @param e
-     */
-    protected native void initMasonry(Element e) /*-{
-        var that = this;
-        $wnd.jQuery(window).ready(function() {
-            $wnd.jQuery(e).imagesLoaded( function() {
-                var grid = $wnd.jQuery(e).masonry({
-                    // options...
-                    itemSelector: '.masonry >' + that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getItemSelector()(),
-                    percentPosition: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isPercentPosition()(),
-                    originLeft: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginLeft()(),
-                    originTop: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::isOriginTop()(),
-                    transitionDuration: that.@gwt.material.design.addins.client.masonry.MaterialMasonry::getTransitionDuration()() + 'ms',
-                    columnWidth: '.col-sizer'
-                });
+    protected void initMasonryJs(Element e) {
+        window().ready(() -> {
+            $(e).imagesLoaded(() -> {
+                $(e).masonry(getMasonryOptions());
             });
         });
-    }-*/;
+    }
+
+    protected JsMasonryOptions getMasonryOptions() {
+        JsMasonryOptions options = new JsMasonryOptions();
+        options.itemSelector = ".masonry > " + getItemSelector();
+        options.percentPosition = isPercentPosition();
+        options.columnWidth = ".col-sizer";
+        options.originLeft = isOriginLeft();
+        options.originTop = isOriginTop();
+        options.transitionDuration = getTransitionDuration() + "ms";
+        return options;
+    }
 
     @Override
     public boolean remove(IsWidget child) {
@@ -144,9 +145,11 @@ public class MaterialMasonry extends MaterialRow {
     /**
      * Remove the item with Masonry support
      */
-    protected native void remove(Element e) /*-{
-        $wnd.jQuery(".masonry").masonry("remove", e);
-    }-*/;
+    protected void remove(Element e) {
+        if(initialize) {
+            $(getElement()).masonry(getMasonryOptions()).masonry("remove", e).masonry("layout");
+        }
+    }
 
     @Override
     public void clear() {
@@ -156,49 +159,51 @@ public class MaterialMasonry extends MaterialRow {
     }
 
     @Override
+    public void add(Widget child) {
+        super.add(child);
+        reload();
+    }
+
+    @Override
+    protected void add(Widget child, com.google.gwt.user.client.Element container) {
+        super.add(child, container);
+        reload();
+    }
+
+    @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
         super.insert(child, container, beforeIndex, domInsert);
-        if(initialize) {
-            reload();
-        }
+        reload();
     }
 
     @Override
     public void insert(Widget child, int beforeIndex) {
         super.insert(child, beforeIndex);
-        if(initialize) {
-            reload();
-        }
+        reload();
     }
 
     /**
      * Reload the layout effective only when adding and inserting items
      */
     public void reload() {
-        reload(getElement());
-    }
-
-    protected native void reload(Element e) /*-{
-        $wnd.jQuery(window).ready(function() {
-            $wnd.jQuery(e).masonry("reloadItems");
-            $wnd.jQuery(e).masonry("layout");
-        });
-    }-*/;
-
-    @Override
-    public void add(Widget child) {
-        super.add(child);
         if(initialize) {
-            reload();
+            reloadItems();
+            layout();
         }
     }
 
-    @Override
-    protected void add(Widget child, com.google.gwt.user.client.Element container) {
-        super.add(child, container);
-        if(initialize) {
-            reload();
-        }
+    /**
+     * Reload all items inside the masonry
+     */
+    public void reloadItems() {
+        $(getElement()).masonry(getMasonryOptions()).masonry("reloadItems");
+    }
+
+    /**
+     * Layout remaining item elements
+     */
+    public void layout() {
+        $(getElement()).masonry(getMasonryOptions()).masonry("layout");
     }
 
     /**
