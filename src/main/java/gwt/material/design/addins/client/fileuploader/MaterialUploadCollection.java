@@ -63,6 +63,8 @@ public class MaterialUploadCollection extends MaterialCollection {
 
         // Upload Information - Upload Name info
         nameWrapper.add(name);
+        name.setTruncate(true);
+        name.setWidth("200px");
         name.setDataAttribute("data-dz-name", "");
         nameWrapper.add(size);
         size.setDataAttribute("data-dz-size", "");
@@ -89,10 +91,8 @@ public class MaterialUploadCollection extends MaterialCollection {
         btnClear.setId("dz-remove");
         btnClear.setBackgroundColor("transparent");
         btnClear.setShadow(0);
-        btnClear.setWaves(WavesType.DEFAULT);
         btnClear.setCircle(true);
         btnClear.setTextColor("white");
-        btnClear.setWaves(WavesType.DEFAULT);
         btnClear.addStyleName("ph");
         btnClear.setIconType(IconType.CLEAR);
         btnClear.setDataAttribute("data-dz-remove", "");

@@ -106,7 +106,7 @@ public class MaterialWaterfall extends MaterialWidget {
         this.closeCallback = closeCallback;
     }
 
-    private native void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) /*-{
+    protected native void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) /*-{
         $wnd.jQuery(document).ready(function() {
 
             var openCallbackFn = $entry(function() {

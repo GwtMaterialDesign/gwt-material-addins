@@ -173,6 +173,11 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         addStyleName("success");
         applyIconStatus(iconSuccess, "blue", success);
     }
+    
+    @Override
+    public void setHelperText(String helperText) {
+        setDescription(helperText);
+    }
 
     @Override
     public void clearErrorOrSuccess() {
@@ -184,7 +189,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     }
 
 
-    private void applyIconStatus(MaterialIcon icon, String color, String description){
+    protected void applyIconStatus(MaterialIcon icon, String color, String description){
         iconError.removeFromParent();
         iconSuccess.removeFromParent();
         divCircle.removeFromParent();

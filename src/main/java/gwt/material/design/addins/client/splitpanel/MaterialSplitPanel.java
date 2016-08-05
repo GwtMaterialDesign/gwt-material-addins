@@ -107,7 +107,7 @@ public class MaterialSplitPanel extends MaterialWidget {
      * @param dock - When clicking on the white line located in the middle of splitter bar, depends on docking position it will collapse to that direction
      * @param orientation - There are two types of orientation : HORIZONTAL (Default) and VERTICAL
      */
-    private native void initSplitter(Element e,double barPosition, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
+    protected native void initSplitter(Element e,double barPosition, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
         $wnd.jQuery(document).ready(function() {
             var splitted = $wnd.jQuery(e);
             if( splitted[0].touchSplitter == null ) {

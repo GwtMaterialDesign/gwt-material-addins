@@ -65,7 +65,7 @@ public class MaterialUploadHeader extends MaterialWidget {
         initUploadHeader(iconClose.getElement(), iconColaps.getElement(), getPreview().getElement(), getPreview().getUploadCollection().getElement());
     }
 
-    private native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
+    protected native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
         var toggle = true;
 
         $wnd.jQuery(iconColaps).click(function() {

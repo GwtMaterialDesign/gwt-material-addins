@@ -33,6 +33,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.FocusableMixin;
 import gwt.material.design.client.base.mixin.ProgressMixin;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
@@ -185,6 +186,9 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
 
     private final ErrorMixin<MaterialAutoComplete, MaterialLabel> errorMixin = new ErrorMixin<>(this,
             lblError, list);
+
+    private FocusableMixin<MaterialWidget> focusableMixin;
+
     public final CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin = new CssTypeMixin<>(this);
 
     /**
@@ -215,7 +219,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     /**
      * Generate and build the List Items to be set on Auto Complete box.
      */
-    private void generateAutoComplete(SuggestOracle suggestions) {
+    protected void generateAutoComplete(SuggestOracle suggestions) {
         list.setStyleName("multiValueSuggestBox-list");
         this.suggestions = suggestions;
         final ListItem item = new ListItem();
@@ -431,6 +435,12 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         clearErrorOrSuccess();
     }
 
+    @Override
+    protected FocusableMixin<MaterialWidget> getFocusableMixin() {
+        if(focusableMixin == null) { focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement())); }
+        return focusableMixin;
+    }
+
     /**
      * @return the item values on autocomplete
      * @see #getValue()
@@ -530,6 +540,11 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     @Override
     public void setSuccess(String success) {
         errorMixin.setSuccess(success);
+    }
+    
+    @Override
+    public void setHelperText(String helperText) {
+        errorMixin.setHelperText(helperText);
     }
 
     @Override
