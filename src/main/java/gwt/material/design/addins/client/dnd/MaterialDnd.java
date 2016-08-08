@@ -90,13 +90,10 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     public void setTarget(final Widget target) {
         this.target = target;
         if(!target.isAttached()) {
-            target.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initDraggable(target.getElement(), isInertia(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
-                                restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
-                    }
+            target.addAttachHandler(event -> {
+                if(event.isAttached()) {
+                    initDraggable(target.getElement(), isInertia(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
+                            restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
                 }
             });
         } else {
@@ -159,12 +156,9 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     public void setIgnoreFrom(final Widget ignoreFrom) {
         this.ignoreFrom = ignoreFrom;
         if(!target.isAttached() && !ignoreFrom.isAttached()) {
-            ignoreFrom.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initIgnoreFrom(target.getElement(), ignoreFrom.getElement());
-                    }
+            ignoreFrom.addAttachHandler(event -> {
+                if(event.isAttached()) {
+                    initIgnoreFrom(target.getElement(), ignoreFrom.getElement());
                 }
             });
         }else {
@@ -175,11 +169,8 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     @Override
     public void setIgnoreFrom(final String selector) {
         if(!target.isAttached()){
-            target.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    initIgnoreFrom(target.getElement(), selector);
-                }
+            target.addAttachHandler(event -> {
+                initIgnoreFrom(target.getElement(), selector);
             });
         } else {
             initIgnoreFrom(target.getElement(), selector);
@@ -217,12 +208,9 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     @Override
     public HandlerRegistration addDragStartHandler(final DragStartEvent.DragStartHandler handler) {
-        return addHandler(new DragStartEvent.DragStartHandler() {
-            @Override
-            public void onDragStart(DragStartEvent event) {
-                if(isEnabled()){
-                    handler.onDragStart(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragStart(event);
             }
         }, DragStartEvent.TYPE);
     }
@@ -233,12 +221,9 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     @Override
     public HandlerRegistration addDragMoveHandler(final DragMoveEvent.DragMoveHandler handler) {
-        return addHandler(new DragMoveEvent.DragMoveHandler() {
-            @Override
-            public void onDragMove(DragMoveEvent event) {
-                if(isEnabled()){
-                    handler.onDragMove(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragMove(event);
             }
         }, DragMoveEvent.TYPE);
     }
@@ -249,12 +234,9 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
 
     @Override
     public HandlerRegistration addDragEndHandler(final DragEndEvent.DragEndHandler handler) {
-        return addHandler(new DragEndEvent.DragEndHandler() {
-            @Override
-            public void onDragEnd(DragEndEvent event) {
-                if(isEnabled()){
-                    handler.onDragEnd(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragEnd(event);
             }
         }, DragEndEvent.TYPE);
     }
