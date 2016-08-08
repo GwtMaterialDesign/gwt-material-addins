@@ -32,7 +32,7 @@ import jsinterop.annotations.JsType;
  * JSInterop utils for path animator component
  * @author kevzlou7979
  */
-@JsType(isNative = true, name = JsPackage.GLOBAL)
+@JsType(isNative = true)
 public class JsPathAnimator extends JQueryElement {
 
     @JsMethod(namespace = JsPackage.GLOBAL)

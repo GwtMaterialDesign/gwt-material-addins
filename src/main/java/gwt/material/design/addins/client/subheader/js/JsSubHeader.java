@@ -31,7 +31,7 @@ import jsinterop.annotations.JsType;
  * JsInterop Utils for subheader component
  * @author kevzlou7979
  */
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+@JsType(isNative = true)
 public class JsSubHeader extends JQueryElement {
 
     @JsMethod(namespace = JsPackage.GLOBAL)
