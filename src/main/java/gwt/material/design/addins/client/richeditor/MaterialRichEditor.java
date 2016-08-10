@@ -78,7 +78,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
     }
 
     protected void initRichEditor() {
-        initRichEditor(getElement(), isAirMode(), getPlaceholder(), getHeight(), extractOptions(getStyleOptions()), extractOptions(getFontOptions()), extractOptions(getColorOptions()), extractOptions(getUndoOptions()), extractOptions(getCkMediaOptions()), extractOptions(getMiscOptions()), extractOptions(getParaOptions()), extractOptions(getHeightOptions()));
+        initRichEditor(getElement(), isAirMode(), isDisableDragAndDrop(), getPlaceholder(), getHeight(), extractOptions(getStyleOptions()), extractOptions(getFontOptions()), extractOptions(getColorOptions()), extractOptions(getUndoOptions()), extractOptions(getCkMediaOptions()), extractOptions(getMiscOptions()), extractOptions(getParaOptions()), extractOptions(getHeightOptions()));
     }
 
     /**
@@ -96,7 +96,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param paraOptions
      * @param heightOptions
      */
-    protected native void initRichEditor(Element e, boolean airMode, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
+    protected native void initRichEditor(Element e, boolean airMode, boolean disableDragAndDrop, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
             var toolbar = [
@@ -113,6 +113,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
             $wnd.jQuery(e).materialnote({
                 toolbar: toolbar,
                 airMode: airMode,
+                disableDragAndDrop: disableDragAndDrop,
                 followingToolbar: false,
                 placeholder: placeholder,
                 height: height,
