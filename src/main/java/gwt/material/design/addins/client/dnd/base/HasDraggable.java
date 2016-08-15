@@ -21,11 +21,11 @@ package gwt.material.design.addins.client.dnd.base;
  */
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.events.DragEndEvent;
 import gwt.material.design.addins.client.dnd.events.DragMoveEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
+import gwt.material.design.client.base.MaterialWidget;
 
 public interface HasDraggable {
 
@@ -33,19 +33,19 @@ public interface HasDraggable {
      * Sets the target widget to apply draggable feature
      * @param target
      */
-    void setTarget(Widget target);
+    void setTarget(MaterialWidget target);
 
     /**
      * Gets the draggable target
      * @return
      */
-    Widget getTarget();
+    MaterialWidget getTarget();
 
     /**
      * Sets the ignoreFrom widget to exclude from dragging
      * @param ignoreFrom
      */
-    void setIgnoreFrom(Widget ignoreFrom);
+    void setIgnoreFrom(MaterialWidget ignoreFrom);
 
     /**
      * Sets the ignoreFrom as selector to exclude from dragging
@@ -57,7 +57,7 @@ public interface HasDraggable {
      * Gets the ignoreFrom widget
      * @return
      */
-    Widget isIgnoreFrom();
+    MaterialWidget isIgnoreFrom();
 
     /**
      * Sets the restriction properties of dnd feature
