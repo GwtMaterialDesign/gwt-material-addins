@@ -27,6 +27,10 @@ import gwt.material.design.addins.client.dnd.events.DragMoveEvent;
 import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.client.base.MaterialWidget;
 
+/**
+ * Drag Events and properties
+ * @author kevzlou7979
+ */
 public interface HasDraggable {
 
     /**
@@ -67,27 +71,28 @@ public interface HasDraggable {
     void setRestriction(Restriction restriction);
 
     /**
-     * Gets the restriction properties
+     * Gets the restriction properties of the target element
      */
     Restriction getRestriction();
 
     /**
-     * Add a drag start handler
-     * @param handler
+     * Add a drag start handler to target element
      */
     HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler);
 
     /**
-     * Add a drag move handler
-     * @param handler
+     * Add a drag move handler to target element
      */
     HandlerRegistration addDragMoveHandler(DragMoveEvent.DragMoveHandler handler);
 
     /**
-     * Add a drag end handler
-     * @param handler
+     * Add a drag end handler to target element
      */
     HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler);
 
+    /**
+     * A function to apply the target element to be draggable
+     */
+    void draggable();
 
 }

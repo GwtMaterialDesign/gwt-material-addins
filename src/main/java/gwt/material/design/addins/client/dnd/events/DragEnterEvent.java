@@ -24,6 +24,7 @@ package gwt.material.design.addins.client.dnd.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 public class DragEnterEvent extends GwtEvent<DragEnterEvent.DragEnterHandler> {
 
@@ -31,10 +32,16 @@ public class DragEnterEvent extends GwtEvent<DragEnterEvent.DragEnterHandler> {
         void onDragEnter(DragEnterEvent event);
     }
 
+    private final JQueryElement relatedTarget;
+
     public static final Type<DragEnterHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new DragEnterEvent());
+    public DragEnterEvent(JQueryElement relatedTarget) {
+        this.relatedTarget = relatedTarget;
+    }
+
+    public static void fire(HasHandlers source, JQueryElement relatedTarget) {
+        source.fireEvent(new DragEnterEvent(relatedTarget));
     }
 
     @Override
@@ -45,5 +52,9 @@ public class DragEnterEvent extends GwtEvent<DragEnterEvent.DragEnterHandler> {
     @Override
     protected void dispatch(DragEnterHandler handler) {
         handler.onDragEnter(this);
+    }
+
+    public JQueryElement getRelatedTarget() {
+        return relatedTarget;
     }
 }

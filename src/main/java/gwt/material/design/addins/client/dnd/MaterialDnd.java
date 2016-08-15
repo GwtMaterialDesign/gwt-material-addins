@@ -27,7 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.base.DndHelper;
 import gwt.material.design.addins.client.dnd.base.HasDraggable;
-import gwt.material.design.addins.client.dnd.base.HasDropzone;
+import gwt.material.design.addins.client.dnd.base.HasDrop;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.events.*;
 import gwt.material.design.addins.client.dnd.js.*;
@@ -59,7 +59,7 @@ import gwt.material.design.client.constants.Axis;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#dnd">Drag and Drop</a>
  */
 //@formatter:on
-public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDropzone {
+public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -144,6 +144,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
         this.draggableOptions = options;
     }
 
+    @Override
     public void draggable() {
         if(!target.isAttached()) {
             target.addAttachHandler(event -> {
@@ -160,6 +161,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
         }
     }
 
+    @Override
     public void dropzone() {
         if(!target.isAttached()) {
             target.addAttachHandler(event -> {
@@ -187,13 +189,13 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
 
         JsDnd.interact(target.getElement()).off("dragenter");
         JsDnd.interact(target.getElement()).on("dragenter", (event, o) -> {
-            DragEnterEvent.fire(MaterialDnd.this);
+            DragEnterEvent.fire(MaterialDnd.this, event.getRelatedTarget());
             return true;
         });
 
         JsDnd.interact(target.getElement()).off("dragleave");
         JsDnd.interact(target.getElement()).on("dragleave", (event, o) -> {
-            DragLeaveEvent.fire(MaterialDnd.this);
+            DragLeaveEvent.fire(MaterialDnd.this, event.getRelatedTarget());
             return true;
         });
 

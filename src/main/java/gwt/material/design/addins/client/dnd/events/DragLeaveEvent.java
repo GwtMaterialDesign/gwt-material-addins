@@ -24,6 +24,7 @@ package gwt.material.design.addins.client.dnd.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 public class DragLeaveEvent extends GwtEvent<DragLeaveEvent.DragLeaveHandler> {
 
@@ -31,10 +32,16 @@ public class DragLeaveEvent extends GwtEvent<DragLeaveEvent.DragLeaveHandler> {
         void onDragLeave(DragLeaveEvent event);
     }
 
+    private final JQueryElement relatedTarget;
+
     public static final Type<DragLeaveHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new DragLeaveEvent());
+    public DragLeaveEvent(JQueryElement relatedTarget) {
+        this.relatedTarget = relatedTarget;
+    }
+
+    public static void fire(HasHandlers source, JQueryElement relatedTarget) {
+        source.fireEvent(new DragLeaveEvent(relatedTarget));
     }
 
     @Override
@@ -45,5 +52,9 @@ public class DragLeaveEvent extends GwtEvent<DragLeaveEvent.DragLeaveHandler> {
     @Override
     protected void dispatch(DragLeaveHandler handler) {
         handler.onDragLeave(this);
+    }
+
+    public JQueryElement getRelatedTarget() {
+        return relatedTarget;
     }
 }

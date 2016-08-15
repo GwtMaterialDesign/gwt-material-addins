@@ -25,25 +25,58 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.dnd.events.*;
 
 /**
- * Created by Mark Kevin on 8/15/2016.
+ * Drop events and properties
+ * @author kevzlou7979
  */
-public interface HasDropzone {
+public interface HasDrop {
 
+    /**
+     * A select class to be provided on Dropzone container to accept only with the same class
+     */
     void setAcceptSelector(String selector);
 
+    /**
+     * Get the class provided by dropzone container
+     */
     String getAcceptSelector();
 
+    /**
+     * Set the overlap opacity to the dropzone container
+     */
     void setOverlap(double overlap);
 
+    /**
+     * Get the overlap opacity value to the dropzone container
+     */
     double getOverlap();
 
+    /**
+     * Add Drop Activate handler
+     */
     HandlerRegistration addDropActivateHandler(DropActivateEvent.DropActivateHandler handler);
 
+    /**
+     * Add Drag Enter handler
+     */
     HandlerRegistration addDragEnterHandler(DragEnterEvent.DragEnterHandler handler);
 
+    /**
+     * Add Drag Leave handler
+     */
     HandlerRegistration addDragLeaveHandler(DragLeaveEvent.DragLeaveHandler handler);
 
+    /**
+     * Add Drop Deactivate handler
+     */
     HandlerRegistration addDropDeactivateHandler(DropDeactivateEvent.DropDeactivateHandler handler);
 
+    /**
+     * Add Drop handler
+     */
     HandlerRegistration addDropHandler(DropEvent.DropHandler handler);
+
+    /**
+     * Apply drop functionality to the target dropzone container
+     */
+    void dropzone();
 }
