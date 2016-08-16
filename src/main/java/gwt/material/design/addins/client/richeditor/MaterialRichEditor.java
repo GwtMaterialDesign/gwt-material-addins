@@ -32,9 +32,12 @@ import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
 import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
+import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
 import gwt.material.design.addins.client.richeditor.events.PasteEvent;
+import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.ui.MaterialToast;
+
+import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 
 //@formatter:off
 
@@ -96,78 +99,73 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param paraOptions
      * @param heightOptions
      */
-    protected native void initRichEditor(Element e, boolean airMode, boolean disableDragAndDrop, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) /*-{
-        var that = this;
-        $wnd.jQuery(document).ready(function() {
-            var toolbar = [
-                ['style', styleOptions],
-                ['para', paraOptions],
-                ['height', heightOptions],
-                ['undo', undoOptions],
-                ['fonts', fontOptions],
-                ['color', colorOptions],
-                ['ckMedia', ckMediaOptions],
-                ['misc', miscOptions],
-            ];
-
-            $wnd.jQuery(e).materialnote({
-                toolbar: toolbar,
-                airMode: airMode,
-                disableDragAndDrop: disableDragAndDrop,
-                followingToolbar: false,
-                placeholder: placeholder,
-                height: height,
-                minHeight: 200,
-                defaultBackColor: '#777',
-                defaultTextColor: '#fff',
-            });
-            // Blur
-            $wnd.jQuery(e).on('materialnote.blur', function() {
-                that.@gwt.material.design.addins.client.richeditor.MaterialRichEditor::fireBlurEvent()();
-            });
-            // Focus
-            $wnd.jQuery(e).on('materialnote.focus', function() {
-                that.@gwt.material.design.addins.client.richeditor.MaterialRichEditor::fireFocusEvent()();
-            });
-            // Key Up
-            $wnd.jQuery(e).on('materialnote.keyup', function() {
-                that.@gwt.material.design.addins.client.richeditor.MaterialRichEditor::fireKeyUpEvent()();
-            });
-            // Key Down
-            $wnd.jQuery(e).on('materialnote.keydown', function() {
-                that.@gwt.material.design.addins.client.richeditor.MaterialRichEditor::fireKeyDownEvent()();
-            });
-            // Paste Event
-            $wnd.jQuery(e).on('materialnote.paste', function() {
-                that.@gwt.material.design.addins.client.richeditor.MaterialRichEditor::firePasteEvent()();
-            });
-            // Change Event
-            $wnd.jQuery(e).on('materialnote.change', function(we, contents, $editable) {
-                that.@gwt.material.design.addins.client.richeditor.MaterialRichEditor::fireChangeEvent(*)(contents);
-            });
-
+    protected void initRichEditor(Element e, boolean airMode, boolean disableDragAndDrop, String placeholder, String height, JsArrayString styleOptions, JsArrayString fontOptions, JsArrayString colorOptions, JsArrayString undoOptions, JsArrayString ckMediaOptions, JsArrayString miscOptions, JsArrayString paraOptions, JsArrayString heightOptions) {
+        JsRichEditorOptions options = new JsRichEditorOptions();
+        // Set up the toolbar items
+        Object[][] toolbar = new Object[][]{};
+        toolbar[0] = new Object[] {"style", styleOptions};
+        toolbar[1] = new Object[] {"para", paraOptions};
+        toolbar[2] = new Object[] {"height", heightOptions};
+        toolbar[3] = new Object[] {"undo", undoOptions};
+        toolbar[4] = new Object[] {"fonts", fontOptions};
+        toolbar[5] = new Object[] {"color", colorOptions};
+        toolbar[6] = new Object[] {"ckMedia", ckMediaOptions};
+        toolbar[7] = new Object[] {"misc", miscOptions};
+        // Other important options
+        options.toolbar = toolbar;
+        options.airMode = airMode;
+        options.disableDragAndDrop = disableDragAndDrop;
+        options.followingToolbar = false;
+        options.placeholder = placeholder;
+        options.height = height;
+        options.minHeight = 200;
+        options.defaultBackColor = "#777";
+        options.defaultTextColor = "#fff";
+        $(e).materialnote(options);
+        // Events
+        $(e).on(RichEditorEvents.MATERIALNOTE_BLUR, event -> {
+            fireBlurEvent();
+            return true;
         });
-    }-*/;
-
-
+        $(e).on(RichEditorEvents.MATERIALNOTE_FOCUS, event -> {
+            fireFocusEvent();
+            return true;
+        });
+        $(e).on(RichEditorEvents.MATERIALNOTE_KEYUP, event -> {
+            fireKeyUpEvent();
+            return true;
+        });
+        $(e).on(RichEditorEvents.MATERIALNOTE_KEYDOWN, event -> {
+            fireKeyDownEvent();
+            return true;
+        });
+        $(e).on(RichEditorEvents.MATERIALNOTE_PASTE, event -> {
+            firePasteEvent();
+            return true;
+        });
+        $(e).on(RichEditorEvents.MATERIALNOTE_CHANGE, event -> {
+            fireChangeEvent(getHTMLCode(e));
+            return true;
+        });
+    }
 
     @Override
     public String getHTML() {
         return getHTMLCode(getElement());
     }
 
-    protected native String getHTMLCode(Element e) /*-{
-        return $wnd.jQuery(e).code();
-    }-*/;
+    protected String getHTMLCode(Element e) {
+        return $(e).code();
+    }
 
     @Override
     public void setHTML(final String html) {
         setHTMLCode(getElement(), html);
     }
 
-    protected native void setHTMLCode(Element e, String html) /*-{
-        $wnd.jQuery(e).code(html);
-    }-*/;
+    protected void setHTMLCode(Element e, String html) {
+        $(e).code(html);
+    }
 
     @Override
     public String getText() {
@@ -192,11 +190,9 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param e
      * @param text
      */
-    protected native void insertText(Element e, String text) /*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(e).materialnote('insertText', text);
-        });
-    }-*/;
+    protected void insertText(Element e, String text) {
+        $(e).materialnote("insertText", text);
+    }
 
     /**
      * Insert custom HTML inside the note zone
@@ -211,11 +207,9 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * @param e
      * @param html
      */
-    protected native void pasteHTML(Element e, String html) /*-{
-        $wnd.jQuery(document).ready(function () {
-            $wnd.jQuery(e).materialnote('pasteHTML', html);
-        });
-    }-*/;
+    protected void pasteHTML(Element e, String html) {
+        $(e).materialnote("pasteHTML", html);
+    }
 
     @Override
     public void clear() {
@@ -226,20 +220,15 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
      * Clear the note editor with element as param
      * @param e
      */
-    protected native void clear(Element e) /*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(e).materialnote('reset');
-        });
-    }-*/;
+    protected void clear(Element e) {
+        $(e).materialnote("reset");
+    }
 
     @Override
     public HandlerRegistration addBlurHandler(final BlurHandler blurHandler) {
-        return addHandler(new BlurHandler() {
-            @Override
-            public void onBlur(BlurEvent event) {
-                if(isEnabled()) {
-                    blurHandler.onBlur(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()) {
+                blurHandler.onBlur(event);
             }
         }, BlurEvent.getType());
     }
@@ -250,12 +239,9 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
 
     @Override
     public HandlerRegistration addFocusHandler(final FocusHandler focusHandler) {
-        return addHandler(new FocusHandler() {
-            @Override
-            public void onFocus(FocusEvent event) {
-                if(isEnabled()) {
-                    focusHandler.onFocus(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()) {
+                focusHandler.onFocus(event);
             }
         }, FocusEvent.getType());
     }
@@ -266,12 +252,9 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
 
     @Override
     public HandlerRegistration addKeyUpHandler(final KeyUpHandler keyUpHandler) {
-        return addHandler(new KeyUpHandler() {
-            @Override
-            public void onKeyUp(KeyUpEvent event) {
-                if(isEnabled()) {
-                    keyUpHandler.onKeyUp(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()) {
+                keyUpHandler.onKeyUp(event);
             }
         }, KeyUpEvent.getType());
     }
@@ -282,12 +265,9 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
 
     @Override
     public HandlerRegistration addKeyDownHandler(final KeyDownHandler keyDownHandler) {
-        return addHandler(new KeyDownHandler() {
-            @Override
-            public void onKeyDown(KeyDownEvent event) {
-                if(isEnabled()) {
-                    keyDownHandler.onKeyDown(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()) {
+                keyDownHandler.onKeyDown(event);
             }
         }, KeyDownEvent.getType());
     }
@@ -314,12 +294,9 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasHTM
 
     @Override
     public HandlerRegistration addPasteHandler(final PasteEvent.PasteHandler handler) {
-        return addHandler(new PasteEvent.PasteHandler() {
-            @Override
-            public void onPaste(PasteEvent event) {
-                if(isEnabled()) {
-                    handler.onPaste(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()) {
+                handler.onPaste(event);
             }
         }, PasteEvent.TYPE);
     }
