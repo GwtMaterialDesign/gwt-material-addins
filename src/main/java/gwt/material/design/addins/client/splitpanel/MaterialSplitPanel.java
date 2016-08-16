@@ -79,6 +79,7 @@ public class MaterialSplitPanel extends MaterialWidget {
     private double bottomMin;
     private double bottomMax;
     private double barPosition = 50;
+    private double thickness = 8;
     private Dock dock = Dock.LEFT;
     private Axis axis = Axis.HORIZONTAL;
 
@@ -89,13 +90,14 @@ public class MaterialSplitPanel extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initSplitter(getElement(), getBarPosition(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
+        initSplitter(getElement(), getBarPosition(), getThickness(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
     }
 
     /**
      * Initialize the splitter component
      * @param e - The element you need to split
      * @param barPosition - The position of the bar based on percentage by default it's 50%
+     * @param thickness - The bar's thickness in px
      * @param rightMax - The maximum right space while dragging the splitter bar horizontally
      * @param rightMin - The minimum right space while dragging the splitter bar horizontally
      * @param leftMax - The maximum left space while dragging the splitter bar horizontally
@@ -107,11 +109,11 @@ public class MaterialSplitPanel extends MaterialWidget {
      * @param dock - When clicking on the white line located in the middle of splitter bar, depends on docking position it will collapse to that direction
      * @param orientation - There are two types of orientation : HORIZONTAL (Default) and VERTICAL
      */
-    private native void initSplitter(Element e,double barPosition, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
+    private native void initSplitter(Element e, double barPosition, double thickness, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMin, double bottomMax, String dock, String orientation) /*-{
         $wnd.jQuery(document).ready(function() {
             var splitted = $wnd.jQuery(e);
             if( splitted[0].touchSplitter == null ) {
-                splitted.touchSplit({barPosition: barPosition, thickness: "8px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
+                splitted.touchSplit({barPosition: barPosition, thickness: thickness + "px", rightMax: rightMax, rightMin: rightMin, leftMax: leftMax, leftMin: leftMin, topMax: topMax, topMin: topMin, bottomMax: bottomMax, bottomMin: bottomMin, dock: dock, orientation: orientation});
             }
         });
     }-*/;
@@ -290,5 +292,19 @@ public class MaterialSplitPanel extends MaterialWidget {
      */
     public void setBarPosition(double barPosition) {
         this.barPosition = barPosition;
+    }
+    
+    /**
+     * Get the bar's thickness in px
+     */
+    public double getThickness() {
+        return thickness;
+    }
+
+    /**
+     * Set the bar's thickness in px
+     */
+    public void setThickness(double thickness) {
+        this.thickness = thickness;
     }
 }
