@@ -20,8 +20,8 @@ package gwt.material.design.addins.client.cutout;
  * #L%
  */
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -32,19 +32,18 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ScrollEvent;
-import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.cutout.js.JsCutOut;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 //@formatter:off
 
@@ -94,14 +93,6 @@ import gwt.material.design.client.base.helper.ColorHelper;
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
         HasClickHandlers, HasCircle {
-
-    static {
-        if(MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialCutOutDebugClientBundle.INSTANCE.cutoutDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialCutOutClientBundle.INSTANCE.cutoutJs());
-        }
-    }
 
     private String backgroundColor = "blue";
     private double opacity = 0.8;
@@ -397,7 +388,36 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
-        JsCutOut.setupCutOutPosition(cutOut, relativeTo,  padding, circle);
+        float top = relativeTo.getOffsetTop() - body().scrollTop();
+        float left = relativeTo.getOffsetLeft();
+
+        float width = relativeTo.getOffsetWidth();
+        float height = relativeTo.getOffsetHeight();
+
+        if(circle) {
+            if(width != height) {
+                float dif = width - height;
+                if (width > height) {
+                    height += dif;
+                    top -= dif / 2;
+                }
+                else {
+                    dif = -dif;
+                    width += dif;
+                    left -= dif / 2;
+                }
+            }
+
+            top -= padding;
+            left -= padding;
+            width += padding * 2;
+            height += padding * 2;
+
+            $(cutOut).css("top", top + "px");
+            $(cutOut).css("left", left + "px");
+            $(cutOut).css("width", width + "px");
+            $(cutOut).css("height", height + "px");
+        }
     }
 
     /**
