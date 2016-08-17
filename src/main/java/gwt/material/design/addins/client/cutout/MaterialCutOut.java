@@ -20,10 +20,6 @@ package gwt.material.design.addins.client.cutout;
  * #L%
  */
 
-import gwt.material.design.client.base.HasCircle;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.helper.ColorHelper;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
@@ -36,19 +32,22 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.cutout.js.JsCutOut;
+import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.helper.ColorHelper;
 
 //@formatter:off
+
 /**
  * MaterialCutOut is a fullscreen modal-like component to show users about new
  * features or important elements of the document.
@@ -95,6 +94,14 @@ import com.google.gwt.user.client.ui.Widget;
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
         HasClickHandlers, HasCircle {
+
+    static {
+        if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialCutOutDebugClientBundle.INSTANCE.cutoutDebugJs());
+        } else {
+            MaterialDesignBase.injectJs(MaterialCutOutClientBundle.INSTANCE.cutoutJs());
+        }
+    }
 
     private String backgroundColor = "blue";
     private double opacity = 0.8;
@@ -296,7 +303,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      *
      * @throws IllegalStateException
      *             if the target element is <code>null</code>
-     * @see #setTargetElement(Element)
+     * @see #setTarget(Widget)
      */
     public void openCutOut() {
         if (targetElement == null) {
@@ -391,39 +398,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
-    protected native void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle)/*-{
-        var rect = relativeTo.getBoundingClientRect();
-
-        var top = rect.top;
-        var left = rect.left;
-        var width = rect.right - rect.left;
-        var height = rect.bottom - rect.top;
-        
-        if (circle){
-            if (width != height){
-                var dif = width - height;
-                if (width > height){
-                    height += dif;
-                    top -= dif/2;
-                }
-                else {
-                    dif = -dif;
-                    width += dif;
-                    left -= dif/2;
-                }
-            }
-        }
-
-        top -= padding;
-        left -= padding;
-        width += padding * 2;
-        height += padding * 2;
-
-        cutOut.style.top = top + 'px';
-        cutOut.style.left = left + 'px';
-        cutOut.style.width = width + 'px';
-        cutOut.style.height = height + 'px';
-    }-*/;
+    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
+        JsCutOut.setupCutOutPosition(cutOut, relativeTo,  padding, circle);
+    }
 
     /**
      * Configures a resize handler and a scroll handler on the window to
