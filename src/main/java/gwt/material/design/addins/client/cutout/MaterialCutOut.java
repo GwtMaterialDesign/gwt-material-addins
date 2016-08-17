@@ -325,11 +325,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             focus.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem "+computedBackgroundColor);
             
             //the animation will take place after the boxshadow is set by the deferred command
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-                @Override
-                public void execute() {
-                    focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
-                }
+            Scheduler.get().scheduleDeferred(() -> {
+                focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+
             });
         }
         else {
@@ -413,17 +411,12 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         if (scrollHandler != null){
             scrollHandler.removeHandler();
         }
-        resizeHandler = Window.addResizeHandler(new ResizeHandler() {
-            @Override
-            public void onResize(ResizeEvent event) {
-                setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-            }
+        resizeHandler = Window.addResizeHandler(event -> {
+            setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
         });
-        scrollHandler = Window.addWindowScrollHandler(new ScrollHandler() {
-            @Override
-            public void onWindowScroll(ScrollEvent event) {
-                setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-            }
+        scrollHandler = Window.addWindowScrollHandler(event -> {
+            setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
+
         });
     }
 
@@ -483,12 +476,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     @Override
     public HandlerRegistration addClickHandler(final ClickHandler handler) {
-        return addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if(isEnabled()){
-                    handler.onClick(event);
-                }
+        return addDomHandler(event -> {
+            if(isEnabled()){
+                handler.onClick(event);
             }
         }, ClickEvent.getType());
     }

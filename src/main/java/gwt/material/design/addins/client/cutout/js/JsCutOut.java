@@ -27,7 +27,8 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * Created by Mark Kevin on 8/17/2016.
+ * JSInterop utils for CutOut component
+ * @author kevzlou7979
  */
 @JsType(isNative = true)
 public class JsCutOut {
