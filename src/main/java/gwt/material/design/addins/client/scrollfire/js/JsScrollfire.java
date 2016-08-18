@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.scrollfire.js;
  */
 
 
+import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -33,5 +34,5 @@ import jsinterop.annotations.JsType;
 public class JsScrollfire {
 
     @JsMethod(namespace = JsPackage.GLOBAL)
-    public static native void apply(String selector, int offset, ScrollfireCallback callback);
+    public static native void apply(String selector, int offset, Functions.Func callback);
 }

@@ -24,8 +24,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.scrollfire.js.JsScrollfire;
-import gwt.material.design.addins.client.scrollfire.js.ScrollfireCallback;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
 
@@ -61,7 +61,7 @@ public class MaterialScrollfire {
 
     public static void apply(String selector, Runnable callback) {
         int offset = 100;
-        ScrollfireCallback function = () -> {
+        Functions.Func function = () -> {
             callback.run();
         };
         JsScrollfire.apply(selector, offset, function);
