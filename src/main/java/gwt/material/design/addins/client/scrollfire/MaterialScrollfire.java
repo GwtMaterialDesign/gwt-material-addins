@@ -23,9 +23,12 @@ package gwt.material.design.addins.client.scrollfire;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.scrollfire.js.JsScrollfire;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
+
 /**
  * Material Scrollfire - executes callback functions depending on how far into the page you've scrolled.
  *
@@ -56,13 +59,11 @@ public class MaterialScrollfire {
         apply("#" + uid, callback);
     }
 
-    public static native void apply(String selector, Runnable callback) /*-{
-        $wnd.jQuery(document).ready(function() {
-            var offset = 100;
-            var callbackFn = $entry(function() {
-                callback.@java.lang.Runnable::run()();
-            });
-            $wnd.apply(selector, offset, callbackFn);
-        });
-    }-*/;
+    public static void apply(String selector, Runnable callback) {
+        int offset = 100;
+        Functions.Func function = () -> {
+            callback.run();
+        };
+        JsScrollfire.apply(selector, offset, function);
+    }
 }
