@@ -23,10 +23,13 @@ package gwt.material.design.addins.client.waterfall;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
+
 /**
  * Material Waterfall - Act like a collapsible header below the nav bar component when scrolling up / down to provide delightful transition of components.
  *
@@ -100,20 +103,16 @@ public class MaterialWaterfall extends MaterialWidget {
         this.closeCallback = closeCallback;
     }
 
-    protected native void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) /*-{
-        $wnd.jQuery(document).ready(function() {
+    protected void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) {
+        Functions.Func openFunction = () -> {
+            openCallback.run();
+        };
 
-            var openCallbackFn = $entry(function() {
-                openCallback.@java.lang.Runnable::run()();
-            });
-
-            var closeCallbackFn = $entry(function() {
-                closeCallback.@java.lang.Runnable::run()();
-            });
-
-            $wnd.initWaterfall(height, openCallbackFn, closeCallbackFn, offset);
-        });
-    }-*/;
+        Functions.Func closeFunction = () -> {
+            closeCallback.run();
+        };
+        JsWaterfall.initWaterfall(height, openFunction, closeFunction, offset);
+    }
 
     public double getOffset() {
         return offset;
