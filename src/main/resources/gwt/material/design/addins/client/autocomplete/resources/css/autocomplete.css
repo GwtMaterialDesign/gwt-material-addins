@@ -14,6 +14,10 @@ ul.multiValueSuggestBox-list {
     border-bottom: 1px solid #9e9e9e;
 }
 
+.autocomplete.disabled ul.multiValueSuggestBox-list {
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.26);
+}
+
 .gwt-SuggestBoxPopup .item {
     padding-left: 20px !important;
     padding: 12px;
@@ -57,9 +61,8 @@ ul.multiValueSuggestBox-list {
 ul.multiValueSuggestBox-list li input {
     border: 0;
     width: 200px;
-    padding: 0 8px;
     background-color: transparent;
-    margin: 2px 0;
+    margin: 0px;
     border: none !important;
 }
 
