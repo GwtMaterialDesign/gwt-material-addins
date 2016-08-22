@@ -20,12 +20,8 @@ package gwt.material.design.addins.client.cutout;
  * #L%
  */
 
-import gwt.material.design.client.base.HasCircle;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.helper.ColorHelper;
-
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -39,16 +35,18 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ScrollEvent;
-import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.helper.ColorHelper;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 //@formatter:off
+
 /**
  * MaterialCutOut is a fullscreen modal-like component to show users about new
  * features or important elements of the document.
@@ -296,7 +294,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      *
      * @throws IllegalStateException
      *             if the target element is <code>null</code>
-     * @see #setTargetElement(Element)
+     * @see #setTarget(Widget)
      */
     public void openCutOut() {
         if (targetElement == null) {
@@ -318,11 +316,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             focus.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem "+computedBackgroundColor);
             
             //the animation will take place after the boxshadow is set by the deferred command
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-                @Override
-                public void execute() {
-                    focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
-                }
+            Scheduler.get().scheduleDeferred(() -> {
+                focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+
             });
         }
         else {
@@ -391,39 +387,38 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
-    protected native void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle)/*-{
-        var rect = relativeTo.getBoundingClientRect();
+    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
+        float top = relativeTo.getOffsetTop() - body().scrollTop();
+        float left = relativeTo.getOffsetLeft();
 
-        var top = rect.top;
-        var left = rect.left;
-        var width = rect.right - rect.left;
-        var height = rect.bottom - rect.top;
-        
-        if (circle){
-            if (width != height){
-                var dif = width - height;
-                if (width > height){
+        float width = relativeTo.getOffsetWidth();
+        float height = relativeTo.getOffsetHeight();
+
+        if(circle) {
+            if(width != height) {
+                float dif = width - height;
+                if (width > height) {
                     height += dif;
-                    top -= dif/2;
+                    top -= dif / 2;
                 }
                 else {
                     dif = -dif;
                     width += dif;
-                    left -= dif/2;
+                    left -= dif / 2;
                 }
             }
+
+            top -= padding;
+            left -= padding;
+            width += padding * 2;
+            height += padding * 2;
+
+            $(cutOut).css("top", top + "px");
+            $(cutOut).css("left", left + "px");
+            $(cutOut).css("width", width + "px");
+            $(cutOut).css("height", height + "px");
         }
-
-        top -= padding;
-        left -= padding;
-        width += padding * 2;
-        height += padding * 2;
-
-        cutOut.style.top = top + 'px';
-        cutOut.style.left = left + 'px';
-        cutOut.style.width = width + 'px';
-        cutOut.style.height = height + 'px';
-    }-*/;
+    }
 
     /**
      * Configures a resize handler and a scroll handler on the window to
@@ -436,17 +431,12 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         if (scrollHandler != null){
             scrollHandler.removeHandler();
         }
-        resizeHandler = Window.addResizeHandler(new ResizeHandler() {
-            @Override
-            public void onResize(ResizeEvent event) {
-                setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-            }
+        resizeHandler = Window.addResizeHandler(event -> {
+            setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
         });
-        scrollHandler = Window.addWindowScrollHandler(new ScrollHandler() {
-            @Override
-            public void onWindowScroll(ScrollEvent event) {
-                setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-            }
+        scrollHandler = Window.addWindowScrollHandler(event -> {
+            setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
+
         });
     }
 
@@ -506,12 +496,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     @Override
     public HandlerRegistration addClickHandler(final ClickHandler handler) {
-        return addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if(isEnabled()){
-                    handler.onClick(event);
-                }
+        return addDomHandler(event -> {
+            if(isEnabled()){
+                handler.onClick(event);
             }
         }, ClickEvent.getType());
     }
