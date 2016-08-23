@@ -439,7 +439,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         icon.setIconType(iconType);
         icon.setIconPrefix(true);
         lblError.setPaddingLeft(44);
-        insert(icon, 0);
+        panel.insert(icon, 0);
     }
 
     @Override
