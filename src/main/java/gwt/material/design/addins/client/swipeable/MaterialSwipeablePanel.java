@@ -44,8 +44,10 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
+import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.jquery.client.api.Functions;
 
 /**
  * A panel that allows any of its nested children to be swiped away.
@@ -80,8 +82,10 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
 
     static {
         if(MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug());
             MaterialDesignBase.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
         } else {
+            MaterialDesignBase.injectJs(MaterialSwipeableClientBundle.INSTANCE.swipeableJs());
             MaterialDesignBase.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
         }
     }
@@ -113,78 +117,15 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
      * @param element
      * @param target
      */
-    protected native void initSwipeableElement(Element element, Widget target) /*-{
-        var that = this;
-        var swipeLeftToRight;
-        var swipeRightToLeft;
-        // Dismissible Collections
-        $wnd.jQuery(element).each(function() {
-            $wnd.jQuery(this).hammer({
-                prevent_default: false
-            }).bind('pan', function(e) {
-                if (e.gesture.pointerType === "touch") {
-                    var parent = $wnd.jQuery(this);
-                    var direction = e.gesture.direction;
-                    var x = e.gesture.deltaX;
-                    var velocityX = e.gesture.velocityX;
-
-                    parent.velocity({ translateX: x
-                    }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-
-                    // Swipe Left
-                    if (direction === 4 && (x > (parent.innerWidth() / 2) || velocityX < -0.75)) {
-                        swipeLeftToRight = true;
-                    }
-
-                    // Swipe Right
-                    if (direction === 2 && (x < (-1 * parent.innerWidth() / 2) || velocityX > 0.75)) {
-                        swipeRightToLeft = true;
-                    }
-                }
-            }).bind('panend', function(e) {
-                // Reset if collection is moved back into original position
-                if (Math.abs(e.gesture.deltaX) < ($wnd.jQuery(this).innerWidth() / 2)) {
-                    swipeRightToLeft = false;
-                    swipeLeftToRight = false;
-                }
-
-                if (e.gesture.pointerType === "touch") {
-                    var parent = $wnd.jQuery(this);
-                    if (swipeLeftToRight || swipeRightToLeft) {
-                        var fullWidth;
-                        if (swipeLeftToRight) {
-                            fullWidth = parent.innerWidth();
-                            that.@gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel::fireSwipeRightEvent(*)(target);
-                        }
-                        else {
-                            fullWidth = -1 * parent.innerWidth();
-                            that.@gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel::fireSwipeLeftEvent(*)(target);
-                        }
-
-                        parent.velocity({ translateX: fullWidth,
-                        }, {duration: 100, queue: false, easing: 'easeOutQuad', complete:
-                            function() {
-                                parent.css('border', 'none');
-                                parent.velocity({ height: 0, padding: 0,
-                                }, {duration: 200, queue: false, easing: 'easeOutQuad', complete:
-                                    function() {
-                                        parent.remove();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    else {
-                        parent.velocity({ translateX: 0,
-                        }, {duration: 100, queue: false, easing: 'easeOutQuad'});
-                    }
-                    swipeLeftToRight = false;
-                    swipeRightToLeft = false;
-                }
-            });
-
-        });
-    }-*/;
+    protected void initSwipeableElement(Element element, Widget target) {
+        Functions.Func leftCallback = () -> {
+           fireSwipeLeftEvent(target);
+        };
+        Functions.Func rightCallback = () -> {
+            fireSwipeRightEvent(target);
+        };
+        JsSwipeable.initSwipeablePanel(element, leftCallback, rightCallback);
+    }
 
     @Override
     public HandlerRegistration addSwipeLeft(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {

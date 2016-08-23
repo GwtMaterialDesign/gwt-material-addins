@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.swipeable;
+package gwt.material.design.addins.client.swipeable.js;
 
 /*
  * #%L
@@ -21,21 +21,20 @@ package gwt.material.design.addins.client.swipeable;
  */
 
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.JQueryElement;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 
 /**
- * Client Bundle for Swipeable component
- * @author kevzlou7979
+ * Created by Mark Kevin on 8/23/2016.
  */
-interface MaterialSwipeableClientBundle extends ClientBundle {
+@JsType(isNative = true)
+public class JsSwipeable extends JQueryElement {
 
-    MaterialSwipeableClientBundle INSTANCE = GWT.create(MaterialSwipeableClientBundle.class);
-
-    @Source("resources/css/swipeable.min.css")
-    TextResource swipeableCss();
-
-    @Source("resources/js/swipeable.min.js")
-    TextResource swipeableJs();
+    @JsMethod(namespace = JsPackage.GLOBAL)
+    public static native void initSwipeablePanel(Element element, Functions.Func leftCallback, Functions.Func rightCallback);
 }

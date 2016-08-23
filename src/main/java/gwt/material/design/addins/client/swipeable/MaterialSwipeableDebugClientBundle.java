@@ -35,4 +35,7 @@ interface MaterialSwipeableDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/swipeable.css")
     TextResource swipeableCssDebug();
+
+    @Source("resources/js/swipeable.js")
+    TextResource swipeableJsDebug();
 }
