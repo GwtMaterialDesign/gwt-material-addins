@@ -291,12 +291,9 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
     @Override
     public HandlerRegistration addCameraCaptureHandler(final CameraCaptureHandler handler) {
-        return addHandler(new CameraCaptureHandler() {
-            @Override
-            public void onCameraCaptureChange(CameraCaptureEvent event) {
-                if(isEnabled()){
-                    handler.onCameraCaptureChange(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onCameraCaptureChange(event);
             }
         }, CameraCaptureEvent.getType());
     }
