@@ -2,6 +2,7 @@ package gwt.material.design.addins.client.timepicker;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
@@ -10,14 +11,11 @@ import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.HasError;
-import gwt.material.design.client.base.HasOrientation;
-import gwt.material.design.client.base.HasPlaceholder;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
-import gwt.material.design.client.constants.InputType;
-import gwt.material.design.client.constants.Orientation;
+import gwt.material.design.client.constants.*;
+import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialInput;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -69,7 +67,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  */
 //@formatter:on
 public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date> {
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date>, HasIcon {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -94,6 +92,8 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     private Date time;
 
     private Label label = new Label();
+
+    private MaterialIcon icon = new MaterialIcon();
 
     /** */
     private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, "valid");
@@ -421,5 +421,48 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     protected void setValue(Element e, String time) {
         $(e).val(time);
+    }
+
+    @Override
+    public MaterialIcon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public void setIconType(IconType iconType) {
+        icon.setIconType(iconType);
+        icon.setIconPrefix(true);
+        lblError.setPaddingLeft(44);
+        panel.insert(icon, 0);
+    }
+
+    @Override
+    public void setIconPosition(IconPosition position) {
+        icon.setIconPosition(position);
+    }
+
+    @Override
+    public void setIconSize(IconSize size) {
+        icon.setIconSize(size);
+    }
+
+    @Override
+    public void setIconFontSize(double size, Style.Unit unit) {
+        icon.setIconFontSize(size, unit);
+    }
+
+    @Override
+    public void setIconColor(String iconColor) {
+        icon.setIconColor(iconColor);
+    }
+
+    @Override
+    public void setIconPrefix(boolean prefix) {
+        icon.setIconPrefix(prefix);
+    }
+
+    @Override
+    public boolean isIconPrefix() {
+        return icon.isIconPrefix();
     }
 }
