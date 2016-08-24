@@ -65,11 +65,10 @@ public class MaterialPathAnimator {
      * Default animate method using Opacity Transition.
      */
     public static void animate(Element source, final Element target) {
-        Runnable defaultCallback = () -> {
+        animate(source, target, () -> {
             target.getStyle().setVisibility(Style.Visibility.VISIBLE);
             target.getStyle().setOpacity(1);
-        };
-        animate(source, target, defaultCallback);
+        });
     }
 
     /**
@@ -89,11 +88,10 @@ public class MaterialPathAnimator {
      * Default Reverse animate method to return to original state of Source component.
      */
     public static void reverseAnimate(final Element source, final Element target) {
-        Runnable defaultCallback = () -> {
+        reverseAnimate(source,target, () -> {
             target.getStyle().setVisibility(Style.Visibility.HIDDEN);
             target.getStyle().setOpacity(0);
-        };
-        reverseAnimate(source,target, defaultCallback);
+        });
     }
 
     /**

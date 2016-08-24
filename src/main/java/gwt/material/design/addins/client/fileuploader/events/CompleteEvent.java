@@ -42,7 +42,7 @@ public class CompleteEvent<T> extends GwtEvent<CompleteEvent.CompleteHandler<T>>
     }
 
     public static Type<CompleteHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<CompleteHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

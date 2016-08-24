@@ -26,7 +26,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Created by Mark Kevin on 8/14/2016.
+ * @author Mark Kevin
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsDropOptions {

@@ -20,7 +20,6 @@ package gwt.material.design.addins.client.fileuploader;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -35,7 +34,6 @@ public class MaterialUploadPreview extends MaterialWidget {
         add(uploadHeader);
         add(uploadCollection);
     }
-
 
     public MaterialUploadCollection getUploadCollection() {
         return uploadCollection;

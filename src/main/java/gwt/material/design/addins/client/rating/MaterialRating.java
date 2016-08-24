@@ -246,6 +246,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
             icon.setIconType(selectedRatingIcon);
             icon.addStyleName("material-rating-selected");
         }
+
         for (int i = rating; i < iconList.size(); i++) {
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(unselectedRatingIcon);

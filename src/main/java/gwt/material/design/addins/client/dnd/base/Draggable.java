@@ -31,23 +31,20 @@ import gwt.material.design.client.base.MaterialWidget;
  * Drag Events and properties
  * @author kevzlou7979
  */
-public interface HasDraggable {
+public interface Draggable {
 
     /**
      * Sets the target widget to apply draggable feature
-     * @param target
      */
     void setTarget(MaterialWidget target);
 
     /**
      * Gets the draggable target
-     * @return
      */
     MaterialWidget getTarget();
 
     /**
      * Sets the ignoreFrom widget to exclude from dragging
-     * @param ignoreFrom
      */
     void setIgnoreFrom(MaterialWidget ignoreFrom);
 
@@ -59,13 +56,11 @@ public interface HasDraggable {
 
     /**
      * Gets the ignoreFrom widget
-     * @return
      */
     MaterialWidget isIgnoreFrom();
 
     /**
      * Sets the restriction properties of dnd feature
-     * @param restriction
      * @see <a href="http://interactjs.io/docs/restriction/#restrict">Documentation</a>
      */
     void setRestriction(Restriction restriction);

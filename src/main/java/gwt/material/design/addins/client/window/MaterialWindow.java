@@ -20,13 +20,9 @@ package gwt.material.design.addins.client.window;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -78,7 +74,7 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
-public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>{
+public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -96,31 +92,32 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
     private MaterialLink link = new MaterialLink();
+
     private String title = "";
     private String toolbarColor;
 
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
     private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(window, "maximize");
     private final ToggleStyleMixin<MaterialWindow> closeMixin = new ToggleStyleMixin<>(this, "open");
-    private boolean maximize = true;
+
     private boolean open = false;
 
     private MaterialAnimation openAnimation;
     private MaterialAnimation closeAnimation;
-
 
     public MaterialWindow() {
         super(Document.get().createDivElement(), "window-overlay");
         window.setStyleName("window");
         content.setStyleName("content");
         super.add(window);
-        initWindow();
+
+        initialize();
     }
 
     /**
      * Builds the toolbar
      */
-    protected void initWindow() {
+    protected void initialize() {
         toolbar.setStyleName("window-toolbar");
         link.setStyleName("window-title");
         iconClose.addStyleName("window-action");
@@ -144,10 +141,10 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
             toggleMaximize();
         });
         iconClose.addClickHandler(event -> {
-            if(open){
+            if(open) {
                 openWindow();
                 open = false;
-            }else{
+            } else {
                 closeWindow();
                 open = true;
             }
@@ -160,14 +157,8 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
     }
 
-    protected void toggleMaximize(){
-        if (maximize) {
-            setMaximize(true);
-            maximize = false;
-        } else {
-            setMaximize(false);
-            maximize = true;
-        }
+    protected void toggleMaximize() {
+        setMaximize(!isMaximized());
     }
 
     @Override
@@ -186,15 +177,15 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         link.setText(title);
     }
 
-    public boolean isMaximize() {
+    public boolean isMaximized() {
         return maximizeMixin.isOn();
     }
 
     public void setMaximize(boolean maximize) {
         maximizeMixin.setOn(maximize);
-        if(maximizeMixin.isOn()){
+        if(maximizeMixin.isOn()) {
             iconMaximize.setIconType(IconType.FILTER_NONE);
-        }else{
+        } else {
             iconMaximize.setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
         }
     }
@@ -203,10 +194,10 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Open the window
      */
     public void openWindow() {
-        if (!this.isAttached()) {
+        if (!isAttached()) {
             RootPanel.get().add(this);
         }
-        this.open = false;
+        open = false;
         OpenEvent.fire(this, true);
         if (openAnimation != null) {
             openAnimation.animate(window);
@@ -218,7 +209,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Close the window
      */
     public void closeWindow() {
-        this.open = true;
+        open = true;
         CloseEvent.fire(this, false);
         if (closeAnimation == null) {
             closeMixin.setOn(false);
@@ -251,7 +242,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         return addHandler(new CloseHandler<Boolean>() {
             @Override
             public void onClose(CloseEvent<Boolean> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onClose(event);
                 }
             }
@@ -263,7 +254,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         return addHandler(new OpenHandler<Boolean>() {
             @Override
             public void onOpen(OpenEvent<Boolean> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onOpen(event);
                 }
             }

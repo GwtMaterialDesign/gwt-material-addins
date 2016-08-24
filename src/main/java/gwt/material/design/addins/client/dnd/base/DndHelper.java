@@ -24,7 +24,7 @@ package gwt.material.design.addins.client.dnd.base;
 import gwt.material.design.jquery.client.api.Event;
 
 /**
- * Created by Mark Kevin on 8/13/2016.
+ * @author Mark Kevin
  */
 public class DndHelper {
 

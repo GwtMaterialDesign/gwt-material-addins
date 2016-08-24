@@ -50,7 +50,7 @@ import gwt.material.design.client.base.AbstractIconButton;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialSubHeader extends AbstractIconButton{
+public class MaterialSubHeader extends AbstractIconButton {
 
     private static boolean resourcesLoaded = false;
     static {

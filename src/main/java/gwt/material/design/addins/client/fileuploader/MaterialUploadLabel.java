@@ -20,11 +20,10 @@ package gwt.material.design.addins.client.fileuploader;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.fileuploader.base.mixin.TitleMixin;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.mixin.TitleMixin;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 

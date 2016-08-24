@@ -79,14 +79,14 @@ public class MaterialAvatar extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
+
         if(getName() != null) {
             initialize();
         }
     }
 
     /**
-     * Get the name of the avatar
-     * @return
+     * Get the name of the avatar.
      */
     public String getName() {
         return name;
@@ -94,8 +94,7 @@ public class MaterialAvatar extends MaterialWidget {
 
     /**
      * Set the name of the avatar and hashed it using md5 js library to
-     * pass it into jdenticon avatar process
-     * @param name
+     * pass it into jdenticon avatar process.
      */
     public void setName(String name) {
         this.name = name;
@@ -112,9 +111,7 @@ public class MaterialAvatar extends MaterialWidget {
     }
 
     /**
-     * Generate hash code - needed by jdenticon to generate avatar
-     * @param value
-     * @return
+     * Generate hash code - needed by jdenticon to generate avatar.
      */
     protected String generateHashCode(String value) {
         return JsAvatar.md5(value);

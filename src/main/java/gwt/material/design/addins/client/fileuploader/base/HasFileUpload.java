@@ -29,141 +29,95 @@ import gwt.material.design.addins.client.fileuploader.events.*;
 public interface HasFileUpload<T> extends HasHandlers {
 
     /**
-     * The user dropped something onto the dropzone
-     * @param handler
+     * The user dropped something onto the dropzone.
      */
     HandlerRegistration addDropHandler(DropEvent.DropHandler handler);
 
-    void fireDropEvent();
-
     /**
-     * The user started to drag anywhere
-     * @param handler
+     * The user started to drag anywhere.
      */
     HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler);
 
-    void fireDragStartEvent();
-
     /**
-     * Dragging has ended
-     * @param handler
+     * Dragging has ended.
      */
     HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler);
 
-    void fireDragEndEvent();
-
     /**
-     * The user dragged a file onto the Dropzone
-     * @param handler
+     * The user dragged a file onto the Dropzone.
      */
     HandlerRegistration addDragEnterHandler(DragEnterEvent.DragEnterHandler handler);
 
-    void fireDragEnterEvent();
-
     /**
-     * The user is dragging a file over the Dropzone
-     * @param handler
+     * The user is dragging a file over the Dropzone.
      */
     HandlerRegistration addDragOverHandler(DragOverEvent.DragOverHandler handler);
 
-    void fireDragOverEvent();
-
     /**
-     * The user is dragging a file over the Dropzone
-     * @param handler
+     * The user is dragging a file over the Dropzone.
      */
     HandlerRegistration addDragLeaveHandler(DragLeaveEvent.DragLeaveHandler handler);
 
-    void fireDragLeaveEvent();
-
     /**
-     * When a file is added to the list
-     * @param handler
+     * When a file is added to the list.
      */
     HandlerRegistration addAddedFileHandler(AddedFileEvent.AddedFileHandler<T> handler);
 
-    void fireAddedFileEvent(String fileName, String lastModified, String size, String type);
-
     /**
-     * Called whenever a file is removed from the list. You can listen to this and delete the file from your server if you want to.
-     * @param handler
+     * Called whenever a file is removed from the list.
+     * You can listen to this and delete the file from your server if you want to.
      */
     HandlerRegistration addRemovedFileHandler(RemovedFileEvent.RemovedFileHandler<T> handler);
 
-    void fireRemovedFileEvent(String fileName, String lastModified, String size, String type);
-
     /**
-     * An error occured. Receives the errorMessage as second parameter and if the error was due to the XMLHttpRequest the xhr object as third.
-     * @param handler
+     * An error occured. Receives the errorMessage as second parameter and if
+     * the error was due to the XMLHttpRequest the xhr object as third.
      */
     HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler<T> handler);
 
-    void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
     /**
      * An unauthorized error occured. Probably because of session expiration.
      * Receives the errorMessage as second parameter and if the error was due to
      * the XMLHttpRequest the xhr object as third.
-     *
-     * @param handler
      */
     HandlerRegistration addUnauthorizedHandler(UnauthorizedEvent.UnauthorizedHandler<T> handler);
 
-    void fireUnauthorizedEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
-
     /**
-     * Called with the total uploadProgress (0-100). This event can be used to show the overall upload progress of all files.
-     * @param handler
-     * @return
+     * Called with the total uploadProgress (0-100). This event can be used
+     * to show the overall upload progress of all files.
      */
     HandlerRegistration addTotalUploadProgressHandler(TotalUploadProgressEvent.TotalUploadProgressHandler handler);
 
-    void fireTotalUploadProgressEvent(double progress);
-
     /**
-     * Called just before each file is sent. Gets the xhr object and the formData objects as second and third parameters, so you can modify them (for example to add a CSRF token) or add additional data.
-     * @param handler
+     * Called just before each file is sent.
+     * Gets the xhr object and the formData objects as second and third parameters,
+     * so you can modify them (for example to add a CSRF token) or add additional data.
      */
     HandlerRegistration addSendingHandler(SendingEvent.SendingHandler<T> handler);
 
-    void fireSendingEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
-
     /**
-     * The file has been uploaded successfully. Gets the server response as second argument. (This event was called finished previously)
-     * @param handler
+     * The file has been uploaded successfully.
+     * Gets the server response as second argument.(This event was called finished previously).
      */
     HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler<T> handler);
 
-    void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
-
     /**
      * Called when the upload was either successful or erroneous.
-     * @param handler
      */
     HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler<T> handler);
 
-    void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
-
     /**
      * Called when a file upload gets canceled.
-     * @param handler
      */
     HandlerRegistration addCancelHandler(CanceledEvent.CanceledHandler<T> handler);
 
-    void fireCancelEvent(String fileName, String lastModified, String size, String type);
-
     /**
      * Called when the number of files accepted reaches the maxFiles limit.
-     * @param handler
      */
     HandlerRegistration addMaxFilesReachHandler(MaxFilesReachedEvent.MaxFilesReachedHandler<T> handler);
 
-    void fireMaxFilesReachEvent(String fileName, String lastModified, String size, String type);
-
     /**
      * Called for each file that has been rejected because the number of files exceeds the maxFiles limit.
-     * @param handler
      */
     HandlerRegistration addMaxFilesExceededHandler(MaxFilesExceededEvent.MaxFilesExceededHandler<T> handler);
-
-    void fireMaxFilesExceededEvent(String fileName, String lastModified, String size, String type);
 }

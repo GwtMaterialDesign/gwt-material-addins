@@ -43,7 +43,7 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public class CameraCaptureEvent extends GwtEvent<CameraCaptureHandler> {
 
-    private static Type<CameraCaptureHandler> TYPE = new Type<CameraCaptureHandler>();
+    private static Type<CameraCaptureHandler> TYPE = new Type<>();
 
     public enum CaptureStatus {
         STARTED, PAUSED, ERRORED;

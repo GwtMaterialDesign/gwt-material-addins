@@ -34,6 +34,7 @@ import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
+import gwt.material.design.addins.client.fileuploader.events.DragLeaveEvent.DragLeaveHandler;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
@@ -76,17 +77,29 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }
     }
 
-    private String url; // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
-    private int maxFileSize = 20; // 20MB by default for max file size
-    private boolean autoQueue = true;
-    private FileMethod method = FileMethod.POST; // Defaults to "post" and can be changed to "put" if necessary.
-    private int maxFiles = 100; // If the number of files you upload exceeds, the event maxfilesexceeded will be called. By default it's 100 files.
-    private String acceptedFiles = ""; // The default implementation of accept checks the file's mime type or extension against this list. This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
+    // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
+    private String url;
+
+    // 20MB by default for max file size
+    private int maxFileSize = 20;
+
+    // Defaults to "post" and can be changed to "put" if necessary.
+    private FileMethod method = FileMethod.POST;
+
+    // If the number of files you upload exceeds, the event maxfilesexceeded will be called. By default it's 100 files.
+    private int maxFiles = 100;
+
+    // The default implementation of accept checks the file's mime type or extension against this list. This is a
+    // comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
+    private String acceptedFiles = "";
+
     private String clickable = "";
-    private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
+    private boolean autoQueue = true;
     private boolean preview = true;
     private boolean initialize = false;
     private boolean withCredentials = false;
+
+    private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), "fileuploader");
@@ -97,15 +110,11 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     @Override
     protected void onLoad() {
         super.onLoad();
+
         if(!isInitialize()) {
             initDropzone();
             setInitialize(true);
         }
-    }
-
-    @Override
-    public void add(Widget child) {
-        super.add(child);
     }
 
     public void initDropzone() {
@@ -121,24 +130,40 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             }
             setClickable(clickable);
         }
+
         if(!isPreview()){
             uploadPreview.setDisplay(Display.NONE);
         }
-        initDropzone(getElement(), uploadPreview.getUploadCollection().getItem().getElement(), previews, uploadPreview.getElement(),uploadPreview.getUploadHeader().getUploadedFiles().getElement(), getUrl(), getMaxFileSize(), getMaxFiles(), getMethod().getCssName(), isAutoQueue(), getAcceptedFiles(), getClickable(), preview, isWithCredentials());
+
+        initDropzone(getElement(),
+            uploadPreview.getUploadCollection().getItem().getElement(),
+            previews,
+            uploadPreview.getElement(),
+            uploadPreview.getUploadHeader().getUploadedFiles().getElement(),
+            getUrl(),
+            getMaxFileSize(),
+            getMaxFiles(),
+            getMethod().getCssName(),
+            isAutoQueue(),
+            getAcceptedFiles(),
+            getClickable(),
+            preview,
+            isWithCredentials());
     }
 
     /**
      * Intialize the dropzone component with element and form url to provide a
-     * dnd feature for the file upload
-     * @param e
-     * @param url
+     * dnd feature for the file upload.
      */
-    protected native void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable,boolean preview,boolean withCredentials) /*-{
+    protected native void initDropzone(Element e, Element template, String previews, Element uploadPreview,
+                                       Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method,
+                                       boolean autoQueue, String acceptedFiles, String clickable,boolean preview,
+                                       boolean withCredentials) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
             var previewNode = $wnd.jQuery(template);
-            var previewContainer = $wnd.jQuery("#" + previews).html();
             previewNode.id = "";
+            var previewContainer = $wnd.jQuery("#" + previews).html();
             var previewTemplate = previewNode.parent().html();
             var globalResponse = "";
 
@@ -261,64 +286,56 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }-*/;
 
     /**
-     * Get the form url
-     * @return
+     * Get the form url.
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     * Set the form url e.g /file/post
-     * @param url
+     * Set the form url e.g /file/post.
      */
     public void setUrl(String url) {
         this.url = url;
     }
 
     /**
-     * Get the maximum file size value of the uploader
-     * @return
+     * Get the maximum file size value of the uploader.
      */
     public int getMaxFileSize() {
         return maxFileSize;
     }
 
     /**
-     * Set the maximum file size of the uploader
-     * @param maxFileSize
+     * Set the maximum file size of the uploader.
      */
     public void setMaxFileSize(int maxFileSize) {
         this.maxFileSize = maxFileSize;
     }
 
     /**
-     * Check whether it's auto queue or not
-     * @return
+     * Check whether it's auto queue or not.
      */
     public boolean isAutoQueue() {
         return autoQueue;
     }
 
     /**
-     * Set the auto queue boolean value
-     * @param autoQueue
+     * Set the auto queue boolean value.
      */
     public void setAutoQueue(boolean autoQueue) {
         this.autoQueue = autoQueue;
     }
 
     /**
-     * Get the method param of file uploader
-     * @return
+     * Get the method param of file uploader.
      */
     public FileMethod getMethod() {
         return method;
     }
 
     /**
-     * Set the method param of file upload (POST or PUT)
-     * @param method
+     * Set the method param of file upload (POST or PUT).
      */
     public void setMethod(FileMethod method) {
         this.method = method;
@@ -326,49 +343,43 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     /**
      * Get the max number of files.
-     * @return
      */
     public int getMaxFiles() {
         return maxFiles;
     }
 
     /**
-     * Check whether it's withCredentials or not
-     * @return
+     * Check whether it's withCredentials or not.
      */
     public boolean isWithCredentials() {
         return withCredentials;
     }
 
     /**
-     * Set the withCredentials boolean value
-     * @param withCredentials
+     * Set the withCredentials boolean value.
      */
     public void setWithCredentials(boolean withCredentials) {
         this.withCredentials = withCredentials;
     }
 
-
     /**
      * Set the max number of files, by default it's 100 but if you want to accept only one file just
-     * set the max file to 1
-     * @param maxFiles
+     * set the max file to 1.
      */
     public void setMaxFiles(int maxFiles) {
         this.maxFiles = maxFiles;
     }
 
     /**
-     * Get the accepted file string
-     * @return
+     * Get the accepted file string.
      */
     public String getAcceptedFiles() {
         return acceptedFiles;
     }
 
     /**
-     * Set the default implementation of accept checks the file's mime type or extension against this list. This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
-     * @param acceptedFiles
+     * Set the default implementation of accept checks the file's mime type or extension against this list.
+     * This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd.
      */
     public void setAcceptedFiles(String acceptedFiles) {
         this.acceptedFiles = acceptedFiles;
@@ -376,102 +387,78 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     @Override
     public HandlerRegistration addDropHandler(final DropEvent.DropHandler handler) {
-        return addHandler(new DropEvent.DropHandler() {
-            @Override
-            public void onDrop(DropEvent event) {
-                if(isEnabled()){
-                    handler.onDrop(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDrop(event);
             }
         }, DropEvent.TYPE);
     }
 
-    @Override
     public void fireDropEvent() {
         DropEvent.fire(this);
     }
 
     @Override
     public HandlerRegistration addDragStartHandler(final DragStartEvent.DragStartHandler handler) {
-        return addHandler(new DragStartEvent.DragStartHandler() {
-            @Override
-            public void onDragStart(DragStartEvent event) {
-                if(isEnabled()){
-                    handler.onDragStart(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragStart(event);
             }
         }, DragStartEvent.TYPE);
     }
 
-    @Override
     public void fireDragStartEvent() {
         DragStartEvent.fire(this);
     }
 
     @Override
     public HandlerRegistration addDragEndHandler(final DragEndEvent.DragEndHandler handler) {
-        return addHandler(new DragEndEvent.DragEndHandler() {
-            @Override
-            public void onDragEnd(DragEndEvent event) {
-                if(isEnabled()){
-                    handler.onDragEnd(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragEnd(event);
             }
         }, DragEndEvent.TYPE);
     }
 
-    @Override
     public void fireDragEndEvent() {
         DragEndEvent.fire(this);
     }
 
     @Override
     public HandlerRegistration addDragEnterHandler(final DragEnterEvent.DragEnterHandler handler) {
-        return addHandler(new DragEnterEvent.DragEnterHandler() {
-            @Override
-            public void onDragEnter(DragEnterEvent event) {
-                if(isEnabled()){
-                    handler.onDragEnter(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragEnter(event);
             }
         }, DragEnterEvent.TYPE);
     }
 
-    @Override
     public void fireDragEnterEvent() {
         DragEnterEvent.fire(this);
     }
 
     @Override
     public HandlerRegistration addDragOverHandler(final DragOverEvent.DragOverHandler handler) {
-        return addHandler(new DragOverEvent.DragOverHandler() {
-            @Override
-            public void onDragOver(DragOverEvent event) {
-                if(isEnabled()){
-                    handler.onDragOver(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragOver(event);
             }
         }, DragOverEvent.TYPE);
     }
 
-    @Override
     public void fireDragOverEvent() {
         DragOverEvent.fire(this);
     }
 
     @Override
-    public HandlerRegistration addDragLeaveHandler(final DragLeaveEvent.DragLeaveHandler handler) {
-        return addHandler(new DragLeaveEvent.DragLeaveHandler() {
-            @Override
-            public void onDragLeave(DragLeaveEvent event) {
-                if(isEnabled()){
-                    handler.onDragLeave(event);
-                }
+    public HandlerRegistration addDragLeaveHandler(final DragLeaveHandler handler) {
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onDragLeave(event);
             }
         }, DragLeaveEvent.TYPE);
     }
 
-    @Override
     public void fireDragLeaveEvent() {
         DragLeaveEvent.fire(this);
     }
@@ -488,7 +475,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, AddedFileEvent.getType());
     }
 
-    @Override
     public void fireAddedFileEvent(String fileName, String lastModified, String size, String type) {
         AddedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
@@ -505,7 +491,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, RemovedFileEvent.getType());
     }
 
-    @Override
     public void fireRemovedFileEvent(String fileName, String lastModified, String size, String type) {
         RemovedFileEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
@@ -522,7 +507,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, ErrorEvent.getType());
     }
 
-    @Override
     public void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
         ErrorEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
     }
@@ -539,24 +523,19 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, UnauthorizedEvent.getType());
     }
 
-    @Override
     public void fireUnauthorizedEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
         UnauthorizedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
     }
 
     @Override
     public HandlerRegistration addTotalUploadProgressHandler(final TotalUploadProgressEvent.TotalUploadProgressHandler handler) {
-        return addHandler(new TotalUploadProgressEvent.TotalUploadProgressHandler() {
-            @Override
-            public void onTotalUploadProgress(TotalUploadProgressEvent event) {
-                if(isEnabled()){
-                    handler.onTotalUploadProgress(event);
-                }
+        return addHandler(event -> {
+            if(isEnabled()){
+                handler.onTotalUploadProgress(event);
             }
         }, TotalUploadProgressEvent.TYPE);
     }
 
-    @Override
     public void fireTotalUploadProgressEvent(double progress) {
         TotalUploadProgressEvent.fire(this, progress);
     }
@@ -573,7 +552,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, SendingEvent.getType());
     }
 
-    @Override
     public void fireSendingEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage) {
         SendingEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage));
     }
@@ -590,7 +568,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, SuccessEvent.getType());
     }
 
-    @Override
     public void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
         SuccessEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
     }
@@ -607,7 +584,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, CompleteEvent.getType());
     }
 
-    @Override
     public void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody) {
         CompleteEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type), new UploadResponse(responseCode, responseMessage, responseBody));
     }
@@ -624,7 +600,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, CanceledEvent.getType());
     }
 
-    @Override
     public void fireCancelEvent(String fileName, String lastModified, String size, String type) {
         CanceledEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
@@ -641,7 +616,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }, MaxFilesReachedEvent.getType());
     }
 
-    @Override
     public void fireMaxFilesReachEvent(String fileName, String lastModified, String size, String type) {
         MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
@@ -666,7 +640,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         this.clickable = clickable;
     }
 
-    @Override
     public void fireMaxFilesExceededEvent(String fileName, String lastModified, String size, String type) {
         MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
@@ -680,16 +653,14 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     /**
-     * Check wether the component has been initialized
-     * @return
+     * Check whether the component has been initialized.
      */
     public boolean isInitialize() {
         return initialize;
     }
 
     /**
-     * Set the initialization of the component
-     * @param initialize
+     * Set the initialization of the component.
      */
     public void setInitialize(boolean initialize) {
         this.initialize = initialize;

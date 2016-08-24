@@ -41,7 +41,7 @@ public class CanceledEvent<T> extends GwtEvent<CanceledEvent.CanceledHandler<T>>
     }
 
     public static Type<CanceledHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<CanceledHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

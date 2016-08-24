@@ -487,20 +487,14 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         return addHandler(new CloseHandler<MaterialCutOut>() {
             @Override
             public void onClose(CloseEvent<MaterialCutOut> event) {
-                if(isEnabled()){
-                    handler.onClose(event);
-                }
+                handler.onClose(event);
             }
         }, CloseEvent.getType());
     }
 
     @Override
     public HandlerRegistration addClickHandler(final ClickHandler handler) {
-        return addDomHandler(event -> {
-            if(isEnabled()){
-                handler.onClick(event);
-            }
-        }, ClickEvent.getType());
+        return addDomHandler(event -> handler.onClick(event), ClickEvent.getType());
     }
 
 }

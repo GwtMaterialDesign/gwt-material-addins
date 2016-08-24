@@ -20,14 +20,13 @@ package gwt.material.design.addins.client.dnd;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.base.DndHelper;
-import gwt.material.design.addins.client.dnd.base.HasDraggable;
-import gwt.material.design.addins.client.dnd.base.HasDrop;
+import gwt.material.design.addins.client.dnd.base.Draggable;
+import gwt.material.design.addins.client.dnd.base.Droppable;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.events.*;
 import gwt.material.design.addins.client.dnd.js.*;
@@ -59,7 +58,7 @@ import gwt.material.design.client.constants.Axis;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#dnd">Drag and Drop</a>
  */
 //@formatter:on
-public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop {
+public class MaterialDnd extends MaterialWidget implements Draggable, Droppable {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -67,7 +66,6 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
         } else {
             MaterialDesignBase.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
         }
-
     }
 
     private JsDragOptions draggableOptions;
@@ -100,44 +98,47 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
 
     /**
      * Initialize the draggable widget and it's properties
-     * @param target
      */
-    protected void initDraggable(Element target, boolean inertia, Axis axis, String restriction, boolean endOnly,
-                                 double top, double left, double bottom, double right) {
+    protected void initDraggable() {
+        Element element = target.getElement();
+
         JsDragOptions options = new JsDragOptions();
-        options.inertia = inertia;
-        if(axis == Axis.HORIZONTAL) {
+        options.inertia = isInertia();
+        if(getAxis() == Axis.HORIZONTAL) {
             options.axis = "x";
-        }else {
+        } else {
             options.axis = "x";
         }
+
         // Restrict Options
         JsDragRestrictions restrict = new JsDragRestrictions();
-        restrict.restriction = restriction;
-        restrict.endOnly = endOnly;
+        restrict.restriction = restriction.getRestriction().getValue();
+        restrict.endOnly = restriction.isEndOnly();
+
         // Element Rec Options
         JsDragElementRec elementRect = new JsDragElementRec();
-        elementRect.top = top;
-        elementRect.left = left;
-        elementRect.bottom = bottom;
-        elementRect.right = right;
+        elementRect.top = restriction.getTop();
+        elementRect.left = restriction.getLeft();
+        elementRect.bottom = restriction.getBottom();
+        elementRect.right = restriction.getRight();
         restrict.elementRect  = elementRect;
         options.restrict = restrict;
+
         // Events
-        JsDnd.interact(target).off("dragmove");
-        JsDnd.interact(target).on("dragmove", (event, o) -> {
+        JsDnd jsDnd = JsDnd.interact(element);
+        jsDnd.off("dragmove");
+        jsDnd.on("dragmove", (event, o) -> {
             DndHelper.initMove(event);
             DragMoveEvent.fire(MaterialDnd.this);
             return true;
         });
-
-        JsDnd.interact(target).off("dragstart");
-        JsDnd.interact(target).on("dragstart", (event, o) -> {
+        jsDnd.off("dragstart");
+        jsDnd.on("dragstart", (event, o) -> {
             DragStartEvent.fire(MaterialDnd.this);
             return true;
         });
-        JsDnd.interact(target).off("dragend");
-        JsDnd.interact(target).on("dragend", (event, o) -> {
+        jsDnd.off("dragend");
+        jsDnd.on("dragend", (event, o) -> {
             DragEndEvent.fire(MaterialDnd.this);
             return true;
         });
@@ -149,14 +150,12 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
         if(!target.isAttached()) {
             target.addAttachHandler(event -> {
                 if(event.isAttached()) {
-                    initDraggable(target.getElement(), isInertia(), getAxis(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
-                            restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
+                    initDraggable();
                     JsDnd.interact(getTarget().getElement()).draggable(draggableOptions);
                 }
-            });
+            }, true);
         } else {
-            initDraggable(target.getElement(), isInertia(), getAxis(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
-                    restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
+            initDraggable();
             JsDnd.interact(getTarget().getElement()).draggable(draggableOptions);
         }
     }
@@ -169,7 +168,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
                     initDropzone(getAcceptSelector(), getOverlap());
                     JsDnd.interact(target.getElement()).dropzone(dropOptions);
                 }
-            });
+            }, true);
         } else {
             initDropzone(getAcceptSelector(), getOverlap());
             JsDnd.interact(target.getElement()).dropzone(dropOptions);
@@ -181,32 +180,34 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
         options.accept = "." + accept;
         options.overlap = overlap;
 
-        JsDnd.interact(target.getElement()).off("dropactivate");
-        JsDnd.interact(target.getElement()).on("dropactivate", (event, o) -> {
+        JsDnd jsDnd = JsDnd.interact(target.getElement());
+
+        jsDnd.off("dropactivate");
+        jsDnd.on("dropactivate", (event, o) -> {
             DropActivateEvent.fire(MaterialDnd.this);
             return true;
         });
 
-        JsDnd.interact(target.getElement()).off("dragenter");
-        JsDnd.interact(target.getElement()).on("dragenter", (event, o) -> {
+        jsDnd.off("dragenter");
+        jsDnd.on("dragenter", (event, o) -> {
             DragEnterEvent.fire(MaterialDnd.this, event.getRelatedTarget());
             return true;
         });
 
-        JsDnd.interact(target.getElement()).off("dragleave");
-        JsDnd.interact(target.getElement()).on("dragleave", (event, o) -> {
+        jsDnd.off("dragleave");
+        jsDnd.on("dragleave", (event, o) -> {
             DragLeaveEvent.fire(MaterialDnd.this, event.getRelatedTarget());
             return true;
         });
 
-        JsDnd.interact(target.getElement()).off("drop");
-        JsDnd.interact(target.getElement()).on("drop", (event, o) -> {
+        jsDnd.off("drop");
+        jsDnd.on("drop", (event, o) -> {
             DropEvent.fire(MaterialDnd.this, event.getRelatedTarget());
             return true;
         });
 
-        JsDnd.interact(target.getElement()).off("dropdeactivate");
-        JsDnd.interact(target.getElement()).on("dropdeactivate", (event, o) -> {
+        jsDnd.off("dropdeactivate");
+        jsDnd.on("dropdeactivate", (event, o) -> {
             DropDeactivateEvent.fire(MaterialDnd.this);
             return true;
         });
@@ -227,18 +228,18 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable, HasDrop
                 if(event.isAttached()) {
                     initIgnoreFrom(getTarget().getElement(), ignoreFrom.getElement());
                 }
-            });
-        }else {
+            }, true);
+        } else {
             initIgnoreFrom(getTarget().getElement(), ignoreFrom.getElement());
         }
     }
 
     @Override
     public void setIgnoreFrom(final String selector) {
-        if(!getTarget().isAttached()){
+        if(!getTarget().isAttached()) {
             getTarget().addAttachHandler(event -> {
                 initIgnoreFrom(getTarget().getElement(), selector);
-            });
+            }, true);
         } else {
             initIgnoreFrom(getTarget().getElement(), selector);
         }

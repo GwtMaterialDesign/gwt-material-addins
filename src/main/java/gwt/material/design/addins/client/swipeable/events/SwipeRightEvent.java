@@ -35,7 +35,6 @@ package gwt.material.design.addins.client.swipeable.events;
  * #L%
  */
 
-
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
@@ -61,7 +60,7 @@ public class SwipeRightEvent<T> extends GwtEvent<SwipeRightEvent.SwipeRightHandl
     }
 
     public static Type<SwipeRightHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<SwipeRightHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

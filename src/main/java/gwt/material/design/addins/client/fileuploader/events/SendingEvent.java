@@ -42,7 +42,7 @@ public class SendingEvent<T> extends GwtEvent<SendingEvent.SendingHandler<T>> {
     }
 
     public static Type<SendingHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<SendingHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

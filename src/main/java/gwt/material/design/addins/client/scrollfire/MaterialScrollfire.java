@@ -60,10 +60,6 @@ public class MaterialScrollfire {
     }
 
     public static void apply(String selector, Runnable callback) {
-        int offset = 100;
-        Functions.Func function = () -> {
-            callback.run();
-        };
-        JsScrollfire.apply(selector, offset, function);
+        JsScrollfire.apply(selector, 100, () -> callback.run());
     }
 }

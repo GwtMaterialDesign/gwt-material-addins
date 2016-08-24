@@ -249,7 +249,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         });
 
         itemBox.addKeyDownHandler(event -> {
-            boolean itemsChanged = false;
+            boolean changed = false;
 
             switch (event.getNativeKeyCode()) {
                 case KeyCodes.KEY_ENTER:
@@ -259,7 +259,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                             gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
                             directInput.setDisplay(value);
                             directInput.setSuggestion(value);
-                            itemsChanged = addItem(directInput);
+                            changed = addItem(directInput);
                             itemBox.setValue("");
                             itemBox.setFocus(true);
                         }
@@ -270,56 +270,21 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                     if (itemBox.getValue().trim().isEmpty()) {
                         if (itemsHighlighted.isEmpty()) {
                             if (suggestionMap.size() > 0) {
-
                                 ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
-                                MaterialChip p = (MaterialChip) li.getWidget(0);
 
-                                boolean removable = true;
-
-                                Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
-                                for (Entry<Suggestion, Widget> entry : entrySet) {
-                                    if (p.equals(entry.getValue())) {
-                                        if (chipProvider.isChipRemovable(entry.getKey())){
-                                            suggestionMap.remove(entry.getKey());
-                                            itemsChanged = true;
-                                        }
-                                        else {
-                                            removable = false;
-                                        }
-                                        break;
-                                    }
-                                }
-
-                                if (removable){
-                                    list.remove(li);
+                                if (tryRemoveSuggestion(li.getWidget(0))){
+                                    li.removeFromParent();
+                                    changed = true;
                                 }
                             }
                         }
                     }
-
                 case KeyCodes.KEY_DELETE:
                     if (itemBox.getValue().trim().isEmpty()) {
                         for (ListItem li : itemsHighlighted) {
-                            MaterialChip p = (MaterialChip) li.getWidget(0);
-
-                            boolean removable = true;
-
-                            Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
-                            for (Entry<Suggestion, Widget> entry : entrySet) {
-                                if (p.equals(entry.getValue())) {
-                                    if (chipProvider.isChipRemovable(entry.getKey())){
-                                        suggestionMap.remove(entry.getKey());
-                                        itemsChanged = true;
-                                    }
-                                    else {
-                                        removable = false;
-                                    }
-                                    break;
-                                }
-                            }
-
-                            if (removable){
+                            if (tryRemoveSuggestion(li.getWidget(0))){
                                 li.removeFromParent();
+                                changed = true;
                             }
                         }
                         itemsHighlighted.clear();
@@ -328,7 +293,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                     break;
             }
 
-            if (itemsChanged) {
+            if (changed) {
                 ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
             }
         });
@@ -351,6 +316,20 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                 "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(lblError);
         box.setFocus(true);
+    }
+
+    protected boolean tryRemoveSuggestion(Widget widget) {
+        Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
+        for (Entry<Suggestion, Widget> entry : entrySet) {
+            if (widget.equals(entry.getValue())) {
+                if (chipProvider.isChipRemovable(entry.getKey())){
+                    suggestionMap.remove(entry.getKey());
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
     }
 
     /**

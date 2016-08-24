@@ -95,231 +95,198 @@ public class MaterialSplitPanel extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initSplitter(getElement(), getBarPosition(), getThickness(), getRightMax(), getRightMin(), getLeftMax(), getLeftMin(), getTopMax(), getTopMin(), getBottomMax(), getBottomMin(), getDock().getCssName(), getAxis().getCssName());
+
+        initSplitter();
     }
 
     /**
-     * Initialize the splitter component
-     * @param e - The element you need to split
-     * @param barPosition - The position of the bar based on percentage by default it's 50%
-     * @param rightMax - The maximum right space while dragging the splitter bar horizontally
-     * @param rightMin - The minimum right space while dragging the splitter bar horizontally
-     * @param leftMax - The maximum left space while dragging the splitter bar horizontally
-     * @param leftMin - The minimum left space while dragging the splitter bar horizontally
-     * @param topMax - The maximum top space while dragging the splitter bar vertically
-     * @param topMin - The minimum top space while dragging the splitter bar vertically
-     * @param bottomMin - The minimum bottom space while dragging the splitter bar vertically
-     * @param bottomMax - The maximum bottom space while dragging the splitter bar vertically
-     * @param dock - When clicking on the white line located in the middle of splitter bar, depends on docking position it will collapse to that direction
-     * @param orientation - There are two types of orientation : HORIZONTAL (Default) and VERTICAL
+     * Initialize the splitter component.
      */
-    protected void initSplitter(Element e, double barPosition, double thickness, double rightMax, double rightMin, double leftMax, double leftMin, double topMax, double topMin, double bottomMax, double bottomMin, String dock, String orientation) {
+    protected void initSplitter() {
         $("document").ready(() -> {
-            JsSplitPanel splitted = $(e);
+            JsSplitPanel splitted = $(getElement());
             if(splitted.get(0) != null) {
                 JsSplitPanelOptions options = new JsSplitPanelOptions();
-                options.barPosition = barPosition;
-                options.thickness = thickness + "px";
-                options.rightMax = rightMax;
-                options.rightMin = rightMin;
-                options.leftMax = leftMax;
-                options.leftMin = leftMin;
-                options.topMax = topMax;
-                options.topMin = topMin;
-                options.bottomMax = bottomMax;
-                options.bottomMin = bottomMin;
-                options.dock = dock;
-                options.orientation = orientation;
+                options.barPosition = getBarPosition();
+                options.thickness = getThickness() + "px";
+                options.rightMax = getRightMax();
+                options.rightMin = getRightMin();
+                options.leftMax = getLeftMax();
+                options.leftMin = getLeftMin();
+                options.topMax = getTopMax();
+                options.topMin = getTopMin();
+                options.bottomMax = getBottomMax();
+                options.bottomMin = getBottomMin();
+                options.dock = getDock().getCssName();
+                options.orientation = getAxis().getCssName();
                 splitted.touchSplit(options);
             }
         });
     }
 
     /**
-     * Get the Maximum left space
-     * @return
+     * Get the Maximum left space.
      */
     public double getLeftMax() {
         return leftMax;
     }
 
     /**
-     * Set the Maximum left space while dragging horizontally
-     * @param leftMax
+     * Set the Maximum left space while dragging horizontally.
      */
     public void setLeftMax(double leftMax) {
         this.leftMax = leftMax;
     }
 
     /**
-     * Get the Minimum left max space
-     * @return
+     * Get the Minimum left max space.
      */
     public double getLeftMin() {
         return leftMin;
     }
 
     /**
-     * Set the Minimum left space while dragging horizontally
-     * @param leftMin
+     * Set the Minimum left space while dragging horizontally.
      */
     public void setLeftMin(double leftMin) {
         this.leftMin = leftMin;
     }
 
     /**
-     * Get the Maximum right space
-     * @return
+     * Get the Maximum right space.
      */
     public double getRightMax() {
         return rightMax;
     }
 
     /**
-     * Set the Maximum right space while dragging horizontally
-     * @param rightMax
+     * Set the Maximum right space while dragging horizontally.
      */
     public void setRightMax(double rightMax) {
         this.rightMax = rightMax;
     }
 
     /**
-     * Get the minimum right space
-     * @return
+     * Get the minimum right space.
      */
     public double getRightMin() {
         return rightMin;
     }
 
     /**
-     * Set the minimum right space while dragging horizontally
-     * @param rightMin
+     * Set the minimum right space while dragging horizontally.
      */
     public void setRightMin(double rightMin) {
         this.rightMin = rightMin;
     }
 
     /**
-     * Get the axis orientation of splitter component
-     * @return
+     * Get the axis orientation of splitter component.
      */
     public Axis getAxis() {
         return axis;
     }
 
     /**
-     * Set the axis orientation of splitter component (HORIZONTAL(Default) and VERTICAL)
-     * @param axis
+     * Set the axis orientation of splitter component (HORIZONTAL(Default) and VERTICAL).
      */
     public void setAxis(Axis axis) {
         this.axis = axis;
     }
 
     /**
-     * Get the dock value
-     * @return
+     * Get the dock value.
      */
     public Dock getDock() {
         return dock;
     }
 
     /**
-     * Set the dock value (LEFT, RIGHT -> HORIZONTAL AXIS and TOP,LEFT -> VERTICAL AXIS)
-     * @param dock
+     * Set the dock value (LEFT, RIGHT -> HORIZONTAL AXIS and TOP,LEFT -> VERTICAL AXIS).
      */
     public void setDock(Dock dock) {
         this.dock = dock;
     }
 
     /**
-     * Get the minimum top space
-     * @return
+     * Get the minimum top space.
      */
     public double getTopMin() {
         return topMin;
     }
 
     /**
-     * Set the minimum top space while dragging vertically
-     * @param topMin
+     * Set the minimum top space while dragging vertically.
      */
     public void setTopMin(double topMin) {
         this.topMin = topMin;
     }
 
     /**
-     * Get the maximum top space
-     * @return
+     * Get the maximum top space.
      */
     public double getTopMax() {
         return topMax;
     }
 
     /**
-     * Set the maximum top space while dragging vertically
-     * @param topMax
+     * Set the maximum top space while dragging vertically.
      */
     public void setTopMax(double topMax) {
         this.topMax = topMax;
     }
 
     /**
-     * Get the minimum bottom space
-     * @return
+     * Get the minimum bottom space.
      */
     public double getBottomMin() {
         return bottomMin;
     }
 
     /**
-     * Set the minimum bottom space while dragging vertically
-     * @param bottomMin
+     * Set the minimum bottom space while dragging vertically.
      */
     public void setBottomMin(double bottomMin) {
         this.bottomMin = bottomMin;
     }
 
     /**
-     * Get the maximum bottom space
-     * @return
+     * Get the maximum bottom space.
      */
     public double getBottomMax() {
         return bottomMax;
     }
 
     /**
-     * Set the maximum bottom space while dragging vertically
-     * @param bottomMax
+     * Set the maximum bottom space while dragging vertically.
      */
     public void setBottomMax(double bottomMax) {
         this.bottomMax = bottomMax;
     }
 
     /**
-     * Get the bar position in percent divided by 100
-     * @return
+     * Get the bar position in percent divided by 100.
      */
     public double getBarPosition() {
         return barPosition / 100;
     }
 
     /**
-     * Set the bar position in percent
-     * @param barPosition
+     * Set the bar position in percent.
      */
     public void setBarPosition(double barPosition) {
         this.barPosition = barPosition;
     }
 
     /**
-     * Get the bar's thickness in px
+     * Get the bar's thickness in px.
      */
     public double getThickness() {
         return thickness;
     }
 
     /**
-     * Set the bar's thickness in px
+     * Set the bar's thickness in px.
      */
     public void setThickness(double thickness) {
         this.thickness = thickness;

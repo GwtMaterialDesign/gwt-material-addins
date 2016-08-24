@@ -26,7 +26,6 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
 
@@ -80,12 +79,14 @@ public class MaterialWaterfall extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(openCallback == null && closeCallback == null) {
+        if(openCallback == null) {
             openCallback = () -> {
                 for(Widget w : getChildren()){
                     w.getElement().getStyle().setOpacity(1);
                 }
             };
+        }
+        if(closeCallback == null) {
             closeCallback = () -> {
                 for(Widget w : getChildren()){
                     w.getElement().getStyle().setOpacity(0);
@@ -104,14 +105,7 @@ public class MaterialWaterfall extends MaterialWidget {
     }
 
     protected void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) {
-        Functions.Func openFunction = () -> {
-            openCallback.run();
-        };
-
-        Functions.Func closeFunction = () -> {
-            closeCallback.run();
-        };
-        JsWaterfall.initWaterfall(height, openFunction, closeFunction, offset);
+        JsWaterfall.initWaterfall(height, () -> openCallback.run(), () -> closeCallback.run(), offset);
     }
 
     public double getOffset() {

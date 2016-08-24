@@ -20,7 +20,6 @@ package gwt.material.design.addins.client.fileuploader.events;
  * #L%
  */
 
-
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
@@ -41,7 +40,7 @@ public class AddedFileEvent<T> extends GwtEvent<AddedFileEvent.AddedFileHandler<
     }
 
     public static Type<AddedFileHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<AddedFileHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

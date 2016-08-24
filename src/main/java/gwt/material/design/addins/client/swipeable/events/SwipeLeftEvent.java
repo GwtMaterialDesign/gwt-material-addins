@@ -35,7 +35,6 @@ package gwt.material.design.addins.client.swipeable.events;
  * #L%
  */
 
-
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
@@ -43,7 +42,6 @@ import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 /**
  * Represents a swipe left event.
  * @author kevzlou7979
- * @param <T> the type being swiped to left
  */
 public class SwipeLeftEvent<T> extends GwtEvent<SwipeLeftEvent.SwipeLeftHandler<T>> {
 
@@ -61,7 +59,7 @@ public class SwipeLeftEvent<T> extends GwtEvent<SwipeLeftEvent.SwipeLeftHandler<
     }
 
     public static Type<SwipeLeftHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<SwipeLeftHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

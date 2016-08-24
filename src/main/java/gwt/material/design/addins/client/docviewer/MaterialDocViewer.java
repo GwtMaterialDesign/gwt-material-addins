@@ -64,32 +64,28 @@ public class MaterialDocViewer extends MaterialWidget {
     }
 
     /**
-     * Get the url of the Iframe component
-     * @return
+     * Get the url of the Iframe component.
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     * Set the url of the public document
-     * @param url
+     * Set the url of the public document.
      */
     public void setUrl(String url) {
         this.url = url;
     }
 
     /**
-     * Check whether the iframe is embedded or not
-     * @return
+     * Check whether the iframe is embedded or not.
      */
     public boolean isEmbedded() {
         return embedded;
     }
 
     /**
-     * Set the emebedded value of the iframe
-     * @param embedded
+     * Set the embedded value of the iframe.
      */
     public void setEmbedded(boolean embedded) {
         this.embedded = embedded;

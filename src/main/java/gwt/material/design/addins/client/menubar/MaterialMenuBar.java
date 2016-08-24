@@ -74,5 +74,4 @@ public class MaterialMenuBar extends MaterialWidget {
     public MaterialMenuBar() {
         super(Document.get().createDivElement(), "menu-bar");
     }
-
 }

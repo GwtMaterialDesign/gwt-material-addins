@@ -45,7 +45,7 @@ public class RemoveItemEvent<T> extends GwtEvent<RemoveItemEvent.RemoveItemHandl
     }
 
     public static Type<RemoveItemHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<RemoveItemHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

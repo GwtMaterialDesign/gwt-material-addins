@@ -74,12 +74,13 @@ public class MaterialIconMorph extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
+
         if (getWidgetCount() >= 2) {
             MaterialIcon source = (MaterialIcon) getWidget(0);
             source.addStyleName("icons source");
             MaterialIcon target = (MaterialIcon) getWidget(1);
             target.addStyleName("icons target");
-        }else{
+        } else {
             MaterialToast.fireToast("Nothing");
         }
     }

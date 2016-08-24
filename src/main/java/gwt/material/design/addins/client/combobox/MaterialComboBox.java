@@ -33,6 +33,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.combobox.base.HasRemoveItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
 import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
+import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasError;
@@ -77,7 +78,8 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasError, HasConstrainedValue<T>, HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
+public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasError, HasConstrainedValue<T>,
+        HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -123,12 +125,13 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
 
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
-        $(listbox.getElement()).on(ComboBoxEvents.CHANGE, event -> {
+        JsComboBox jsComboBox = $(listbox.getElement());
+        jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
             ValueChangeEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
 
-        $(listbox.getElement()).on(ComboBoxEvents.SELECT, event -> {
+        jsComboBox.on(ComboBoxEvents.SELECT, event -> {
             if(isMultiple()) {
                 getSelectedValues().add(getValue());
             }
@@ -137,18 +140,18 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
             return true;
         });
 
-        $(listbox.getElement()).on(ComboBoxEvents.UNSELECT, event -> {
+        jsComboBox.on(ComboBoxEvents.UNSELECT, event -> {
             T last = getSelectedValues().remove(getSelectedValues().size() - 1);
             RemoveItemEvent.fire(MaterialComboBox.this, last);
             return true;
         });
 
-        $(listbox.getElement()).on(ComboBoxEvents.OPEN, (event1, o) -> {
+        jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
             OpenEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
 
-        $(listbox.getElement()).on(ComboBoxEvents.CLOSE, (event1, o) -> {
+        jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
             CloseEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
@@ -200,7 +203,7 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         this.multiple = multiple;
         if(multiple) {
             $(listbox.getElement()).attr("multiple", "multiple");
-        }else {
+        } else {
             $(listbox.getElement()).removeAttr("multiple");
         }
     }

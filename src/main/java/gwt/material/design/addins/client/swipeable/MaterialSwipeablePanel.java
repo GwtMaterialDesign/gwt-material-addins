@@ -20,22 +20,6 @@ package gwt.material.design.addins.client.swipeable;
  * #L%
  */
 
-/*
- * Copyright 2008 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -47,7 +31,6 @@ import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
 import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.jquery.client.api.Functions;
 
 /**
  * A panel that allows any of its nested children to be swiped away.
@@ -99,6 +82,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     @Override
     protected void onLoad() {
         super.onLoad();
+
         for(Widget w : getChildren()) {
             if(!w.getStyleName().contains(DISABLED)) {
                 initSwipeable(w.getElement(), w);
@@ -106,25 +90,13 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         }
     }
 
-
     @Override
     public void initSwipeable(Element element, Widget target) {
-        initSwipeableElement(element, target);
-    }
-
-    /**
-     * Initialize the swipeable element
-     * @param element
-     * @param target
-     */
-    protected void initSwipeableElement(Element element, Widget target) {
-        Functions.Func leftCallback = () -> {
-           fireSwipeLeftEvent(target);
-        };
-        Functions.Func rightCallback = () -> {
-            fireSwipeRightEvent(target);
-        };
-        JsSwipeable.initSwipeablePanel(element, leftCallback, rightCallback);
+        JsSwipeable.initSwipeablePanel(element, () -> {
+            SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
+        }, () -> {
+            SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
+        });
     }
 
     @Override
@@ -132,7 +104,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
             @Override
             public void onSwipeLeft(SwipeLeftEvent<Widget> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onSwipeLeft(event);
                 }
             }
@@ -144,32 +116,10 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         return addHandler(new SwipeRightEvent.SwipeRightHandler<Widget>() {
             @Override
             public void onSwipeRight(SwipeRightEvent<Widget> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onSwipeRight(event);
                 }
             }
         }, SwipeRightEvent.getType());
-    }
-
-    /**
-     * Fire the Swipe left event listener
-     * @param target
-     */
-    public void fireSwipeLeftEvent(Widget target) {
-        SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
-    }
-
-    /**
-     * Fire the Swipe right event listener
-     * @param target
-     */
-    public void fireSwipeRightEvent(Widget target) {
-        SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
-    }
-
-    public void setDisable(Widget... widgets) {
-        for(Widget w : widgets){
-            w.addStyleName(DISABLED);
-        }
     }
 }

@@ -41,7 +41,7 @@ public class RemovedFileEvent<T> extends GwtEvent<RemovedFileEvent.RemovedFileHa
     }
 
     public static Type<RemovedFileHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<RemovedFileHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

@@ -93,7 +93,6 @@ public class Restriction {
      * Before the end event is fired, an extra <action>move event is restricted and fired.
      * If inertia is enabled and endOnly is set to true then the pointer will follow a curve
      * to the restricted coordinates.
-     * @param endOnly
      * @see <a href="http://interactjs.io/docs/restriction/#endonly">Documentation</a>
      */
     public void setEndOnly(boolean endOnly) {
@@ -106,7 +105,6 @@ public class Restriction {
 
     /**
      * Top restriction of the element being allowed to hang over the restriction edges.
-     * @param top
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setTop(double top) {
@@ -119,7 +117,6 @@ public class Restriction {
 
     /**
      * Right restriction of the element being allowed to hang over the restriction edges.
-     * @param right
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setRight(double right) {
@@ -132,7 +129,6 @@ public class Restriction {
 
     /**
      * Bottom restriction of the element being allowed to hang over the restriction edges.
-     * @param bottom
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setBottom(double bottom) {
@@ -145,7 +141,6 @@ public class Restriction {
 
     /**
      * Left restriction of the element being allowed to hang over the restriction edges.
-     * @param left
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setLeft(double left) {

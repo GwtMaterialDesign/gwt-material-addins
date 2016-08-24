@@ -125,6 +125,7 @@ public class MaterialMasonry extends MaterialRow {
     public boolean remove(IsWidget child) {
         Widget widget = (Widget) child;
         remove(widget.getElement());
+
         if(initialize) {
             initMasonry();
         }
@@ -207,84 +208,76 @@ public class MaterialMasonry extends MaterialRow {
     }
 
     /**
-     * Get the item selector
-     * @return
+     * Get the item selector.
      */
     public String getItemSelector() {
         return itemSelector;
     }
 
     /**
-     * Specifies which child elements will be used as item elements in the layout.It's .col by default for grid components
-     * @param itemSelector
+     * Specifies which child elements will be used as item elements in the
+     * layout.It's .col by default for grid components.
      */
     public void setItemSelector(String itemSelector) {
         this.itemSelector = itemSelector;
     }
 
     /**
-     * Get the percent position boolean value
-     * @return
+     * Get the percent position boolean value.
      */
     public boolean isPercentPosition() {
         return percentPosition;
     }
 
     /**
-     * Sets item positions in percent values, rather than pixel values. percentPosition: true works well with percent-width items, as items will not transition their position on resize.
-     * @param percentPosition
+     * Sets item positions in percent values, rather than pixel values. percentPosition: true works
+     * well with percent-width items, as items will not transition their position on resize.
      */
     public void setPercentPosition(boolean percentPosition) {
         this.percentPosition = percentPosition;
     }
 
     /**
-     * Get the boolean value of origin left
-     * @return
+     * Get the boolean value of origin left.
      */
     public boolean isOriginLeft() {
         return originLeft;
     }
 
     /**
-     * Controls the horizontal flow of the layout. By default, item elements start positioning at the left, with originLeft: true. Set originLeft: false for right-to-left layouts.
-     * @param originLeft
+     * Controls the horizontal flow of the layout. By default, item elements start positioning at the
+     * left, with originLeft: true. Set originLeft: false for right-to-left layouts.
      */
     public void setOriginLeft(boolean originLeft) {
         this.originLeft = originLeft;
     }
 
     /**
-     * Get the boolean value of origin top
-     * @return
+     * Get the boolean value of origin top.
      */
     public boolean isOriginTop() {
         return originTop;
     }
 
     /**
-     * Controls the vertical flow of the layout. By default, item elements start positioning at the top, with originTop: true. Set originTop: false for bottom-up layouts. It’s like Tetris
-     * @param originTop
+     * Controls the vertical flow of the layout. By default, item elements start positioning at the top,
+     * with originTop: true. Set originTop: false for bottom-up layouts. It’s like Tetris
      */
     public void setOriginTop(boolean originTop) {
         this.originTop = originTop;
     }
 
     /**
-     * Get the transition duration in milliseconds
-     * @return
+     * Get the transition duration in milliseconds.
      */
     public double getTransitionDuration() {
         return transitionDuration;
     }
 
     /**
-     * Sets the transition duration in milliseconds, if 0 then there will be no transition
-     * @param transitionDuration
+     * Sets the transition duration in milliseconds, if 0 then there will be no transition.
      */
     public void setTransitionDuration(double transitionDuration) {
         this.transitionDuration = transitionDuration;
     }
-
-
 }

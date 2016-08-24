@@ -28,7 +28,7 @@ import gwt.material.design.addins.client.dnd.events.*;
  * Drop events and properties
  * @author kevzlou7979
  */
-public interface HasDrop {
+public interface Droppable {
 
     /**
      * A select class to be provided on Dropzone container to accept only with the same class

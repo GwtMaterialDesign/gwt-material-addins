@@ -42,7 +42,7 @@ public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
     }
 
     public static Type<SuccessHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<SuccessHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

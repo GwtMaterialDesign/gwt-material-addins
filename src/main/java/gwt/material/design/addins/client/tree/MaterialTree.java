@@ -20,7 +20,6 @@ package gwt.material.design.addins.client.tree;
  * #L%
  */
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -59,11 +58,12 @@ import gwt.material.design.client.base.MaterialWidget;
  * </pre>
  *
  * @author kevzlou7979
+ * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
 // @formatter:on
-public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>, HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
-
+public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>,
+        HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -73,58 +73,64 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         }
     }
 
-    private MaterialTreeItem selectedTree;
+    private MaterialTreeItem selectedItem;
+    private HandlerRegistration selectionHandler;
 
     public MaterialTree() {
         super(Document.get().createDivElement(), "tree");
     }
 
-    protected void initSelectionEvent() {
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        // Ensure all children know we are the root.
+        for(Widget child : getChildren()) {
+            if(child instanceof MaterialTreeItem) {
+                ((MaterialTreeItem) child).setTree(this);
+            }
+        }
+
         // Add selection event
-        addSelectionHandler(event -> {
-            for(Widget item : getChildren()){
-                if(item instanceof MaterialTreeItem){
+        if(selectionHandler != null) {
+            selectionHandler.removeHandler();
+        }
+        selectionHandler = addSelectionHandler(event -> {
+            for(Widget item : getChildren()) {
+                if(item instanceof MaterialTreeItem) {
                     clearItemSelectedStyles((MaterialTreeItem) item);
                 }
             }
             MaterialTreeItem treeItem = event.getSelectedItem();
             treeItem.addStyleName("selected");
-            setSelectedTree(treeItem);
+            setSelectedItem(treeItem);
         });
     }
 
     @Override
-    public void add(Widget child) {
-        if(child instanceof MaterialTreeItem){
-            super.add(child);
-        }else{
-            GWT.log("Material Tree must contain on Material Tree Items");
+    protected void add(Widget child, com.google.gwt.user.client.Element container) {
+        if(child instanceof MaterialTreeItem) {
+            ((MaterialTreeItem) child).setTree(this);
+            super.add(child, container);
+        } else {
+            throw new IllegalArgumentException("MaterialTree can only contain MaterialTreeItem");
         }
     }
-
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-        for(Widget w : getChildren()){
-            if(w instanceof MaterialTreeItem){
-                initTree((MaterialTreeItem) w);
-            }
+    protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
+        if(child instanceof MaterialTreeItem) {
+            ((MaterialTreeItem) child).setTree(this);
+            super.insert(child, container, beforeIndex, domInsert);
+        } else {
+            throw new IllegalArgumentException("MaterialTree can only contain MaterialTreeItem");
         }
-    }
-
-    // Recursive function to set the parent of tree item
-    public void initTree(MaterialTreeItem item) {
-        item.setTree(this);
-        for(MaterialTreeItem treeItem : item.getTreeItems()){
-            initTree(treeItem);
-        }
-        initSelectionEvent();
     }
 
     protected void clearItemSelectedStyles(MaterialTreeItem item) {
         item.removeStyleName("selected");
-        for(MaterialTreeItem treeItem : item.getTreeItems()){
+
+        for(MaterialTreeItem treeItem : item.getTreeItems()) {
             clearItemSelectedStyles(treeItem);
         }
     }
@@ -134,7 +140,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new CloseHandler<MaterialTreeItem>() {
             @Override
             public void onClose(CloseEvent<MaterialTreeItem> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onClose(event);
                 }
             }
@@ -146,7 +152,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new OpenHandler<MaterialTreeItem>() {
             @Override
             public void onOpen(OpenEvent<MaterialTreeItem> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onOpen(event);
                 }
             }
@@ -158,41 +164,39 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new SelectionHandler<MaterialTreeItem>() {
             @Override
             public void onSelection(SelectionEvent<MaterialTreeItem> event) {
-                if(isEnabled()){
+                if(isEnabled()) {
                     handler.onSelection(event);
                 }
             }
         }, SelectionEvent.getType());
     }
 
-    public MaterialTreeItem getSelectedTree() {
-        return selectedTree;
+    public MaterialTreeItem getSelectedItem() {
+        return selectedItem;
     }
 
-    public void setSelectedTree(MaterialTreeItem selectedTree) {
-        this.selectedTree = selectedTree;
+    public void setSelectedItem(MaterialTreeItem selectedItem) {
+        this.selectedItem = selectedItem;
     }
-
 
     /**
      * Expand all tree item's content
      */
     public void expand() {
-        for(Widget w : getChildren()){
-            if(w instanceof MaterialTreeItem){
+        for(Widget w : getChildren()) {
+            if(w instanceof MaterialTreeItem) {
                 expandItems((MaterialTreeItem) w);
             }
         }
     }
 
     /**
-     * Recursive function to expand each tree item
-     * @param item
+     * Recursive function to expand each tree item.
      */
     protected void expandItems(MaterialTreeItem item) {
         item.expand();
         item.setHide(true);
-        for(MaterialTreeItem t : item.getTreeItems()){
+        for(MaterialTreeItem t : item.getTreeItems()) {
             expandItems(t);
         }
     }
@@ -201,21 +205,20 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
      * Collapse all tree item's content
      */
     public void collapse() {
-        for(Widget w : getChildren()){
-            if(w instanceof MaterialTreeItem){
+        for(Widget w : getChildren()) {
+            if(w instanceof MaterialTreeItem) {
                 collapseItems((MaterialTreeItem)w);
             }
         }
     }
 
     /**
-     * Recursive function to collapse each tree item
-     * @param item
+     * Recursive function to collapse each tree item.
      */
     protected void collapseItems(MaterialTreeItem item) {
         item.collapse();
         item.setHide(false);
-        for(MaterialTreeItem t : item.getTreeItems()){
+        for(MaterialTreeItem t : item.getTreeItems()) {
             collapseItems(t);
         }
     }

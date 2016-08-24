@@ -41,7 +41,7 @@ public class MaxFilesExceededEvent<T> extends GwtEvent<MaxFilesExceededEvent.Max
     }
 
     public static Type<MaxFilesExceededHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<MaxFilesExceededHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;
