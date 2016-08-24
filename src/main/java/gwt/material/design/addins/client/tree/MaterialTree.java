@@ -218,6 +218,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     protected void collapseItems(MaterialTreeItem item) {
         item.collapse();
         item.setHide(false);
+
         for(MaterialTreeItem t : item.getTreeItems()) {
             collapseItems(t);
         }

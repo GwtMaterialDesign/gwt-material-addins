@@ -26,10 +26,9 @@ package gwt.material.design.addins.client.combobox.events;
  */
 public interface ComboBoxEvents {
 
-    public static final String CHANGE = "change";
-    public static final String SELECT = "select2:select";
-    public static final String UNSELECT = "select2:unselect";
-    public static final String OPEN = "select2:open";
-    public static final String CLOSE = "select2:close";
-
+    String CHANGE = "change";
+    String SELECT = "select2:select";
+    String UNSELECT = "select2:unselect";
+    String OPEN = "select2:open";
+    String CLOSE = "select2:close";
 }

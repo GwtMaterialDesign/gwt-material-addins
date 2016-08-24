@@ -160,10 +160,12 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     @Override
     protected void onUnload() {
         super.onUnload();
-        $(listbox.getElement()).off(ComboBoxEvents.CHANGE);
-        $(listbox.getElement()).off(ComboBoxEvents.SELECT);
-        $(listbox.getElement()).off(ComboBoxEvents.OPEN);
-        $(listbox.getElement()).off(ComboBoxEvents.CLOSE);
+        JsComboBox jsComboBox = $(listbox.getElement());
+        jsComboBox.off(ComboBoxEvents.CHANGE);
+        jsComboBox.off(ComboBoxEvents.SELECT);
+        jsComboBox.off(ComboBoxEvents.UNSELECT);
+        jsComboBox.off(ComboBoxEvents.OPEN);
+        jsComboBox.off(ComboBoxEvents.CLOSE);
     }
 
     @Override
