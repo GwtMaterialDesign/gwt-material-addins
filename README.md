@@ -39,6 +39,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 ##Extra Components
 <ul>
 <li>Autcomplete</li>
+<li>Avatar (NEW)</li>
 <li>Bubble</li>
 <li>Camera</li>
 <li>Cutout</li>
@@ -50,6 +51,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Menubar</li>
 <li>Overlay</li>
 <li>Path Animator</li>
+<li>Rating (NEW)</li>
 <li>Rich Editor</li> 
 <li>Scrollfire</li>
 <li>SplitPanel</li>
