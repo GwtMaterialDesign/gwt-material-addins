@@ -391,7 +391,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
-    private native void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle)/*-{
+    protected native void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle)/*-{
         var rect = relativeTo.getBoundingClientRect();
 
         var top = rect.top;
@@ -429,7 +429,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Configures a resize handler and a scroll handler on the window to
      * properly adjust the Cut Out.
      */
-    private void setupWindowHandlers(){
+    protected void setupWindowHandlers(){
         if (resizeHandler != null){
             resizeHandler.removeHandler();
         }
@@ -449,8 +449,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             }
         });
     }
-    
-    private void setupTransition(){
+
+    protected void setupTransition(){
         if (animated){
             focus.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
             focus.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);            
@@ -465,7 +465,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Gets the computed background color, based on the backgroundColor CSS
      * class.
      */
-    private void setupComputedBackgroundColor() {
+    protected void setupComputedBackgroundColor() {
         // temp is just a widget created to evaluate the computed background
         // color
         MaterialWidget temp = new MaterialWidget(Document.get().createDivElement());

@@ -34,6 +34,7 @@ public class MaterialRichEditorBase extends MaterialWidget implements HasPlaceho
 
     private boolean airMode;
     private String placeholder = "";
+    private boolean disableDragAndDrop;
 
 
     public MaterialRichEditorBase() {
@@ -153,5 +154,19 @@ public class MaterialRichEditorBase extends MaterialWidget implements HasPlaceho
             height = "550px";
         }
         return height;
+    }
+
+    /**
+     * Check if the dnd for rich editor is enabled / disabled
+     */
+    public boolean isDisableDragAndDrop() {
+        return disableDragAndDrop;
+    }
+
+    /**
+     * If true, disable the ability to drag and drop items to rich editor
+     */
+    public void setDisableDragAndDrop(boolean disableDragAndDrop) {
+        this.disableDragAndDrop = disableDragAndDrop;
     }
 }

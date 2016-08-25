@@ -3,25 +3,25 @@
     <parent>
         <artifactId>gwt-material-parent</artifactId>
         <groupId>com.github.gwtmaterialdesign</groupId>
-        <version>1.5.2</version>
+        <version>1.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gwt-material-addins</artifactId>
 
     <name>Gwt Material Addins</name>
-    <version>1.5.2</version>
+    <version>1.6.0</version>
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>1.5.2</gwt-material.version>
+        <gwt-material.version>1.6.0-SNAPSHOT</gwt-material.version>
     </properties>
 
     <scm>
         <connection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</connection>
         <developerConnection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</developerConnection>
         <url>http://github.com/GwtMaterialDesign/gwt-material-addins</url>
-        <tag>v1.5.2</tag>
+        <tag>v1.6.0</tag>
     </scm>
 
     <licenses>
@@ -43,19 +43,6 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
     <dependencies>
         <!-- GwtMaterial -->

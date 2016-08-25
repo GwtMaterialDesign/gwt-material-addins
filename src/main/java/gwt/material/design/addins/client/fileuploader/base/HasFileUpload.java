@@ -98,7 +98,17 @@ public interface HasFileUpload<T> extends HasHandlers {
      */
     HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler<T> handler);
 
-    void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
+    void fireErrorEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
+    /**
+     * An unauthorized error occured. Probably because of session expiration.
+     * Receives the errorMessage as second parameter and if the error was due to
+     * the XMLHttpRequest the xhr object as third.
+     *
+     * @param handler
+     */
+    HandlerRegistration addUnauthorizedHandler(UnauthorizedEvent.UnauthorizedHandler<T> handler);
+
+    void fireUnauthorizedEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
 
     /**
      * Called with the total uploadProgress (0-100). This event can be used to show the overall upload progress of all files.
@@ -123,7 +133,7 @@ public interface HasFileUpload<T> extends HasHandlers {
      */
     HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler<T> handler);
 
-    void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
+    void fireSuccessEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
 
     /**
      * Called when the upload was either successful or erroneous.
@@ -131,7 +141,7 @@ public interface HasFileUpload<T> extends HasHandlers {
      */
     HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler<T> handler);
 
-    void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage);
+    void fireCompleteEvent(String fileName, String lastModified, String size, String type, String responseCode, String responseMessage, String responseBody);
 
     /**
      * Called when a file upload gets canceled.

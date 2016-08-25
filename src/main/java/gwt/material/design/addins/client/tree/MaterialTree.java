@@ -79,7 +79,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         super(Document.get().createDivElement(), "tree");
     }
 
-    private void initSelectionEvent() {
+    protected void initSelectionEvent() {
         // Add selection event
         addSelectionHandler(new SelectionHandler<MaterialTreeItem>() {
             @Override
@@ -125,7 +125,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         initSelectionEvent();
     }
 
-    private void clearItemSelectedStyles(MaterialTreeItem item) {
+    protected void clearItemSelectedStyles(MaterialTreeItem item) {
         item.removeStyleName("selected");
         for(MaterialTreeItem treeItem : item.getTreeItems()){
             clearItemSelectedStyles(treeItem);
@@ -192,7 +192,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
      * Recursive function to expand each tree item
      * @param item
      */
-    private void expandItems(MaterialTreeItem item) {
+    protected void expandItems(MaterialTreeItem item) {
         item.expand();
         item.setHide(true);
         for(MaterialTreeItem t : item.getTreeItems()){
@@ -215,7 +215,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
      * Recursive function to collapse each tree item
      * @param item
      */
-    private void collapseItems(MaterialTreeItem item) {
+    protected void collapseItems(MaterialTreeItem item) {
         item.collapse();
         item.setHide(false);
         for(MaterialTreeItem t : item.getTreeItems()){

@@ -88,7 +88,7 @@ public class MaterialMasonry extends MaterialRow {
         initMasonry();
     }
 
-    private void initMasonry() {
+    protected void initMasonry() {
         initMasonry(getElement());
     }
 
@@ -96,7 +96,7 @@ public class MaterialMasonry extends MaterialRow {
      * Initialize the masonry component
      * @param e
      */
-    private native void initMasonry(Element e) /*-{
+    protected native void initMasonry(Element e) /*-{
         var that = this;
         $wnd.jQuery(window).ready(function() {
             $wnd.jQuery('.masonry').imagesLoaded( function() {

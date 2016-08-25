@@ -109,7 +109,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
      * Initialize the draggable widget and it's properties
      * @param target
      */
-    private native void initDraggable(Element target, boolean inertia, String restriction, boolean endOnly,
+    protected native void initDraggable(Element target, boolean inertia, String restriction, boolean endOnly,
                                       double top, double left, double bottom, double right) /*-{
         var that = this;
         $wnd.jQuery(document).ready(function() {
@@ -189,14 +189,14 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
     /**
      * Initialize the ignoreFrom function as selector to exclude any widget from dragging
      */
-    private native void initIgnoreFrom(Element target, String selector) /*-{
+    protected native void initIgnoreFrom(Element target, String selector) /*-{
         $wnd.interact(target).ignoreFrom(selector);
     }-*/;
 
     /**
      * Initialize the ignoreFrom function to exclude any widget from dragging
      */
-    private native void initIgnoreFrom(Element target, Element ignoreFrom) /*-{
+    protected native void initIgnoreFrom(Element target, Element ignoreFrom) /*-{
         $wnd.interact(target).ignoreFrom(ignoreFrom);
     }-*/;
 
@@ -227,7 +227,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
         }, DragStartEvent.TYPE);
     }
 
-    private void fireDragStartEvent() {
+    protected void fireDragStartEvent() {
         DragStartEvent.fire(this);
     }
 
@@ -243,7 +243,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
         }, DragMoveEvent.TYPE);
     }
 
-    private void fireDragMoveEvent() {
+    protected void fireDragMoveEvent() {
         DragMoveEvent.fire(this);
     }
 
@@ -259,7 +259,7 @@ public class MaterialDnd extends MaterialWidget implements HasDraggable {
         }, DragEndEvent.TYPE);
     }
 
-    private void fireDragEndEvent() {
+    protected void fireDragEndEvent() {
         DragEndEvent.fire(this);
     }
 }
