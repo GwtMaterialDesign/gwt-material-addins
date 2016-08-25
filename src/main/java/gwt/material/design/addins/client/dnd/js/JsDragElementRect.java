@@ -21,16 +21,17 @@ package gwt.material.design.addins.client.dnd.js;
  */
 
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Element Rec for dnd component
+ * Element Rect for dnd component
  * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class JsDragElementRec {
+public class JsDragElementRect {
 
     @JsProperty
     public double top;
@@ -43,4 +44,19 @@ public class JsDragElementRec {
 
     @JsProperty
     public double right;
+
+    @JsOverlay
+    public static JsDragElementRect create() {
+        return new JsDragElementRect();
+    }
+
+    @JsOverlay
+    public static JsDragElementRect create(double top, double left, double bottom, double right) {
+        JsDragElementRect rect = new JsDragElementRect();
+        rect.top = top;
+        rect.left = left;
+        rect.bottom = bottom;
+        rect.right = right;
+        return rect;
+    }
 }

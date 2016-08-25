@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
+import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
@@ -151,10 +152,9 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         });
 
         // Add a draggable header
-        MaterialDnd dnd = new MaterialDnd();
-        dnd.setTarget(window);
-        dnd.setIgnoreFrom(".content, .window-action");
-        dnd.setRestriction(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1));
+        MaterialDnd dnd = MaterialDnd.draggable(window,
+            JsDragOptions.create(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1)));
+        dnd.ignoreFrom(".content, .window-action");
     }
 
     protected void toggleMaximize() {

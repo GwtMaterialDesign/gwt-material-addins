@@ -22,41 +22,9 @@ package gwt.material.design.addins.client.fileuploader.base;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.addins.client.dnd.events.DragEndEvent;
-import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.events.*;
 
 public interface HasFileUpload<T> extends HasHandlers {
-
-    /**
-     * The user dropped something onto the dropzone.
-     */
-    HandlerRegistration addDropHandler(DropEvent.DropHandler handler);
-
-    /**
-     * The user started to drag anywhere.
-     */
-    HandlerRegistration addDragStartHandler(DragStartEvent.DragStartHandler handler);
-
-    /**
-     * Dragging has ended.
-     */
-    HandlerRegistration addDragEndHandler(DragEndEvent.DragEndHandler handler);
-
-    /**
-     * The user dragged a file onto the Dropzone.
-     */
-    HandlerRegistration addDragEnterHandler(DragEnterEvent.DragEnterHandler handler);
-
-    /**
-     * The user is dragging a file over the Dropzone.
-     */
-    HandlerRegistration addDragOverHandler(DragOverEvent.DragOverHandler handler);
-
-    /**
-     * The user is dragging a file over the Dropzone.
-     */
-    HandlerRegistration addDragLeaveHandler(DragLeaveEvent.DragLeaveHandler handler);
 
     /**
      * When a file is added to the list.

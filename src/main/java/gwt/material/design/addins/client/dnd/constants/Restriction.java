@@ -30,7 +30,7 @@ package gwt.material.design.addins.client.dnd.constants;
  */
 public class Restriction {
 
-    public enum Restrict{
+    public enum Restrict {
         PARENT("parent"),
         SELF("self");
 
@@ -55,7 +55,6 @@ public class Restriction {
     private double left = 0;
     private double right = 1;
     private double bottom = 1;
-
 
     public Restriction() {}
 

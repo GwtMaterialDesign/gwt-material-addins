@@ -20,24 +20,20 @@ package gwt.material.design.addins.client.fileuploader;
  * #L%
  */
 
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.dnd.events.DragEndEvent;
-import gwt.material.design.addins.client.dnd.events.DragStartEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
-import gwt.material.design.addins.client.fileuploader.events.DragLeaveEvent.DragLeaveHandler;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
+import gwt.material.design.client.events.*;
 
 import java.util.Date;
 
@@ -385,82 +381,28 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         this.acceptedFiles = acceptedFiles;
     }
 
-    @Override
-    public HandlerRegistration addDropHandler(final DropEvent.DropHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()){
-                handler.onDrop(event);
-            }
-        }, DropEvent.TYPE);
-    }
-
     public void fireDropEvent() {
-        DropEvent.fire(this);
-    }
-
-    @Override
-    public HandlerRegistration addDragStartHandler(final DragStartEvent.DragStartHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()){
-                handler.onDragStart(event);
-            }
-        }, DragStartEvent.TYPE);
+        DropEvent.fire(this, null);
     }
 
     public void fireDragStartEvent() {
         DragStartEvent.fire(this);
     }
 
-    @Override
-    public HandlerRegistration addDragEndHandler(final DragEndEvent.DragEndHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()){
-                handler.onDragEnd(event);
-            }
-        }, DragEndEvent.TYPE);
-    }
-
     public void fireDragEndEvent() {
         DragEndEvent.fire(this);
     }
 
-    @Override
-    public HandlerRegistration addDragEnterHandler(final DragEnterEvent.DragEnterHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()){
-                handler.onDragEnter(event);
-            }
-        }, DragEnterEvent.TYPE);
-    }
-
     public void fireDragEnterEvent() {
-        DragEnterEvent.fire(this);
-    }
-
-    @Override
-    public HandlerRegistration addDragOverHandler(final DragOverEvent.DragOverHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()){
-                handler.onDragOver(event);
-            }
-        }, DragOverEvent.TYPE);
+        DragEnterEvent.fire(this, null);
     }
 
     public void fireDragOverEvent() {
         DragOverEvent.fire(this);
     }
 
-    @Override
-    public HandlerRegistration addDragLeaveHandler(final DragLeaveHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()){
-                handler.onDragLeave(event);
-            }
-        }, DragLeaveEvent.TYPE);
-    }
-
     public void fireDragLeaveEvent() {
-        DragLeaveEvent.fire(this);
+        DragLeaveEvent.fire(this, null);
     }
 
     @Override

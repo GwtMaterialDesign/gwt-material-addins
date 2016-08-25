@@ -21,12 +21,15 @@ package gwt.material.design.addins.client.dnd.js;
  */
 
 
+import gwt.material.design.addins.client.dnd.constants.Restriction;
+import gwt.material.design.client.constants.Axis;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Options for dnd component
+ * Options for dnd component.
  * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
@@ -40,4 +43,55 @@ public class JsDragOptions {
 
     @JsProperty
     public JsDragRestrictions restrict;
+
+    @JsOverlay
+    public static JsDragOptions create() {
+        return create(true, null, new Restriction());
+    }
+
+    @JsOverlay
+    public static JsDragOptions create(Restriction restriction) {
+        return create(true, null, restriction);
+    }
+
+    @JsOverlay
+    public static JsDragOptions create(boolean inertia) {
+        return create(inertia, null, new Restriction());
+    }
+
+    @JsOverlay
+    public static JsDragOptions create(Axis axis) {
+        return create(true, axis, new Restriction());
+    }
+
+    @JsOverlay
+    public static JsDragOptions create(boolean inertia, Axis axis, Restriction restriction) {
+        JsDragOptions options = new JsDragOptions();
+        options.inertia = inertia;
+        if(axis != null) {
+            if (axis.equals(Axis.HORIZONTAL)) {
+                options.axis = "x";
+            } else {
+                options.axis = "y";
+            }
+        }
+
+        // Restrict Options
+        JsDragRestrictions restrict = new JsDragRestrictions();
+        if(restriction != null) {
+            restrict.restriction = restriction.getRestriction().getValue();
+            restrict.endOnly = restriction.isEndOnly();
+
+            // Element Rec Options
+            JsDragElementRect elementRect = new JsDragElementRect();
+            elementRect.top = restriction.getTop();
+            elementRect.left = restriction.getLeft();
+            elementRect.bottom = restriction.getBottom();
+            elementRect.right = restriction.getRight();
+            restrict.elementRect = elementRect;
+        }
+        options.restrict = restrict;
+
+        return options;
+    }
 }

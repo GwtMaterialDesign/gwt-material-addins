@@ -22,17 +22,15 @@ package gwt.material.design.addins.client.dnd;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.base.DndHelper;
-import gwt.material.design.addins.client.dnd.base.Draggable;
-import gwt.material.design.addins.client.dnd.base.Droppable;
-import gwt.material.design.addins.client.dnd.constants.Restriction;
-import gwt.material.design.addins.client.dnd.events.*;
 import gwt.material.design.addins.client.dnd.js.*;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.events.*;
+import gwt.material.design.jquery.client.api.JQuery;
 
 //@formatter:off
 
@@ -58,7 +56,7 @@ import gwt.material.design.client.constants.Axis;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#dnd">Drag and Drop</a>
  */
 //@formatter:on
-public class MaterialDnd extends MaterialWidget implements Draggable, Droppable {
+public class MaterialDnd {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -68,277 +66,157 @@ public class MaterialDnd extends MaterialWidget implements Draggable, Droppable 
         }
     }
 
-    private JsDragOptions draggableOptions;
-    private boolean inertia;
-    private Axis axis;
     private MaterialWidget target;
-    private MaterialWidget ignoreFrom;
-    private Restriction restriction = new Restriction();
+    private Element ignoreFrom;
 
     private JsDropOptions dropOptions;
-    private String acceptSelector;
-    private double overlap = 0.75;
+    private JsDragOptions dragOptions;
 
-    public MaterialDnd() {
-        super(Document.get().createDivElement());
+    protected MaterialDnd() {
     }
 
-    public boolean isInertia() {
-        return inertia;
-    }
-
-    public void setInertia(boolean inertia) {
-        this.inertia = inertia;
-    }
-
-    @Override
-    public void setTarget(final MaterialWidget target) {
-        this.target = target;
-    }
-
-    /**
-     * Initialize the draggable widget and it's properties
-     */
-    protected void initDraggable() {
-        Element element = target.getElement();
-
-        JsDragOptions options = new JsDragOptions();
-        options.inertia = isInertia();
-        if(getAxis() == Axis.HORIZONTAL) {
-            options.axis = "x";
-        } else {
-            options.axis = "x";
-        }
-
-        // Restrict Options
-        JsDragRestrictions restrict = new JsDragRestrictions();
-        restrict.restriction = restriction.getRestriction().getValue();
-        restrict.endOnly = restriction.isEndOnly();
-
-        // Element Rec Options
-        JsDragElementRec elementRect = new JsDragElementRec();
-        elementRect.top = restriction.getTop();
-        elementRect.left = restriction.getLeft();
-        elementRect.bottom = restriction.getBottom();
-        elementRect.right = restriction.getRight();
-        restrict.elementRect  = elementRect;
-        options.restrict = restrict;
-
+    protected static MaterialDnd draggable(MaterialWidget target, MaterialDnd dnd) {
         // Events
-        JsDnd jsDnd = JsDnd.interact(element);
+        JsDnd jsDnd = JsDnd.interact(target.getElement());
         jsDnd.off("dragmove");
         jsDnd.on("dragmove", (event, o) -> {
             DndHelper.initMove(event);
-            DragMoveEvent.fire(MaterialDnd.this);
+            DragMoveEvent.fire(target);
             return true;
         });
         jsDnd.off("dragstart");
         jsDnd.on("dragstart", (event, o) -> {
-            DragStartEvent.fire(MaterialDnd.this);
+            DragStartEvent.fire(target);
             return true;
         });
         jsDnd.off("dragend");
         jsDnd.on("dragend", (event, o) -> {
-            DragEndEvent.fire(MaterialDnd.this);
+            DragEndEvent.fire(target);
             return true;
         });
-        this.draggableOptions = options;
+
+        jsDnd.draggable(dnd.dragOptions);
+        return dnd;
     }
 
-    @Override
-    public void draggable() {
-        if(!target.isAttached()) {
-            target.addAttachHandler(event -> {
-                if(event.isAttached()) {
-                    initDraggable();
-                    JsDnd.interact(getTarget().getElement()).draggable(draggableOptions);
-                }
-            }, true);
+    public static MaterialDnd draggable(MaterialWidget target) {
+        return draggable(target, JsDragOptions.create());
+    }
+
+    public static MaterialDnd draggable(MaterialWidget target, JsDragOptions options) {
+        MaterialDnd dnd = new MaterialDnd();
+        dnd.setTarget(target);
+        dnd.dragOptions = options;
+
+        // TODO: Validate options
+
+        if(target.isAttached()) {
+            draggable(target, dnd);
         } else {
-            initDraggable();
-            JsDnd.interact(getTarget().getElement()).draggable(draggableOptions);
+            target.addAttachHandler(event -> draggable(target, dnd), true);
         }
+        return dnd;
     }
 
-    @Override
-    public void dropzone() {
-        if(!target.isAttached()) {
-            target.addAttachHandler(event -> {
-                if(event.isAttached()) {
-                    initDropzone(getAcceptSelector(), getOverlap());
-                    JsDnd.interact(target.getElement()).dropzone(dropOptions);
-                }
-            }, true);
-        } else {
-            initDropzone(getAcceptSelector(), getOverlap());
-            JsDnd.interact(target.getElement()).dropzone(dropOptions);
-        }
-    }
-
-    protected void initDropzone(String accept, double overlap) {
-        JsDropOptions options = new JsDropOptions();
-        options.accept = "." + accept;
-        options.overlap = overlap;
-
+    protected static MaterialDnd dropzone(MaterialWidget target, MaterialDnd dnd) {
         JsDnd jsDnd = JsDnd.interact(target.getElement());
 
         jsDnd.off("dropactivate");
         jsDnd.on("dropactivate", (event, o) -> {
-            DropActivateEvent.fire(MaterialDnd.this);
+            DropActivateEvent.fire(target);
             return true;
         });
 
         jsDnd.off("dragenter");
         jsDnd.on("dragenter", (event, o) -> {
-            DragEnterEvent.fire(MaterialDnd.this, event.getRelatedTarget());
+            DragEnterEvent.fire(target, event.getRelatedTarget());
             return true;
         });
 
         jsDnd.off("dragleave");
         jsDnd.on("dragleave", (event, o) -> {
-            DragLeaveEvent.fire(MaterialDnd.this, event.getRelatedTarget());
+            DragLeaveEvent.fire(target, event.getRelatedTarget());
             return true;
         });
 
         jsDnd.off("drop");
         jsDnd.on("drop", (event, o) -> {
-            DropEvent.fire(MaterialDnd.this, event.getRelatedTarget());
+            DropEvent.fire(target, event.getRelatedTarget());
             return true;
         });
 
         jsDnd.off("dropdeactivate");
         jsDnd.on("dropdeactivate", (event, o) -> {
-            DropDeactivateEvent.fire(MaterialDnd.this);
+            DropDeactivateEvent.fire(target);
             return true;
         });
 
-        this.dropOptions = options;
+        jsDnd.dropzone(dnd.dropOptions);
+        return dnd;
     }
 
-    @Override
+    public static MaterialDnd dropzone(MaterialWidget target) {
+        return dropzone(target, JsDropOptions.create());
+    }
+
+    public static MaterialDnd dropzone(MaterialWidget target, JsDropOptions options) {
+        MaterialDnd dnd = new MaterialDnd();
+        dnd.setTarget(target);
+        dnd.dropOptions = options;
+
+        // TODO: Validate options
+
+        if(target.isAttached()) {
+            dropzone(target, dnd);
+        } else {
+            target.addAttachHandler(event -> dropzone(target, dnd), true);
+        }
+        return dnd;
+    }
+
+    public void ignoreFrom(UIObject uiObject) {
+        ignoreFrom(uiObject.getElement());
+    }
+
+    public void ignoreFrom(Element element) {
+        this.ignoreFrom = element;
+        if(target.isAttached()) {
+            JsDnd.interact(target.getElement()).ignoreFrom(element);
+        } else {
+            target.addAttachHandler(event -> {
+                JsDnd.interact(target.getElement()).ignoreFrom(element);
+            }, true);
+        }
+    }
+
+    public void ignoreFrom(String selector) {
+        this.ignoreFrom = JQuery.$(selector).asElement();
+        if(target.isAttached()) {
+            JsDnd.interact(target.getElement()).ignoreFrom(selector);
+        } else {
+            target.addAttachHandler(event -> {
+                JsDnd.interact(target.getElement()).ignoreFrom(selector);
+            }, true);
+        }
+    }
+
+    protected void setTarget(final MaterialWidget target) {
+        this.target = target;
+    }
+
     public MaterialWidget getTarget() {
         return target;
     }
 
-    @Override
-    public void setIgnoreFrom(final MaterialWidget ignoreFrom) {
-        this.ignoreFrom = ignoreFrom;
-        if(!getTarget().isAttached() && !ignoreFrom.isAttached()) {
-            ignoreFrom.addAttachHandler(event -> {
-                if(event.isAttached()) {
-                    initIgnoreFrom(getTarget().getElement(), ignoreFrom.getElement());
-                }
-            }, true);
-        } else {
-            initIgnoreFrom(getTarget().getElement(), ignoreFrom.getElement());
-        }
-    }
-
-    @Override
-    public void setIgnoreFrom(final String selector) {
-        if(!getTarget().isAttached()) {
-            getTarget().addAttachHandler(event -> {
-                initIgnoreFrom(getTarget().getElement(), selector);
-            }, true);
-        } else {
-            initIgnoreFrom(getTarget().getElement(), selector);
-        }
-    }
-
-    /**
-     * Initialize the ignoreFrom function as selector to exclude any widget from dragging
-     */
-    protected void initIgnoreFrom(Element target, String selector) {
-        JsDnd.interact(target).ignoreFrom(selector);
-    }
-
-    /**
-     * Initialize the ignoreFrom function to exclude any widget from dragging
-     */
-    protected void initIgnoreFrom(Element target, Element ignoreFrom) {
-        JsDnd.interact(target).ignoreFrom(ignoreFrom);
-    }
-
-    @Override
-    public MaterialWidget isIgnoreFrom() {
+    public Element getIgnoreFrom() {
         return ignoreFrom;
     }
 
-    @Override
-    public void setRestriction(Restriction restriction) {
-        this.restriction = restriction;
+    public JsDropOptions getDropOptions() {
+        return dropOptions;
     }
 
-    @Override
-    public Restriction getRestriction() {
-        return restriction;
-    }
-
-    public Axis getAxis() {
-        return axis;
-    }
-
-    public void setAxis(Axis axis) {
-        this.axis = axis;
-    }
-
-    @Override
-    public double getOverlap() {
-        return overlap;
-    }
-
-    @Override
-    public HandlerRegistration addDropActivateHandler(DropActivateEvent.DropActivateHandler handler) {
-        return addHandler(handler, DropActivateEvent.TYPE);
-    }
-
-    @Override
-    public HandlerRegistration addDragEnterHandler(DragEnterEvent.DragEnterHandler handler) {
-        return addHandler(handler, DragEnterEvent.TYPE);
-    }
-
-    @Override
-    public HandlerRegistration addDragLeaveHandler(DragLeaveEvent.DragLeaveHandler handler) {
-        return addHandler(handler, DragLeaveEvent.TYPE);
-    }
-
-    @Override
-    public HandlerRegistration addDropDeactivateHandler(DropDeactivateEvent.DropDeactivateHandler handler) {
-        return addHandler(handler, DropDeactivateEvent.TYPE);
-    }
-
-    @Override
-    public HandlerRegistration addDropHandler(DropEvent.DropHandler handler) {
-        return addHandler(handler, DropEvent.TYPE);
-    }
-
-    @Override
-    public void setOverlap(double overlap) {
-        this.overlap = overlap;
-    }
-
-    @Override
-    public String getAcceptSelector() {
-        return acceptSelector;
-    }
-
-    @Override
-    public void setAcceptSelector(String acceptSelector) {
-        this.acceptSelector = acceptSelector;
-    }
-
-    @Override
-    public HandlerRegistration addDragStartHandler(final DragStartEvent.DragStartHandler handler) {
-        return addHandler(handler, DragStartEvent.TYPE);
-    }
-
-    @Override
-    public HandlerRegistration addDragMoveHandler(final DragMoveEvent.DragMoveHandler handler) {
-        return addHandler(handler, DragMoveEvent.TYPE);
-    }
-
-    @Override
-    public HandlerRegistration addDragEndHandler(final DragEndEvent.DragEndHandler handler) {
-        return addHandler(handler, DragEndEvent.TYPE);
+    public JsDragOptions getDragOptions() {
+        return dragOptions;
     }
 }

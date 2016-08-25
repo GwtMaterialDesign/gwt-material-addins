@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.dnd.js;
  */
 
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -39,5 +40,34 @@ public class JsDragRestrictions {
     public boolean endOnly;
 
     @JsProperty
-    public JsDragElementRec elementRect;
+    public JsDragElementRect elementRect;
+
+    @JsOverlay
+    public static JsDragRestrictions create() {
+        return create(null, false, new JsDragElementRect());
+    }
+
+    @JsOverlay
+    public static JsDragRestrictions create(String restriction) {
+        return create(restriction, false, new JsDragElementRect());
+    }
+
+    @JsOverlay
+    public static JsDragRestrictions create(boolean endOnly) {
+        return create(null, endOnly, new JsDragElementRect());
+    }
+
+    @JsOverlay
+    public static JsDragRestrictions create(JsDragElementRect elementRect) {
+        return create(null, false, elementRect);
+    }
+
+    @JsOverlay
+    public static JsDragRestrictions create(String restriction, boolean endOnly, JsDragElementRect elementRect) {
+        JsDragRestrictions restrict = new JsDragRestrictions();
+        restrict.restriction = restriction;
+        restrict.endOnly = endOnly;
+        restrict.elementRect = elementRect;
+        return restrict;
+    }
 }

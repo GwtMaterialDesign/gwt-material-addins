@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.dnd.js;
  */
 
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -31,9 +32,38 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsDropOptions {
 
+    /**
+     * A JQuery based node selector for the accepted items.
+     */
     @JsProperty
     public String accept;
 
+    /**
+     * The overlap amount, default 0.75
+     */
     @JsProperty
     public double overlap;
+
+    @JsOverlay
+    public static JsDropOptions create() {
+        return new JsDropOptions();
+    }
+
+    @JsOverlay
+    public static JsDropOptions create(String accept) {
+        return create(accept, 0.75);
+    }
+
+    @JsOverlay
+    public static JsDropOptions create(double overlap) {
+        return create(null, overlap);
+    }
+
+    @JsOverlay
+    public static JsDropOptions create(String accept, double overlap) {
+        JsDropOptions options = new JsDropOptions();
+        options.accept = accept;
+        options.overlap = overlap;
+        return options;
+    }
 }
