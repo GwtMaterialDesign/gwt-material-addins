@@ -258,6 +258,14 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         this.closeAnimation = closeAnimation;
     }
 
+    public void setHasMaximizeButtonVisible(boolean isVisible){
+        iconMaximize.setVisible(isEnabled);
+    }
+
+    public HandlerRegistration addOnMaximizeClickHandler(ClickHandler handler){
+        return iconMaximize.addClickHandler(handler);
+    }
+
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<Boolean> handler) {
         return addHandler(new CloseHandler<Boolean>() {
