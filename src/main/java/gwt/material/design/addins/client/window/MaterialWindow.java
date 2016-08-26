@@ -259,7 +259,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     public void setHasMaximizeButtonVisible(boolean isVisible){
-        iconMaximize.setVisible(isEnabled);
+        iconMaximize.setVisible(isVisible);
     }
 
     public HandlerRegistration addOnMaximizeClickHandler(ClickHandler handler){
