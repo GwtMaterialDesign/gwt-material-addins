@@ -14,7 +14,7 @@
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>1.6.0-SNAPSHOT</gwt-material.version>
+        <gwt-material.version>1.6.0</gwt-material.version>
     </properties>
 
     <scm>
