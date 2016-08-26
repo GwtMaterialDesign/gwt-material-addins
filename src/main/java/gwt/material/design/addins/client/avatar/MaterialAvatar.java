@@ -62,7 +62,6 @@ public class MaterialAvatar extends MaterialWidget {
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.md5Js());
         }
-
     }
 
     private String name;

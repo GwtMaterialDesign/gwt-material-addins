@@ -160,8 +160,8 @@ import java.util.Map.Entry;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!autocomplete">Material AutoComplete</a>
  */
 // @formatter:on
-public class MaterialAutoComplete extends MaterialWidget implements HasError, HasPlaceholder,
-        HasValue<List<? extends Suggestion>>, HasProgress, HasKeyUpHandlers, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
+public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasError,
+        HasPlaceholder, HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -188,7 +188,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     private boolean directInputAllowed = true;
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
-    private final ErrorMixin<MaterialAutoComplete, MaterialLabel> errorMixin = new ErrorMixin<>(this,
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this,
             lblError, list);
 
     private FocusableMixin<MaterialWidget> focusableMixin;
@@ -433,7 +433,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     /**
      * @param itemValues
      *            the itemsSelected to set
-     * @see #setValue(List)
+     * @see #setValue(Object)
      */
     public void setItemValues(List<String> itemValues) {
         if (itemValues == null) {
@@ -746,11 +746,6 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
     }
 
     @Override
-    public void setValue(List<? extends Suggestion> value) {
-        setValue(value, false);
-    }
-
-    @Override
     public void setValue(List<? extends Suggestion> value, boolean fireEvents) {
         clear();
         if (value != null) {
@@ -758,14 +753,17 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
                 addItem(suggestion);
             }
         }
-        if (fireEvents) {
-            ValueChangeEvent.fire(this, getValue());
-        }
+        super.setValue(value, fireEvents);
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         itemBox.setEnabled(enabled);
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        return errorMixin;
     }
 }

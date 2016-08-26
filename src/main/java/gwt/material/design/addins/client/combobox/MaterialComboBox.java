@@ -36,6 +36,7 @@ import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.MaterialWidget;
@@ -78,7 +79,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholder, HasError, HasConstrainedValue<T>,
+public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPlaceholder, HasConstrainedValue<T>,
         HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
 
     static {
@@ -284,6 +285,7 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     @Override
     public void setAcceptableValues(Collection<T> collection) {
         values.clear();
+
         for(T value : collection) {
             values.add(value);
         }
@@ -304,12 +306,7 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
      * @return the value for selected item, or {@code null} if none is selected
      */
     public T getSelectedValue() {
-        return this.getValue();
-    }
-
-    @Override
-    public void setValue(T t) {
-        setValue(t, true);
+        return getValue();
     }
 
     /**
@@ -331,9 +328,9 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
         int index = getValueIndex(value);
         if(index > 0 && values.contains(value)) {
             T before = getValue();
-            setSelectedIndex(index);
-            if (fireEvents) {
-                ValueChangeEvent.fireIfNotEqual(this, before, value);
+            if(!before.equals(value)) {
+                setSelectedIndex(index);
+                super.setValue(value, fireEvents);
             }
         }
     }
@@ -450,11 +447,6 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<T> valueChangeHandler) {
-        return addHandler(valueChangeHandler, ValueChangeEvent.getType());
-    }
-
-    @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
     }
@@ -472,25 +464,5 @@ public class MaterialComboBox<T> extends MaterialWidget implements HasPlaceholde
     @Override
     public HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler) {
         return addHandler(handler, RemoveItemEvent.getType());
-    }
-
-    @Override
-    public void setError(String error) {
-        errorMixin.setError(error);
-    }
-
-    @Override
-    public void setSuccess(String success) {
-        errorMixin.setSuccess(success);
-    }
-
-    @Override
-    public void setHelperText(String helperText) {
-        errorMixin.setHelperText(helperText);
-    }
-
-    @Override
-    public void clearErrorOrSuccess() {
-        errorMixin.clearErrorOrSuccess();
     }
 }

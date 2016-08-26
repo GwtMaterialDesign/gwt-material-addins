@@ -27,6 +27,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.tree.base.HasTreeItems;
@@ -75,6 +76,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     private MaterialTree tree;
     private Object object;
+    private HandlerRegistration clickRegistration;
 
     private boolean hide = true;
 
@@ -110,9 +112,11 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         }
         divHeader.add(getIcon());
         divHeader.add(span);
-        divHeader.addDomHandler(event -> {
-            initialize();
-        }, ClickEvent.getType());
+
+        if(clickRegistration != null) {
+            clickRegistration.removeHandler();
+        }
+        clickRegistration = divHeader.addClickHandler(event -> initialize());
     }
 
     @Override
@@ -120,6 +124,11 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         super.onUnload();
 
         tree = null;
+
+        if(clickRegistration != null) {
+            clickRegistration.removeHandler();
+            clickRegistration = null;
+        }
     }
 
     @Override

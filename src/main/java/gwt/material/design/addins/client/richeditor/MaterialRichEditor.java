@@ -63,7 +63,7 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#richeditor">Material Rich Editor</a>
  */
 //@formatter:on
-public class MaterialRichEditor extends MaterialRichEditorBase implements HasValueChangeHandlers<String>, HasPasteHandlers, HasHTML {
+public class MaterialRichEditor extends MaterialRichEditorBase implements HasValueChangeHandlers<String>, HasPasteHandlers {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -138,34 +138,6 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         });
     }
 
-    @Override
-    public String getHTML() {
-        return getHTMLCode(getElement());
-    }
-
-    protected String getHTMLCode(Element e) {
-        return $(e).code();
-    }
-
-    @Override
-    public void setHTML(final String html) {
-        setHTMLCode(getElement(), html);
-    }
-
-    protected void setHTMLCode(Element e, String html) {
-        $(e).code(html);
-    }
-
-    @Override
-    public String getText() {
-        return getElement().getInnerText();
-    }
-
-    @Override
-    public void setText(String text) {
-        getElement().setInnerText(text);
-    }
-
     /**
      * Insert custom text inside the note zone.
      */
@@ -207,23 +179,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<String> valueChangeHandler) {
-        return addHandler(new ValueChangeHandler<String>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<String> valueChangeEvent) {
-                if(isEnabled()) {
-                    valueChangeHandler.onValueChange(valueChangeEvent);
-                }
-            }
-        }, ValueChangeEvent.getType());
-    }
-
-    @Override
     public HandlerRegistration addPasteHandler(final PasteEvent.PasteHandler handler) {
-        return addHandler(event -> {
-            if(isEnabled()) {
-                handler.onPaste(event);
-            }
-        }, PasteEvent.TYPE);
+        return addHandler(handler, PasteEvent.TYPE);
     }
 }
