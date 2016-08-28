@@ -536,6 +536,12 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
         }
     }
 
+    public void setSuggestBoxLimit(int limit){
+        if (this.box != null) {
+            this.box.setLimit(limit);
+        }
+    }
+
     @Override
     public String getPlaceholder() {
         return label.getText();
