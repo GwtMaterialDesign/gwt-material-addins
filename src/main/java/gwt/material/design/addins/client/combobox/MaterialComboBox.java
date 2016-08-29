@@ -37,8 +37,8 @@ import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasPlaceholder;
+import gwt.material.design.client.base.KeyFactory;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -97,16 +97,22 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private boolean multiple;
     private int limit;
     private boolean hideSearch;
-    private List<T> values = new ArrayList<>();
-    private List<T> selectedValues = new ArrayList<>();
+
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
 
+    protected List<T> values = new ArrayList<>();
+    protected List<T> selectedValues = new ArrayList<>();
+
     private Label label = new Label();
     private MaterialLabel lblError = new MaterialLabel();
-    private MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
+    protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
 
-    private final ErrorMixin<MaterialComboBox, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, this.asWidget());
+    private final ErrorMixin<MaterialComboBox, MaterialLabel> errorMixin = new ErrorMixin<>(
+            this, lblError, this.asWidget());
+
+    // By default the key is generated using toString
+    private KeyFactory<T, String> keyFactory = object -> object.toString();
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), "input-field", "combobox");
@@ -170,17 +176,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void add(Widget child) {
         if(child instanceof OptGroup) {
             for(Widget w : ((OptGroup) child).getChildren()) {
                 if(w instanceof Option) {
-                    String value = ((Option) w).getValue();
-                    values.add((T) value);
+                    values.add((T)((Option) w).getValue());
                 }
             }
         } else if(child instanceof Option) {
-            String value = ((Option) child).getValue();
-            values.add((T) value);
+            values.add((T)((Option) child).getValue());
         }
         listbox.add(child);
     }
@@ -283,11 +288,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     @Override
-    public void setAcceptableValues(Collection<T> collection) {
-        values.clear();
+    public void setAcceptableValues(Collection<T> values) {
+        this.values.clear();
+        clear();
 
-        for(T value : collection) {
-            values.add(value);
+        for(T value : values) {
+            addItem(value);
         }
     }
 
@@ -309,30 +315,49 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         return getValue();
     }
 
+    @Override
+    public void setValue(T value) {
+        setValue(value, true);
+    }
+
+    @Override
+    public void setValue(T value, boolean fireEvents) {
+        int index = values.indexOf(value);
+        if(index > 0) {
+            T before = getValue();
+            setSelectedIndex(index);
+
+            if (fireEvents) {
+                ValueChangeEvent.fireIfNotEqual(this, before, value);
+            }
+        }
+    }
+
     /**
-     * Set directly all the values that will be stored into combobox and build
-     * options into it.
+     * Set directly all the values that will be stored into
+     * combobox and build options into it.
      */
     public void setValues(List<T> values) {
         selectedValues.clear();
         selectedValues.addAll(values);
+
         String[] stringValues = new String[values.size()];
-        for(int i = 0; i < values.size(); i++) {
+        for (int i = 0; i < values.size(); i++) {
             stringValues[i] = values.get(i).toString();
         }
         $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
     }
 
-    @Override
-    public void setValue(T value, boolean fireEvents) {
-        int index = getValueIndex(value);
-        if(index > 0 && values.contains(value)) {
-            T before = getValue();
-            if(!before.equals(value)) {
-                setSelectedIndex(index);
-                super.setValue(value, fireEvents);
-            }
+    public Option addItem(T value) {
+        if(!values.contains(value)) {
+            values.add(value);
+            Option opt = new Option(keyFactory.generateKey(value));
+            add(opt);
+            return opt;
+        } else {
+            GWT.log("Cannot add duplicate value: " + value);
         }
+        return null;
     }
 
     /**
@@ -352,12 +377,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     /**
-     * Add Value directly to combobox component with existing OptGroup
+     * Add item directly to combobox component with existing OptGroup
      * @param text - The text you want to labeled on the option item
      * @param value - The value you want to pass through in this option
      * @param optGroup - Add directly this option into the existing group
      */
-    public void addValue(String text, T value, OptGroup optGroup) {
+    public void addItem(String text, T value, OptGroup optGroup) {
         if(!values.contains(value)) {
             values.add(value);
             optGroup.add(buildOption(text, value));
@@ -369,7 +394,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * @param text - The text you want to labeled on the option item
      * @param value - The value you want to pass through in this option
      */
-    public void addValue(String text, T value) {
+    public void addItem(String text, T value) {
         if(!values.contains(value)) {
             values.add(value);
             listbox.add(buildOption(text, value));
@@ -382,7 +407,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     protected Option buildOption(String text, T value) {
         Option option = new Option();
         option.setText(text);
-        option.setValue(value.toString());
+        option.setValue(keyFactory.generateKey(value));
         return option;
     }
 
@@ -399,7 +424,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         T value = values.get(selectedIndex);
         if(value != null) {
             $(listbox.getElement()).val(value.toString()).trigger("change", selectedIndex);
-        }else {
+        } else {
             GWT.log("Value Index is not found.", new IndexOutOfBoundsException());
         }
     }
@@ -444,6 +469,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public void close() {
         $(listbox.getElement()).select2("close");
+    }
+
+    /**
+     * Use your own key factory for value keys.
+     */
+    public void setKeyFactory(KeyFactory<T, String> keyFactory) {
+        this.keyFactory = keyFactory;
     }
 
     @Override
