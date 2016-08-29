@@ -20,7 +20,6 @@ package gwt.material.design.addins.client.cutout;
  * #L%
  */
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -74,7 +73,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * {@code
  * MaterialCutOut cutOut = ... //create using new or using UiBinder
  * cutOut.setTarget(myTargetWidget); //the widget or element you want to focus
- * cutOut.openCutOut(); //shows the modal over the page
+ * cutOut.open(); //shows the modal over the page
  * }
  *
  * <h3>Custom styling:</h3> You use change the cut out style by using the
@@ -296,9 +295,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      *             if the target element is <code>null</code>
      * @see #setTarget(Widget)
      */
-    public void openCutOut() {
+    public void open() {
         if (targetElement == null) {
-            throw new IllegalStateException("The target element should be set before calling openCutOut().");
+            throw new IllegalStateException("The target element should be set before calling open().");
         }
         targetElement.scrollIntoView();
 
@@ -347,10 +346,10 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     /**
      * Closes the cut out. It is the same as calling
-     * {@link #closeCutOut(boolean)} with <code>false</code>.
+     * {@link #close(boolean)} with <code>false</code>.
      */
-    public void closeCutOut() {
-        this.closeCutOut(false);
+    public void close() {
+        this.close(false);
     }
 
     /**
@@ -359,7 +358,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * @param autoClosed
      *            Notifies with the modal was auto closed or closed by user action
      */
-    public void closeCutOut(boolean autoClosed) {
+    public void close(boolean autoClosed) {
         //restore the old overflow of the page
         Document.get().getDocumentElement().getStyle().setProperty("overflow", viewportOverflow);
 

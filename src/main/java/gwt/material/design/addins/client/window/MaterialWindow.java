@@ -64,10 +64,10 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * <pre>
  * {@code
  *  // Opening a window
- *  window.openWindow();
+ *  window.open();
  *
  *  // Closing a window
- *  window.closeWindow();
+ *  window.close();
  * }
  * </pre>
  *
@@ -143,10 +143,10 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         });
         iconClose.addClickHandler(event -> {
             if(open) {
-                openWindow();
+                open();
                 open = false;
             } else {
-                closeWindow();
+                close();
                 open = true;
             }
         });
@@ -193,7 +193,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     /**
      * Open the window
      */
-    public void openWindow() {
+    public void open() {
         if (!isAttached()) {
             RootPanel.get().add(this);
         }
@@ -208,7 +208,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     /**
      * Close the window
      */
-    public void closeWindow() {
+    public void close() {
         open = true;
         CloseEvent.fire(this, false);
         if (closeAnimation == null) {
