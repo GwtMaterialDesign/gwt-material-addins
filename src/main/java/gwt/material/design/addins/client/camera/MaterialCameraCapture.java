@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.camera;
  */
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -31,29 +32,35 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.jscore.client.api.*;
+
+import static gwt.material.design.addins.client.camera.JsCamera.$;
+
 
 //@formatter:off
+
 /**
  * <p>
  * MaterialCameraCapture is a widget that captures the video stream from the camera, using the
  * HTML5 {@code MediaDevices.getUserMedia()} (Streams API). This widget can capture images from the video, to allow
  * the upload to the server of photos from the camera.
  * </p>
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <p><pre>
  * {@code
  * <ma:camera.MaterialCameraCapture ui:field="camera" />
  * }
  * </pre></p>
- *
+ * <p>
  * <h3>Java Usage:</h3>
  * <p><pre>
  *  if (MaterialCameraCapture.isSupported()){
@@ -73,13 +80,13 @@ import gwt.material.design.client.base.MaterialWidget;
  *      Window.alert("Sorry, your browser doesn't support the camera capture.");
  *  }
  * </pre></p>
- *
+ * <p>
  * <h3>Styling:</h3>
  * <p>
  * To limit the width of the camera capture widget on mobile devices, you can use {@code max-width: 100%} on the widget.
  * The browser will take care of the aspect ratio of the video.
  * </p>
- *
+ * <p>
  * <h3>Notice:</h3>
  * <p>
  * This widget only works on pages served by a secure protocol (HTTPS). For the browser compatibility,
@@ -92,7 +99,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
 
     protected boolean pauseOnUnload = true;
-
+    
     public MaterialCameraCapture() {
         super(Document.get().createVideoElement());
     }
@@ -112,7 +119,6 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      * Captures the current frame of the video to an image data URL.
      *
      * @param mimeType The type of the output image, such as "image/png" or "image/jpeg".
-     *
      * @return The Data URL of the captured image, which can be used as "src" on an "img" element
      * or sent to the server
      */
@@ -161,7 +167,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     }
 
     /**
-     * Restarts the video stream from the camera. 
+     * Restarts the video stream from the camera.
      * The user is requested again by the browser to allow the application to use the camera.
      */
     public void restart() {
@@ -183,7 +189,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
     /**
      * Sets if the camera capture should pause when the widget is unloaded.
-     * The default is <code>true</code>. 
+     * The default is <code>true</code>.
      */
     public void setPauseOnUnload(boolean pauseOnUnload) {
         this.pauseOnUnload = pauseOnUnload;
@@ -200,37 +206,45 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     /**
      * Native call to the streams API
      */
-    protected native void nativePlay(Element video)/*-{
-        var navigator = $wnd.navigator;
-        var widget = this;
-
-        var onSuccess = function(stream) {
-            var vendorURL = $wnd.URL || $wnd.webkitURL;
-            video.src = vendorURL.createObjectURL(stream);
-            video.play();
-            widget.@gwt.material.design.addins.client.camera.MaterialCameraCapture::onCameraCaptureLoad()();
-        };
-
-        var onFailure = function(err) {
-            console.log("MaterialCameraCapture: An error occured! " + err);
-            widget.@gwt.material.design.addins.client.camera.MaterialCameraCapture::onCameraCaptureError(Ljava/lang/String;)(err.message);
-        };
-
-        //using premisses
-        if (navigator.mediaDevices.getUserMedia){
-            var p = navigator.mediaDevices.getUserMedia({video: true, audio: false});
-            p.then(onSuccess);
-            //workaround for the catch keyword. See https://groups.google.com/forum/#!topic/google-web-toolkit/t1KGh-7KL-k
-            p["catch"](onFailure);
+    protected void nativePlay(Element video) {
+        MediaStream stream = null;
+        if (Navigator.getUserMedia != null) {
+            stream = Navigator.getUserMedia;
+            GWT.log("Uses Default user Media");
+        } else if (Navigator.webkitGetUserMedia != null) {
+            stream = Navigator.webkitGetUserMedia;
+            GWT.log("Uses Webkit User Media");
+        } else if (Navigator.mozGetUserMedia != null) {
+            stream = Navigator.mozGetUserMedia;
+            GWT.log("Uses Moz User Media");
+        } else if (Navigator.msGetUserMedia != null) {
+            stream = Navigator.msGetUserMedia;
+            GWT.log("Uses Microsoft user Media");
+        } else {
+            GWT.log("No supported media found in your browser");
         }
-        else {
-            navigator.getMedia = (navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia);
-            navigator.getMedia({video: true, audio: false}, onSuccess, onFailure);
+
+        if(stream != null) {
+            Navigator.getMedia = stream;
+            Constraints constraints = new Constraints();
+            constraints.video = true;
+            constraints.audio = true;
+
+            Navigator.getMedia(constraints, (streamObj) -> {
+                if (URL.createObjectURL(streamObj) != null) {
+                    $(video).attr("src", URL.createObjectURL(streamObj));
+                } else if (WebkitURL.createObjectURL(streamObj) != null) {
+                    $(video).attr("src", WebkitURL.createObjectURL(streamObj));
+                }
+                if (video instanceof VideoElement) {
+                    ((VideoElement) video).play();
+                }
+                onCameraCaptureLoad();
+            }, (error) -> {
+                MaterialToast.fireToast("Failure");
+            });
         }
-    }-*/;
+    }
 
     /**
      * Native call to capture the frame of the video stream.
@@ -258,7 +272,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      * Tests if the browser supports the Streams API. This should be called before creating any
      * MaterialCameraCapture widgets to avoid errors on the browser.
      *
-     * @return <code>true</code> if the browser supports this widget, <code>false</code> otherwise 
+     * @return <code>true</code> if the browser supports this widget, <code>false</code> otherwise
      */
     public static native boolean isSupported()/*-{
         return !!(navigator.mediaDevices.getUserMedia ||
@@ -283,7 +297,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     }
 
     /**
-     *  Called by the component when the stream when an error occurs.
+     * Called by the component when the stream when an error occurs.
      */
     protected void onCameraCaptureError(String error) {
         CameraCaptureEvent.fire(this, error);
@@ -292,7 +306,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     @Override
     public HandlerRegistration addCameraCaptureHandler(final CameraCaptureHandler handler) {
         return addHandler(event -> {
-            if(isEnabled()){
+            if (isEnabled()) {
                 handler.onCameraCaptureChange(event);
             }
         }, CameraCaptureEvent.getType());
