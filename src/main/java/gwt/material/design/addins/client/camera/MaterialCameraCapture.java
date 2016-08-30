@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.camera;
  */
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
@@ -32,7 +33,6 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jscore.client.api.*;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
@@ -99,7 +99,7 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
 
     protected boolean pauseOnUnload = true;
-    
+
     public MaterialCameraCapture() {
         super(Document.get().createVideoElement());
     }
@@ -224,11 +224,11 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             GWT.log("No supported media found in your browser");
         }
 
-        if(stream != null) {
+        if (stream != null) {
             Navigator.getMedia = stream;
             Constraints constraints = new Constraints();
             constraints.video = true;
-            constraints.audio = true;
+            constraints.audio = false;
 
             Navigator.getMedia(constraints, (streamObj) -> {
                 if (URL.createObjectURL(streamObj) != null) {
@@ -241,7 +241,8 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
                 }
                 onCameraCaptureLoad();
             }, (error) -> {
-                MaterialToast.fireToast("Failure");
+                GWT.log("MaterialCameraCapture: An error occured! " + error);
+                onCameraCaptureError(error);
             });
         }
     }
@@ -249,24 +250,20 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     /**
      * Native call to capture the frame of the video stream.
      */
-    protected native String nativeCaptureToDataURL(CanvasElement canvas, Element video, String mimeType)/*-{
-        var width = video.videoWidth;
-        var height = video.videoHeight;
-
-        if (isNaN(width) || isNaN(height)) {
-            width = video.clientWidth;
-            height = video.clientHeight;
+    protected String nativeCaptureToDataURL(CanvasElement canvas, Element element, String mimeType) {
+        VideoElement videoElement = (VideoElement) element;
+        int width = videoElement.getVideoWidth();
+        int height = videoElement.getVideoHeight();
+        if (Double.isNaN(width) || Double.isNaN(height)) {
+            width = videoElement.getClientWidth();
+            height = videoElement.getClientHeight();
         }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        var context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, width, height);
-
-        var data = canvas.toDataURL(mimeType);
-        return data;
-    }-*/;
+        canvas.setWidth(width);
+        canvas.setHeight(height);
+        Context2d context = canvas.getContext2d();
+        context.drawImage(videoElement, 0, 0, width, height);
+        return canvas.toDataUrl(mimeType);
+    }
 
     /**
      * Tests if the browser supports the Streams API. This should be called before creating any
@@ -274,13 +271,9 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      *
      * @return <code>true</code> if the browser supports this widget, <code>false</code> otherwise
      */
-    public static native boolean isSupported()/*-{
-        return !!(navigator.mediaDevices.getUserMedia ||
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia);
-    }-*/;
+    public static boolean isSupported() {
+        return Navigator.webkitGetUserMedia != null || Navigator.getUserMedia != null || Navigator.mozGetUserMedia != null || Navigator.msGetUserMedia != null;
+    }
 
     /**
      * Called by the component when the stream has started.
