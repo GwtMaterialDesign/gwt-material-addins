@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.dnd.constants;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.dnd.constants;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.dnd.constants;
 
 /**
  * Drags, resizes and gestures can be restricted to a certain area. By default,

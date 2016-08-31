@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.timepicker.js;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.timepicker.js;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.timepicker.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.JQueryElement;

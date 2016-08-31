@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.window.constants;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.window.constants;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.window.constants;
 
 /**
  * CSS Resource links for waterfall component

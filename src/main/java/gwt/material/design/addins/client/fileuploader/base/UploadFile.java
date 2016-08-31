@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader.base;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.fileuploader.base;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.fileuploader.base;
 
 import java.io.Serializable;
 import java.util.Date;

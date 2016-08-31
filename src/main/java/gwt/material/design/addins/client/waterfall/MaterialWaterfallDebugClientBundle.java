@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.waterfall;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.waterfall;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.waterfall;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.swipeable;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.swipeable;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.swipeable;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

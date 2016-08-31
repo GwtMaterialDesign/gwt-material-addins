@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.richeditor.base;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.richeditor.base;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.richeditor.base;
 
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;

@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.scrollfire;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.scrollfire;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.scrollfire;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;

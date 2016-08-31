@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.combobox.events;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.combobox.events;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.combobox.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader.base;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.fileuploader.base;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.fileuploader.base;
 
 /**
  * Upload Response with Code (e.g 404, 503, 200) and message ("File Upload url not found etc."

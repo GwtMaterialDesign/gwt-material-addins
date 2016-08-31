@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.docviewer;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.docviewer;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.docviewer;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.MaterialWidget;

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.pathanimator.js;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.pathanimator.js;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.pathanimator.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.Functions;

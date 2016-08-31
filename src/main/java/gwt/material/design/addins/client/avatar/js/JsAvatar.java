@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.avatar.js;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.avatar.js;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.avatar.js;
 
 import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsMethod;

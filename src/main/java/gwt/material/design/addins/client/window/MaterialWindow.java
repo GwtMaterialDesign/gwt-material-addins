@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.window;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.window;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.window;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;

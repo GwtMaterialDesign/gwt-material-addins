@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.waterfall.js;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.waterfall.js;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.waterfall.js;
 
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsMethod;

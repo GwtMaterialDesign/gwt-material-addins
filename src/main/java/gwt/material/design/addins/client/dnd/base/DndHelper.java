@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.dnd.base;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.dnd.base;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.dnd.base;
 
 import gwt.material.design.jquery.client.api.Event;
 

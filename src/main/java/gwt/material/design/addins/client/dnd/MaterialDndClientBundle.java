@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.dnd;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.dnd;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.dnd;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

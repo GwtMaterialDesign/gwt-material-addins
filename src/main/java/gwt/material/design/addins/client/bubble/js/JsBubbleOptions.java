@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.bubble.js;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.bubble.js;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.bubble.js;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;

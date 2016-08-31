@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.combobox.js;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.combobox.js;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.combobox.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.JQueryElement;

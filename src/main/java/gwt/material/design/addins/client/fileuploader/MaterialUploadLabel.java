@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.fileuploader;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.HasTitle;

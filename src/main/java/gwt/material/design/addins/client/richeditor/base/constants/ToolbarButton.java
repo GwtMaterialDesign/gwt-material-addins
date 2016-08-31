@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.richeditor.base.constants;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.richeditor.base.constants;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.richeditor.base.constants;
 
 /**
  * This enum represents the RichEditor Toolbar buttons

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader.events;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.fileuploader.events;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.fileuploader.events;
 
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
