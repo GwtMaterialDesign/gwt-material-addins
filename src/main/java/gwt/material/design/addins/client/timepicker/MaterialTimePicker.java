@@ -66,8 +66,8 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @author Ben Dol
  */
 //@formatter:on
-public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date>, HasIcon {
+public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder, HasOrientation,
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -97,7 +97,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, "valid");
 
-    private final ErrorMixin<MaterialTimePicker, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
 
     private String uniqueId;
     private String placeholder;
@@ -126,19 +126,12 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      * Side effects:
      * <ul>
      *   <li>Resets the time to <i>now<i></li>
-     *   <li>Clears erros/success message</li>
+     *   <li>Clears errors/success message</li>
      * </ul>
      */
     public void reset() {
         setValue(new Date());
         clearErrorOrSuccess();
-    }
-
-    /**
-     * @return the time
-     */
-    public String getTime() {
-        return getTime(this.input.getElement());
     }
 
     public boolean isAutoClose() {
@@ -192,32 +185,11 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     /**
-     * @param orientation
-     *            The orientation to set: Can be Horizontal or Vertical.
+     * @param orientation The orientation to set: Can be Horizontal or Vertical.
      */
     @Override
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
-    }
-
-    @Override
-    public void setError(String error) {
-        this.errorMixin.setError(error);
-    }
-
-    @Override
-    public void setSuccess(String success) {
-        this.errorMixin.setSuccess(success);
-    }
-
-    @Override
-    public void setHelperText(String helperText) {
-        this.errorMixin.setHelperText(helperText);
-    }
-
-    @Override
-    public void clearErrorOrSuccess() {
-        this.errorMixin.clearErrorOrSuccess();
     }
 
     protected void initTimePicker() {
@@ -227,9 +199,9 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
             options.orientation = getOrientation().getCssName();
             options.hour24 = isHour24();
             options.uniqueId = getUniqueId();
-            options.beforeShow = () -> beforeShow();
-            options.afterShow = () -> afterShow();
-            options.afterHide = () -> afterHide();
+            options.beforeShow = this::beforeShow;
+            options.afterShow = this::afterShow;
+            options.afterHide = this::afterHide;
             $(input.getElement()).lolliclock(options);
             $(input.getElement()).blur();
         });
@@ -256,7 +228,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      * Called after the lolliclock event <code>afterHide</code>.
      */
     protected void afterHide() {
-        String timeString = getTime(input.getElement());
+        String timeString = getTime();
         Date parsedDate = null;
 
         if(timeString != null && !timeString.equals("")) {
@@ -279,8 +251,8 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         CloseEvent.fire(this, this.time);
     }
 
-    protected String getTime(Element e) {
-        return $(e).val().toString();
+    protected String getTime() {
+        return $(input.getElement()).val().toString();
     }
 
     @Override
@@ -290,26 +262,12 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
 
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<Date> handler) {
-        return this.addHandler(new CloseHandler<Date>() {
-            @Override
-            public void onClose(CloseEvent<Date> event) {
-                if(isEnabled()){
-                    handler.onClose(event);
-                }
-            }
-        }, CloseEvent.getType());
+        return this.addHandler(handler, CloseEvent.getType());
     }
 
     @Override
     public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
-        return this.addHandler(new OpenHandler<Date>() {
-            @Override
-            public void onOpen(OpenEvent<Date> event) {
-                if(isEnabled()){
-                    handler.onOpen(event);
-                }
-            }
-        }, OpenEvent.getType());
+        return this.addHandler(handler, OpenEvent.getType());
     }
 
     @Override
@@ -322,25 +280,8 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> handler) {
-        return this.addHandler(new ValueChangeHandler<Date>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<Date> event) {
-                if(isEnabled()){
-                    handler.onValueChange(event);
-                }
-            }
-        }, ValueChangeEvent.getType());
-    }
-
-    @Override
     public Date getValue() {
         return this.time;
-    }
-
-    @Override
-    public void setValue(Date time) {
-        this.setValue(time, true);
     }
 
     @Override
@@ -355,19 +296,11 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
             return;
         }
         this.time = time;
-        String timeString;
-
-        if(this.hour24) {
-            timeString = DateTimeFormat.getFormat("HH:mm").format(time);
-        } else {
-            timeString = DateTimeFormat.getFormat("hh:mm aa").format(time);
-        }
+        String timeString = DateTimeFormat.getFormat(this.hour24 ? "HH:mm" : "hh:mm aa").format(time);
 
         setValue(this.input.getElement(), timeString);
 
-        if(fireEvents) {
-            ValueChangeEvent.fire(this, this.time);
-        }
+        super.setValue(time, fireEvents);
     }
 
     protected void setValue(Element e, String time) {
@@ -423,5 +356,10 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     @Override
     public boolean isIconPrefix() {
         return icon.isIconPrefix();
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        return errorMixin;
     }
 }

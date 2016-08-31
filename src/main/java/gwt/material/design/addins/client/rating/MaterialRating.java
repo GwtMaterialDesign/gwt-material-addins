@@ -123,8 +123,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Sets the maximum number of icons to show - which represents the maximum
      * selectable rating. The default is 5.
      *
-     * @param maxRating
-     *            The maximum selectable rating for this component
+     * @param maxRating The maximum selectable rating for this component
      */
     public void setMaxRating(int maxRating) {
         this.maxRating = maxRating;
@@ -132,8 +131,8 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     }
 
     /**
-     * Returns the maximum selectable rating in this component. The default is
-     * 5.
+     * Returns the maximum selectable rating in this component.
+     * The default is 5.
      *
      * @return The maximum rating
      */
@@ -145,8 +144,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Sets the {@link IconType} to be used to represent the selected ratings.
      * The default is {@link IconType#STAR}.
      *
-     * @param selectedRatingIcon
-     *            The icon of the selected ratings
+     * @param selectedRatingIcon The icon of the selected ratings
      */
     public void setSelectedRatingIcon(IconType selectedRatingIcon) {
         this.selectedRatingIcon = selectedRatingIcon;
@@ -167,8 +165,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Sets the {@link IconType} to be used to represent the not selected
      * ratings. The default is {@link IconType#STAR_BORDER}.
      *
-     * @param unselectedRatingIcon
-     *            The icon of the unselected ratings
+     * @param unselectedRatingIcon The icon of the unselected ratings
      */
     public void setUnselectedRatingIcon(IconType unselectedRatingIcon) {
         this.unselectedRatingIcon = unselectedRatingIcon;
@@ -192,7 +189,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     }
 
     /**
-     * Method called internally by the component to revalidade the number of
+     * Method called internally by the component to re-validate the number of
      * icons when the maximum rating is changed.
      */
     protected void revalidateLayout() {
@@ -283,9 +280,8 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Non-editable MaterialRatings can only show values, not allowing users to
      * change them. The default is <code>true</code> (editable).
      *
-     * @param editable
-     *            <code>true</code> to allow the user change the state of the
-     *            component, <code>false</code> otherwise
+     * @param editable <code>true</code> to allow the user change the state of the component,
+     *                 <code>false</code> otherwise.
      */
     public void setEditable(boolean editable) {
         this.editable = editable;

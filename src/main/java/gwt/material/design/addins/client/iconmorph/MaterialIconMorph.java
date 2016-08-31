@@ -80,8 +80,6 @@ public class MaterialIconMorph extends MaterialWidget {
             source.addStyleName("icons source");
             MaterialIcon target = (MaterialIcon) getWidget(1);
             target.addStyleName("icons target");
-        } else {
-            MaterialToast.fireToast("Nothing");
         }
     }
 

@@ -60,6 +60,6 @@ public class MaterialScrollfire {
     }
 
     public static void apply(String selector, Runnable callback) {
-        JsScrollfire.apply(selector, 100, () -> callback.run());
+        JsScrollfire.apply(selector, 100, callback::run);
     }
 }

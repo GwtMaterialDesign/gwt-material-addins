@@ -61,7 +61,8 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#steppers">Material Steppers</a>
  */
 // @formatter:on
-public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasAxis, HasSelectionHandlers<MaterialStep> {
+public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasAxis,
+        HasSelectionHandlers<MaterialStep> {
 
     private int step;
     private String title;
@@ -183,7 +184,6 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         removeStyleName("error");
         removeStyleName("success");
     }
-
 
     protected void applyIconStatus(MaterialIcon icon, String color, String description){
         iconError.removeFromParent();

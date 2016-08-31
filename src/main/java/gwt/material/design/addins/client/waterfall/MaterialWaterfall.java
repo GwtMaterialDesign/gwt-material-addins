@@ -105,7 +105,7 @@ public class MaterialWaterfall extends MaterialWidget {
     }
 
     protected void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) {
-        JsWaterfall.initWaterfall(height, () -> openCallback.run(), () -> closeCallback.run(), offset);
+        JsWaterfall.initWaterfall(height, openCallback::run, closeCallback::run, offset);
     }
 
     public double getOffset() {

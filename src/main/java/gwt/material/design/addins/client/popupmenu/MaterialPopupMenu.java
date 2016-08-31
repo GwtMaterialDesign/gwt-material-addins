@@ -36,7 +36,7 @@ import gwt.material.design.jquery.client.api.JQueryElement;
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
- * Popup Menu> Menu
+ * Popup Menu.
  *
  * @author Mark Kevin
  * @author Ben Dol

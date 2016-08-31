@@ -90,8 +90,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#cutouts">Material Cutouts</a>
  */
 // @formatter:on
-public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
-        HasClickHandlers, HasCircle {
+public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasCircle {
 
     private String backgroundColor = "blue";
     private double opacity = 0.8;
@@ -317,10 +316,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             //the animation will take place after the boxshadow is set by the deferred command
             Scheduler.get().scheduleDeferred(() -> {
                 focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
-
             });
-        }
-        else {
+        } else {
             focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
 
@@ -443,8 +440,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         if (animated){
             focus.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
             focus.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);            
-        }
-        else {
+        } else {
             focus.getStyle().clearProperty("WebkitTransition");
             focus.getStyle().clearProperty("transition");
         }
@@ -483,17 +479,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
-        return addHandler(new CloseHandler<MaterialCutOut>() {
-            @Override
-            public void onClose(CloseEvent<MaterialCutOut> event) {
-                handler.onClose(event);
-            }
-        }, CloseEvent.getType());
+        return addHandler(handler, CloseEvent.getType());
     }
-
-    @Override
-    public HandlerRegistration addClickHandler(final ClickHandler handler) {
-        return addDomHandler(event -> handler.onClick(event), ClickEvent.getType());
-    }
-
 }

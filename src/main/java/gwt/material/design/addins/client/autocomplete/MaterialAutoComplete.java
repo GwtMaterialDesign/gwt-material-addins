@@ -22,7 +22,6 @@ package gwt.material.design.addins.client.autocomplete;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.HasKeyUpHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.*;
@@ -160,8 +159,8 @@ import java.util.Map.Entry;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!autocomplete">Material AutoComplete</a>
  */
 // @formatter:on
-public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasError,
-        HasPlaceholder, HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
+public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
+        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
 
     static {
         if(MaterialAddins.isDebug()) {

@@ -138,9 +138,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         window.add(content);
 
         // Add handlers to action buttons
-        iconMaximize.addClickHandler(event -> {
-            toggleMaximize();
-        });
+        iconMaximize.addClickHandler(event -> toggleMaximize());
         iconClose.addClickHandler(event -> {
             if(open) {
                 open();
@@ -214,9 +212,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         if (closeAnimation == null) {
             closeMixin.setOn(false);
         } else {
-            closeAnimation.animate(window, () -> {
-                closeMixin.setOn(false);
-            });
+            closeAnimation.animate(window, () -> closeMixin.setOn(false));
         }
     }
 
@@ -239,26 +235,12 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<Boolean> handler) {
-        return addHandler(new CloseHandler<Boolean>() {
-            @Override
-            public void onClose(CloseEvent<Boolean> event) {
-                if(isEnabled()) {
-                    handler.onClose(event);
-                }
-            }
-        }, CloseEvent.getType());
+        return addHandler(handler, CloseEvent.getType());
     }
 
     @Override
     public HandlerRegistration addOpenHandler(final OpenHandler<Boolean> handler) {
-        return addHandler(new OpenHandler<Boolean>() {
-            @Override
-            public void onOpen(OpenEvent<Boolean> event) {
-                if(isEnabled()) {
-                    handler.onOpen(event);
-                }
-            }
-        }, OpenEvent.getType());
+        return addHandler(handler, OpenEvent.getType());
     }
 
     @Override

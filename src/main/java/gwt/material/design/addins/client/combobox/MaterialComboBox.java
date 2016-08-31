@@ -112,7 +112,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             this, lblError, this.asWidget());
 
     // By default the key is generated using toString
-    private KeyFactory<T, String> keyFactory = object -> object.toString();
+    private KeyFactory<T, String> keyFactory = Object::toString;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), "input-field", "combobox");
