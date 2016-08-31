@@ -89,19 +89,17 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private MaterialWidget content = new MaterialWidget(Document.get().createDivElement());
 
     // Toolbar elements
+    private MaterialLink link = new MaterialLink();
     private MaterialWidget toolbar = new MaterialWidget(Document.get().createDivElement());
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
-    private MaterialLink link = new MaterialLink();
 
     private String title = "";
     private String toolbarColor;
 
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
     private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(window, "maximize");
-    private final ToggleStyleMixin<MaterialWindow> closeMixin = new ToggleStyleMixin<>(this, "open");
-
-    private boolean open = false;
+    private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, "open");
 
     private MaterialAnimation openAnimation;
     private MaterialAnimation closeAnimation;
@@ -140,12 +138,10 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         // Add handlers to action buttons
         iconMaximize.addClickHandler(event -> toggleMaximize());
         iconClose.addClickHandler(event -> {
-            if(open) {
+            if(!isOpen()) {
                 open();
-                open = false;
             } else {
                 close();
-                open = true;
             }
         });
 
@@ -189,30 +185,29 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     /**
-     * Open the window
+     * Open the window.
      */
     public void open() {
         if (!isAttached()) {
             RootPanel.get().add(this);
         }
-        open = false;
         OpenEvent.fire(this, true);
-        if (openAnimation != null) {
-            openAnimation.animate(window);
+        if (openAnimation == null) {
+            openMixin.setOn(true);
+        } else {
+            openAnimation.animate(window, () -> openMixin.setOn(true));
         }
-        closeMixin.setOn(true);
     }
 
     /**
-     * Close the window
+     * Close the window.
      */
     public void close() {
-        open = true;
         CloseEvent.fire(this, false);
         if (closeAnimation == null) {
-            closeMixin.setOn(false);
+            openMixin.setOn(false);
         } else {
-            closeAnimation.animate(window, () -> closeMixin.setOn(false));
+            closeAnimation.animate(window, () -> openMixin.setOn(false));
         }
     }
 
@@ -259,6 +254,6 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     public boolean isOpen() {
-        return open;
+        return openMixin.isOn();
     }
 }
