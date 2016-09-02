@@ -92,6 +92,7 @@ public class MaterialMasonry extends MaterialRow {
     protected void onLoad() {
         super.onLoad();
         initMasonry();
+
         if(!initialize) {
             initialize = true;
         }
@@ -102,11 +103,7 @@ public class MaterialMasonry extends MaterialRow {
     }
 
     protected void initMasonryJs(Element e) {
-        window().ready(() -> {
-            $(e).imagesLoaded(() -> {
-                $(e).masonry(getMasonryOptions());
-            });
-        });
+        window().ready(() -> $(e).imagesLoaded(() -> $(e).masonry(getMasonryOptions())));
     }
 
     protected JsMasonryOptions getMasonryOptions() {

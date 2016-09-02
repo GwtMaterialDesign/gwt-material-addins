@@ -55,8 +55,10 @@ public class MaterialUploadHeader extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initUploadHeader(iconClose.getElement(), iconColaps.getElement(), getPreview().getElement(),
-                getPreview().getUploadCollection().getElement());
+        initUploadHeader(iconClose.getElement(),
+                         iconColaps.getElement(),
+                         getPreview().getElement(),
+                         getPreview().getUploadCollection().getElement());
     }
 
     protected native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{

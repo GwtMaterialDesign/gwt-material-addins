@@ -76,9 +76,7 @@ public class MaterialPathAnimator {
     public static void animate(Element source, Element target, Runnable callback) {
         $("document").ready(() -> {
             JsPathAnimator.cta(source, target, () -> {
-                if(callback != null) {
-                    callback.run();
-                }
+                if(callback != null) { callback.run(); }
             });
         });
     }
@@ -99,7 +97,7 @@ public class MaterialPathAnimator {
      */
     public static void reverseAnimate(Element source, Element target, Runnable callback) {
         $("document").ready(() -> {
-            callback.run();
+            if(callback != null) { callback.run(); }
             JsPathAnimator.cta(target, source);
         });
     }

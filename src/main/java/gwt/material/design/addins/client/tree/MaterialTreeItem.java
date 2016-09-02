@@ -78,6 +78,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     private HandlerRegistration clickRegistration;
 
     private boolean hide = true;
+    private boolean initialized;
 
     public MaterialTreeItem() {
         setStyleName("tree-item");
@@ -106,16 +107,20 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(image != null){
-            divHeader.add(image);
-        }
-        divHeader.add(getIcon());
-        divHeader.add(span);
+        if(!initialized) {
+            if (image != null) {
+                divHeader.add(image);
+            }
+            divHeader.add(getIcon());
+            divHeader.add(span);
 
-        if(clickRegistration != null) {
-            clickRegistration.removeHandler();
+            if (clickRegistration != null) {
+                clickRegistration.removeHandler();
+            }
+            clickRegistration = divHeader.addClickHandler(event -> click());
+
+            initialized = true;
         }
-        clickRegistration = divHeader.addClickHandler(event -> initialize());
     }
 
     @Override
@@ -157,7 +162,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         return divHeader;
     }
 
-    public void initialize() {
+    public void click() {
         // Fire selection event
         SelectionEvent.fire(getTree(), this);
 

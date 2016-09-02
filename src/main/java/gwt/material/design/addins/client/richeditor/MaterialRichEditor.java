@@ -95,6 +95,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         toolbar[5] = new Object[] {"color", extractOptions(getColorOptions())};
         toolbar[6] = new Object[] {"ckMedia", extractOptions(getCkMediaOptions())};
         toolbar[7] = new Object[] {"misc", extractOptions(getMiscOptions())};
+
         // Other important options
         options.toolbar = toolbar;
         options.airMode = isAirMode();
@@ -136,6 +137,19 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         });
     }
 
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        JsRichEditor jsRichEditor = $(getElement());
+        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_BLUR);
+        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_FOCUS);
+        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYUP);
+        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYDOWN);
+        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
+        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
+    }
+
     /**
      * Insert custom text inside the note zone.
      */
@@ -166,14 +180,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
 
     @Override
     public void clear() {
-        clear(getElement());
-    }
-
-    /**
-     * Clear the note editor with element as param.
-     */
-    protected void clear(Element e) {
-        $(e).materialnote("reset");
+        $(getElement()).materialnote("reset");
     }
 
     @Override

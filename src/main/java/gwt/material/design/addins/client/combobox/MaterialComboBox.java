@@ -93,6 +93,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private String placeholder;
     private boolean allowClear;
     private boolean multiple;
+    private boolean initialized;
     private int limit;
     private boolean hideSearch;
 
@@ -117,18 +118,22 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     @Override
-    public void onLoad() {
+    protected void onLoad() {
         super.onLoad();
-        label.setInitialClasses("select2label");
-        super.add(listbox);
-        super.add(label);
-        lblError.setLayoutPosition(Style.Position.ABSOLUTE);
-        lblError.setMarginTop(12);
-        super.add(lblError);
-        setId(uid);
-        initialize();
 
-        listbox.setGwtDisplay(Style.Display.BLOCK);
+        if(!initialized) {
+            label.setInitialClasses("select2label");
+            super.add(listbox);
+            super.add(label);
+            lblError.setLayoutPosition(Style.Position.ABSOLUTE);
+            lblError.setMarginTop(12);
+            super.add(lblError);
+            setId(uid);
+            initialize();
+
+            listbox.setGwtDisplay(Style.Display.BLOCK);
+            initialized = true;
+        }
 
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {

@@ -101,25 +101,23 @@ public class MaterialSplitPanel extends MaterialWidget {
      * Initialize the splitter component.
      */
     protected void initSplitter() {
-        $("document").ready(() -> {
-            JsSplitPanel splitted = $(getElement());
-            if(splitted.get(0) != null) {
-                JsSplitPanelOptions options = new JsSplitPanelOptions();
-                options.barPosition = getBarPosition();
-                options.thickness = getThickness() + "px";
-                options.rightMax = getRightMax();
-                options.rightMin = getRightMin();
-                options.leftMax = getLeftMax();
-                options.leftMin = getLeftMin();
-                options.topMax = getTopMax();
-                options.topMin = getTopMin();
-                options.bottomMax = getBottomMax();
-                options.bottomMin = getBottomMin();
-                options.dock = getDock().getCssName();
-                options.orientation = getAxis().getCssName();
-                splitted.touchSplit(options);
-            }
-        });
+        JsSplitPanel splitted = $(getElement());
+        if(splitted.get(0) != null) {
+            JsSplitPanelOptions options = new JsSplitPanelOptions();
+            options.barPosition = getBarPosition();
+            options.thickness = getThickness() + "px";
+            options.rightMax = getRightMax();
+            options.rightMin = getRightMin();
+            options.leftMax = getLeftMax();
+            options.leftMin = getLeftMin();
+            options.topMax = getTopMax();
+            options.topMin = getTopMin();
+            options.bottomMax = getBottomMax();
+            options.bottomMin = getBottomMin();
+            options.dock = getDock().getCssName();
+            options.orientation = getAxis().getCssName();
+            splitted.touchSplit(options);
+        }
     }
 
     /**

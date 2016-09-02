@@ -77,6 +77,14 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         close();
     }
 
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        $(this).off("." + id);
+        $("*").off("." + id);
+    }
+
     private void initializeSelectionEvent() {
         // Initialization of Selection event
         $(".popup-menu li").off("click");
@@ -139,14 +147,6 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<Element> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
-    }
-
-    @Override
-    protected void onDetach() {
-        super.onDetach();
-
-        $(this).off("." + id);
-        $("*").off("." + id);
     }
 
     public void open() {

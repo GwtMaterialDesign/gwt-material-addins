@@ -108,10 +108,10 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         super(Document.get().createElement("div"), "timepicker", "input-field");
         uniqueId = DOM.createUniqueId();
         input.setType(InputType.TEXT);
-        panel.add(this.input);
+        panel.add(input);
         panel.add(label);
-        panel.add(this.lblError);
-        add(this.panel);
+        panel.add(lblError);
+        add(panel);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-        this.label.setText(placeholder);
+        label.setText(placeholder);
     }
 
     /**
@@ -192,28 +192,26 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     }
 
     protected void initTimePicker() {
-        $("document").ready(() -> {
-            JsTimePickerOptions options = new JsTimePickerOptions();
-            options.autoclose = isAutoClose();
-            options.orientation = getOrientation().getCssName();
-            options.hour24 = isHour24();
-            options.uniqueId = getUniqueId();
-            options.beforeShow = this::beforeShow;
-            options.afterShow = this::afterShow;
-            options.afterHide = this::afterHide;
-            $(input.getElement()).lolliclock(options);
-            $(input.getElement()).blur();
-        });
+        JsTimePickerOptions options = new JsTimePickerOptions();
+        options.autoclose = isAutoClose();
+        options.orientation = getOrientation().getCssName();
+        options.hour24 = isHour24();
+        options.uniqueId = getUniqueId();
+        options.beforeShow = this::beforeShow;
+        options.afterShow = this::afterShow;
+        options.afterHide = this::afterHide;
+        $(input.getElement()).lolliclock(options);
+        $(input.getElement()).blur();
     }
 
     /**
      * Called after the lolliclock event <code>afterShow</code>.
      */
     protected void beforeShow() {
-        this.input.getElement().blur();
+        input.getElement().blur();
 
         // Add class 'valid' for visual feedback.
-        this.validMixin.setOn(true);
+        validMixin.setOn(true);
     }
 
     /**
@@ -261,17 +259,17 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<Date> handler) {
-        return this.addHandler(handler, CloseEvent.getType());
+        return addHandler(handler, CloseEvent.getType());
     }
 
     @Override
     public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
-        return this.addHandler(handler, OpenEvent.getType());
+        return addHandler(handler, OpenEvent.getType());
     }
 
     @Override
     public void clear() {
-        this.clearTimePickerValue(this.input.getElement());
+        clearTimePickerValue(this.input.getElement());
     }
 
     protected void clearTimePickerValue(Element e) {
@@ -280,7 +278,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public Date getValue() {
-        return this.time;
+        return time;
     }
 
     @Override
@@ -295,9 +293,9 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
             return;
         }
         this.time = time;
-        String timeString = DateTimeFormat.getFormat(this.hour24 ? "HH:mm" : "hh:mm aa").format(time);
+        String timeString = DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time);
 
-        setValue(this.input.getElement(), timeString);
+        setValue(input.getElement(), timeString);
 
         super.setValue(time, fireEvents);
     }
