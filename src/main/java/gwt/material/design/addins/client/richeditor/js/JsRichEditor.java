@@ -51,6 +51,9 @@ public class JsRichEditor extends JQueryElement {
     public native JQueryElement materialnote(String action);
 
     @JsMethod
+    public native JQueryElement destroy();
+
+    @JsMethod
     public native String code();
 
     @JsMethod

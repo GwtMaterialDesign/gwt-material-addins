@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.richeditor;
 
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -73,6 +74,8 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         }
     }
 
+    private boolean initialized;
+
     @Override
     protected void onLoad() {
         super.onLoad();
@@ -84,17 +87,19 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
      * Intialize the rich editor with custom properties.
      */
     protected void initRichEditor() {
+        JsRichEditor jsRichEditor = $(getElement());
+
         JsRichEditorOptions options = new JsRichEditorOptions();
         // Set up the toolbar items
         Object[][] toolbar = new Object[][]{};
-        toolbar[0] = new Object[] {"style", extractOptions(getStyleOptions())};
-        toolbar[1] = new Object[] {"para", extractOptions(getParaOptions())};
-        toolbar[2] = new Object[] {"height", extractOptions(getHeightOptions())};
-        toolbar[3] = new Object[] {"undo", extractOptions(getUndoOptions())};
-        toolbar[4] = new Object[] {"fonts", extractOptions(getFontOptions())};
-        toolbar[5] = new Object[] {"color", extractOptions(getColorOptions())};
-        toolbar[6] = new Object[] {"ckMedia", extractOptions(getCkMediaOptions())};
-        toolbar[7] = new Object[] {"misc", extractOptions(getMiscOptions())};
+        toolbar[0] = new Object[]{"style", extractOptions(getStyleOptions())};
+        toolbar[1] = new Object[]{"para", extractOptions(getParaOptions())};
+        toolbar[2] = new Object[]{"height", extractOptions(getHeightOptions())};
+        toolbar[3] = new Object[]{"undo", extractOptions(getUndoOptions())};
+        toolbar[4] = new Object[]{"fonts", extractOptions(getFontOptions())};
+        toolbar[5] = new Object[]{"color", extractOptions(getColorOptions())};
+        toolbar[6] = new Object[]{"ckMedia", extractOptions(getCkMediaOptions())};
+        toolbar[7] = new Object[]{"misc", extractOptions(getMiscOptions())};
 
         // Other important options
         options.toolbar = toolbar;
@@ -107,7 +112,6 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         options.defaultBackColor = "#777";
         options.defaultTextColor = "#fff";
 
-        JsRichEditor jsRichEditor = $(getElement());
         jsRichEditor.materialnote(options);
 
         // Events
@@ -141,6 +145,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     protected void onUnload() {
         super.onUnload();
 
+        // Perform tear down on materialnote
         JsRichEditor jsRichEditor = $(getElement());
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_BLUR);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_FOCUS);
@@ -148,6 +153,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYDOWN);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
+        jsRichEditor.destroy();
     }
 
     /**

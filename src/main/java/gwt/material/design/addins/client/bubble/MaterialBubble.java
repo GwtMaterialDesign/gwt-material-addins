@@ -85,18 +85,16 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     @Override
     protected void onLoad() {
         super.onLoad();
-        initBubble(ColorHelper.setupComputedBackgroundColor(getBackgroundColor()), getPosition().getCssName());
+        initBubble();
     }
 
     /**
-     * Initialize the bubble component
-     * @param color - color of the bubble
-     * @param position - position of the bubble (RIGHT, TOP, LEFT, BOTTOM)
+     * Initialize the bubble component.
      */
-    protected void initBubble(String color, String position) {
+    protected void initBubble() {
         JsBubbleOptions options = new JsBubbleOptions();
-        options.position = position;
-        options.color = color;
+        options.position = getPosition().getCssName();
+        options.color = ColorHelper.setupComputedBackgroundColor(getBackgroundColor());
         $(getElement()).bubble(options);
     }
 

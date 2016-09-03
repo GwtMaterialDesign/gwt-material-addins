@@ -107,7 +107,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private MaterialLabel lblError = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
 
-    private final ErrorMixin<MaterialComboBox, MaterialLabel> errorMixin = new ErrorMixin<>(
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
             this, lblError, this.asWidget());
 
     // By default the key is generated using toString
@@ -129,13 +129,22 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             lblError.setMarginTop(12);
             super.add(lblError);
             setId(uid);
-            initialize();
 
             listbox.setGwtDisplay(Style.Display.BLOCK);
             initialized = true;
         }
 
+        JsComboBoxOptions options = new JsComboBoxOptions();
+        options.allowClear = allowClear;
+        options.placeholder = placeholder;
+        options.maximumSelectionLength = limit;
+        if(isHideSearch()) {
+            options.minimumResultsForSearch = "Infinity";
+        }
+
         JsComboBox jsComboBox = $(listbox.getElement());
+        jsComboBox.select2(options);
+
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
             ValueChangeEvent.fire(MaterialComboBox.this, getValue());
             return true;
@@ -145,7 +154,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             if(isMultiple()) {
                 getSelectedValues().add(getValue());
             }
-
             SelectionEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
@@ -170,12 +178,15 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     protected void onUnload() {
         super.onUnload();
+
+        // Perform tear down on select2
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
         jsComboBox.off(ComboBoxEvents.UNSELECT);
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
+        jsComboBox.select2("destroy");
     }
 
     @Override
@@ -191,20 +202,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             values.add((T)((Option) child).getValue());
         }
         listbox.add(child);
-    }
-
-    /**
-     * Initialize the combobox component
-     */
-    public void initialize() {
-        JsComboBoxOptions options = new JsComboBoxOptions();
-        options.allowClear = allowClear;
-        options.placeholder = placeholder;
-        options.maximumSelectionLength = limit;
-        if(isHideSearch()) {
-            options.minimumResultsForSearch = "Infinity";
-        }
-        $(listbox.getElement()).select2(options);
     }
 
     /**
@@ -499,5 +496,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     public HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler) {
         return addHandler(handler, RemoveItemEvent.getType());
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        return errorMixin;
     }
 }
