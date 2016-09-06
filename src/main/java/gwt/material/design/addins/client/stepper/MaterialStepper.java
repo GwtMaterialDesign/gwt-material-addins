@@ -29,8 +29,11 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.stepper.base.HasCompleteHandler;
+import gwt.material.design.addins.client.stepper.base.HasStepHandler;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
+import gwt.material.design.addins.client.stepper.events.NextEvent;
+import gwt.material.design.addins.client.stepper.events.PreviousEvent;
+import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
@@ -74,7 +77,7 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers, HasCompleteHandler {
+        HasSelectionChangedHandlers, HasStepHandler {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -102,6 +105,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
         super.onLoad();
 
         if (getChildren().size() != 0) {
+            StartEvent.fire(MaterialStepper.this);
             goToStep(currentStepIndex + 1);
         }
     }
@@ -140,6 +144,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                         if (nextStep.isEnabled() && nextStep.isVisible()) {
                             nextStep.setActive(true);
                             setCurrentStepIndex(i);
+                            NextEvent.fire(MaterialStepper.this);
                             break;
                         }
                     }
@@ -158,7 +163,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
 
-                // next step
+                // prev step
                 int prevStepIndex = getWidgetIndex(step) - 1;
                 if (prevStepIndex >= 0) {
                     for (int i = prevStepIndex; i >= 0; i--) {
@@ -170,6 +175,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                         if (prevStep.isEnabled() && prevStep.isVisible()) {
                             prevStep.setActive(true);
                             setCurrentStepIndex(i);
+                            PreviousEvent.fire(MaterialStepper.this);
                             break;
                         }
                     }
@@ -368,7 +374,22 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     }
 
     @Override
+    public HandlerRegistration addStartHandler(StartEvent.StartHandler handler) {
+        return addHandler(handler, StartEvent.TYPE);
+    }
+
+    @Override
     public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler) {
         return addHandler(handler, CompleteEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addNextHandler(NextEvent.NextHandler handler) {
+        return addHandler(handler, NextEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addPreviousHandler(PreviousEvent.PreviousHandler handler) {
+        return addHandler(handler, PreviousEvent.TYPE);
     }
 }

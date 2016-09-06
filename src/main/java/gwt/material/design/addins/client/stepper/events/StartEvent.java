@@ -17,13 +17,33 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.stepper.base;
+package gwt.material.design.addins.client.stepper.events;
 
-import com.google.gwt.event.shared.HandlerRegistration;
+
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 
-public interface HasCompleteHandler extends HasHandlers {
+public class StartEvent extends GwtEvent<StartEvent.StartHandler> {
 
-    HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
+
+    public interface StartHandler extends EventHandler {
+        void onStart(StartEvent event);
+    }
+
+    public static final Type<StartHandler> TYPE = new Type<>();
+
+    public static void fire(HasHandlers source) {
+        source.fireEvent(new StartEvent());
+    }
+
+    @Override
+    public Type<StartHandler> getAssociatedType() {
+        return TYPE;
+    }
+
+    @Override
+    protected void dispatch(StartHandler handler) {
+        handler.onStart(this);
+    }
 }
