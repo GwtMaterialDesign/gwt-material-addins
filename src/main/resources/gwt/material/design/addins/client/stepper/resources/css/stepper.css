@@ -39,6 +39,7 @@
 .stepper .title {
     line-height: 32px;
     font-weight: 500;
+    margin-left: 0px;
 }
 .stepper .body {
     padding-bottom: 28px;
