@@ -26,7 +26,6 @@ import com.google.gwt.event.shared.HasHandlers;
 
 public class PreviousEvent extends GwtEvent<PreviousEvent.PreviousHandler> {
 
-
     public interface PreviousHandler extends EventHandler {
         void onPrevious(PreviousEvent event);
     }

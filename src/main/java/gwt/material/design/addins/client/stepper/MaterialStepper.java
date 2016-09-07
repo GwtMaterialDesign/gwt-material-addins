@@ -29,7 +29,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.stepper.base.HasStepHandler;
+import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 import gwt.material.design.addins.client.stepper.events.NextEvent;
 import gwt.material.design.addins.client.stepper.events.PreviousEvent;
@@ -77,7 +77,7 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers, HasStepHandler {
+        HasSelectionChangedHandlers, HasStepsHandler {
 
     static {
         if (MaterialAddins.isDebug()) {

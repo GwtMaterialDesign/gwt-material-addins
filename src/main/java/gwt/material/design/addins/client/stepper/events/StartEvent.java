@@ -26,7 +26,6 @@ import com.google.gwt.event.shared.HasHandlers;
 
 public class StartEvent extends GwtEvent<StartEvent.StartHandler> {
 
-
     public interface StartHandler extends EventHandler {
         void onStart(StartEvent event);
     }

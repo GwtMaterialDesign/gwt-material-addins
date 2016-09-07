@@ -26,7 +26,7 @@ import gwt.material.design.addins.client.stepper.events.NextEvent;
 import gwt.material.design.addins.client.stepper.events.PreviousEvent;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
 
-public interface HasStepHandler extends HasHandlers {
+public interface HasStepsHandler extends HasHandlers {
 
     HandlerRegistration addStartHandler(StartEvent.StartHandler handler);
 
