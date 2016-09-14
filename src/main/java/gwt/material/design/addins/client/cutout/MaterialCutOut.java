@@ -27,12 +27,7 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -89,7 +84,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#cutouts">Material Cutouts</a>
  */
 // @formatter:on
-public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasCircle {
+public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasOpenHandlers<MaterialCutOut>, HasCircle {
 
     private String backgroundColor = "blue";
     private double opacity = 0.8;
@@ -338,6 +333,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             autoAddedToDocument = true;
             RootPanel.get().add(this);
         }
+        OpenEvent.fire(this, this);
     }
 
     /**
@@ -479,5 +475,10 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
         return addHandler(handler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialCutOut> handler) {
+        return addHandler(handler, OpenEvent.getType());
     }
 }
