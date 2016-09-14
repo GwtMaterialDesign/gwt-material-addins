@@ -20,7 +20,6 @@
 package gwt.material.design.addins.client.bubble;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
 import gwt.material.design.client.MaterialDesignBase;
@@ -36,14 +35,14 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 
 /**
  * Bubble component used on chat module
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -64,7 +63,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     private final CssNameMixin<MaterialWidget, Position> positionMixin;
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug());
             MaterialDesignBase.injectCss(MaterialBubbleDebugClientBundle.INSTANCE.bubbleCssDebug());
         } else {
@@ -78,6 +77,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         triangle = new MaterialWidget(Document.get().createDivElement());
         triangle.setStyleName("triangle");
         positionMixin = new CssNameMixin<>(triangle);
+        positionMixin.setCssName(Position.LEFT);
         add(triangle);
         setShadow(1);
     }
@@ -106,5 +106,6 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     @Override
     public void setPosition(Position position) {
         positionMixin.setCssName(position);
+        initBubble();
     }
 }
