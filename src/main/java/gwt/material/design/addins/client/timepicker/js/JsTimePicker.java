@@ -44,4 +44,6 @@ public class JsTimePicker extends JQueryElement {
     @JsMethod
     public native JQueryElement lolliclock(JsTimePickerOptions options);
 
+    @JsMethod
+    public native JQueryElement lolliclock(String action);
 }

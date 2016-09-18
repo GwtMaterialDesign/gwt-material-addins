@@ -26,11 +26,13 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.HasIcon;
+import gwt.material.design.client.base.HasOrientation;
+import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.*;
@@ -103,6 +105,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     private boolean autoClose;
     private boolean hour24;
     private Orientation orientation = Orientation.PORTRAIT;
+    private boolean initialize;
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), "timepicker", "input-field");
@@ -117,8 +120,19 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     protected void onLoad() {
         super.onLoad();
-        input.getElement().setAttribute("type", "text");
-        initTimePicker();
+
+        if (!initialize) {
+            input.getElement().setAttribute("type", "text");
+            initTimePicker();
+            initialize = true;
+        }
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        $(input.getElement()).lolliclock("remove");
     }
 
     /**
@@ -156,6 +170,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     public void setHour24(boolean hour24) {
         this.hour24 = hour24;
+        initTimePicker();
     }
 
     /**
