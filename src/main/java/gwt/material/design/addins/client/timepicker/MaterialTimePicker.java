@@ -105,27 +105,23 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     private boolean autoClose;
     private boolean hour24;
     private Orientation orientation = Orientation.PORTRAIT;
-    private boolean initialize;
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), "timepicker", "input-field");
-        uniqueId = DOM.createUniqueId();
-        input.setType(InputType.TEXT);
-        panel.add(input);
-        panel.add(label);
-        panel.add(lblError);
-        add(panel);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        if (!initialize) {
-            input.getElement().setAttribute("type", "text");
-            initTimePicker();
-            initialize = true;
-        }
+        uniqueId = DOM.createUniqueId();
+        input.setType(InputType.TEXT);
+        panel.add(input);
+        panel.add(label);
+        panel.add(lblError);
+        add(panel);
+        input.getElement().setAttribute("type", "text");
+        initTimePicker();
     }
 
     @Override
@@ -170,7 +166,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     public void setHour24(boolean hour24) {
         this.hour24 = hour24;
-        initTimePicker();
     }
 
     /**
