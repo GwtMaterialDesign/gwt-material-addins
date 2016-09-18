@@ -46,6 +46,7 @@ import gwt.material.design.client.ui.html.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
@@ -102,6 +103,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     protected List<T> values = new ArrayList<>();
     protected List<T> selectedValues = new ArrayList<>();
+    protected LinkedHashMap<String, T> mapValues = new LinkedHashMap<>();
 
     private Label label = new Label();
     private MaterialLabel lblError = new MaterialLabel();
@@ -151,16 +153,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         });
 
         jsComboBox.on(ComboBoxEvents.SELECT, event -> {
-            if(isMultiple()) {
-                getSelectedValues().add(getValue());
-            }
             SelectionEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.UNSELECT, event -> {
-            T last = getSelectedValues().remove(getSelectedValues().size() - 1);
-            RemoveItemEvent.fire(MaterialComboBox.this, last);
+            RemoveItemEvent.fire(this, getValue());
             return true;
         });
 
@@ -384,7 +382,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public void addItem(String text, T value, OptGroup optGroup) {
         if(!values.contains(value)) {
-            values.add(value);
             optGroup.add(buildOption(text, value));
         }
     }
@@ -396,7 +393,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public void addItem(String text, T value) {
         if(!values.contains(value)) {
-            values.add(value);
             listbox.add(buildOption(text, value));
         }
     }
@@ -405,6 +401,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * Build the Option Element with provided params
      */
     protected Option buildOption(String text, T value) {
+        values.add(value);
+        mapValues.put(keyFactory.generateKey(value), value);
         Option option = new Option();
         option.setText(text);
         option.setValue(keyFactory.generateKey(value));
@@ -454,7 +452,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * Get the selected vales from multiple combobox
      */
     public List<T> getSelectedValues() {
-        return selectedValues;
+        return getSelect2Values();
+    }
+
+    protected List<T> getSelect2Values() {
+        Object[] objects = (Object[]) $(listbox.getElement()).val();
+        List<T> values = new ArrayList<T>();
+        for (Object object : objects) {
+            values.add(mapValues.get(object));
+        }
+        return values;
     }
 
     /**
