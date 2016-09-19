@@ -103,7 +103,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private String uid = DOM.createUniqueId();
 
     protected List<T> values = new ArrayList<>();
-    protected List<T> selectedValues = new ArrayList<>();
 
     private Label label = new Label();
     private MaterialLabel lblError = new MaterialLabel();
@@ -153,16 +152,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         });
 
         jsComboBox.on(ComboBoxEvents.SELECT, event -> {
-            if(isMultiple()) {
-                getSelectedValues().add(getValue());
-            }
             SelectionEvent.fire(MaterialComboBox.this, getValue());
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.UNSELECT, event -> {
-            T last = getSelectedValues().remove(getSelectedValues().size() - 1);
-            RemoveItemEvent.fire(MaterialComboBox.this, last);
+            RemoveItemEvent.fire(this, getValue());
             return true;
         });
 
@@ -340,9 +335,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * combobox and build options into it.
      */
     public void setValues(List<T> values) {
-        selectedValues.clear();
-        selectedValues.addAll(values);
-
         String[] stringValues = new String[values.size()];
         for (int i = 0; i < values.size(); i++) {
             stringValues[i] = values.get(i).toString();
@@ -427,7 +419,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         if(value != null) {
             $(listbox.getElement()).val(value.toString()).trigger("change", selectedIndex);
         } else {
-            GWT.log("Value Index is not found.", new IndexOutOfBoundsException());
+            GWT.log("Value index is not found.", new IndexOutOfBoundsException());
         }
     }
 
@@ -456,7 +448,25 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * Get the selected vales from multiple combobox
      */
     public List<T> getSelectedValues() {
+        String[] curVal = (String[]) $(listbox.getElement()).val();
+        List<T> selectedValues = new ArrayList<>();
+
+        List<String> keyIndex = getValuesKeyIndex();
+        for(String val : curVal) {
+            int selectedIndex = keyIndex.indexOf(val);
+            if(selectedIndex != -1) {
+                selectedValues.add(values.get(selectedIndex));
+            }
+        }
         return selectedValues;
+    }
+
+    protected List<String> getValuesKeyIndex() {
+        List<String> keys = new ArrayList<>();
+        for(T value : values) {
+            keys.add(keyFactory.generateKey(value));
+        }
+        return keys;
     }
 
     /**
