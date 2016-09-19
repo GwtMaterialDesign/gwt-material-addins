@@ -28,6 +28,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasConstrainedValue;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.base.HasRemoveItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
 import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
@@ -39,6 +40,7 @@ import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.KeyFactory;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
@@ -114,7 +116,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private KeyFactory<T, String> keyFactory = Object::toString;
 
     public MaterialComboBox() {
-        super(Document.get().createDivElement(), "input-field", "combobox");
+        super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
     }
 
     @Override
@@ -122,7 +124,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         super.onLoad();
 
         if(!initialized) {
-            label.setInitialClasses("select2label");
+            label.setInitialClasses(AddinsCssName.SELECT2LABEL);
             super.add(listbox);
             super.add(label);
             lblError.setLayoutPosition(Style.Position.ABSOLUTE);

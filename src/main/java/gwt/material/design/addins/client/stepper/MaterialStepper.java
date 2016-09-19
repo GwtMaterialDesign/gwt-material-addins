@@ -29,6 +29,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 import gwt.material.design.addins.client.stepper.events.NextEvent;
@@ -95,8 +96,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
     public MaterialStepper() {
-        super(Document.get().createDivElement(), "stepper");
-        divFeedback.setStyleName("feedback");
+        super(Document.get().createDivElement(), AddinsCssName.STEPPER);
+        divFeedback.setStyleName(AddinsCssName.FEEDBACK);
         divFeedback.add(feedback);
     }
 

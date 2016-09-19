@@ -26,9 +26,11 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Div;
@@ -85,7 +87,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private Axis axis = Axis.VERTICAL;
 
     public MaterialStep() {
-        super(Document.get().createDivElement(), "step");
+        super(Document.get().createDivElement(), AddinsCssName.STEP);
 
         super.add(conCircle);
         conCircle.add(divCircle);
@@ -95,10 +97,10 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         conBody.add(divTitle);
         conBody.add(divBody);
 
-        divCircle.setStyleName("circle");
-        divLine.setStyleName("line");
-        divTitle.setStyleName("title");
-        divBody.setStyleName("body");
+        divCircle.setStyleName(CssName.CIRCLE);
+        divLine.setStyleName(AddinsCssName.LINE);
+        divTitle.setStyleName(CssName.TITLE);
+        divBody.setStyleName(AddinsCssName.BODY);
         
         ClickHandler handler = event -> {
             if (isEnabled() && isVisible()){
@@ -137,7 +139,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     @Override
     public void setDescription(String description) {
         this.description = description;
-        divDescription.setStyleName("description");
+        divDescription.setStyleName(AddinsCssName.DESCRIPTION);
         divDescription.getElement().setInnerHTML(description);
         conBody.insert(divDescription, 1);
     }
@@ -158,15 +160,15 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     @Override
     public void setError(String error) {
-        removeStyleName("success");
-        addStyleName("error");
+        removeStyleName(AddinsCssName.SUCCESS);
+        addStyleName(AddinsCssName.ERROR);
         applyIconStatus(iconError, "red", error);
     }
 
     @Override
     public void setSuccess(String success) {
-        removeStyleName("error");
-        addStyleName("success");
+        removeStyleName(AddinsCssName.ERROR);
+        addStyleName(AddinsCssName.SUCCESS);
         applyIconStatus(iconSuccess, "blue", success);
     }
     
@@ -180,8 +182,8 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         iconError.removeFromParent();
         iconSuccess.removeFromParent();
         conCircle.insert(divCircle, 0);
-        removeStyleName("error");
-        removeStyleName("success");
+        removeStyleName(AddinsCssName.ERROR);
+        removeStyleName(AddinsCssName.SUCCESS);
     }
 
     protected void applyIconStatus(MaterialIcon icon, String color, String description){

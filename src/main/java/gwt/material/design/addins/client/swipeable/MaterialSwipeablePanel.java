@@ -25,6 +25,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
@@ -76,7 +77,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     private final String IGNORED = "swipe-ignored";
 
     public MaterialSwipeablePanel() {
-        super(Document.get().createDivElement(), "swipeable");
+        super(Document.get().createDivElement(), AddinsCssName.SWIPEABLE);
     }
 
     @Override

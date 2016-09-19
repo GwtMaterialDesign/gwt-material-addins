@@ -24,6 +24,7 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -76,7 +77,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     private HandlerRegistration selectionHandler;
 
     public MaterialTree() {
-        super(Document.get().createDivElement(), "tree");
+        super(Document.get().createDivElement(), AddinsCssName.TREE);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
                 }
             }
             MaterialTreeItem treeItem = event.getSelectedItem();
-            treeItem.addStyleName("selected");
+            treeItem.addStyleName(AddinsCssName.SELECTED);
             setSelectedItem(treeItem);
         });
     }
@@ -127,7 +128,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     }
 
     protected void clearItemSelectedStyles(MaterialTreeItem item) {
-        item.removeStyleName("selected");
+        item.removeStyleName(AddinsCssName.SELECTED);
 
         for(MaterialTreeItem treeItem : item.getTreeItems()) {
             clearItemSelectedStyles(treeItem);

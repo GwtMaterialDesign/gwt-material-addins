@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
@@ -96,7 +97,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     private MaterialIcon icon = new MaterialIcon();
 
-    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, "valid");
+    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, CssName.VALID);
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
 
@@ -107,7 +108,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     private Orientation orientation = Orientation.PORTRAIT;
 
     public MaterialTimePicker() {
-        super(Document.get().createElement("div"), "timepicker", "input-field");
+        super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
     }
 
     @Override

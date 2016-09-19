@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
@@ -97,8 +98,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
 
     public MaterialFileUploader() {
-        super(Document.get().createDivElement(), "fileuploader");
-        setId("zdrop");
+        super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
+        setId(AddinsCssName.ZDROP);
         add(uploadPreview);
     }
 

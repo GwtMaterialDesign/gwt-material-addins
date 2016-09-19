@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.subheader;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractIconButton;
 
@@ -70,7 +71,7 @@ public class MaterialSubHeader extends AbstractIconButton {
     }
 
     public MaterialSubHeader() {
-        super("subheader");
+        super(AddinsCssName.SUBHEADER);
     }
 
     @Override

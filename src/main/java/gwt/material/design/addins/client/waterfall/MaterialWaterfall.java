@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.waterfall;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
@@ -72,7 +73,7 @@ public class MaterialWaterfall extends MaterialWidget {
     private double offset;
 
     public MaterialWaterfall() {
-        super(Document.get().createDivElement(), "waterfall");
+        super(Document.get().createDivElement(), AddinsCssName.WATERFALL);
         setShadow(1);
     }
 

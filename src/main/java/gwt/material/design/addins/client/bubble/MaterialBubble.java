@@ -21,12 +21,14 @@ package gwt.material.design.addins.client.bubble;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Position;
 
 import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
@@ -73,9 +75,9 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     }
 
     public MaterialBubble() {
-        super(Document.get().createSpanElement(), "bubble");
+        super(Document.get().createSpanElement(), AddinsCssName.BUBBLE);
         triangle = new MaterialWidget(Document.get().createDivElement());
-        triangle.setStyleName("triangle");
+        triangle.setStyleName(AddinsCssName.TRIANGLE);
         positionMixin = new CssNameMixin<>(triangle);
         positionMixin.setCssName(Position.LEFT);
         add(triangle);

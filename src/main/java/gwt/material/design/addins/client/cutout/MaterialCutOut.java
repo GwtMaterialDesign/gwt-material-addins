@@ -32,6 +32,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
@@ -106,7 +107,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private HandlerRegistration scrollHandler;
 
     public MaterialCutOut() {
-        super(Document.get().createDivElement(), "material-cutout");
+        super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CUTOUT);
         focus = Document.get().createDivElement();
         getElement().appendChild(focus);
 
@@ -120,7 +121,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setZIndex(10000);
         style.setDisplay(Display.NONE);
 
-        focus.setClassName("material-cutout-focus");
+        focus.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
         style = focus.getStyle();
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);

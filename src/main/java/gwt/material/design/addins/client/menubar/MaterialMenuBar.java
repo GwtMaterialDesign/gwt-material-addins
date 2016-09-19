@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.menubar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -71,6 +72,6 @@ public class MaterialMenuBar extends MaterialWidget {
     }
 
     public MaterialMenuBar() {
-        super(Document.get().createDivElement(), "menu-bar");
+        super(Document.get().createDivElement(), AddinsCssName.MENU_BAR);
     }
 }

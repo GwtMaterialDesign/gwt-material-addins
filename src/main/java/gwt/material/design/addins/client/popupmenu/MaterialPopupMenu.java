@@ -27,7 +27,9 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.UnorderedList;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
@@ -54,7 +56,7 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
-        setInitialClasses("popup-menu","menu-bar", "z-depth-3");
+        setInitialClasses(AddinsCssName.POPUP_MENU,AddinsCssName.MENU_BAR, CssName.Z_DEPTH_3);
     }
 
     @Override
@@ -111,11 +113,11 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
                 double conHeight = body().height();
 
                 if(dpWidth + dpLeft > conWidth) {
-                    dp.addClass("edge-left");
+                    dp.addClass(AddinsCssName.EDGE_LEFT);
                 }
 
                 if(dpHeight + dpTop > conHeight) {
-                    dp.addClass("edge-bottom");
+                    dp.addClass(AddinsCssName.EDGE_BOTTOM);
                 }
             }
             return true;
@@ -126,8 +128,8 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
             JQueryElement item = $(e.getCurrentTarget()).find("a");
             if(item.attr("data-activates") != null) {
                 JQueryElement dp = $("#" + item.attr("data-activates"));
-                dp.removeClass("edge-left");
-                dp.removeClass("edge-bottom");
+                dp.removeClass(AddinsCssName.EDGE_LEFT);
+                dp.removeClass(AddinsCssName.EDGE_BOTTOM);
             }
             return true;
         });
