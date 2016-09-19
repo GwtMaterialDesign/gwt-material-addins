@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -41,7 +42,7 @@ import gwt.material.design.client.base.MaterialWidget;
  *{@code
  * <ma:overlay.MaterialOverlay background="blue">
  *      &lt;-- Some content here -->
- * </ma:overlay.MaterialMenuBar>
+ * </ma:overlay.MaterialOverlay>
  * }
  * </pre>
  *
@@ -59,6 +60,6 @@ public class MaterialOverlay extends MaterialWidget {
     }
 
     public MaterialOverlay() {
-        super(Document.get().createDivElement(), "overlay-panel");
+        super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
     }
 }

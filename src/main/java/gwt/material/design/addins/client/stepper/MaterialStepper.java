@@ -29,6 +29,12 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
+import gwt.material.design.addins.client.stepper.events.CompleteEvent;
+import gwt.material.design.addins.client.stepper.events.NextEvent;
+import gwt.material.design.addins.client.stepper.events.PreviousEvent;
+import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasError;
@@ -45,14 +51,14 @@ import gwt.material.design.client.ui.html.Span;
 
 /**
  * Steppers convey progress through numbered steps. They may also be used for navigation.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -72,10 +78,10 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers {
+        HasSelectionChangedHandlers, HasStepsHandler {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
         } else {
             MaterialDesignBase.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
@@ -89,9 +95,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
-    public MaterialStepper () {
-        super(Document.get().createDivElement(), "stepper");
-        divFeedback.setStyleName("feedback");
+    public MaterialStepper() {
+        super(Document.get().createDivElement(), AddinsCssName.STEPPER);
+        divFeedback.setStyleName(AddinsCssName.FEEDBACK);
         divFeedback.add(feedback);
     }
 
@@ -99,7 +105,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     protected void onLoad() {
         super.onLoad();
 
-        if(getChildren().size() != 0) {
+        if (getChildren().size() != 0) {
+            StartEvent.fire(MaterialStepper.this);
             goToStep(currentStepIndex + 1);
         }
     }
@@ -108,7 +115,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Specific method to add {@link MaterialStep}s to the stepper.
      */
     public void add(MaterialStep step) {
-        this.add((Widget)step);
+        this.add((Widget) step);
         step.setAxis(getAxis());
         step.addSelectionHandler(this);
     }
@@ -117,11 +124,11 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Go to next step, used by linear stepper.
      */
     public void nextStep() {
-        if(currentStepIndex >= getWidgetCount() - 1) {
-            GWT.log("You have reach the maximum step.");
+        if (currentStepIndex >= getWidgetCount() - 1) {
+            CompleteEvent.fire(MaterialStepper.this, currentStepIndex + 1);
         } else {
             Widget w = getWidget(currentStepIndex);
-            if(w instanceof MaterialStep) {
+            if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
                 step.setSuccess(step.getDescription());
@@ -129,7 +136,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                 // next step
                 int nextStepIndex = getWidgetIndex(step) + 1;
                 if (nextStepIndex >= 0) {
-                    for(int i = nextStepIndex; i < getWidgetCount(); i++) {
+                    for (int i = nextStepIndex; i < getWidgetCount(); i++) {
                         w = getWidget(i);
                         if (!(w instanceof MaterialStep)) {
                             continue;
@@ -138,6 +145,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                         if (nextStep.isEnabled() && nextStep.isVisible()) {
                             nextStep.setActive(true);
                             setCurrentStepIndex(i);
+                            NextEvent.fire(MaterialStepper.this);
                             break;
                         }
                     }
@@ -150,16 +158,16 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Go to previous step , used by linear stepper.
      */
     public void prevStep() {
-        if(currentStepIndex > 0) {
+        if (currentStepIndex > 0) {
             Widget w = getWidget(currentStepIndex);
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
 
-                // next step
+                // prev step
                 int prevStepIndex = getWidgetIndex(step) - 1;
                 if (prevStepIndex >= 0) {
-                    for(int i = prevStepIndex; i >= 0; i--) {
+                    for (int i = prevStepIndex; i >= 0; i--) {
                         w = getWidget(i);
                         if (!(w instanceof MaterialStep)) {
                             continue;
@@ -168,6 +176,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                         if (prevStep.isEnabled() && prevStep.isVisible()) {
                             prevStep.setActive(true);
                             setCurrentStepIndex(i);
+                            PreviousEvent.fire(MaterialStepper.this);
                             break;
                         }
                     }
@@ -182,15 +191,15 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Go to specific step manually by setting which step index you want to go.
      */
     public void goToStep(int step) {
-        for(int i = 0; i < getWidgetCount(); i++) {
+        for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
-            if(w instanceof MaterialStep) {
+            if (w instanceof MaterialStep) {
                 ((MaterialStep) w).setActive(false);
             }
         }
 
         Widget w = getWidget(step - 1);
-        if(w instanceof MaterialStep) {
+        if (w instanceof MaterialStep) {
             ((MaterialStep) w).setActive(true);
         }
         setCurrentStepIndex(step - 1);
@@ -200,9 +209,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Go to the specfic {@link MaterialStep}.
      */
     public void goToStep(MaterialStep step) {
-        for(int i = 0; i < getWidgetCount(); i++) {
+        for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
-            if(w instanceof MaterialStep) {
+            if (w instanceof MaterialStep) {
                 MaterialStep materialStep = (MaterialStep) w;
                 boolean active = materialStep.equals(step);
                 materialStep.setActive(active);
@@ -219,9 +228,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * @see MaterialStep#getStep()
      */
     public void goToStepId(int id) {
-        for(int i = 0; i < getWidgetCount(); i++) {
+        for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
-            if(w instanceof MaterialStep) {
+            if (w instanceof MaterialStep) {
                 MaterialStep materialStep = (MaterialStep) w;
                 boolean active = materialStep.getStep() == id;
                 materialStep.setActive(active);
@@ -258,9 +267,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     public void setAxis(Axis axis) {
         axisMixin.setCssName(axis);
-        for(int i = 0; i < getWidgetCount(); i++) {
+        for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
-            if(w instanceof MaterialStep) {
+            if (w instanceof MaterialStep) {
                 ((MaterialStep) w).setAxis(axis);
             }
         }
@@ -275,7 +284,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Gets the current step component.
      */
     public MaterialStep getCurrentStep() {
-        if(currentStepIndex > getWidgetCount() - 1 || currentStepIndex < 0) {
+        if (currentStepIndex > getWidgetCount() - 1 || currentStepIndex < 0) {
             return null;
         }
         Widget w = getWidget(currentStepIndex);
@@ -294,7 +303,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public void setSuccess(String success) {
         getCurrentStep().setSuccess(success);
     }
-    
+
     @Override
     public void setHelperText(String helperText) {
         getCurrentStep().setDescription(helperText);
@@ -302,9 +311,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     @Override
     public void clearErrorOrSuccess() {
-        for(int i = 0; i < getWidgetCount(); i++) {
+        for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
-            if(w instanceof MaterialStep) {
+            if (w instanceof MaterialStep) {
                 ((MaterialStep) w).clearErrorOrSuccess();
             }
         }
@@ -363,5 +372,25 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     public HandlerRegistration addSelectionChangeHandler(final Handler handler) {
         return addHandler(handler, SelectionChangeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addStartHandler(StartEvent.StartHandler handler) {
+        return addHandler(handler, StartEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler) {
+        return addHandler(handler, CompleteEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addNextHandler(NextEvent.NextHandler handler) {
+        return addHandler(handler, NextEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addPreviousHandler(PreviousEvent.PreviousHandler handler) {
+        return addHandler(handler, PreviousEvent.TYPE);
     }
 }

@@ -24,9 +24,11 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialRow;
 
 import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
@@ -81,10 +83,10 @@ public class MaterialMasonry extends MaterialRow {
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {
-        super(Document.get().createDivElement(), "masonry", "row");
+        super(Document.get().createDivElement(), AddinsCssName.MASONRY, CssName.ROW);
         enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
         sizerDiv.setWidth("8.3333%");
-        sizerDiv.setStyleName("col-sizer");
+        sizerDiv.setStyleName(AddinsCssName.COL_SIZER);
         add(sizerDiv);
     }
 
@@ -110,7 +112,7 @@ public class MaterialMasonry extends MaterialRow {
         JsMasonryOptions options = new JsMasonryOptions();
         options.itemSelector = ".masonry > " + getItemSelector();
         options.percentPosition = isPercentPosition();
-        options.columnWidth = ".col-sizer";
+        options.columnWidth = "." + AddinsCssName.COL_SIZER;
         options.originLeft = isOriginLeft();
         options.originTop = isOriginTop();
         options.transitionDuration = getTransitionDuration() + "ms";

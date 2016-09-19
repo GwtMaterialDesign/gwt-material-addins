@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
@@ -97,16 +98,16 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private String toolbarColor;
 
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
-    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(window, "maximize");
-    private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, "open");
+    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(window, AddinsCssName.MAXIMIZE);
+    private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
 
     private MaterialAnimation openAnimation;
     private MaterialAnimation closeAnimation;
 
     public MaterialWindow() {
-        super(Document.get().createDivElement(), "window-overlay");
-        window.setStyleName("window");
-        content.setStyleName("content");
+        super(Document.get().createDivElement(), AddinsCssName.WINDOW_OVERLAY);
+        window.setStyleName(AddinsCssName.WINDOW);
+        content.setStyleName(AddinsCssName.CONTENT);
         super.add(window);
 
         initialize();
@@ -116,10 +117,10 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      * Builds the toolbar
      */
     protected void initialize() {
-        toolbar.setStyleName("window-toolbar");
-        link.setStyleName("window-title");
-        iconClose.addStyleName("window-action");
-        iconMaximize.addStyleName("window-action");
+        toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
+        link.setStyleName(AddinsCssName.WINDOW_TITLE);
+        iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
+        iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
         iconMaximize.setCircle(true);

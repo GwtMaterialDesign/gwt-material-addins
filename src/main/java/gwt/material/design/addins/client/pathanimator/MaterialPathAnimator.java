@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -42,7 +43,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- * MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
+ * MaterialPathAnimator.animate(Element source, Element target, Functions.Func callback);
  * }
  * </pre>
  *
@@ -73,10 +74,10 @@ public class MaterialPathAnimator {
     /**
      * Custom path animator method with callback.
      */
-    public static void animate(Element source, Element target, Runnable callback) {
+    public static void animate(Element source, Element target, Functions.Func callback) {
         $("document").ready(() -> {
             JsPathAnimator.cta(source, target, () -> {
-                if(callback != null) { callback.run(); }
+                if(callback != null) { callback.call(); }
             });
         });
     }
@@ -95,9 +96,9 @@ public class MaterialPathAnimator {
      * Reverse animation of the target component to return to original
      * state of the source component with Custom Callback.
      */
-    public static void reverseAnimate(Element source, Element target, Runnable callback) {
+    public static void reverseAnimate(Element source, Element target, Functions.Func callback) {
         $("document").ready(() -> {
-            if(callback != null) { callback.run(); }
+            if(callback != null) { callback.call(); }
             JsPathAnimator.cta(target, source);
         });
     }

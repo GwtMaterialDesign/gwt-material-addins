@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.TitleMixin;
@@ -32,7 +33,7 @@ public class MaterialUploadLabel extends MaterialWidget implements HasTitle {
     private final TitleMixin<MaterialUploadLabel> titleMixin = new TitleMixin<>(this);
 
     public MaterialUploadLabel() {
-        super(Document.get().createDivElement(), "upload-label");
+        super(Document.get().createDivElement(), AddinsCssName.UPLOAD_LABEL);
         add(icon);
     }
 

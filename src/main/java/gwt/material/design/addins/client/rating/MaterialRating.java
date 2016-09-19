@@ -27,6 +27,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -115,7 +116,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Default constructor.
      */
     public MaterialRating() {
-        super(DOM.createDiv(), "material-rating");
+        super(DOM.createDiv(), AddinsCssName.MATERIAL_RATING);
         revalidateLayout();
     }
 
@@ -234,20 +235,20 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      */
     protected void revalidateSelection(int rating) {
         for (MaterialIcon icon : iconList) {
-            icon.removeStyleName("material-rating-unselected");
-            icon.removeStyleName("material-rating-selected");
+            icon.removeStyleName(AddinsCssName.MATERIAL_RATING_UNSELECTED);
+            icon.removeStyleName(AddinsCssName.MATERIAL_RATING_SELECTED);
         }
 
         for (int i = 0; i < rating && i < iconList.size(); i++) {
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(selectedRatingIcon);
-            icon.addStyleName("material-rating-selected");
+            icon.addStyleName(AddinsCssName.MATERIAL_RATING_SELECTED);
         }
 
         for (int i = rating; i < iconList.size(); i++) {
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(unselectedRatingIcon);
-            icon.addStyleName("material-rating-unselected");
+            icon.addStyleName(AddinsCssName.MATERIAL_RATING_UNSELECTED);
         }
     }
 

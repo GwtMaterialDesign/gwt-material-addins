@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 
 public class MaterialUploadPreview extends MaterialWidget {
@@ -28,7 +29,7 @@ public class MaterialUploadPreview extends MaterialWidget {
     private MaterialUploadHeader uploadHeader = new MaterialUploadHeader();
 
     public MaterialUploadPreview() {
-        super(Document.get().createDivElement(), "preview-container");
+        super(Document.get().createDivElement(), AddinsCssName.PREVIEW_CONTAINER);
         uploadHeader.setPreview(this);
         add(uploadHeader);
         add(uploadCollection);

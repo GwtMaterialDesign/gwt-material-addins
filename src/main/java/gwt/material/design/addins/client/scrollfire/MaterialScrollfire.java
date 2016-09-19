@@ -52,13 +52,13 @@ public class MaterialScrollfire {
         }
     }
 
-    public static void apply(Element element, Runnable callback) {
+    public static void apply(Element element, Functions.Func callback) {
         String uid = DOM.createUniqueId();
         element.setId(uid);
         apply("#" + uid, callback);
     }
 
-    public static void apply(String selector, Runnable callback) {
-        JsScrollfire.apply(selector, 100, callback::run);
+    public static void apply(String selector, Functions.Func callback) {
+        JsScrollfire.apply(selector, 100, callback::call);
     }
 }

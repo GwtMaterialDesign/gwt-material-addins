@@ -27,16 +27,12 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
@@ -89,7 +85,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#cutouts">Material Cutouts</a>
  */
 // @formatter:on
-public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasCircle {
+public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasOpenHandlers<MaterialCutOut>, HasCircle {
 
     private String backgroundColor = "blue";
     private double opacity = 0.8;
@@ -111,7 +107,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private HandlerRegistration scrollHandler;
 
     public MaterialCutOut() {
-        super(Document.get().createDivElement(), "material-cutout");
+        super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CUTOUT);
         focus = Document.get().createDivElement();
         getElement().appendChild(focus);
 
@@ -125,7 +121,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setZIndex(10000);
         style.setDisplay(Display.NONE);
 
-        focus.setClassName("material-cutout-focus");
+        focus.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
         style = focus.getStyle();
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);
@@ -338,6 +334,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             autoAddedToDocument = true;
             RootPanel.get().add(this);
         }
+        OpenEvent.fire(this, this);
     }
 
     /**
@@ -479,5 +476,10 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
         return addHandler(handler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialCutOut> handler) {
+        return addHandler(handler, OpenEvent.getType());
     }
 }

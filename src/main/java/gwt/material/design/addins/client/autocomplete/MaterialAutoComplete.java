@@ -30,12 +30,14 @@ import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.FocusableMixin;
 import gwt.material.design.client.base.mixin.ProgressMixin;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
@@ -198,7 +200,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * sources.
      */
     public MaterialAutoComplete() {
-        super(Document.get().createDivElement(), "autocomplete", "input-field");
+        super(Document.get().createDivElement(), AddinsCssName.AUTOCOMPLETE, CssName.INPUT_FIELD);
         add(panel);
     }
 
@@ -222,11 +224,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * Generate and build the List Items to be set on Auto Complete box.
      */
     protected void generateAutoComplete(SuggestOracle suggestions) {
-        list.setStyleName("multiValueSuggestBox-list");
+        list.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_LIST);
         this.suggestions = suggestions;
         final ListItem item = new ListItem();
 
-        item.setStyleName("multiValueSuggestBox-input-token");
+        item.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_INPUT_TOKEN);
         box = new SuggestBox(suggestions, itemBox);
         setLimit(this.limit);
         String autocompleteId = DOM.createUniqueId();
@@ -242,7 +244,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         itemBox.addBlurHandler(blurEvent -> {
             if(getValue().size() > 0) {
-                label.addStyleName("active");
+                label.addStyleName(CssName.ACTIVE);
             }
         });
 
@@ -346,7 +348,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
 
         final ListItem displayItem = new ListItem();
-        displayItem.setStyleName("multiValueSuggestBox-token");
+        displayItem.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_TOKEN);
 
         if (getType() == AutocompleteType.TEXT){
             suggestionMap.clear();

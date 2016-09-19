@@ -25,6 +25,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.CssName;
 
 //@formatter:off
 /**
@@ -70,7 +71,7 @@ public class MaterialSideProfile extends MaterialWidget implements HasImage {
     private ImageResource resource;
 
     public MaterialSideProfile() {
-        super(Document.get().createDivElement(), "side-profile");
+        super(Document.get().createDivElement(), CssName.SIDE_PROFILE);
     }
 
     @Override

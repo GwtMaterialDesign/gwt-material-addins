@@ -23,6 +23,7 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HasHTML;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasPlaceholder;
@@ -39,7 +40,7 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
     private boolean disableDragAndDrop;
 
     public MaterialRichEditorBase() {
-        super(Document.get().createDivElement(), "editor");
+        super(Document.get().createDivElement(), AddinsCssName.EDITOR);
     }
 
     private ToolbarButton[] styleOptions = new ToolbarButton[]

@@ -22,9 +22,11 @@ package gwt.material.design.addins.client.waterfall;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
 
@@ -66,12 +68,12 @@ public class MaterialWaterfall extends MaterialWidget {
         }
     }
 
-    private Runnable openCallback;
-    private Runnable closeCallback;
+    private Functions.Func openCallback;
+    private Functions.Func closeCallback;
     private double offset;
 
     public MaterialWaterfall() {
-        super(Document.get().createDivElement(), "waterfall");
+        super(Document.get().createDivElement(), AddinsCssName.WATERFALL);
         setShadow(1);
     }
 
@@ -98,13 +100,13 @@ public class MaterialWaterfall extends MaterialWidget {
         initWaterfall(getElement().getOffsetHeight(), openCallback, closeCallback, offset);
     }
 
-    public void setCallbacks(Runnable openCallback, Runnable closeCallback) {
+    public void setCallbacks(Functions.Func openCallback, Functions.Func closeCallback) {
         this.openCallback = openCallback;
         this.closeCallback = closeCallback;
     }
 
-    protected void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) {
-        JsWaterfall.initWaterfall(height, openCallback::run, closeCallback::run, offset);
+    protected void initWaterfall(double height, Functions.Func openCallback, Functions.Func closeCallback, double offset) {
+        JsWaterfall.initWaterfall(height, openCallback::call, closeCallback::call, offset);
     }
 
     public double getOffset() {
