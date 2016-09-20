@@ -20,7 +20,6 @@
 package gwt.material.design.addins.client.timepicker;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -122,7 +121,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         panel.add(lblError);
         add(panel);
         input.getElement().setAttribute("type", "text");
-        initTimePicker();
+        initialize();
     }
 
     @Override
@@ -202,7 +201,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         this.orientation = orientation;
     }
 
-    protected void initTimePicker() {
+    protected void initialize() {
         JsTimePickerOptions options = new JsTimePickerOptions();
         options.autoclose = isAutoClose();
         options.orientation = getOrientation().getCssName();
@@ -280,11 +279,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public void clear() {
-        clearTimePickerValue(this.input.getElement());
-    }
-
-    protected void clearTimePickerValue(Element e) {
-        $(e).val("");
+        time = null;
+        $(input.getElement()).val("");
     }
 
     @Override
@@ -294,25 +290,14 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public void setValue(Date time, boolean fireEvents) {
-        if(this.time != null) {
-            if(this.time.equals(time)) {
-                return;
-            }
-        }
-
-        if(this.time == time) {
+        if(this.time != null && this.time.equals(time)) {
             return;
         }
         this.time = time;
-        String timeString = DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time);
 
-        setValue(input.getElement(), timeString);
+        $(input.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
 
         super.setValue(time, fireEvents);
-    }
-
-    protected void setValue(Element e, String time) {
-        $(e).val(time);
     }
 
     public String getUniqueId() {

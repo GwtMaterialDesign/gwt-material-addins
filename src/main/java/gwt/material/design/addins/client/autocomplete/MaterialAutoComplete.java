@@ -238,9 +238,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         item.add(label);
         list.add(item);
 
-        list.addDomHandler(event -> {
-            box.showSuggestionList();
-        }, ClickEvent.getType());
+        list.addDomHandler(event -> box.showSuggestionList(), ClickEvent.getType());
 
         itemBox.addBlurHandler(blurEvent -> {
             if(getValue().size() > 0) {
@@ -265,7 +263,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                         }
                     }
                     break;
-
                 case KeyCodes.KEY_BACKSPACE:
                     if (itemBox.getValue().trim().isEmpty()) {
                         if (itemsHighlighted.isEmpty()) {
@@ -282,7 +279,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                 case KeyCodes.KEY_DELETE:
                     if (itemBox.getValue().trim().isEmpty()) {
                         for (ListItem li : itemsHighlighted) {
-                            if (tryRemoveSuggestion(li.getWidget(0))){
+                            if (tryRemoveSuggestion(li.getWidget(0))) {
                                 li.removeFromParent();
                                 changed = true;
                             }
@@ -298,11 +295,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             }
         });
 
-        itemBox.addClickHandler(event -> {
-            box.showSuggestionList();
-        });
+        itemBox.addClickHandler(event -> box.showSuggestionList());
 
-        box.addSelectionHandler(selectionEvent ->  {
+        box.addSelectionHandler(selectionEvent -> {
             Suggestion selectedItem = selectionEvent.getSelectedItem();
             itemBox.setValue("");
             if (addItem(selectedItem)) {
@@ -313,7 +308,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
-                "document.getElementById('" + autocompleteId + "').focus()");
+            "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(lblError);
         box.setFocus(true);
     }
@@ -322,7 +317,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         Set<Entry<Suggestion, Widget>> entrySet = suggestionMap.entrySet();
         for (Entry<Suggestion, Widget> entry : entrySet) {
             if (widget.equals(entry.getValue())) {
-                if (chipProvider.isChipRemovable(entry.getKey())){
+                if (chipProvider.isChipRemovable(entry.getKey())) {
                     suggestionMap.remove(entry.getKey());
                     return true;
                 }
@@ -350,19 +345,18 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         final ListItem displayItem = new ListItem();
         displayItem.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_TOKEN);
 
-        if (getType() == AutocompleteType.TEXT){
+        if (getType() == AutocompleteType.TEXT) {
             suggestionMap.clear();
             itemBox.setText(suggestion.getDisplayString());
             displayItem.add(itemBox);
-        }
-        else {
+        } else {
             final MaterialChip chip = chipProvider.getChip(suggestion);
             if (chip == null) {
                 return false;
             }
 
             chip.addClickHandler(event -> {
-                if (chipProvider.isChipSelectable(suggestion)){
+                if (chipProvider.isChipSelectable(suggestion)) {
                     if (itemsHighlighted.contains(displayItem)) {
                         chip.removeStyleName(selectedChipStyle);
                         itemsHighlighted.remove(displayItem);
@@ -375,7 +369,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
             if (chip.getIcon() != null){
                 chip.getIcon().addClickHandler(event -> {
-                    if (chipProvider.isChipRemovable(suggestion)){
+                    if (chipProvider.isChipRemovable(suggestion)) {
                         suggestionMap.remove(suggestion);
                         list.remove(displayItem);
                         itemsHighlighted.remove(displayItem);
@@ -603,9 +597,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     @Override
     public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
         return itemBox.addKeyUpHandler(event -> {
-            if(isEnabled()){
-                handler.onKeyUp(event);
-            }
+            if(isEnabled()) { handler.onKeyUp(event); }
         });
     }
 
@@ -624,9 +616,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         return addHandler(new SelectionHandler<Suggestion>() {
             @Override
             public void onSelection(SelectionEvent<Suggestion> event) {
-                if(isEnabled()){
-                    handler.onSelection(event);
-                }
+                if(isEnabled()) { handler.onSelection(event); }
             }
         }, SelectionEvent.getType());
     }
@@ -726,9 +716,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         return addHandler(new ValueChangeHandler<List<? extends Suggestion>>() {
             @Override
             public void onValueChange(ValueChangeEvent<List<? extends Suggestion>> event) {
-                if(isEnabled()){
-                    handler.onValueChange(event);
-                }
+                if(isEnabled()) { handler.onValueChange(event); }
             }
         }, ValueChangeEvent.getType());
     }

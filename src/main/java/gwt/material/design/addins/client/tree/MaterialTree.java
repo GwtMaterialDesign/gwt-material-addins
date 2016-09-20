@@ -140,9 +140,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new CloseHandler<MaterialTreeItem>() {
             @Override
             public void onClose(CloseEvent<MaterialTreeItem> event) {
-                if(isEnabled()) {
-                    handler.onClose(event);
-                }
+                if(isEnabled()) { handler.onClose(event); }
             }
         }, CloseEvent.getType());
     }
@@ -152,9 +150,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new OpenHandler<MaterialTreeItem>() {
             @Override
             public void onOpen(OpenEvent<MaterialTreeItem> event) {
-                if(isEnabled()) {
-                    handler.onOpen(event);
-                }
+                if(isEnabled()) { handler.onOpen(event); }
             }
         }, OpenEvent.getType());
     }
@@ -164,9 +160,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new SelectionHandler<MaterialTreeItem>() {
             @Override
             public void onSelection(SelectionEvent<MaterialTreeItem> event) {
-                if(isEnabled()) {
-                    handler.onSelection(event);
-                }
+                if(isEnabled()) { handler.onSelection(event); }
             }
         }, SelectionEvent.getType());
     }
