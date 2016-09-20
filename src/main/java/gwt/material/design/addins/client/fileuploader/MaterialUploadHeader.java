@@ -31,12 +31,15 @@ import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Span;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
 public class MaterialUploadHeader extends MaterialWidget {
 
     private Span uploadedFiles = new Span();
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
     private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
     private MaterialUploadPreview preview;
+    private boolean toggle = true;
 
     public MaterialUploadHeader() {
         super(Document.get().createDivElement(), AddinsCssName.HEADER);
@@ -57,28 +60,27 @@ public class MaterialUploadHeader extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
         initUploadHeader(iconClose.getElement(),
-                         iconColaps.getElement(),
-                         getPreview().getElement(),
-                         getPreview().getUploadCollection().getElement());
+                iconColaps.getElement(),
+                getPreview().getElement(),
+                getPreview().getUploadCollection().getElement());
     }
 
-    protected native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
-        var toggle = true;
-
-        $wnd.jQuery(iconColaps).click(function() {
-            if(toggle){
-                $wnd.jQuery(collection).css('visibility', 'hidden');
-                $wnd.jQuery(iconColaps).html("keyboard_arrow_up");
-                $wnd.jQuery(collection).css('height', '0px');
+    protected void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) {
+        $(iconColaps).click(e -> {
+            if (toggle) {
+                $(collection).css("visibility", "hidden");
+                $(iconColaps).html("keyboard_arrow_up");
+                $(collection).css("height", "0px");
                 toggle = false;
-            }else{
-                $wnd.jQuery(collection).css('visibility', 'visible');
-                $wnd.jQuery(iconColaps).html("keyboard_arrow_down");
-                $wnd.jQuery(collection).css('height', 'initial');
+            } else {
+                $(collection).css("visibility", "visible");
+                $(iconColaps).html("keyboard_arrow_down");
+                $(collection).css("height", "initial");
                 toggle = true;
             }
+            return true;
         });
-    }-*/;
+    }
 
     public MaterialUploadPreview getPreview() {
         return preview;
