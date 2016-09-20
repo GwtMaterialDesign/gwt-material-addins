@@ -35,6 +35,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -95,7 +96,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
 
     private String title = "";
-    private String toolbarColor;
+    private Color toolbarColor;
 
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
     private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(window, AddinsCssName.MAXIMIZE);
@@ -211,11 +212,11 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         }
     }
 
-    public String getToolbarColor() {
+    public Color getToolbarColor() {
         return toolbarColor;
     }
 
-    public void setToolbarColor(String toolbarColor) {
+    public void setToolbarColor(Color toolbarColor) {
         this.toolbarColor = toolbarColor;
         toolbarColorMixin.setBackgroundColor(toolbarColor);
     }
@@ -249,7 +250,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     @Override
-    public void setBackgroundColor(String bgColor) {
+    public void setBackgroundColor(Color bgColor) {
         window.setBackgroundColor(bgColor);
     }
 

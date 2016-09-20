@@ -36,6 +36,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.constants.Color;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -87,7 +88,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasOpenHandlers<MaterialCutOut>, HasCircle {
 
-    private String backgroundColor = "blue";
+    private Color backgroundColor = Color.BLUE;
     private double opacity = 0.8;
 
     private boolean animated = true;
@@ -129,14 +130,14 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     @Override
-    public void setBackgroundColor(String bgColor) {
+    public void setBackgroundColor(Color bgColor) {
         backgroundColor = bgColor;
         //resetting the computedBackgroundColor
         computedBackgroundColor = null;
     }
 
     @Override
-    public String getBackgroundColor() {
+    public Color getBackgroundColor() {
         return backgroundColor;
     }
 

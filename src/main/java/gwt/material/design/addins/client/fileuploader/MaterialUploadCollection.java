@@ -85,10 +85,10 @@ public class MaterialUploadCollection extends MaterialCollection {
 
         // Secondary Action Panel
         btnClear.setId(AddinsCssName.DZ_REMOVE);
-        btnClear.setBackgroundColor("transparent");
+        btnClear.setBackgroundColor(Color.TRANSPARENT);
         btnClear.setShadow(0);
         btnClear.setCircle(true);
-        btnClear.setTextColor("white");
+        btnClear.setTextColor(Color.WHITE);
         btnClear.addStyleName("ph");
         btnClear.setIconType(IconType.CLEAR);
         btnClear.setDataAttribute("data-dz-remove", "");
