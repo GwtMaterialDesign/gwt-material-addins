@@ -136,6 +136,12 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         computedBackgroundColor = null;
     }
 
+    @Deprecated
+    @Override
+    public void setBackgroundColor(String bgColor) {
+        setBackgroundColor(Color.fromStyleName(bgColor));
+    }
+
     @Override
     public Color getBackgroundColor() {
         return backgroundColor;

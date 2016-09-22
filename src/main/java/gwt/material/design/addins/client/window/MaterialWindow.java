@@ -221,6 +221,11 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         toolbarColorMixin.setBackgroundColor(toolbarColor);
     }
 
+    @Deprecated
+    public void setToolbarColor(String toolbarColor) {
+        setToolbarColor(Color.fromStyleName(toolbarColor));
+    }
+
     public void setOpenAnimation(final MaterialAnimation openAnimation) {
         this.openAnimation = openAnimation;
     }
@@ -251,6 +256,12 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     @Override
     public void setBackgroundColor(Color bgColor) {
+        window.setBackgroundColor(bgColor);
+    }
+
+    @Deprecated
+    @Override
+    public void setBackgroundColor(String bgColor) {
         window.setBackgroundColor(bgColor);
     }
 
