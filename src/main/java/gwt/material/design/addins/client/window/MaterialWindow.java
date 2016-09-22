@@ -258,13 +258,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void setBackgroundColor(Color bgColor) {
         window.setBackgroundColor(bgColor);
     }
-
-    @Deprecated
-    @Override
-    public void setBackgroundColor(String bgColor) {
-        window.setBackgroundColor(bgColor);
-    }
-
+    
     public boolean isOpen() {
         return openMixin.isOn();
     }
