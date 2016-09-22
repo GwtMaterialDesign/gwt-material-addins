@@ -55,6 +55,11 @@ public class MaterialDocViewer extends MaterialWidget {
         super(Document.get().createIFrameElement());
     }
 
+    public MaterialDocViewer(String url) {
+        this();
+        setUrl(url);
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();

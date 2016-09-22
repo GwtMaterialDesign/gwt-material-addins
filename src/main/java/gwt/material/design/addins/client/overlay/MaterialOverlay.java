@@ -20,10 +20,12 @@
 package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 
 //@formatter:off
 /**
@@ -61,5 +63,16 @@ public class MaterialOverlay extends MaterialWidget {
 
     public MaterialOverlay() {
         super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
+    }
+
+    public MaterialOverlay(Color backgroundColor) {
+        this();
+        setBackgroundColor(backgroundColor);
+    }
+
+    public MaterialOverlay(Color backgroundColor, Style.Visibility visibility, Double opacity) {
+        this(backgroundColor);
+        setVisibility(visibility);
+        setOpacity(opacity);
     }
 }

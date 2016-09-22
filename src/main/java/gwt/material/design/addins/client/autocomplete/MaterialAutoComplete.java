@@ -209,6 +209,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         setType(type);
     }
 
+    public MaterialAutoComplete(String placeholder) {
+        this();
+        setPlaceholder(placeholder);
+    }
+
     /**
      * Use MaterialAutocomplete to search for matches from local or remote data
      * sources.

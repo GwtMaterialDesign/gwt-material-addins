@@ -28,6 +28,7 @@ import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Position;
 
@@ -82,6 +83,17 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         positionMixin.setCssName(Position.LEFT);
         add(triangle);
         setShadow(1);
+    }
+
+    public MaterialBubble(Color textColor, Color backgroundColor) {
+        this();
+        setTextColor(textColor);
+        setBackgroundColor(backgroundColor);
+    }
+
+    public MaterialBubble(Color textColor, Color backgroundColor, Position position) {
+        this(textColor, backgroundColor);
+        setPosition(position);
     }
 
     @Override

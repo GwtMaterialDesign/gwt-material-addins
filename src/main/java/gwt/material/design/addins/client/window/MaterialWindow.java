@@ -114,6 +114,22 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         initialize();
     }
 
+    public MaterialWindow(String title) {
+        this();
+        setTitle(title);
+    }
+
+    public MaterialWindow(String title, Color backgroundColor, Color textColor) {
+        this(title);
+        setBackgroundColor(backgroundColor);
+        setTextColor(textColor);
+    }
+
+    public MaterialWindow(String title, Color backgroundColor, Color textColor, Color toolbarColor) {
+        this(title, backgroundColor, textColor);
+        setToolbarColor(toolbarColor);
+    }
+
     /**
      * Builds the toolbar
      */
@@ -258,7 +274,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void setBackgroundColor(Color bgColor) {
         window.setBackgroundColor(bgColor);
     }
-    
+
     public boolean isOpen() {
         return openMixin.isOn();
     }

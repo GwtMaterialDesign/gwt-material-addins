@@ -112,6 +112,17 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         divDescription.addClickHandler(handler);
     }
 
+    public MaterialStep(String title, String description) {
+        this();
+        setTitle(title);
+        setDescription(description);
+    }
+
+    public MaterialStep(String title, String description, Integer step) {
+        this(title, description);
+        setStep(step);
+    }
+
     @Override
     public void add(Widget child) {
         divBody.add(child);

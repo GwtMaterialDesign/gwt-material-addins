@@ -69,6 +69,11 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
         super(Document.get().createDivElement(), AddinsCssName.CONTAINER1);
     }
 
+    public MaterialSubHeaderContainer(SubHeaderType type) {
+        this();
+        setType(type);
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();

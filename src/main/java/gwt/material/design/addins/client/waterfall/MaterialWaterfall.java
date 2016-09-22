@@ -26,6 +26,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
@@ -75,6 +76,12 @@ public class MaterialWaterfall extends MaterialWidget {
     public MaterialWaterfall() {
         super(Document.get().createDivElement(), AddinsCssName.WATERFALL);
         setShadow(1);
+    }
+
+    public MaterialWaterfall(Color backgroundColor, Color textColor) {
+        this();
+        setBackgroundColor(backgroundColor);
+        setTextColor(textColor);
     }
 
     @Override

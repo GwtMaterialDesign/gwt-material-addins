@@ -27,11 +27,14 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.IntegerBox;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.html.Icon;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -118,6 +121,22 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     public MaterialRating() {
         super(DOM.createDiv(), AddinsCssName.MATERIAL_RATING);
         revalidateLayout();
+    }
+
+    public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor) {
+        this();
+        setSelectedRatingIcon(selectedRatingIcon);
+        setUnselectedRatingIcon(unselectedRatingIcon);
+    }
+
+    public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor, Integer value) {
+        this(selectedRatingIcon, unselectedRatingIcon, textColor);
+        setValue(value);
+    }
+
+    public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor, Integer value, Integer maxRating) {
+        this(selectedRatingIcon, unselectedRatingIcon, textColor, value);
+        setMaxRating(maxRating);
     }
 
     /**

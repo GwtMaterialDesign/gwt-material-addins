@@ -115,6 +115,18 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         add(uploadPreview);
     }
 
+    public MaterialFileUploader(String url, FileMethod method) {
+        this();
+        setUrl(url);
+        setMethod(method);
+    }
+
+    public MaterialFileUploader(String url, FileMethod method, int maxFileSize, String acceptedFiles) {
+        this(url, method);
+        setMaxFiles(maxFileSize);
+        setAcceptedFiles(acceptedFiles);
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();

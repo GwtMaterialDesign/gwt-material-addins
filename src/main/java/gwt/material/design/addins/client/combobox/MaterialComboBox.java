@@ -118,6 +118,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
     }
 
+    public MaterialComboBox(String placeholder) {
+        this();
+        setPlaceholder(placeholder);
+    }
+
+    public MaterialComboBox(String placeholder, boolean multiple) {
+        this(placeholder);
+        setMultiple(multiple);
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();

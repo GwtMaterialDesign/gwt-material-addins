@@ -77,6 +77,8 @@ public interface AddinsCssName {
     String SWIPEABLE = "swipeable";
     String TIMEPICKER = "timepicker";
     String TREE = "tree";
+    String TREE_ITEM = "tree-item";
+    String TREE_HEADER = "tree-header";
     String SELECTED = "selected";
     String WATERFALL = "waterfall";
     String MAXIMIZE = "maximize";

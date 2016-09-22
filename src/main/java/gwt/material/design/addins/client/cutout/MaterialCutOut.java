@@ -129,6 +129,13 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setZIndex(-1);
     }
 
+    public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
+        this();
+        setBackgroundColor(backgroundColor);
+        setCircle(circle);
+        setOpacity(opacity);
+    }
+
     @Override
     public void setBackgroundColor(Color bgColor) {
         backgroundColor = bgColor;

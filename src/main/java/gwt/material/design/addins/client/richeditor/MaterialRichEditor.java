@@ -28,6 +28,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasHTML;
+import com.sun.prism.Material;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
 import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
@@ -72,6 +73,20 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
             MaterialDesignBase.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
             MaterialDesignBase.injectCss(MaterialRichEditorClientBundle.INSTANCE.richEditorCss());
         }
+    }
+
+    public MaterialRichEditor() {
+        super();
+    }
+
+    public MaterialRichEditor(String placeholder) {
+        this();
+        setPlaceholder(placeholder);
+    }
+
+    public MaterialRichEditor(String placeholder, String value) {
+        this(placeholder);
+        setValue(value);
     }
 
     private boolean initialized;

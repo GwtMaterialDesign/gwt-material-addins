@@ -110,6 +110,16 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
     }
 
+    public MaterialTimePicker(String placeholder) {
+        this();
+        setPlaceholder(placeholder);
+    }
+
+    public MaterialTimePicker(String placeholder, Date value) {
+        this(placeholder);
+        setValue(value);
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();

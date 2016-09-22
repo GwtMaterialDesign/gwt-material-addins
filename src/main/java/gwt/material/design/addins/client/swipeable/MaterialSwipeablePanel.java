@@ -32,6 +32,7 @@ import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
 import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 
 /**
  * A panel that allows any of its nested children to be swiped away.
@@ -78,6 +79,16 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
 
     public MaterialSwipeablePanel() {
         super(Document.get().createDivElement(), AddinsCssName.SWIPEABLE);
+    }
+
+    public MaterialSwipeablePanel(Color backgroundColor) {
+        this();
+        setBackgroundColor(backgroundColor);
+    }
+
+    public MaterialSwipeablePanel(Color backgroundColor, Integer shadow) {
+        this(backgroundColor);
+        setShadow(shadow);
     }
 
     @Override

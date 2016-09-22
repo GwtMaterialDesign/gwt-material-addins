@@ -29,10 +29,13 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.base.HasTreeItems;
 import gwt.material.design.client.base.AbstractIconButton;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.html.Span;
 
@@ -81,9 +84,29 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     private boolean initialized;
 
     public MaterialTreeItem() {
-        setStyleName("tree-item");
-        divHeader.setStyleName("tree-header");
+        setStyleName(AddinsCssName.TREE_ITEM);
+        divHeader.setStyleName(AddinsCssName.TREE_HEADER);
         add(divHeader);
+    }
+
+    public MaterialTreeItem(String text) {
+        this();
+        setText(text);
+    }
+
+    public MaterialTreeItem(String text, IconType icon) {
+        this(text);
+        setIconType(icon);
+    }
+
+    public MaterialTreeItem(String text, ImageResource resource) {
+        this(text);
+        setResource(resource);
+    }
+
+    public MaterialTreeItem(String text, IconType icon, Color iconColor) {
+        this(text, icon);
+        setIconColor(iconColor);
     }
 
     @Override
