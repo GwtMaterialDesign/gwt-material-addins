@@ -35,11 +35,9 @@ import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.HasPlaceholder;
-import gwt.material.design.client.base.KeyFactory;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
@@ -80,7 +78,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPlaceholder, HasConstrainedValue<T>,
-        HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T> {
+        HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T>, HasReadOnly {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -107,25 +105,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private Label label = new Label();
     private MaterialLabel lblError = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
+    private HandlerRegistration valueChangeHandler;
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
             this, lblError, this.asWidget());
+    private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     // By default the key is generated using toString
     private KeyFactory<T, String> keyFactory = Object::toString;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
-    }
-
-    public MaterialComboBox(String placeholder) {
-        this();
-        setPlaceholder(placeholder);
-    }
-
-    public MaterialComboBox(String placeholder, boolean multiple) {
-        this(placeholder);
-        setMultiple(multiple);
     }
 
     @Override
@@ -194,6 +184,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
         jsComboBox.select2("destroy");
+
+        if (valueChangeHandler != null) {
+            valueChangeHandler.removeHandler();
+        }
     }
 
     @Override
@@ -523,5 +517,35 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
         return errorMixin;
+    }
+
+    public ReadOnlyMixin<MaterialComboBox, MaterialWidget> getReadOnlyMixin() {
+        if (readOnlyMixin == null) {
+            readOnlyMixin = new ReadOnlyMixin<>(this, listbox);
+        }
+        return readOnlyMixin;
+    }
+
+    @Override
+    public void setReadOnly(boolean value) {
+        getReadOnlyMixin().setReadOnly(value);
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return getReadOnlyMixin().isReadOnly();
+    }
+
+    @Override
+    public void setToggleReadOnly(boolean toggle) {
+        getReadOnlyMixin().setToggleReadOnly(toggle);
+        valueChangeHandler = addValueChangeHandler(valueChangeEvent -> {
+            setReadOnly(true);
+        });
+    }
+
+    @Override
+    public boolean isToggleReadOnly() {
+        return getReadOnlyMixin().isToggleReadOnly();
     }
 }

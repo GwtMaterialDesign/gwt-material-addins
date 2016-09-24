@@ -29,11 +29,9 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.HasIcon;
-import gwt.material.design.client.base.HasOrientation;
-import gwt.material.design.client.base.HasPlaceholder;
+import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -68,7 +66,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  */
 //@formatter:on
 public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder, HasOrientation,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon {
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -97,8 +95,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     private MaterialIcon icon = new MaterialIcon();
 
     private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, CssName.VALID);
-
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
+    private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
 
     private String uniqueId;
     private String placeholder;
@@ -126,6 +124,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
         uniqueId = DOM.createUniqueId();
         input.setType(InputType.TEXT);
+        readOnlyMixin = new ReadOnlyMixin<>(this, input);
         panel.add(input);
         panel.add(label);
         panel.add(lblError);
@@ -364,5 +363,32 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
         return errorMixin;
+    }
+
+    public ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {
+        if (readOnlyMixin == null) {
+            readOnlyMixin = new ReadOnlyMixin<>(this, input);
+        }
+        return readOnlyMixin;
+    }
+
+    @Override
+    public void setReadOnly(boolean value) {
+        getReadOnlyMixin().setReadOnly(value);
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return getReadOnlyMixin().isReadOnly();
+    }
+
+    @Override
+    public void setToggleReadOnly(boolean toggle) {
+        getReadOnlyMixin().setToggleReadOnly(toggle);
+    }
+
+    @Override
+    public boolean isToggleReadOnly() {
+        return getReadOnlyMixin().isToggleReadOnly();
     }
 }

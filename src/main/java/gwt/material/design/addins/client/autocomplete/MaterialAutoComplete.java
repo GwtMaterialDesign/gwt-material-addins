@@ -33,22 +33,21 @@ import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.CssTypeMixin;
-import gwt.material.design.client.base.mixin.ErrorMixin;
-import gwt.material.design.client.base.mixin.FocusableMixin;
-import gwt.material.design.client.base.mixin.ProgressMixin;
+import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.html.*;
 import gwt.material.design.client.ui.html.Label;
+import gwt.material.design.client.ui.html.ListItem;
+import gwt.material.design.client.ui.html.UnorderedList;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 //@formatter:off
+
 /**
  * <p>
  * Use GWT Autocomplete to search for matches from local or remote data sources.
@@ -161,7 +160,7 @@ import java.util.Map.Entry;
  */
 // @formatter:on
 public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
-        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion> {
+        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly {
 
     static {
         if(MaterialAddins.isDebug()) {
@@ -192,6 +191,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             lblError, list);
 
     private FocusableMixin<MaterialWidget> focusableMixin;
+    private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
 
     public final CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin = new CssTypeMixin<>(this);
 
@@ -444,6 +444,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             Suggestion suggestion = new gwt.material.design.client.base.Suggestion(value, value);
             list.add(suggestion);
         }
+        if (itemValues.size() > 0) { label.addStyleName(CssName.ACTIVE); }
         setValue(list);
     }
 
@@ -624,6 +625,36 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                 if(isEnabled()) { handler.onSelection(event); }
             }
         }, SelectionEvent.getType());
+    }
+
+    public ReadOnlyMixin<MaterialAutoComplete, TextBox> getReadOnlyMixin() {
+        if (readOnlyMixin == null) {
+            readOnlyMixin = new ReadOnlyMixin<>(this, itemBox);
+        }
+        return readOnlyMixin;
+    }
+
+    @Override
+    public void setReadOnly(boolean value) {
+        getReadOnlyMixin().setReadOnly(value);
+        if (value) {
+            this.setEnabled(false);
+        }
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return getReadOnlyMixin().isReadOnly();
+    }
+
+    @Override
+    public void setToggleReadOnly(boolean toggle) {
+        getReadOnlyMixin().setToggleReadOnly(toggle);
+    }
+
+    @Override
+    public boolean isToggleReadOnly() {
+        return getReadOnlyMixin().isToggleReadOnly();
     }
 
     /**

@@ -738,3 +738,19 @@
 .field-error .select2label {
     color: #f44336 !important;
 }
+
+.col.combobox .select2label {
+    left: 12px !important;
+}
+
+.read-only.combobox .select2-selection {
+    border: none !important;
+}
+
+.read-only.combobox .select2-selection__arrow {
+    display: none !important;
+}
+
+.read-only .select2-selection__rendered {
+    color: #000 !important;
+}
