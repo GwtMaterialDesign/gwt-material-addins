@@ -19,13 +19,13 @@
  */
 package gwt.material.design.addins.client.dnd;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dnd.base.DndHelper;
-import gwt.material.design.addins.client.dnd.js.*;
+import gwt.material.design.addins.client.dnd.js.JsDnd;
+import gwt.material.design.addins.client.dnd.js.JsDragOptions;
+import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.events.*;

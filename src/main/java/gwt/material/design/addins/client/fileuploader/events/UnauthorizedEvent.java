@@ -19,11 +19,10 @@
  */
 package gwt.material.design.addins.client.fileuploader.events;
 
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
-import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
-
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 
 public class UnauthorizedEvent<T> extends GwtEvent<UnauthorizedEvent.UnauthorizedHandler<T>> {
 

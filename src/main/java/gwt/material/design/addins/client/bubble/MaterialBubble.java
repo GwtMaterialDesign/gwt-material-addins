@@ -29,7 +29,6 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Position;
 
 import static gwt.material.design.addins.client.bubble.js.JsBubble.$;

@@ -23,7 +23,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractIconButton;
 import gwt.material.design.client.constants.Color;
