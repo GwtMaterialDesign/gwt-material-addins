@@ -19,16 +19,13 @@
  */
 package gwt.material.design.addins.client;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
-import junit.framework.Test;
-import junit.framework.TestCase;
+import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import org.junit.Test;
 
-public class GwtMaterialAddinsTestSuite extends TestCase {
+public class MaterialPopupMenuTest extends GwtMaterialAddinsTest {
 
-    public static Test suite() {
-        final GWTTestSuite suite = new GWTTestSuite("gwt-material-addins test suite");
-        suite.addTestSuite(MaterialAutocompleteTest.class);
-        suite.addTestSuite(MaterialTimePickerTest.class);
-        return suite;
+    @Test
+    public void testPopupMenu() {
+
     }
 }

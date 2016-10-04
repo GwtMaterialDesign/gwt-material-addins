@@ -28,7 +28,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutocompleteTest extends GwtMaterialAddinsTest {
+public class MaterialAutocompleteTest extends GwtMaterialAddinsTest {
 
 
     @Test
