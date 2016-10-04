@@ -269,7 +269,9 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
         uploader.on("totaluploadprogress", (progress, file, response) -> {
             TotalUploadProgressEvent.fire(this, progress);
-            $this.find(".progress .determinate").css("width", progress + "%");
+            if ($this != null) {
+                $this.find(".progress .determinate").css("width", progress + "%");
+            }
         });
 
         uploader.on("sending", file -> {

@@ -540,7 +540,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     public void setToggleReadOnly(boolean toggle) {
         getReadOnlyMixin().setToggleReadOnly(toggle);
         valueChangeHandler = addValueChangeHandler(valueChangeEvent -> {
-            setReadOnly(true);
+            if (isToggleReadOnly()) {
+                setReadOnly(true);
+            }
         });
     }
 
