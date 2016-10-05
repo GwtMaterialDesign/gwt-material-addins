@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.timepicker;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
@@ -48,28 +49,29 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
 
 /**
  * Material Time Picker - provide a simple way to select a single value from a pre-determined set.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code <ma:timepicker.MaterialTimePicker placeholder="Time Arrival" />}
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
+ *
  * @author kevzlou7979
  * @author Ben Dol
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
  */
 //@formatter:on
 public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder, HasOrientation,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
             MaterialDesignBase.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
         } else {
@@ -78,16 +80,24 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         }
     }
 
-    /** Wraps the actual input. */
+    /**
+     * Wraps the actual input.
+     */
     private MaterialPanel panel = new MaterialPanel();
 
-    /** The input element for the time picker. */
+    /**
+     * The input element for the time picker.
+     */
     private MaterialInput input = new MaterialInput();
 
-    /** Label to display errors messages. */
+    /**
+     * Label to display errors messages.
+     */
     private MaterialLabel lblError = new MaterialLabel();
 
-    /** The current value held by the time picker. */
+    /**
+     * The current value held by the time picker.
+     */
     private Date time;
 
     private Label label = new Label();
@@ -143,8 +153,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     /**
      * Side effects:
      * <ul>
-     *   <li>Resets the time to <i>now<i></li>
-     *   <li>Clears errors/success message</li>
+     * <li>Resets the time to <i>now<i></li>
+     * <li>Clears errors/success message</li>
      * </ul>
      */
     public void reset() {
@@ -164,7 +174,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      * False (default) change to 24 hours system.
      *
      * @return <code>false</code> in case 12 hours mode is set;
-     *         <code>true</code> otherwise.
+     * <code>true</code> otherwise.
      */
     public boolean isHour24() {
         return this.hour24;
@@ -247,14 +257,14 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         String timeString = getTime();
         Date parsedDate = null;
 
-        if(timeString != null && !timeString.equals("")) {
+        if (timeString != null && !timeString.equals("")) {
             try {
-                if(this.hour24) {
+                if (this.hour24) {
                     parsedDate = DateTimeFormat.getFormat("HH:mm").parse(timeString);
                 } else {
                     parsedDate = DateTimeFormat.getFormat("hh:mm aa").parse(timeString);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Silently catch parse errors
             }
         }
@@ -286,6 +296,20 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         return addHandler(handler, OpenEvent.getType());
     }
 
+    /**
+     * Programmatically open the time picker component
+     */
+    public void open() {
+        Scheduler.get().scheduleDeferred(() -> $(input.getElement()).lolliclock("show"));
+    }
+
+    /**
+     * Programmatically close the time picker component
+     */
+    public void close() {
+        Scheduler.get().scheduleDeferred(() -> $(input.getElement()).lolliclock("hide"));
+    }
+
     @Override
     public void clear() {
         time = null;
@@ -299,7 +323,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public void setValue(Date time, boolean fireEvents) {
-        if(this.time != null && this.time.equals(time)) {
+        if (this.time != null && this.time.equals(time)) {
             return;
         }
         this.time = time;
