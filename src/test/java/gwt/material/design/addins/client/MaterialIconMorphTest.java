@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.iconmorph.MaterialIconMorph;
 import org.junit.Test;
 
 public class MaterialIconMorphTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testIconMorph() {
-
+        MaterialIconMorph iconMorph = new MaterialIconMorph();
+        checkWidget(iconMorph);
     }
 }

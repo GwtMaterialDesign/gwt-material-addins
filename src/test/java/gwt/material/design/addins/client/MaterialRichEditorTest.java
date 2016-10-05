@@ -20,12 +20,20 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 public class MaterialRichEditorTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testRichEditor() {
+        MaterialRichEditor editor = new MaterialRichEditor();
+        checkWidget(editor);
+    }
 
+    @Override
+    protected <T extends MaterialWidget> void checkChildren(T widget) {
+        // TODO Check specific test on children
     }
 }

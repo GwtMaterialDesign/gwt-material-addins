@@ -19,7 +19,10 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.HasEnabled;
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 /**
@@ -31,6 +34,23 @@ public class MaterialTimePickerTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testTimePicker() {
-        //TODO Time picker tests
+        MaterialTimePicker timePicker = new MaterialTimePicker();
+        checkWidget(timePicker);
+    }
+
+    @Override
+    protected <T extends MaterialWidget & HasEnabled, H extends MaterialWidget> void checkEnabled(T widget, H target) {
+        MaterialTimePicker timePicker = new MaterialTimePicker();
+        super.checkEnabled(timePicker, timePicker.getTimeInput());
+    }
+
+    @Override
+    protected <T extends MaterialWidget> void checkInteractionEvents(T widget, boolean enabled) {
+        // TODO Check specific interaction events
+    }
+
+    @Override
+    protected <T extends MaterialWidget> void checkChildren(T widget) {
+        // TODO Specific check for children structure
     }
 }

@@ -20,12 +20,20 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.tree.MaterialTree;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 public class MaterialTreeTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testTree() {
+        MaterialTree tree = new MaterialTree();
+        checkWidget(tree);
+    }
 
+    @Override
+    protected <T extends MaterialWidget> void checkChildren(T widget) {
+        // TODO Check specific children structure
     }
 }

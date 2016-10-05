@@ -88,7 +88,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     /**
      * The input element for the time picker.
      */
-    private MaterialInput input = new MaterialInput();
+    private MaterialInput timeInput = new MaterialInput();
 
     /**
      * Label to display errors messages.
@@ -104,8 +104,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     private MaterialIcon icon = new MaterialIcon();
 
-    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, CssName.VALID);
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
+    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.timeInput, CssName.VALID);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.timeInput);
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
 
     private String uniqueId;
@@ -133,13 +133,13 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         super.onLoad();
 
         uniqueId = DOM.createUniqueId();
-        input.setType(InputType.TEXT);
-        readOnlyMixin = new ReadOnlyMixin<>(this, input);
-        panel.add(input);
+        timeInput.setType(InputType.TEXT);
+        readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
+        panel.add(timeInput);
         panel.add(label);
         panel.add(lblError);
         add(panel);
-        input.getElement().setAttribute("type", "text");
+        timeInput.getElement().setAttribute("type", "text");
         initialize();
     }
 
@@ -147,7 +147,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void onUnload() {
         super.onUnload();
 
-        $(input.getElement()).lolliclock("remove");
+        $(timeInput.getElement()).lolliclock("remove");
     }
 
     /**
@@ -229,15 +229,15 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         options.beforeShow = this::beforeShow;
         options.afterShow = this::afterShow;
         options.afterHide = this::afterHide;
-        $(input.getElement()).lolliclock(options);
-        $(input.getElement()).blur();
+        $(timeInput.getElement()).lolliclock(options);
+        $(timeInput.getElement()).blur();
     }
 
     /**
      * Called after the lolliclock event <code>afterShow</code>.
      */
     protected void beforeShow() {
-        input.getElement().blur();
+        timeInput.getElement().blur();
 
         // Add class 'valid' for visual feedback.
         validMixin.setOn(true);
@@ -278,12 +278,12 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     }
 
     protected String getTime() {
-        return $(input.getElement()).val().toString();
+        return $(timeInput.getElement()).val().toString();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        this.input.setEnabled(enabled);
+        this.timeInput.setEnabled(enabled);
     }
 
     @Override
@@ -300,20 +300,20 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      * Programmatically open the time picker component
      */
     public void open() {
-        Scheduler.get().scheduleDeferred(() -> $(input.getElement()).lolliclock("show"));
+        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("show"));
     }
 
     /**
      * Programmatically close the time picker component
      */
     public void close() {
-        Scheduler.get().scheduleDeferred(() -> $(input.getElement()).lolliclock("hide"));
+        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("hide"));
     }
 
     @Override
     public void clear() {
         time = null;
-        $(input.getElement()).val("");
+        $(timeInput.getElement()).val("");
     }
 
     @Override
@@ -328,7 +328,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         }
         this.time = time;
 
-        $(input.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
+        $(timeInput.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
 
         super.setValue(time, fireEvents);
     }
@@ -391,7 +391,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     public ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {
         if (readOnlyMixin == null) {
-            readOnlyMixin = new ReadOnlyMixin<>(this, input);
+            readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
         }
         return readOnlyMixin;
     }
@@ -414,5 +414,9 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public boolean isToggleReadOnly() {
         return getReadOnlyMixin().isToggleReadOnly();
+    }
+
+    public MaterialInput getTimeInput() {
+        return timeInput;
     }
 }

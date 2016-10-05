@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.splitpanel.MaterialSplitPanel;
 import org.junit.Test;
 
 public class MaterialSplitPanelTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testSplitPanel() {
-
+        MaterialSplitPanel splitPanel = new MaterialSplitPanel();
+        checkWidget(splitPanel);
     }
 }

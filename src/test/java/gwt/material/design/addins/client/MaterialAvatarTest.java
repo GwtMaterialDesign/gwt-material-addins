@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client;
 
+import gwt.material.design.addins.client.avatar.MaterialAvatar;
+import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
 import org.junit.Test;
 
@@ -26,6 +28,32 @@ public class MaterialAvatarTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testAvatar() {
+        MaterialAvatar avatar = new MaterialAvatar();
+        checkWidget(avatar);
+        checkNameAndHashCode(avatar);
+        checkSVGWithHeight(avatar);
+    }
 
+    protected <T extends MaterialAvatar> void checkNameAndHashCode(T avatar) {
+        final String NAME = "test1";
+        avatar.setName(NAME);
+        avatar.initialize();
+        final String HASH_CODE = JsAvatar.md5(NAME);
+        assertEquals(avatar.getName(), NAME);
+        assertTrue(avatar.getElement().hasAttribute("data-jdenticon-hash"));
+        assertEquals(avatar.getElement().getAttribute("data-jdenticon-hash"), HASH_CODE);
+    }
+
+    protected <T extends MaterialAvatar> void checkSVGWithHeight(T avatar) {
+        final String WIDTH = "50";
+        final String HEIGHT = "50";
+        avatar.setWidth(WIDTH);
+        avatar.setHeight(HEIGHT);
+
+        assertTrue(avatar.getElement().hasAttribute("width"));
+        assertEquals(avatar.getElement().getAttribute("width"), WIDTH);
+
+        assertTrue(avatar.getElement().hasAttribute("height"));
+        assertEquals(avatar.getElement().getAttribute("height"), HEIGHT);
     }
 }

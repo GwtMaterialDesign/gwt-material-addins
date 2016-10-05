@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import org.junit.Test;
 
 public class MaterialFileUploaderTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testFileUploader() {
-
+        MaterialFileUploader fileUploader = new MaterialFileUploader();
+        checkWidget(fileUploader);
     }
 }

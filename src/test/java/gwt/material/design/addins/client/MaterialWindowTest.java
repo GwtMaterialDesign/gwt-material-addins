@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.window.MaterialWindow;
 import org.junit.Test;
 
 public class MaterialWindowTest extends GwtMaterialAddinsTest {

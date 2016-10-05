@@ -550,4 +550,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     public boolean isToggleReadOnly() {
         return getReadOnlyMixin().isToggleReadOnly();
     }
+
+    public MaterialWidget getListbox() {
+        return listbox;
+    }
 }

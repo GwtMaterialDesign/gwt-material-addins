@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.camera.MaterialCameraCapture;
 import org.junit.Test;
 
 public class MaterialCameraTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testCamera() {
-
+        MaterialCameraCapture cameraCapture = new MaterialCameraCapture();
+        checkWidget(cameraCapture);
     }
 }

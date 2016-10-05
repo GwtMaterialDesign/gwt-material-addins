@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.stepper.MaterialStepper;
 import org.junit.Test;
 
 public class MaterialStepperTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testStepper() {
-
+        MaterialStepper stepper = new MaterialStepper();
+        checkWidget(stepper);
     }
 }

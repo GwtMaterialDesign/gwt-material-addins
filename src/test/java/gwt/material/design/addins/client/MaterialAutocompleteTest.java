@@ -23,6 +23,7 @@ import gwt.material.design.addins.client.autocomplete.MaterialAutoComplete;
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
 import gwt.material.design.addins.client.base.User;
 import gwt.material.design.addins.client.base.UserOracle;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -34,8 +35,14 @@ public class MaterialAutocompleteTest extends GwtMaterialAddinsTest {
     @Test
     public void testAutocomplete() {
         MaterialAutoComplete autoComplete = new MaterialAutoComplete();
+        checkWidget(autoComplete);
         checkPlaceholder(autoComplete);
         checkValue(autoComplete);
+    }
+
+    @Override
+    protected <T extends MaterialWidget> void checkAllKeyEvent(T widget, boolean enabled) {
+        // TODO All Key Events for Autocomplete uses Gwt SuggestBox so need to update
     }
 
     public <T extends MaterialAutoComplete> void checkValue(T widget) {

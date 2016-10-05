@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.docviewer.MaterialDocViewer;
 import org.junit.Test;
 
 public class MaterialDocViewerTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testDocViewer() {
-
+        MaterialDocViewer docViewer = new MaterialDocViewer();
+        checkWidget(docViewer);
     }
 }

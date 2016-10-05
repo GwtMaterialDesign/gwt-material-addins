@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.bubble.MaterialBubble;
 import org.junit.Test;
 
 public class MaterialBubbleTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testBubble() {
-
+        MaterialBubble bubble = new MaterialBubble();
+        checkWidget(bubble);
     }
 }

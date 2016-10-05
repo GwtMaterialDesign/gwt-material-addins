@@ -19,13 +19,35 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.User;
+import gwt.material.design.addins.client.combobox.MaterialComboBox;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 public class MaterialComboBoxTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testComboBox() {
+        MaterialComboBox<User> comboBox = new MaterialComboBox<>();
+        checkWidget(comboBox);
+    }
 
+    @Override
+    protected <T extends MaterialWidget & HasEnabled> void checkEnabled(T widget) {
+        MaterialComboBox<User> comboBox = new MaterialComboBox<>();
+        super.checkEnabled(comboBox, comboBox.getListbox());
+    }
+
+    @Override
+    protected <T extends MaterialWidget> void checkChildren(T widget) {
+        // TODO Check Structure
+    }
+
+    @Override
+    protected <T extends MaterialWidget> void checkInteractionEvents(T widget, boolean enabled) {
+        // TODO Check Specific Interaction Events
     }
 }

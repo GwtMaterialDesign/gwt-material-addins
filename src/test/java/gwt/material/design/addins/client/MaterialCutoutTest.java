@@ -20,12 +20,27 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.cutout.MaterialCutOut;
+import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.HasColors;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 public class MaterialCutoutTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testCutout() {
+        MaterialCutOut cutOut = new MaterialCutOut();
+        checkWidget(cutOut);
+    }
 
+    @Override
+    protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
+        // TODO Need specific test case
+    }
+
+    @Override
+    protected <T extends MaterialWidget & HasCircle> void checkCircle(T widget) {
+        // TODO Need specific circle
     }
 }

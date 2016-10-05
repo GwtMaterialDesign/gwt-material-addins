@@ -20,12 +20,14 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.rating.MaterialRating;
 import org.junit.Test;
 
 public class MaterialRatingTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testRating() {
-
+        MaterialRating rating = new MaterialRating();
+        checkWidget(rating);
     }
 }

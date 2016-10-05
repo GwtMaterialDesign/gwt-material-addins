@@ -20,12 +20,20 @@
 package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.masonry.MaterialMasonry;
+import gwt.material.design.client.base.MaterialWidget;
 import org.junit.Test;
 
 public class MaterialMasonryTest extends GwtMaterialAddinsTest {
 
     @Test
     public void testMasonry() {
+        MaterialMasonry masonry = new MaterialMasonry();
+        checkWidget(masonry);
+    }
 
+    @Override
+    protected <T extends MaterialWidget> void checkChildren(T widget) {
+        // TODO Specific test for checking childred
     }
 }
