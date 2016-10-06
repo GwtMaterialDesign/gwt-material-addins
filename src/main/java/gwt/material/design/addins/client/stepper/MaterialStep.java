@@ -173,14 +173,14 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public void setError(String error) {
         removeStyleName(AddinsCssName.SUCCESS);
         addStyleName(AddinsCssName.ERROR);
-        applyIconStatus(iconError, "red", error);
+        applyIconStatus(iconError, error);
     }
 
     @Override
     public void setSuccess(String success) {
         removeStyleName(AddinsCssName.ERROR);
         addStyleName(AddinsCssName.SUCCESS);
-        applyIconStatus(iconSuccess, "blue", success);
+        applyIconStatus(iconSuccess, success);
     }
     
     @Override
@@ -197,7 +197,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         removeStyleName(AddinsCssName.SUCCESS);
     }
 
-    protected void applyIconStatus(MaterialIcon icon, String color, String description){
+    protected void applyIconStatus(MaterialIcon icon, String description){
         iconError.removeFromParent();
         iconSuccess.removeFromParent();
         divCircle.removeFromParent();
@@ -243,5 +243,13 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
                 }
             }
         }, SelectionEvent.getType());
+    }
+
+    public MaterialIcon getIconError() {
+        return iconError;
+    }
+
+    public MaterialIcon getIconSuccess() {
+        return iconSuccess;
     }
 }
