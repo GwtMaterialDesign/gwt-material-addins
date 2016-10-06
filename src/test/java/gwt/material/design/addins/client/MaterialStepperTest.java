@@ -44,6 +44,26 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
         checkStructure(stepper);
         checkStepNavigation(stepper);
         checkAxis(stepper);
+        checkErrorSuccess(stepper);
+    }
+
+    protected <T extends MaterialStepper> void checkErrorSuccess(T stepper) {
+        // Specific tests for error and success
+        MaterialStep step = stepper.getCurrentStep();
+        MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
+
+        stepper.setError("error");
+        assertTrue(step.getElement().hasClassName(AddinsCssName.ERROR));
+        assertEquals(step.getIconError(), conCircle.getWidget(0));
+
+        stepper.setSuccess("success");
+        assertFalse(step.getElement().hasClassName(AddinsCssName.ERROR));
+        assertTrue(step.getElement().hasClassName(AddinsCssName.SUCCESS));
+        assertEquals(step.getIconSuccess(), conCircle.getWidget(0));
+
+        stepper.clearErrorOrSuccess();
+        assertFalse(step.getElement().hasClassName(AddinsCssName.ERROR));
+        assertFalse(step.getElement().hasClassName(AddinsCssName.SUCCESS));
     }
 
     protected <T extends MaterialStepper> void checkAxis(T stepper) {
