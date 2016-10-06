@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
@@ -40,6 +41,63 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
         MaterialStepper stepper = new MaterialStepper();
         checkWidget(stepper);
         checkStructure(stepper);
+        checkStepNavigation(stepper);
+    }
+
+    private void checkStepNavigation(MaterialStepper stepper) {
+        final boolean[] isStartFired = {false};
+        stepper.addStartHandler(event -> {
+             isStartFired[0] = true;
+        });
+        RootPanel.get().add(stepper);
+        assertTrue(isStartFired[0]);
+        assertEquals(stepper.getWidgetCount(), 5);
+        assertEquals(stepper.getCurrentStep(), stepper.getWidget(0));
+        // Next Step Test
+        for (int i = 0; i < stepper.getWidgetCount() - 1; i++) {
+            final boolean[] isNextFired = {false};
+            stepper.addNextHandler(event -> {
+                isNextFired[0] = true;
+            });
+            stepper.nextStep();
+            assertTrue(stepper.getWidget(i) instanceof MaterialStep);
+            MaterialStep step = (MaterialStep) stepper.getWidget(i + 1);
+            assertEquals(stepper.getCurrentStep(), step);
+            // Check Next Event
+            assertTrue(isNextFired[0]);
+        }
+
+        // Previous Step Test
+        final int lastStepIndex = stepper.getWidgetCount();
+        stepper.goToStep(lastStepIndex); // Go to last step
+        assertEquals(stepper.getCurrentStep(), stepper.getWidget(lastStepIndex - 1));
+        for (int i = stepper.getWidgetCount() - 1; i > 0 ; i--) {
+            final boolean[] isPreviousFired = {false};
+            stepper.addPreviousHandler(event -> {
+                isPreviousFired[0] = true;
+            });
+
+            stepper.prevStep();
+            assertTrue(stepper.getWidget(i - 1) instanceof MaterialStep);
+            MaterialStep step = (MaterialStep) stepper.getWidget(i - 1);
+            assertEquals(stepper.getCurrentStep(), step);
+            // Check Previous Event
+            assertTrue(isPreviousFired[0]);
+        }
+
+        // Check Complete Event
+        final boolean[] isCompleteFired = {false};
+        stepper.addCompleteHandler(event -> {
+            isCompleteFired[0] = true;
+        });
+        stepper.goToStep(lastStepIndex);
+        stepper.nextStep();
+        assertTrue(isCompleteFired[0]);
+
+        // Reset the Stepper
+        stepper.reset();
+        assertEquals(stepper.getCurrentStepIndex(), 0);
+        assertEquals(stepper.getWidget(0), stepper.getCurrentStep());
     }
 
     protected <T extends MaterialStepper> void checkStructure(T stepper) {
