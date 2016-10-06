@@ -25,6 +25,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialPanel;
 import org.junit.Test;
@@ -42,12 +43,22 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
         checkWidget(stepper);
         checkStructure(stepper);
         checkStepNavigation(stepper);
+        checkAxis(stepper);
     }
 
-    private void checkStepNavigation(MaterialStepper stepper) {
+    protected <T extends MaterialStepper> void checkAxis(T stepper) {
+        stepper.setAxis(Axis.VERTICAL);
+        assertEquals(stepper.getAxis(), Axis.VERTICAL);
+        assertTrue(stepper.getElement().hasClassName(Axis.VERTICAL.getCssName()));
+        stepper.setAxis(Axis.HORIZONTAL);
+        assertEquals(stepper.getAxis(), Axis.HORIZONTAL);
+        assertTrue(stepper.getElement().hasClassName(Axis.HORIZONTAL.getCssName()));
+    }
+
+    protected <T extends MaterialStepper> void checkStepNavigation(T stepper) {
         final boolean[] isStartFired = {false};
         stepper.addStartHandler(event -> {
-             isStartFired[0] = true;
+            isStartFired[0] = true;
         });
         RootPanel.get().add(stepper);
         assertTrue(isStartFired[0]);
@@ -71,7 +82,7 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
         final int lastStepIndex = stepper.getWidgetCount();
         stepper.goToStep(lastStepIndex); // Go to last step
         assertEquals(stepper.getCurrentStep(), stepper.getWidget(lastStepIndex - 1));
-        for (int i = stepper.getWidgetCount() - 1; i > 0 ; i--) {
+        for (int i = stepper.getWidgetCount() - 1; i > 0; i--) {
             final boolean[] isPreviousFired = {false};
             stepper.addPreviousHandler(event -> {
                 isPreviousFired[0] = true;
