@@ -90,7 +90,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     private int currentStepIndex = 0;
     private Div divFeedback = new Div();
-    private Span feedback = new Span();
+    private Span feedbackSpan = new Span();
     private boolean stepSkippingAllowed = true;
 
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
@@ -98,7 +98,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public MaterialStepper() {
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
         divFeedback.setStyleName(AddinsCssName.FEEDBACK);
-        divFeedback.add(feedback);
+        divFeedback.add(feedbackSpan);
     }
 
     @Override
@@ -323,15 +323,15 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Get feedback message.
      */
     public String getFeedback() {
-        return feedback.getElement().getInnerHTML();
+        return feedbackSpan.getElement().getInnerHTML();
     }
 
     /**
      * Show feedback message and circular loader on body container
      */
     public void showFeedback(String feedbackText) {
-        feedback.setText(feedbackText);
-        MaterialAnimator.animate(Transition.FADEINUP, feedback, 500);
+        feedbackSpan.setText(feedbackText);
+        MaterialAnimator.animate(Transition.FADEINUP, feedbackSpan, 500);
         MaterialLoader.showLoading(true, getCurrentStep().getDivBody());
         add(divFeedback);
     }
@@ -357,6 +357,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      */
     public boolean isStepSkippingAllowed() {
         return stepSkippingAllowed;
+    }
+
+    public Span getFeedbackSpan() {
+        return feedbackSpan;
     }
 
     /**
