@@ -44,28 +44,28 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
     }
 
     private ToolbarButton[] styleOptions = new ToolbarButton[]
-        { ToolbarButton.STYLE, ToolbarButton.BOLD, ToolbarButton.ITALIC, ToolbarButton.UNDERLINE, ToolbarButton.STRIKETHROUGH, ToolbarButton.CLEAR, ToolbarButton.SUPERSCRIPT, ToolbarButton.SUBSCRIPT };
+            {ToolbarButton.STYLE, ToolbarButton.BOLD, ToolbarButton.ITALIC, ToolbarButton.UNDERLINE, ToolbarButton.STRIKETHROUGH, ToolbarButton.CLEAR, ToolbarButton.SUPERSCRIPT, ToolbarButton.SUBSCRIPT};
     private ToolbarButton[] fontOptions = new ToolbarButton[]
-        { ToolbarButton.FONT_SIZE, ToolbarButton.FONT_NAME };
+            {ToolbarButton.FONT_SIZE, ToolbarButton.FONT_NAME};
     private ToolbarButton[] colorOptions = new ToolbarButton[]
-        { ToolbarButton.COLOR };
+            {ToolbarButton.COLOR};
     private ToolbarButton[] undoOptions = new ToolbarButton[]
-        { ToolbarButton.UNDO, ToolbarButton.REDO, ToolbarButton.HELP };
+            {ToolbarButton.UNDO, ToolbarButton.REDO, ToolbarButton.HELP};
     private ToolbarButton[] ckMediaOptions = new ToolbarButton[]
-        { ToolbarButton.CK_IMAGE_UPLOAD, ToolbarButton.CK_IMAGE_VIDEO };
+            {ToolbarButton.CK_IMAGE_UPLOAD, ToolbarButton.CK_IMAGE_VIDEO};
     private ToolbarButton[] miscOptions = new ToolbarButton[]
-        { ToolbarButton.LINK, ToolbarButton.PICTURE, ToolbarButton.TABLE, ToolbarButton.HR, ToolbarButton.CODE_VIEW, ToolbarButton.FULLSCREEN };
+            {ToolbarButton.LINK, ToolbarButton.PICTURE, ToolbarButton.TABLE, ToolbarButton.HR, ToolbarButton.CODE_VIEW, ToolbarButton.FULLSCREEN};
     private ToolbarButton[] paraOptions = new ToolbarButton[]
-        { ToolbarButton.UL, ToolbarButton.OL, ToolbarButton.PARAGRAPH, ToolbarButton.LEFT, ToolbarButton.CENTER, ToolbarButton.RIGHT, ToolbarButton.JUSTIFY, ToolbarButton.OUTDENT, ToolbarButton.INDENT };
+            {ToolbarButton.UL, ToolbarButton.OL, ToolbarButton.PARAGRAPH, ToolbarButton.LEFT, ToolbarButton.CENTER, ToolbarButton.RIGHT, ToolbarButton.JUSTIFY, ToolbarButton.OUTDENT, ToolbarButton.INDENT};
     private ToolbarButton[] heightOptions = new ToolbarButton[]
-        { ToolbarButton.LINE_HEIGHT };
+            {ToolbarButton.LINE_HEIGHT};
 
-    public JsArrayString extractOptions(ToolbarButton[] options){
+    public JsArrayString extractOptions(ToolbarButton[] options) {
         JsArrayString jsOptions = JsArrayString.createArray().cast();
-        for(ToolbarButton option : options){
+        for (ToolbarButton option : options) {
             jsOptions.push(option.getId());
         }
-        return  jsOptions;
+        return jsOptions;
     }
 
     public ToolbarButton[] getStyleOptions() {
@@ -152,7 +152,7 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     public String getHeight() {
         String height = getElement().getStyle().getHeight();
-        if(height == null || height.isEmpty()){
+        if (height == null || height.isEmpty()) {
             height = "550px";
         }
         return height;

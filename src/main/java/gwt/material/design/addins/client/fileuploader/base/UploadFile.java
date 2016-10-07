@@ -33,7 +33,8 @@ public class UploadFile implements Serializable {
     private double fileSize;
     private String type;
 
-    public UploadFile() {}
+    public UploadFile() {
+    }
 
     public UploadFile(String name, Date lastModified, double fileSize, String type) {
         this.name = name;

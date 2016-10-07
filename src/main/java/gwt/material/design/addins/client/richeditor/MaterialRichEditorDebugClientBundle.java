@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Rich Editor component
+ *
  * @author kevzlou7979
  */
 interface MaterialRichEditorDebugClientBundle extends ClientBundle {

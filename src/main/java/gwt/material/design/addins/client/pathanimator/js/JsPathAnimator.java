@@ -28,6 +28,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for path animator component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true)

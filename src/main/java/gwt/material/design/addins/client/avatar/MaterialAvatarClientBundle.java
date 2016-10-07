@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Avatar  component
+ *
  * @author kevzlou7979
  */
 public interface MaterialAvatarClientBundle extends ClientBundle {

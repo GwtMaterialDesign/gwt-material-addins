@@ -37,14 +37,14 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
 
 /**
  * Masonry works by placing elements in optimal position based on available vertical space, sort of like a mason fitting stones in a wall.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:m.addins='urn:import:gwt.material.design.addins.client.ui'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {
@@ -57,14 +57,15 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * </m.addins:MaterialMasonry>
  * }
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
+ *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
  */
 //@formatter:on
 public class MaterialMasonry extends MaterialRow {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
             MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
         } else {
@@ -95,7 +96,7 @@ public class MaterialMasonry extends MaterialRow {
         super.onLoad();
         initMasonry();
 
-        if(!initialize) {
+        if (!initialize) {
             initialize = true;
         }
     }
@@ -124,7 +125,7 @@ public class MaterialMasonry extends MaterialRow {
         Widget widget = (Widget) child;
         remove(widget.getElement());
 
-        if(initialize) {
+        if (initialize) {
             initMasonry();
         }
         return true;
@@ -145,14 +146,14 @@ public class MaterialMasonry extends MaterialRow {
      * Remove the item with Masonry support
      */
     protected void remove(Element e) {
-        if(initialize) {
+        if (initialize) {
             $(getElement()).masonry(getMasonryOptions()).masonry("remove", e).masonry("layout");
         }
     }
 
     @Override
     public void clear() {
-        for(Widget widget : getChildren()) {
+        for (Widget widget : getChildren()) {
             remove(widget.getElement());
         }
     }
@@ -185,7 +186,7 @@ public class MaterialMasonry extends MaterialRow {
      * Reload the layout effective only when adding and inserting items
      */
     public void reload() {
-        if(initialize) {
+        if (initialize) {
             reloadItems();
             layout();
         }

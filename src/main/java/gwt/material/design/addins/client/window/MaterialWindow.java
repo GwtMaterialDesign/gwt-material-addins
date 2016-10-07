@@ -46,21 +46,21 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 /**
  * Window is another kind of Modal but it has a header toolbar for maximizing and close the window. Also you can attached a tab component on its content.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
  *  <ma:window.MaterialWindow ui:field="window" />
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -79,7 +79,7 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
 public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialWindowClientBundle.INSTANCE.windowCss());
@@ -155,7 +155,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         // Add handlers to action buttons
         iconMaximize.addClickHandler(event -> toggleMaximize());
         iconClose.addClickHandler(event -> {
-            if(!isOpen()) {
+            if (!isOpen()) {
                 open();
             } else {
                 close();
@@ -164,7 +164,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
         // Add a draggable header
         MaterialDnd dnd = MaterialDnd.draggable(window,
-            JsDragOptions.create(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1)));
+                JsDragOptions.create(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1)));
         dnd.ignoreFrom(".content, .window-action");
     }
 
@@ -194,7 +194,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     public void setMaximize(boolean maximize) {
         maximizeMixin.setOn(maximize);
-        if(maximizeMixin.isOn()) {
+        if (maximizeMixin.isOn()) {
             iconMaximize.setIconType(IconType.FILTER_NONE);
         } else {
             iconMaximize.setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);

@@ -27,6 +27,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for splitpanel component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true)

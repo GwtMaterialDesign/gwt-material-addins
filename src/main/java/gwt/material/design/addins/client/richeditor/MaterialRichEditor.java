@@ -42,17 +42,17 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 
 /**
  * Provides a great Rich Editor with amazing options built with Material Design Look and Feel
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
+ * {@code
  * <ma:MaterialRichEditor placeholder="Type anything in here..."/>
  * }
  * </pre>
@@ -64,7 +64,7 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 public class MaterialRichEditor extends MaterialRichEditorBase implements HasValueChangeHandlers<String>, HasPasteHandlers {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs());
             MaterialDesignBase.injectCss(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss());
         } else {
@@ -129,23 +129,28 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
 
         // Events
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_BLUR, event -> {
-            fireEvent(new BlurEvent(){});
+            fireEvent(new BlurEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_FOCUS, event -> {
-            fireEvent(new FocusEvent(){});
+            fireEvent(new FocusEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYUP, event -> {
-            fireEvent(new KeyUpEvent(){});
+            fireEvent(new KeyUpEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYDOWN, event -> {
-            fireEvent(new KeyDownEvent(){});
+            fireEvent(new KeyDownEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_PASTE, event -> {
-            fireEvent(new PasteEvent(){});
+            fireEvent(new PasteEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_CHANGE, event -> {

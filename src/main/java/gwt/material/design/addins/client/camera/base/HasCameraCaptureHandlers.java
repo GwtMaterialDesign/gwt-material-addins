@@ -27,9 +27,8 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 
 /**
  * Interface that defines widgets that contains {@link CameraCaptureHandler}s.
- * 
+ *
  * @author gilberto-torrezan
- * 
  * @see MaterialCameraCapture
  */
 public interface HasCameraCaptureHandlers extends HasHandlers {

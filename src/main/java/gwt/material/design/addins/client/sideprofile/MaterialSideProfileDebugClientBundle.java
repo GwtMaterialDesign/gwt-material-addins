@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Side Profile component
+ *
  * @author kevzlou7979
  */
 interface MaterialSideProfileDebugClientBundle extends ClientBundle {

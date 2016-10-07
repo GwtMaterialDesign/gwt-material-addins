@@ -46,41 +46,41 @@ import java.util.List;
  * rating, but other icons can be set using the
  * {@link #setSelectedRatingIcon(IconType)} method.
  * </p>
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" />
  * }
  * </pre>
- *
+ * <p>
  * To use different icons, for instance, hearts, you can set:
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" selectedRatingIcon="FAVORITE" unselectedRatingIcon="FAVORITE_BORDER" textColor="red" />
  * }
  * </pre>
- *
+ * <p>
  * You can also set the maximum rating (the default is 5):
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" maxRating="7" />
  * }
  * </pre>
- *
+ * <p>
  * <h3>Example Java Usage:</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * MaterialRating rating = ... //create using new or using UiBinder
@@ -90,7 +90,7 @@ import java.util.List;
  * int selectedValue = rating.getValue(); // retrieves the selected rating
  * }
  * </pre>
- *
+ * <p>
  * <h3>Custom styling:</h3>
  * <p>
  * You use change the MaterialRating style by using the
@@ -100,7 +100,6 @@ import java.util.List;
  * </p>
  *
  * @author gilberto-torrezan
- *
  */
 public class MaterialRating extends MaterialWidget implements HasValue<Integer> {
 
@@ -308,7 +307,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * <code>true</code> (editable).
      *
      * @return <code>true</code> if the component is editable by the user,
-     *         <code>false</code> otherwise'
+     * <code>false</code> otherwise'
      */
     public boolean isEditable() {
         return editable;

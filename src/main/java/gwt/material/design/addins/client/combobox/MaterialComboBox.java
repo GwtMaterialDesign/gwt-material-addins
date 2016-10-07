@@ -54,14 +54,14 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
 /**
  * ComboBox component used on chat module
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -81,7 +81,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T>, HasReadOnly {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
             MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
         } else {
@@ -122,7 +122,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     protected void onLoad() {
         super.onLoad();
 
-        if(!initialized) {
+        if (!initialized) {
             label.setInitialClasses(AddinsCssName.SELECT2LABEL);
             super.add(listbox);
             super.add(label);
@@ -139,7 +139,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         options.allowClear = allowClear;
         options.placeholder = placeholder;
         options.maximumSelectionLength = limit;
-        if(isHideSearch()) {
+        if (isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
 
@@ -193,14 +193,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     @SuppressWarnings("unchecked")
     public void add(Widget child) {
-        if(child instanceof OptGroup) {
-            for(Widget w : ((OptGroup) child).getChildren()) {
-                if(w instanceof Option) {
-                    values.add((T)((Option) w).getValue());
+        if (child instanceof OptGroup) {
+            for (Widget w : ((OptGroup) child).getChildren()) {
+                if (w instanceof Option) {
+                    values.add((T) ((Option) w).getValue());
                 }
             }
-        } else if(child instanceof Option) {
-            values.add((T)((Option) child).getValue());
+        } else if (child instanceof Option) {
+            values.add((T) ((Option) child).getValue());
         }
         listbox.add(child);
     }
@@ -210,7 +210,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public void setMultiple(boolean multiple) {
         this.multiple = multiple;
-        if(multiple) {
+        if (multiple) {
             $(listbox.getElement()).attr("multiple", "multiple");
         } else {
             $(listbox.getElement()).removeAttr("multiple");
@@ -293,14 +293,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         this.values.clear();
         clear();
 
-        for(T value : values) {
+        for (T value : values) {
             addItem(value);
         }
     }
 
     @Override
     public T getValue() {
-        if(getSelectedIndex() != -1) {
+        if (getSelectedIndex() != -1) {
             return values.get(getSelectedIndex());
         }
         return null;
@@ -324,7 +324,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     public void setValue(T value, boolean fireEvents) {
         int index = values.indexOf(value);
-        if(index > 0) {
+        if (index > 0) {
             T before = getValue();
             setSelectedIndex(index);
 
@@ -347,8 +347,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     public Option addItem(T value) {
-        if(!values.contains(value)) {
-            values.add(value);
+        if (!values.contains(value)) {
             Option opt = new Option(keyFactory.generateKey(value));
             add(opt);
             return opt;
@@ -360,6 +359,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     /**
      * Gets the index of the value pass in this method
+     *
      * @param value - The Object you want to pass as value on combobox
      */
     public int getValueIndex(T value) {
@@ -367,8 +367,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     /**
-     *  Add OptionGroup directly to combobox component
-     *  @param group - Option Group component
+     * Add OptionGroup directly to combobox component
+     *
+     * @param group - Option Group component
      */
     public void addGroup(OptGroup group) {
         listbox.add(group);
@@ -376,12 +377,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     /**
      * Add item directly to combobox component with existing OptGroup
-     * @param text - The text you want to labeled on the option item
-     * @param value - The value you want to pass through in this option
+     *
+     * @param text     - The text you want to labeled on the option item
+     * @param value    - The value you want to pass through in this option
      * @param optGroup - Add directly this option into the existing group
      */
     public void addItem(String text, T value, OptGroup optGroup) {
-        if(!values.contains(value)) {
+        if (!values.contains(value)) {
             values.add(value);
             optGroup.add(buildOption(text, value));
         }
@@ -389,11 +391,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     /**
      * Add Value directly to combobox component
-     * @param text - The text you want to labeled on the option item
+     *
+     * @param text  - The text you want to labeled on the option item
      * @param value - The value you want to pass through in this option
      */
     public void addItem(String text, T value) {
-        if(!values.contains(value)) {
+        if (!values.contains(value)) {
             values.add(value);
             listbox.add(buildOption(text, value));
         }
@@ -411,7 +414,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     /**
      * Sets the currently selected index.
-     *
+     * <p>
      * After calling this method, only the specified item in the list will
      * remain selected. For a ListBox with multiple selection enabled.
      *
@@ -420,7 +423,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
         T value = values.get(selectedIndex);
-        if(value != null) {
+        if (value != null) {
             $(listbox.getElement()).val(value.toString()).trigger("change", selectedIndex);
         } else {
             GWT.log("Value index is not found.", new IndexOutOfBoundsException());
@@ -435,7 +438,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public int getSelectedIndex() {
         Object o = $("#" + uid).find("option:selected").last().prop("index");
-        if(o != null) {
+        if (o != null) {
             return Integer.parseInt(o.toString());
         }
         return -1;
@@ -456,9 +459,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         List<T> selectedValues = new ArrayList<>();
 
         List<String> keyIndex = getValuesKeyIndex();
-        for(String val : curVal) {
+        for (String val : curVal) {
             int selectedIndex = keyIndex.indexOf(val);
-            if(selectedIndex != -1) {
+            if (selectedIndex != -1) {
                 selectedValues.add(values.get(selectedIndex));
             }
         }
@@ -467,7 +470,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     protected List<String> getValuesKeyIndex() {
         List<String> keys = new ArrayList<>();
-        for(T value : values) {
+        for (T value : values) {
             keys.add(keyFactory.generateKey(value));
         }
         return keys;

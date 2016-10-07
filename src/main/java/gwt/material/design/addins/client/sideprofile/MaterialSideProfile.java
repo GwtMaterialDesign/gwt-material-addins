@@ -28,17 +28,18 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 
 //@formatter:off
+
 /**
  * SideProfile is a component that is attached on SideNav Component. Consists of
  * Image , Label and link components.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -60,7 +61,7 @@ import gwt.material.design.client.constants.CssName;
 public class MaterialSideProfile extends MaterialWidget implements HasImage {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialSideProfileDebugClientBundle.INSTANCE.sideprofileCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialSideProfileClientBundle.INSTANCE.sideprofileCss());

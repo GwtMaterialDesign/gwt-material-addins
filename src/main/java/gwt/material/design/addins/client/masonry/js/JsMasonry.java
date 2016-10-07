@@ -28,6 +28,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for masonry component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true)

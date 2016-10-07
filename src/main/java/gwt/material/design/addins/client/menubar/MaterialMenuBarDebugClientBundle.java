@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Menu Bar component
+ *
  * @author kevzlou7979
  */
 interface MaterialMenuBarDebugClientBundle extends ClientBundle {

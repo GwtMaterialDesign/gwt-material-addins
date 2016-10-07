@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Overlay component
+ *
  * @author kevzlou7979
  */
 interface MaterialOverlayDebugClientBundle extends ClientBundle {

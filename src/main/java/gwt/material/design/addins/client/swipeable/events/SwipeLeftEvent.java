@@ -40,6 +40,7 @@ import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 
 /**
  * Represents a swipe left event.
+ *
  * @author kevzlou7979
  */
 public class SwipeLeftEvent<T> extends GwtEvent<SwipeLeftEvent.SwipeLeftHandler<T>> {

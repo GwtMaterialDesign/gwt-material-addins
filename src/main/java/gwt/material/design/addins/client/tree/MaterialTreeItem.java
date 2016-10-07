@@ -44,14 +44,14 @@ import java.util.List;
 
 /**
  * MaterialTreeItem is a component that is needed by {@link MaterialTree}
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -61,7 +61,6 @@ import java.util.List;
  * <ma:tree.MaterialTreeItem text="Item 2.1" resource="{res.batman.png}" />
  * }
  * </pre>
- *
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
@@ -114,7 +113,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void setText(String text) {
-        if(span == null) {
+        if (span == null) {
             span = new Span();
         }
         span.setText(text);
@@ -128,7 +127,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(!initialized) {
+        if (!initialized) {
             if (image != null) {
                 divHeader.add(image);
             }
@@ -150,7 +149,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
         tree = null;
 
-        if(clickRegistration != null) {
+        if (clickRegistration != null) {
             clickRegistration.removeHandler();
             clickRegistration = null;
         }
@@ -188,7 +187,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         SelectionEvent.fire(getTree(), this);
 
         List<MaterialTreeItem> treeItems = getTreeItems();
-        if(!treeItems.isEmpty()) {
+        if (!treeItems.isEmpty()) {
             for (MaterialTreeItem treeItem : treeItems) {
                 if (hide) {
                     treeItem.setVisible(false);
@@ -209,9 +208,9 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     public List<MaterialTreeItem> getTreeItems() {
         List<MaterialTreeItem> treeItems = new ArrayList<>();
-        for(Widget child : getChildren()) {
-            if(child instanceof MaterialTreeItem) {
-                treeItems.add((MaterialTreeItem)child);
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialTreeItem) {
+                treeItems.add((MaterialTreeItem) child);
             }
         }
         return treeItems;
@@ -225,8 +224,8 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     protected void setTree(MaterialTree tree) {
         this.tree = tree;
 
-        for(Widget child : getChildren()) {
-            if(child instanceof MaterialTreeItem) {
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialTreeItem) {
                 ((MaterialTreeItem) child).setTree(tree);
             }
         }
@@ -244,14 +243,14 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void expand() {
-        for(MaterialTreeItem item : getTreeItems()){
+        for (MaterialTreeItem item : getTreeItems()) {
             item.setVisible(true);
         }
     }
 
     @Override
     public void collapse() {
-        for(MaterialTreeItem item : getTreeItems()){
+        for (MaterialTreeItem item : getTreeItems()) {
             item.setVisible(false);
         }
     }
@@ -268,7 +267,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
-        if(child instanceof MaterialTreeItem) {
+        if (child instanceof MaterialTreeItem) {
             ((MaterialTreeItem) child).setTree(getTree());
         }
         super.add(child, container);
@@ -276,7 +275,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
-        if(child instanceof MaterialTreeItem) {
+        if (child instanceof MaterialTreeItem) {
             ((MaterialTreeItem) child).setTree(getTree());
         }
         super.insert(child, container, beforeIndex, domInsert);

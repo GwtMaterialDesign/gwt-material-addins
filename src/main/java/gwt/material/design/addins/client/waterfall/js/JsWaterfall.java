@@ -26,6 +26,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for Waterfall component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true)

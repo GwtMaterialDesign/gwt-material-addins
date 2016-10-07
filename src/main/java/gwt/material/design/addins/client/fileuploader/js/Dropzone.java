@@ -31,7 +31,8 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class Dropzone extends JQueryElement {
 
-    public Dropzone(Element e, JsFileUploaderOptions options) {};
+    public Dropzone(Element e, JsFileUploaderOptions options) {
+    }
 
     public native Dropzone on(String events, Functions.Func1<File> callback);
 

@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.richeditor.base.constants;
 
 /**
  * This enum represents the RichEditor Toolbar buttons
+ *
  * @author kevzlou7979
  */
 public enum ToolbarButton {

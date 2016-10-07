@@ -33,33 +33,35 @@ import gwt.material.design.client.constants.Color;
  * SubHeaders are special list tiles that delineate distinct sections of a list or grid list and are typically related
  * to the current filtering or sorting criteria. Subheader tiles are either displayed inline with tiles or can be
  * associated with content, for example, in an adjacent column.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
  *      <ma:subheader.MaterialSubHeader text="Subheader" textColor="pink" />
  * }
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
+ *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
  */
 //@formatter:on
 public class MaterialSubHeader extends AbstractIconButton {
 
     private static boolean resourcesLoaded = false;
+
     static {
         loadResources();
     }
 
     static void loadResources() {
-        if(!resourcesLoaded) {
+        if (!resourcesLoaded) {
             if (MaterialAddins.isDebug()) {
                 MaterialDesignBase.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
                 MaterialDesignBase.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());

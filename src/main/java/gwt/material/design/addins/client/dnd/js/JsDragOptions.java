@@ -28,6 +28,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * Options for dnd component.
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
@@ -66,7 +67,7 @@ public class JsDragOptions {
     public static JsDragOptions create(boolean inertia, Axis axis, Restriction restriction) {
         JsDragOptions options = new JsDragOptions();
         options.inertia = inertia;
-        if(axis != null) {
+        if (axis != null) {
             if (axis.equals(Axis.HORIZONTAL)) {
                 options.axis = "x";
             } else {
@@ -76,7 +77,7 @@ public class JsDragOptions {
 
         // Restrict Options
         JsDragRestrictions restrict = new JsDragRestrictions();
-        if(restriction != null) {
+        if (restriction != null) {
             restrict.restriction = restriction.getRestriction().getValue();
             restrict.endOnly = restriction.isEndOnly();
 

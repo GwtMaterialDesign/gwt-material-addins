@@ -44,7 +44,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 public class MaterialPopupMenu extends UnorderedList implements HasSelectionHandlers<Element> {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialPopupMenuDebugClientBundle.INSTANCE.menuCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialPopupMenuClientBundle.INSTANCE.menuCss());
@@ -56,7 +56,7 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
-        setInitialClasses(AddinsCssName.POPUP_MENU,AddinsCssName.MENU_BAR, CssName.Z_DEPTH_3);
+        setInitialClasses(AddinsCssName.POPUP_MENU, AddinsCssName.MENU_BAR, CssName.Z_DEPTH_3);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         $(".popup-menu li").off("mouseover");
         $(".popup-menu li").on("mouseover", (e, param1) -> {
             JQueryElement item = $(e.getCurrentTarget()).find("a");
-            if(item.attr("data-activates") != null) {
+            if (item.attr("data-activates") != null) {
                 JQueryElement dp = $("#" + item.attr("data-activates"));
 
                 double dpWidth = dp.width();
@@ -112,11 +112,11 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
                 double dpTop = dp.offset().top;
                 double conHeight = body().height();
 
-                if(dpWidth + dpLeft > conWidth) {
+                if (dpWidth + dpLeft > conWidth) {
                     dp.addClass(AddinsCssName.EDGE_LEFT);
                 }
 
-                if(dpHeight + dpTop > conHeight) {
+                if (dpHeight + dpTop > conHeight) {
                     dp.addClass(AddinsCssName.EDGE_BOTTOM);
                 }
             }
@@ -126,7 +126,7 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         $(".popup-menu li").off("mouseleave");
         $(".popup-menu li").on("mouseleave", (e, param) -> {
             JQueryElement item = $(e.getCurrentTarget()).find("a");
-            if(item.attr("data-activates") != null) {
+            if (item.attr("data-activates") != null) {
                 JQueryElement dp = $("#" + item.attr("data-activates"));
                 dp.removeClass(AddinsCssName.EDGE_LEFT);
                 dp.removeClass(AddinsCssName.EDGE_BOTTOM);
@@ -137,6 +137,7 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
 
     /**
      * Set the popup position of the context menu
+     *
      * @param x window x position
      * @param y window y position
      */
@@ -156,7 +157,7 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         Scheduler.get().scheduleDeferred(() -> setFocus(true));
 
         // Check if dropdown is out of the container (Left)
-        if($(this).width() +  $(this).offset().left > body().width()) {
+        if ($(this).width() + $(this).offset().left > body().width()) {
             setLeft(body().width() - $(this).width());
         }
     }

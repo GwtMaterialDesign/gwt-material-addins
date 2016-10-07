@@ -33,14 +33,14 @@ import gwt.material.design.client.base.MaterialWidget;
 /**
  * MaterialTree is a component that wraps all the tree items that provide lists of
  * event handlers like open/close and selection event.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -66,7 +66,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialTreeClientBundle.INSTANCE.treeCss());
@@ -85,19 +85,19 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         super.onLoad();
 
         // Ensure all children know we are the root.
-        for(Widget child : getChildren()) {
-            if(child instanceof MaterialTreeItem) {
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialTreeItem) {
                 ((MaterialTreeItem) child).setTree(this);
             }
         }
 
         // Add selection event
-        if(selectionHandler != null) {
+        if (selectionHandler != null) {
             selectionHandler.removeHandler();
         }
         selectionHandler = addSelectionHandler(event -> {
-            for(Widget item : getChildren()) {
-                if(item instanceof MaterialTreeItem) {
+            for (Widget item : getChildren()) {
+                if (item instanceof MaterialTreeItem) {
                     clearItemSelectedStyles((MaterialTreeItem) item);
                 }
             }
@@ -109,7 +109,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
-        if(child instanceof MaterialTreeItem) {
+        if (child instanceof MaterialTreeItem) {
             ((MaterialTreeItem) child).setTree(this);
             super.add(child, container);
         } else {
@@ -119,7 +119,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
 
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
-        if(child instanceof MaterialTreeItem) {
+        if (child instanceof MaterialTreeItem) {
             ((MaterialTreeItem) child).setTree(this);
             super.insert(child, container, beforeIndex, domInsert);
         } else {
@@ -130,7 +130,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     protected void clearItemSelectedStyles(MaterialTreeItem item) {
         item.removeStyleName(AddinsCssName.SELECTED);
 
-        for(MaterialTreeItem treeItem : item.getTreeItems()) {
+        for (MaterialTreeItem treeItem : item.getTreeItems()) {
             clearItemSelectedStyles(treeItem);
         }
     }
@@ -140,7 +140,9 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new CloseHandler<MaterialTreeItem>() {
             @Override
             public void onClose(CloseEvent<MaterialTreeItem> event) {
-                if(isEnabled()) { handler.onClose(event); }
+                if (isEnabled()) {
+                    handler.onClose(event);
+                }
             }
         }, CloseEvent.getType());
     }
@@ -150,7 +152,9 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new OpenHandler<MaterialTreeItem>() {
             @Override
             public void onOpen(OpenEvent<MaterialTreeItem> event) {
-                if(isEnabled()) { handler.onOpen(event); }
+                if (isEnabled()) {
+                    handler.onOpen(event);
+                }
             }
         }, OpenEvent.getType());
     }
@@ -160,7 +164,9 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         return addHandler(new SelectionHandler<MaterialTreeItem>() {
             @Override
             public void onSelection(SelectionEvent<MaterialTreeItem> event) {
-                if(isEnabled()) { handler.onSelection(event); }
+                if (isEnabled()) {
+                    handler.onSelection(event);
+                }
             }
         }, SelectionEvent.getType());
     }
@@ -177,8 +183,8 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
      * Expand all tree item's content
      */
     public void expand() {
-        for(Widget w : getChildren()) {
-            if(w instanceof MaterialTreeItem) {
+        for (Widget w : getChildren()) {
+            if (w instanceof MaterialTreeItem) {
                 expandItems((MaterialTreeItem) w);
             }
         }
@@ -190,7 +196,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     protected void expandItems(MaterialTreeItem item) {
         item.expand();
         item.setHide(true);
-        for(MaterialTreeItem t : item.getTreeItems()) {
+        for (MaterialTreeItem t : item.getTreeItems()) {
             expandItems(t);
         }
     }
@@ -199,9 +205,9 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
      * Collapse all tree item's content
      */
     public void collapse() {
-        for(Widget w : getChildren()) {
-            if(w instanceof MaterialTreeItem) {
-                collapseItems((MaterialTreeItem)w);
+        for (Widget w : getChildren()) {
+            if (w instanceof MaterialTreeItem) {
+                collapseItems((MaterialTreeItem) w);
             }
         }
     }
@@ -213,7 +219,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         item.collapse();
         item.setHide(false);
 
-        for(MaterialTreeItem t : item.getTreeItems()) {
+        for (MaterialTreeItem t : item.getTreeItems()) {
             collapseItems(t);
         }
     }

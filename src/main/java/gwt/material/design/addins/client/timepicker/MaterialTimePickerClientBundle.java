@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for TimePicker component
+ *
  * @author kevzlou7979
  */
 interface MaterialTimePickerClientBundle extends ClientBundle {

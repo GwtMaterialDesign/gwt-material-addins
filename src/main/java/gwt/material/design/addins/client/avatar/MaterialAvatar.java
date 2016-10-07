@@ -30,14 +30,14 @@ import gwt.material.design.client.base.MaterialWidget;
 /**
  * Generated avatar based on @link(https://jdenticon.com/)
  * provides a unique avatar based on unique name.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -54,7 +54,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialAvatar extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
             MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
         } else {
@@ -78,7 +78,7 @@ public class MaterialAvatar extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        if(getName() != null) {
+        if (getName() != null) {
             initialize();
         }
     }

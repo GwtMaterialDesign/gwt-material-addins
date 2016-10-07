@@ -25,9 +25,10 @@ import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 
 /**
  * Handler Registration for Paste Event
+ *
  * @author kevzlou7979
  */
-public interface HasPasteHandlers  extends HasHandlers {
+public interface HasPasteHandlers extends HasHandlers {
 
     HandlerRegistration addPasteHandler(PasteEvent.PasteHandler handler);
 }

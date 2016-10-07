@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Splitter component
+ *
  * @author kevzlou7979
  */
 interface MaterialSplitPanelDebugClientBundle extends ClientBundle {

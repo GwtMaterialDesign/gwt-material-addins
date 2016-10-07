@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for File Uploader component
+ *
  * @author kevzlou7979
  */
 interface MaterialFileUploaderClientBundle extends ClientBundle {

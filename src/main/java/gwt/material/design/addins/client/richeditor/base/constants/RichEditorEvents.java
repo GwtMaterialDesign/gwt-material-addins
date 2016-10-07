@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.richeditor.base.constants;
 
 /**
  * Constants for Rich editor events
+ *
  * @author kevzlou7979
  */
 public interface RichEditorEvents {

@@ -32,14 +32,14 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
  * Custom component that provides meaningfull transition between two elements to show visual continuity.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -54,7 +54,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 public class MaterialPathAnimator {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
@@ -77,7 +77,9 @@ public class MaterialPathAnimator {
     public static void animate(Element source, Element target, Functions.Func callback) {
         $("document").ready(() -> {
             JsPathAnimator.cta(source, target, () -> {
-                if(callback != null) { callback.call(); }
+                if (callback != null) {
+                    callback.call();
+                }
             });
         });
     }
@@ -86,7 +88,7 @@ public class MaterialPathAnimator {
      * Default Reverse animate method to return to original state of Source component.
      */
     public static void reverseAnimate(final Element source, final Element target) {
-        reverseAnimate(source,target, () -> {
+        reverseAnimate(source, target, () -> {
             target.getStyle().setVisibility(Style.Visibility.HIDDEN);
             target.getStyle().setOpacity(0);
         });
@@ -98,7 +100,9 @@ public class MaterialPathAnimator {
      */
     public static void reverseAnimate(Element source, Element target, Functions.Func callback) {
         $("document").ready(() -> {
-            if(callback != null) { callback.call(); }
+            if (callback != null) {
+                callback.call();
+            }
             JsPathAnimator.cta(target, source);
         });
     }

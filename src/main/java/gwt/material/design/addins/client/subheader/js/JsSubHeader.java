@@ -27,6 +27,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JsInterop Utils for subheader component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true)

@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Icon Morph component
+ *
  * @author kevzlou7979
  */
 interface MaterialPopupMenuDebugClientBundle extends ClientBundle {

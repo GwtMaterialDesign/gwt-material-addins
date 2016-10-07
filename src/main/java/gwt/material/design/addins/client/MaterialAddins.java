@@ -34,7 +34,7 @@ public class MaterialAddins implements EntryPoint {
     }
 
     private static void checkStartupState() {
-        if(startupState == null) {
+        if (startupState == null) {
             startupState = GWT.create(StartupState.class);
         }
     }

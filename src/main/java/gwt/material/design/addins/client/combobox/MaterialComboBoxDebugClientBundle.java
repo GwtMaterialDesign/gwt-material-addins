@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for ComboBox component
+ *
  * @author kevzlou7979
  */
 public interface MaterialComboBoxDebugClientBundle extends ClientBundle {

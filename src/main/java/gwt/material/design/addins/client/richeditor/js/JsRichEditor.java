@@ -27,6 +27,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for Rich Editor component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true)

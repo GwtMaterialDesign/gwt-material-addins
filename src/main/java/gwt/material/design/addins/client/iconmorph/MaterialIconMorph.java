@@ -29,16 +29,17 @@ import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.ui.MaterialIcon;
 
 //@formatter:off
+
 /**
  * Provides visual continuity by morphing two material icons.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -56,7 +57,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 public class MaterialIconMorph extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialIconMorphClientBundle.INSTANCE.morphCss());

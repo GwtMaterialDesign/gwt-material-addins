@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Mennu Bar component
+ *
  * @author kevzlou7979
  */
 interface MaterialMenuBarClientBundle extends ClientBundle {

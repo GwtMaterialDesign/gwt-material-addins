@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Swipeable component
+ *
  * @author kevzlou7979
  */
 interface MaterialSwipeableDebugClientBundle extends ClientBundle {

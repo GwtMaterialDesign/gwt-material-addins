@@ -36,17 +36,18 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
+
 /**
  * Material Step is a child element of Material Stepper, sometimes called Stepper Item, used to indicate the active
  * inactive items on the Stepper Component.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -83,7 +84,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
     private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
-    
+
     private Axis axis = Axis.VERTICAL;
 
     public MaterialStep() {
@@ -101,9 +102,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         divLine.setStyleName(AddinsCssName.LINE);
         divTitle.setStyleName(CssName.TITLE);
         divBody.setStyleName(AddinsCssName.BODY);
-        
+
         ClickHandler handler = event -> {
-            if (isEnabled() && isVisible()){
+            if (isEnabled() && isVisible()) {
                 SelectionEvent.fire(MaterialStep.this, MaterialStep.this);
             }
         };
@@ -182,7 +183,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         addStyleName(AddinsCssName.SUCCESS);
         applyIconStatus(iconSuccess, success);
     }
-    
+
     @Override
     public void setHelperText(String helperText) {
         setDescription(helperText);
@@ -197,7 +198,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         removeStyleName(AddinsCssName.SUCCESS);
     }
 
-    protected void applyIconStatus(MaterialIcon icon, String description){
+    protected void applyIconStatus(MaterialIcon icon, String description) {
         iconError.removeFromParent();
         iconSuccess.removeFromParent();
         divCircle.removeFromParent();
@@ -208,26 +209,26 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public Div getDivBody() {
         return divBody;
     }
-    
+
     @Override
     public void setAxis(Axis axis) {
-        if (axis == null){
+        if (axis == null) {
             axis = Axis.VERTICAL;
         }
         this.axis = axis;
-        switch (axis){
-        case HORIZONTAL:
-            conCircle.add(divTitle);
-            conCircle.add(divLine);
-            conCircle.add(divDescription);
-            break;
-        case VERTICAL:
-            conBody.insert(divTitle, 0);
-            conCircle.add(divLine);
-            break;
+        switch (axis) {
+            case HORIZONTAL:
+                conCircle.add(divTitle);
+                conCircle.add(divLine);
+                conCircle.add(divDescription);
+                break;
+            case VERTICAL:
+                conBody.insert(divTitle, 0);
+                conCircle.add(divLine);
+                break;
         }
     }
-    
+
     @Override
     public Axis getAxis() {
         return axis;
@@ -238,7 +239,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         return this.addHandler(new SelectionHandler<MaterialStep>() {
             @Override
             public void onSelection(SelectionEvent<MaterialStep> event) {
-                if(isEnabled()){
+                if (isEnabled()) {
                     handler.onSelection(event);
                 }
             }

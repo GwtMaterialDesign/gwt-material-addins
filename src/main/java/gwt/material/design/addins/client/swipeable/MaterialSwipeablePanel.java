@@ -36,17 +36,17 @@ import gwt.material.design.client.constants.Color;
 
 /**
  * A panel that allows any of its nested children to be swiped away.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{
+ * {
  * @code
  * <ma:swipeable.MaterialSwipeablePanel ui:field="swipeablePanel" shadow="1" backgroundColor="white" padding="12">
  *   <m:MaterialLabel text="You can swipe native components. This is a plain label" backgroundColor="yellow" padding="12" />
@@ -58,15 +58,16 @@ import gwt.material.design.client.constants.Color;
  * </ma:swipeable.MaterialSwipeablePanel>
  * }
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
+ *
  * @author kevzlou7979
  * @author Ben Dol
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
  */
 //@formatter:on
 public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug());
             MaterialDesignBase.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
         } else {
@@ -95,8 +96,8 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     protected void onLoad() {
         super.onLoad();
 
-        for(Widget w : getChildren()) {
-            if(!w.getStyleName().contains(IGNORED)) {
+        for (Widget w : getChildren()) {
+            if (!w.getStyleName().contains(IGNORED)) {
                 initSwipeable(w.getElement(), w);
             }
         }
@@ -116,7 +117,9 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
             @Override
             public void onSwipeLeft(SwipeLeftEvent<Widget> event) {
-                if(isEnabled()) { handler.onSwipeLeft(event); }
+                if (isEnabled()) {
+                    handler.onSwipeLeft(event);
+                }
             }
         }, SwipeLeftEvent.getType());
     }
@@ -126,7 +129,9 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         return addHandler(new SwipeRightEvent.SwipeRightHandler<Widget>() {
             @Override
             public void onSwipeRight(SwipeRightEvent<Widget> event) {
-                if(isEnabled()) { handler.onSwipeRight(event); }
+                if (isEnabled()) {
+                    handler.onSwipeRight(event);
+                }
             }
         }, SwipeRightEvent.getType());
     }
@@ -134,8 +139,8 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     public void ignore(UIObject object, UIObject... objects) {
         object.addStyleName(IGNORED);
 
-        if(objects != null) {
-            for(UIObject obj : objects) {
+        if (objects != null) {
+            for (UIObject obj : objects) {
                 obj.addStyleName(IGNORED);
             }
         }

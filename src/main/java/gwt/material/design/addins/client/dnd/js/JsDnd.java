@@ -27,6 +27,7 @@ import jsinterop.annotations.JsType;
 
 /**
  * JSInterop utils for dnd component
+ *
  * @author kevzlou7979
  */
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)

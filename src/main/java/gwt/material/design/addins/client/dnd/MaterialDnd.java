@@ -36,10 +36,10 @@ import gwt.material.design.jquery.client.api.JQuery;
 /**
  * Drag and drop feature on Material Design specs are great UX guide to
  * provide a delightful motion on dragging and dropping gestures.
- *
+ * <p>
  * <h3>Java Usage</h3>
  * <pre>
- *{@code
+ * {@code
  *
  * MaterialDnd dnd = new MaterialDnd();
  * // Set the draggable object
@@ -58,7 +58,7 @@ import gwt.material.design.jquery.client.api.JQuery;
 public class MaterialDnd {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
@@ -109,7 +109,7 @@ public class MaterialDnd {
 
         // TODO: Validate options
 
-        if(target.isAttached()) {
+        if (target.isAttached()) {
             draggable(target, dnd);
         } else {
             target.addAttachHandler(event -> draggable(target, dnd), true);
@@ -165,7 +165,7 @@ public class MaterialDnd {
 
         // TODO: Validate options
 
-        if(target.isAttached()) {
+        if (target.isAttached()) {
             dropzone(target, dnd);
         } else {
             target.addAttachHandler(event -> dropzone(target, dnd), true);
@@ -179,7 +179,7 @@ public class MaterialDnd {
 
     public void ignoreFrom(Element element) {
         this.ignoreFrom = element;
-        if(target.isAttached()) {
+        if (target.isAttached()) {
             JsDnd.interact(target.getElement()).ignoreFrom(element);
         } else {
             target.addAttachHandler(event -> {
@@ -190,7 +190,7 @@ public class MaterialDnd {
 
     public void ignoreFrom(String selector) {
         this.ignoreFrom = JQuery.$(selector).asElement();
-        if(target.isAttached()) {
+        if (target.isAttached()) {
             JsDnd.interact(target.getElement()).ignoreFrom(selector);
         } else {
             target.addAttachHandler(event -> {

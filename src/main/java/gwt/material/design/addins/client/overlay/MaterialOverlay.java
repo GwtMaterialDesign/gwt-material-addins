@@ -28,20 +28,21 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 
 //@formatter:off
+
 /**
  * It's an overlay panel layout wherein you can put as many widgets as you want and design it.
  * You can do advance stuff by implementing Path Animator into the overlay panel container.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
+ * {@code
  * <ma:overlay.MaterialOverlay background="blue">
  *      &lt;-- Some content here -->
  * </ma:overlay.MaterialOverlay>
@@ -54,7 +55,7 @@ import gwt.material.design.client.constants.Color;
 public class MaterialOverlay extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialOverlayDebugClientBundle.INSTANCE.overlayCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialOverlayClientBundle.INSTANCE.overlayCss());

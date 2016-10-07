@@ -24,6 +24,7 @@ public class StartupState {
     }
 
     public static class DebugState extends StartupState {
-        public DebugState() {}
+        public DebugState() {
+        }
     }
 }

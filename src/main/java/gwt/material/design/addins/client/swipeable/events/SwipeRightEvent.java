@@ -40,8 +40,9 @@ import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
 
 /**
  * Represents a swipe right event.
- * @author kevzlou7979
+ *
  * @param <T> the type being swiped to right
+ * @author kevzlou7979
  */
 public class SwipeRightEvent<T> extends GwtEvent<SwipeRightEvent.SwipeRightHandler<T>> {
 

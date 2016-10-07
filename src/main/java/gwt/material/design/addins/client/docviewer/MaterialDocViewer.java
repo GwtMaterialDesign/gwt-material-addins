@@ -23,18 +23,19 @@ import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
+
 /**
  * A document viewer for your word, excel, powerpoint, pdf and other <a href='http://wiki.mobileread.com/wiki/Google_Docs_Viewer'></a> supported
  * file types </a>. <br/>
  * Note that this viewer only work with public files.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code

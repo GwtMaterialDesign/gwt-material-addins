@@ -37,7 +37,7 @@ public class MaterialSuggestionOracle extends MultiWordSuggestOracle {
     /**
      * Autocomplete with Image item selection.
      */
-    public void add(String text, Image image){
+    public void add(String text, Image image) {
         this.imageElem = image.getElement().toString();
         add(text + image);
     }

@@ -37,14 +37,14 @@ import gwt.material.design.client.base.mixin.CssTypeMixin;
  * There are two types of SubHeader Container <br/>
  * 1. PINNED<br/>
  * 2. STATIC
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -53,11 +53,12 @@ import gwt.material.design.client.base.mixin.CssTypeMixin;
  * </ma:subheader.MaterialSubHeaderContainer>
  * }
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
+ *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
  */
 //@formatter:on
-public class MaterialSubHeaderContainer extends MaterialWidget implements HasType<SubHeaderType>{
+public class MaterialSubHeaderContainer extends MaterialWidget implements HasType<SubHeaderType> {
 
     static {
         MaterialSubHeader.loadResources();
@@ -77,7 +78,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(getType() == SubHeaderType.PINNED) {
+        if (getType() == SubHeaderType.PINNED) {
             String uniqueName = DOM.createUniqueId();
             for (Widget w : getChildren()) {
                 if (w instanceof MaterialSubHeader) {

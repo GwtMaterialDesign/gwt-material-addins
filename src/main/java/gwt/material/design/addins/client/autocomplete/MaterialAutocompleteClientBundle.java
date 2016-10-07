@@ -25,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Autocomplete component
+ *
  * @author kevzlou7979
  */
 interface MaterialAutocompleteClientBundle extends ClientBundle {

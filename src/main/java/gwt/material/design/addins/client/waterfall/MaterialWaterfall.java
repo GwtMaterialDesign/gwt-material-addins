@@ -33,14 +33,14 @@ import gwt.material.design.jquery.client.api.Functions;
 
 /**
  * Material Waterfall - Act like a collapsible header below the nav bar component when scrolling up / down to provide delightful transition of components.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -53,14 +53,15 @@ import gwt.material.design.jquery.client.api.Functions;
  * </ma:waterfall.MaterialWaterfall>
  *
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
+ *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
  */
 //@formatter:on
 public class MaterialWaterfall extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
             MaterialDesignBase.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
         } else {
@@ -87,21 +88,21 @@ public class MaterialWaterfall extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(openCallback == null) {
+        if (openCallback == null) {
             openCallback = () -> {
-                for(Widget w : getChildren()){
+                for (Widget w : getChildren()) {
                     w.getElement().getStyle().setOpacity(1);
                 }
             };
         }
-        if(closeCallback == null) {
+        if (closeCallback == null) {
             closeCallback = () -> {
-                for(Widget w : getChildren()){
+                for (Widget w : getChildren()) {
                     w.getElement().getStyle().setOpacity(0);
                 }
             };
         }
-        if(offset == 0){
+        if (offset == 0) {
             offset = getOffsetHeight();
         }
         initWaterfall(getElement().getOffsetHeight(), openCallback, closeCallback, offset);

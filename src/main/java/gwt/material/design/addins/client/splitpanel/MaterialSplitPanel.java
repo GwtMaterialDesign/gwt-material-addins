@@ -34,14 +34,14 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
 
 /**
  * A high performance content splitter compatible with touch events
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -63,7 +63,7 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
 public class MaterialSplitPanel extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
             MaterialDesignBase.injectCss(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss());
         } else {
@@ -101,7 +101,7 @@ public class MaterialSplitPanel extends MaterialWidget {
      */
     protected void initSplitter() {
         JsSplitPanel splitted = $(getElement());
-        if(splitted.get(0) != null) {
+        if (splitted.get(0) != null) {
             JsSplitPanelOptions options = new JsSplitPanelOptions();
             options.barPosition = getBarPosition();
             options.thickness = getThickness() + "px";
