@@ -19,7 +19,9 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
@@ -28,6 +30,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.html.Span;
 import org.junit.Test;
 
 /**
@@ -45,6 +48,27 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
         checkStepNavigation(stepper);
         checkAxis(stepper);
         checkErrorSuccess(stepper);
+        checkFeedback(stepper);
+        checkSelection(stepper);
+    }
+
+    protected <T extends MaterialStepper> void checkSelection(T stepper) {
+        final boolean[] isSelectionFired = {false};
+        stepper.addSelectionChangeHandler(event -> {
+            isSelectionFired[0] = true;
+        });
+        stepper.fireEvent(new GwtEvent<SelectionChangeEvent.Handler>() {
+            @Override
+            public Type<SelectionChangeEvent.Handler> getAssociatedType() {
+                return SelectionChangeEvent.getType();
+            }
+
+            @Override
+            protected void dispatch(SelectionChangeEvent.Handler eventHandler) {
+                eventHandler.onSelectionChange(null);
+            }
+        });
+        assertTrue(isSelectionFired[0]);
     }
 
     protected <T extends MaterialStepper> void checkErrorSuccess(T stepper) {
@@ -131,6 +155,20 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
         assertEquals(stepper.getWidget(0), stepper.getCurrentStep());
     }
 
+    protected <T extends MaterialStepper> void checkFeedback(T stepper) {
+        final String FEEDBACK = "feedback";
+        final int FEEDBACK_INDEX = stepper.getWidgetCount();
+        stepper.showFeedback(FEEDBACK);
+        assertEquals(stepper.getFeedback(), FEEDBACK);
+        MaterialWidget feedback = (MaterialWidget) stepper.getWidget(FEEDBACK_INDEX);
+        assertTrue(feedback.getWidget(0) instanceof Span);
+        assertEquals(feedback.getWidget(0), stepper.getFeedbackSpan());
+        assertEquals(stepper.getFeedbackSpan().getText(), FEEDBACK);
+        stepper.hideFeedback();
+        assertFalse(feedback.isAttached());
+        assertFalse(stepper.getFeedbackSpan().isAttached());
+    }
+
     protected <T extends MaterialStepper> void checkStructure(T stepper) {
         for (int i = 1; i <= 5; i++) {
             MaterialStep step = new MaterialStep();
@@ -140,13 +178,13 @@ public class MaterialStepperTest extends GwtMaterialAddinsTest {
             stepper.add(step);
             assertEquals(step.getWidgetCount(), 2);
             assertTrue(step.getWidget(0) instanceof MaterialWidget);
-            MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
+            MaterialWidget cle = (MaterialWidget) step.getWidget(0);
             MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
-            assertEquals(conCircle.getWidgetCount(), 2);
+            assertEquals(cle.getWidgetCount(), 2);
             assertEquals(conBody.getWidgetCount(), 3);
 
-            MaterialWidget divCircle = (MaterialWidget) conCircle.getWidget(0);
-            MaterialWidget divLine = (MaterialWidget) conCircle.getWidget(1);
+            MaterialWidget divCircle = (MaterialWidget) cle.getWidget(0);
+            MaterialWidget divLine = (MaterialWidget) cle.getWidget(1);
 
             assertEquals(step.getStep(), i);
             assertTrue(divCircle.getElement().hasClassName(CssName.CIRCLE));
