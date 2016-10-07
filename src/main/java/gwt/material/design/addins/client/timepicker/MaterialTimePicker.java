@@ -22,6 +22,8 @@ package gwt.material.design.addins.client.timepicker;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
@@ -100,12 +102,12 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     private Date time;
 
-    private Label label = new Label();
+    private Label lblPlaceholder = new Label();
 
     private MaterialIcon icon = new MaterialIcon();
 
     private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.timeInput, CssName.VALID);
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.timeInput);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, timeInput, lblPlaceholder);
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
 
     private String uniqueId;
@@ -136,7 +138,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         timeInput.setType(InputType.TEXT);
         readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
         panel.add(timeInput);
-        panel.add(label);
+        panel.add(lblPlaceholder);
         panel.add(lblError);
         add(panel);
         timeInput.getElement().setAttribute("type", "text");
@@ -201,7 +203,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-        label.setText(placeholder);
+        lblPlaceholder.setText(placeholder);
     }
 
     /**
@@ -248,6 +250,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     protected void afterShow() {
         OpenEvent.fire(this, this.time);
+        fireEvent(new FocusEvent() {
+        });
     }
 
     /**
@@ -275,6 +279,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         validMixin.setOn(false);
 
         CloseEvent.fire(this, this.time);
+        fireEvent(new BlurEvent() {
+        });
     }
 
     protected String getTime() {
@@ -323,13 +329,12 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public void setValue(Date time, boolean fireEvents) {
-        if (this.time != null && this.time.equals(time)) {
+        this.time = time;
+        if (this.time == null) {
             return;
         }
-        this.time = time;
 
         $(timeInput.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
-
         super.setValue(time, fireEvents);
     }
 

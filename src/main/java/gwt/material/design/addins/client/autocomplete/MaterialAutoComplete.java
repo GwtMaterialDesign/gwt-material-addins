@@ -20,9 +20,7 @@
 package gwt.material.design.addins.client.autocomplete;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
@@ -54,22 +52,22 @@ import java.util.Map.Entry;
  * We used MultiWordSuggestOracle to populate the list to be added on the
  * autocomplete values.
  * </p>
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
  *  <ma:autocomplete.MaterialAutoComplete ui:field="autocomplete" placeholder="States" />}
  * </pre>
- *
+ * <p>
  * <h3>Java Usage:</h3>
- *
+ * <p>
  * <p>
  * To use your domain object inside the MaterialAutoComplete, for example, an object
  * "User", you can subclass the {@link gwt.material.design.addins.client.autocomplete.base.MaterialSuggestionOracle} and {@link Suggestion}, like this:
@@ -77,11 +75,11 @@ import java.util.Map.Entry;
  * <p><pre>
  * public class UserOracle extends MaterialSuggestionOracle {
  *     private List&lt;User&gt; contacts = new LinkedList&lt;&gt;();
- *
+ * <p>
  *     public void addContacts(List&lt;User&gt; users){
  *         contacts.addAll(users);
  *     }
- *
+ * <p>
  *     {@literal @}Override
  *     public void requestSuggestions(final Request request, final Callback callback) {
  *         Response resp = new Response();
@@ -91,9 +89,9 @@ import java.util.Map.Entry;
  *         }
  *         String text = request.getQuery();
  *         text = text.toLowerCase();
- *
+ * <p>
  *         List&lt;UserSuggestion&gt; list = new ArrayList&lt;&gt;();
- *
+ * <p>
  *         /{@literal *}
  *         {@literal *}  Finds the contacts that meets the criteria. Note that since the
  *         {@literal *}  requestSuggestions method is asynchronous, you can fetch the
@@ -108,25 +106,25 @@ import java.util.Map.Entry;
  *          callback.onSuggestionsReady(request, resp);
  *     }
  * }
- *
+ * <p>
  * public class UserSuggestion implements SuggestOracle.Suggestion {
- *
+ * <p>
  *     private User user;
- *
+ * <p>
  *     public UserSuggestion(User user){
  *         this.user = user;
  *     }
- *
+ * <p>
  *     {@literal @}Override
  *     public String getDisplayString() {
  *         return getReplacementString();
  *     }
- *
+ * <p>
  *     {@literal @}Override
  *     public String getReplacementString() {
  *         return user.getName();
  *     }
- *
+ * <p>
  *     public User getUser() {
  *         return user;
  *     }
@@ -138,7 +136,7 @@ import java.util.Map.Entry;
  * <p><pre>
  * //Constructor
  * MaterialAutoComplete userAutoComplete = new MaterialAutoComplete(new UserOracle());
- *
+ * <p>
  * //How to get the selected User objects
  * public List&lt;User&gt; getSelectedUsers(){
  *     List&lt;? extends Suggestion&gt; values = userAutoComplete.getValue();
@@ -163,7 +161,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss());
@@ -171,7 +169,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     private Map<Suggestion, Widget> suggestionMap = new LinkedHashMap<>();
-    private Label label = new Label();
+    private Label lblPlaceholder = new Label();
 
     private List<ListItem> itemsHighlighted = new ArrayList<>();
     private FlowPanel panel = new FlowPanel();
@@ -187,8 +185,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private boolean directInputAllowed = true;
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this,
-            lblError, list);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, list, lblPlaceholder);
 
     private FocusableMixin<MaterialWidget> focusableMixin;
     private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
@@ -240,14 +237,14 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.getElement().setId(autocompleteId);
 
         item.add(box);
-        item.add(label);
+        item.add(lblPlaceholder);
         list.add(item);
 
         list.addDomHandler(event -> box.showSuggestionList(), ClickEvent.getType());
 
         itemBox.addBlurHandler(blurEvent -> {
-            if(getValue().size() > 0) {
-                label.addStyleName(CssName.ACTIVE);
+            if (getValue().size() > 0) {
+                lblPlaceholder.addStyleName(CssName.ACTIVE);
             }
         });
 
@@ -274,7 +271,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                             if (suggestionMap.size() > 0) {
                                 ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
 
-                                if (tryRemoveSuggestion(li.getWidget(0))){
+                                if (tryRemoveSuggestion(li.getWidget(0))) {
                                     li.removeFromParent();
                                     changed = true;
                                 }
@@ -313,7 +310,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
-            "document.getElementById('" + autocompleteId + "').focus()");
+                "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(lblError);
         box.setFocus(true);
     }
@@ -372,7 +369,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                 }
             });
 
-            if (chip.getIcon() != null){
+            if (chip.getIcon() != null) {
                 chip.getIcon().addClickHandler(event -> {
                     if (chipProvider.isChipRemovable(suggestion)) {
                         suggestionMap.remove(suggestion);
@@ -412,7 +409,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     @Override
     protected FocusableMixin<MaterialWidget> getFocusableMixin() {
-        if(focusableMixin == null) { focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement())); }
+        if (focusableMixin == null) {
+            focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement()));
+        }
         return focusableMixin;
     }
 
@@ -430,8 +429,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     /**
-     * @param itemValues
-     *            the itemsSelected to set
+     * @param itemValues the itemsSelected to set
      * @see #setValue(Object)
      */
     public void setItemValues(List<String> itemValues) {
@@ -444,7 +442,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             Suggestion suggestion = new gwt.material.design.client.base.Suggestion(value, value);
             list.add(suggestion);
         }
-        if (itemValues.size() > 0) { label.addStyleName(CssName.ACTIVE); }
+        if (itemValues.size() > 0) {
+            lblPlaceholder.addStyleName(CssName.ACTIVE);
+        }
         setValue(list);
     }
 
@@ -456,8 +456,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     /**
-     * @param itemsHighlighted
-     *            the itemsHighlighted to set
+     * @param itemsHighlighted the itemsHighlighted to set
      */
     public void setItemsHighlighted(List<ListItem> itemsHighlighted) {
         this.itemsHighlighted = itemsHighlighted;
@@ -474,8 +473,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * Sets the SuggestOracle to be used to provide suggestions. Also setups the
      * component with the needed event handlers and UI elements.
      *
-     * @param suggestions
-     *            the suggestion oracle to set
+     * @param suggestions the suggestion oracle to set
      */
     public void setSuggestions(SuggestOracle suggestions) {
         this.suggestions = suggestions;
@@ -500,32 +498,12 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     @Override
     public String getPlaceholder() {
-        return label.getText();
+        return lblPlaceholder.getText();
     }
 
     @Override
     public void setPlaceholder(String placeholder) {
-        label.setText(placeholder);
-    }
-
-    @Override
-    public void setError(String error) {
-        errorMixin.setError(error);
-    }
-
-    @Override
-    public void setSuccess(String success) {
-        errorMixin.setSuccess(success);
-    }
-
-    @Override
-    public void setHelperText(String helperText) {
-        errorMixin.setHelperText(helperText);
-    }
-
-    @Override
-    public void clearErrorOrSuccess() {
-        errorMixin.clearErrorOrSuccess();
+        lblPlaceholder.setText(placeholder);
     }
 
     /**
@@ -555,8 +533,8 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     /**
      * @return if {@link Suggestion}s created by direct input from the user
-     *         should be allowed. By default directInputAllowed is
-     *         <code>true</code>.
+     * should be allowed. By default directInputAllowed is
+     * <code>true</code>.
      */
     public boolean isDirectInputAllowed() {
         return directInputAllowed;
@@ -568,8 +546,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * Defaults to "blue white-text".
      * </p>
      *
-     * @param selectedChipStyle
-     *          The class or classes to be applied to selected chips
+     * @param selectedChipStyle The class or classes to be applied to selected chips
      */
     public void setSelectedChipStyle(String selectedChipStyle) {
         this.selectedChipStyle = selectedChipStyle;
@@ -603,7 +580,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     @Override
     public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
         return itemBox.addKeyUpHandler(event -> {
-            if(isEnabled()) { handler.onKeyUp(event); }
+            if (isEnabled()) {
+                handler.onKeyUp(event);
+            }
         });
     }
 
@@ -622,7 +601,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         return addHandler(new SelectionHandler<Suggestion>() {
             @Override
             public void onSelection(SelectionEvent<Suggestion> event) {
-                if(isEnabled()) { handler.onSelection(event); }
+                if (isEnabled()) {
+                    handler.onSelection(event);
+                }
             }
         }, SelectionEvent.getType());
     }
@@ -669,37 +650,32 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
          * Creates and returns a {@link MaterialChip} based on the selected
          * {@link Suggestion}.
          *
-         * @param suggestion
-         *            the selected {@link Suggestion}
-         *
+         * @param suggestion the selected {@link Suggestion}
          * @return the created MaterialChip, or <code>null</code> if the
-         *         suggestion should be ignored.
+         * suggestion should be ignored.
          */
         MaterialChip getChip(Suggestion suggestion);
 
         /**
          * Returns whether the chip defined by the suggestion should be selected when the user clicks on it.
-         *
+         * <p>
          * <p>
          * Selecion of chips is used to batch remove suggestions, for example.
          * </p>
          *
-         * @param suggestion
-         *            the selected {@link Suggestion}
-         *
+         * @param suggestion the selected {@link Suggestion}
          * @see MaterialAutoComplete#setSelectedChipStyle(String)
          */
         boolean isChipSelectable(Suggestion suggestion);
 
         /**
          * Returns whether the chip defined by the suggestion should be removed from the autocomplete when clicked on its icon.
-         *
+         * <p>
          * <p>
          * Override this method returning <code>false</code> to implement your own logic when the user clicks on the chip icon.
          * </p>
          *
-         * @param suggestion
-         *            the selected {@link Suggestion}
+         * @param suggestion the selected {@link Suggestion}
          */
         boolean isChipRemovable(Suggestion suggestion);
     }
@@ -707,7 +683,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     /**
      * Default implementation of the {@link MaterialChipProvider} interface,
      * used by the {@link gwt.material.design.addins.client.autocomplete.MaterialAutoComplete}.
-     *
+     * <p>
      * <p>
      * By default all chips are selectable and removable. The default {@link IconType} used by the chips provided is the {@link IconType#CLOSE}.
      * </p>
@@ -752,9 +728,29 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         return addHandler(new ValueChangeHandler<List<? extends Suggestion>>() {
             @Override
             public void onValueChange(ValueChangeEvent<List<? extends Suggestion>> event) {
-                if(isEnabled()) { handler.onValueChange(event); }
+                if (isEnabled()) {
+                    handler.onValueChange(event);
+                }
             }
         }, ValueChangeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addBlurHandler(BlurHandler handler) {
+        return itemBox.addHandler(blurEvent -> {
+            if (isEnabled()) {
+                handler.onBlur(blurEvent);
+            }
+        }, BlurEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+        return itemBox.addHandler(focusEvent -> {
+            if (isEnabled()) {
+                handler.onFocus(focusEvent);
+            }
+        }, FocusEvent.getType());
     }
 
     /**
@@ -762,7 +758,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * not propagated to the component.
      *
      * @return the list of selected {@link Suggestion}s, or empty if none was
-     *         selected (never <code>null</code>).
+     * selected (never <code>null</code>).
      */
     @Override
     public List<? extends Suggestion> getValue() {
