@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.base;
+package gwt.material.design.addins.client.dto;
 
 /*
  * #%L
@@ -21,31 +21,24 @@ package gwt.material.design.addins.client.base;
  */
 
 
-import com.google.gwt.user.client.ui.SuggestOracle;
+import java.io.Serializable;
 
-/**
- * Created by Mark Kevin on 4/12/2016.
- */
-public class UserSuggestion implements SuggestOracle.Suggestion {
+public class User implements Serializable {
 
-    private User user;
+    private String value;
 
-    public UserSuggestion(User user) {
-        this.user = user;
+    public User() {
     }
 
-    @Override
-    public String getDisplayString() {
-        return getReplacementString();
+    public User(String value) {
+        this.value = value;
     }
 
-    @Override
-    public String getReplacementString() {
-        return user.getValue();
+    public String getValue() {
+        return value;
     }
 
-    public User getUser() {
-        return user;
+    public void setValue(String value) {
+        this.value = value;
     }
 }
-

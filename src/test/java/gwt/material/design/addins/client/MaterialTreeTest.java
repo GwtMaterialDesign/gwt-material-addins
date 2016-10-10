@@ -19,15 +19,13 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.client.base.MaterialWidget;
-import org.junit.Test;
 
-public class MaterialTreeTest extends GwtMaterialAddinsTest {
+public class MaterialTreeTest extends MaterialAddinsTest {
 
-    @Test
-    public void testTree() {
+    public void init() {
         MaterialTree tree = new MaterialTree();
         checkWidget(tree);
     }

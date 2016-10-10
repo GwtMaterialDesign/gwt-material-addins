@@ -41,7 +41,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kebzlou7979
  */
-public class GwtMaterialAddinsTest extends BaseEventTest {
+public class MaterialAddinsTest extends BaseEventTest {
 
     @Test
     public void testBaseWidget() {
@@ -84,7 +84,9 @@ public class GwtMaterialAddinsTest extends BaseEventTest {
 
     protected <T extends MaterialWidget> void checkInitialClasses(T widget) {
         widget.addAttachHandler(attachEvent -> {
-            assertNotNull(widget.getInitialClasses());
+            if (widget.getInitialClasses() != null) {
+                assertNotNull(widget.getInitialClasses());
+            }
         });
     }
 

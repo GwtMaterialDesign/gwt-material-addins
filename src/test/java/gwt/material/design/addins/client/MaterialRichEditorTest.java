@@ -19,15 +19,13 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
 import gwt.material.design.client.base.MaterialWidget;
-import org.junit.Test;
 
-public class MaterialRichEditorTest extends GwtMaterialAddinsTest {
+public class MaterialRichEditorTest extends MaterialAddinsTest {
 
-    @Test
-    public void testRichEditor() {
+    public void init() {
         MaterialRichEditor editor = new MaterialRichEditor();
         checkWidget(editor);
     }

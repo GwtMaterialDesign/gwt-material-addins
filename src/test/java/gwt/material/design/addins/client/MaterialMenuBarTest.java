@@ -19,14 +19,12 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.menubar.MaterialMenuBar;
-import org.junit.Test;
 
-public class MaterialMenuBarTest extends GwtMaterialAddinsTest {
+public class MaterialMenuBarTest extends MaterialAddinsTest {
 
-    @Test
-    public void testMenuBar() {
+    public void init() {
         MaterialMenuBar menuBar = new MaterialMenuBar();
         checkWidget(menuBar);
     }

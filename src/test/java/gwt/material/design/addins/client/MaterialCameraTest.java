@@ -19,15 +19,33 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.camera.MaterialCameraCapture;
-import org.junit.Test;
 
-public class MaterialCameraTest extends GwtMaterialAddinsTest {
+public class MaterialCameraTest extends MaterialAddinsTest {
 
-    @Test
-    public void testCamera() {
+    public void init() {
         MaterialCameraCapture cameraCapture = new MaterialCameraCapture();
         checkWidget(cameraCapture);
+        checkCameraCaptureEvent(cameraCapture);
     }
+
+    // TODO Camera Capture Handler
+    protected <T extends MaterialCameraCapture> void checkCameraCaptureEvent(T cameraCapture) {
+        final boolean[] isCaptureFired = new boolean[1];
+        cameraCapture.setEnabled(true);
+        assertTrue(cameraCapture.isEnabled());
+        cameraCapture.addCameraCaptureHandler(event -> {
+            isCaptureFired[0] = true;
+        });
+        cameraCapture.play();
+        final String URL = "data:image/png;base64,";
+        final String url = cameraCapture.captureToDataURL();
+        assertNotNull(url);
+        assertEquals(url, URL);
+        assertTrue(isCaptureFired[0]);
+    }
+
+    // TODO Pause / Play / Restart
+    // TODO SetPauseOnUnload
 }

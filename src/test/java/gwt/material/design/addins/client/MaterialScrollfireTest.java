@@ -19,13 +19,11 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
-import org.junit.Test;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 
-public class MaterialScrollfireTest extends GwtMaterialAddinsTest {
+public class MaterialScrollfireTest extends MaterialAddinsTest {
 
-    @Test
-    public void testScrollfire() {
+    public void init() {
 
     }
 }

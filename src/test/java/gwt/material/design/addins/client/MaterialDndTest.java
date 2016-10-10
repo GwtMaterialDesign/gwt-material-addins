@@ -19,15 +19,13 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.client.ui.MaterialPanel;
-import org.junit.Test;
 
-public class MaterialDndTest extends GwtMaterialAddinsTest {
+public class MaterialDndTest extends MaterialAddinsTest {
 
-    @Test
-    public void testDnd() {
+    public void init() {
         MaterialPanel panel = new MaterialPanel();
         MaterialDnd.draggable(panel);
         checkWidget(panel);

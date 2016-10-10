@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.base;
+package gwt.material.design.addins.client.dto;
 
 /*
  * #%L
@@ -38,7 +38,7 @@ public class UserOracle extends MaterialSuggestionOracle {
     @Override
     public void requestSuggestions(Request request, Callback callback) {
         Response resp = new Response();
-        if(contacts.isEmpty()){
+        if (contacts.isEmpty()) {
             callback.onSuggestionsReady(request, resp);
             return;
         }
@@ -47,8 +47,8 @@ public class UserOracle extends MaterialSuggestionOracle {
 
         List<UserSuggestion> list = new ArrayList<>();
 
-        for(User contact : contacts){
-            if(contact.getValue().toLowerCase().contains(text)){
+        for (User contact : contacts) {
+            if (contact.getValue().toLowerCase().contains(text)) {
                 list.add(new UserSuggestion(contact));
             }
         }

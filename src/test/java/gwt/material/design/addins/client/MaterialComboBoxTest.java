@@ -20,17 +20,14 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.UIObject;
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
-import gwt.material.design.addins.client.base.User;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
+import gwt.material.design.addins.client.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
-import org.junit.Test;
 
-public class MaterialComboBoxTest extends GwtMaterialAddinsTest {
+public class MaterialComboBoxTest extends MaterialAddinsTest {
 
-    @Test
-    public void testComboBox() {
+    public void init() {
         MaterialComboBox<User> comboBox = new MaterialComboBox<>();
         checkWidget(comboBox);
     }
@@ -44,6 +41,14 @@ public class MaterialComboBoxTest extends GwtMaterialAddinsTest {
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
         // TODO Check Structure
+        MaterialComboBox<String> comboBox = new MaterialComboBox<>();
+        /*comboBox.addItem("test");
+        comboBox.addItem("test");
+        comboBox.addItem("test");*/
+        assertEquals(comboBox.getValues().size(), 0);
+        assertEquals(comboBox.getChildren().size(), 0);
+        comboBox.addItem("test");
+        assertEquals(comboBox.getValues().size(), 1);
     }
 
     @Override

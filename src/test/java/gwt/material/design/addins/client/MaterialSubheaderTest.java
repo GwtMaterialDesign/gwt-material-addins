@@ -19,14 +19,12 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.subheader.MaterialSubHeader;
-import org.junit.Test;
 
-public class MaterialSubheaderTest extends GwtMaterialAddinsTest {
+public class MaterialSubheaderTest extends MaterialAddinsTest {
 
-    @Test
-    public void testSubheader() {
+    public void init() {
         MaterialSubHeader header = new MaterialSubHeader();
         checkWidget(header);
     }

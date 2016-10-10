@@ -21,17 +21,15 @@ package gwt.material.design.addins.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.rating.MaterialRating;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
-import org.junit.Test;
 
-public class MaterialRatingTest extends GwtMaterialAddinsTest {
+public class MaterialRatingTest extends MaterialAddinsTest {
 
-    @Test
-    public void testRating() {
+    public void init() {
         MaterialRating rating = new MaterialRating();
         checkWidget(rating);
         checkStructure(rating);

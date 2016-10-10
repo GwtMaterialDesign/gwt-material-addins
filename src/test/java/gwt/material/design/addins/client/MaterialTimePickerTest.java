@@ -20,20 +20,18 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.user.client.ui.HasEnabled;
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
 import gwt.material.design.client.base.MaterialWidget;
-import org.junit.Test;
 
 /**
  * Test case for Time Picker
  *
  * @author kevzlou7979
  */
-public class MaterialTimePickerTest extends GwtMaterialAddinsTest {
+public class MaterialTimePickerTest extends MaterialAddinsTest {
 
-    @Test
-    public void testTimePicker() {
+    public void init() {
         MaterialTimePicker timePicker = new MaterialTimePicker();
         checkWidget(timePicker);
     }

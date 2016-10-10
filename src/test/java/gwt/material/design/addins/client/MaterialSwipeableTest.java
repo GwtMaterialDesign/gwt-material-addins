@@ -19,14 +19,12 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel;
-import org.junit.Test;
 
-public class MaterialSwipeableTest extends GwtMaterialAddinsTest {
+public class MaterialSwipeableTest extends MaterialAddinsTest {
 
-    @Test
-    public void testSwipeable() {
+    public void init() {
         MaterialSwipeablePanel swipeablePanel = new MaterialSwipeablePanel();
         checkWidget(swipeablePanel);
     }

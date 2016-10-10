@@ -19,14 +19,12 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
-import org.junit.Test;
 
-public class MaterialOverlayTest extends GwtMaterialAddinsTest {
+public class MaterialOverlayTest extends MaterialAddinsTest {
 
-    @Test
-    public void testOverlay() {
+    public void init() {
         MaterialOverlay overlay = new MaterialOverlay();
         checkWidget(overlay);
     }

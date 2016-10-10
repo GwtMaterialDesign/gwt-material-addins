@@ -19,15 +19,13 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.masonry.MaterialMasonry;
 import gwt.material.design.client.base.MaterialWidget;
-import org.junit.Test;
 
-public class MaterialMasonryTest extends GwtMaterialAddinsTest {
+public class MaterialMasonryTest extends MaterialAddinsTest {
 
-    @Test
-    public void testMasonry() {
+    public void init() {
         MaterialMasonry masonry = new MaterialMasonry();
         checkWidget(masonry);
     }

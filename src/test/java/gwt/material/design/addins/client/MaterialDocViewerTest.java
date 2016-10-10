@@ -19,15 +19,30 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import com.google.gwt.user.client.ui.RootPanel;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.docviewer.MaterialDocViewer;
-import org.junit.Test;
 
-public class MaterialDocViewerTest extends GwtMaterialAddinsTest {
+public class MaterialDocViewerTest extends MaterialAddinsTest {
 
-    @Test
-    public void testDocViewer() {
+    public void init() {
         MaterialDocViewer docViewer = new MaterialDocViewer();
         checkWidget(docViewer);
+        checkUrl(docViewer);
+    }
+
+    protected <T extends MaterialDocViewer> void checkUrl(T docViewer) {
+        final String URL = "someurl";
+        docViewer.setUrl(URL);
+        RootPanel.get().clear();
+        RootPanel.get().add(docViewer);
+        assertEquals(docViewer.getUrl(), URL);
+        assertTrue(docViewer.getElement().hasAttribute("src"));
+        docViewer.setEmbedded(true);
+        assertEquals(docViewer.getElement().getAttribute("src"), "http://docs.google.com/gview?url=someurl&embedded=true");
+        docViewer.setEmbedded(false);
+        docViewer.removeFromParent();
+        RootPanel.get().add(docViewer);
+        assertEquals(docViewer.getElement().getAttribute("src"), "http://docs.google.com/gview?url=someurl&embedded=false");
     }
 }

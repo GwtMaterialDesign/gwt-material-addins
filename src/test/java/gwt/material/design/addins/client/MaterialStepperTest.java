@@ -22,7 +22,7 @@ package gwt.material.design.addins.client;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
@@ -31,17 +31,15 @@ import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.html.Span;
-import org.junit.Test;
 
 /**
  * Test case for stepper component
  *
  * @author kevzlou7979
  */
-public class MaterialStepperTest extends GwtMaterialAddinsTest {
+public class MaterialStepperTest extends MaterialAddinsTest {
 
-    @Test
-    public void testStepper() {
+    public void init() {
         MaterialStepper stepper = new MaterialStepper();
         checkWidget(stepper);
         checkStructure(stepper);

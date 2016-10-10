@@ -21,13 +21,11 @@ package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.avatar.MaterialAvatar;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
-import org.junit.Test;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 
-public class MaterialAvatarTest extends GwtMaterialAddinsTest {
+public class MaterialAvatarTest extends MaterialAddinsTest {
 
-    @Test
-    public void testAvatar() {
+    public void init() {
         MaterialAvatar avatar = new MaterialAvatar();
         checkWidget(avatar);
         checkNameAndHashCode(avatar);

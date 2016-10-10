@@ -45,7 +45,7 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
 //@formatter:off
 
 /**
- * Window is another kind of Modal but it has a header toolbar for maximizing and close the window. Also you can attached a tab component on its content.
+ * Window is another kind of Modal but it has a header toolbar for maximizing and close the windowContainer. Also you can attached a tab component on its content.
  * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
@@ -57,18 +57,18 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- *  <ma:window.MaterialWindow ui:field="window" />
+ *  <ma:windowContainer.MaterialWindow ui:field="windowContainer" />
  * }
  * </pre>
  * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- *  // Opening a window
- *  window.open();
+ *  // Opening a windowContainer
+ *  windowContainer.open();
  *
- *  // Closing a window
- *  window.close();
+ *  // Closing a windowContainer
+ *  windowContainer.close();
  * }
  * </pre>
  *
@@ -86,11 +86,11 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         }
     }
 
-    private MaterialWidget window = new MaterialWidget(Document.get().createDivElement());
+    private MaterialWidget windowContainer = new MaterialWidget(Document.get().createDivElement());
     private MaterialWidget content = new MaterialWidget(Document.get().createDivElement());
 
     // Toolbar elements
-    private MaterialLink link = new MaterialLink();
+    private MaterialLink labelTitle = new MaterialLink();
     private MaterialWidget toolbar = new MaterialWidget(Document.get().createDivElement());
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
@@ -99,7 +99,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     private Color toolbarColor;
 
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
-    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(window, AddinsCssName.MAXIMIZE);
+    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(windowContainer, AddinsCssName.MAXIMIZE);
     private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
 
     private MaterialAnimation openAnimation;
@@ -107,9 +107,9 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     public MaterialWindow() {
         super(Document.get().createDivElement(), AddinsCssName.WINDOW_OVERLAY);
-        window.setStyleName(AddinsCssName.WINDOW);
+        windowContainer.setStyleName(AddinsCssName.WINDOW);
         content.setStyleName(AddinsCssName.CONTENT);
-        super.add(window);
+        super.add(windowContainer);
 
         initialize();
     }
@@ -135,22 +135,22 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      */
     protected void initialize() {
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
-        link.setStyleName(AddinsCssName.WINDOW_TITLE);
+        labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
         iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
         iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
         iconMaximize.setCircle(true);
         iconMaximize.setWaves(WavesType.DEFAULT);
-        toolbar.add(link);
+        toolbar.add(labelTitle);
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
         toolbar.addDomHandler(event -> {
             toggleMaximize();
             Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
         }, DoubleClickEvent.getType());
-        window.add(toolbar);
-        window.add(content);
+        windowContainer.add(toolbar);
+        windowContainer.add(content);
 
         // Add handlers to action buttons
         iconMaximize.addClickHandler(event -> toggleMaximize());
@@ -163,9 +163,9 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         });
 
         // Add a draggable header
-        MaterialDnd dnd = MaterialDnd.draggable(window,
+        MaterialDnd dnd = MaterialDnd.draggable(windowContainer,
                 JsDragOptions.create(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1)));
-        dnd.ignoreFrom(".content, .window-action");
+        dnd.ignoreFrom(".content, .windowContainer-action");
     }
 
     protected void toggleMaximize() {
@@ -185,7 +185,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     @Override
     public void setTitle(String title) {
         this.title = title;
-        link.setText(title);
+        labelTitle.setText(title);
     }
 
     public boolean isMaximized() {
@@ -202,7 +202,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     /**
-     * Open the window.
+     * Open the windowContainer.
      */
     public void open() {
         if (!isAttached()) {
@@ -212,19 +212,19 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         if (openAnimation == null) {
             openMixin.setOn(true);
         } else {
-            openAnimation.animate(window, () -> openMixin.setOn(true));
+            openAnimation.animate(windowContainer, () -> openMixin.setOn(true));
         }
     }
 
     /**
-     * Close the window.
+     * Close the windowContainer.
      */
     public void close() {
         CloseEvent.fire(this, false);
         if (closeAnimation == null) {
             openMixin.setOn(false);
         } else {
-            closeAnimation.animate(window, () -> openMixin.setOn(false));
+            closeAnimation.animate(windowContainer, () -> openMixin.setOn(false));
         }
     }
 
@@ -235,11 +235,6 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     public void setToolbarColor(Color toolbarColor) {
         this.toolbarColor = toolbarColor;
         toolbarColorMixin.setBackgroundColor(toolbarColor);
-    }
-
-    @Deprecated
-    public void setToolbarColor(String toolbarColor) {
-        setToolbarColor(Color.fromStyleName(toolbarColor));
     }
 
     public void setOpenAnimation(final MaterialAnimation openAnimation) {
@@ -262,20 +257,44 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     @Override
     public void setWidth(String width) {
-        window.setWidth(width);
+        windowContainer.setWidth(width);
     }
 
     @Override
     public void setHeight(String height) {
-        window.setHeight(height);
+        windowContainer.setHeight(height);
     }
 
     @Override
     public void setBackgroundColor(Color bgColor) {
-        window.setBackgroundColor(bgColor);
+        windowContainer.setBackgroundColor(bgColor);
     }
 
     public boolean isOpen() {
         return openMixin.isOn();
+    }
+
+    public MaterialWidget getWindowContainer() {
+        return windowContainer;
+    }
+
+    public MaterialWidget getToolbar() {
+        return toolbar;
+    }
+
+    public MaterialWidget getContent() {
+        return content;
+    }
+
+    public MaterialIcon getIconMaximize() {
+        return iconMaximize;
+    }
+
+    public MaterialIcon getIconClose() {
+        return iconClose;
+    }
+
+    public MaterialLink getLabelTitle() {
+        return labelTitle;
     }
 }

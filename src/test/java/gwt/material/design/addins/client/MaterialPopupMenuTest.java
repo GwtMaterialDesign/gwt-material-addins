@@ -19,14 +19,12 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.popupmenu.MaterialPopupMenu;
-import org.junit.Test;
 
-public class MaterialPopupMenuTest extends GwtMaterialAddinsTest {
+public class MaterialPopupMenuTest extends MaterialAddinsTest {
 
-    @Test
-    public void testPopupMenu() {
+    public void init() {
         MaterialPopupMenu popupMenu = new MaterialPopupMenu();
         checkWidget(popupMenu);
     }

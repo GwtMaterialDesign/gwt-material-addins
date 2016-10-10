@@ -19,17 +19,15 @@
  */
 package gwt.material.design.addins.client;
 
-import gwt.material.design.addins.client.base.GwtMaterialAddinsTest;
+import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.cutout.MaterialCutOut;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.HasColors;
 import gwt.material.design.client.base.MaterialWidget;
-import org.junit.Test;
 
-public class MaterialCutoutTest extends GwtMaterialAddinsTest {
+public class MaterialCutoutTest extends MaterialAddinsTest {
 
-    @Test
-    public void testCutout() {
+    public void init() {
         MaterialCutOut cutOut = new MaterialCutOut();
         checkWidget(cutOut);
     }
