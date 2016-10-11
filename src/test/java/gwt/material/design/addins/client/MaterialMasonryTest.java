@@ -32,6 +32,6 @@ public class MaterialMasonryTest extends MaterialAddinsTest {
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
-        // TODO Specific test for checking childred
+        // TODO Specific init for checking childred
     }
 }

@@ -32,6 +32,6 @@ public class MaterialRichEditorTest extends MaterialAddinsTest {
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
-        // TODO Check specific test on children
+        // TODO Check specific init on children
     }
 }

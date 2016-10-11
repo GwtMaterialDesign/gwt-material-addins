@@ -73,10 +73,10 @@ public abstract class AbstractButtonTest extends MaterialAddinsTest {
 
     protected <T extends AbstractButton & HasHref> void checkHref(T widget) {
         final Element element = widget.getElement();
-        widget.setHref("href-test");
+        widget.setHref("href-init");
         assertTrue(element.hasAttribute("href"));
-        assertEquals(element.getAttribute("href"), "href-test");
-        assertEquals(widget.getHref(), "href-test");
+        assertEquals(element.getAttribute("href"), "href-init");
+        assertEquals(widget.getHref(), "href-init");
         widget.setTarget("_blank");
         assertTrue(element.hasAttribute("target"));
         assertEquals(element.getAttribute("target"), "_blank");

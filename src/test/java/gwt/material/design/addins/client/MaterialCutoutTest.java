@@ -34,7 +34,7 @@ public class MaterialCutoutTest extends MaterialAddinsTest {
 
     @Override
     protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
-        // TODO Need specific test case
+        // TODO Need specific init case
     }
 
     @Override

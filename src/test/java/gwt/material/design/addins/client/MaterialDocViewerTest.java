@@ -34,7 +34,6 @@ public class MaterialDocViewerTest extends MaterialAddinsTest {
     protected <T extends MaterialDocViewer> void checkUrl(T docViewer) {
         final String URL = "someurl";
         docViewer.setUrl(URL);
-        RootPanel.get().clear();
         RootPanel.get().add(docViewer);
         assertEquals(docViewer.getUrl(), URL);
         assertTrue(docViewer.getElement().hasAttribute("src"));

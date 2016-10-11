@@ -20,10 +20,16 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.addins.client.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.html.Label;
+import gwt.material.design.client.ui.html.Option;
 
 public class MaterialComboBoxTest extends MaterialAddinsTest {
 
@@ -40,15 +46,38 @@ public class MaterialComboBoxTest extends MaterialAddinsTest {
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
-        // TODO Check Structure
+        checkAddItemOption();
+    }
+
+    protected void checkAddItemOption() {
         MaterialComboBox<String> comboBox = new MaterialComboBox<>();
-        /*comboBox.addItem("test");
-        comboBox.addItem("test");
-        comboBox.addItem("test");*/
+        RootPanel.get().add(comboBox);
+        // Check Initial children
         assertEquals(comboBox.getValues().size(), 0);
-        assertEquals(comboBox.getChildren().size(), 0);
-        comboBox.addItem("test");
-        assertEquals(comboBox.getValues().size(), 1);
+        assertEquals(comboBox.getChildren().size(), 3);
+        // Check simple String object
+        for (int i = 1; i <= 5; i++) {
+            comboBox.addItem("item" + i);
+        }
+        assertEquals(comboBox.getValues().size(), 5);
+        // Check ListBox
+        assertNotNull(comboBox.getWidget(0));
+        assertTrue(comboBox.getWidget(0) instanceof MaterialWidget);
+        assertEquals(comboBox.getListbox(), comboBox.getWidget(0));
+        MaterialWidget listBox = comboBox.getListbox();
+        assertEquals(listBox.getWidgetCount(), 5);
+        for (Widget w : listBox) {
+            assertNotNull(w);
+            assertTrue(w instanceof Option);
+        }
+        // Check Label
+        assertNotNull(comboBox.getWidget(1));
+        assertTrue(comboBox.getWidget(1) instanceof Label);
+        Label lblTitle = (Label) comboBox.getWidget(1);
+        assertTrue(lblTitle.getElement().hasClassName(AddinsCssName.SELECT2LABEL));
+        // Check Error Label
+        assertNotNull(comboBox.getWidget(2));
+        assertTrue(comboBox.getWidget(2) instanceof MaterialLabel);
     }
 
     @Override

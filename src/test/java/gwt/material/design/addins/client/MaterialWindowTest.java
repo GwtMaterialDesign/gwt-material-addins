@@ -31,7 +31,6 @@ import gwt.material.design.client.ui.MaterialPanel;
 public class MaterialWindowTest extends MaterialAddinsTest {
 
     public void init() {
-        checkJQuery();
         MaterialWindow window = new MaterialWindow();
         checkWidget(window);
         checkStructure(window);
