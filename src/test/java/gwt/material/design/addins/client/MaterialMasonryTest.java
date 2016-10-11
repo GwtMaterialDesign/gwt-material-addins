@@ -19,19 +19,40 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.masonry.MaterialMasonry;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialColumn;
 
 public class MaterialMasonryTest extends MaterialAddinsTest {
 
     public void init() {
         MaterialMasonry masonry = new MaterialMasonry();
         checkWidget(masonry);
+        checkStructure(masonry);
+        checkProperties(masonry);
     }
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
-        // TODO Specific init for checking childred
+        for (int i = 1; i <= 5; i++) {
+            MaterialColumn col = new MaterialColumn();
+            widget.add(col);
+        }
+    }
+
+    protected <T extends MaterialMasonry> void checkStructure(T masonry) {
+        // Check if Feature is enabled
+        RootPanel.get().add(masonry);
+        assertTrue(masonry.isFeatureEnabled(MaterialWidget.Feature.ONLOAD_ADD_QUEUE));
+        assertEquals(masonry.getWidgetCount(), 1);
+        MaterialWidget sizerDiv = (MaterialWidget) masonry.getWidget(0);
+        assertTrue(sizerDiv.getElement().hasClassName(AddinsCssName.COL_SIZER));
+    }
+
+    protected <T extends MaterialMasonry> void checkProperties(T masonry) {
+
     }
 }

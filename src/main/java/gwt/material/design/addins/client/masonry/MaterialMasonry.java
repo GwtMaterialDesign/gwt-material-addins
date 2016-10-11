@@ -279,4 +279,8 @@ public class MaterialMasonry extends MaterialRow {
     public void setTransitionDuration(double transitionDuration) {
         this.transitionDuration = transitionDuration;
     }
+
+    public MaterialWidget getSizerDiv() {
+        return sizerDiv;
+    }
 }

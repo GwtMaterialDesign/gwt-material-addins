@@ -231,6 +231,8 @@ public class MaterialAddinsTest extends BaseEventTest {
         assertTrue(element.hasClassName(CssName.DISABLED));
         assertTrue(element.hasAttribute(CssName.DISABLED));
         assertEquals(target.isEnabled(), false);
+        // To make sure it will return to normal state
+        widget.setEnabled(true);
     }
 
     protected <T extends MaterialWidget & HasId> void checkId(T widget) {
