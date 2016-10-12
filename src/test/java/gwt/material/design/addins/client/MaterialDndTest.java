@@ -23,6 +23,7 @@ import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
+import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.events.*;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -38,6 +39,17 @@ public class MaterialDndTest extends MaterialAddinsTest {
         checkRestriction();
         checkInertia();
         checkAxis();
+        checkDropzone();
+    }
+
+    protected void checkDropzone() {
+        final String ACCEPT = "accept";
+        final double OVERLAP = 20;
+        MaterialPanel panel = new MaterialPanel();
+        MaterialDnd dnd = MaterialDnd.dropzone(panel, JsDropOptions.create(ACCEPT, OVERLAP));
+        JsDropOptions options = dnd.getDropOptions();
+        assertEquals(options.accept, ACCEPT);
+        assertEquals(options.overlap, OVERLAP);
     }
 
     protected void checkAxis() {
