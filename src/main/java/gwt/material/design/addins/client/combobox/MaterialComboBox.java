@@ -102,7 +102,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     protected List<T> values = new ArrayList<>();
 
-    private Label lblTitle = new Label();
+    private Label label = new Label();
     private MaterialLabel lblError = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
     private HandlerRegistration valueChangeHandler;
@@ -123,9 +123,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         super.onLoad();
 
         if (!initialized) {
-            lblTitle.setInitialClasses(AddinsCssName.SELECT2LABEL);
+            label.setInitialClasses(AddinsCssName.SELECT2LABEL);
             super.add(listbox);
-            super.add(lblTitle);
+            super.add(label);
             lblError.setLayoutPosition(Style.Position.ABSOLUTE);
             lblError.setMarginTop(12);
             super.add(lblError);
@@ -222,10 +222,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     /**
-     * Set the upper lblTitle above the combobox
+     * Set the upper label above the combobox
      */
-    public void setLblTitle(String text) {
-        lblTitle.setText(text);
+    public void setLabel(String text) {
+        label.setText(text);
     }
 
     @Override
@@ -562,7 +562,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         return listbox;
     }
 
-    public Label getLblTitle() {
-        return lblTitle;
+    public Label getLabel() {
+        return label;
     }
 }
