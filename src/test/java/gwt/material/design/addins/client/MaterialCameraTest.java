@@ -28,9 +28,9 @@ public class MaterialCameraTest extends MaterialAddinsTest {
         MaterialCameraCapture cameraCapture = new MaterialCameraCapture();
         checkWidget(cameraCapture);
         checkCameraCaptureEvent(cameraCapture);
+        checkPausePlayRestart(cameraCapture);
     }
 
-    // TODO Camera Capture Handler
     protected <T extends MaterialCameraCapture> void checkCameraCaptureEvent(T cameraCapture) {
         final boolean[] isCaptureFired = new boolean[1];
         cameraCapture.setEnabled(true);
@@ -46,6 +46,12 @@ public class MaterialCameraTest extends MaterialAddinsTest {
         assertTrue(isCaptureFired[0]);
     }
 
-    // TODO Pause / Play / Restart
-    // TODO SetPauseOnUnload
+    protected <T extends MaterialCameraCapture> void checkPausePlayRestart(T cameraCapture) {
+        cameraCapture.play();
+        cameraCapture.setPauseOnUnload(true);
+        assertTrue(cameraCapture.isPauseOnUnload());
+        cameraCapture.setPauseOnUnload(false);
+        assertFalse(cameraCapture.isPauseOnUnload());
+        cameraCapture.restart();
+    }
 }

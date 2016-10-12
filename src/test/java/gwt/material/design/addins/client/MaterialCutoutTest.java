@@ -19,26 +19,64 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.cutout.MaterialCutOut;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.HasColors;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialButton;
 
 public class MaterialCutoutTest extends MaterialAddinsTest {
 
     public void init() {
         MaterialCutOut cutOut = new MaterialCutOut();
         checkWidget(cutOut);
+        checkOpenHandler(cutOut);
+        checkCloseHandler(cutOut);
+        checkStructure(cutOut);
+        checkOpenCloseProgrammatically(cutOut);
+    }
+
+    protected <T extends MaterialCutOut> void checkStructure(T cutOut) {
+        RootPanel.get().add(cutOut);
+        MaterialButton target = new MaterialButton();
+        cutOut.setTarget(target);
+        assertEquals(cutOut.getTargetElement(), target.getElement());
+    }
+
+    protected <T extends MaterialCutOut> void checkOpenCloseProgrammatically(T cutOut) {
+        final boolean[] isOpenFired = {false};
+        cutOut.addOpenHandler(openEvent -> {
+            isOpenFired[0] = true;
+        });
+        cutOut.open();
+
+        final boolean[] isCloseFired = {false};
+        cutOut.addCloseHandler(closeEvent -> {
+            isCloseFired[0] = true;
+        });
+        cutOut.close();
+
+        assertTrue(isOpenFired[0]);
+        assertTrue(isCloseFired[0]);
     }
 
     @Override
     protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
-        // TODO Need specific init case
+        widget.setBackgroundColor(Color.RED);
+        assertEquals(widget.getBackgroundColor(), Color.RED);
+
+        widget.setTextColor(Color.RED);
+        assertEquals(widget.getTextColor(), Color.RED);
     }
 
     @Override
     protected <T extends MaterialWidget & HasCircle> void checkCircle(T widget) {
-        // TODO Need specific circle
+        widget.setCircle(true);
+        assertTrue(widget.isCircle());
+        widget.setCircle(false);
+        assertFalse(widget.isCircle());
     }
 }
