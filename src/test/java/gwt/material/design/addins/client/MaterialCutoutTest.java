@@ -37,6 +37,26 @@ public class MaterialCutoutTest extends MaterialAddinsTest {
         checkCloseHandler(cutOut);
         checkStructure(cutOut);
         checkOpenCloseProgrammatically(cutOut);
+        checkProperties(cutOut);
+    }
+
+    protected <T extends MaterialCutOut> void checkProperties(T cutOut) {
+        final String ANIMATION_DURATION = "20s";
+        final String ANIMATION_TIMING = "linear";
+        final String BACKGROUND_SIZE = "100px";
+        final int CUTOUT_PADDING = 20;
+        cutOut.setAnimated(true);
+        assertTrue(cutOut.isAnimated());
+        cutOut.setAnimated(false);
+        assertFalse(cutOut.isAnimated());
+        cutOut.setAnimationDuration(ANIMATION_DURATION);
+        assertEquals(cutOut.getAnimationDuration(), ANIMATION_DURATION);
+        cutOut.setAnimationTimingFunction(ANIMATION_TIMING);
+        assertEquals(cutOut.getAnimationTimingFunction(), ANIMATION_TIMING);
+        cutOut.setBackgroundSize(BACKGROUND_SIZE);
+        assertEquals(cutOut.getBackgroundSize(), BACKGROUND_SIZE);
+        cutOut.setCutOutPadding(CUTOUT_PADDING);
+        assertEquals(cutOut.getCutOutPadding(), CUTOUT_PADDING);
     }
 
     protected <T extends MaterialCutOut> void checkStructure(T cutOut) {
