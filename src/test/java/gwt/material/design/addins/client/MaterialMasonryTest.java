@@ -37,9 +37,12 @@ public class MaterialMasonryTest extends MaterialAddinsTest {
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
+        MaterialMasonry masonry = new MaterialMasonry();
         for (int i = 1; i <= 5; i++) {
             MaterialColumn col = new MaterialColumn();
-            widget.add(col);
+            col.setGrid("s4");
+            checkGrid(col);
+            masonry.add(col);
         }
     }
 
@@ -53,6 +56,20 @@ public class MaterialMasonryTest extends MaterialAddinsTest {
     }
 
     protected <T extends MaterialMasonry> void checkProperties(T masonry) {
-
+        assertEquals(masonry.getItemSelector(), ".col");
+        masonry.setItemSelector(".sample");
+        assertEquals(masonry.getItemSelector(), ".sample");
+        assertTrue(masonry.isPercentPosition());
+        masonry.setPercentPosition(false);
+        assertFalse(masonry.isPercentPosition());
+        assertTrue(masonry.isOriginLeft());
+        masonry.setOriginLeft(false);
+        assertFalse(masonry.isOriginLeft());
+        assertTrue(masonry.isOriginTop());
+        masonry.setOriginTop(false);
+        assertFalse(masonry.isOriginTop());
+        assertEquals(masonry.getTransitionDuration(), Double.valueOf(400));
+        masonry.setTransitionDuration(100);
+        assertEquals(masonry.getTransitionDuration(), Double.valueOf(100));
     }
 }
