@@ -39,7 +39,6 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.ListItem;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -479,6 +478,7 @@ public class MaterialAutoComplete extends MaterialWidget implements HasError, Ha
             return;
         }
         List<Suggestion> list = new ArrayList<>(itemValues.size());
+        label.addStyleName("active");
         for (String value : itemValues) {
             Suggestion suggestion = new gwt.material.design.client.base.Suggestion(value, value);
             list.add(suggestion);
