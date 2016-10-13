@@ -14,6 +14,8 @@
 
 .tree-item i{
     margin-top: -2px;
+    float: left;
+    margin-right: 8px;
 }
 
 .tree-item img{

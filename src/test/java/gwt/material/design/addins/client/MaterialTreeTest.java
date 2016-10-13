@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.MaterialTree;
@@ -36,6 +37,46 @@ public class MaterialTreeTest extends MaterialAddinsTest {
         MaterialTree tree = new MaterialTree();
         checkWidget(tree);
         checkStructure(tree);
+        checkSelectedItem(tree);
+        checkExpandAndColapse(tree);
+    }
+
+    protected <T extends MaterialTree> void checkExpandAndColapse(T tree) {
+        tree.expand();
+        checkItemVisibility(tree, true);
+        tree.collapse();
+        checkItemVisibility(tree, false);
+    }
+
+    protected <T extends MaterialTree> void checkItemVisibility(T tree, boolean isVisible) {
+        for (Widget w : tree) {
+            assertNotNull(w);
+            assertTrue(w instanceof MaterialTreeItem);
+            MaterialTreeItem item = (MaterialTreeItem) w;
+            if (isVisible) {
+                assertTrue(item.isHide());
+            } else {
+                assertFalse(item.isHide());
+            }
+            assertEquals(item.getTreeItems().size(), 3);
+            for (MaterialTreeItem childItem : item.getTreeItems()) {
+                assertNotNull(childItem);
+                // Check whether item's child is visible or not
+                if (isVisible) {
+                    assertTrue(childItem.isVisible());
+                } else {
+                    assertFalse(childItem.isVisible());
+                }
+            }
+        }
+    }
+
+    protected <T extends MaterialTree> void checkSelectedItem(T tree) {
+        assertNotNull(tree.getWidget(0));
+        assertTrue(tree.getWidget(0) instanceof MaterialTreeItem);
+        MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
+        tree.setSelectedItem(item);
+        assertEquals(tree.getSelectedItem(), item);
     }
 
     protected <T extends MaterialTree> void checkStructure(T tree) {
@@ -84,6 +125,12 @@ public class MaterialTreeTest extends MaterialAddinsTest {
             assertTrue(divHeader.getWidget(2) instanceof Span);
             Span span = (Span) divHeader.getWidget(2);
             assertEquals(span.getText(), TEXT);
+
+            // Add more nested child
+            for (int k = 1; k <= 3; k++) {
+                MaterialTreeItem child = new MaterialTreeItem("item" + k);
+                item.add(child);
+            }
         }
         assertEquals(widget.getChildren().size(), 5);
     }
