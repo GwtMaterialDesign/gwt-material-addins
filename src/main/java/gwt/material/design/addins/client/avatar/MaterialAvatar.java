@@ -85,7 +85,7 @@ public class MaterialAvatar  extends MaterialImage {
     private String value;
 
     public MaterialAvatar(){
-        super(gravatarUrl+"?&d="+DefaultAvatarType.identicon);
+        super(gravatarUrl+"?&d="+DefaultAvatarType.mm);
     }
 
     /**
