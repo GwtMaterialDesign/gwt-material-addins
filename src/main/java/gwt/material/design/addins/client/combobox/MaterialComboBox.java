@@ -457,7 +457,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public List<T> getSelectedValues() {
         Object[] curVal = (Object[]) $(listbox.getElement()).val();
+
         List<T> selectedValues = new ArrayList<>();
+        if(curVal == null || curVal.length < 1) {
+            return selectedValues;
+        }
 
         List<String> keyIndex = getValuesKeyIndex();
         for (Object val : curVal) {
