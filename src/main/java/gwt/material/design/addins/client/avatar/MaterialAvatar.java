@@ -55,8 +55,8 @@ import gwt.material.design.client.ui.MaterialImage;
  * }
  * </pre>
  *
- *
  * @author paulux84
+ * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#avatar">Material Avatar</a>
  */
 //@formatter:on
