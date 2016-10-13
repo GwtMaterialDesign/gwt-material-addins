@@ -20,18 +20,15 @@ package gwt.material.design.addins.client.avatar;
  * #L%
  */
 
-import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.dnd.MaterialDndClientBundle;
-import gwt.material.design.addins.client.dnd.MaterialDndDebugClientBundle;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialImage;
 
 //@formatter:off
 
 /**
- * Generated avatar based on @link(https://jdenticon.com/)
- * provides a unique avatar based on unique name.
+ * Gravatar images based on @link(https://gravatar.com/)
+ * provides user avatar from email or a unique version of it.
  *
  * <h3>XML Namespace Declaration</h3>
  * <pre>
@@ -42,94 +39,86 @@ import gwt.material.design.client.base.MaterialWidget;
  *
  * <h3>UiBinder Usage:</h3>
  * <pre>
+ * Simple usage
  * {@code
  *
- * <ma:avatar.MaterialAvatar name="kevzlou7979" width="80" height="80"/>
+ * <ma:avatar.MaterialAvatar width="80" height="80"/>
  *
  * }
  * </pre>
  *
- * @author kevzlou7979
+ * Gravatar usage
+ * {@code
+ *
+ * <ma:avatar.MaterialAvatar value="<email or any string>" width="80" height="80" defaultAvatarType="monsterid"/>
+ *
+ * }
+ * </pre>
+ *
+ *
+ * @author paulux84
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#avatar">Material Avatar</a>
  */
 //@formatter:on
-public class MaterialAvatar extends MaterialWidget {
+public class MaterialAvatar  extends MaterialImage {
+
+
+    public enum DefaultAvatarType{
+        mm,
+        identicon,
+        monsterid,
+        wavatar,
+        retro,
+        blank
+    }
 
     static {
         if(MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
-            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
+            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.md5DebugJs());
         } else {
-            MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.md5Js());
         }
-
     }
 
-    private String name;
+    private static final String gravatarUrl="https://www.gravatar.com/avatar/";
+    private DefaultAvatarType defaultImage;
+    private String value;
 
-    public MaterialAvatar() {
-        super(Document.get().createCanvasElement());
-    }
-
-    public MaterialAvatar(String name) {
-        this();
-        setName(name);
-    }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        if(getName() != null) {
-            initialize();
-        }
+    public MaterialAvatar(){
+        super(gravatarUrl+"?&d="+DefaultAvatarType.identicon);
     }
 
     /**
-     * Get the name of the avatar
-     * @return
+     * Set the value of the avatar and pass it's md5 hash to gravatar service.
+     * If an email is passed and that email is registered on gravat you get related avatar
+     * @param value a simple string or user email
      */
-    public String getName() {
-        return name;
+    public void setValue(String value){
+        this.value=value;
+        setUrl("https://www.gravatar.com/avatar/"+ generateHashCode(value)+"?&d="+defaultImage);
     }
 
     /**
-     * Set the name of the avatar and hashed it using md5 js library to
-     * pass it into jdenticon avatar process
-     * @param name
+     * Get the value of the avatar
+     * @return an email or a simple string
      */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public void setWidth(String width) {
-        getElement().setAttribute("width", width);
-    }
-
-    @Override
-    public void setHeight(String height) {
-        getElement().setAttribute("height", height);
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Generate hash code - needed by jdenticon to generate avatar
-     * @param value
-     * @return
+     * In addition to allowing you to use user avatar, Gravatar has a number of built in options which you can also use as defaults.
+     * Most of these work by taking the requested email hash and using it to generate a themed image that is unique to that email address.
+     * To use these options, just pass one of the {@link DefaultAvatarType}
+     * @param defaultAvatarType
      */
+    public void setDefaultAvatarType(DefaultAvatarType defaultAvatarType){
+        this.defaultImage=defaultAvatarType;
+        setUrl(gravatarUrl+"?&d="+defaultImage);
+    }
+
     protected native String generateHashCode(String value) /*-{
         return $wnd.md5(value);
     }-*/;
 
-    /**
-     * Initialize the avatar process - useful when trying to update your avatar
-     */
-    public void initialize() {
-        getElement().setAttribute("data-jdenticon-hash", generateHashCode(getName()));
-        update();
-    }
-
-    protected native void update() /*-{
-        $wnd.jdenticon();
-    }-*/;
 }
