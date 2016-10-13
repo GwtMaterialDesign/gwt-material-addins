@@ -619,7 +619,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public void setReadOnly(boolean value) {
         getReadOnlyMixin().setReadOnly(value);
         if (value) {
-            this.setEnabled(false);
+            setEnabled(false);
         }
     }
 

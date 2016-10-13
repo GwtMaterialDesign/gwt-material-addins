@@ -94,8 +94,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private boolean allowClear;
     private boolean multiple;
     private boolean initialized;
-    private int limit;
     private boolean hideSearch;
+    private int limit;
 
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
@@ -300,8 +300,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     @Override
     public T getValue() {
-        if (getSelectedIndex() != -1) {
-            return values.get(getSelectedIndex());
+        int index = getSelectedIndex();
+        if(index != -1) {
+            return values.get(index);
         }
         return null;
     }
@@ -455,14 +456,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * Get the selected vales from multiple combobox
      */
     public List<T> getSelectedValues() {
-        String[] curVal = (String[]) $(listbox.getElement()).val();
+        Object[] curVal = (Object[]) $(listbox.getElement()).val();
         List<T> selectedValues = new ArrayList<>();
 
         List<String> keyIndex = getValuesKeyIndex();
-        for (String val : curVal) {
-            int selectedIndex = keyIndex.indexOf(val);
-            if (selectedIndex != -1) {
-                selectedValues.add(values.get(selectedIndex));
+        for (Object val : curVal) {
+            if(val instanceof String) {
+                int selectedIndex = keyIndex.indexOf(val);
+                if (selectedIndex != -1) {
+                    selectedValues.add(values.get(selectedIndex));
+                }
             }
         }
         return selectedValues;

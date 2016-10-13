@@ -272,7 +272,10 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      * @return <code>true</code> if the browser supports this widget, <code>false</code> otherwise
      */
     public static boolean isSupported() {
-        return Navigator.webkitGetUserMedia != null || Navigator.getUserMedia != null || Navigator.mozGetUserMedia != null || Navigator.msGetUserMedia != null;
+        return Navigator.webkitGetUserMedia != null
+            || Navigator.getUserMedia != null
+            || Navigator.mozGetUserMedia != null
+            || Navigator.msGetUserMedia != null;
     }
 
     /**
