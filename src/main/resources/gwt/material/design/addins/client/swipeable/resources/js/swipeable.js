@@ -38,12 +38,12 @@ function initSwipeablePanel(element, leftCallback, rightCallback) {
                     var fullWidth;
                     if (swipeLeftToRight) {
                         fullWidth = parent.innerWidth();
-                        callbacks.add(leftCallback);
+                        callbacks.add(rightCallback);
                         callbacks.fire();
                     }
                     else {
                         fullWidth = -1 * parent.innerWidth();
-                        callbacks.add(rightCallback);
+                        callbacks.add(leftCallback);
                         callbacks.fire();
                     }
 
