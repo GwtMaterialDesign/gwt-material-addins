@@ -27,6 +27,11 @@ import gwt.material.design.addins.client.rating.MaterialRating;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 
+/**
+ * Test case for rating component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialRatingTest extends MaterialAddinsTest {
 
     public void init() {

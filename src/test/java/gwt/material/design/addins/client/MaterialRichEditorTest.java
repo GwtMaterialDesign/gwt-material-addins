@@ -23,6 +23,11 @@ import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
 import gwt.material.design.client.base.MaterialWidget;
 
+/**
+ * Test case for rich editor component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialRichEditorTest extends MaterialAddinsTest {
 
     public void init() {

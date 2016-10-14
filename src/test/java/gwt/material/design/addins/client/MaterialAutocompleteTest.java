@@ -28,6 +28,11 @@ import gwt.material.design.client.base.MaterialWidget;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Test case for autocomplete component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialAutocompleteTest extends MaterialAddinsTest {
 
     public void init() {

@@ -28,6 +28,11 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialButton;
 
+/**
+ * Test case for cut out component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialCutoutTest extends MaterialAddinsTest {
 
     public void init() {

@@ -19,13 +19,22 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 
+/**
+ * Test case for overlay component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialOverlayTest extends MaterialAddinsTest {
 
     public void init() {
         MaterialOverlay overlay = new MaterialOverlay();
+        RootPanel.get().add(overlay);
         checkWidget(overlay);
+        assertTrue(overlay.getElement().hasClassName(AddinsCssName.OVERLAY_PANEL));
     }
 }

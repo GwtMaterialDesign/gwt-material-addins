@@ -25,6 +25,11 @@ import gwt.material.design.addins.client.bubble.MaterialBubble;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Position;
 
+/**
+ * Test case for bubble component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialBubbleTest extends MaterialAddinsTest {
 
     public void init() {

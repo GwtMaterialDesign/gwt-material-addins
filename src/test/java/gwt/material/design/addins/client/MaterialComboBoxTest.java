@@ -31,6 +31,11 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
 
+/**
+ * Test case for combobox component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialComboBoxTest extends MaterialAddinsTest {
 
     public void init() {

@@ -31,6 +31,11 @@ import gwt.material.design.client.ui.MaterialPanel;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
+/**
+ * Test case for dnd component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialDndTest extends MaterialAddinsTest {
 
     public void init() {

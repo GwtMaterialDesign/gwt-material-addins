@@ -31,6 +31,11 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.html.Span;
 
+/**
+ * Test case for tree component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialTreeTest extends MaterialAddinsTest {
 
     public void init() {

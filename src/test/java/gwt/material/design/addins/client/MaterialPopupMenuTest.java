@@ -22,6 +22,11 @@ package gwt.material.design.addins.client;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.popupmenu.MaterialPopupMenu;
 
+/**
+ * Test case for popup menu component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialPopupMenuTest extends MaterialAddinsTest {
 
     public void init() {

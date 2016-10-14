@@ -22,6 +22,11 @@ package gwt.material.design.addins.client;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.camera.MaterialCameraCapture;
 
+/**
+ * Test case for camera component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialCameraTest extends MaterialAddinsTest {
 
     public void init() {

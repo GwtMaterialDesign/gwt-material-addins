@@ -25,6 +25,11 @@ import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.ui.MaterialPanel;
 
+/**
+ * Test case for splitpanel component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialSplitPanelTest extends MaterialAddinsTest {
 
     public void init() {

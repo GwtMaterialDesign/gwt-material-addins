@@ -21,6 +21,11 @@ package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 
+/**
+ * Test case for path animator component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialPathAnimatorTest extends MaterialAddinsTest {
 
     public void init() {

@@ -27,6 +27,11 @@ import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 
+/**
+ * Test case for icon morph component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialIconMorphTest extends MaterialAddinsTest {
 
     public void init() {

@@ -26,6 +26,11 @@ import gwt.material.design.addins.client.masonry.MaterialMasonry;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialColumn;
 
+/**
+ * Test case for masonry component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialMasonryTest extends MaterialAddinsTest {
 
     public void init() {

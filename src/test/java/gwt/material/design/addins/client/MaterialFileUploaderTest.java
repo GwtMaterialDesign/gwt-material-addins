@@ -22,6 +22,11 @@ package gwt.material.design.addins.client;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 
+/**
+ * Test case for file uploader component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialFileUploaderTest extends MaterialAddinsTest {
 
     public void init() {

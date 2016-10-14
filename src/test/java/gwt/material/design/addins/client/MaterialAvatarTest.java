@@ -23,6 +23,11 @@ import gwt.material.design.addins.client.avatar.MaterialAvatar;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 
+/**
+ * Test case for avatar component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialAvatarTest extends MaterialAddinsTest {
 
     public void init() {
