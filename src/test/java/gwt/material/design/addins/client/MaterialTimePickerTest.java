@@ -20,20 +20,38 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.user.client.ui.HasEnabled;
-import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import com.google.gwt.user.client.ui.RootPanel;
+import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Orientation;
+import gwt.material.design.client.ui.MaterialInput;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.html.Label;
+
+import java.util.Date;
 
 /**
  * Test case for Time Picker
  *
  * @author kevzlou7979
  */
-public class MaterialTimePickerTest extends MaterialAddinsTest {
+public class MaterialTimePickerTest extends AbstractValueWidgetTest {
 
     public void init() {
         MaterialTimePicker timePicker = new MaterialTimePicker();
         checkWidget(timePicker);
+        checkValue(timePicker);
+        checkPlaceholder(timePicker);
+        checkOrientation(timePicker);
+    }
+
+    protected <T extends MaterialTimePicker> void checkOrientation(T timePicker) {
+        timePicker.setOrientation(Orientation.LANDSCAPE);
+        assertEquals(timePicker.getOrientation(), Orientation.LANDSCAPE);
+        timePicker.setOrientation(Orientation.PORTRAIT);
+        assertEquals(timePicker.getOrientation(), Orientation.PORTRAIT);
     }
 
     @Override
@@ -44,11 +62,30 @@ public class MaterialTimePickerTest extends MaterialAddinsTest {
 
     @Override
     protected <T extends MaterialWidget> void checkInteractionEvents(T widget, boolean enabled) {
-        // TODO Check specific interaction events
+        MaterialTimePicker timePicker = new MaterialTimePicker();
+        checkOpenHandler(timePicker);
+        checkCloseHandler(timePicker);
+
     }
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
-        // TODO Specific check for children structure
+        MaterialTimePicker timePicker = new MaterialTimePicker();
+        RootPanel.get().add(timePicker);
+        assertEquals(timePicker.getWidgetCount(), 1);
+        assertTrue(timePicker.getWidget(0) instanceof MaterialPanel);
+        MaterialPanel panel = (MaterialPanel) timePicker.getWidget(0);
+        assertEquals(panel.getWidgetCount(), 3);
+        assertTrue(panel.getWidget(0) instanceof MaterialInput);
+        assertTrue(panel.getWidget(1) instanceof Label);
+        assertTrue(panel.getWidget(2) instanceof MaterialLabel);
+    }
+
+    protected <T extends MaterialTimePicker> void checkValue(T timePicker) {
+        final Date VALUE = new Date(116, 9, 14, 10, 10);
+        timePicker.setValue(VALUE);
+        assertEquals(timePicker.getValue(), VALUE);
+        timePicker.reset();
+        assertEquals(String.valueOf(timePicker.getValue()), String.valueOf(new Date()));
     }
 }
