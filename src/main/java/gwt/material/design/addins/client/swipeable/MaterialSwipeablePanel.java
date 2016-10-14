@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
+import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
 import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
@@ -64,7 +64,7 @@ import gwt.material.design.client.constants.Color;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
  */
 //@formatter:on
-public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
+public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeableHandler<Widget> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -75,8 +75,6 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
             MaterialDesignBase.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
         }
     }
-
-    private final String IGNORED = "swipe-ignored";
 
     public MaterialSwipeablePanel() {
         super(Document.get().createDivElement(), AddinsCssName.SWIPEABLE);
@@ -97,7 +95,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         super.onLoad();
 
         for (Widget w : getChildren()) {
-            if (!w.getStyleName().contains(IGNORED)) {
+            if (!w.getStyleName().contains(AddinsCssName.IGNORED)) {
                 initSwipeable(w.getElement(), w);
             }
         }
@@ -113,7 +111,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     @Override
-    public HandlerRegistration addSwipeLeft(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
+    public HandlerRegistration addSwipeLeftHandler(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
         return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
             @Override
             public void onSwipeLeft(SwipeLeftEvent<Widget> event) {
@@ -125,7 +123,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     @Override
-    public HandlerRegistration addSwipeRight(final SwipeRightEvent.SwipeRightHandler<Widget> handler) {
+    public HandlerRegistration addSwipeRightHandler(final SwipeRightEvent.SwipeRightHandler<Widget> handler) {
         return addHandler(new SwipeRightEvent.SwipeRightHandler<Widget>() {
             @Override
             public void onSwipeRight(SwipeRightEvent<Widget> event) {
@@ -136,12 +134,28 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         }, SwipeRightEvent.getType());
     }
 
+    /**
+     * Ignore any elements to be swipeable
+     */
     public void ignore(UIObject object, UIObject... objects) {
-        object.addStyleName(IGNORED);
+        object.addStyleName(AddinsCssName.IGNORED);
 
         if (objects != null) {
             for (UIObject obj : objects) {
-                obj.addStyleName(IGNORED);
+                obj.addStyleName(AddinsCssName.IGNORED);
+            }
+        }
+    }
+
+    /**
+     * Remove Ignore property to any ignored elements
+     */
+    public void removeIgnore(UIObject object, UIObject... objects) {
+        object.removeStyleName(AddinsCssName.IGNORED);
+
+        if (objects != null) {
+            for (UIObject obj : objects) {
+                obj.removeStyleName(AddinsCssName.IGNORED);
             }
         }
     }

@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
 
-public interface HasSwipeable<T> extends HasHandlers {
+public interface HasSwipeableHandler<T> extends HasHandlers {
 
     /**
      * Initialize the swipeable component.
@@ -36,11 +36,11 @@ public interface HasSwipeable<T> extends HasHandlers {
     /**
      * Add swipe left handler.
      */
-    HandlerRegistration addSwipeLeft(SwipeLeftEvent.SwipeLeftHandler<T> handler);
+    HandlerRegistration addSwipeLeftHandler(SwipeLeftEvent.SwipeLeftHandler<T> handler);
 
     /**
      * Add swipe right handler.
      */
-    HandlerRegistration addSwipeRight(SwipeRightEvent.SwipeRightHandler<T> handler);
+    HandlerRegistration addSwipeRightHandler(SwipeRightEvent.SwipeRightHandler<T> handler);
 
 }

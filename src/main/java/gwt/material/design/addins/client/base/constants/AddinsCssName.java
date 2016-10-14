@@ -89,4 +89,5 @@ public interface AddinsCssName {
     String WINDOW_TOOLBAR = "window-toolbar";
     String WINDOW_TITLE = "window-title";
     String WINDOW_ACTION = "window-action";
+    String IGNORED = "swipe-ignored";
 }
