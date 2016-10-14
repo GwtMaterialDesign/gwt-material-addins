@@ -21,9 +21,7 @@ package gwt.material.design.addins.client.popupmenu;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
@@ -41,7 +39,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author Mark Kevin
  * @author Ben Dol
  */
-public class MaterialPopupMenu extends UnorderedList implements HasSelectionHandlers<Element> {
+public class MaterialPopupMenu extends UnorderedList implements HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>, HasCloseHandlers<MaterialPopupMenu> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -53,6 +51,8 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
 
     private String id;
     private Object selected;
+    private int x;
+    private int y;
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
@@ -143,6 +143,8 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
      */
     public void setPopupPosition(int x, int y) {
         // Will check if the popup is out of container
+        this.x = x;
+        this.y = y;
         setLeft(x);
         setTop(y);
     }
@@ -160,10 +162,12 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         if ($(this).width() + $(this).offset().left > body().width()) {
             setLeft(body().width() - $(this).width());
         }
+        OpenEvent.fire(this, this);
     }
 
     public void close() {
         setVisible(false);
+        CloseEvent.fire(this, this);
     }
 
     public Object getSelected() {
@@ -172,5 +176,37 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
 
     public void setSelected(Object selected) {
         this.selected = selected;
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(CloseHandler<MaterialPopupMenu> closeHandler) {
+        return addHandler(new CloseHandler<MaterialPopupMenu>() {
+            @Override
+            public void onClose(CloseEvent<MaterialPopupMenu> closeEvent) {
+                if (isEnabled()) {
+                    closeHandler.onClose(closeEvent);
+                }
+            }
+        }, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialPopupMenu> openHandler) {
+        return addHandler(new OpenHandler<MaterialPopupMenu>() {
+            @Override
+            public void onOpen(OpenEvent<MaterialPopupMenu> openEvent) {
+                if (isEnabled()) {
+                    openHandler.onOpen(openEvent);
+                }
+            }
+        }, OpenEvent.getType());
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
