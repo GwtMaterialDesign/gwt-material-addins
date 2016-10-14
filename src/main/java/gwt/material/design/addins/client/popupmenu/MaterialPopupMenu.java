@@ -51,8 +51,8 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
 
     private String id;
     private Object selected;
-    private int x;
-    private int y;
+    private int popupX;
+    private int popupY;
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
@@ -138,15 +138,15 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
     /**
      * Set the popup position of the context menu
      *
-     * @param x window x position
-     * @param y window y position
+     * @param popupX window x position
+     * @param popupY window y position
      */
-    public void setPopupPosition(int x, int y) {
+    public void setPopupPosition(int popupX, int popupY) {
         // Will check if the popup is out of container
-        this.x = x;
-        this.y = y;
-        setLeft(x);
-        setTop(y);
+        this.popupX = popupX;
+        this.popupY = popupY;
+        setLeft(popupX);
+        setTop(popupY);
     }
 
     @Override
@@ -202,11 +202,11 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         }, OpenEvent.getType());
     }
 
-    public int getX() {
-        return x;
+    public int getPopupX() {
+        return popupX;
     }
 
-    public int getY() {
-        return y;
+    public int getPopupY() {
+        return popupY;
     }
 }

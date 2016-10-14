@@ -68,8 +68,8 @@ public class MaterialPopupMenuTest extends MaterialAddinsTest {
             isOpenFired[0] = true;
         });
         popupMenu.setPopupPosition(X, Y);
-        assertEquals(popupMenu.getY(), Y);
-        assertEquals(popupMenu.getX(), X);
+        assertEquals(popupMenu.getPopupY(), Y);
+        assertEquals(popupMenu.getPopupX(), X);
         popupMenu.open();
 
         final boolean[] isCloseFired = {false};
