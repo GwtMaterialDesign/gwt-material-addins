@@ -7,4 +7,6 @@
     bottom: 0;
     position: fixed;
     z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
 }
