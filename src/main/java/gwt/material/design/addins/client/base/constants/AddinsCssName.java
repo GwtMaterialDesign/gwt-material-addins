@@ -17,10 +17,14 @@
  * limitations under the License.
  * #L%
  */
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package gwt.material.design.addins.client.base.constants;
 
 public interface AddinsCssName {
-
     String AUTOCOMPLETE = "autocomplete";
     String MULTIVALUESUGGESTBOX_LIST = "multiValueSuggestBox-list";
     String MULTIVALUESUGGESTBOX_INPUT_TOKEN = "multiValueSuggestBox-input-token";
@@ -90,4 +94,5 @@ public interface AddinsCssName {
     String WINDOW_TITLE = "window-title";
     String WINDOW_ACTION = "window-action";
     String IGNORED = "swipe-ignored";
+    String TOTAL_UPLOAD_PROGRESS = "total-upload-progress";
 }

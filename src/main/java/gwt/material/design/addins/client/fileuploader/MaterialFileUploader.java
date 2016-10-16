@@ -235,6 +235,17 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             return true;
         });
 
+        uploader.on("addedfile", file -> {
+            AddedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            totalFiles++;
+
+            if (isPreview()) {
+                $(uploadPreview).css("visibility", "visible");
+                $(uploadedFiles).html("Uploaded files " + totalFiles);
+                getUploadPreview().getUploadHeader().getProgress().setPercent(0);
+            }
+        });
+
         uploader.on("removedfile", file -> {
             RemovedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
             totalFiles -= 1;
@@ -269,6 +280,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
         uploader.on("totaluploadprogress", (progress, file, response) -> {
             TotalUploadProgressEvent.fire(this, progress);
+            if (isPreview()) {
+                getUploadPreview().getUploadHeader().getProgress().setPercent(progress);
+            }
+        });
+
+        uploader.on("uploadprogress", (progress, file, response) -> {
+            CurrentUploadProgressEvent.fire(this, progress);
             if ($this != null) {
                 $this.find(".progress .determinate").css("width", progress + "%");
             }
@@ -287,7 +305,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             CompleteEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
         });
 
-        uploader.on("complete", file -> {
+        uploader.on("canceled", file -> {
             CanceledEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
         });
 
@@ -467,6 +485,15 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
+    public HandlerRegistration addCurrentUploadProgressHandler(CurrentUploadProgressEvent.CurrentUploadProgressHandler handler) {
+        return addHandler(event -> {
+            if (isEnabled()) {
+                handler.onCurrentUploadProgress(event);
+            }
+        }, CurrentUploadProgressEvent.TYPE);
+    }
+
+    @Override
     public HandlerRegistration addSendingHandler(final SendingEvent.SendingHandler<UploadFile> handler) {
         return addHandler(new SendingEvent.SendingHandler<UploadFile>() {
             @Override
@@ -570,5 +597,9 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     public void reset() {
         uploader.removeAllFiles();
+    }
+
+    public MaterialUploadPreview getUploadPreview() {
+        return uploadPreview;
     }
 }

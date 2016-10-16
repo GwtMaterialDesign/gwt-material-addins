@@ -56,6 +56,11 @@ public interface HasFileUpload<T> extends HasHandlers {
     HandlerRegistration addTotalUploadProgressHandler(TotalUploadProgressEvent.TotalUploadProgressHandler handler);
 
     /**
+     * Gets called periodically whenever the file upload progress changes.
+     */
+    HandlerRegistration addCurrentUploadProgressHandler(CurrentUploadProgressEvent.CurrentUploadProgressHandler handler);
+
+    /**
      * Called just before each file is sent.
      * Gets the xhr object and the formData objects as second and third parameters,
      * so you can modify them (for example to add a CSRF token) or add additional data.
