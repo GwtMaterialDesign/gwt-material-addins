@@ -303,11 +303,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public void setSuccess(String success) {
         getCurrentStep().setSuccess(success);
     }
-    
-    @Override
-    public void setHelperText(String helperText) {
-        getCurrentStep().setDescription(helperText);
-    }
 
     @Override
     public void setHelperText(String helperText) {
