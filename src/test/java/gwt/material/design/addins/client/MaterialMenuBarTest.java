@@ -21,6 +21,8 @@ package gwt.material.design.addins.client;
 
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.menubar.MaterialMenuBar;
+import gwt.material.design.client.ui.MaterialDropDown;
+import gwt.material.design.client.ui.MaterialLink;
 
 /**
  * Test case for menu bar component
@@ -32,5 +34,20 @@ public class MaterialMenuBarTest extends MaterialAddinsTest {
     public void init() {
         MaterialMenuBar menuBar = new MaterialMenuBar();
         checkWidget(menuBar);
+        checkStructure(menuBar);
+    }
+
+    protected <T extends MaterialMenuBar> void checkStructure(T menuBar) {
+        final String ACTIVATOR = "dp-activator";
+        MaterialLink link = new MaterialLink();
+        MaterialDropDown dropDown = new MaterialDropDown();
+        link.setActivates(ACTIVATOR);
+        dropDown.setActivator(ACTIVATOR);
+        menuBar.add(link);
+        menuBar.add(dropDown);
+        assertEquals(link.getActivates(), ACTIVATOR);
+        assertEquals(dropDown.getActivator(), ACTIVATOR);
+        assertEquals(menuBar.getWidget(0), link);
+        assertEquals(menuBar.getWidget(1), dropDown);
     }
 }

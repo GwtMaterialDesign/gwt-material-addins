@@ -95,4 +95,5 @@ public interface AddinsCssName {
     String WINDOW_ACTION = "window-action";
     String IGNORED = "swipe-ignored";
     String TOTAL_UPLOAD_PROGRESS = "total-upload-progress";
+    String PH = "ph";
 }

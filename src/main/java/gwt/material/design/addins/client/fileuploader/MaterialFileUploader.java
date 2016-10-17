@@ -315,7 +315,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
         uploader.on("maxfilesexceeded", file -> {
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
-            MaxFilesReachedEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            MaxFilesExceededEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
         });
     }
 

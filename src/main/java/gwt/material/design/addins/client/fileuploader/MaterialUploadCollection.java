@@ -89,7 +89,7 @@ public class MaterialUploadCollection extends MaterialCollection {
         btnClear.setShadow(0);
         btnClear.setCircle(true);
         btnClear.setTextColor(Color.WHITE);
-        btnClear.addStyleName("ph");
+        btnClear.addStyleName(AddinsCssName.PH);
         btnClear.setIconType(IconType.CLEAR);
         btnClear.setDataAttribute("data-dz-remove", "");
         secondaryAction.add(btnClear);
