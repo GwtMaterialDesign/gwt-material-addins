@@ -7,7 +7,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>1.5.1</version>
+    <version>1.6.0</version>
 </dependency>
 ```
 
@@ -16,7 +16,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -39,6 +39,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 ##Extra Components
 <ul>
 <li>Autcomplete</li>
+<li>Avatar (NEW)</li>
 <li>Bubble</li>
 <li>Camera</li>
 <li>Cutout</li>
@@ -50,6 +51,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Menubar</li>
 <li>Overlay</li>
 <li>Path Animator</li>
+<li>Rating (NEW)</li>
 <li>Rich Editor</li> 
 <li>Scrollfire</li>
 <li>SplitPanel</li>
