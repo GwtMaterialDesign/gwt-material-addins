@@ -135,6 +135,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             initialized = true;
         }
 
+        initialize();
+    }
+
+    public void initialize() {
         JsComboBoxOptions options = new JsComboBoxOptions();
         options.allowClear = allowClear;
         options.placeholder = placeholder;
@@ -563,5 +567,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     public MaterialWidget getListbox() {
         return listbox;
+    }
+
+    public Label getLabel() {
+        return label;
     }
 }

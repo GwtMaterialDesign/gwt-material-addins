@@ -61,7 +61,7 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 //@formatter:on
 public class MaterialBubble extends MaterialWidget implements HasPosition {
 
-    private MaterialWidget triangle;
+    private MaterialWidget triangle = new MaterialWidget(Document.get().createDivElement());
     private final CssNameMixin<MaterialWidget, Position> positionMixin;
 
     static {
@@ -76,7 +76,6 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
 
     public MaterialBubble() {
         super(Document.get().createSpanElement(), AddinsCssName.BUBBLE);
-        triangle = new MaterialWidget(Document.get().createDivElement());
         triangle.setStyleName(AddinsCssName.TRIANGLE);
         positionMixin = new CssNameMixin<>(triangle);
         positionMixin.setCssName(Position.LEFT);

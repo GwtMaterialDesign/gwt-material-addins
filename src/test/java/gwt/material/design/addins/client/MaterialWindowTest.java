@@ -28,10 +28,14 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialPanel;
 
+/**
+ * Test case for window component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialWindowTest extends MaterialAddinsTest {
 
     public void init() {
-        checkJQuery();
         MaterialWindow window = new MaterialWindow();
         checkWidget(window);
         checkStructure(window);

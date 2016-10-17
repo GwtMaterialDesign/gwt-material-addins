@@ -19,11 +19,31 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.scrollfire.MaterialScrollfire;
+import gwt.material.design.client.ui.MaterialPanel;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
+/**
+ * Test case for scrollfire component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialScrollfireTest extends MaterialAddinsTest {
 
     public void init() {
-
+        MaterialPanel panel = new MaterialPanel();
+        RootPanel.get().add(panel);
+        final boolean[] isScrollFired = {false};
+        MaterialScrollfire.apply(panel.getElement(), () -> {
+            isScrollFired[0] = true;
+        });
+        $("body").scrollTop(1000);
+        Scheduler.get().scheduleDeferred(() -> {
+            assertTrue(isScrollFired[0]);
+        });
     }
 }

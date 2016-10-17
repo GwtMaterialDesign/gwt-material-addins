@@ -19,47 +19,21 @@
  */
 package gwt.material.design.addins.client.base;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.HasEnabled;
-import com.google.gwt.user.client.ui.UIObject;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.resources.MaterialResources;
-import gwt.material.design.client.resources.WithJQueryResources;
 import gwt.material.design.client.ui.MaterialPanel;
-import org.junit.Test;
-
-import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
  * Test case for MaterialWidget base
- * Note JUnit test doesnt extend from another project
- * that's why I cloned the GwtMaterialWidget to be GwtMaterialAddins
  *
  * @author kebzlou7979
  */
 public class MaterialAddinsTest extends BaseEventTest {
 
-    @Test
-    public void testBaseWidget() {
-        MaterialWidget widget = new MaterialWidget(Document.get().createDivElement());
-        checkWidget(widget);
-    }
-
-    public void checkJQuery() {
-        MaterialDesign.injectJs(WithJQueryResources.INSTANCE.jQuery());
-        MaterialDesign.injectJs(MaterialResources.INSTANCE.materializeJs());
-        assertTrue(MaterialDesign.isjQueryLoaded());
-        assertTrue(MaterialDesign.isMaterializeLoaded());
-        // gwt-material-jquery Test
-        assertNotNull($("body"));
-    }
-
     protected <T extends MaterialWidget> void checkWidget(T widget) {
-        checkJQuery();
         checkId(widget);
         checkInitialClasses(widget);
         checkEnabled(widget);
@@ -85,7 +59,10 @@ public class MaterialAddinsTest extends BaseEventTest {
     protected <T extends MaterialWidget> void checkInitialClasses(T widget) {
         widget.addAttachHandler(attachEvent -> {
             if (widget.getInitialClasses() != null) {
-                assertNotNull(widget.getInitialClasses());
+                for (String initialClass : widget.getInitialClasses()) {
+                    assertNotNull(initialClass);
+                    assertFalse(initialClass.isEmpty());
+                }
             }
         });
     }
@@ -242,7 +219,7 @@ public class MaterialAddinsTest extends BaseEventTest {
         checkEnabled(widget, widget);
     }
 
-    protected <T extends MaterialWidget & HasEnabled, H extends MaterialWidget> void  checkEnabled(T widget, H target) {
+    protected <T extends MaterialWidget & HasEnabled, H extends MaterialWidget> void checkEnabled(T widget, H target) {
         final Element element = target.getElement();
         assertFalse(element.hasClassName(CssName.DISABLED));
         assertFalse(element.hasAttribute(CssName.DISABLED));
@@ -254,6 +231,8 @@ public class MaterialAddinsTest extends BaseEventTest {
         assertTrue(element.hasClassName(CssName.DISABLED));
         assertTrue(element.hasAttribute(CssName.DISABLED));
         assertEquals(target.isEnabled(), false);
+        // To make sure it will return to normal state
+        widget.setEnabled(true);
     }
 
     protected <T extends MaterialWidget & HasId> void checkId(T widget) {

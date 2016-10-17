@@ -19,11 +19,34 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
+import gwt.material.design.client.ui.MaterialPanel;
 
+/**
+ * Test case for path animator component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialPathAnimatorTest extends MaterialAddinsTest {
 
     public void init() {
+        checkBasic();
+    }
 
+    protected void checkBasic() {
+        MaterialPanel source = new MaterialPanel();
+        MaterialPanel target = new MaterialPanel();
+        RootPanel.get().add(source);
+        RootPanel.get().add(target);
+
+        target.setVisibility(Style.Visibility.HIDDEN);
+        target.setOpacity(0);
+        assertEquals(target.getElement().getStyle().getVisibility(), "hidden");
+        assertEquals(target.getElement().getStyle().getOpacity(), "0");
+        MaterialPathAnimator.animate(source, target);
+        MaterialPathAnimator.reverseAnimate(source, target);
     }
 }

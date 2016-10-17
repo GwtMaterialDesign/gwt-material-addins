@@ -74,7 +74,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * <p>
  * <h3>Custom styling:</h3> You use change the cut out style by using the
  * <code>material-cutout</code> class, and <code>material-cutout-focus</code>
- * class for the focus box.
+ * class for the focusElement box.
  * <p>
  * <h3>Notice:</h3>On some iOS devices, on mobile Safari, the CutOut may not open when the
  * {@link #setCircle(boolean)} is set to <code>true</code>. This is because of problems on Safari
@@ -101,15 +101,15 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private boolean autoAddedToDocument = false;
     private String viewportOverflow;
     private Element targetElement;
-    private Element focus;
+    private Element focusElement;
 
     private HandlerRegistration resizeHandler;
     private HandlerRegistration scrollHandler;
 
     public MaterialCutOut() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CUTOUT);
-        focus = Document.get().createDivElement();
-        getElement().appendChild(focus);
+        focusElement = Document.get().createDivElement();
+        getElement().appendChild(focusElement);
 
         Style style = getElement().getStyle();
         style.setWidth(100, Unit.PCT);
@@ -121,8 +121,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setZIndex(10000);
         style.setDisplay(Display.NONE);
 
-        focus.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
-        style = focus.getStyle();
+        focusElement.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
+        style = focusElement.getStyle();
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);
         style.setZIndex(-1);
@@ -213,7 +213,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * Sets the padding in pixels of the cut out focus in relation to the target
+     * Sets the padding in pixels of the cut out focusElement in relation to the target
      * element. The default is 10.
      */
     public void setCutOutPadding(int cutOutPadding) {
@@ -221,7 +221,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * @return The padding in pixels of the cut out focus in relation to the
+     * @return The padding in pixels of the cut out focusElement in relation to the
      * target element
      */
     public int getCutOutPadding() {
@@ -309,24 +309,24 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
         setupTransition();
         if (animated) {
-            focus.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem " + computedBackgroundColor);
+            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem " + computedBackgroundColor);
 
             //the animation will take place after the boxshadow is set by the deferred command
             Scheduler.get().scheduleDeferred(() -> {
-                focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+                focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
             });
         } else {
-            focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
 
         if (circle) {
-            focus.getStyle().setProperty("WebkitBorderRadius", "50%");
-            focus.getStyle().setProperty("borderRadius", "50%");
+            focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
+            focusElement.getStyle().setProperty("borderRadius", "50%");
         } else {
-            focus.getStyle().clearProperty("WebkitBorderRadius");
-            focus.getStyle().clearProperty("borderRadius");
+            focusElement.getStyle().clearProperty("WebkitBorderRadius");
+            focusElement.getStyle().clearProperty("borderRadius");
         }
-        setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
+        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
 
         setupWindowHandlers();
         getElement().getStyle().clearDisplay();
@@ -425,21 +425,21 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             scrollHandler.removeHandler();
         }
         resizeHandler = Window.addResizeHandler(event -> {
-            setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
+            setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
         });
         scrollHandler = Window.addWindowScrollHandler(event -> {
-            setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
+            setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
 
         });
     }
 
     protected void setupTransition() {
         if (animated) {
-            focus.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
-            focus.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);
+            focusElement.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
+            focusElement.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);
         } else {
-            focus.getStyle().clearProperty("WebkitTransition");
-            focus.getStyle().clearProperty("transition");
+            focusElement.getStyle().clearProperty("WebkitTransition");
+            focusElement.getStyle().clearProperty("transition");
         }
     }
 
@@ -482,5 +482,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     @Override
     public HandlerRegistration addOpenHandler(OpenHandler<MaterialCutOut> handler) {
         return addHandler(handler, OpenEvent.getType());
+    }
+
+    public Element getFocusElement() {
+        return focusElement;
     }
 }

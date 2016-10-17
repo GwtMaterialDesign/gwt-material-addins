@@ -21,9 +21,11 @@ package gwt.material.design.addins.client.pathanimator;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -71,6 +73,10 @@ public class MaterialPathAnimator {
         });
     }
 
+    public static void animate(Widget source, final Widget target) {
+        animate(source.getElement(), target.getElement());
+    }
+
     /**
      * Custom path animator method with callback.
      */
@@ -84,6 +90,10 @@ public class MaterialPathAnimator {
         });
     }
 
+    public static void animate(Widget source, Widget target, Functions.Func callback) {
+        animate(source.getElement(), target.getElement(), callback);
+    }
+
     /**
      * Default Reverse animate method to return to original state of Source component.
      */
@@ -92,6 +102,10 @@ public class MaterialPathAnimator {
             target.getStyle().setVisibility(Style.Visibility.HIDDEN);
             target.getStyle().setOpacity(0);
         });
+    }
+
+    public static void reverseAnimate(final Widget source, final Widget target) {
+        reverseAnimate(source.getElement(), target.getElement());
     }
 
     /**
@@ -105,5 +119,9 @@ public class MaterialPathAnimator {
             }
             JsPathAnimator.cta(target, source);
         });
+    }
+
+    public static void reverseAnimate(Widget source, Widget target, Functions.Func callback) {
+        reverseAnimate(source.getElement(), target.getElement(), callback);
     }
 }

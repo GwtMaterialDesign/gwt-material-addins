@@ -21,11 +21,16 @@ package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 //@formatter:off
 
@@ -52,7 +57,7 @@ import gwt.material.design.client.constants.Color;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialOverlay extends MaterialWidget {
+public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>, HasCloseHandlers<MaterialOverlay> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -61,6 +66,8 @@ public class MaterialOverlay extends MaterialWidget {
             MaterialDesignBase.injectCss(MaterialOverlayClientBundle.INSTANCE.overlayCss());
         }
     }
+
+    private MaterialWidget source;
 
     public MaterialOverlay() {
         super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
@@ -75,5 +82,63 @@ public class MaterialOverlay extends MaterialWidget {
         this(backgroundColor);
         setVisibility(visibility);
         setOpacity(opacity);
+    }
+
+    /**
+     * Open the Overlay Panel with Path Animator applied
+     */
+    public void open(MaterialWidget source) {
+        this.source = source;
+        $("body").css("overflow", "hidden");
+        MaterialPathAnimator.animate(source.getElement(), getElement());
+        OpenEvent.fire(this, this);
+    }
+
+    /**
+     * Close the Overlay Panel with Path Animator applied
+     */
+    public void close() {
+        body().css("overflow", "auto");
+        MaterialPathAnimator.reverseAnimate(source.getElement(), getElement());
+        CloseEvent.fire(this, this);
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(CloseHandler<MaterialOverlay> closeHandler) {
+        return addHandler(new CloseHandler<MaterialOverlay>() {
+            @Override
+            public void onClose(CloseEvent<MaterialOverlay> closeEvent) {
+                if (isEnabled()) {
+                    closeHandler.onClose(closeEvent);
+                }
+            }
+        }, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialOverlay> openHandler) {
+        return addHandler(new OpenHandler<MaterialOverlay>() {
+            @Override
+            public void onOpen(OpenEvent<MaterialOverlay> openEvent) {
+                if (isEnabled()) {
+                    openHandler.onOpen(openEvent);
+                }
+            }
+        }, OpenEvent.getType());
+    }
+
+    /**
+     * Get source widget for path animator
+     * @return
+     */
+    public MaterialWidget getSource() {
+        return source;
+    }
+
+    /**
+     * Set source widget for path animator
+     */
+    public void setSource(MaterialWidget source) {
+        this.source = source;
     }
 }

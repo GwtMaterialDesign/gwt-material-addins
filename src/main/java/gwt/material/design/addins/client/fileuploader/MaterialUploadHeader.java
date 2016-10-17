@@ -25,8 +25,10 @@ import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialProgress;
 import gwt.material.design.client.ui.html.Span;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -37,6 +39,7 @@ public class MaterialUploadHeader extends MaterialWidget {
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
     private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
     private MaterialUploadPreview preview;
+    private MaterialProgress progress = new MaterialProgress(ProgressType.DETERMINATE);
     private boolean toggle = true;
 
     public MaterialUploadHeader() {
@@ -49,9 +52,11 @@ public class MaterialUploadHeader extends MaterialWidget {
         iconColaps.setCircle(true);
         iconColaps.setWaves(WavesType.DEFAULT);
         uploadedFiles.setId(AddinsCssName.NO_UPLOADED_FILES);
+        progress.setId(AddinsCssName.TOTAL_UPLOAD_PROGRESS);
         add(uploadedFiles);
         add(iconClose);
         add(iconColaps);
+        add(progress);
     }
 
     @Override
@@ -90,5 +95,17 @@ public class MaterialUploadHeader extends MaterialWidget {
 
     public Span getUploadedFiles() {
         return uploadedFiles;
+    }
+
+    public MaterialIcon getIconClose() {
+        return iconClose;
+    }
+
+    public MaterialIcon getIconColaps() {
+        return iconColaps;
+    }
+
+    public MaterialProgress getProgress() {
+        return progress;
     }
 }

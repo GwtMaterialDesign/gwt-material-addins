@@ -19,19 +19,124 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.MaterialTree;
+import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialImage;
+import gwt.material.design.client.ui.html.Span;
 
+/**
+ * Test case for tree component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialTreeTest extends MaterialAddinsTest {
 
     public void init() {
         MaterialTree tree = new MaterialTree();
         checkWidget(tree);
+        checkStructure(tree);
+        checkSelectedItem(tree);
+        checkExpandAndColapse(tree);
+    }
+
+    protected <T extends MaterialTree> void checkExpandAndColapse(T tree) {
+        tree.expand();
+        checkItemVisibility(tree, true);
+        tree.collapse();
+        checkItemVisibility(tree, false);
+    }
+
+    protected <T extends MaterialTree> void checkItemVisibility(T tree, boolean isVisible) {
+        for (Widget w : tree) {
+            assertNotNull(w);
+            assertTrue(w instanceof MaterialTreeItem);
+            MaterialTreeItem item = (MaterialTreeItem) w;
+            if (isVisible) {
+                assertTrue(item.isHide());
+            } else {
+                assertFalse(item.isHide());
+            }
+            assertEquals(item.getTreeItems().size(), 3);
+            for (MaterialTreeItem childItem : item.getTreeItems()) {
+                assertNotNull(childItem);
+                // Check whether item's child is visible or not
+                if (isVisible) {
+                    assertTrue(childItem.isVisible());
+                } else {
+                    assertFalse(childItem.isVisible());
+                }
+            }
+        }
+    }
+
+    protected <T extends MaterialTree> void checkSelectedItem(T tree) {
+        assertNotNull(tree.getWidget(0));
+        assertTrue(tree.getWidget(0) instanceof MaterialTreeItem);
+        MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
+        tree.setSelectedItem(item);
+        assertEquals(tree.getSelectedItem(), item);
+    }
+
+    protected <T extends MaterialTree> void checkStructure(T tree) {
+        assertNotNull(tree.getWidget(0));
+        assertTrue(tree.getWidget(0) instanceof MaterialTreeItem);
+        MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
+        assertTrue(item.getDivHeader().getElement().hasClassName(AddinsCssName.TREE_HEADER));
+        MaterialWidget divHeader = item.getDivHeader();
+        assertTrue(divHeader.getWidget(0) instanceof MaterialImage);
+        assertTrue(divHeader.getWidget(1) instanceof MaterialIcon);
+        assertTrue(divHeader.getWidget(2) instanceof Span);
     }
 
     @Override
     protected <T extends MaterialWidget> void checkChildren(T widget) {
-        // TODO Check specific children structure
+        RootPanel.get().add(widget);
+        for (int i = 1; i <= 5; i++) {
+            final String TEXT = "item" + i;
+            final String URL = "url" + i + ".png";
+            MaterialTreeItem item = new MaterialTreeItem();
+            item.setUrl(URL);
+            item.setIconType(IconType.POLYMER);
+            item.setText(TEXT);
+            widget.add(item);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            final String TEXT = "item" + (i + 1);
+            final String URL = "url" + (i + 1) + ".png";
+            MaterialTreeItem item = (MaterialTreeItem) widget.getWidget(i);
+            MaterialWidget divHeader = (MaterialWidget) item.getWidget(0);
+            // Check Url
+            assertEquals(item.getUrl(), URL);
+            assertTrue(divHeader.getWidget(0) instanceof MaterialImage);
+            MaterialImage image = (MaterialImage) divHeader.getWidget(0);
+            assertEquals(image.getUrl(), URL);
+            assertTrue(image.getElement().hasAttribute("src"));
+
+            // Check Icon
+            assertTrue(divHeader.getWidget(1) instanceof MaterialIcon);
+            MaterialIcon icon = (MaterialIcon) divHeader.getWidget(1);
+            assertEquals(icon.getIconType(), IconType.POLYMER);
+
+            // Check Text
+            assertEquals(item.getText(), TEXT);
+            assertTrue(divHeader.getWidget(2) instanceof Span);
+            Span span = (Span) divHeader.getWidget(2);
+            assertEquals(span.getText(), TEXT);
+
+            // Add more nested child
+            for (int k = 1; k <= 3; k++) {
+                MaterialTreeItem child = new MaterialTreeItem("item" + k);
+                item.add(child);
+            }
+        }
+        assertEquals(widget.getChildren().size(), 5);
     }
 }

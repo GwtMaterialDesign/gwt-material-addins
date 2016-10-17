@@ -81,7 +81,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     private boolean initialized;
 
     public MaterialTreeItem() {
-        setStyleName(AddinsCssName.TREE_ITEM);
+        super(AddinsCssName.TREE_ITEM);
         divHeader.setStyleName(AddinsCssName.TREE_HEADER);
         add(divHeader);
     }
@@ -180,6 +180,14 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     public MaterialWidget getDivHeader() {
         return divHeader;
+    }
+
+    public Span getSpan() {
+        return span;
+    }
+
+    public MaterialImage getImage() {
+        return image;
     }
 
     public void click() {

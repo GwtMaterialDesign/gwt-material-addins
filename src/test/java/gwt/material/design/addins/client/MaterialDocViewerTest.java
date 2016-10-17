@@ -23,6 +23,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.docviewer.MaterialDocViewer;
 
+/**
+ * Test case for doc viewer component
+ *
+ * @author kevzlou7979
+ */
 public class MaterialDocViewerTest extends MaterialAddinsTest {
 
     public void init() {
@@ -34,7 +39,6 @@ public class MaterialDocViewerTest extends MaterialAddinsTest {
     protected <T extends MaterialDocViewer> void checkUrl(T docViewer) {
         final String URL = "someurl";
         docViewer.setUrl(URL);
-        RootPanel.get().clear();
         RootPanel.get().add(docViewer);
         assertEquals(docViewer.getUrl(), URL);
         assertTrue(docViewer.getElement().hasAttribute("src"));
