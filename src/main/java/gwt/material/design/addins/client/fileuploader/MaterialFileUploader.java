@@ -9,9 +9,9 @@ package gwt.material.design.addins.client.fileuploader;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.fileuploader;
  */
 
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -39,6 +40,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Display;
 
 import java.util.Date;
+import java.util.HashMap;
 
 //@formatter:off
 
@@ -87,6 +89,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private boolean preview = true;
     private boolean initialize = false;
     private boolean withCredentials = false;
+
+    private HashMap<String, String> parameters = new HashMap<String, String>();
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), "fileuploader");
@@ -232,7 +236,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 progr.style.width = progress + "%";
             });
 
-            zdrop.on('sending', function (file) {
+            zdrop.on('sending', function (file, xhr, formData) {
+                that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::addFormParameters(*)(formData);
                 that.@gwt.material.design.addins.client.fileuploader.MaterialFileUploader::fireSendingEvent(*)(file.name , file.lastModifiedDate , file.size , file.type, file.xhr.status, file.xhr.statusText);
             });
 
@@ -670,6 +675,26 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     public void fireMaxFilesExceededEvent(String fileName, String lastModified, String size, String type) {
         MaxFilesReachedEvent.fire(this, new UploadFile(fileName, new Date(lastModified), Double.parseDouble(size), type));
     }
+
+    /**
+     * programatically add parameters to the form being sent, eg width=50
+     *
+     * @param name
+     * @param value
+     */
+    public void setParameter(String name, String value) {
+        parameters.put(name, value);
+    }
+
+    private void addFormParameters(JavaScriptObject formData) {
+        for(String name : parameters.keySet()) {
+            addFormParameter(formData, name, parameters.get(name));
+        }
+    }
+
+    private native void addFormParameter(JavaScriptObject formData, String name, String value) /*-{
+        formData.append(name, value);
+    }-*/;
 
     public boolean isPreview() {
         return preview;
