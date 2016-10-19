@@ -438,6 +438,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             return;
         }
         List<Suggestion> list = new ArrayList<>(itemValues.size());
+        label.addStyleName("active");
         for (String value : itemValues) {
             Suggestion suggestion = new gwt.material.design.client.base.Suggestion(value, value);
             list.add(suggestion);
