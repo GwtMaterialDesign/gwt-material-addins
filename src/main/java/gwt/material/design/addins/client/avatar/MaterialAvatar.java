@@ -22,8 +22,6 @@ package gwt.material.design.addins.client.avatar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.dnd.MaterialDndClientBundle;
-import gwt.material.design.addins.client.dnd.MaterialDndDebugClientBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
