@@ -221,6 +221,8 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
      */
     public void close() {
         CloseEvent.fire(this, false);
+        // Turn back the cursor to POINTER
+        RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
         if (closeAnimation == null) {
             openMixin.setOn(false);
         } else {

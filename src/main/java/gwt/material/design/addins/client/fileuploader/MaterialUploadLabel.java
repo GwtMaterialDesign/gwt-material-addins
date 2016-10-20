@@ -37,6 +37,12 @@ public class MaterialUploadLabel extends MaterialWidget implements HasTitle {
         add(icon);
     }
 
+    public MaterialUploadLabel(String title, String description) {
+        this();
+        setTitle(title);
+        setDescription(description);
+    }
+
     @Override
     public void setTitle(String title) {
         titleMixin.setTitle(title);
