@@ -129,16 +129,12 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         super.onLoad();
 
         if(!initialized) {
+            if(image != null) {
+                divHeader.add(image);
+            }
             divHeader.add(getIcon());
             divHeader.add(span);
             initialized = true;
-        }
-
-        if (image != null) {
-            if(image.isAttached()) {
-                image.removeFromParent();
-            }
-            divHeader.add(image);
         }
 
         if (clickRegistration != null) {
