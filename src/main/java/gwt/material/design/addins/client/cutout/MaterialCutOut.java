@@ -93,7 +93,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private boolean animated = true;
     private String animationDuration = "0.5s";
     private String animationTimingFunction = "ease";
-    private String backgroundSize = "100rem";
+    private String backgroundSize;
 
     private String computedBackgroundColor;
     private int cutOutPadding = 10;
@@ -307,6 +307,10 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         viewportOverflow = docStyle.getOverflow();
         docStyle.setProperty("overflow", "hidden");
 
+        if(backgroundSize == null) {
+            backgroundSize = body().width() + "px";
+        }
+
         setupTransition();
         if (animated) {
             focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem " + computedBackgroundColor);
@@ -382,8 +386,11 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
-        float top = relativeTo.getOffsetTop() - body().scrollTop();
-        float left = relativeTo.getOffsetLeft();
+        float bodyTop = body().scrollTop();
+        float targetTop = relativeTo.getAbsoluteTop();
+
+        float top = targetTop - bodyTop;
+        float left = relativeTo.getAbsoluteLeft();
 
         float width = relativeTo.getOffsetWidth();
         float height = relativeTo.getOffsetHeight();
@@ -429,7 +436,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         });
         scrollHandler = Window.addWindowScrollHandler(event -> {
             setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
-
         });
     }
 

@@ -310,7 +310,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
-                "document.getElementById('" + autocompleteId + "').focus()");
+            "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(lblError);
         box.setFocus(true);
     }

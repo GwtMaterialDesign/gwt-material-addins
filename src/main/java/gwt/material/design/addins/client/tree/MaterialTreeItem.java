@@ -140,7 +140,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         if (clickRegistration != null) {
             clickRegistration.removeHandler();
         }
-        clickRegistration = divHeader.addClickHandler(event -> click());
+        clickRegistration = divHeader.addClickHandler(event -> select());
     }
 
     @Override
@@ -188,7 +188,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         return image;
     }
 
-    public void click() {
+    public void select() {
         // Fire selection event
         SelectionEvent.fire(getTree(), this);
 
