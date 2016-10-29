@@ -309,7 +309,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         docStyle.setProperty("overflow", "hidden");
 
         if(backgroundSize == null) {
-            backgroundSize = body().width() + "px";
+            backgroundSize = body().width() + 300 + "px";
         }
 
         setupTransition();
