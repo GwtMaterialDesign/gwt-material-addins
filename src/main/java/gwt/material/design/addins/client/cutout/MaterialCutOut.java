@@ -85,7 +85,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#cutouts">Material Cutouts</a>
  */
 // @formatter:on
-public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>, HasOpenHandlers<MaterialCutOut>, HasCircle {
+public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
+        HasOpenHandlers<MaterialCutOut>, HasCircle {
 
     private Color backgroundColor = Color.BLUE;
     private double opacity = 0.8;
@@ -386,10 +387,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
-        float bodyTop = body().scrollTop();
-        float targetTop = relativeTo.getAbsoluteTop();
-
-        float top = targetTop - bodyTop;
+        float top = relativeTo.getAbsoluteTop() - body().scrollTop();
         float left = relativeTo.getAbsoluteLeft();
 
         float width = relativeTo.getOffsetWidth();
@@ -407,17 +405,17 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
                     left -= dif / 2;
                 }
             }
-
-            top -= padding;
-            left -= padding;
-            width += padding * 2;
-            height += padding * 2;
-
-            $(cutOut).css("top", top + "px");
-            $(cutOut).css("left", left + "px");
-            $(cutOut).css("width", width + "px");
-            $(cutOut).css("height", height + "px");
         }
+
+        top -= padding;
+        left -= padding;
+        width += padding * 2;
+        height += padding * 2;
+
+        $(cutOut).css("top", top + "px");
+        $(cutOut).css("left", left + "px");
+        $(cutOut).css("width", width + "px");
+        $(cutOut).css("height", height + "px");
     }
 
     /**
