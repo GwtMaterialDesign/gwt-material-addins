@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,15 +17,13 @@ package gwt.material.design.addins.client.fileuploader;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.ButtonType;
-import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.constants.ProgressType;
-import gwt.material.design.client.constants.WavesType;
+import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Span;
 
@@ -48,16 +44,16 @@ public class MaterialUploadCollection extends MaterialCollection {
 
     public MaterialUploadCollection() {
         // Element property
-        setStyleName("previews");
-        addStyleName("card");
+        setStyleName(AddinsCssName.PREVIEWS);
+        addStyleName(CssName.CARD);
 
         // Collection Item property that contain the upload info, progress bar and action panel
-        item.setId("zdrop-template");
-        item.addStyleName("clearhack valign-wrapper item-template");
+        item.setId(AddinsCssName.ZDROP_TEMPLATE);
+        item.addStyleName(AddinsCssName.CLEARHACK + " " + CssName.VALIGN_WRAPPER + " " + AddinsCssName.ITEM_TEMPLATE);
         add(item);
 
         // Upload Information
-        dropInfo.addStyleName("left pv zdrop-info");
+        dropInfo.addStyleName(CssName.LEFT + " " + AddinsCssName.PV + " " + AddinsCssName.ZDROP_INFO);
         dropInfo.setDataAttribute("data-dz-thumbnail", "");
         item.add(dropInfo);
 
@@ -71,7 +67,7 @@ public class MaterialUploadCollection extends MaterialCollection {
         dropInfo.add(nameWrapper);
 
         previewIcon.setFloat(Style.Float.LEFT);
-        previewIcon.addStyleName("preview-icon");
+        previewIcon.addStyleName(AddinsCssName.PREVIEW_ICON);
         dropInfo.add(previewIcon);
 
         // Upload Information - Progress bar indication of upload queues
@@ -81,19 +77,19 @@ public class MaterialUploadCollection extends MaterialCollection {
         dropInfo.add(progress);
 
         // Upload Information - Error message
-        errorWrapper.setStyleName("dz-error-message");
+        errorWrapper.setStyleName(AddinsCssName.DZ_ERROR_MESSAGE);
         errorMessage.setDataAttribute("data-dz-errormessage", "");
-        errorMessage.setId("error-message");
+        errorMessage.setId(AddinsCssName.ERROR_MESSAGE);
         errorWrapper.add(errorMessage);
         dropInfo.add(errorWrapper);
 
         // Secondary Action Panel
-        btnClear.setId("dz-remove");
-        btnClear.setBackgroundColor("transparent");
+        btnClear.setId(AddinsCssName.DZ_REMOVE);
+        btnClear.setBackgroundColor(Color.TRANSPARENT);
         btnClear.setShadow(0);
         btnClear.setCircle(true);
-        btnClear.setTextColor("white");
-        btnClear.addStyleName("ph");
+        btnClear.setTextColor(Color.WHITE);
+        btnClear.addStyleName(AddinsCssName.PH);
         btnClear.setIconType(IconType.CLEAR);
         btnClear.setDataAttribute("data-dz-remove", "");
         secondaryAction.add(btnClear);

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.dnd.constants;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,18 +17,19 @@ package gwt.material.design.addins.client.dnd.constants;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.dnd.constants;
 
 /**
  * Drags, resizes and gestures can be restricted to a certain area. By default,
  * restricting is relative to the pointer coordinates – the action coordinates,
  * not the element’s dimensions, will be kept within the restriction area.
- * @see <a href="http://interactjs.io/docs/restriction/#restrict">Documentation</a>
+ *
  * @author kevzlou7979
+ * @see <a href="http://interactjs.io/docs/restriction/#restrict">Documentation</a>
  */
 public class Restriction {
 
-    public enum Restrict{
+    public enum Restrict {
         PARENT("parent"),
         SELF("self");
 
@@ -56,8 +55,8 @@ public class Restriction {
     private double right = 1;
     private double bottom = 1;
 
-
-    public Restriction() {}
+    public Restriction() {
+    }
 
     public Restriction(Restrict restriction, boolean endOnly, double top, double left, double bottom, double right) {
         this.restriction = restriction;
@@ -78,6 +77,7 @@ public class Restriction {
      * 'parent' – restrict to the rect of the element’s parentNode or
      * a CSS selector string – if one of the parents of the target element matches
      * this selector, it’s rect will be used as the restriction area.
+     *
      * @see <a href="http://interactjs.io/docs/restriction/#restriction">Documentation</a>
      */
     public void setRestriction(Restrict restriction) {
@@ -93,7 +93,7 @@ public class Restriction {
      * Before the end event is fired, an extra <action>move event is restricted and fired.
      * If inertia is enabled and endOnly is set to true then the pointer will follow a curve
      * to the restricted coordinates.
-     * @param endOnly
+     *
      * @see <a href="http://interactjs.io/docs/restriction/#endonly">Documentation</a>
      */
     public void setEndOnly(boolean endOnly) {
@@ -106,7 +106,7 @@ public class Restriction {
 
     /**
      * Top restriction of the element being allowed to hang over the restriction edges.
-     * @param top
+     *
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setTop(double top) {
@@ -119,7 +119,7 @@ public class Restriction {
 
     /**
      * Right restriction of the element being allowed to hang over the restriction edges.
-     * @param right
+     *
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setRight(double right) {
@@ -132,7 +132,7 @@ public class Restriction {
 
     /**
      * Bottom restriction of the element being allowed to hang over the restriction edges.
-     * @param bottom
+     *
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setBottom(double bottom) {
@@ -145,7 +145,7 @@ public class Restriction {
 
     /**
      * Left restriction of the element being allowed to hang over the restriction edges.
-     * @param left
+     *
      * @see <a href="http://interactjs.io/docs/restriction/#elementrect">Documentation</a>
      */
     public void setLeft(double left) {

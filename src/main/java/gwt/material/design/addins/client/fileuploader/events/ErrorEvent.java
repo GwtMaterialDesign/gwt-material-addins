@@ -42,7 +42,7 @@ public class ErrorEvent<T> extends GwtEvent<ErrorEvent.ErrorHandler<T>> {
     }
 
     public static Type<ErrorHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<ErrorHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

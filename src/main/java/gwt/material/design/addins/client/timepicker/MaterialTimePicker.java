@@ -1,32 +1,8 @@
-package gwt.material.design.addins.client.timepicker;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.logical.shared.*;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.i18n.shared.DateTimeFormat;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HasValue;
-import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.ErrorMixin;
-import gwt.material.design.client.base.mixin.ToggleStyleMixin;
-import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialInput;
-import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.html.Label;
-
-import java.util.Date;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,33 +17,63 @@ import java.util.Date;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.timepicker;
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
+import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.constants.*;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialInput;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.html.Label;
+
+import java.util.Date;
+
+import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
 
 //@formatter:off
 
 /**
  * Material Time Picker - provide a simple way to select a single value from a pre-determined set.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code <ma:timepicker.MaterialTimePicker placeholder="Time Arrival" />}
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
+ *
  * @author kevzlou7979
  * @author Ben Dol
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends MaterialWidget implements HasError, HasPlaceholder, HasOrientation,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasValue<Date>, HasIcon {
+public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder, HasOrientation,
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
             MaterialDesignBase.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
         } else {
@@ -76,66 +82,86 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
         }
     }
 
-    /** Wraps the actual input. */
+    /**
+     * Wraps the actual input.
+     */
     private MaterialPanel panel = new MaterialPanel();
 
-    /** The input element for the time picker. */
-    private MaterialInput input = new MaterialInput();
+    /**
+     * The input element for the time picker.
+     */
+    private MaterialInput timeInput = new MaterialInput();
 
-    /** Label to display errors messages. */
+    /**
+     * Label to display errors messages.
+     */
     private MaterialLabel lblError = new MaterialLabel();
 
-    /** The current value held by the time picker. */
+    /**
+     * The current value held by the time picker.
+     */
     private Date time;
 
-    private Label label = new Label();
+    private Label lblPlaceholder = new Label();
 
     private MaterialIcon icon = new MaterialIcon();
 
-    /** */
-    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.input, "valid");
+    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.timeInput, CssName.VALID);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, timeInput, lblPlaceholder);
+    private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
 
-    private final ErrorMixin<MaterialTimePicker, MaterialLabel> errorMixin = new ErrorMixin<>(this, this.lblError, this.input);
-
+    private String uniqueId;
     private String placeholder;
     private boolean autoClose;
     private boolean hour24;
     private Orientation orientation = Orientation.PORTRAIT;
 
-
     public MaterialTimePicker() {
-        super(Document.get().createElement("div"), "timepicker", "input-field");
-        this.input.setType(InputType.TEXT);
-        this.panel.add(this.input);
-        this.panel.add(label);
-        this.panel.add(this.lblError);
-        this.add(this.panel);
+        super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
+    }
+
+    public MaterialTimePicker(String placeholder) {
+        this();
+        setPlaceholder(placeholder);
+    }
+
+    public MaterialTimePicker(String placeholder, Date value) {
+        this(placeholder);
+        setValue(value);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        this.input.getElement().setAttribute("type", "text");
-        this.initTimePicker();
+
+        uniqueId = DOM.createUniqueId();
+        timeInput.setType(InputType.TEXT);
+        readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
+        panel.add(timeInput);
+        panel.add(lblPlaceholder);
+        panel.add(lblError);
+        add(panel);
+        timeInput.getElement().setAttribute("type", "text");
+        initialize();
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        $(timeInput.getElement()).lolliclock("remove");
     }
 
     /**
      * Side effects:
      * <ul>
-     *   <li>Resets the time to <i>now<i></li>
-     *   <li>Clears erros/success message</li>
+     * <li>Resets the time to <i>now<i></li>
+     * <li>Clears errors/success message</li>
      * </ul>
      */
     public void reset() {
-        this.setValue(new Date());
-        this.clearErrorOrSuccess();
-    }
-
-    /**
-     * @return the time
-     */
-    public String getTime() {
-        return this.getTime(this.input.getElement());
+        setValue(new Date());
+        clearErrorOrSuccess();
     }
 
     public boolean isAutoClose() {
@@ -150,15 +176,14 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
      * False (default) change to 24 hours system.
      *
      * @return <code>false</code> in case 12 hours mode is set;
-     *         <code>true</code> otherwise.
+     * <code>true</code> otherwise.
      */
     public boolean isHour24() {
         return this.hour24;
     }
 
     /**
-     *
-     * @param hour24
+     * Set the time to 24 hour mode.
      */
     public void setHour24(boolean hour24) {
         this.hour24 = hour24;
@@ -173,13 +198,12 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     /**
-     * @param placeholder
-     *            The placeholder text to set.
+     * @param placeholder The placeholder text to set.
      */
     @Override
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-        this.label.setText(placeholder);
+        lblPlaceholder.setText(placeholder);
     }
 
     /**
@@ -191,243 +215,136 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     /**
-     * @param orientation
-     *            The orientation to set: Can be Horizontal or Vertical.
+     * @param orientation The orientation to set: Can be Horizontal or Vertical.
      */
     @Override
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
     }
 
-    @Override
-    public void setError(String error) {
-        this.errorMixin.setError(error);
+    protected void initialize() {
+        JsTimePickerOptions options = new JsTimePickerOptions();
+        options.autoclose = isAutoClose();
+        options.orientation = getOrientation().getCssName();
+        options.hour24 = isHour24();
+        options.uniqueId = getUniqueId();
+        options.beforeShow = this::beforeShow;
+        options.afterShow = this::afterShow;
+        options.afterHide = this::afterHide;
+        $(timeInput.getElement()).lolliclock(options);
+        $(timeInput.getElement()).blur();
     }
-
-    @Override
-    public void setSuccess(String success) {
-        this.errorMixin.setSuccess(success);
-    }
-
-    @Override
-    public void setHelperText(String helperText) {
-        this.errorMixin.setHelperText(helperText);
-    }
-
-    @Override
-    public void clearErrorOrSuccess() {
-        this.errorMixin.clearErrorOrSuccess();
-    }
-
-    public void initTimePicker() {
-        this.initTimePicker(DOM.createUniqueId(), this.input.getElement(), this.getOrientation().getCssName(), this.isAutoClose(), this.isHour24());
-    }
-
-    /**
-     *
-     * @param clockId
-     *            The clock id for the lolliclock.
-     * @param e
-     *            The HTML element serving as container for textual content.
-     * @param orientation
-     *            The initial orientation.
-     * @param autoClose
-     *            Autoclose <code>true</code> or <code>false</code>
-     * @param hour24
-     *            Set this <true>true</code> for a 24 hours clock;
-     *            <code>false</code> otherwise.
-     */
-    protected native void initTimePicker(String clockId, Element e, String orientation, boolean autoClose, boolean hour24) /*-{
-        var that = this;
-        $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(e).lolliclock({
-                autoclose: autoClose,
-                orientation: orientation,
-                hour24: hour24,
-                uniqueId: clockId,
-                beforeShow: function() {
-                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::beforeShow()();
-                },
-                afterShow: function() {
-                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterShow()();
-                },
-                afterHide: function() {
-                    var hour = $wnd.jQuery('#' + clockId).find('.lolliclock-hours').find('.lolliclock-time-new').html();
-                    var minutes = $wnd.jQuery('#' + clockId).find('.lolliclock-minutes').find('.lolliclock-time-new').html();
-                    var suffix = $wnd.jQuery('#' + clockId).find('.lolliclock-am-pm').html();
-                    var time =  hour + ':' + minutes + " " + suffix;
-                    that.@gwt.material.design.addins.client.timepicker.MaterialTimePicker::afterHide(*)();
-                }
-            });
-            $wnd.jQuery(e).blur();
-        });
-    }-*/;
-
 
     /**
      * Called after the lolliclock event <code>afterShow</code>.
      */
     protected void beforeShow() {
-
-        this.input.getElement().blur();
+        timeInput.getElement().blur();
 
         // Add class 'valid' for visual feedback.
-        this.validMixin.setOn(true);
+        validMixin.setOn(true);
     }
 
     /**
      * Called after the lolliclock event <code>afterShow</code>.
      */
     protected void afterShow() {
-        this.fireOpenEvent();
+        OpenEvent.fire(this, this.time);
+        fireEvent(new FocusEvent() {
+        });
     }
 
     /**
      * Called after the lolliclock event <code>afterHide</code>.
-     *
-     * @param time
-     *            The time given by lolliclock in 12-hours <code>hh:mm aa</code>
-     *            format.
      */
     protected void afterHide() {
-
-        String timeString = this.getTime(this.input.getElement());
-
+        String timeString = getTime();
         Date parsedDate = null;
 
-        if(timeString.equals("") == false && timeString != null) {
+        if (timeString != null && !timeString.equals("")) {
             try {
-                if(this.hour24 == true) {
-                    DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
-                    parsedDate = hour24DateTimeFormat.parse(timeString);
+                if (this.hour24) {
+                    parsedDate = DateTimeFormat.getFormat("HH:mm").parse(timeString);
                 } else {
-                    DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
-                    parsedDate = hour12DateTimeFormat.parse(timeString);
+                    parsedDate = DateTimeFormat.getFormat("hh:mm aa").parse(timeString);
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 // Silently catch parse errors
             }
         }
 
-        this.setValue(parsedDate);
+        setValue(parsedDate);
 
         // Remove class 'valid' after hide.
-        this.validMixin.setOn(false);
+        validMixin.setOn(false);
 
-        this.fireCloseEvent();
+        CloseEvent.fire(this, this.time);
+        fireEvent(new BlurEvent() {
+        });
     }
 
-    protected native String getTime(Element e)/*-{
-        return $wnd.jQuery(e).val();
-    }-*/;
+    protected String getTime() {
+        return $(timeInput.getElement()).val().toString();
+    }
 
     @Override
     public void setEnabled(boolean enabled) {
-        this.input.setEnabled(enabled);
+        this.timeInput.setEnabled(enabled);
     }
 
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<Date> handler) {
-        return this.addHandler(new CloseHandler<Date>() {
-            @Override
-            public void onClose(CloseEvent<Date> event) {
-                if(isEnabled()){
-                    handler.onClose(event);
-                }
-            }
-        }, CloseEvent.getType());
+        return addHandler(handler, CloseEvent.getType());
     }
 
     @Override
     public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
-        return this.addHandler(new OpenHandler<Date>() {
-            @Override
-            public void onOpen(OpenEvent<Date> event) {
-                if(isEnabled()){
-                    handler.onOpen(event);
-                }
-            }
-        }, OpenEvent.getType());
+        return addHandler(handler, OpenEvent.getType());
     }
 
-    protected void fireCloseEvent() {
-        CloseEvent.fire(this, this.time);
+    /**
+     * Programmatically open the time picker component
+     */
+    public void open() {
+        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("show"));
     }
 
-    protected void fireOpenEvent() {
-        OpenEvent.fire(this, this.time);
-    }
-
-    protected void fireValueChangeEvent() {
-        ValueChangeEvent.fire(this, this.time);
+    /**
+     * Programmatically close the time picker component
+     */
+    public void close() {
+        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("hide"));
     }
 
     @Override
     public void clear() {
-        this.clearTimePickerValue(this.input.getElement());
-    }
-
-    protected native void clearTimePickerValue(Element e) /*-{
-        $wnd.jQuery(e).val('');
-    }-*/;
-
-    @Override
-    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<Date> handler) {
-        return this.addHandler(new ValueChangeHandler<Date>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<Date> event) {
-                if(isEnabled()){
-                    handler.onValueChange(event);
-                }
-            }
-        }, ValueChangeEvent.getType());
+        time = null;
+        $(timeInput.getElement()).val("");
     }
 
     @Override
     public Date getValue() {
-        return this.time;
-    }
-
-    @Override
-    public void setValue(Date time) {
-        this.setValue(time, true);
+        return time;
     }
 
     @Override
     public void setValue(Date time, boolean fireEvents) {
-
-        if(this.time != null) {
-            if(this.time.equals(time)) {
-                return;
-            }
-        }
-
-        if(this.time == time) {
+        this.time = time;
+        if (this.time == null) {
             return;
         }
 
-        this.time = time;
-
-        String timeString = null;
-
-        if(this.hour24 == true) {
-            DateTimeFormat hour24DateTimeFormat = DateTimeFormat.getFormat("HH:mm");
-            timeString = hour24DateTimeFormat.format(time);
-        } else {
-            DateTimeFormat hour12DateTimeFormat = DateTimeFormat.getFormat("hh:mm aa");
-            timeString = hour12DateTimeFormat.format(time);
-        }
-
-        this.setValue(this.input.getElement(), timeString);
-
-        if(fireEvents == true) {
-            this.fireValueChangeEvent();
-        }
+        $(timeInput.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
+        super.setValue(time, fireEvents);
     }
 
-    protected native void setValue(Element e, String time) /*-{
-        $wnd.jQuery(e).val(time);
-    }-*/;
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
     @Override
     public MaterialIcon getIcon() {
@@ -458,7 +375,7 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     }
 
     @Override
-    public void setIconColor(String iconColor) {
+    public void setIconColor(Color iconColor) {
         icon.setIconColor(iconColor);
     }
 
@@ -470,5 +387,41 @@ public class MaterialTimePicker extends MaterialWidget implements HasError, HasP
     @Override
     public boolean isIconPrefix() {
         return icon.isIconPrefix();
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        return errorMixin;
+    }
+
+    public ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {
+        if (readOnlyMixin == null) {
+            readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
+        }
+        return readOnlyMixin;
+    }
+
+    @Override
+    public void setReadOnly(boolean value) {
+        getReadOnlyMixin().setReadOnly(value);
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return getReadOnlyMixin().isReadOnly();
+    }
+
+    @Override
+    public void setToggleReadOnly(boolean toggle) {
+        getReadOnlyMixin().setToggleReadOnly(toggle);
+    }
+
+    @Override
+    public boolean isToggleReadOnly() {
+        return getReadOnlyMixin().isToggleReadOnly();
+    }
+
+    public MaterialInput getTimeInput() {
+        return timeInput;
     }
 }

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,18 +17,21 @@ package gwt.material.design.addins.client.fileuploader;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialProgress;
 import gwt.material.design.client.ui.html.Span;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class MaterialUploadHeader extends MaterialWidget {
 
@@ -38,50 +39,51 @@ public class MaterialUploadHeader extends MaterialWidget {
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
     private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
     private MaterialUploadPreview preview;
+    private MaterialProgress progress = new MaterialProgress(ProgressType.DETERMINATE);
+    private boolean toggle = true;
 
     public MaterialUploadHeader() {
-        super(Document.get().createDivElement(), "header");
-        iconClose.setId("upload-close");
+        super(Document.get().createDivElement(), AddinsCssName.HEADER);
+        iconClose.setId(AddinsCssName.UPLOAD_CLOSE);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
-        iconClose.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent clickEvent) {
-                preview.setVisibility(Style.Visibility.HIDDEN);
-            }
-        });
-        iconColaps.setId("upload-colaps");
+        iconClose.addClickHandler(clickEvent -> preview.setVisibility(Style.Visibility.HIDDEN));
+        iconColaps.setId(AddinsCssName.UPLOAD_COLAPS);
         iconColaps.setCircle(true);
         iconColaps.setWaves(WavesType.DEFAULT);
-        uploadedFiles.setId("no-uploaded-files");
+        uploadedFiles.setId(AddinsCssName.NO_UPLOADED_FILES);
+        progress.setId(AddinsCssName.TOTAL_UPLOAD_PROGRESS);
         add(uploadedFiles);
         add(iconClose);
         add(iconColaps);
+        add(progress);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        initUploadHeader(iconClose.getElement(), iconColaps.getElement(), getPreview().getElement(), getPreview().getUploadCollection().getElement());
+        initUploadHeader(iconClose.getElement(),
+                iconColaps.getElement(),
+                getPreview().getElement(),
+                getPreview().getUploadCollection().getElement());
     }
 
-    protected native void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) /*-{
-        var toggle = true;
-
-        $wnd.jQuery(iconColaps).click(function() {
-            if(toggle){
-                $wnd.jQuery(collection).css('visibility', 'hidden');
-                $wnd.jQuery(iconColaps).html("keyboard_arrow_up");
-                $wnd.jQuery(collection).css('height', '0px');
+    protected void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) {
+        $(iconColaps).click(e -> {
+            if (toggle) {
+                $(collection).css("visibility", "hidden");
+                $(iconColaps).html("keyboard_arrow_up");
+                $(collection).css("height", "0px");
                 toggle = false;
-            }else{
-                $wnd.jQuery(collection).css('visibility', 'visible');
-                $wnd.jQuery(iconColaps).html("keyboard_arrow_down");
-                $wnd.jQuery(collection).css('height', 'initial');
+            } else {
+                $(collection).css("visibility", "visible");
+                $(iconColaps).html("keyboard_arrow_down");
+                $(collection).css("height", "initial");
                 toggle = true;
             }
+            return true;
         });
-    }-*/;
+    }
 
     public MaterialUploadPreview getPreview() {
         return preview;
@@ -93,5 +95,17 @@ public class MaterialUploadHeader extends MaterialWidget {
 
     public Span getUploadedFiles() {
         return uploadedFiles;
+    }
+
+    public MaterialIcon getIconClose() {
+        return iconClose;
+    }
+
+    public MaterialIcon getIconColaps() {
+        return iconColaps;
+    }
+
+    public MaterialProgress getProgress() {
+        return progress;
     }
 }

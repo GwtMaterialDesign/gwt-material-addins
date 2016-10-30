@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.cutout;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +17,9 @@ package gwt.material.design.addins.client.cutout;
  * limitations under the License.
  * #L%
  */
-
-import gwt.material.design.client.base.HasCircle;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.helper.ColorHelper;
+package gwt.material.design.addins.client.cutout;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -33,37 +27,36 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasCloseHandlers;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ScrollEvent;
-import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.constants.Color;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 //@formatter:off
+
 /**
  * MaterialCutOut is a fullscreen modal-like component to show users about new
  * features or important elements of the document.
- *
+ * <p>
  * You can use {@link CloseHandler}s to be notified when the cut out is closed.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:cutout.MaterialCutOut ui:field="cutOut">
@@ -71,38 +64,37 @@ import com.google.gwt.user.client.ui.Widget;
  * </ma:cutout.MaterialCutOut>
  * }
  * </pre>
- *
+ * <p>
  * <h3>Java Usage:</h3>
  * {@code
  * MaterialCutOut cutOut = ... //create using new or using UiBinder
  * cutOut.setTarget(myTargetWidget); //the widget or element you want to focus
- * cutOut.openCutOut(); //shows the modal over the page
+ * cutOut.open(); //shows the modal over the page
  * }
- *
+ * <p>
  * <h3>Custom styling:</h3> You use change the cut out style by using the
  * <code>material-cutout</code> class, and <code>material-cutout-focus</code>
- * class for the focus box.
- * 
+ * class for the focusElement box.
+ * <p>
  * <h3>Notice:</h3>On some iOS devices, on mobile Safari, the CutOut may not open when the
  * {@link #setCircle(boolean)} is set to <code>true</code>. This is because of problems on Safari
- * with box-shadows over rounded borders. To avoid this issue you can disable the circle. Check the 
+ * with box-shadows over rounded borders. To avoid this issue you can disable the circle. Check the
  * <a href="https://github.com/GwtMaterialDesign/gwt-material/issues/227">issue 227</a> for details.
- * 
  *
  * @author gilberto-torrezan
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#cutouts">Material Cutouts</a>
  */
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
-        HasClickHandlers, HasCircle {
+        HasOpenHandlers<MaterialCutOut>, HasCircle {
 
-    private String backgroundColor = "blue";
+    private Color backgroundColor = Color.BLUE;
     private double opacity = 0.8;
 
     private boolean animated = true;
     private String animationDuration = "0.5s";
     private String animationTimingFunction = "ease";
-    private String backgroundSize = "100rem";
+    private String backgroundSize;
 
     private String computedBackgroundColor;
     private int cutOutPadding = 10;
@@ -110,15 +102,15 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private boolean autoAddedToDocument = false;
     private String viewportOverflow;
     private Element targetElement;
-    private Element focus;
-    
+    private Element focusElement;
+
     private HandlerRegistration resizeHandler;
     private HandlerRegistration scrollHandler;
 
     public MaterialCutOut() {
-        super(Document.get().createDivElement(), "material-cutout");
-        focus = Document.get().createDivElement();
-        getElement().appendChild(focus);
+        super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CUTOUT);
+        focusElement = Document.get().createDivElement();
+        getElement().appendChild(focusElement);
 
         Style style = getElement().getStyle();
         style.setWidth(100, Unit.PCT);
@@ -130,22 +122,29 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setZIndex(10000);
         style.setDisplay(Display.NONE);
 
-        focus.setClassName("material-cutout-focus");
-        style = focus.getStyle();
+        focusElement.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
+        style = focusElement.getStyle();
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);
         style.setZIndex(-1);
     }
 
+    public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
+        this();
+        setBackgroundColor(backgroundColor);
+        setCircle(circle);
+        setOpacity(opacity);
+    }
+
     @Override
-    public void setBackgroundColor(String bgColor) {
+    public void setBackgroundColor(Color bgColor) {
         backgroundColor = bgColor;
         //resetting the computedBackgroundColor
         computedBackgroundColor = null;
     }
 
     @Override
-    public String getBackgroundColor() {
+    public Color getBackgroundColor() {
         return backgroundColor;
     }
 
@@ -172,8 +171,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Sets the animation duration of the opening cut out.
      * The default is 0.5s.
      *
-     * @param animationDuration
-     *            The duration in CSS time unit, such as s and ms.
+     * @param animationDuration The duration in CSS time unit, such as s and ms.
      */
     public void setAnimationDuration(String animationDuration) {
         this.animationDuration = animationDuration;
@@ -189,9 +187,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Sets the animation timing fucntion of the opening cut out.
      *
-     * @param animationTimingFunction
-     *            The speed curve of the animation, such as ease (the default), linear and
-     *            ease-in-out
+     * @param animationTimingFunction The speed curve of the animation, such as ease (the default), linear and
+     *                                ease-in-out
      */
     public void setAnimationTimingFunction(String animationTimingFunction) {
         this.animationTimingFunction = animationTimingFunction;
@@ -209,7 +206,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     /**
      * @return The if the cut out should be rendered as a circle or a simple
-     *         rectangle
+     * rectangle
      */
     @Override
     public boolean isCircle() {
@@ -217,7 +214,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * Sets the padding in pixels of the cut out focus in relation to the target
+     * Sets the padding in pixels of the cut out focusElement in relation to the target
      * element. The default is 10.
      */
     public void setCutOutPadding(int cutOutPadding) {
@@ -225,8 +222,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * @return The padding in pixels of the cut out focus in relation to the
-     *         target element
+     * @return The padding in pixels of the cut out focusElement in relation to the
+     * target element
      */
     public int getCutOutPadding() {
         return cutOutPadding;
@@ -255,7 +252,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     public Element getTargetElement() {
         return targetElement;
     }
-    
+
     /**
      * Enables or disables the open animation of the cut out.
      * The default is <code>true</code>.
@@ -263,26 +260,25 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     public void setAnimated(boolean animated) {
         this.animated = animated;
     }
-    
+
     /**
      * @return If the animation of the cut out is enabled when opening.
      */
     public boolean isAnimated() {
         return animated;
     }
-    
+
     /**
      * Sets the radius size of the Cut Out background. By default, it takes the whole page
      * by using 100rem as size.
-     * 
-     * @param backgroundSize 
-     *          The size of the background of the Cut Out. You can use any supported 
-     *          CSS unit for box shadows, such as rem and px.
+     *
+     * @param backgroundSize The size of the background of the Cut Out. You can use any supported
+     *                       CSS unit for box shadows, such as rem and px.
      */
     public void setBackgroundSize(String backgroundSize) {
         this.backgroundSize = backgroundSize;
     }
-    
+
     /**
      * @return The radius size of the background of the Cut Out.
      */
@@ -294,17 +290,16 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Opens the modal cut out taking all the screen. The target element should
      * be set before calling this method.
      *
-     * @throws IllegalStateException
-     *             if the target element is <code>null</code>
-     * @see #setTargetElement(Element)
+     * @throws IllegalStateException if the target element is <code>null</code>
+     * @see #setTarget(Widget)
      */
-    public void openCutOut() {
+    public void open() {
         if (targetElement == null) {
-            throw new IllegalStateException("The target element should be set before calling openCutOut().");
+            throw new IllegalStateException("The target element should be set before calling open().");
         }
         targetElement.scrollIntoView();
 
-        if (computedBackgroundColor == null){
+        if (computedBackgroundColor == null) {
             setupComputedBackgroundColor();
         }
 
@@ -313,31 +308,31 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         viewportOverflow = docStyle.getOverflow();
         docStyle.setProperty("overflow", "hidden");
 
-        setupTransition();
-        if (animated){
-            focus.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem "+computedBackgroundColor);
-            
-            //the animation will take place after the boxshadow is set by the deferred command
-            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-                @Override
-                public void execute() {
-                    focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
-                }
-            });
+        if(backgroundSize == null) {
+            backgroundSize = body().width() + 300 + "px";
         }
-        else {
-            focus.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+
+        setupTransition();
+        if (animated) {
+            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem " + computedBackgroundColor);
+
+            //the animation will take place after the boxshadow is set by the deferred command
+            Scheduler.get().scheduleDeferred(() -> {
+                focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+            });
+        } else {
+            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
 
         if (circle) {
-            focus.getStyle().setProperty("WebkitBorderRadius", "50%");
-            focus.getStyle().setProperty("borderRadius", "50%");
+            focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
+            focusElement.getStyle().setProperty("borderRadius", "50%");
         } else {
-            focus.getStyle().clearProperty("WebkitBorderRadius");
-            focus.getStyle().clearProperty("borderRadius");
+            focusElement.getStyle().clearProperty("WebkitBorderRadius");
+            focusElement.getStyle().clearProperty("borderRadius");
         }
-        setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-        
+        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
+
         setupWindowHandlers();
         getElement().getStyle().clearDisplay();
 
@@ -347,34 +342,34 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             autoAddedToDocument = true;
             RootPanel.get().add(this);
         }
+        OpenEvent.fire(this, this);
     }
 
     /**
      * Closes the cut out. It is the same as calling
-     * {@link #closeCutOut(boolean)} with <code>false</code>.
+     * {@link #close(boolean)} with <code>false</code>.
      */
-    public void closeCutOut() {
-        this.closeCutOut(false);
+    public void close() {
+        this.close(false);
     }
 
     /**
      * Closes the cut out.
      *
-     * @param autoClosed
-     *            Notifies with the modal was auto closed or closed by user action
+     * @param autoClosed Notifies with the modal was auto closed or closed by user action
      */
-    public void closeCutOut(boolean autoClosed) {
+    public void close(boolean autoClosed) {
         //restore the old overflow of the page
         Document.get().getDocumentElement().getStyle().setProperty("overflow", viewportOverflow);
 
         getElement().getStyle().setDisplay(Display.NONE);
-        
+
         //remove old handlers to avoid memory leaks
-        if (resizeHandler != null){
+        if (resizeHandler != null) {
             resizeHandler.removeHandler();
             resizeHandler = null;
         }
-        if (scrollHandler != null){
+        if (scrollHandler != null) {
             scrollHandler.removeHandler();
             scrollHandler = null;
         }
@@ -391,25 +386,23 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
-    protected native void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle)/*-{
-        var rect = relativeTo.getBoundingClientRect();
+    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
+        float top = relativeTo.getAbsoluteTop() - body().scrollTop();
+        float left = relativeTo.getAbsoluteLeft();
 
-        var top = rect.top;
-        var left = rect.left;
-        var width = rect.right - rect.left;
-        var height = rect.bottom - rect.top;
-        
-        if (circle){
-            if (width != height){
-                var dif = width - height;
-                if (width > height){
+        float width = relativeTo.getOffsetWidth();
+        float height = relativeTo.getOffsetHeight();
+
+        if (circle) {
+            if (width != height) {
+                float dif = width - height;
+                if (width > height) {
                     height += dif;
-                    top -= dif/2;
-                }
-                else {
+                    top -= dif / 2;
+                } else {
                     dif = -dif;
                     width += dif;
-                    left -= dif/2;
+                    left -= dif / 2;
                 }
             }
         }
@@ -419,45 +412,38 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         width += padding * 2;
         height += padding * 2;
 
-        cutOut.style.top = top + 'px';
-        cutOut.style.left = left + 'px';
-        cutOut.style.width = width + 'px';
-        cutOut.style.height = height + 'px';
-    }-*/;
+        $(cutOut).css("top", top + "px");
+        $(cutOut).css("left", left + "px");
+        $(cutOut).css("width", width + "px");
+        $(cutOut).css("height", height + "px");
+    }
 
     /**
      * Configures a resize handler and a scroll handler on the window to
      * properly adjust the Cut Out.
      */
-    protected void setupWindowHandlers(){
-        if (resizeHandler != null){
+    protected void setupWindowHandlers() {
+        if (resizeHandler != null) {
             resizeHandler.removeHandler();
         }
-        if (scrollHandler != null){
+        if (scrollHandler != null) {
             scrollHandler.removeHandler();
         }
-        resizeHandler = Window.addResizeHandler(new ResizeHandler() {
-            @Override
-            public void onResize(ResizeEvent event) {
-                setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-            }
+        resizeHandler = Window.addResizeHandler(event -> {
+            setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
         });
-        scrollHandler = Window.addWindowScrollHandler(new ScrollHandler() {
-            @Override
-            public void onWindowScroll(ScrollEvent event) {
-                setupCutOutPosition(focus, targetElement, cutOutPadding, circle);
-            }
+        scrollHandler = Window.addWindowScrollHandler(event -> {
+            setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
         });
     }
 
-    protected void setupTransition(){
-        if (animated){
-            focus.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
-            focus.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);            
-        }
-        else {
-            focus.getStyle().clearProperty("WebkitTransition");
-            focus.getStyle().clearProperty("transition");
+    protected void setupTransition() {
+        if (animated) {
+            focusElement.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
+            focusElement.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);
+        } else {
+            focusElement.getStyle().clearProperty("WebkitTransition");
+            focusElement.getStyle().clearProperty("transition");
         }
     }
 
@@ -494,26 +480,15 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     @Override
     public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
-        return addHandler(new CloseHandler<MaterialCutOut>() {
-            @Override
-            public void onClose(CloseEvent<MaterialCutOut> event) {
-                if(isEnabled()){
-                    handler.onClose(event);
-                }
-            }
-        }, CloseEvent.getType());
+        return addHandler(handler, CloseEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addClickHandler(final ClickHandler handler) {
-        return addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                if(isEnabled()){
-                    handler.onClick(event);
-                }
-            }
-        }, ClickEvent.getType());
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialCutOut> handler) {
+        return addHandler(handler, OpenEvent.getType());
     }
 
+    public Element getFocusElement() {
+        return focusElement;
+    }
 }

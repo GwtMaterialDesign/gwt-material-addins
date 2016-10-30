@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.pathanimator;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +17,35 @@ package gwt.material.design.addins.client.pathanimator;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.pathanimator;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.jquery.client.api.Functions;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 //@formatter:off
+
 /**
  * Custom component that provides meaningfull transition between two elements to show visual continuity.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- * MaterialPathAnimator.animate(Element source, Element target, Runnable callback);
+ * MaterialPathAnimator.animate(Element source, Element target, Functions.Func callback);
  * }
  * </pre>
  *
@@ -50,7 +56,7 @@ import gwt.material.design.client.MaterialDesignBase;
 public class MaterialPathAnimator {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
@@ -60,52 +66,62 @@ public class MaterialPathAnimator {
     /**
      * Default animate method using Opacity Transition.
      */
-    public static void animate(Element source,final Element target) {
-        Runnable defaultCallback = new Runnable() {
-            @Override
-            public void run() {
-                target.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                target.getStyle().setOpacity(1);
-            }
-        };
-        animate(source, target, defaultCallback);
+    public static void animate(Element source, final Element target) {
+        animate(source, target, () -> {
+            target.getStyle().setVisibility(Style.Visibility.VISIBLE);
+            target.getStyle().setOpacity(1);
+        });
+    }
+
+    public static void animate(Widget source, final Widget target) {
+        animate(source.getElement(), target.getElement());
     }
 
     /**
      * Custom path animator method with callback.
      */
-    public static native void animate(Element source, Element target, Runnable callback)/*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.cta(source, target, function () {
-                if(callback != null) {
-                    callback.@java.lang.Runnable::run()();
+    public static void animate(Element source, Element target, Functions.Func callback) {
+        $("document").ready(() -> {
+            JsPathAnimator.cta(source, target, () -> {
+                if (callback != null) {
+                    callback.call();
                 }
             });
         });
-    }-*/;
+    }
+
+    public static void animate(Widget source, Widget target, Functions.Func callback) {
+        animate(source.getElement(), target.getElement(), callback);
+    }
 
     /**
      * Default Reverse animate method to return to original state of Source component.
      */
-    public static void reverseAnimate(final Element source,final Element target) {
-        Runnable defaultCallback = new Runnable() {
-            @Override
-            public void run() {
-                target.getStyle().setVisibility(Style.Visibility.HIDDEN);
-                target.getStyle().setOpacity(0);
-            }
-        };
-        reverseAnimate(source,target, defaultCallback);
+    public static void reverseAnimate(final Element source, final Element target) {
+        reverseAnimate(source, target, () -> {
+            target.getStyle().setVisibility(Style.Visibility.HIDDEN);
+            target.getStyle().setOpacity(0);
+        });
+    }
+
+    public static void reverseAnimate(final Widget source, final Widget target) {
+        reverseAnimate(source.getElement(), target.getElement());
     }
 
     /**
      * Reverse animation of the target component to return to original
      * state of the source component with Custom Callback.
      */
-    public static native void reverseAnimate(Element source, Element target, Runnable callback) /*-{
-        $wnd.jQuery(document).ready(function() {
-            callback.@java.lang.Runnable::run()();
-            $wnd.cta(target, source);
+    public static void reverseAnimate(Element source, Element target, Functions.Func callback) {
+        $("document").ready(() -> {
+            if (callback != null) {
+                callback.call();
+            }
+            JsPathAnimator.cta(target, source);
         });
-    }-*/;
+    }
+
+    public static void reverseAnimate(Widget source, Widget target, Functions.Func callback) {
+        reverseAnimate(source.getElement(), target.getElement(), callback);
+    }
 }

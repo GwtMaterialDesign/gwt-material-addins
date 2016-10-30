@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.sideprofile;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.sideprofile;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.sideprofile;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.resources.client.ImageResource;
@@ -26,19 +25,21 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.CssName;
 
 //@formatter:off
+
 /**
  * SideProfile is a component that is attached on SideNav Component. Consists of
  * Image , Label and link components.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -60,7 +61,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialSideProfile extends MaterialWidget implements HasImage {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialSideProfileDebugClientBundle.INSTANCE.sideprofileCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialSideProfileClientBundle.INSTANCE.sideprofileCss());
@@ -71,7 +72,7 @@ public class MaterialSideProfile extends MaterialWidget implements HasImage {
     private ImageResource resource;
 
     public MaterialSideProfile() {
-        super(Document.get().createDivElement(), "side-profile");
+        super(Document.get().createDivElement(), CssName.SIDE_PROFILE);
     }
 
     @Override

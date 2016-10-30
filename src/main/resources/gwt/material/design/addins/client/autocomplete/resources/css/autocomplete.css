@@ -18,6 +18,19 @@ ul.multiValueSuggestBox-list {
     border-bottom: 1px dotted rgba(0, 0, 0, 0.26);
 }
 
+.autocomplete.disabled .chip i {
+    display: none;
+}
+
+.autocomplete.read-only ul.multiValueSuggestBox-list {
+    border: none !important;
+}
+
+.autocomplete.disabled .chip {
+    color: rgba(0,0,0,0.6) !important;
+    background-color: #e4e4e4 !important;
+}
+
 .gwt-SuggestBoxPopup .item {
     padding-left: 20px !important;
     padding: 12px;

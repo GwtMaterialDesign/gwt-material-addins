@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.swipeable;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,47 +17,36 @@ package gwt.material.design.addins.client.swipeable;
  * limitations under the License.
  * #L%
  */
-
-/*
- * Copyright 2008 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
+package gwt.material.design.addins.client.swipeable;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.swipeable.base.HasSwipeable;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
 import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
+import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 
 /**
  * A panel that allows any of its nested children to be swiped away.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{
+ * {
  * @code
  * <ma:swipeable.MaterialSwipeablePanel ui:field="swipeablePanel" shadow="1" backgroundColor="white" padding="12">
  *   <m:MaterialLabel text="You can swipe native components. This is a plain label" backgroundColor="yellow" padding="12" />
@@ -71,127 +58,64 @@ import gwt.material.design.client.base.MaterialWidget;
  * </ma:swipeable.MaterialSwipeablePanel>
  * }
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
+ *
  * @author kevzlou7979
  * @author Ben Dol
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
  */
 //@formatter:on
-public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeable<Widget> {
+public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeableHandler<Widget> {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectDebugJs(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug());
             MaterialDesignBase.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
         } else {
+            MaterialDesignBase.injectJs(MaterialSwipeableClientBundle.INSTANCE.swipeableJs());
             MaterialDesignBase.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
         }
     }
 
-    private final String DISABLED = "disabled-swipe";
-
     public MaterialSwipeablePanel() {
-        super(Document.get().createDivElement(), "swipeable");
+        super(Document.get().createDivElement(), AddinsCssName.SWIPEABLE);
+    }
+
+    public MaterialSwipeablePanel(Color backgroundColor) {
+        this();
+        setBackgroundColor(backgroundColor);
+    }
+
+    public MaterialSwipeablePanel(Color backgroundColor, Integer shadow) {
+        this(backgroundColor);
+        setShadow(shadow);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        for(Widget w : getChildren()) {
-            if(!w.getStyleName().contains(DISABLED)) {
+
+        for (Widget w : getChildren()) {
+            if (!w.getStyleName().contains(AddinsCssName.IGNORED)) {
                 initSwipeable(w.getElement(), w);
             }
         }
     }
 
-
     @Override
     public void initSwipeable(Element element, Widget target) {
-        initSwipeableElement(element, target);
+        JsSwipeable.initSwipeablePanel(element, () -> {
+            SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
+        }, () -> {
+            SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
+        });
     }
 
-    /**
-     * Initialize the swipeable element
-     * @param element
-     * @param target
-     */
-    protected native void initSwipeableElement(Element element, Widget target) /*-{
-        var that = this;
-        var swipeLeftToRight;
-        var swipeRightToLeft;
-        // Dismissible Collections
-        $wnd.jQuery(element).each(function() {
-            $wnd.jQuery(this).hammer({
-                prevent_default: false
-            }).bind('pan', function(e) {
-                if (e.gesture.pointerType === "touch") {
-                    var parent = $wnd.jQuery(this);
-                    var direction = e.gesture.direction;
-                    var x = e.gesture.deltaX;
-                    var velocityX = e.gesture.velocityX;
-
-                    parent.velocity({ translateX: x
-                    }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-
-                    // Swipe Left
-                    if (direction === 4 && (x > (parent.innerWidth() / 2) || velocityX < -0.75)) {
-                        swipeLeftToRight = true;
-                    }
-
-                    // Swipe Right
-                    if (direction === 2 && (x < (-1 * parent.innerWidth() / 2) || velocityX > 0.75)) {
-                        swipeRightToLeft = true;
-                    }
-                }
-            }).bind('panend', function(e) {
-                // Reset if collection is moved back into original position
-                if (Math.abs(e.gesture.deltaX) < ($wnd.jQuery(this).innerWidth() / 2)) {
-                    swipeRightToLeft = false;
-                    swipeLeftToRight = false;
-                }
-
-                if (e.gesture.pointerType === "touch") {
-                    var parent = $wnd.jQuery(this);
-                    if (swipeLeftToRight || swipeRightToLeft) {
-                        var fullWidth;
-                        if (swipeLeftToRight) {
-                            fullWidth = parent.innerWidth();
-                            that.@gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel::fireSwipeRightEvent(*)(target);
-                        }
-                        else {
-                            fullWidth = -1 * parent.innerWidth();
-                            that.@gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel::fireSwipeLeftEvent(*)(target);
-                        }
-
-                        parent.velocity({ translateX: fullWidth,
-                        }, {duration: 100, queue: false, easing: 'easeOutQuad', complete:
-                            function() {
-                                parent.css('border', 'none');
-                                parent.velocity({ height: 0, padding: 0,
-                                }, {duration: 200, queue: false, easing: 'easeOutQuad', complete:
-                                    function() {
-                                        parent.remove();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    else {
-                        parent.velocity({ translateX: 0,
-                        }, {duration: 100, queue: false, easing: 'easeOutQuad'});
-                    }
-                    swipeLeftToRight = false;
-                    swipeRightToLeft = false;
-                }
-            });
-
-        });
-    }-*/;
-
     @Override
-    public HandlerRegistration addSwipeLeft(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
+    public HandlerRegistration addSwipeLeftHandler(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
         return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
             @Override
             public void onSwipeLeft(SwipeLeftEvent<Widget> event) {
-                if(isEnabled()){
+                if (isEnabled()) {
                     handler.onSwipeLeft(event);
                 }
             }
@@ -199,11 +123,11 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     @Override
-    public HandlerRegistration addSwipeRight(final SwipeRightEvent.SwipeRightHandler<Widget> handler) {
+    public HandlerRegistration addSwipeRightHandler(final SwipeRightEvent.SwipeRightHandler<Widget> handler) {
         return addHandler(new SwipeRightEvent.SwipeRightHandler<Widget>() {
             @Override
             public void onSwipeRight(SwipeRightEvent<Widget> event) {
-                if(isEnabled()){
+                if (isEnabled()) {
                     handler.onSwipeRight(event);
                 }
             }
@@ -211,24 +135,28 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     /**
-     * Fire the Swipe left event listener
-     * @param target
+     * Ignore any elements to be swipeable
      */
-    public void fireSwipeLeftEvent(Widget target) {
-        SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
+    public void ignore(UIObject object, UIObject... objects) {
+        object.addStyleName(AddinsCssName.IGNORED);
+
+        if (objects != null) {
+            for (UIObject obj : objects) {
+                obj.addStyleName(AddinsCssName.IGNORED);
+            }
+        }
     }
 
     /**
-     * Fire the Swipe right event listener
-     * @param target
+     * Remove Ignore property to any ignored elements
      */
-    public void fireSwipeRightEvent(Widget target) {
-        SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
-    }
+    public void removeIgnore(UIObject object, UIObject... objects) {
+        object.removeStyleName(AddinsCssName.IGNORED);
 
-    public void setDisable(Widget... widgets) {
-        for(Widget w : widgets){
-            w.addStyleName(DISABLED);
+        if (objects != null) {
+            for (UIObject obj : objects) {
+                obj.removeStyleName(AddinsCssName.IGNORED);
+            }
         }
     }
 }

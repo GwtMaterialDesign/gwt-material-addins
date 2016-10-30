@@ -141,3 +141,8 @@
   float: right;
   cursor: pointer;
 }
+#total-upload-progress {
+  position: absolute;
+  top: 51px;
+  left: 0;
+}

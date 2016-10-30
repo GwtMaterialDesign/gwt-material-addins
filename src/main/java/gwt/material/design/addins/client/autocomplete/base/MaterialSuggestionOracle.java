@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.autocomplete.base;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.autocomplete.base;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.autocomplete.base;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
@@ -38,7 +37,7 @@ public class MaterialSuggestionOracle extends MultiWordSuggestOracle {
     /**
      * Autocomplete with Image item selection.
      */
-    public void add(String text, Image image){
+    public void add(String text, Image image) {
         this.imageElem = image.getElement().toString();
         add(text + image);
     }

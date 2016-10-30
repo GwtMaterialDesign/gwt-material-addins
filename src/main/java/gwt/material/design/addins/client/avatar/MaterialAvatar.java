@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.avatar;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,9 +17,11 @@ package gwt.material.design.addins.client.avatar;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.avatar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -30,14 +30,14 @@ import gwt.material.design.client.base.MaterialWidget;
 /**
  * Generated avatar based on @link(https://jdenticon.com/)
  * provides a unique avatar based on unique name.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -54,14 +54,13 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialAvatar extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
             MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.md5Js());
         }
-
     }
 
     private String name;
@@ -78,14 +77,14 @@ public class MaterialAvatar extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(getName() != null) {
+
+        if (getName() != null) {
             initialize();
         }
     }
 
     /**
-     * Get the name of the avatar
-     * @return
+     * Get the name of the avatar.
      */
     public String getName() {
         return name;
@@ -93,8 +92,7 @@ public class MaterialAvatar extends MaterialWidget {
 
     /**
      * Set the name of the avatar and hashed it using md5 js library to
-     * pass it into jdenticon avatar process
-     * @param name
+     * pass it into jdenticon avatar process.
      */
     public void setName(String name) {
         this.name = name;
@@ -111,13 +109,11 @@ public class MaterialAvatar extends MaterialWidget {
     }
 
     /**
-     * Generate hash code - needed by jdenticon to generate avatar
-     * @param value
-     * @return
+     * Generate hash code - needed by jdenticon to generate avatar.
      */
-    protected native String generateHashCode(String value) /*-{
-        return $wnd.md5(value);
-    }-*/;
+    protected String generateHashCode(String value) {
+        return JsAvatar.md5(value);
+    }
 
     /**
      * Initialize the avatar process - useful when trying to update your avatar
@@ -127,7 +123,7 @@ public class MaterialAvatar extends MaterialWidget {
         update();
     }
 
-    protected native void update() /*-{
-        $wnd.jdenticon();
-    }-*/;
+    protected void update() {
+        JsAvatar.jdenticon();
+    }
 }

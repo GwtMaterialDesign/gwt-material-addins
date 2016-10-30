@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.sideprofile;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.sideprofile;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.sideprofile;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -27,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Side Profile component
+ *
  * @author kevzlou7979
  */
 interface MaterialSideProfileDebugClientBundle extends ClientBundle {

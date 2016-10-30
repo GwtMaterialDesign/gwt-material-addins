@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.tree.base;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +17,7 @@ package gwt.material.design.addins.client.tree.base;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.tree.base;
 
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
@@ -31,107 +30,67 @@ import java.util.List;
 public interface HasTreeItems {
 
     /**
-     * Initialize the tree item component
-     */
-    void initTreeItem();
-
-    /**
-     * Set the parent tree item
-     * @param parentTree
-     */
-    void setParentTree(MaterialTreeItem parentTree);
-
-    /**
-     * Get the parent tree item
-     * @return
-     */
-    MaterialTreeItem getParentTree();
-
-    /**
-     * Set the tree for initialization of tree handlers (open , close , selection etc.)
-     * @param parentTree
-     */
-    void setTree(MaterialTree parentTree);
-
-    /**
-     * Get the tree component
-     * @return
+     * Get the tree component.
      */
     MaterialTree getTree();
 
     /**
-     * Set the tree items of the current item
-     * @param treeItems
-     */
-    void setTreeItems(List<MaterialTreeItem> treeItems);
-
-    /**
-     * Get all the tree items of the current item
-     * @return
+     * Get all the tree items of the current item.
      */
     List<MaterialTreeItem> getTreeItems();
 
     /**
-     * Set tbe object data for tree item
-     * @param object
+     * Set tbe object data for tree item.
      */
     void setObject(Object object);
 
     /**
-     * Get the object data
-     * @return
+     * Get the object data.
      */
     Object getObject();
 
     /**
-     * Expand the tree item's content
+     * Expand the tree item's content.
      */
     void expand();
 
     /**
-     * Collapse the tree item's content
+     * Collapse the tree item's content.
      */
     void collapse();
 
     /**
-     * Set the value of hide variable (boolean)
-     * @param hide
+     * Set the value of hide variable (boolean).
      */
     void setHide(boolean hide);
 
     /**
-     * Gets the value of hide variable (boolean)
-     * @return
+     * Gets the value of hide variable (boolean).
      */
     boolean isHide();
 
     /**
      * Adds item into it's parent tree item.
-     * @param item
      */
     void addItem(MaterialTreeItem item);
 
     /**
      * Removes a given material tree item.
-     * @param item
      */
     void removeItem(MaterialTreeItem item);
 
     /**
-     * Remmoves a given material item with given index
-     * @param index
+     * Removes a given material item with given index.
      */
     void removeItem(int index);
 
     /**
-     * Inserts an item with given index
-     * @param item
-     * @param index
+     * Inserts an item with given index.
      */
     void insertItem(MaterialTreeItem item, int index);
 
     /**
-     * Removes this tree item to it's parent tree node
+     * Removes this tree item to it's parent tree node.
      */
     void removeFromTree();
 }

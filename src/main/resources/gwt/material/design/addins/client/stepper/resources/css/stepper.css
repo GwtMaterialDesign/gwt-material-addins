@@ -39,10 +39,12 @@
 .stepper .title {
     line-height: 32px;
     font-weight: 500;
+    margin-left: 0px;
 }
 .stepper .body {
     padding-bottom: 28px;
     padding-top: 8px;
+    opacity: 1;
 }
 .stepper .description {
     line-height: 1.2;
@@ -78,6 +80,8 @@
 }
 .stepper.horizontal .step .description{
     margin-left: 40px;
+    font-size: 0.8em;
+    margin-top: -12px;
 }
 .stepper.horizontal .step .body {
     line-height: initial;
@@ -96,7 +100,18 @@
     font-weight: 400;
 }
 .stepper .step.inactive .body{
-    display: none;
+    opacity: 0;
+    transition: 0.6s all;
+    -webkit-transition: 0.6s all;
+    max-height: 0px;
+}
+.stepper .step.active .body {
+    opacity: 1;
+    transition-delay: 0.3s;
+    -webkit-transition-delay: 0.3s;
+    max-height: 1400px;
+    padding-bottom: 28px;
+    padding-top: 8px;
 }
 .stepper .step.inactive > div:first-child .circle{
     background-color: #9e9e9e;

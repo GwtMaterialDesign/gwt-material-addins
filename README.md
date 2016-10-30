@@ -9,7 +9,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>1.6.2</version>
+    <version>2.0-rc1</version>
 </dependency>
 ```
 
@@ -41,7 +41,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 ##Extra Components
 <ul>
 <li>Autcomplete</li>
-<li>Avatar (NEW)</li>
+<li>Avatar</li>
 <li>Bubble</li>
 <li>Camera</li>
 <li>Cutout</li>

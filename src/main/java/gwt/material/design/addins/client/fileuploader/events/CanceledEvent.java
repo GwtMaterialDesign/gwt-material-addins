@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.fileuploader.events;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.fileuploader.events;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -41,7 +39,7 @@ public class CanceledEvent<T> extends GwtEvent<CanceledEvent.CanceledHandler<T>>
     }
 
     public static Type<CanceledHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<CanceledHandler<?>>());
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
     private final T target;

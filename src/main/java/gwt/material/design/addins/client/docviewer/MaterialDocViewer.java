@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.docviewer;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,24 +17,25 @@ package gwt.material.design.addins.client.docviewer;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.docviewer;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
+
 /**
  * A document viewer for your word, excel, powerpoint, pdf and other <a href='http://wiki.mobileread.com/wiki/Google_Docs_Viewer'></a> supported
  * file types </a>. <br/>
  * Note that this viewer only work with public files.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -57,6 +56,11 @@ public class MaterialDocViewer extends MaterialWidget {
         super(Document.get().createIFrameElement());
     }
 
+    public MaterialDocViewer(String url) {
+        this();
+        setUrl(url);
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();
@@ -64,32 +68,28 @@ public class MaterialDocViewer extends MaterialWidget {
     }
 
     /**
-     * Get the url of the Iframe component
-     * @return
+     * Get the url of the Iframe component.
      */
     public String getUrl() {
         return url;
     }
 
     /**
-     * Set the url of the public document
-     * @param url
+     * Set the url of the public document.
      */
     public void setUrl(String url) {
         this.url = url;
     }
 
     /**
-     * Check whether the iframe is embedded or not
-     * @return
+     * Check whether the iframe is embedded or not.
      */
     public boolean isEmbedded() {
         return embedded;
     }
 
     /**
-     * Set the emebedded value of the iframe
-     * @param embedded
+     * Set the embedded value of the iframe.
      */
     public void setEmbedded(boolean embedded) {
         this.embedded = embedded;

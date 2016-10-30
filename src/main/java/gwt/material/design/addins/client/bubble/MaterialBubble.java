@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.bubble;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +17,34 @@ package gwt.material.design.addins.client.bubble;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.bubble;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.Position;
+
+import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 
 //@formatter:off
 
 /**
  * Bubble component used on chat module
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -58,11 +61,11 @@ import gwt.material.design.client.constants.Position;
 //@formatter:on
 public class MaterialBubble extends MaterialWidget implements HasPosition {
 
-    private MaterialWidget triangle;
+    private MaterialWidget triangle = new MaterialWidget(Document.get().createDivElement());
     private final CssNameMixin<MaterialWidget, Position> positionMixin;
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug());
             MaterialDesignBase.injectCss(MaterialBubbleDebugClientBundle.INSTANCE.bubbleCssDebug());
         } else {
@@ -72,34 +75,40 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     }
 
     public MaterialBubble() {
-        super(Document.get().createSpanElement(), "bubble");
-        triangle = new MaterialWidget(Document.get().createDivElement());
-        triangle.setStyleName("triangle");
+        super(Document.get().createSpanElement(), AddinsCssName.BUBBLE);
+        triangle.setStyleName(AddinsCssName.TRIANGLE);
         positionMixin = new CssNameMixin<>(triangle);
+        positionMixin.setCssName(Position.LEFT);
         add(triangle);
         setShadow(1);
+    }
+
+    public MaterialBubble(Color textColor, Color backgroundColor) {
+        this();
+        setTextColor(textColor);
+        setBackgroundColor(backgroundColor);
+    }
+
+    public MaterialBubble(Color textColor, Color backgroundColor, Position position) {
+        this(textColor, backgroundColor);
+        setPosition(position);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        initBubble(getElement(), ColorHelper.setupComputedBackgroundColor(getBackgroundColor()), getPosition().getCssName());
+        initBubble();
     }
 
     /**
-     * Initialize the bubble component
-     * @param element - element to be set
-     * @param color - color of the bubble
-     * @param type - type of the bubble (RIGHT, TOP, LEFT, BOTTOM)
+     * Initialize the bubble component.
      */
-    protected native void initBubble(Element element, String color, String type) /*-{
-        $wnd.jQuery(document).ready(function() {
-            $wnd.jQuery(element).bubble({
-                position: type,
-                color: color
-            });
-        });
-    }-*/;
+    protected void initBubble() {
+        JsBubbleOptions options = new JsBubbleOptions();
+        options.position = getPosition().getCssName();
+        options.color = ColorHelper.setupComputedBackgroundColor(getBackgroundColor());
+        $(getElement()).bubble(options);
+    }
 
     @Override
     public Position getPosition() {
@@ -109,5 +118,6 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     @Override
     public void setPosition(Position position) {
         positionMixin.setCssName(position);
+        initBubble();
     }
 }

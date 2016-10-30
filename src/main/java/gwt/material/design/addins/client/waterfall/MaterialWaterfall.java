@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.waterfall;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,24 +17,30 @@ package gwt.material.design.addins.client.waterfall;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.waterfall;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
+
 /**
  * Material Waterfall - Act like a collapsible header below the nav bar component when scrolling up / down to provide delightful transition of components.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -49,14 +53,15 @@ import gwt.material.design.client.base.MaterialWidget;
  * </ma:waterfall.MaterialWaterfall>
  *
  * </pre>
- * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
+ *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
  */
 //@formatter:on
 public class MaterialWaterfall extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
             MaterialDesignBase.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
         } else {
@@ -65,61 +70,52 @@ public class MaterialWaterfall extends MaterialWidget {
         }
     }
 
-    private Runnable openCallback;
-    private Runnable closeCallback;
+    private Functions.Func openCallback;
+    private Functions.Func closeCallback;
     private double offset;
 
     public MaterialWaterfall() {
-        super(Document.get().createDivElement(), "waterfall");
+        super(Document.get().createDivElement(), AddinsCssName.WATERFALL);
         setShadow(1);
+    }
+
+    public MaterialWaterfall(Color backgroundColor, Color textColor) {
+        this();
+        setBackgroundColor(backgroundColor);
+        setTextColor(textColor);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        if(openCallback == null && closeCallback == null) {
-            openCallback = new Runnable() {
-                @Override
-                public void run() {
-                    for(Widget w : getChildren()){
-                        w.getElement().getStyle().setOpacity(1);
-                    }
-                }
-            };
-            closeCallback = new Runnable() {
-                @Override
-                public void run() {
-                    for(Widget w : getChildren()){
-                        w.getElement().getStyle().setOpacity(0);
-                    }
+        if (openCallback == null) {
+            openCallback = () -> {
+                for (Widget w : getChildren()) {
+                    w.getElement().getStyle().setOpacity(1);
                 }
             };
         }
-        if(offset == 0){
+        if (closeCallback == null) {
+            closeCallback = () -> {
+                for (Widget w : getChildren()) {
+                    w.getElement().getStyle().setOpacity(0);
+                }
+            };
+        }
+        if (offset == 0) {
             offset = getOffsetHeight();
         }
         initWaterfall(getElement().getOffsetHeight(), openCallback, closeCallback, offset);
     }
 
-    public void setCallbacks(Runnable openCallback, Runnable closeCallback) {
+    public void setCallbacks(Functions.Func openCallback, Functions.Func closeCallback) {
         this.openCallback = openCallback;
         this.closeCallback = closeCallback;
     }
 
-    protected native void initWaterfall(double height, Runnable openCallback, Runnable closeCallback, double offset) /*-{
-        $wnd.jQuery(document).ready(function() {
-
-            var openCallbackFn = $entry(function() {
-                openCallback.@java.lang.Runnable::run()();
-            });
-
-            var closeCallbackFn = $entry(function() {
-                closeCallback.@java.lang.Runnable::run()();
-            });
-
-            $wnd.initWaterfall(height, openCallbackFn, closeCallbackFn, offset);
-        });
-    }-*/;
+    protected void initWaterfall(double height, Functions.Func openCallback, Functions.Func closeCallback, double offset) {
+        JsWaterfall.initWaterfall(height, openCallback::call, closeCallback::call, offset);
+    }
 
     public double getOffset() {
         return offset;

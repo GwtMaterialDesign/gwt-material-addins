@@ -1,3 +1,5 @@
 target/
 gwt-material-addins.iml
 .idea
+/war
+/gwt-unitCache

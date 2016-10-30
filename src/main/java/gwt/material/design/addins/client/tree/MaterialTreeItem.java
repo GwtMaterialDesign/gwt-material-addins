@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.tree;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,34 +17,41 @@ package gwt.material.design.addins.client.tree;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.tree;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.base.HasTreeItems;
-import gwt.material.design.addins.client.tree.base.mixin.TreeItemMixin;
 import gwt.material.design.client.base.AbstractIconButton;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.html.Span;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@formatter:off
+
 /**
  * MaterialTreeItem is a component that is needed by {@link MaterialTree}
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -57,7 +62,6 @@ import java.util.List;
  * }
  * </pre>
  *
- *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
@@ -65,14 +69,41 @@ import java.util.List;
 public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems {
 
     private MaterialWidget divHeader = new MaterialWidget(Document.get().createDivElement());
+
     private Span span;
     private MaterialImage image;
-    private final TreeItemMixin<MaterialTreeItem> treeItemMixin = new TreeItemMixin<>(this);
+
+    private MaterialTree tree;
+    private Object object;
+    private HandlerRegistration clickRegistration;
+
+    private boolean hide = true;
+    private boolean initialized;
 
     public MaterialTreeItem() {
-        setStyleName("tree-item");
-        divHeader.setStyleName("tree-header");
+        super(AddinsCssName.TREE_ITEM);
+        divHeader.setStyleName(AddinsCssName.TREE_HEADER);
         add(divHeader);
+    }
+
+    public MaterialTreeItem(String text) {
+        this();
+        setText(text);
+    }
+
+    public MaterialTreeItem(String text, IconType icon) {
+        this(text);
+        setIconType(icon);
+    }
+
+    public MaterialTreeItem(String text, ImageResource resource) {
+        this(text);
+        setResource(resource);
+    }
+
+    public MaterialTreeItem(String text, IconType icon, Color iconColor) {
+        this(text, icon);
+        setIconColor(iconColor);
     }
 
     @Override
@@ -82,7 +113,9 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void setText(String text) {
-        span = new Span();
+        if (span == null) {
+            span = new Span();
+        }
         span.setText(text);
     }
 
@@ -92,27 +125,32 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     }
 
     @Override
-    public void add(Widget child) {
-        super.add(child);
-        if(child instanceof MaterialTreeItem){
-            treeItemMixin.getTreeItems().add((MaterialTreeItem) child);
+    protected void onLoad() {
+        super.onLoad();
+
+        if(!initialized) {
+            if(image != null) {
+                divHeader.add(image);
+            }
+            divHeader.add(getIcon());
+            divHeader.add(span);
+            initialized = true;
         }
+
+        if (clickRegistration != null) {
+            clickRegistration.removeHandler();
+        }
+        clickRegistration = divHeader.addClickHandler(event -> select());
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-        if(image != null){
-            divHeader.add(image);
+    protected void onUnload() {
+        super.onUnload();
+
+        if (clickRegistration != null) {
+            clickRegistration.removeHandler();
+            clickRegistration = null;
         }
-        divHeader.add(getIcon());
-        divHeader.add(span);
-        divHeader.addDomHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                initTreeItem();
-            }
-        }, ClickEvent.getType());
     }
 
     @Override
@@ -142,98 +180,143 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         return divHeader;
     }
 
-    public void setDivHeader(MaterialWidget divHeader) {
-        this.divHeader = divHeader;
+    public Span getSpan() {
+        return span;
     }
 
-    @Override
-    public void initTreeItem() {
-        treeItemMixin.initTreeItem();
+    public MaterialImage getImage() {
+        return image;
     }
 
-    @Override
-    public void setParentTree(MaterialTreeItem parentTree) {
-        treeItemMixin.setParentTree(parentTree);
+    public void select() {
+        // Fire selection event
+        SelectionEvent.fire(getTree(), this);
+
+        List<MaterialTreeItem> treeItems = getTreeItems();
+        if (!treeItems.isEmpty()) {
+            for (MaterialTreeItem treeItem : treeItems) {
+                if (hide) {
+                    treeItem.setVisible(false);
+                } else {
+                    treeItem.setVisible(true);
+                }
+            }
+            // Firing of events based on the status of the tree item
+            if (hide) {
+                CloseEvent.fire(getTree(), this);
+                hide = false;
+            } else {
+                OpenEvent.fire(getTree(), this);
+                hide = true;
+            }
+        }
     }
 
-    @Override
-    public MaterialTreeItem getParentTree() {
-        return treeItemMixin.getParentTree();
-    }
-
-    @Override
-    public void setTree(MaterialTree parentTree) {
-        treeItemMixin.setTree(parentTree);
+    public List<MaterialTreeItem> getTreeItems() {
+        List<MaterialTreeItem> treeItems = new ArrayList<>();
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialTreeItem) {
+                treeItems.add((MaterialTreeItem) child);
+            }
+        }
+        return treeItems;
     }
 
     @Override
     public MaterialTree getTree() {
-        return treeItemMixin.getTree();
+        return tree;
     }
 
-    @Override
-    public void setTreeItems(List<MaterialTreeItem> treeItems) {
-        treeItemMixin.setTreeItems(treeItems);
-    }
+    protected void setTree(MaterialTree tree) {
+        this.tree = tree;
 
-    @Override
-    public List<MaterialTreeItem> getTreeItems() {
-        return treeItemMixin.getTreeItems();
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialTreeItem) {
+                ((MaterialTreeItem) child).setTree(tree);
+            }
+        }
     }
 
     @Override
     public void setObject(Object object) {
-        treeItemMixin.setObject(object);
+        this.object = object;
     }
 
     @Override
     public Object getObject() {
-        return treeItemMixin.getObject();
+        return object;
     }
 
     @Override
     public void expand() {
-        treeItemMixin.expand();
+        for (MaterialTreeItem item : getTreeItems()) {
+            item.setVisible(true);
+        }
     }
 
     @Override
     public void collapse() {
-        treeItemMixin.collapse();
+        for (MaterialTreeItem item : getTreeItems()) {
+            item.setVisible(false);
+        }
     }
 
     @Override
     public void setHide(boolean hide) {
-        treeItemMixin.setHide(hide);
+        this.hide = hide;
     }
 
     @Override
     public boolean isHide() {
-        return treeItemMixin.isHide();
+        return hide;
+    }
+
+    @Override
+    protected void add(Widget child, com.google.gwt.user.client.Element container) {
+        if (child instanceof MaterialTreeItem) {
+            ((MaterialTreeItem) child).setTree(getTree());
+        }
+        super.add(child, container);
+    }
+
+    @Override
+    protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
+        if (child instanceof MaterialTreeItem) {
+            ((MaterialTreeItem) child).setTree(getTree());
+        }
+        super.insert(child, container, beforeIndex, domInsert);
     }
 
     @Override
     public void addItem(MaterialTreeItem item) {
-       treeItemMixin.addItem(item);
+        add(item);
+        expand();
     }
 
     @Override
     public void removeItem(MaterialTreeItem item) {
-        treeItemMixin.removeItem(item);
+        remove(item);
     }
 
     @Override
     public void removeItem(int index) {
-        treeItemMixin.removeItem(index);
+        remove(getWidget(index));
     }
 
     @Override
     public void insertItem(MaterialTreeItem item, int index) {
-        treeItemMixin.insertItem(item, index);
+        insert(item, index);
+        expand();
     }
 
     @Override
     public void removeFromTree() {
-        treeItemMixin.removeFromTree();
+        removeFromParent();
     }
 
+    @Override
+    public void removeFromParent() {
+        tree = null;
+        super.removeFromParent();
+    }
 }

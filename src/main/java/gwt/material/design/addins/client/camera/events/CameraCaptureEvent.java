@@ -1,5 +1,7 @@
 package gwt.material.design.addins.client.camera.events;
 
+import com.google.gwt.event.shared.GwtEvent;
+import gwt.material.design.addins.client.camera.MaterialCameraCapture;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
 
 /*
@@ -22,28 +24,24 @@ import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
  * #L%
  */
 
-import gwt.material.design.addins.client.camera.MaterialCameraCapture;
-
-import com.google.gwt.event.shared.GwtEvent;
-
 /**
  * <p>
  * Event that holds informartion about the state of a {@link HasCameraCaptureHandlers}, such
  * as {@link MaterialCameraCapture}.
  * </p>
  * <p>
- * When the stream has started, after the user allows the browser to use the camera, an event 
+ * When the stream has started, after the user allows the browser to use the camera, an event
  * with {@link CaptureStatus#STARTED} is raised. If the stream is paused, an event with
  * {@link CaptureStatus#PAUSED} is raised. If the user doesn't allow the browser to use the camera,
- * or if any other error occurs, an event with  {@link CaptureStatus#ERRORED} is raised, with the 
+ * or if any other error occurs, an event with  {@link CaptureStatus#ERRORED} is raised, with the
  * {@link #getErrorMessage()} set.
  * </p>
- * 
+ *
  * @author gilberto-torrezan
  */
 public class CameraCaptureEvent extends GwtEvent<CameraCaptureHandler> {
 
-    private static Type<CameraCaptureHandler> TYPE = new Type<CameraCaptureHandler>();
+    private static Type<CameraCaptureHandler> TYPE = new Type<>();
 
     public enum CaptureStatus {
         STARTED, PAUSED, ERRORED;

@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.bubble;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,7 +17,7 @@ package gwt.material.design.addins.client.bubble;
  * limitations under the License.
  * #L%
  */
-
+package gwt.material.design.addins.client.bubble;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -27,6 +25,7 @@ import com.google.gwt.resources.client.TextResource;
 
 /**
  * Client Bundle for Bubble component
+ *
  * @author kevzlou7979
  */
 interface MaterialBubbleDebugClientBundle extends ClientBundle {

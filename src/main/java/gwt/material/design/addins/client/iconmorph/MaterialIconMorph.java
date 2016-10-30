@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.iconmorph;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +17,29 @@ package gwt.material.design.addins.client.iconmorph;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.iconmorph;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialToast;
 
 //@formatter:off
+
 /**
  * Provides visual continuity by morphing two material icons.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
@@ -57,7 +57,7 @@ import gwt.material.design.client.ui.MaterialToast;
 public class MaterialIconMorph extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialIconMorphClientBundle.INSTANCE.morphCss());
@@ -67,20 +67,19 @@ public class MaterialIconMorph extends MaterialWidget {
     private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);
 
     public MaterialIconMorph() {
-        super(Document.get().createDivElement(), "anim-container");
+        super(Document.get().createDivElement(), AddinsCssName.ANIM_CONTAINER);
         getElement().setAttribute("onclick", "this.classList.toggle('morphed')");
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
+
         if (getWidgetCount() >= 2) {
             MaterialIcon source = (MaterialIcon) getWidget(0);
-            source.addStyleName("icons source");
+            source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);
             MaterialIcon target = (MaterialIcon) getWidget(1);
-            target.addStyleName("icons target");
-        }else{
-            MaterialToast.fireToast("Nothing");
+            target.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.TARGET);
         }
     }
 

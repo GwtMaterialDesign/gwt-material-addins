@@ -1,5 +1,3 @@
-package gwt.material.design.addins.client.dnd;
-
 /*
  * #%L
  * GwtMaterial
@@ -19,30 +17,29 @@ package gwt.material.design.addins.client.dnd;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.dnd;
 
-
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.dnd.base.HasDraggable;
-import gwt.material.design.addins.client.dnd.constants.Restriction;
-import gwt.material.design.addins.client.dnd.events.DragEndEvent;
-import gwt.material.design.addins.client.dnd.events.DragMoveEvent;
-import gwt.material.design.addins.client.dnd.events.DragStartEvent;
+import gwt.material.design.addins.client.dnd.base.DndHelper;
+import gwt.material.design.addins.client.dnd.js.JsDnd;
+import gwt.material.design.addins.client.dnd.js.JsDragOptions;
+import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.events.*;
+import gwt.material.design.jquery.client.api.JQuery;
 
 //@formatter:off
+
 /**
  * Drag and drop feature on Material Design specs are great UX guide to
  * provide a delightful motion on dragging and dropping gestures.
- *
+ * <p>
  * <h3>Java Usage</h3>
  * <pre>
- *{@code
+ * {@code
  *
  * MaterialDnd dnd = new MaterialDnd();
  * // Set the draggable object
@@ -58,208 +55,167 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#dnd">Drag and Drop</a>
  */
 //@formatter:on
-public class MaterialDnd extends MaterialWidget implements HasDraggable {
+public class MaterialDnd {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
         }
-
     }
 
-    private boolean inertia;
-    private Widget target;
-    private Widget ignoreFrom;
-    private Restriction restriction = new Restriction();
+    private MaterialWidget target;
+    private Element ignoreFrom;
 
-    public MaterialDnd() {
-        super(Document.get().createDivElement());
+    private JsDropOptions dropOptions;
+    private JsDragOptions dragOptions;
+
+    protected MaterialDnd() {
     }
 
-    public boolean isInertia() {
-        return inertia;
+    protected static MaterialDnd draggable(MaterialWidget target, MaterialDnd dnd) {
+        // Events
+        JsDnd jsDnd = JsDnd.interact(target.getElement());
+        jsDnd.off("dragmove");
+        jsDnd.on("dragmove", (event, o) -> {
+            DndHelper.initMove(event);
+            DragMoveEvent.fire(target);
+            return true;
+        });
+        jsDnd.off("dragstart");
+        jsDnd.on("dragstart", (event, o) -> {
+            DragStartEvent.fire(target);
+            return true;
+        });
+        jsDnd.off("dragend");
+        jsDnd.on("dragend", (event, o) -> {
+            DragEndEvent.fire(target);
+            return true;
+        });
+
+        jsDnd.draggable(dnd.dragOptions);
+        return dnd;
     }
 
-    public void setInertia(boolean inertia) {
-        this.inertia = inertia;
+    public static MaterialDnd draggable(MaterialWidget target) {
+        return draggable(target, JsDragOptions.create());
     }
 
-    @Override
-    public void setTarget(final Widget target) {
-        this.target = target;
-        if(!target.isAttached()) {
-            target.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initDraggable(target.getElement(), isInertia(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
-                                restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
-                    }
-                }
-            });
+    public static MaterialDnd draggable(MaterialWidget target, JsDragOptions options) {
+        MaterialDnd dnd = new MaterialDnd();
+        dnd.setTarget(target);
+        dnd.dragOptions = options;
+
+        // TODO: Validate options
+
+        if (target.isAttached()) {
+            draggable(target, dnd);
         } else {
-            initDraggable(target.getElement(), isInertia(), restriction.getRestriction().getValue(), restriction.isEndOnly(),
-                    restriction.getTop(), restriction.getLeft(), restriction.getBottom(), restriction.getRight());
+            target.addAttachHandler(event -> draggable(target, dnd), true);
+        }
+        return dnd;
+    }
+
+    protected static MaterialDnd dropzone(MaterialWidget target, MaterialDnd dnd) {
+        JsDnd jsDnd = JsDnd.interact(target.getElement());
+
+        jsDnd.off("dropactivate");
+        jsDnd.on("dropactivate", (event, o) -> {
+            DropActivateEvent.fire(target);
+            return true;
+        });
+
+        jsDnd.off("dragenter");
+        jsDnd.on("dragenter", (event, o) -> {
+            DragEnterEvent.fire(target, event.getRelatedTarget());
+            return true;
+        });
+
+        jsDnd.off("dragleave");
+        jsDnd.on("dragleave", (event, o) -> {
+            DragLeaveEvent.fire(target, event.getRelatedTarget());
+            return true;
+        });
+
+        jsDnd.off("drop");
+        jsDnd.on("drop", (event, o) -> {
+            DropEvent.fire(target, event.getRelatedTarget());
+            return true;
+        });
+
+        jsDnd.off("dropdeactivate");
+        jsDnd.on("dropdeactivate", (event, o) -> {
+            DropDeactivateEvent.fire(target);
+            return true;
+        });
+
+        jsDnd.dropzone(dnd.dropOptions);
+        return dnd;
+    }
+
+    public static MaterialDnd dropzone(MaterialWidget target) {
+        return dropzone(target, JsDropOptions.create());
+    }
+
+    public static MaterialDnd dropzone(MaterialWidget target, JsDropOptions options) {
+        MaterialDnd dnd = new MaterialDnd();
+        dnd.setTarget(target);
+        dnd.dropOptions = options;
+
+        // TODO: Validate options
+
+        if (target.isAttached()) {
+            dropzone(target, dnd);
+        } else {
+            target.addAttachHandler(event -> dropzone(target, dnd), true);
+        }
+        return dnd;
+    }
+
+    public void ignoreFrom(UIObject uiObject) {
+        ignoreFrom(uiObject.getElement());
+    }
+
+    public void ignoreFrom(Element element) {
+        this.ignoreFrom = element;
+        if (target.isAttached()) {
+            JsDnd.interact(target.getElement()).ignoreFrom(element);
+        } else {
+            target.addAttachHandler(event -> {
+                JsDnd.interact(target.getElement()).ignoreFrom(element);
+            }, true);
         }
     }
 
-    /**
-     * Initialize the draggable widget and it's properties
-     * @param target
-     */
-    protected native void initDraggable(Element target, boolean inertia, String restriction, boolean endOnly,
-                                      double top, double left, double bottom, double right) /*-{
-        var that = this;
-        $wnd.jQuery(document).ready(function() {
-            $wnd.interact(target)
-                .draggable({
-                    inertia: inertia,
-                    restrict: {
-                        restriction: restriction,
-                        endOnly: endOnly,
-                        elementRect: { top: top, left: left, bottom: bottom, right: right}
-                    },
-                    onstart: dragStartListener,
-                    onmove: dragMoveListener,
-                    onend: dragEndListener,
-                });
+    public void ignoreFrom(String selector) {
+        this.ignoreFrom = JQuery.$(selector).asElement();
+        if (target.isAttached()) {
+            JsDnd.interact(target.getElement()).ignoreFrom(selector);
+        } else {
+            target.addAttachHandler(event -> {
+                JsDnd.interact(target.getElement()).ignoreFrom(selector);
+            }, true);
+        }
+    }
 
-            function dragEndListener(event) {
-                that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragEndEvent()();
-            }
+    protected void setTarget(final MaterialWidget target) {
+        this.target = target;
+    }
 
-            function dragStartListener(event) {
-                that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragStartEvent()();
-            }
-
-            function dragMoveListener (event) {
-                var target = event.target,
-                    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-                target.style.webkitTransform =
-                    target.style.transform =
-                        'translate(' + x + 'px, ' + y + 'px)';
-
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
-                that.@gwt.material.design.addins.client.dnd.MaterialDnd::fireDragMoveEvent()();
-            }
-        });
-    }-*/;
-
-    @Override
-    public Widget getTarget() {
+    public MaterialWidget getTarget() {
         return target;
     }
 
-    @Override
-    public void setIgnoreFrom(final Widget ignoreFrom) {
-        this.ignoreFrom = ignoreFrom;
-        if(!target.isAttached() && !ignoreFrom.isAttached()) {
-            ignoreFrom.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    if(event.isAttached()) {
-                        initIgnoreFrom(target.getElement(), ignoreFrom.getElement());
-                    }
-                }
-            });
-        }else {
-            initIgnoreFrom(target.getElement(), ignoreFrom.getElement());
-        }
-    }
-
-    @Override
-    public void setIgnoreFrom(final String selector) {
-        if(!target.isAttached()){
-            target.addAttachHandler(new AttachEvent.Handler() {
-                @Override
-                public void onAttachOrDetach(AttachEvent event) {
-                    initIgnoreFrom(target.getElement(), selector);
-                }
-            });
-        } else {
-            initIgnoreFrom(target.getElement(), selector);
-        }
-    }
-
-    /**
-     * Initialize the ignoreFrom function as selector to exclude any widget from dragging
-     */
-    protected native void initIgnoreFrom(Element target, String selector) /*-{
-        $wnd.interact(target).ignoreFrom(selector);
-    }-*/;
-
-    /**
-     * Initialize the ignoreFrom function to exclude any widget from dragging
-     */
-    protected native void initIgnoreFrom(Element target, Element ignoreFrom) /*-{
-        $wnd.interact(target).ignoreFrom(ignoreFrom);
-    }-*/;
-
-    @Override
-    public Widget isIgnoreFrom() {
+    public Element getIgnoreFrom() {
         return ignoreFrom;
     }
 
-    @Override
-    public void setRestriction(Restriction restriction) {
-        this.restriction = restriction;
+    public JsDropOptions getDropOptions() {
+        return dropOptions;
     }
 
-    @Override
-    public Restriction getRestriction() {
-        return restriction;
-    }
-
-    @Override
-    public HandlerRegistration addDragStartHandler(final DragStartEvent.DragStartHandler handler) {
-        return addHandler(new DragStartEvent.DragStartHandler() {
-            @Override
-            public void onDragStart(DragStartEvent event) {
-                if(isEnabled()){
-                    handler.onDragStart(event);
-                }
-            }
-        }, DragStartEvent.TYPE);
-    }
-
-    protected void fireDragStartEvent() {
-        DragStartEvent.fire(this);
-    }
-
-    @Override
-    public HandlerRegistration addDragMoveHandler(final DragMoveEvent.DragMoveHandler handler) {
-        return addHandler(new DragMoveEvent.DragMoveHandler() {
-            @Override
-            public void onDragMove(DragMoveEvent event) {
-                if(isEnabled()){
-                    handler.onDragMove(event);
-                }
-            }
-        }, DragMoveEvent.TYPE);
-    }
-
-    protected void fireDragMoveEvent() {
-        DragMoveEvent.fire(this);
-    }
-
-    @Override
-    public HandlerRegistration addDragEndHandler(final DragEndEvent.DragEndHandler handler) {
-        return addHandler(new DragEndEvent.DragEndHandler() {
-            @Override
-            public void onDragEnd(DragEndEvent event) {
-                if(isEnabled()){
-                    handler.onDragEnd(event);
-                }
-            }
-        }, DragEndEvent.TYPE);
-    }
-
-    protected void fireDragEndEvent() {
-        DragEndEvent.fire(this);
+    public JsDragOptions getDragOptions() {
+        return dragOptions;
     }
 }

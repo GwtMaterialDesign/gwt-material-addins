@@ -1,10 +1,8 @@
-package gwt.material.design.addins.client.menubar;
-
 /*
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 GwtMaterialDesign
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,27 +17,30 @@ package gwt.material.design.addins.client.menubar;
  * limitations under the License.
  * #L%
  */
+package gwt.material.design.addins.client.menubar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
+
 /**
  * Menu bar is a component that bring a good UI UX navigation for Desktop or tablet interface.
  * It may require to have a dropdown components inside menu bar.
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
- *{@code
+ * {@code
  * <ma:menubar.MaterialMenuBar>
  *      &lt;!-- Menu Bar link -->
  *      <m:MateriaLink text="File" activates="dp-edit"/>
@@ -64,7 +65,7 @@ import gwt.material.design.client.base.MaterialWidget;
 public class MaterialMenuBar extends MaterialWidget {
 
     static {
-        if(MaterialAddins.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(MaterialMenuBarDebugClientBundle.INSTANCE.menubarCssDebug());
         } else {
             MaterialDesignBase.injectCss(MaterialMenuBarClientBundle.INSTANCE.menubarCss());
@@ -72,7 +73,6 @@ public class MaterialMenuBar extends MaterialWidget {
     }
 
     public MaterialMenuBar() {
-        super(Document.get().createDivElement(), "menu-bar");
+        super(Document.get().createDivElement(), AddinsCssName.MENU_BAR);
     }
-
 }

@@ -20,17 +20,17 @@ package gwt.material.design.addins.client.rating;
  * #L%
  */
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,41 +46,41 @@ import java.util.List;
  * rating, but other icons can be set using the
  * {@link #setSelectedRatingIcon(IconType)} method.
  * </p>
- *
+ * <p>
  * <h3>XML Namespace Declaration</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * xmlns:ma='urn:import:gwt.material.design.addins.client'
  * }
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" />
  * }
  * </pre>
- *
+ * <p>
  * To use different icons, for instance, hearts, you can set:
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" selectedRatingIcon="FAVORITE" unselectedRatingIcon="FAVORITE_BORDER" textColor="red" />
  * }
  * </pre>
- *
+ * <p>
  * You can also set the maximum rating (the default is 5):
- *
+ * <p>
  * <pre>
  * {@code
  * <ma:rating.MaterialRating ui:field="rating" maxRating="7" />
  * }
  * </pre>
- *
+ * <p>
  * <h3>Example Java Usage:</h3>
- *
+ * <p>
  * <pre>
  * {@code
  * MaterialRating rating = ... //create using new or using UiBinder
@@ -90,7 +90,7 @@ import java.util.List;
  * int selectedValue = rating.getValue(); // retrieves the selected rating
  * }
  * </pre>
- *
+ * <p>
  * <h3>Custom styling:</h3>
  * <p>
  * You use change the MaterialRating style by using the
@@ -100,7 +100,6 @@ import java.util.List;
  * </p>
  *
  * @author gilberto-torrezan
- *
  */
 public class MaterialRating extends MaterialWidget implements HasValue<Integer> {
 
@@ -115,16 +114,31 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Default constructor.
      */
     public MaterialRating() {
-        super(DOM.createDiv(), "material-rating");
+        super(DOM.createDiv(), AddinsCssName.MATERIAL_RATING);
         revalidateLayout();
+    }
+
+    public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor) {
+        this();
+        setSelectedRatingIcon(selectedRatingIcon);
+        setUnselectedRatingIcon(unselectedRatingIcon);
+    }
+
+    public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor, Integer value) {
+        this(selectedRatingIcon, unselectedRatingIcon, textColor);
+        setValue(value);
+    }
+
+    public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor, Integer value, Integer maxRating) {
+        this(selectedRatingIcon, unselectedRatingIcon, textColor, value);
+        setMaxRating(maxRating);
     }
 
     /**
      * Sets the maximum number of icons to show - which represents the maximum
      * selectable rating. The default is 5.
      *
-     * @param maxRating
-     *            The maximum selectable rating for this component
+     * @param maxRating The maximum selectable rating for this component
      */
     public void setMaxRating(int maxRating) {
         this.maxRating = maxRating;
@@ -132,8 +146,8 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     }
 
     /**
-     * Returns the maximum selectable rating in this component. The default is
-     * 5.
+     * Returns the maximum selectable rating in this component.
+     * The default is 5.
      *
      * @return The maximum rating
      */
@@ -145,8 +159,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Sets the {@link IconType} to be used to represent the selected ratings.
      * The default is {@link IconType#STAR}.
      *
-     * @param selectedRatingIcon
-     *            The icon of the selected ratings
+     * @param selectedRatingIcon The icon of the selected ratings
      */
     public void setSelectedRatingIcon(IconType selectedRatingIcon) {
         this.selectedRatingIcon = selectedRatingIcon;
@@ -167,8 +180,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Sets the {@link IconType} to be used to represent the not selected
      * ratings. The default is {@link IconType#STAR_BORDER}.
      *
-     * @param unselectedRatingIcon
-     *            The icon of the unselected ratings
+     * @param unselectedRatingIcon The icon of the unselected ratings
      */
     public void setUnselectedRatingIcon(IconType unselectedRatingIcon) {
         this.unselectedRatingIcon = unselectedRatingIcon;
@@ -192,7 +204,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     }
 
     /**
-     * Method called internally by the component to revalidade the number of
+     * Method called internally by the component to re-validate the number of
      * icons when the maximum rating is changed.
      */
     protected void revalidateLayout() {
@@ -202,42 +214,32 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
         iconList.clear();
 
         // same mouse-out handler for all icons
-        MouseOutHandler outHandler = new MouseOutHandler() {
-            @Override
-            public void onMouseOut(MouseOutEvent event) {
-                if (!isEnabled() || !isEditable()) {
-                    return;
-                }
-                revalidateSelection(currentRating);
+        MouseOutHandler outHandler = event -> {
+            if (!isEnabled() || !isEditable()) {
+                return;
             }
+            revalidateSelection(currentRating);
         };
 
         for (int i = 0; i < maxRating; i++) {
             final int rating = i + 1;
             MaterialIcon icon = new MaterialIcon(unselectedRatingIcon);
-            icon.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                    if (!isEnabled() || !isEditable()) {
-                        return;
-                    }
-                    setValue(rating, true);
+            icon.addClickHandler(event -> {
+                if (!isEnabled() || !isEditable()) {
+                    return;
                 }
+                setValue(rating, true);
             });
-            icon.addMouseOverHandler(new MouseOverHandler() {
-                @Override
-                public void onMouseOver(MouseOverEvent event) {
-                    if (!isEnabled() || !isEditable()) {
-                        return;
-                    }
-                    revalidateSelection(rating);
+            icon.addMouseOverHandler(event -> {
+                if (!isEnabled() || !isEditable()) {
+                    return;
                 }
+                revalidateSelection(rating);
             });
             icon.addMouseOutHandler(outHandler);
             add(icon);
             iconList.add(icon);
         }
-        GWT.log(unselectedRatingIcon.getCssName());
         revalidateSelection(currentRating);
     }
 
@@ -247,19 +249,20 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      */
     protected void revalidateSelection(int rating) {
         for (MaterialIcon icon : iconList) {
-            icon.removeStyleName("material-rating-unselected");
-            icon.removeStyleName("material-rating-selected");
+            icon.removeStyleName(AddinsCssName.MATERIAL_RATING_UNSELECTED);
+            icon.removeStyleName(AddinsCssName.MATERIAL_RATING_SELECTED);
         }
 
         for (int i = 0; i < rating && i < iconList.size(); i++) {
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(selectedRatingIcon);
-            icon.addStyleName("material-rating-selected");
+            icon.addStyleName(AddinsCssName.MATERIAL_RATING_SELECTED);
         }
+
         for (int i = rating; i < iconList.size(); i++) {
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(unselectedRatingIcon);
-            icon.addStyleName("material-rating-unselected");
+            icon.addStyleName(AddinsCssName.MATERIAL_RATING_UNSELECTED);
         }
     }
 
@@ -292,9 +295,8 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * Non-editable MaterialRatings can only show values, not allowing users to
      * change them. The default is <code>true</code> (editable).
      *
-     * @param editable
-     *            <code>true</code> to allow the user change the state of the
-     *            component, <code>false</code> otherwise
+     * @param editable <code>true</code> to allow the user change the state of the component,
+     *                 <code>false</code> otherwise.
      */
     public void setEditable(boolean editable) {
         this.editable = editable;
@@ -305,7 +307,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      * <code>true</code> (editable).
      *
      * @return <code>true</code> if the component is editable by the user,
-     *         <code>false</code> otherwise'
+     * <code>false</code> otherwise'
      */
     public boolean isEditable() {
         return editable;
