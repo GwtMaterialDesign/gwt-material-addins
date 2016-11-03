@@ -183,7 +183,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                 }
             }
         } else {
-            GWT.log("You have reach the minimum step.");
+            GWT.log("You have reached the minimum step.");
         }
     }
 
