@@ -108,7 +108,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private HandlerRegistration valueChangeHandler;
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
-            this, lblError, this.asWidget());
+        this, lblError, this.asWidget());
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     // By default the key is generated using toString
