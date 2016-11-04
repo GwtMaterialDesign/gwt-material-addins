@@ -319,6 +319,9 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void clear() {
         time = null;
+        this.clearErrorOrSuccess();
+        lblPlaceholder.removeStyleName(CssName.ACTIVE);
+        timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
     }
 
