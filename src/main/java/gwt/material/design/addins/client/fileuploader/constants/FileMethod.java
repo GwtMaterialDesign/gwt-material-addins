@@ -19,8 +19,9 @@
  */
 package gwt.material.design.addins.client.fileuploader.constants;
 
-import gwt.material.design.client.base.helper.EnumHelper;
 import gwt.material.design.client.constants.CssType;
+
+import java.util.Objects;
 
 /**
  * Defaults to "post" and can be changed to "put" if necessary.
@@ -37,12 +38,17 @@ public enum FileMethod implements CssType {
         this.cssClass = cssClass;
     }
 
+    public static FileMethod fromStyleName(final String styleName) {
+        for (FileMethod method : FileMethod.values()) {
+            if (Objects.equals(method.getCssName(), styleName)) {
+                return method;
+            }
+        }
+        return POST;
+    }
+
     @Override
     public String getCssName() {
         return cssClass;
-    }
-
-    public static FileMethod fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, FileMethod.class, POST);
     }
 }
