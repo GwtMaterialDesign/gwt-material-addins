@@ -209,7 +209,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("addedfile", file -> {
-            AddedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            AddedFileEvent.fire(this, convertUploadFile(file));
             totalFiles++;
 
             if (isPreview()) {
@@ -220,7 +220,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("removedfile", file -> {
-            RemovedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
         });
@@ -234,7 +234,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             if (response.indexOf("401") >= 0) {
                 response = "Unautharized. Probably Your's session expired. Log in and try again.";
                 globalResponse = response;
-                UnauthorizedEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+                UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
             }
 
             if (response.indexOf("404") >= 0) {
@@ -248,7 +248,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             }
 
             $(file.previewElement).find("#error-message").html(response);
-            ErrorEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
         });
 
         uploader.on("totaluploadprogress", (progress, file, response) -> {
@@ -266,31 +266,44 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("sending", file -> {
-            SendingEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText));
+            SendingEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
         uploader.on("success", (file, response) -> {
             globalResponse = response;
-            SuccessEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            SuccessEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
         });
 
         uploader.on("complete", file -> {
-            CompleteEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
+            CompleteEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
         });
 
         uploader.on("canceled", file -> {
-            CanceledEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            CanceledEvent.fire(this, convertUploadFile(file));
         });
 
         uploader.on("maxfilesreached", file -> {
-            MaxFilesReachedEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            MaxFilesReachedEvent.fire(this, convertUploadFile(file));
         });
 
         uploader.on("maxfilesexceeded", file -> {
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
-            MaxFilesExceededEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            MaxFilesExceededEvent.fire(this, convertUploadFile(file));
         });
     }
+
+    /**
+     * Converts a Native File Object to Upload File object
+     */
+    protected UploadFile convertUploadFile(File file) {
+        Date lastModifiedDate = new Date();
+        // Avoid parsing error on last modified date
+        if (file.lastModifiedDate != null && !file.lastModifiedDate.isEmpty()) {
+            lastModifiedDate = new Date(file.lastModifiedDate);
+        }
+        return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
+    }
+
 
     /**
      * Get the form url.
@@ -407,10 +420,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 }
             }
         }, AddedFileEvent.getType());
-    }
-
-    public void fireAddedFileEvent(File file) {
-        AddedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
     }
 
     @Override
