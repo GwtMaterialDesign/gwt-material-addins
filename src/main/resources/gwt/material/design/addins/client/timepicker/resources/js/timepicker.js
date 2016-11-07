@@ -13,7 +13,8 @@
         startTime: '',	      // default time, '' or 'now' or 'H:MM AM'
         autoclose: false,    	// show Cancel/OK buttons
         vibrate: true,        // vibrate the device when dragging clock hand
-        hour24:false
+        hour24:false,
+        orientation:"portrait"
     };
 
     // Listen touch events in touch screen device, instead of mouse events in desktop.
@@ -124,10 +125,12 @@
         this.AmPmButtons = popover.find('.lolliclock-ampm-btn');
         this.amButton = popover.find('#lolliclock-btn-am');
         this.pmButton = popover.find('#lolliclock-btn-pm');
-        if(this.options.hour24){
-            this.AmPmButtons.hide()
-            this.spanAmPm.hide()
+        if(this.options.hour24) {
+            this.AmPmButtons.hide();
+            this.spanAmPm.hide();
         }
+        popover.addClass(this.options.orientation);
+
         //var exportName = (this.input[0].name || this.input[0].id) + '-export';
         //this.dateTimeVal = $('<input type="hidden" id="' + exportName + '"></input>').insertAfter(input);
         // If autoclose is not setted, append a button
@@ -151,7 +154,7 @@
         var i, tick, radian;
 
         // Hours view
-        if(options.hour24){
+        if(options.hour24) {
             for (i = 1; i < 13; i++) {
                 tick = tickTpl.clone();
                 radian = i / 6 * Math.PI;
@@ -170,14 +173,14 @@
                     left: dialRadius + Math.sin(radian) * outSizeRadius - tickRadius,
                     top: dialRadius - Math.cos(radian) * outSizeRadius - tickRadius
                 });
-                if(i === 24){
+                if(i === 24) {
                     tick.html("00");
-                }else{
+                } else {
                     tick.html(i);
                 }
                 hoursView.append(tick);
             }
-        }else{
+        } else {
             for (i = 1; i < 13; i++) {
                 tick = tickTpl.clone();
                 radian = i / 6 * Math.PI;
@@ -214,15 +217,14 @@
                 dy = (isTouch ? e.originalEvent.touches[0] : e).pageY - y0,
                 z = Math.sqrt(dx * dx + dy * dy),
                 moved = false;
-            outsideMode = true
+            outsideMode = true;
 
             // Ignore plate clicks that aren't even close
-            if (z< outSizeRadius + tickRadius && z> outSizeRadius - tickRadius){
+            if (z< outSizeRadius + tickRadius && z> outSizeRadius - tickRadius) {
                 outsideMode = true
-            }
-            else if (z > radius - tickRadius && z < radius + tickRadius && options.hour24 &&  self.currentView === 'hours'){
+            } else if (z > radius - tickRadius && z < radius + tickRadius && options.hour24 &&  self.currentView === 'hours') {
                 outsideMode = false
-            }else{
+            } else {
                 return
             }
             e.preventDefault();
@@ -324,6 +326,13 @@
         this[this.isShown ? 'hide' : 'show']();
     };
 
+    // Show or hide popover
+    LolliClock.prototype.setOrientation = function (orientation) {
+        this.popover.removeClass(this.options.orientation);
+        this.options.orientation = orientation;
+        this.popover.addClass(orientation);
+    };
+
     LolliClock.prototype.changeAmPm = function (isAmOrPm) {
         if (!!isAmOrPm && isAmOrPm === this.amOrPm && this.options.hour24) return;
         this.amOrPm = this.amOrPm === 'AM' ? 'PM' : 'AM';
@@ -362,6 +371,8 @@
 
         raiseCallback(this.options.beforeShow);
         var self = this;
+
+        this.popover.addClass(this.options.orientation);
 
         // Initialize
         if (!this.isAppended) {
@@ -410,18 +421,16 @@
         this.spanOldTime.addClass('animate');
         !this.options.autoclose && this.closeButtons.addClass('animate');
 
-        this.plate.on('webkitAnimationEnd animationend MSAnimationEnd oanimationend',
-            function () {
-                self.plate.removeClass("animate");
-                self.header.removeClass("animate");
-                self.popover.removeClass("animate");
-                self.AmPmButtons.removeClass("animate");
-                self.spanNewTime.removeClass("animate");
-                self.spanOldTime.removeClass("animate");
-                !self.options.autoclose && self.closeButtons.removeClass("animate");
-                self.plate.off('webkitAnimationEnd animationend MSAnimationEnd oanimationend');
-            }
-        );
+        this.plate.on('webkitAnimationEnd animationend MSAnimationEnd oanimationend', function () {
+            self.plate.removeClass("animate");
+            self.header.removeClass("animate");
+            self.popover.removeClass("animate");
+            self.AmPmButtons.removeClass("animate");
+            self.spanNewTime.removeClass("animate");
+            self.spanOldTime.removeClass("animate");
+            !self.options.autoclose && self.closeButtons.removeClass("animate");
+            self.plate.off('webkitAnimationEnd animationend MSAnimationEnd oanimationend');
+        });
 
         //Get the time
         function timeToDate(time) {
@@ -439,7 +448,6 @@
         }
 
         function isValidTime(time) {
-
             return !isNaN(timeToDate(time).getTime());
         }
 
@@ -459,10 +467,10 @@
         } else {
             value = new Date();
         }
-        if(this.options.hour24){
+        if(this.options.hour24) {
             this.hours = value.getHours()
-        }else{
-            this.hours = value.getHours()%12
+        } else {
+            this.hours = value.getHours()%12;
             this.amOrPm = value.getHours() > 11 ? "AM" : "PM";
         }
         this.minutes = value.getMinutes();
@@ -473,7 +481,6 @@
         // Set time
         self.toggleView('minutes');
         self.toggleView('hours');
-
 
         self.isShown = true;
 
@@ -560,13 +567,13 @@
         } else {
             var self = this;
             this.plate.on(mousemoveEvent, function (e) {
-
                 var offset = self.plate.offset(),
                     x0 = offset.left + dialRadius,
                     y0 = offset.top + dialRadius,
                     dx = e.pageX - x0,
                     dy = e.pageY - y0,
                     z = Math.sqrt(dx * dx + dy * dy);
+
                 if (z > outSizeRadius - tickRadius && z < outSizeRadius + tickRadius) {
                     $(document.body).addClass('lolliclock-clickable');
                 } else {
@@ -582,12 +589,12 @@
             outSizeMode = true,
             value = this[view],
             isHours = view === 'hours';
-        if(isHours){
-            unit = Math.PI /  6
-            if(value !== 0 && value <=12 && this.options.hour24){
+        if(isHours) {
+            unit = Math.PI /  6;
+            if(value !== 0 && value <=12 && this.options.hour24) {
                 outSizeMode = false;
             }
-        }else{
+        } else {
             unit = Math.PI / 30
         }
 
@@ -615,14 +622,14 @@
         var value;
 
         // Get the round value
-        if(outSizeMode && this.options.hour24 && isHours){
-            value = Math.round(radian / unit)
-            if(value === 12 || value ===0){
+        if(outSizeMode && this.options.hour24 && isHours) {
+            value = Math.round(radian / unit);
+            if(value === 12 || value ===0) {
                 value = 0;
-            }else{
+            } else {
                 value += 12;
             }
-        }else{
+        } else {
             value = Math.round(radian / unit);
         }
 
@@ -631,7 +638,7 @@
 
         // Correct the hours or minutes
         if (isHours) {
-            if (value === 0 && !(this.options.hour24 && outSizeMode) ) {
+            if (value === 0 && !(this.options.hour24 && outSizeMode)) {
                 value = 12;
             }
             this.fg.style.visibility = 'hidden';
@@ -663,13 +670,12 @@
         //TODO: Keep tens digit static for changing hours
         this[this.currentView] = value;
         function cleanupAnimation($obj) {
-            $obj.on('webkitAnimationEnd animationend MSAnimationEnd oanimationend',
-                function () {
-                    $oldTime.html(value); //only needed for -up transitions
-                    $oldTime.removeClass("old-down old-up");
-                    $newTime.removeClass("new-down new-up");
-                    $oldTime.off('webkitAnimationEnd animationend MSAnimationEnd oanimationend');
-                });
+            $obj.on('webkitAnimationEnd animationend MSAnimationEnd oanimationend', function () {
+                $oldTime.html(value); //only needed for -up transitions
+                $oldTime.removeClass("old-down old-up");
+                $newTime.removeClass("new-down new-up");
+                $oldTime.off('webkitAnimationEnd animationend MSAnimationEnd oanimationend');
+            });
         }
 
         var $oldTime;
@@ -677,7 +683,7 @@
         if (isHours) {
             $oldTime = $(this.spanHours[0].childNodes[0]);
             $newTime = $(this.spanHours[0].childNodes[1]);
-            if(this.options.hour24){
+            if(this.options.hour24) {
                 value = leadingZero(value);
             }
         } else {
@@ -703,7 +709,7 @@
 
         // Set clock hand and others' position
 
-        var r = radius
+        var r = radius;
         if (outSizeMode) {
             r = outSizeRadius
         }
@@ -723,10 +729,10 @@
         raiseCallback(this.options.beforeDone);
 
         var last = this.input.prop('value');
-        var value = ""
-        if(!this.options.hour24){
+        var value = "";
+        if(!this.options.hour24) {
             value = this.hours + ':' + leadingZero(this.minutes) + " " + this.amOrPm;
-        }else{
+        } else {
             value = leadingZero(this.hours) + ':' + leadingZero(this.minutes) ;
         }
         if (value !== last) {

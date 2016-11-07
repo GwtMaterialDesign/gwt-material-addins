@@ -30,6 +30,7 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
@@ -37,6 +38,8 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.*;
+import gwt.material.design.client.js.JsMaterialElement;
+import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialInput;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -112,8 +115,10 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     private String uniqueId;
     private String placeholder;
+    private boolean initialized;
     private boolean autoClose;
     private boolean hour24;
+    private boolean detectOrientation = false;
     private Orientation orientation = Orientation.PORTRAIT;
 
     public MaterialTimePicker() {
@@ -149,7 +154,9 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void onUnload() {
         super.onUnload();
 
+        window().off("resize.lolliclock-orientation");
         $(timeInput.getElement()).lolliclock("remove");
+        initialized = false;
     }
 
     /**
@@ -220,19 +227,53 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
+        if(initialized) {
+            JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", orientation.getCssName());
+        } else {
+            initialize();
+        }
+    }
+
+    public void setDetectOrientation(boolean detectOrientation) {
+        this.detectOrientation = detectOrientation;
+
+        window().off("resize.lolliclock-orientation");
+
+        if(detectOrientation) {
+            window().on("resize.lolliclock-orientation", e -> {
+                detectAndApplyOrientation();
+                return true;
+            });
+            detectAndApplyOrientation();
+        }
+    }
+
+    public boolean isDetectOrientation() {
+        return detectOrientation;
     }
 
     protected void initialize() {
-        JsTimePickerOptions options = new JsTimePickerOptions();
-        options.autoclose = isAutoClose();
-        options.orientation = getOrientation().getCssName();
-        options.hour24 = isHour24();
-        options.uniqueId = getUniqueId();
-        options.beforeShow = this::beforeShow;
-        options.afterShow = this::afterShow;
-        options.afterHide = this::afterHide;
-        $(timeInput.getElement()).lolliclock(options);
-        $(timeInput.getElement()).blur();
+        if(!initialized) {
+            JsTimePickerOptions options = new JsTimePickerOptions();
+            options.autoclose = isAutoClose();
+            options.orientation = getOrientation().getCssName();
+            options.hour24 = isHour24();
+            options.uniqueId = getUniqueId();
+            options.beforeShow = this::beforeShow;
+            options.afterShow = this::afterShow;
+            options.afterHide = this::afterHide;
+            $(timeInput.getElement()).lolliclock(options);
+            $(timeInput.getElement()).blur();
+            initialized = true;
+        }
+    }
+
+    protected void detectAndApplyOrientation() {
+        if (Window.matchMedia("(orientation: portrait)")) {
+            setOrientation(Orientation.PORTRAIT);
+        } else {
+            setOrientation(Orientation.LANDSCAPE);
+        }
     }
 
     /**
@@ -250,8 +291,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     protected void afterShow() {
         OpenEvent.fire(this, this.time);
-        fireEvent(new FocusEvent() {
-        });
+        fireEvent(new FocusEvent() {});
     }
 
     /**
@@ -263,12 +303,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
         if (timeString != null && !timeString.equals("")) {
             try {
-                if (this.hour24) {
-                    parsedDate = DateTimeFormat.getFormat("HH:mm").parse(timeString);
-                } else {
-                    parsedDate = DateTimeFormat.getFormat("hh:mm aa").parse(timeString);
-                }
-            } catch (Exception e) {
+                parsedDate = DateTimeFormat.getFormat(this.hour24 ? "HH:mm" : "hh:mm aa").parse(timeString);
+            } catch (IllegalArgumentException e) {
                 // Silently catch parse errors
             }
         }
@@ -279,8 +315,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         validMixin.setOn(false);
 
         CloseEvent.fire(this, this.time);
-        fireEvent(new BlurEvent() {
-        });
+        fireEvent(new BlurEvent() {});
     }
 
     protected String getTime() {
