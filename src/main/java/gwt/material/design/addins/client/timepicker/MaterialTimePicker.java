@@ -154,7 +154,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void onUnload() {
         super.onUnload();
 
-        window().off("resize.lolliclock-orientation");
         $(timeInput.getElement()).lolliclock("remove");
         initialized = false;
     }
