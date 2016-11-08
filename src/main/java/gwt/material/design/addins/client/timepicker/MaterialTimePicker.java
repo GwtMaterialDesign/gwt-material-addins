@@ -142,8 +142,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         uniqueId = DOM.createUniqueId();
         timeInput.setType(InputType.TEXT);
         readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
-        panel.add(timeInput);
         panel.add(lblPlaceholder);
+        panel.add(timeInput);
         panel.add(lblError);
         add(panel);
         timeInput.getElement().setAttribute("type", "text");
@@ -370,7 +370,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         if (this.time == null) {
             return;
         }
-
+        lblPlaceholder.removeStyleName(CssName.ACTIVE);
+        lblPlaceholder.addStyleName(CssName.ACTIVE);
         $(timeInput.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
         super.setValue(time, fireEvents);
     }

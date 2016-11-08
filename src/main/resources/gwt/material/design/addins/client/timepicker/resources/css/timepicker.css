@@ -605,3 +605,7 @@
         opacity: 1;
     }
 }
+
+.timepicker input {
+    position: relative;
+}
