@@ -89,7 +89,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void open(MaterialWidget source) {
         this.source = source;
-        $("body").css("overflow", "hidden");
+        $("body").attr("style", "overflow: hidden !important");
         MaterialPathAnimator.animate(source.getElement(), getElement());
         OpenEvent.fire(this, this);
     }
@@ -98,7 +98,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      * Close the Overlay Panel with Path Animator applied
      */
     public void close() {
-        body().css("overflow", "auto");
+        body().attr("style", "overflow: auto !important");
         MaterialPathAnimator.reverseAnimate(source.getElement(), getElement());
         CloseEvent.fire(this, this);
     }
