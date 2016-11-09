@@ -121,6 +121,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     private boolean detectOrientation = false;
     private Orientation orientation = Orientation.PORTRAIT;
 
+    protected HandlerRegistration orientationHandler;
+
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
     }
@@ -236,12 +238,14 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     public void setDetectOrientation(boolean detectOrientation) {
         this.detectOrientation = detectOrientation;
 
-        window().off("resize.lolliclock-orientation");
+        if(orientationHandler != null) {
+            orientationHandler.removeHandler();
+            orientationHandler = null;
+        }
 
         if(detectOrientation) {
-            window().on("resize.lolliclock-orientation", e -> {
+            orientationHandler = com.google.gwt.user.client.Window.addResizeHandler(resizeEvent -> {
                 detectAndApplyOrientation();
-                return true;
             });
             detectAndApplyOrientation();
         }
