@@ -41,6 +41,7 @@ import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.animate.MaterialAnimator;
 import gwt.material.design.client.ui.animate.Transition;
@@ -92,6 +93,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
     private boolean stepSkippingAllowed = true;
+    private boolean detectOrientation = false;
+    protected HandlerRegistration orientationHandler;
 
     private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
 
@@ -109,6 +112,34 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             StartEvent.fire(MaterialStepper.this);
             goToStep(currentStepIndex + 1);
         }
+    }
+
+    public void setDetectOrientation(boolean detectOrientation) {
+        this.detectOrientation = detectOrientation;
+
+        if(orientationHandler != null) {
+            orientationHandler.removeHandler();
+            orientationHandler = null;
+        }
+
+        if(detectOrientation) {
+            orientationHandler = com.google.gwt.user.client.Window.addResizeHandler(resizeEvent -> {
+                detectAndApplyOrientation();
+            });
+            detectAndApplyOrientation();
+        }
+    }
+
+    protected void detectAndApplyOrientation() {
+        if (Window.matchMedia("(orientation: portrait)")) {
+            setAxis(Axis.VERTICAL);
+        } else {
+            setAxis(Axis.HORIZONTAL);
+        }
+    }
+
+    public boolean isDetectOrientation() {
+        return detectOrientation;
     }
 
     /**

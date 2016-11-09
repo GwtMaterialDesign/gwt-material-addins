@@ -224,7 +224,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
                 break;
             case VERTICAL:
                 conBody.insert(divTitle, 0);
+                conBody.insert(divDescription, 1);
                 conCircle.add(divLine);
+
                 break;
         }
     }
