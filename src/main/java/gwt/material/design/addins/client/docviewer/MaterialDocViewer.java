@@ -64,7 +64,7 @@ public class MaterialDocViewer extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
-        getElement().setAttribute("src", "http://docs.google.com/gview?url=" + url + "&embedded=" + embedded);
+        getElement().setAttribute("src", "https://docs.google.com/gview?url=" + url + "&embedded=" + embedded);
     }
 
     /**
