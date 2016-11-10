@@ -43,10 +43,10 @@ public class MaterialDocViewerTest extends MaterialAddinsTest {
         assertEquals(docViewer.getUrl(), URL);
         assertTrue(docViewer.getElement().hasAttribute("src"));
         docViewer.setEmbedded(true);
-        assertEquals(docViewer.getElement().getAttribute("src"), "http://docs.google.com/gview?url=someurl&embedded=true");
+        assertEquals(docViewer.getElement().getAttribute("src"), "https://docs.google.com/gview?url=someurl&embedded=true");
         docViewer.setEmbedded(false);
         docViewer.removeFromParent();
         RootPanel.get().add(docViewer);
-        assertEquals(docViewer.getElement().getAttribute("src"), "http://docs.google.com/gview?url=someurl&embedded=false");
+        assertEquals(docViewer.getElement().getAttribute("src"), "https://docs.google.com/gview?url=someurl&embedded=false");
     }
 }
