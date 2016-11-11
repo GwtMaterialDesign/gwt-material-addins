@@ -23,6 +23,7 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
@@ -203,7 +204,7 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     @Override
     public void setText(String text) {
-        getElement().setInnerText(text);
+        getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(text));
     }
 
     protected String getHTMLCode(Element e) {
