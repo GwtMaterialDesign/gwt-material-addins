@@ -28,6 +28,9 @@
     height: 100% !important;
     padding-top: 20% !important;
     padding-left: 10px !important;
+    animation: none !important;
+    -webkit-animation: none !important;
+    -moa-animation: none !important;
 }
 
 .landscape .popover-content{
