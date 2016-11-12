@@ -76,8 +76,8 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest {
         assertTrue(timePicker.getWidget(0) instanceof MaterialPanel);
         MaterialPanel panel = (MaterialPanel) timePicker.getWidget(0);
         assertEquals(panel.getWidgetCount(), 3);
-        assertTrue(panel.getWidget(0) instanceof MaterialInput);
-        assertTrue(panel.getWidget(1) instanceof Label);
+        assertTrue(panel.getWidget(0) instanceof Label);
+        assertTrue(panel.getWidget(1) instanceof MaterialInput);
         assertTrue(panel.getWidget(2) instanceof MaterialLabel);
     }
 

@@ -81,38 +81,19 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }
     }
 
-    // Has to be specified on elements other than form (or when the form doesn't have an action attribute).
-    private String url;
-
-    // 20MB by default for max file size
-    private int maxFileSize = 20;
-
-    // Defaults to "post" and can be changed to "put" if necessary.
-    private FileMethod method = FileMethod.POST;
-
-    // If the number of files you upload exceeds, the event maxfilesexceeded will be called. By default it's 100 files.
-    private int maxFiles = 100;
-
-    // The default implementation of accept checks the file's mime type or extension against this list. This is a
-    // comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd
-    private String acceptedFiles = "";
-
-    private String clickable = "";
-    private boolean autoQueue = true;
     private boolean preview = true;
     private boolean initialize = false;
-    private boolean withCredentials = false;
     private int totalFiles = 0;
     private String globalResponse = "";
-
     private Dropzone uploader;
-
+    private JsFileUploaderOptions options;
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
         setId(AddinsCssName.ZDROP);
         add(uploadPreview);
+        options = getDefaultOptions();
     }
 
     public MaterialFileUploader(String url, FileMethod method) {
@@ -125,6 +106,18 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         this(url, method);
         setMaxFiles(maxFileSize);
         setAcceptedFiles(acceptedFiles);
+    }
+
+    protected JsFileUploaderOptions getDefaultOptions() {
+        JsFileUploaderOptions options = new JsFileUploaderOptions();
+        options.clickable = "";
+        options.autoQueue = true;
+        options.maxFilesize = 20;
+        options.maxFiles = 100;
+        options.method = FileMethod.POST.getCssName();
+        options.withCredentials = false;
+        options.acceptedFiles = "";
+        return options;
     }
 
     @Override
@@ -140,7 +133,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     public void initDropzone() {
         String previews = DOM.createUniqueId();
         uploadPreview.getUploadCollection().setId(previews);
-        if (clickable.isEmpty()) {
+        if (options.clickable.isEmpty()) {
             String clickable = DOM.createUniqueId();
             if (getWidget(1) instanceof MaterialUploadLabel) {
                 MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
@@ -159,16 +152,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 uploadPreview.getUploadCollection().getItem().getElement(),
                 previews,
                 uploadPreview.getElement(),
-                uploadPreview.getUploadHeader().getUploadedFiles().getElement(),
-                getUrl(),
-                getMaxFileSize(),
-                getMaxFiles(),
-                getMethod().getCssName(),
-                isAutoQueue(),
-                getAcceptedFiles(),
-                getClickable(),
-                preview,
-                isWithCredentials());
+                uploadPreview.getUploadHeader().getUploadedFiles().getElement());
     }
 
     /**
@@ -176,24 +160,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * dnd feature for the file upload
      *
      * @param e
-     * @param url
      */
-    protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles, String url, int maxFileSize, int maxFiles, String method, boolean autoQueue, String acceptedFiles, String clickable, boolean preview, boolean withCredentials) {
+    protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles ) {
         JQueryElement previewNode = $(template);
         previewNode.asElement().setId("");
         String previewTemplate = previewNode.parent().html();
-
-        JsFileUploaderOptions options = new JsFileUploaderOptions();
-        options.url = url;
-        options.maxFilesize = maxFileSize;
-        options.method = method;
-        options.maxFiles = maxFiles;
         options.previewTemplate = previewTemplate;
-        options.acceptedFiles = acceptedFiles;
-        options.autoQueue = autoQueue;
         options.previewsContainer = "#" + previews;
-        options.clickable = "#" + clickable;
-        options.withCredentials = withCredentials;
         uploader = new Dropzone(e, options);
 
         uploader.on("drop", event -> {
@@ -236,7 +209,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("addedfile", file -> {
-            AddedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            AddedFileEvent.fire(this, convertUploadFile(file));
             totalFiles++;
 
             if (isPreview()) {
@@ -247,7 +220,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("removedfile", file -> {
-            RemovedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
         });
@@ -261,7 +234,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             if (response.indexOf("401") >= 0) {
                 response = "Unautharized. Probably Your's session expired. Log in and try again.";
                 globalResponse = response;
-                UnauthorizedEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+                UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
             }
 
             if (response.indexOf("404") >= 0) {
@@ -275,7 +248,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             }
 
             $(file.previewElement).find("#error-message").html(response);
-            ErrorEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
         });
 
         uploader.on("totaluploadprogress", (progress, file, response) -> {
@@ -293,122 +266,136 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("sending", file -> {
-            SendingEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText));
+            SendingEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
         uploader.on("success", (file, response) -> {
             globalResponse = response;
-            SuccessEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            SuccessEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
         });
 
         uploader.on("complete", file -> {
-            CompleteEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
+            CompleteEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
         });
 
         uploader.on("canceled", file -> {
-            CanceledEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            CanceledEvent.fire(this, convertUploadFile(file));
         });
 
         uploader.on("maxfilesreached", file -> {
-            MaxFilesReachedEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            MaxFilesReachedEvent.fire(this, convertUploadFile(file));
         });
 
         uploader.on("maxfilesexceeded", file -> {
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
-            MaxFilesExceededEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
+            MaxFilesExceededEvent.fire(this, convertUploadFile(file));
         });
     }
+
+    /**
+     * Converts a Native File Object to Upload File object
+     */
+    protected UploadFile convertUploadFile(File file) {
+        Date lastModifiedDate = new Date();
+        // Avoid parsing error on last modified date
+        if (file.lastModifiedDate != null && !file.lastModifiedDate.isEmpty()) {
+            lastModifiedDate = new Date(file.lastModifiedDate);
+        }
+        return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
+    }
+
 
     /**
      * Get the form url.
      */
     public String getUrl() {
-        return url;
+        return options.url;
     }
 
     /**
      * Set the form url e.g /file/post.
      */
     public void setUrl(String url) {
-        this.url = url;
+        options.url = url;
     }
 
     /**
      * Get the maximum file size value of the uploader.
      */
     public int getMaxFileSize() {
-        return maxFileSize;
+        return options.maxFilesize;
     }
 
     /**
-     * Set the maximum file size of the uploader.
+     * Set the maximum file size of the uploader, default 20(MB).
      */
     public void setMaxFileSize(int maxFileSize) {
-        this.maxFileSize = maxFileSize;
+        options.maxFilesize = maxFileSize;
     }
 
     /**
      * Check whether it's auto queue or not.
      */
     public boolean isAutoQueue() {
-        return autoQueue;
+        return options.autoQueue;
     }
 
     /**
      * Set the auto queue boolean value.
      */
     public void setAutoQueue(boolean autoQueue) {
-        this.autoQueue = autoQueue;
+        options.autoQueue = autoQueue;
     }
 
     /**
      * Get the method param of file uploader.
      */
     public FileMethod getMethod() {
-        return method;
+        return FileMethod.fromStyleName(options.method);
     }
 
     /**
-     * Set the method param of file upload (POST or PUT).
+     * Set the method param of file upload (POST or PUT), default POST.
      */
     public void setMethod(FileMethod method) {
-        this.method = method;
+        options.method = method.getCssName();
     }
 
     /**
      * Get the max number of files.
      */
     public int getMaxFiles() {
-        return maxFiles;
+        return options.maxFiles;
+    }
+
+    /**
+     * Set the max number of files.
+     * Default 100 but if you want to accept only one file just set the max file to 1.
+     * If the number of files you upload exceeds, the event maxfilesexceeded will be called.
+     */
+    public void setMaxFiles(int maxFiles) {
+        options.maxFiles = maxFiles;
     }
 
     /**
      * Check whether it's withCredentials or not.
      */
     public boolean isWithCredentials() {
-        return withCredentials;
+        return options.withCredentials;
     }
 
     /**
      * Set the withCredentials boolean value.
      */
     public void setWithCredentials(boolean withCredentials) {
-        this.withCredentials = withCredentials;
-    }
-
-    /**
-     * Set the max number of files, by default it's 100 but if you want to accept only one file just
-     * set the max file to 1.
-     */
-    public void setMaxFiles(int maxFiles) {
-        this.maxFiles = maxFiles;
+        options.withCredentials = withCredentials;
     }
 
     /**
      * Get the accepted file string.
      */
     public String getAcceptedFiles() {
-        return acceptedFiles;
+        return options.acceptedFiles;
     }
 
     /**
@@ -416,7 +403,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      * This is a comma separated list of mime types or file extensions. Eg.: image/*,application/pdf,.psd.
      */
     public void setAcceptedFiles(String acceptedFiles) {
-        this.acceptedFiles = acceptedFiles;
+        options.acceptedFiles = acceptedFiles;
     }
 
     public void fireDropEvent() {
@@ -433,10 +420,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 }
             }
         }, AddedFileEvent.getType());
-    }
-
-    public void fireAddedFileEvent(File file) {
-        AddedFileEvent.fire(this, new UploadFile(file.name, new Date(file.lastModifiedDate), Double.parseDouble(file.size), file.type));
     }
 
     @Override
@@ -566,11 +549,11 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     public String getClickable() {
-        return clickable;
+        return options.clickable.length()==0?options.clickable:options.clickable.substring(1);
     }
 
     public void setClickable(String clickable) {
-        this.clickable = clickable;
+        options.clickable = "#"+clickable;
     }
 
     public boolean isPreview() {

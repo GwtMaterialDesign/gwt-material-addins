@@ -27,6 +27,8 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
 import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
@@ -185,7 +187,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
      * Insert custom text inside the note zone.
      */
     protected void insertText(Element e, String text) {
-        $(e).materialnote("insertText", text);
+        $(e).materialnote("insertText", SafeHtmlUtils.fromString(text).asString());
     }
 
     /**

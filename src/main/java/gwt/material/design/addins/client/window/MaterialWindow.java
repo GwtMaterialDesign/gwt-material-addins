@@ -165,7 +165,7 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         // Add a draggable header
         MaterialDnd dnd = MaterialDnd.draggable(windowContainer,
                 JsDragOptions.create(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1)));
-        dnd.ignoreFrom(".content, .windowContainer-action");
+        dnd.ignoreFrom(".content, .window-action");
     }
 
     protected void toggleMaximize() {

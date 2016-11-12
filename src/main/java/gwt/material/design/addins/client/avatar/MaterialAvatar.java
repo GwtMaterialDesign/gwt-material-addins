@@ -56,7 +56,7 @@ public class MaterialAvatar extends MaterialWidget {
     static {
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
-            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
+            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.md5DebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.md5Js());

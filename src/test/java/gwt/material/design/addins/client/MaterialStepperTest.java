@@ -89,12 +89,26 @@ public class MaterialStepperTest extends MaterialAddinsTest {
     }
 
     protected <T extends MaterialStepper> void checkAxis(T stepper) {
+        assertNotNull(stepper.getCurrentStep());
+        MaterialStep step = stepper.getCurrentStep();
+        MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
+        MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
+
         stepper.setAxis(Axis.VERTICAL);
         assertEquals(stepper.getAxis(), Axis.VERTICAL);
         assertTrue(stepper.getElement().hasClassName(Axis.VERTICAL.getCssName()));
+
+        assertTrue(conBody.getWidget(0).getElement().hasClassName(CssName.TITLE));
+        assertTrue(conBody.getWidget(1).getElement().hasClassName(AddinsCssName.DESCRIPTION));
+        assertTrue(conBody.getWidget(2).getElement().hasClassName(AddinsCssName.BODY));
+
         stepper.setAxis(Axis.HORIZONTAL);
         assertEquals(stepper.getAxis(), Axis.HORIZONTAL);
         assertTrue(stepper.getElement().hasClassName(Axis.HORIZONTAL.getCssName()));
+        assertTrue(step.getWidget(0) instanceof MaterialWidget);
+        MaterialWidget horiCon = (MaterialWidget) step.getWidget(0);
+        assertTrue(horiCon.getWidget(1).getElement().hasClassName(CssName.TITLE));
+        assertTrue(horiCon.getWidget(3).getElement().hasClassName(AddinsCssName.DESCRIPTION));
     }
 
     protected <T extends MaterialStepper> void checkStepNavigation(T stepper) {

@@ -22,6 +22,8 @@ package gwt.material.design.addins.client.richeditor.base;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
@@ -59,6 +61,8 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
             {ToolbarButton.UL, ToolbarButton.OL, ToolbarButton.PARAGRAPH, ToolbarButton.LEFT, ToolbarButton.CENTER, ToolbarButton.RIGHT, ToolbarButton.JUSTIFY, ToolbarButton.OUTDENT, ToolbarButton.INDENT};
     private ToolbarButton[] heightOptions = new ToolbarButton[]
             {ToolbarButton.LINE_HEIGHT};
+
+    private HandlerRegistration htmlAttachHandler;
 
     public JsArrayString extractOptions(ToolbarButton[] options) {
         JsArrayString jsOptions = JsArrayString.createArray().cast();
@@ -179,7 +183,18 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     @Override
     public void setHTML(final String html) {
-        setHTMLCode(getElement(), html);
+        if (htmlAttachHandler != null) {
+            htmlAttachHandler.removeHandler();
+            htmlAttachHandler = null;
+        }
+
+        if (!isAttached()) {
+
+            htmlAttachHandler = addAttachHandler(e -> setHTMLCode(getElement(), html));
+        } else {
+
+            setHTMLCode(getElement(), html);
+        }
     }
 
     @Override
@@ -189,7 +204,7 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     @Override
     public void setText(String text) {
-        getElement().setInnerText(text);
+        getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(text));
     }
 
     protected String getHTMLCode(Element e) {

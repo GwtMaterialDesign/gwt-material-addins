@@ -25,6 +25,7 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.*;
@@ -135,13 +136,13 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     public void setStep(int step) {
         this.step = step;
-        divCircle.getElement().setInnerHTML(String.valueOf(step));
+        divCircle.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(String.valueOf(step)));
     }
 
     @Override
     public void setTitle(String title) {
         this.title = title;
-        divTitle.getElement().setInnerHTML(title);
+        divTitle.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(title));
     }
 
     public String getTitle() {
@@ -152,7 +153,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public void setDescription(String description) {
         this.description = description;
         divDescription.setStyleName(AddinsCssName.DESCRIPTION);
-        divDescription.getElement().setInnerHTML(description);
+        divDescription.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(description));
         conBody.insert(divDescription, 1);
     }
 
@@ -203,7 +204,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         iconSuccess.removeFromParent();
         divCircle.removeFromParent();
         conCircle.insert(icon, 0);
-        divDescription.getElement().setInnerHTML(description);
+        divDescription.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(description));
     }
 
     public Div getDivBody() {
@@ -224,7 +225,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
                 break;
             case VERTICAL:
                 conBody.insert(divTitle, 0);
+                conBody.insert(divDescription, 1);
                 conCircle.add(divLine);
+
                 break;
         }
     }
