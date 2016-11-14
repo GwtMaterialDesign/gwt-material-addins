@@ -42,4 +42,7 @@ public class JsComboBoxOptions {
 
     @JsProperty
     public String minimumResultsForSearch;
+
+    @JsProperty
+    public boolean closeOnSelect;
 }

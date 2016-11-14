@@ -96,6 +96,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private boolean initialized;
     private boolean hideSearch;
     private int limit;
+    private boolean closeOnSelect = true;
 
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
@@ -108,7 +109,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private HandlerRegistration valueChangeHandler;
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
-        this, lblError, this.asWidget());
+            this, lblError, this.asWidget());
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     // By default the key is generated using toString
@@ -143,6 +144,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         options.allowClear = allowClear;
         options.placeholder = placeholder;
         options.maximumSelectionLength = limit;
+        options.closeOnSelect = closeOnSelect;
         if (isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
@@ -563,6 +565,20 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     public boolean isToggleReadOnly() {
         return getReadOnlyMixin().isToggleReadOnly();
+    }
+
+    /**
+     * Check whether the dropdown will be close or not when result is selected
+     */
+    public boolean isCloseOnSelect() {
+        return closeOnSelect;
+    }
+
+    /**
+     * Allow or Prevent the dropdown from closing when a result is selected (Default true)
+     */
+    public void setCloseOnSelect(boolean closeOnSelect) {
+        this.closeOnSelect = closeOnSelect;
     }
 
     public MaterialWidget getListbox() {
