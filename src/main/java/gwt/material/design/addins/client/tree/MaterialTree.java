@@ -215,7 +215,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
      */
     public void deselectSelectedItem() {
         // Check whether tree has selected item
-        if (getSelectedItem() != null) {
+        if (selectedItem != null) {
             clearItemSelectedStyles(selectedItem);
             setSelectedItem(null);
             SelectionEvent.fire(this, null);
