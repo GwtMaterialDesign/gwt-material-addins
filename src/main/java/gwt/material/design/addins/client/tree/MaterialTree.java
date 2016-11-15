@@ -211,6 +211,18 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     }
 
     /**
+     * Deselect selected tree item
+     */
+    public void deselectSelectedItem() {
+        // Check whether tree has selected item
+        if (getSelectedItem() != null) {
+            clearItemSelectedStyles(selectedItem);
+            setSelectedItem(null);
+            SelectionEvent.fire(this, null);
+        }
+    }
+
+    /**
      * Recursive function to collapse each tree item.
      */
     protected void collapseItems(MaterialTreeItem item) {
@@ -220,4 +232,3 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         item.getTreeItems().forEach(this::collapseItems);
     }
 }
-
