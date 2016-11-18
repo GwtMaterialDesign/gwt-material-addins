@@ -298,7 +298,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     public void setAcceptableValues(Collection<T> values) {
         this.values.clear();
         clear();
-
         for (T value : values) {
             addItem(value);
         }
@@ -354,14 +353,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     public Option addItem(T value) {
-        if (!values.contains(value)) {
-            Option opt = new Option(keyFactory.generateKey(value));
-            add(opt);
-            return opt;
-        } else {
-            GWT.log("Cannot add duplicate value: " + value);
-        }
-        return null;
+        return addItem(keyFactory.generateKey(value), value);
     }
 
     /**
@@ -402,11 +394,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * @param text  - The text you want to labeled on the option item
      * @param value - The value you want to pass through in this option
      */
-    public void addItem(String text, T value) {
+    public Option addItem(String text, T value) {
         if (!values.contains(value)) {
+            Option option = buildOption(text, value);
             values.add(value);
-            listbox.add(buildOption(text, value));
+            listbox.add(option);
         }
+        return null;
     }
 
     /**
