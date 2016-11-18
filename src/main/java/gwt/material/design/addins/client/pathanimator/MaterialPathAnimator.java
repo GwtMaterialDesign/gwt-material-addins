@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -34,18 +33,20 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
  * Custom component that provides meaningfull transition between two elements to show visual continuity.
- * <p>
- * <h3>XML Namespace Declaration</h3>
+ *
  * <pre>
  * {@code
- * xmlns:ma='urn:import:gwt.material.design.addins.client'
- * }
- * </pre>
- * <p>
- * <h3>UiBinder Usage:</h3>
- * <pre>
- * {@code
- * MaterialPathAnimator.animate(Element source, Element target, Functions.Func callback);
+ *
+ * // CAN BE CALLED AS A HELPER STATIC CONTEXT
+ * MaterialPathAnimator.animate(Element source, Element target, Functions.Func animateCallback);
+ *
+ * // INSTANTIATE THE PUSHPIN COMPONENT
+ * MaterialPathAnimator animator = new MaterialPathAnimator();
+ * animator.setSourceElement(btnSource1.getElement());
+ * animator.setTargetElement(panelTarget1.getElement());
+ * animator.animate();
+ * // Reverse Animate
+ * animator.reverseAnimate();
  * }
  * </pre>
  *
@@ -63,65 +64,111 @@ public class MaterialPathAnimator {
         }
     }
 
+    private Element sourceElement;
+    private Element targetElement;
+    private Functions.Func animateCallback;
+    private Functions.Func reverseCallback;
+
+    public MaterialPathAnimator() {}
+
+    public void animate() {
+        $("document").ready(() -> {
+            JsPathAnimator.cta(sourceElement, targetElement, () -> {
+                if (animateCallback != null) {
+                    animateCallback.call();
+                } else {
+                    // For default animateCallback when animateCallback is null
+                    targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                    targetElement.getStyle().setOpacity(1);
+                }
+            });
+        });
+    }
+
     /**
      * Default animate method using Opacity Transition.
      */
     public static void animate(Element source, final Element target) {
-        animate(source, target, () -> {
-            target.getStyle().setVisibility(Style.Visibility.VISIBLE);
-            target.getStyle().setOpacity(1);
-        });
+        animate(source, target, null);
     }
 
     public static void animate(Widget source, final Widget target) {
         animate(source.getElement(), target.getElement());
     }
 
-    /**
-     * Custom path animator method with callback.
-     */
-    public static void animate(Element source, Element target, Functions.Func callback) {
-        $("document").ready(() -> {
-            JsPathAnimator.cta(source, target, () -> {
-                if (callback != null) {
-                    callback.call();
-                }
-            });
-        });
-    }
-
     public static void animate(Widget source, Widget target, Functions.Func callback) {
         animate(source.getElement(), target.getElement(), callback);
     }
 
-    /**
-     * Default Reverse animate method to return to original state of Source component.
-     */
-    public static void reverseAnimate(final Element source, final Element target) {
-        reverseAnimate(source, target, () -> {
-            target.getStyle().setVisibility(Style.Visibility.HIDDEN);
-            target.getStyle().setOpacity(0);
+    public static void animate(Element sourceElement, Element targetElement, Functions.Func animateCallback) {
+        MaterialPathAnimator animator = new MaterialPathAnimator();
+        animator.setSourceElement(sourceElement);
+        animator.setTargetElement(targetElement);
+        animator.setAnimateCallback(animateCallback);
+        animator.animate();
+    }
+
+    public void reverseAnimate() {
+        $("document").ready(() -> {
+            if (reverseCallback != null) {
+                reverseCallback.call();
+            } else {
+                targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
+                targetElement.getStyle().setOpacity(0);
+            }
+            JsPathAnimator.cta(targetElement, sourceElement);
         });
+    }
+
+    public static void reverseAnimate(final Element source, final Element target) {
+        reverseAnimate(source, target, null);
     }
 
     public static void reverseAnimate(final Widget source, final Widget target) {
         reverseAnimate(source.getElement(), target.getElement());
     }
 
-    /**
-     * Reverse animation of the target component to return to original
-     * state of the source component with Custom Callback.
-     */
-    public static void reverseAnimate(Element source, Element target, Functions.Func callback) {
-        $("document").ready(() -> {
-            if (callback != null) {
-                callback.call();
-            }
-            JsPathAnimator.cta(target, source);
-        });
-    }
-
     public static void reverseAnimate(Widget source, Widget target, Functions.Func callback) {
         reverseAnimate(source.getElement(), target.getElement(), callback);
+    }
+
+    public static void reverseAnimate(Element sourceElement, Element targetElement, Functions.Func reverseCallback) {
+        MaterialPathAnimator animator = new MaterialPathAnimator();
+        animator.setSourceElement(sourceElement);
+        animator.setTargetElement(targetElement);
+        animator.setReverseCallback(reverseCallback);
+        animator.reverseAnimate();
+    }
+
+    public Element getSourceElement() {
+        return sourceElement;
+    }
+
+    public void setSourceElement(Element sourceElement) {
+        this.sourceElement = sourceElement;
+    }
+
+    public Element getTargetElement() {
+        return targetElement;
+    }
+
+    public void setTargetElement(Element targetElement) {
+        this.targetElement = targetElement;
+    }
+
+    public Functions.Func getAnimateCallback() {
+        return animateCallback;
+    }
+
+    public void setAnimateCallback(Functions.Func animateCallback) {
+        this.animateCallback = animateCallback;
+    }
+
+    public Functions.Func getReverseCallback() {
+        return reverseCallback;
+    }
+
+    public void setReverseCallback(Functions.Func reverseCallback) {
+        this.reverseCallback = reverseCallback;
     }
 }
