@@ -33,7 +33,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
  * Custom component that provides meaningfull transition between two elements to show visual continuity.
- *
+ * <p>
  * <pre>
  * {@code
  *
@@ -69,8 +69,12 @@ public class MaterialPathAnimator {
     private Functions.Func animateCallback;
     private Functions.Func reverseCallback;
 
-    public MaterialPathAnimator() {}
+    public MaterialPathAnimator() {
+    }
 
+    /**
+     * Animate the path animator
+     */
     public void animate() {
         $("document").ready(() -> {
             JsPathAnimator.cta(sourceElement, targetElement, () -> {
@@ -86,20 +90,43 @@ public class MaterialPathAnimator {
     }
 
     /**
-     * Default animate method using Opacity Transition.
+     * Helper method to apply the path animator.
+     *
+     * @param source Source element to apply the Path Animator
+     * @param target Target element to apply the Path Animator
      */
     public static void animate(Element source, final Element target) {
         animate(source, target, null);
     }
 
+    /**
+     * Helper method to apply the path animator.
+     *
+     * @param source Source widget to apply the Path Animator
+     * @param target Target widget to apply the Path Animator
+     */
     public static void animate(Widget source, final Widget target) {
         animate(source.getElement(), target.getElement());
     }
 
+    /**
+     * Helper method to apply the path animator with callback.
+     *
+     * @param source   Source widget to apply the Path Animator
+     * @param target   Target widget to apply the Path Animator
+     * @param callback The callback method to be called when the path animator is applied
+     */
     public static void animate(Widget source, Widget target, Functions.Func callback) {
         animate(source.getElement(), target.getElement(), callback);
     }
 
+    /**
+     * Helper method to apply the path animator with callback.
+     *
+     * @param sourceElement   Source widget to apply the Path Animator
+     * @param targetElement   Target widget to apply the Path Animator
+     * @param animateCallback The callback method to be called when the path animator is applied
+     */
     public static void animate(Element sourceElement, Element targetElement, Functions.Func animateCallback) {
         MaterialPathAnimator animator = new MaterialPathAnimator();
         animator.setSourceElement(sourceElement);
@@ -108,6 +135,9 @@ public class MaterialPathAnimator {
         animator.animate();
     }
 
+    /**
+     * Reverse the Animation
+     */
     public void reverseAnimate() {
         $("document").ready(() -> {
             if (reverseCallback != null) {
@@ -120,18 +150,44 @@ public class MaterialPathAnimator {
         });
     }
 
-    public static void reverseAnimate(final Element source, final Element target) {
-        reverseAnimate(source, target, null);
+    /**
+     * Helper method to reverse animate the source element to target element.
+     *
+     * @param sourceElement Source element to apply the Path Animator
+     * @param targetElement Target element to apply the Path Animator
+     */
+    public static void reverseAnimate(final Element sourceElement, final Element targetElement) {
+        reverseAnimate(sourceElement, targetElement, null);
     }
 
+    /**
+     * Helper method to reverse animate the source element to target element.
+     *
+     * @param source Source widget to apply the Path Animator
+     * @param target Target widget to apply the Path Animator
+     */
     public static void reverseAnimate(final Widget source, final Widget target) {
         reverseAnimate(source.getElement(), target.getElement());
     }
 
-    public static void reverseAnimate(Widget source, Widget target, Functions.Func callback) {
-        reverseAnimate(source.getElement(), target.getElement(), callback);
+    /**
+     * Helper method to reverse animate the source element to target element with reverse callback.
+     *
+     * @param source          Source widget to apply the Path Animator
+     * @param target          Target widget to apply the Path Animator
+     * @param reverseCallback The reverse callback method to be called when the path animator is applied
+     */
+    public static void reverseAnimate(Widget source, Widget target, Functions.Func reverseCallback) {
+        reverseAnimate(source.getElement(), target.getElement(), reverseCallback);
     }
 
+    /**
+     * Helper method to reverse animate the source element to target element with reverse callback
+     *
+     * @param sourceElement   Source element to apply the Path Animator
+     * @param targetElement   Target element to apply the Path Animator
+     * @param reverseCallback The reverse callback method to be called when the path animator is applied
+     */
     public static void reverseAnimate(Element sourceElement, Element targetElement, Functions.Func reverseCallback) {
         MaterialPathAnimator animator = new MaterialPathAnimator();
         animator.setSourceElement(sourceElement);
@@ -140,34 +196,58 @@ public class MaterialPathAnimator {
         animator.reverseAnimate();
     }
 
+    /**
+     * Get the source element
+     */
     public Element getSourceElement() {
         return sourceElement;
     }
 
+    /**
+     * Set the source element
+     */
     public void setSourceElement(Element sourceElement) {
         this.sourceElement = sourceElement;
     }
 
+    /**
+     * Get the target element
+     */
     public Element getTargetElement() {
         return targetElement;
     }
 
+    /**
+     * Set the target element
+     */
     public void setTargetElement(Element targetElement) {
         this.targetElement = targetElement;
     }
 
+    /**
+     * Get the callback method when the path animator is applied
+     */
     public Functions.Func getAnimateCallback() {
         return animateCallback;
     }
 
+    /**
+     * Set the callback method when the path animator is applied
+     */
     public void setAnimateCallback(Functions.Func animateCallback) {
         this.animateCallback = animateCallback;
     }
 
+    /**
+     * Get the reverse callback method when the path animator is applied
+     */
     public Functions.Func getReverseCallback() {
         return reverseCallback;
     }
 
+    /**
+     * Set the reverse callback method when the path animator is applied
+     */
     public void setReverseCallback(Functions.Func reverseCallback) {
         this.reverseCallback = reverseCallback;
     }
