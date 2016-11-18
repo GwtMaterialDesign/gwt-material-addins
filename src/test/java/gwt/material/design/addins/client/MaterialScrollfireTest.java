@@ -38,9 +38,11 @@ public class MaterialScrollfireTest extends MaterialAddinsTest {
         MaterialPanel panel = new MaterialPanel();
         RootPanel.get().add(panel);
         final boolean[] isScrollFired = {false};
-        MaterialScrollfire.apply(panel.getElement(), () -> {
+        MaterialScrollfire scrollfire = new MaterialScrollfire(panel.getElement());
+        scrollfire.setCallback(() -> {
             isScrollFired[0] = true;
         });
+        scrollfire.apply();
         $("body").scrollTop(1000);
         Scheduler.get().scheduleDeferred(() -> {
             assertTrue(isScrollFired[0]);

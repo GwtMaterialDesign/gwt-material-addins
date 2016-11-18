@@ -92,6 +92,16 @@ public class MaterialScrollfire {
      * Executes callback method depending on how far into the page you've scrolled
      *
      * @param element  Target element that is being tracked
+     * @param callback The method to be called when the scrollfire is applied
+     */
+    public static void apply(Element element, Functions.Func callback) {
+        apply(element, 100, callback);
+    }
+
+    /**
+     * Executes callback method depending on how far into the page you've scrolled
+     *
+     * @param element  Target element that is being tracked
      * @param offset   If this is 0, the callback will be fired when the selector element is at the very bottom of the user's window.
      * @param callback The method to be called when the scrollfire is applied
      */
