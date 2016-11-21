@@ -393,6 +393,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public void clear() {
         itemBox.setValue("");
+        lblPlaceholder.removeStyleName(CssName.ACTIVE);
 
         Collection<Widget> values = suggestionMap.values();
         for (Widget widget : values) {
