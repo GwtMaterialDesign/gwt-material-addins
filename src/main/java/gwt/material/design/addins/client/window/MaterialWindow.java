@@ -24,6 +24,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
@@ -175,6 +177,21 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     @Override
     public void add(Widget child) {
         content.add(child);
+    }
+
+    @Override
+    public boolean remove(Widget w) {
+        return content.remove(w);
+    }
+
+    @Override
+    public void insert(Widget child, int beforeIndex) {
+        content.insert(child, beforeIndex);
+    }
+
+    @Override
+    public void clear() {
+        content.clear();
     }
 
     @Override
