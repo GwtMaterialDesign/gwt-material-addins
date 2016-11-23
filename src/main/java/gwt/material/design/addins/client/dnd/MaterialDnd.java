@@ -69,65 +69,34 @@ public class MaterialDnd {
     private JsDnd jsDnd;
 
     private final MaterialWidget target;
-    private Element ignoreFrom;
+    private Element[] ignoreFrom;
 
     private JsDropOptions dropOptions;
     private JsDragOptions dragOptions;
 
-    private EventFunc dragmove, dragstart, dragend, dropactivate,
-                      dragenter, dragleave, drop, dropdeactivate;
-
     protected MaterialDnd(MaterialWidget target) {
         this.target = target;
-        dragmove = event -> {
-            DndHelper.initMove(event);
-            DragMoveEvent.fire(target);
-            return true;
-        };
-        dragstart = event -> {
-            DragStartEvent.fire(target);
-            return true;
-        };
-        dragend = event -> {
-            DragEndEvent.fire(target);
-            return true;
-        };
-        dropactivate = event -> {
-            DropActivateEvent.fire(target);
-            return true;
-        };
-        dragenter = event -> {
-            DragEnterEvent.fire(target, event.getRelatedTarget());
-            return true;
-        };
-        dragleave = event -> {
-            DragLeaveEvent.fire(target, event.getRelatedTarget());
-            return true;
-        };
-        drop = event -> {
-            DropEvent.fire(target, event.getRelatedTarget());
-            return true;
-        };
-        dropdeactivate = event -> {
-            DropDeactivateEvent.fire(target);
-            return true;
-        };
     }
 
     protected MaterialDnd draggable() {
         if(jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
+
+            // Events
+            jsDnd.on("dragmove", event -> {
+                DndHelper.initMove(event);
+                DragMoveEvent.fire(this.target);
+                return true;
+            });
+            jsDnd.on("dragstart", event -> {
+                DragStartEvent.fire(this.target);
+                return true;
+            });
+            jsDnd.on("dragend", event -> {
+                DragEndEvent.fire(this.target);
+                return true;
+            });
         }
-        // Events
-        jsDnd.off("dragmove", dragmove);
-        jsDnd.on("dragmove", dragmove);
-
-        jsDnd.off("dragstart", dragstart);
-        jsDnd.on("dragstart", dragstart);
-
-        jsDnd.off("dragend", dragend);
-        jsDnd.on("dragend", dragend);
-
         jsDnd.draggable(dragOptions);
         return this;
     }
@@ -154,21 +123,28 @@ public class MaterialDnd {
     protected MaterialDnd dropzone() {
         if(jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
+
+            jsDnd.on("dropactivate", event -> {
+                DropActivateEvent.fire(this.target);
+                return true;
+            });
+            jsDnd.on("dragenter", event -> {
+                DragEnterEvent.fire(this.target, event.getRelatedTarget());
+                return true;
+            });
+            jsDnd.on("dragleave", event -> {
+                DragLeaveEvent.fire(this.target, event.getRelatedTarget());
+                return true;
+            });
+            jsDnd.on("drop", event -> {
+                DropEvent.fire(this.target, event.getRelatedTarget());
+                return true;
+            });
+            jsDnd.on("dropdeactivate", event -> {
+                DropDeactivateEvent.fire(this.target);
+                return true;
+            });
         }
-        jsDnd.off("dropactivate", dropactivate);
-        jsDnd.on("dropactivate", dropactivate);
-
-        jsDnd.off("dragenter", dragenter);
-        jsDnd.on("dragenter", dragenter);
-
-        jsDnd.off("dragleave", dragleave);
-        jsDnd.on("dragleave", dragleave);
-
-        jsDnd.off("drop", drop);
-        jsDnd.on("drop", drop);
-
-        jsDnd.off("dropdeactivate", dropdeactivate);
-        jsDnd.on("dropdeactivate", dropdeactivate);
 
         jsDnd.dropzone(dropOptions);
         return this;
@@ -197,19 +173,23 @@ public class MaterialDnd {
         ignoreFrom(uiObject.getElement());
     }
 
-    public void ignoreFrom(Element element) {
-        this.ignoreFrom = element;
+    public void ignoreFrom(Element... elements) {
+        this.ignoreFrom = elements;
         if (target.isAttached()) {
-            JsDnd.interact(target.getElement()).ignoreFrom(element);
+            for(Element element : ignoreFrom) {
+                JsDnd.interact(target.getElement()).ignoreFrom(element);
+            }
         } else {
             target.addAttachHandler(event -> {
-                JsDnd.interact(target.getElement()).ignoreFrom(element);
+                for(Element element : ignoreFrom) {
+                    JsDnd.interact(target.getElement()).ignoreFrom(element);
+                }
             }, true);
         }
     }
 
     public void ignoreFrom(String selector) {
-        this.ignoreFrom = JQuery.$(selector).asElement();
+        this.ignoreFrom = new Element[]{JQuery.$(selector).asElement()};
         if (target.isAttached()) {
             JsDnd.interact(target.getElement()).ignoreFrom(selector);
         } else {
@@ -223,7 +203,7 @@ public class MaterialDnd {
         return target;
     }
 
-    public Element getIgnoreFrom() {
+    public Element[] getIgnoreFrom() {
         return ignoreFrom;
     }
 
