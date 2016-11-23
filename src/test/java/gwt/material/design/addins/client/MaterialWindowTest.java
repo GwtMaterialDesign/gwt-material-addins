@@ -46,20 +46,15 @@ public class MaterialWindowTest extends MaterialAddinsTest {
     protected <T extends MaterialWindow> void checkHeightAndWidth(T window) {
         window.setWidth("200px");
         window.setHeight("100px");
-        assertEquals(window.getWindowContainer().getElement().getStyle().getWidth(), "200px");
-        assertEquals(window.getWindowContainer().getElement().getStyle().getHeight(), "100px");
+        assertEquals(window.getElement().getStyle().getWidth(), "200px");
+        assertEquals(window.getElement().getStyle().getHeight(), "100px");
     }
 
     protected <T extends MaterialWindow> void checkStructure(T window) {
-        assertNotNull(window.getWidget(0));
-        assertTrue(window.getWidget(0) instanceof MaterialWidget);
-        MaterialWidget windowContainer = (MaterialWidget) window.getWidget(0);
-        assertTrue(windowContainer.getElement().hasClassName(AddinsCssName.WINDOW));
-        assertEquals(windowContainer, window.getWindowContainer());
+        assertNotNull(window);
         // Check Window Toolbar Structure
-        assertNotNull(windowContainer.getWidget(0));
-        assertTrue(windowContainer.getWidget(0) instanceof MaterialWidget);
-        MaterialWidget toolbar = (MaterialWidget) windowContainer.getWidget(0);
+        assertTrue(window.getWidget(0) instanceof MaterialWidget);
+        MaterialWidget toolbar = (MaterialWidget) window.getWidget(0);
         assertEquals(window.getToolbar(), toolbar);
         assertTrue(toolbar.getElement().hasClassName(AddinsCssName.WINDOW_TOOLBAR));
         assertEquals(toolbar.getWidget(0), window.getLabelTitle());
@@ -71,9 +66,9 @@ public class MaterialWindowTest extends MaterialAddinsTest {
         assertEquals(toolbar.getWidget(2), window.getIconMaximize());
         assertTrue(toolbar.getWidget(2).getElement().hasClassName(AddinsCssName.WINDOW_ACTION));
         // Check Window Content structure
-        assertNotNull(windowContainer.getWidget(1));
-        assertTrue(windowContainer.getWidget(1) instanceof MaterialWidget);
-        MaterialWidget content = (MaterialWidget) windowContainer.getWidget(1);
+        assertNotNull(window.getWidget(1));
+        assertTrue(window.getWidget(1) instanceof MaterialWidget);
+        MaterialWidget content = (MaterialWidget) window.getWidget(1);
         assertEquals(window.getContent(), content);
         MaterialPanel panel = new MaterialPanel();
         window.add(panel);
@@ -84,7 +79,7 @@ public class MaterialWindowTest extends MaterialAddinsTest {
     protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
         MaterialWindow window = new MaterialWindow();
         window.setBackgroundColor(Color.RED);
-        assertEquals(window.getWindowContainer().getBackgroundColor(), Color.RED);
+        assertEquals(window.getBackgroundColor(), Color.RED);
         window.setToolbarColor(Color.BLUE);
         assertEquals(window.getToolbarColor(), Color.BLUE);
         assertTrue(window.getToolbar().getElement().hasClassName(Color.BLUE.getCssName()));

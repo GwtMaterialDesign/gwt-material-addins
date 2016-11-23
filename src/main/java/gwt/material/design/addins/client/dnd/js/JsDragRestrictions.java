@@ -33,7 +33,7 @@ import jsinterop.annotations.JsType;
 public class JsDragRestrictions {
 
     @JsProperty
-    public String restriction;
+    public Object restriction;
 
     @JsProperty
     public boolean endOnly;

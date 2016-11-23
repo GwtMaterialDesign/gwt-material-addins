@@ -29,6 +29,7 @@ import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.events.*;
+import gwt.material.design.jquery.client.api.Functions.EventFunc;
 import gwt.material.design.jquery.client.api.JQuery;
 
 //@formatter:off
@@ -65,37 +66,81 @@ public class MaterialDnd {
         }
     }
 
-    private MaterialWidget target;
+    private JsDnd jsDnd;
+
+    private final MaterialWidget target;
     private Element ignoreFrom;
 
     private JsDropOptions dropOptions;
     private JsDragOptions dragOptions;
 
-    protected MaterialDnd() {
-    }
+    private EventFunc dragmove, dragstart, dragend, dropactivate,
+                      dragenter, dragleave, drop, dropdeactivate;
 
-    protected static MaterialDnd draggable(MaterialWidget target, MaterialDnd dnd) {
-        // Events
-        JsDnd jsDnd = JsDnd.interact(target.getElement());
-        jsDnd.off("dragmove");
-        jsDnd.on("dragmove", (event, o) -> {
+    protected MaterialDnd(MaterialWidget target) {
+        this.target = target;
+        dragmove = event -> {
             DndHelper.initMove(event);
             DragMoveEvent.fire(target);
             return true;
-        });
-        jsDnd.off("dragstart");
-        jsDnd.on("dragstart", (event, o) -> {
+        };
+        dragstart = event -> {
             DragStartEvent.fire(target);
             return true;
-        });
-        jsDnd.off("dragend");
-        jsDnd.on("dragend", (event, o) -> {
+        };
+        dragend = event -> {
             DragEndEvent.fire(target);
             return true;
-        });
+        };
+        dropactivate = event -> {
+            DropActivateEvent.fire(target);
+            return true;
+        };
+        dragenter = event -> {
+            DragEnterEvent.fire(target, event.getRelatedTarget());
+            return true;
+        };
+        dragleave = event -> {
+            DragLeaveEvent.fire(target, event.getRelatedTarget());
+            return true;
+        };
+        drop = event -> {
+            DropEvent.fire(target, event.getRelatedTarget());
+            return true;
+        };
+        dropdeactivate = event -> {
+            DropDeactivateEvent.fire(target);
+            return true;
+        };
+    }
 
-        jsDnd.draggable(dnd.dragOptions);
-        return dnd;
+    protected MaterialDnd draggable() {
+        if(jsDnd == null) {
+            jsDnd = JsDnd.interact(target.getElement());
+        }
+        // Events
+        jsDnd.off("dragmove", dragmove);
+        jsDnd.on("dragmove", dragmove);
+
+        jsDnd.off("dragstart", dragstart);
+        jsDnd.on("dragstart", dragstart);
+
+        jsDnd.off("dragend", dragend);
+        jsDnd.on("dragend", dragend);
+
+        jsDnd.draggable(dragOptions);
+        return this;
+    }
+
+    public MaterialDnd draggable(JsDragOptions options) {
+        dragOptions = options;
+        // TODO: Validate options
+        if (target.isAttached()) {
+            draggable();
+        } else {
+            target.addAttachHandler(event -> draggable(), true);
+        }
+        return this;
     }
 
     public static MaterialDnd draggable(MaterialWidget target) {
@@ -103,55 +148,41 @@ public class MaterialDnd {
     }
 
     public static MaterialDnd draggable(MaterialWidget target, JsDragOptions options) {
-        MaterialDnd dnd = new MaterialDnd();
-        dnd.setTarget(target);
-        dnd.dragOptions = options;
-
-        // TODO: Validate options
-
-        if (target.isAttached()) {
-            draggable(target, dnd);
-        } else {
-            target.addAttachHandler(event -> draggable(target, dnd), true);
-        }
-        return dnd;
+        return new MaterialDnd(target).draggable(options);
     }
 
-    protected static MaterialDnd dropzone(MaterialWidget target, MaterialDnd dnd) {
-        JsDnd jsDnd = JsDnd.interact(target.getElement());
+    protected MaterialDnd dropzone() {
+        if(jsDnd == null) {
+            jsDnd = JsDnd.interact(target.getElement());
+        }
+        jsDnd.off("dropactivate", dropactivate);
+        jsDnd.on("dropactivate", dropactivate);
 
-        jsDnd.off("dropactivate");
-        jsDnd.on("dropactivate", (event, o) -> {
-            DropActivateEvent.fire(target);
-            return true;
-        });
+        jsDnd.off("dragenter", dragenter);
+        jsDnd.on("dragenter", dragenter);
 
-        jsDnd.off("dragenter");
-        jsDnd.on("dragenter", (event, o) -> {
-            DragEnterEvent.fire(target, event.getRelatedTarget());
-            return true;
-        });
+        jsDnd.off("dragleave", dragleave);
+        jsDnd.on("dragleave", dragleave);
 
-        jsDnd.off("dragleave");
-        jsDnd.on("dragleave", (event, o) -> {
-            DragLeaveEvent.fire(target, event.getRelatedTarget());
-            return true;
-        });
+        jsDnd.off("drop", drop);
+        jsDnd.on("drop", drop);
 
-        jsDnd.off("drop");
-        jsDnd.on("drop", (event, o) -> {
-            DropEvent.fire(target, event.getRelatedTarget());
-            return true;
-        });
+        jsDnd.off("dropdeactivate", dropdeactivate);
+        jsDnd.on("dropdeactivate", dropdeactivate);
 
-        jsDnd.off("dropdeactivate");
-        jsDnd.on("dropdeactivate", (event, o) -> {
-            DropDeactivateEvent.fire(target);
-            return true;
-        });
+        jsDnd.dropzone(dropOptions);
+        return this;
+    }
 
-        jsDnd.dropzone(dnd.dropOptions);
-        return dnd;
+    public MaterialDnd dropzone(JsDropOptions options) {
+        dropOptions = options;
+        // TODO: Validate options
+        if (target.isAttached()) {
+            dropzone();
+        } else {
+            target.addAttachHandler(event -> dropzone(), true);
+        }
+        return this;
     }
 
     public static MaterialDnd dropzone(MaterialWidget target) {
@@ -159,18 +190,7 @@ public class MaterialDnd {
     }
 
     public static MaterialDnd dropzone(MaterialWidget target, JsDropOptions options) {
-        MaterialDnd dnd = new MaterialDnd();
-        dnd.setTarget(target);
-        dnd.dropOptions = options;
-
-        // TODO: Validate options
-
-        if (target.isAttached()) {
-            dropzone(target, dnd);
-        } else {
-            target.addAttachHandler(event -> dropzone(target, dnd), true);
-        }
-        return dnd;
+        return new MaterialDnd(target).dropzone(options);
     }
 
     public void ignoreFrom(UIObject uiObject) {
@@ -197,10 +217,6 @@ public class MaterialDnd {
                 JsDnd.interact(target.getElement()).ignoreFrom(selector);
             }, true);
         }
-    }
-
-    protected void setTarget(final MaterialWidget target) {
-        this.target = target;
     }
 
     public MaterialWidget getTarget() {

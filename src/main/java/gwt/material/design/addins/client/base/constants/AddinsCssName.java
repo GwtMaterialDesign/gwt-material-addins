@@ -87,7 +87,7 @@ public interface AddinsCssName {
     String WATERFALL = "waterfall";
     String MAXIMIZE = "maximize";
     String OPEN = "open";
-    String WINDOW_OVERLAY = "window-overlay";
+    String OVERLAY = "overlay";
     String WINDOW = "window";
     String CONTENT = "content";
     String WINDOW_TOOLBAR = "window-toolbar";

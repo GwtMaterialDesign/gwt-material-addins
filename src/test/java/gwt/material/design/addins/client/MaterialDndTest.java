@@ -97,7 +97,7 @@ public class MaterialDndTest extends MaterialAddinsTest {
         assertEquals(options.restrict.elementRect.left, Double.valueOf(20));
         assertEquals(options.restrict.elementRect.right, Double.valueOf(20));
         assertEquals(options.restrict.elementRect.bottom, Double.valueOf(20));
-        assertEquals(options.restrict.restriction, Restriction.Restrict.PARENT.getValue());
+        assertEquals(options.restrict.restriction, Restriction.Restrict.PARENT);
         assertTrue(options.restrict.endOnly);
     }
 
