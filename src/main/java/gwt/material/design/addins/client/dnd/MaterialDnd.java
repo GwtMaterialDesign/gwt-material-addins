@@ -22,14 +22,13 @@ package gwt.material.design.addins.client.dnd;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.dnd.base.DndHelper;
 import gwt.material.design.addins.client.dnd.js.JsDnd;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.events.*;
-import gwt.material.design.jquery.client.api.Functions.EventFunc;
+import gwt.material.design.jquery.client.api.Event;
 import gwt.material.design.jquery.client.api.JQuery;
 
 //@formatter:off
@@ -84,7 +83,7 @@ public class MaterialDnd {
 
             // Events
             jsDnd.on("dragmove", event -> {
-                DndHelper.initMove(event);
+                move(event);
                 DragMoveEvent.fire(this.target);
                 return true;
             });
@@ -214,4 +213,17 @@ public class MaterialDnd {
     public JsDragOptions getDragOptions() {
         return dragOptions;
     }
+
+    public static native void move(Event event) /*-{
+        var target = event.target,
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+        target.style.webkitTransform =
+            target.style.transform =
+                'translate(' + x + 'px, ' + y + 'px)';
+
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+    }-*/;
 }
