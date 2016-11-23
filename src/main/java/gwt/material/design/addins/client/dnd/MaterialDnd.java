@@ -123,6 +123,7 @@ public class MaterialDnd {
         if(jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
 
+            // Events
             jsDnd.on("dropactivate", event -> {
                 DropActivateEvent.fire(this.target);
                 return true;
