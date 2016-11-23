@@ -106,11 +106,11 @@ public class MaterialWindowTest extends MaterialAddinsTest {
         assertTrue(isCloseFired[0]);
 
         assertEquals(window.getIconMaximize().getIconType(), IconType.CHECK_BOX_OUTLINE_BLANK);
-        assertFalse(window.getWidget(0).getElement().hasClassName(AddinsCssName.MAXIMIZE));
+        assertFalse(window.getElement().hasClassName(AddinsCssName.MAXIMIZE));
         window.setMaximize(true);
         assertEquals(window.getIconMaximize().getIconType(), IconType.FILTER_NONE);
         window.open();
         assertTrue(window.isMaximized());
-        assertTrue(window.getWidget(0).getElement().hasClassName(AddinsCssName.MAXIMIZE));
+        assertTrue(window.getElement().hasClassName(AddinsCssName.MAXIMIZE));
     }
 }
