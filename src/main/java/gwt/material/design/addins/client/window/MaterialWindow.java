@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.window;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -243,7 +244,11 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         if (openAnimation == null) {
             openMixin.setOn(true);
         } else {
-            openAnimation.animate(this, () -> openMixin.setOn(true));
+            setOpacity(0);
+            Scheduler.get().scheduleDeferred(() -> {
+                openMixin.setOn(true);
+                openAnimation.animate(this);
+            });
         }
     }
 
