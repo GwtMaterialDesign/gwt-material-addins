@@ -320,6 +320,31 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         return labelTitle;
     }
 
+    @Override
+    public void setPadding(double padding) {
+        content.setPadding(padding);
+    }
+
+    @Override
+    public void setPaddingTop(double padding) {
+        content.setPaddingTop(padding);
+    }
+
+    @Override
+    public void setPaddingLeft(double padding) {
+        content.setPaddingTop(padding);
+    }
+
+    @Override
+    public void setPaddingRight(double padding) {
+        content.setPaddingRight(padding);
+    }
+
+    @Override
+    public void setPaddingBottom(double padding) {
+        content.setPaddingBottom(padding);
+    }
+
     /**
      * Set the area for the drag and drop, can be an {@link Element}
      * or a {@link String} selector.
