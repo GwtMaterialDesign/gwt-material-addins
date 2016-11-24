@@ -86,7 +86,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
 
     public MaterialRichEditor(String placeholder, String value) {
         this(placeholder);
-        setValue(value, true);
+        setValue(value);
     }
 
     private boolean initialized;
