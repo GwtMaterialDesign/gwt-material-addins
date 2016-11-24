@@ -429,8 +429,8 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     /**
-     * @param itemValues the itemsSelected to set
-     * @see #setValue(Object)
+     * @param itemValues the items to set
+     * @see #setValue(Object, boolean)
      */
     public void setItemValues(List<String> itemValues) {
         if (itemValues == null) {
@@ -446,7 +446,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         if (itemValues.size() > 0) {
             lblPlaceholder.addStyleName(CssName.ACTIVE);
         }
-        setValue(list);
+        setValue(list, true);
     }
 
     /**
