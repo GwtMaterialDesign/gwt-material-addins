@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -171,7 +171,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
         // Add a draggable header
         dnd = MaterialDnd.draggable(this, JsDragOptions.create(
-            new Restriction("body", true, 0, 0, 1.2, 1)));
+                new Restriction("body", true, 0, 0, 1.2, 1)));
         dnd.ignoreFrom(".content, .window-action");
     }
 
@@ -234,20 +234,20 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     /**
-     * Open the windowContainer.
+     * Open the window.
      */
     public void open() {
         if (!isAttached()) {
             RootPanel.get().add(this);
         }
-        OpenEvent.fire(this, true);
         if (openAnimation == null) {
             openMixin.setOn(true);
+            OpenEvent.fire(this, true);
         } else {
             setOpacity(0);
             Scheduler.get().scheduleDeferred(() -> {
                 openMixin.setOn(true);
-                openAnimation.animate(this);
+                openAnimation.animate(this, () -> OpenEvent.fire(this, true));
             });
         }
     }
@@ -256,13 +256,16 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
      * Close the window.
      */
     public void close() {
-        CloseEvent.fire(this, false);
         // Turn back the cursor to POINTER
         RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
         if (closeAnimation == null) {
             openMixin.setOn(false);
+            CloseEvent.fire(this, false);
         } else {
-            closeAnimation.animate(this, () -> openMixin.setOn(false));
+            closeAnimation.animate(this, () -> {
+                openMixin.setOn(false);
+                CloseEvent.fire(this, false);
+            });
         }
     }
 
