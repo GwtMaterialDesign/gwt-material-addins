@@ -115,8 +115,6 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
         content.setStyleName(AddinsCssName.CONTENT);
-
-        initialize();
     }
 
     public MaterialWindow(String title) {
@@ -133,6 +131,13 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     public MaterialWindow(String title, Color backgroundColor, Color textColor, Color toolbarColor) {
         this(title, backgroundColor, textColor);
         setToolbarColor(toolbarColor);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        initialize();
     }
 
     /**
