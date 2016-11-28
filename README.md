@@ -8,7 +8,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.0-rc2</version>
+    <version>2.0-rc3</version>
 </dependency>
 ```
 
@@ -43,6 +43,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Avatar</li>
 <li>Bubble</li>
 <li>Camera</li>
+<li>ComboBox</li>
 <li>Cutout</li>
 <li>Document Viewer</li>
 <li>Dnd</li>
@@ -52,7 +53,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Menubar</li>
 <li>Overlay</li>
 <li>Path Animator</li>
-<li>Rating (NEW)</li>
+<li>Rating</li>
 <li>Rich Editor</li> 
 <li>Scrollfire</li>
 <li>SplitPanel</li>
