@@ -91,6 +91,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     private static MaterialPanel windowOverlay;
+    private static int windowCount = 0;
 
     private MaterialPanel content = new MaterialPanel();
 
@@ -248,9 +249,11 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         if (!isAttached()) {
             RootPanel.get().add(this);
         }
-        if(windowOverlay != null) {
+        windowCount++;
+        if(windowOverlay != null && !windowOverlay.isAttached()) {
             RootPanel.get().add(windowOverlay);
         }
+
         if (openAnimation == null) {
             openMixin.setOn(true);
             OpenEvent.fire(this, true);
@@ -269,16 +272,20 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     public void close() {
         // Turn back the cursor to POINTER
         RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-        if(windowOverlay != null) {
-            windowOverlay.removeFromParent();
-        }
 
+        windowCount--;
         if (closeAnimation == null) {
             openMixin.setOn(false);
+            if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
+                windowOverlay.removeFromParent();
+            }
             CloseEvent.fire(this, false);
         } else {
             closeAnimation.animate(this, () -> {
                 openMixin.setOn(false);
+                if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
+                    windowOverlay.removeFromParent();
+                }
                 CloseEvent.fire(this, false);
             });
         }
