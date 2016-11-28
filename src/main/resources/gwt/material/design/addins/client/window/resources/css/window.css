@@ -2,11 +2,10 @@
 .window {
     position: fixed;
     visibility: hidden;
-    z-index: 999;
+    z-index: 1001;
     top: 0;
     left: 0;
     right: 0;
-    background-color: #fafafa;
     padding: 0;
     /*max-height: 80%;*/
     width: 50%;
@@ -20,16 +19,16 @@
     -webkit-transition: 150ms all;
 }
 
-.overlay {
+.window-overlay {
+    height: 100%;
+    width: 100%;
     position: fixed;
     top: 0;
-    left: 0;
-    bottom: 0;
     right: 0;
+    left: 0;
     background: rgba(0,0,0,0.3);
-    will-change: opacity;
-    visibility: hidden;
-    opacity: 0;
+    bottom: 0;
+    z-index: 1000;
 }
 
 .window .window-toolbar {
@@ -73,12 +72,13 @@
 }
 
 .window .content {
+    background-color: #fafafa;
     width: 100%;
     height: 100%;
 }
 
 @media only screen and (max-width: 992px) {
-    .window-content {
-        width: 80% !important;
+    .window .content {
+        width: 100% !important;
     }
 }
