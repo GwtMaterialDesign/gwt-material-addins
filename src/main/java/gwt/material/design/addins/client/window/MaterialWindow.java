@@ -111,6 +111,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     private MaterialAnimation closeAnimation;
 
     private MaterialDnd dnd;
+    private boolean initialized;
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
@@ -137,7 +138,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     protected void onLoad() {
         super.onLoad();
 
-        initialize();
+        if (!initialized) {
+            initialize();
+            initialized = true;
+        }
     }
 
     /**
