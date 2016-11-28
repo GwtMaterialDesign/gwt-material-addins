@@ -37,6 +37,7 @@ public class MaterialWindowTest extends MaterialAddinsTest {
 
     public void init() {
         MaterialWindow window = new MaterialWindow();
+        window.open();
         checkWidget(window);
         checkStructure(window);
         checkMaximizeAndClose(window);
