@@ -98,7 +98,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         selectionHandler = addSelectionHandler(event -> {
             for (Widget item : getChildren()) {
                 if (item instanceof MaterialTreeItem) {
-                    clearItemSelectedStyles((MaterialTreeItem) item);
+                    clearSelectedStyles((MaterialTreeItem) item);
                 }
             }
             MaterialTreeItem treeItem = event.getSelectedItem();
@@ -127,11 +127,11 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         }
     }
 
-    protected void clearItemSelectedStyles(MaterialTreeItem item) {
+    protected void clearSelectedStyles(MaterialTreeItem item) {
         item.removeStyleName(AddinsCssName.SELECTED);
 
         for (MaterialTreeItem treeItem : item.getTreeItems()) {
-            clearItemSelectedStyles(treeItem);
+            clearSelectedStyles(treeItem);
         }
     }
 
@@ -211,6 +211,18 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     }
 
     /**
+     * Deselect selected tree item
+     */
+    public void deselectSelectedItem() {
+        // Check whether tree has selected item
+        if (selectedItem != null) {
+            clearSelectedStyles(selectedItem);
+            setSelectedItem(null);
+            SelectionEvent.fire(this, null);
+        }
+    }
+
+    /**
      * Recursive function to collapse each tree item.
      */
     protected void collapseItems(MaterialTreeItem item) {
@@ -220,4 +232,3 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         item.getTreeItems().forEach(this::collapseItems);
     }
 }
-

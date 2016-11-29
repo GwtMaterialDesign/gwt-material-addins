@@ -29,6 +29,8 @@ import gwt.material.design.client.events.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialPanel;
 
+import java.util.Arrays;
+
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
@@ -92,12 +94,12 @@ public class MaterialDndTest extends MaterialAddinsTest {
         dnd.ignoreFrom(iconIgnore);
         JsDragOptions options = dnd.getDragOptions();
         assertEquals(dnd.getTarget(), panel);
-        assertEquals(dnd.getIgnoreFrom(), iconIgnore.getElement());
+        assertTrue(Arrays.asList(dnd.getIgnoreFrom()).contains(iconIgnore.getElement()));
         assertEquals(options.restrict.elementRect.top, Double.valueOf(20));
         assertEquals(options.restrict.elementRect.left, Double.valueOf(20));
         assertEquals(options.restrict.elementRect.right, Double.valueOf(20));
         assertEquals(options.restrict.elementRect.bottom, Double.valueOf(20));
-        assertEquals(options.restrict.restriction, Restriction.Restrict.PARENT.getValue());
+        assertEquals(options.restrict.restriction, Restriction.Restrict.PARENT);
         assertTrue(options.restrict.endOnly);
     }
 

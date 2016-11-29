@@ -19,12 +19,14 @@
  */
 package gwt.material.design.addins.client.window;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -40,12 +42,14 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 //@formatter:off
 
 /**
- * Window is another kind of Modal but it has a header toolbar for maximizing and close the windowContainer. Also you can attached a tab component on its content.
+ * Window is another kind of Modal but it has a header toolbar for maximizing and
+ * close the window. Also you can attached a tab component on its content.
  * <p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
@@ -57,17 +61,17 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- *  <ma:windowContainer.MaterialWindow ui:field="windowContainer" />
+ *  <ma:window.MaterialWindow ui:field="windowContainer" />
  * }
  * </pre>
  * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- *  // Opening a windowContainer
+ *  // Opening a window
  *  windowContainer.open();
  *
- *  // Closing a windowContainer
+ *  // Closing a window
  *  windowContainer.close();
  * }
  * </pre>
@@ -76,7 +80,7 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
-public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
+public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -86,32 +90,32 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         }
     }
 
-    private MaterialWidget windowContainer = new MaterialWidget(Document.get().createDivElement());
-    private MaterialWidget content = new MaterialWidget(Document.get().createDivElement());
+    private static MaterialPanel windowOverlay;
+    private static int windowCount = 0;
+
+    private MaterialPanel content = new MaterialPanel();
 
     // Toolbar elements
     private MaterialLink labelTitle = new MaterialLink();
-    private MaterialWidget toolbar = new MaterialWidget(Document.get().createDivElement());
+    private MaterialPanel toolbar = new MaterialPanel();
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
 
-    private String title = "";
     private Color toolbarColor;
 
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
-    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(windowContainer, AddinsCssName.MAXIMIZE);
+    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(this, AddinsCssName.MAXIMIZE);
     private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
 
     private MaterialAnimation openAnimation;
     private MaterialAnimation closeAnimation;
 
-    public MaterialWindow() {
-        super(Document.get().createDivElement(), AddinsCssName.WINDOW_OVERLAY);
-        windowContainer.setStyleName(AddinsCssName.WINDOW);
-        content.setStyleName(AddinsCssName.CONTENT);
-        super.add(windowContainer);
+    private MaterialDnd dnd;
+    private boolean initialized;
 
-        initialize();
+    public MaterialWindow() {
+        super(AddinsCssName.WINDOW);
+        content.setStyleName(AddinsCssName.CONTENT);
     }
 
     public MaterialWindow(String title) {
@@ -130,6 +134,16 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         setToolbarColor(toolbarColor);
     }
 
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        if (!initialized) {
+            initialize();
+            initialized = true;
+        }
+    }
+
     /**
      * Builds the toolbar
      */
@@ -138,19 +152,22 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
         iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
         iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
+
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
+
         iconMaximize.setCircle(true);
         iconMaximize.setWaves(WavesType.DEFAULT);
+
         toolbar.add(labelTitle);
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
-        toolbar.addDomHandler(event -> {
+        toolbar.addDoubleClickHandler(event -> {
             toggleMaximize();
             Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-        }, DoubleClickEvent.getType());
-        windowContainer.add(toolbar);
-        windowContainer.add(content);
+        });
+        super.add(toolbar);
+        super.add(content);
 
         // Add handlers to action buttons
         iconMaximize.addClickHandler(event -> toggleMaximize());
@@ -162,9 +179,11 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
             }
         });
 
+        setTop(100);
+
         // Add a draggable header
-        MaterialDnd dnd = MaterialDnd.draggable(windowContainer,
-                JsDragOptions.create(new Restriction(Restriction.Restrict.PARENT, true, -0.3, 0, 1.1, 1)));
+        dnd = MaterialDnd.draggable(this, JsDragOptions.create(
+                new Restriction("body", true, 0, 0, 1.2, 1)));
         dnd.ignoreFrom(".content, .window-action");
     }
 
@@ -178,13 +197,27 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
     }
 
     @Override
+    public boolean remove(Widget w) {
+        return content.remove(w);
+    }
+
+    @Override
+    public void insert(Widget child, int beforeIndex) {
+        content.insert(child, beforeIndex);
+    }
+
+    @Override
+    public void clear() {
+        content.clear();
+    }
+
+    @Override
     public String getTitle() {
-        return title;
+        return labelTitle.getTitle();
     }
 
     @Override
     public void setTitle(String title) {
-        this.title = title;
         labelTitle.setText(title);
     }
 
@@ -201,32 +234,69 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         }
     }
 
+    public static boolean isOverlay() {
+        return windowOverlay != null && windowOverlay.isAttached();
+    }
+
+    public static void setOverlay(boolean overlay) {
+        if(overlay) {
+            if(windowOverlay == null) {
+                windowOverlay = new MaterialPanel(AddinsCssName.WINDOW_OVERLAY);
+            }
+        } else {
+            if(windowOverlay != null) {
+                windowOverlay.removeFromParent();
+                windowOverlay = null;
+            }
+        }
+    }
+
     /**
-     * Open the windowContainer.
+     * Open the window.
      */
     public void open() {
         if (!isAttached()) {
             RootPanel.get().add(this);
         }
-        OpenEvent.fire(this, true);
+        windowCount++;
+        if(windowOverlay != null && !windowOverlay.isAttached()) {
+            RootPanel.get().add(windowOverlay);
+        }
+
         if (openAnimation == null) {
             openMixin.setOn(true);
+            OpenEvent.fire(this, true);
         } else {
-            openAnimation.animate(windowContainer, () -> openMixin.setOn(true));
+            setOpacity(0);
+            Scheduler.get().scheduleDeferred(() -> {
+                openMixin.setOn(true);
+                openAnimation.animate(this, () -> OpenEvent.fire(this, true));
+            });
         }
     }
 
     /**
-     * Close the windowContainer.
+     * Close the window.
      */
     public void close() {
-        CloseEvent.fire(this, false);
         // Turn back the cursor to POINTER
         RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+
+        windowCount--;
         if (closeAnimation == null) {
             openMixin.setOn(false);
+            if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
+                windowOverlay.removeFromParent();
+            }
+            CloseEvent.fire(this, false);
         } else {
-            closeAnimation.animate(windowContainer, () -> openMixin.setOn(false));
+            closeAnimation.animate(this, () -> {
+                openMixin.setOn(false);
+                if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
+                    windowOverlay.removeFromParent();
+                }
+                CloseEvent.fire(this, false);
+            });
         }
     }
 
@@ -257,27 +327,16 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
         return addHandler(handler, OpenEvent.getType());
     }
 
-    @Override
-    public void setWidth(String width) {
-        windowContainer.setWidth(width);
-    }
-
-    @Override
-    public void setHeight(String height) {
-        windowContainer.setHeight(height);
-    }
-
-    @Override
-    public void setBackgroundColor(Color bgColor) {
-        windowContainer.setBackgroundColor(bgColor);
-    }
-
     public boolean isOpen() {
         return openMixin.isOn();
     }
 
-    public MaterialWidget getWindowContainer() {
-        return windowContainer;
+    /**
+     * @deprecated can now reference the {@link MaterialWindow} directly.
+     */
+    @Deprecated
+    public MaterialWidget getContainer() {
+        return this;
     }
 
     public MaterialWidget getToolbar() {
@@ -298,5 +357,43 @@ public class MaterialWindow extends MaterialWidget implements HasCloseHandlers<B
 
     public MaterialLink getLabelTitle() {
         return labelTitle;
+    }
+
+    @Override
+    public void setPadding(double padding) {
+        content.setPadding(padding);
+    }
+
+    @Override
+    public void setPaddingTop(double padding) {
+        content.setPaddingTop(padding);
+    }
+
+    @Override
+    public void setPaddingLeft(double padding) {
+        content.setPaddingTop(padding);
+    }
+
+    @Override
+    public void setPaddingRight(double padding) {
+        content.setPaddingRight(padding);
+    }
+
+    @Override
+    public void setPaddingBottom(double padding) {
+        content.setPaddingBottom(padding);
+    }
+
+    /**
+     * Set the area for the drag and drop, can be an {@link Element}
+     * or a {@link String} selector.
+     */
+    public void setDndArea(Object dndArea) {
+        if(dndArea instanceof UIObject) {
+            dndArea = ((UIObject) dndArea).getElement();
+        }
+        if(dnd != null) {
+            dnd.draggable(JsDragOptions.create(new Restriction(dndArea, true, 0, 0, 1.2, 1)));
+        }
     }
 }

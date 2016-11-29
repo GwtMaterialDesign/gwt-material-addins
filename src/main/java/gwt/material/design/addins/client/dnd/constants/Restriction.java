@@ -29,26 +29,12 @@ package gwt.material.design.addins.client.dnd.constants;
  */
 public class Restriction {
 
-    public enum Restrict {
-        PARENT("parent"),
-        SELF("self");
-
-        String value;
-
-        Restrict(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
+    public interface Restrict {
+        String PARENT = "parent";
+        String SELF = "self";
     }
 
-    private Restrict restriction = Restrict.PARENT;
+    private Object restriction = Restrict.PARENT;
     private boolean endOnly = true;
     private double top = 0;
     private double left = 0;
@@ -58,7 +44,7 @@ public class Restriction {
     public Restriction() {
     }
 
-    public Restriction(Restrict restriction, boolean endOnly, double top, double left, double bottom, double right) {
+    public Restriction(Object restriction, boolean endOnly, double top, double left, double bottom, double right) {
         this.restriction = restriction;
         this.endOnly = endOnly;
         this.top = top;
@@ -67,7 +53,7 @@ public class Restriction {
         this.left = left;
     }
 
-    public Restrict getRestriction() {
+    public Object getRestriction() {
         return restriction;
     }
 
@@ -80,7 +66,7 @@ public class Restriction {
      *
      * @see <a href="http://interactjs.io/docs/restriction/#restriction">Documentation</a>
      */
-    public void setRestriction(Restrict restriction) {
+    public void setRestriction(Object restriction) {
         this.restriction = restriction;
     }
 

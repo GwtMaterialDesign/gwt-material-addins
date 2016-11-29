@@ -78,7 +78,7 @@ public class JsDragOptions {
         // Restrict Options
         JsDragRestrictions restrict = new JsDragRestrictions();
         if (restriction != null) {
-            restrict.restriction = restriction.getRestriction().getValue();
+            restrict.restriction = restriction.getRestriction();
             restrict.endOnly = restriction.isEndOnly();
 
             // Element Rec Options

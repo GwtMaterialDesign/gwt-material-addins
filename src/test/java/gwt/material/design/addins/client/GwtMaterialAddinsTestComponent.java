@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.resources.MaterialResources;
@@ -41,7 +42,8 @@ public class GwtMaterialAddinsTestComponent extends GWTTestCase {
 
     public void setup() {
         // Test JQuery
-        MaterialDesign.injectJs(WithJQueryResources.INSTANCE.jQuery());
+        WithJQueryResources jquery = GWT.create(WithJQueryResources.class);
+        MaterialDesign.injectJs(jquery.jQuery());
         assertTrue(MaterialDesign.isjQueryLoaded());
         // Test Materialize
         MaterialDesign.injectJs(MaterialResources.INSTANCE.materializeJs());

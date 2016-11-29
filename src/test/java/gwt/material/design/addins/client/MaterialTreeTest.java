@@ -26,6 +26,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
@@ -82,6 +83,9 @@ public class MaterialTreeTest extends MaterialAddinsTest {
         MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
         tree.setSelectedItem(item);
         assertEquals(tree.getSelectedItem(), item);
+        tree.deselectSelectedItem();
+        assertFalse(item.getElement().hasClassName(AddinsCssName.SELECTED));
+        assertNull(tree.getSelectedItem());
     }
 
     protected <T extends MaterialTree> void checkStructure(T tree) {

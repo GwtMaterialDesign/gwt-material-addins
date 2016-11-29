@@ -93,3 +93,7 @@ li.multiValueSuggestBox-token {
 li.multiValueSuggestBox-input-token {
     float: left;
 }
+
+.row .autocomplete label {
+    left: 0.75rem !important;
+}
