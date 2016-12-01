@@ -89,8 +89,6 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         setValue(value);
     }
 
-    private boolean initialized;
-
     @Override
     protected void onLoad() {
         super.onLoad();
