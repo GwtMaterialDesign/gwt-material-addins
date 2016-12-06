@@ -19,11 +19,13 @@
  */
 package gwt.material.design.addins.client.pathanimator;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
+import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -68,6 +70,10 @@ public class MaterialPathAnimator {
     private Element targetElement;
     private Functions.Func animateCallback;
     private Functions.Func reverseCallback;
+    private double duration = 0.3;
+    private double targetShowDuration = 0;
+    private double extraTransitionDuration = 1;
+    private JsPathAnimatorOptions options = new JsPathAnimatorOptions();
 
     public MaterialPathAnimator() {
     }
@@ -77,7 +83,15 @@ public class MaterialPathAnimator {
      */
     public void animate() {
         $("document").ready(() -> {
-            JsPathAnimator.cta(sourceElement, targetElement, () -> {
+            options.duration = duration;
+            options.targetShowDuration = targetShowDuration;
+            options.extraTransitionDuration = extraTransitionDuration;
+
+            GWT.log("Duration " + duration);
+            GWT.log("Target Show Duration " + targetShowDuration);
+            GWT.log("Extra Transition Duration " + extraTransitionDuration);
+
+            JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
                 if (animateCallback != null) {
                     animateCallback.call();
                 } else {
@@ -146,7 +160,7 @@ public class MaterialPathAnimator {
                 targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
                 targetElement.getStyle().setOpacity(0);
             }
-            JsPathAnimator.cta(targetElement, sourceElement);
+            JsPathAnimator.cta(targetElement, sourceElement, options);
         });
     }
 
@@ -250,5 +264,38 @@ public class MaterialPathAnimator {
      */
     public void setReverseCallback(Functions.Func reverseCallback) {
         this.reverseCallback = reverseCallback;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    /**
+     * Duration (in seconds) of animation. Default is 0.3 seconds.
+     */
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public double getTargetShowDuration() {
+        return targetShowDuration;
+    }
+
+    /**
+     * Duration (in seconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
+     */
+    public void setTargetShowDuration(double targetShowDuration) {
+        this.targetShowDuration = targetShowDuration;
+    }
+
+    public double getExtraTransitionDuration() {
+        return extraTransitionDuration;
+    }
+
+    /**
+     * Extra duration (in seconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
+     */
+    public void setExtraTransitionDuration(double extraTransitionDuration) {
+        this.extraTransitionDuration = extraTransitionDuration;
     }
 }
