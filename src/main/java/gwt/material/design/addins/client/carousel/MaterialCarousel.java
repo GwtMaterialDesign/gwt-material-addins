@@ -19,12 +19,59 @@
  */
 package gwt.material.design.addins.client.carousel;
 
-import com.google.gwt.core.client.Scheduler;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.carousel.constants.CarouselType;
+import gwt.material.design.addins.client.carousel.js.JsCarousel;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
+import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasType;
+import gwt.material.design.client.base.mixin.CssTypeMixin;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
 
-public class MaterialCarousel extends MaterialCarouselBase {
+//@formatter:off
+
+/**
+ * Carousel is a robust and versatile component that can be an image slider, to an item carousel, to an onboarding experience. It is touch enabled making it especially smooth to use on mobile.
+ * <p>
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ * xmlns:ma='urn:import:gwt.material.design.addins.client'
+ * }
+ * </pre>
+ * <p>
+ * <h3>UiBinder Usage:</h3>
+ * <pre>
+ * {@code
+ * <ma:carousel.MaterialCarousel textAlign="CENTER">
+ *    <m:MaterialPanel paddingTop="50" backgroundColor="GREY_LIGHTEN_2" padding="20" height="200px">
+ *      <m:MaterialLabel textColor="BLUE" fontSize="5em" fontWeight="LIGHTER" text="1" />
+ *    </m:MaterialPanel>
+ *
+ *    <m:MaterialPanel paddingTop="50" backgroundColor="GREY_LIGHTEN_2" padding="20" height="200px">
+ *      <m:MaterialLabel textColor="BLUE" fontSize="5em" fontWeight="LIGHTER" text="2" />
+ *    </m:MaterialPanel>
+ *    <!-- Other panels here -->
+ *  </ma:carousel.MaterialCarousel>
+ * }
+ * </pre>
+ *
+ * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#carousel">Material Carousel</a>
+ */
+//@formatter:on
+public class MaterialCarousel extends MaterialCarouselBase implements HasType<CarouselType> {
+
+    static {
+        if (MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialCarouselDebugClientBundle.INSTANCE.carouselCssDebug());
+            MaterialDesignBase.injectDebugJs(MaterialCarouselDebugClientBundle.INSTANCE.carouselJsDebug());
+        } else {
+            MaterialDesignBase.injectCss(MaterialCarouselClienBundle.INSTANCE.carouselCss());
+            MaterialDesignBase.injectJs(MaterialCarouselClienBundle.INSTANCE.carouselJs());
+        }
+    }
 
     private boolean infinite;
     private boolean centerMode;
@@ -38,7 +85,11 @@ public class MaterialCarousel extends MaterialCarouselBase {
     private int slidesToScroll = 1;
     private int speed = 300;
     private int autoplaySpeed = 3000;
+    private double edgeFriction = 0.15;
     private String centerPadding = "100px";
+    private JsCarouselOptions options = new JsCarouselOptions();
+
+    private final CssTypeMixin<CarouselType, MaterialCarousel> typeMixin = new CssTypeMixin<>(this);
 
 
     @Override
@@ -57,7 +108,6 @@ public class MaterialCarousel extends MaterialCarouselBase {
     }
 
     protected void initialize() {
-        JsCarouselOptions options = new JsCarouselOptions();
         options.dots = showDots;
         options.arrows = showArrows;
         options.infinite = infinite;
@@ -66,6 +116,7 @@ public class MaterialCarousel extends MaterialCarouselBase {
         options.adaptiveHeight = adaptiveHeight;
         options.autoplay = autoplay;
         options.fade = fade;
+        options.edgeFriction = edgeFriction;
         options.autoplaySpeed = autoplaySpeed;
         options.slidesToShow = slidesToShow;
         options.slidesToScroll = slidesToScroll;
@@ -74,13 +125,15 @@ public class MaterialCarousel extends MaterialCarouselBase {
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
 
-        Scheduler.get().scheduleDeferred(() -> {
-            $("#" + getContainer().getId()).slick(options);
-        });
+        getCarouselElement().slick(options);
+    }
+
+    protected JsCarousel getCarouselElement() {
+        return $("#" + getContainer().getId());
     }
 
     public void destroy() {
-        $("#" + getContainer().getId()).slick("unslick");
+        getCarouselElement().slick("unslick");
     }
 
     public boolean isShowDots() {
@@ -217,6 +270,17 @@ public class MaterialCarousel extends MaterialCarouselBase {
         this.autoplaySpeed = autoplaySpeed;
     }
 
+    public double getEdgeFriction() {
+        return edgeFriction;
+    }
+
+    /**
+     * Resistance when swiping edges of non-infinite carousels
+     */
+    public void setEdgeFriction(double edgeFriction) {
+        this.edgeFriction = edgeFriction;
+    }
+
     public boolean isFade() {
         return fade;
     }
@@ -226,5 +290,66 @@ public class MaterialCarousel extends MaterialCarouselBase {
      */
     public void setFade(boolean fade) {
         this.fade = fade;
+    }
+
+    /** TODO METHODS **/
+
+    public int getCurrentSlideIndex() {
+        if (getCarouselElement().slick("slickCurrentSlide").toString() != null) {
+            return Integer.parseInt(getCarouselElement().slick("slickCurrentSlide").toString());
+        }
+        return -1;
+    }
+
+    /**
+     * Navigates to a slide by index with animate as second parameter
+     */
+    public void goToSlide(int index, boolean animate) {
+        getCarouselElement().slick("slickGoTo", index, animate);
+    }
+
+    /**
+     * Navigates to a slide by index with animation
+     */
+    public void goToSlide(int index) {
+        getCarouselElement().slick("slickGoTo", index, true);
+    }
+
+    /**
+     * Navigates to the next slide
+     */
+    public void next() {
+        getCarouselElement().slick("slickNext");
+    }
+
+    /**
+     * Navigates to the previous slide
+     */
+    public void previous() {
+        getCarouselElement().slick("slickPrev");
+    }
+
+    /**
+     * Pauses autoplay
+     */
+    public void pause() {
+        getCarouselElement().slick("slickPause");
+    }
+
+    /**
+     * Starts autoplay
+     */
+    public void play() {
+        getCarouselElement().slick("slickPlay");
+    }
+
+    @Override
+    public void setType(CarouselType type) {
+        typeMixin.setType(type);
+    }
+
+    @Override
+    public CarouselType getType() {
+        return typeMixin.getType();
     }
 }

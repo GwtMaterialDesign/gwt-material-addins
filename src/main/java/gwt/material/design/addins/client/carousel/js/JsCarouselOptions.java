@@ -23,6 +23,11 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+/**
+ * Options for carousel component
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsCarouselOptions {
 
@@ -81,7 +86,7 @@ public class JsCarouselOptions {
     public String easing;
 
     @JsProperty
-    public int edgeFriction;
+    public double edgeFriction;
 
     @JsProperty
     public boolean infinite;

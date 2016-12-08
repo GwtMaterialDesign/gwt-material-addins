@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.carousel.js;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsMethod;
@@ -49,5 +50,11 @@ public class JsCarousel extends JQueryElement {
     public native JQueryElement slick();
 
     @JsMethod
-    public native JQueryElement slick(String action);
+    public native JavaScriptObject slick(String action);
+
+    @JsMethod
+    public native JavaScriptObject slick(Object action, Object param2);
+
+    @JsMethod
+    public native JavaScriptObject slick(Object action, Object param1, Object param2);
 }

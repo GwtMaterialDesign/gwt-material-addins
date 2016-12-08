@@ -23,8 +23,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.IconType;
@@ -33,16 +31,6 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPanel;
 
 public class MaterialCarouselBase extends MaterialWidget {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialCarouselDebugClientBundle.INSTANCE.carouselCssDebug());
-            MaterialDesignBase.injectDebugJs(MaterialCarouselDebugClientBundle.INSTANCE.carouselJsDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialCarouselClienBundle.INSTANCE.carouselCss());
-            MaterialDesignBase.injectJs(MaterialCarouselClienBundle.INSTANCE.carouselJs());
-        }
-    }
 
     public MaterialCarouselBase() {
         super(Document.get().createDivElement(), "material-carousel");
