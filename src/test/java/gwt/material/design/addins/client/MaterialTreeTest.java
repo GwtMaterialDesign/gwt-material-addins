@@ -26,7 +26,6 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
@@ -45,6 +44,14 @@ public class MaterialTreeTest extends MaterialAddinsTest {
         checkStructure(tree);
         checkSelectedItem(tree);
         checkExpandAndColapse(tree);
+        checkCreateItemAndSelect(tree);
+    }
+
+    protected void checkCreateItemAndSelect(MaterialTree tree) {
+        MaterialTreeItem treeItem = new MaterialTreeItem();
+        treeItem.setText("Child");
+        tree.add(treeItem);
+        treeItem.select();
     }
 
     protected <T extends MaterialTree> void checkExpandAndColapse(T tree) {
