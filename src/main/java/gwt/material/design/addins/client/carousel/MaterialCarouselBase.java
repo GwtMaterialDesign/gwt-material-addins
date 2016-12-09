@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.constants.IconType;
@@ -30,10 +31,15 @@ import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialPanel;
 
+/**
+ * Base class for MaterialCarousel
+ *
+ * @author kevzlou7979
+ */
 public class MaterialCarouselBase extends MaterialWidget {
 
     public MaterialCarouselBase() {
-        super(Document.get().createDivElement(), "material-carousel");
+        super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
     }
 
     private MaterialPanel container = new MaterialPanel();
@@ -47,20 +53,20 @@ public class MaterialCarouselBase extends MaterialWidget {
         btnNextArrow.setType(ButtonType.FLOATING);
         btnNextArrow.setWaves(WavesType.DEFAULT);
         btnNextArrow.setText("Next");
-        btnNextArrow.addStyleName("carousel-next-arrow");
+        btnNextArrow.addStyleName(AddinsCssName.CAROUSEL_NEXT_ARROW);
         btnNextArrow.setId(uid + "-next-arrow");
 
         btnPrevArrow.setIconType(IconType.KEYBOARD_ARROW_LEFT);
         btnPrevArrow.setType(ButtonType.FLOATING);
         btnPrevArrow.setWaves(WavesType.DEFAULT);
         btnPrevArrow.setText("Previous");
-        btnPrevArrow.addStyleName("carousel-prev-arrow");
+        btnPrevArrow.addStyleName(AddinsCssName.CAROUSEL_PREV_ARROW);
         btnPrevArrow.setId(uid + "-prev-arrow");
 
         super.add(btnNextArrow);
         super.add(btnPrevArrow);
 
-        container.setStyleName("material-carousel-container");
+        container.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         container.setId(uid + "-container");
         super.add(container);
     }

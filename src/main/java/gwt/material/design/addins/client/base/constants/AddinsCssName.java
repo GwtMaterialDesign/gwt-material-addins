@@ -96,4 +96,8 @@ public interface AddinsCssName {
     String IGNORED = "swipe-ignored";
     String TOTAL_UPLOAD_PROGRESS = "total-upload-progress";
     String PH = "ph";
+    String CAROUSEL_NEXT_ARROW = "carousel-next-arrow";
+    String CAROUSEL_PREV_ARROW = "carousel-prev-arrow";
+    String MATERIAL_CAROUSEL = "material-carousel";
+    String MATERIAL_CAROUSEL_CONTAINER = "material-carousel-container";
 }
