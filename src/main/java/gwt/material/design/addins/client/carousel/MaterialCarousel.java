@@ -23,6 +23,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.js.JsCarousel;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
+import gwt.material.design.addins.client.carousel.js.JsResponsiveOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
@@ -88,6 +89,9 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     private double edgeFriction = 0.15;
     private String centerPadding = "100px";
     private JsCarouselOptions options = new JsCarouselOptions();
+    private JsResponsiveOptions[] responsiveOptions = new JsResponsiveOptions[]{};
+    private JsCarouselOptions tabletSettings;
+    private JsCarouselOptions mobileSettings;
 
     private final CssTypeMixin<CarouselType, MaterialCarousel> typeMixin = new CssTypeMixin<>(this);
 
@@ -107,7 +111,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         destroy();
     }
 
-    protected void initialize() {
+    public void initialize() {
         options.dots = showDots;
         options.arrows = showArrows;
         options.infinite = infinite;
@@ -125,7 +129,29 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
 
+        // Tablet Settings
+        if (tabletSettings != null) {
+            JsResponsiveOptions tabletOpt = new JsResponsiveOptions();
+            tabletOpt.breakpoint = 992;
+            tabletOpt.settings = tabletSettings;
+            responsiveOptions[0] = tabletOpt;
+        }
+
+        // Mobile Settings
+        if (mobileSettings != null) {
+            JsResponsiveOptions mobileOpt = new JsResponsiveOptions();
+            mobileOpt.breakpoint = 600;
+            mobileOpt.settings = mobileSettings;
+            responsiveOptions[1] = mobileOpt;
+        }
+
+        options.responsive = responsiveOptions;
         getCarouselElement().slick(options);
+    }
+
+    public void reinitialize() {
+        destroy();
+        getCarouselElement().slick("reinit");
     }
 
     protected JsCarousel getCarouselElement() {
@@ -354,5 +380,21 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     @Override
     public CarouselType getType() {
         return typeMixin.getType();
+    }
+
+    public JsCarouselOptions getTabletSettings() {
+        return tabletSettings;
+    }
+
+    public void setTabletSettings(JsCarouselOptions tabletSettings) {
+        this.tabletSettings = tabletSettings;
+    }
+
+    public JsCarouselOptions getMobileSettings() {
+        return mobileSettings;
+    }
+
+    public void setMobileSettings(JsCarouselOptions mobileSettings) {
+        this.mobileSettings = mobileSettings;
     }
 }

@@ -150,4 +150,7 @@ public class JsCarouselOptions {
 
     @JsProperty
     public boolean waitForAnimate;
+
+    @JsProperty
+    public JsResponsiveOptions[] responsive;
 }
