@@ -294,6 +294,9 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     /** TODO METHODS **/
 
+    /**
+     * Returns the current slide index
+     */
     public int getCurrentSlideIndex() {
         if (getCarouselElement().slick("slickCurrentSlide").toString() != null) {
             return Integer.parseInt(getCarouselElement().slick("slickCurrentSlide").toString());
