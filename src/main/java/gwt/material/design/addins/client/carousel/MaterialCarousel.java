@@ -19,8 +19,10 @@
  */
 package gwt.material.design.addins.client.carousel;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
+import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarousel;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.addins.client.carousel.js.JsResponsiveOptions;
@@ -62,7 +64,7 @@ import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#carousel">Material Carousel</a>
  */
 //@formatter:on
-public class MaterialCarousel extends MaterialCarouselBase implements HasType<CarouselType> {
+public class MaterialCarousel extends MaterialCarouselBase implements HasType<CarouselType>, HasCarouselEvents {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -129,6 +131,31 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
 
+        $(getElement()).on("afterChange", (e, slick, currentSlide) -> {
+            AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
+            return true;
+        });
+
+        $(getElement()).on("beforeChange", (e, slick, currentSlide, nextSlide) -> {
+            BeforeChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()), Integer.parseInt(nextSlide.toString()));
+            return true;
+        });
+
+        $(getElement()).on("init", (e) -> {
+            InitEvent.fire(this);
+            return true;
+        });
+
+        $(getElement()).on("destroy", (e) -> {
+            DestroyEvent.fire(this);
+            return true;
+        });
+
+        $(getElement()).on("swipe", (e, slick, direction) -> {
+            SwipeEvent.fire(this, direction.toString());
+            return true;
+        });
+
         // Tablet Settings
         if (tabletSettings != null) {
             JsResponsiveOptions tabletOpt = new JsResponsiveOptions();
@@ -147,11 +174,6 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
         options.responsive = responsiveOptions;
         getCarouselElement().slick(options);
-    }
-
-    public void reinitialize() {
-        destroy();
-        getCarouselElement().slick("reinit");
     }
 
     protected JsCarousel getCarouselElement() {
@@ -396,5 +418,30 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     public void setMobileSettings(JsCarouselOptions mobileSettings) {
         this.mobileSettings = mobileSettings;
+    }
+
+    @Override
+    public HandlerRegistration addAfterChangeHandler(AfterChangeEvent.AfterChangeHandler handler) {
+        return addHandler(handler, AfterChangeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addBeforeChangeHandler(BeforeChangeEvent.BeforeChangeHandler handler) {
+        return addHandler(handler, BeforeChangeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addInitHandler(InitEvent.InitHandler handler) {
+        return addHandler(handler, InitEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addDestroyHandler(DestroyEvent.DestroyHandler handler) {
+        return addHandler(handler, DestroyEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addSwipeHandler(SwipeEvent.SwipeHandler handler) {
+        return addHandler(handler, SwipeEvent.getType());
     }
 }
