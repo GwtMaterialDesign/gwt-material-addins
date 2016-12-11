@@ -1,7 +1,7 @@
 /** Window Modal **/
 .window {
     position: fixed;
-    visibility: hidden;
+    display: none;
     z-index: 1001;
     top: 0;
     left: 0;
@@ -67,7 +67,7 @@
 }
 
 .window.open {
-    visibility: visible !important;
+    display: block !important;
     opacity: 1 !important;
 }
 
