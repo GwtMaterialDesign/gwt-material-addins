@@ -330,7 +330,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     public void setValue(T value, boolean fireEvents) {
         int index = values.indexOf(value);
-        if (index > 0) {
+        if (index >= 0) {
             T before = getValue();
             setSelectedIndex(index);
 
