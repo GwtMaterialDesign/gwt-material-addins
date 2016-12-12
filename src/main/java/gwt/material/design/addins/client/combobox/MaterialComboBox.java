@@ -296,7 +296,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     @Override
     public void setAcceptableValues(Collection<T> values) {
-        this.values.clear();
         clear();
         for (T value : values) {
             addItem(value);
@@ -495,6 +494,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public void close() {
         $(listbox.getElement()).select2("close");
+    }
+
+    @Override
+    public void clear() {
+        listbox.clear();
+        values.clear();
     }
 
     /**
