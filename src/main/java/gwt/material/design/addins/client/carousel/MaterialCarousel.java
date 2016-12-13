@@ -29,6 +29,8 @@ import gwt.material.design.addins.client.carousel.js.JsResponsiveOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
+import gwt.material.design.client.ui.MaterialTab;
+import gwt.material.design.client.ui.MaterialToast;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
 
@@ -96,7 +98,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     private JsCarouselOptions mobileSettings;
 
     private final CssTypeMixin<CarouselType, MaterialCarousel> typeMixin = new CssTypeMixin<>(this);
-
+    private HandlerRegistration tabSelectionHandler, beforeChangeHandler;
 
     @Override
     protected void onLoad() {
@@ -127,31 +129,32 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         options.slidesToShow = slidesToShow;
         options.slidesToScroll = slidesToScroll;
         options.speed = speed;
+        options.swipeToSlide = false;
         options.centerPadding = centerPadding;
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
 
-        $(getElement()).on("afterChange", (e, slick, currentSlide) -> {
+        $(getElement()).off("afterChange").on("afterChange", (e, slick, currentSlide) -> {
             AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
             return true;
         });
 
-        $(getElement()).on("beforeChange", (e, slick, currentSlide, nextSlide) -> {
+        $(getElement()).off("beforeChange").on("beforeChange", (e, slick, currentSlide, nextSlide) -> {
             BeforeChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()), Integer.parseInt(nextSlide.toString()));
             return true;
         });
 
-        $(getElement()).on("init", (e) -> {
+        $(getElement()).off("init").on("init", (e) -> {
             InitEvent.fire(this);
             return true;
         });
 
-        $(getElement()).on("destroy", (e) -> {
+        $(getElement()).off("destroy").on("destroy", (e) -> {
             DestroyEvent.fire(this);
             return true;
         });
 
-        $(getElement()).on("swipe", (e, slick, direction) -> {
+        $(getElement()).off("swipe").on("swipe", (e, slick, direction) -> {
             SwipeEvent.fire(this, direction.toString());
             return true;
         });
@@ -181,7 +184,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     }
 
     public void destroy() {
-        getCarouselElement().slick("unslick");
+        getCarouselElement().slick("destroy");
     }
 
     public boolean isShowDots() {
@@ -355,15 +358,15 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     /**
      * Navigates to a slide by index with animate as second parameter
      */
-    public void goToSlide(int index, boolean animate) {
-        getCarouselElement().slick("slickGoTo", index, animate);
+    public void goToSlide(int index, boolean noAnimation) {
+        getCarouselElement().slick("slickGoTo", index, noAnimation);
     }
 
     /**
      * Navigates to a slide by index with animation
      */
     public void goToSlide(int index) {
-        getCarouselElement().slick("slickGoTo", index, true);
+        getCarouselElement().slick("slickGoTo", index, false);
     }
 
     /**
@@ -418,6 +421,23 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     public void setMobileSettings(JsCarouselOptions mobileSettings) {
         this.mobileSettings = mobileSettings;
+    }
+
+    public void setTabNavigation(MaterialTab tab) {
+        if (tabSelectionHandler == null) {
+            tabSelectionHandler = tab.addSelectionHandler(e -> {
+                goToSlide(e.getSelectedItem());
+                MaterialToast.fireToast("HAHA SLIDE");
+            });
+        }
+
+        if (beforeChangeHandler == null) {
+            beforeChangeHandler = addBeforeChangeHandler(e -> {
+                tab.setTabIndex(e.getNextSlide());
+                MaterialToast.fireToast("HAHAH Tab Index");
+            });
+        }
+
     }
 
     @Override
