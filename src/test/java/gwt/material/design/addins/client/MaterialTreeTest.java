@@ -26,7 +26,6 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialImage;
@@ -45,6 +44,42 @@ public class MaterialTreeTest extends MaterialAddinsTest {
         checkStructure(tree);
         checkSelectedItem(tree);
         checkExpandAndColapse(tree);
+        checkCreateItemAndSelect(tree);
+        checkInsertItemAndSelect(tree);
+        checkCreateSubItemAndSelect(tree);
+        checkInsertSubItemAndSelect(tree);
+    }
+
+    protected void checkCreateItemAndSelect(MaterialTree tree) {
+        MaterialTreeItem treeItem = new MaterialTreeItem();
+        treeItem.setText("Child");
+        tree.add(treeItem);
+        treeItem.select();
+    }
+
+    protected void checkInsertItemAndSelect(MaterialTree tree) {
+        MaterialTreeItem treeItem = new MaterialTreeItem();
+        treeItem.setText("Child");
+        tree.insert(treeItem, 0);
+        treeItem.select();
+    }
+
+    protected void checkCreateSubItemAndSelect(MaterialTree tree) {
+        MaterialTreeItem root = new MaterialTreeItem("Root");
+        tree.add(root);
+        MaterialTreeItem child = new MaterialTreeItem("Child");
+        root.add(child);
+        tree.expand();
+        child.select();
+    }
+
+    protected void checkInsertSubItemAndSelect(MaterialTree tree) {
+        MaterialTreeItem root = new MaterialTreeItem("Root");
+        tree.add(root);
+        MaterialTreeItem child = new MaterialTreeItem("Child");
+        root.insert(child, 0);
+        tree.expand();
+        child.select();
     }
 
     protected <T extends MaterialTree> void checkExpandAndColapse(T tree) {

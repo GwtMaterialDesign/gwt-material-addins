@@ -110,8 +110,8 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
         if (child instanceof MaterialTreeItem) {
-            ((MaterialTreeItem) child).setTree(this);
             super.add(child, container);
+            ((MaterialTreeItem) child).setTree(this);
         } else {
             throw new IllegalArgumentException("MaterialTree can only contain MaterialTreeItem");
         }
@@ -120,8 +120,8 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
         if (child instanceof MaterialTreeItem) {
-            ((MaterialTreeItem) child).setTree(this);
             super.insert(child, container, beforeIndex, domInsert);
+            ((MaterialTreeItem) child).setTree(this);
         } else {
             throw new IllegalArgumentException("MaterialTree can only contain MaterialTreeItem");
         }

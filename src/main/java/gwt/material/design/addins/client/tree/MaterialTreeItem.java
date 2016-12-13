@@ -273,18 +273,18 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
+        super.add(child, container);
         if (child instanceof MaterialTreeItem) {
             ((MaterialTreeItem) child).setTree(getTree());
         }
-        super.add(child, container);
     }
 
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
+        super.insert(child, container, beforeIndex, domInsert);
         if (child instanceof MaterialTreeItem) {
             ((MaterialTreeItem) child).setTree(getTree());
         }
-        super.insert(child, container, beforeIndex, domInsert);
     }
 
     @Override
