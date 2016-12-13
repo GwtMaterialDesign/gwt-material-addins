@@ -30,7 +30,6 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.ui.MaterialTab;
-import gwt.material.design.client.ui.MaterialToast;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
 
@@ -427,14 +426,12 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         if (tabSelectionHandler == null) {
             tabSelectionHandler = tab.addSelectionHandler(e -> {
                 goToSlide(e.getSelectedItem());
-                MaterialToast.fireToast("HAHA SLIDE");
             });
         }
 
         if (beforeChangeHandler == null) {
             beforeChangeHandler = addBeforeChangeHandler(e -> {
                 tab.setTabIndex(e.getNextSlide());
-                MaterialToast.fireToast("HAHAH Tab Index");
             });
         }
 
