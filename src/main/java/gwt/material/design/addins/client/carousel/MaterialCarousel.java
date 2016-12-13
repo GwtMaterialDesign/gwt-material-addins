@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.carousel;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.events.*;
@@ -112,6 +113,23 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         super.onUnload();
 
         destroy();
+    }
+
+    @Override
+    public void add(Widget child) {
+        getContainer().add(child);
+        getCarouselElement().slick("slickAdd", child.getElement());
+    }
+
+    @Override
+    public boolean remove(int index) {
+        getCarouselElement().slick("slickRemove", index);
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        getContainer().clear();
     }
 
     public void initialize() {

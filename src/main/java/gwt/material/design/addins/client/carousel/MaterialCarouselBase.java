@@ -21,8 +21,6 @@ package gwt.material.design.addins.client.carousel;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.ButtonType;
@@ -69,21 +67,6 @@ public class MaterialCarouselBase extends MaterialWidget {
         container.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         container.setId(uid + "-container");
         super.add(container);
-    }
-
-    @Override
-    public void add(Widget child) {
-        container.add(child);
-    }
-
-    @Override
-    public boolean remove(IsWidget child) {
-        return container.remove(child);
-    }
-
-    @Override
-    public void clear() {
-        container.clear();
     }
 
     public MaterialPanel getContainer() {
