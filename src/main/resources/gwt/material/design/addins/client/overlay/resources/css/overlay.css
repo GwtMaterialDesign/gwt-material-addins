@@ -51,7 +51,7 @@
     width: 100%;
 }
 
-.overlay-panel.maximized {
+.overlay-panel.maximize {
     transform: translate3d(0px, 0px, 0px) scale(1) !important;
 }
 

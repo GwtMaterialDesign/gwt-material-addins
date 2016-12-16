@@ -189,7 +189,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
 
     public void setOverlayTab(MaterialOverlayTab overlayTab) {
         this.overlayTab = overlayTab;
-        minimizeIcon.addStyleName("minimize-icon");
+        minimizeIcon.addStyleName(AddinsCssName.MINIMIZE_ICON);
         minimizeIcon.addMouseDownHandler(e -> minimize());
         add(minimizeIcon);
     }

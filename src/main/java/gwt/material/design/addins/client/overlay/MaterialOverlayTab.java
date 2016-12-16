@@ -1,9 +1,29 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.*;
@@ -38,7 +58,7 @@ public class MaterialOverlayTab extends MaterialWidget {
         badge.setText("0");
         badge.setCircle(true);
         activator.add(badge);
-        activator.addStyleName("activator");
+        activator.addStyleName(CssName.ACTIVATOR);
         activator.addClickHandler(clickEvent -> {
             if (!toggle) {
                 Scheduler.get().scheduleDeferred(() -> {
@@ -60,13 +80,13 @@ public class MaterialOverlayTab extends MaterialWidget {
         activator.setIconType(IconType.CONTENT_COPY);
         add(activator);
 
-        leanOverlay.setStyleName("lean-overlay");
+        leanOverlay.setStyleName(AddinsCssName.LEAN_OVERLAY);
         add(leanOverlay);
     }
 
     public void register(MaterialOverlay overlay) {
         if (!overlays.contains(overlay)) {
-            overlay.addStyleName("tab");
+            overlay.addStyleName(CssName.TAB);
             overlay.setDepth(zIndex);
             overlays.add(overlay);
             zIndex++;
@@ -90,9 +110,9 @@ public class MaterialOverlayTab extends MaterialWidget {
         } else {
             Scheduler.get().scheduleDeferred(() -> {
                 overlays.stream().filter(other -> other != overlay).forEach(other -> {
-                    other.removeStyleName("hidden");
+                    other.removeStyleName(AddinsCssName.HIDDEN);
                 });
-                overlay.removeStyleName("maximized");
+                overlay.removeStyleName(AddinsCssName.MAXIMIZE);
             });
         }
     }
@@ -119,9 +139,9 @@ public class MaterialOverlayTab extends MaterialWidget {
 
     public void maximize(MaterialOverlay overlay) {
         overlays.stream().filter(other -> other != overlay).forEach(other -> {
-            other.addStyleName("hidden");
+            other.addStyleName(AddinsCssName.HIDDEN);
         });
-        overlay.addStyleName("maximized");
+        overlay.addStyleName(AddinsCssName.MAXIMIZE);
         maximized = true;
     }
 
@@ -131,8 +151,8 @@ public class MaterialOverlayTab extends MaterialWidget {
         for (MaterialOverlay overlay : overlays) {
             overlay.setVisibility(Style.Visibility.HIDDEN);
             overlay.setOpacity(0);
-            overlay.removeStyleName("maximized");
-            overlay.removeStyleName("hidden");
+            overlay.removeStyleName(AddinsCssName.MAXIMIZE);
+            overlay.removeStyleName(AddinsCssName.HIDDEN);
             $(overlay.getElement()).css("transform", "translate3d(0px, 0px, 0px) scale(1)");
         }
         maximizeHandlers.forEach(HandlerRegistration::removeHandler);

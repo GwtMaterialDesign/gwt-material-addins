@@ -100,4 +100,7 @@ public interface AddinsCssName {
     String CAROUSEL_PREV_ARROW = "carousel-prev-arrow";
     String MATERIAL_CAROUSEL = "material-carousel";
     String MATERIAL_CAROUSEL_CONTAINER = "material-carousel-container";
+    String HIDDEN = "hidden";
+    String LEAN_OVERLAY = "lean-overlay";
+    String MINIMIZE_ICON = "minimize-icon";
 }
