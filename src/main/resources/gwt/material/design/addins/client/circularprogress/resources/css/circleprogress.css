@@ -1,0 +1,10 @@
+.circular-progress {
+    position: relative;
+}
+
+.circular-progress span:nth-child(2) {
+    position: absolute;
+    top: 0;
+    text-align: center;
+    left: 12px;
+}
