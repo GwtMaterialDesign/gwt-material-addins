@@ -103,4 +103,7 @@ public interface AddinsCssName {
     String HIDDEN = "hidden";
     String LEAN_OVERLAY = "lean-overlay";
     String MINIMIZE_ICON = "minimize-icon";
+    String CLOSE = "close";
+    String OVERLAY_TAB_INDICATOR = "overlay-tab-activator";
+    String OVERLAY_TAB = "overlay-tab";
 }

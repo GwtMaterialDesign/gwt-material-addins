@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -43,24 +44,23 @@ public class MaterialOverlayTab extends MaterialWidget {
     private MaterialBadge badge = new MaterialBadge();
     private MaterialPanel leanOverlay = new MaterialPanel();
     private List<MaterialOverlay> overlays = new ArrayList<>();
-    private boolean toggle;
     private int zIndex = 1002;
     private boolean maximized;
     private List<HandlerRegistration> maximizeHandlers = new ArrayList<>();
 
     public MaterialOverlayTab() {
-        super(Document.get().createDivElement(), "overlay-tab");
+        super(Document.get().createDivElement(), AddinsCssName.OVERLAY_TAB);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
+        btnClose.addStyleName(AddinsCssName.CLOSE);
         btnClose.setIconType(IconType.CLOSE);
         btnClose.setType(ButtonType.FLOATING);
         btnClose.setIconColor(Color.GREY);
         btnClose.setBackgroundColor(Color.WHITE);
-        btnClose.addStyleName("close");
         btnClose.setSize(ButtonSize.LARGE);
         btnClose.setDisplay(Display.NONE);
         btnClose.addClickHandler(e -> close());
@@ -79,8 +79,8 @@ public class MaterialOverlayTab extends MaterialWidget {
             overlay.addStyleName(CssName.TAB);
             overlay.setDepth(zIndex);
             overlays.add(overlay);
-            zIndex++;
             badge.setText(overlays.size() + "");
+            zIndex++;
         }
     }
 
@@ -98,26 +98,20 @@ public class MaterialOverlayTab extends MaterialWidget {
             body().attr("style", "overflow: auto !important");
         } else {
             Scheduler.get().scheduleDeferred(() -> {
-                overlays.stream().filter(other -> other != overlay).forEach(other -> {
-                    other.removeStyleName(AddinsCssName.HIDDEN);
-                });
+                overlays.stream().filter(other -> other != overlay).forEach(other -> other.removeStyleName(AddinsCssName.HIDDEN));
                 overlay.removeStyleName(AddinsCssName.MAXIMIZE);
             });
         }
     }
 
     public void restore() {
-        float scale;
-        float transY;
         float index;
         for (MaterialOverlay overlay : overlays) {
             // Calculate the specific tab overlay width to stacked them.
             index = overlays.indexOf(overlay);
-            transY = index * 10;
-            scale = 0.5f + (index / 25.0f);
             overlay.setVisibility(Style.Visibility.VISIBLE);
             overlay.setOpacity(1);
-            $(overlay.getElement()).css("transform", "translate3d(0," + transY + "vh, 0) scale(" + scale + ")");
+            transform(overlay.getElement(), "translate3d(0," + index * 10 + "vh, 0) scale(" + 0.5f + (index / 25.0f) + ")");
 
             // Add maximize handler to this overlay
             maximizeHandlers.add(overlay.addMouseDownHandler(e -> maximize(overlay)));
@@ -141,7 +135,7 @@ public class MaterialOverlayTab extends MaterialWidget {
             overlay.setOpacity(0);
             overlay.removeStyleName(AddinsCssName.MAXIMIZE);
             overlay.removeStyleName(AddinsCssName.HIDDEN);
-            $(overlay.getElement()).css("transform", "translate3d(0px, 0px, 0px) scale(1)");
+            transform(overlay.getElement(), "translate3d(0px, 0px, 0px) scale(1)");
         }
         maximizeHandlers.forEach(HandlerRegistration::removeHandler);
         maximized = false;
@@ -155,9 +149,14 @@ public class MaterialOverlayTab extends MaterialWidget {
     public void setActivator(MaterialWidget activator) {
         if (this.activator == null) {
             this.activator = activator;
-            this.activator.addStyleName("overlay-tab-activator");
+            this.activator.addStyleName(AddinsCssName.OVERLAY_TAB_INDICATOR);
             this.activator.addClickHandler(e -> restore());
             this.activator.add(badge);
         }
+    }
+
+    protected void transform(Element element, String property) {
+        $(element).css("transform", property);
+        $(element).css("-webkit-transform", property);
     }
 }
