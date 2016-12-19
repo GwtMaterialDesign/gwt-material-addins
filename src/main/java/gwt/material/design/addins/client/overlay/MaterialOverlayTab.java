@@ -38,7 +38,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class MaterialOverlayTab extends MaterialWidget {
 
-    private MaterialButton activator = new MaterialButton();
+    private MaterialWidget activator;
+    private MaterialButton btnClose = new MaterialButton();
     private MaterialBadge badge = new MaterialBadge();
     private MaterialPanel leanOverlay = new MaterialPanel();
     private List<MaterialOverlay> overlays = new ArrayList<>();
@@ -55,30 +56,19 @@ public class MaterialOverlayTab extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
+        btnClose.setIconType(IconType.CLOSE);
+        btnClose.setType(ButtonType.FLOATING);
+        btnClose.setIconColor(Color.GREY);
+        btnClose.setBackgroundColor(Color.WHITE);
+        btnClose.addStyleName("close");
+        btnClose.setSize(ButtonSize.LARGE);
+        btnClose.setDisplay(Display.NONE);
+        btnClose.addClickHandler(e -> close());
+        add(btnClose);
+
         badge.setText("0");
         badge.setCircle(true);
-        activator.add(badge);
-        activator.addStyleName(CssName.ACTIVATOR);
-        activator.addClickHandler(clickEvent -> {
-            if (!toggle) {
-                Scheduler.get().scheduleDeferred(() -> {
-                    restore();
-                    toggle = true;
-                });
-            } else {
-                Scheduler.get().scheduleDeferred(() -> {
-                    close();
-                    toggle = false;
-                });
-            }
-        });
-
-        activator.setBackgroundColor(Color.WHITE);
-        activator.setIconColor(Color.GREY);
-        activator.setSize(ButtonSize.LARGE);
-        activator.setType(ButtonType.FLOATING);
-        activator.setIconType(IconType.CONTENT_COPY);
-        add(activator);
+        badge.setBackgroundColor(Color.PINK);
 
         leanOverlay.setStyleName(AddinsCssName.LEAN_OVERLAY);
         add(leanOverlay);
@@ -99,11 +89,10 @@ public class MaterialOverlayTab extends MaterialWidget {
             MaterialPathAnimator animator = new MaterialPathAnimator();
             animator.setReverseCallback(() -> {
                 register(overlay);
-                activator.setIconType(IconType.CONTENT_COPY);
                 overlay.getElement().getStyle().setVisibility(Style.Visibility.HIDDEN);
                 overlay.getElement().getStyle().setOpacity(0);
             });
-            animator.setSourceElement(getActivator().getElement());
+            animator.setSourceElement(activator.getElement());
             animator.setTargetElement(overlay.getElement());
             animator.reverseAnimate();
             body().attr("style", "overflow: auto !important");
@@ -134,7 +123,7 @@ public class MaterialOverlayTab extends MaterialWidget {
             maximizeHandlers.add(overlay.addMouseDownHandler(e -> maximize(overlay)));
         }
         leanOverlay.setDisplay(Display.BLOCK);
-        activator.setIconType(IconType.CLOSE);
+        btnClose.setDisplay(Display.BLOCK);
     }
 
     public void maximize(MaterialOverlay overlay) {
@@ -147,7 +136,6 @@ public class MaterialOverlayTab extends MaterialWidget {
 
     public void close() {
         leanOverlay.setDisplay(Display.NONE);
-        activator.setIconType(IconType.CONTENT_COPY);
         for (MaterialOverlay overlay : overlays) {
             overlay.setVisibility(Style.Visibility.HIDDEN);
             overlay.setOpacity(0);
@@ -157,13 +145,19 @@ public class MaterialOverlayTab extends MaterialWidget {
         }
         maximizeHandlers.forEach(HandlerRegistration::removeHandler);
         maximized = false;
+        btnClose.setDisplay(Display.NONE);
     }
 
-    public void setActivator(MaterialButton activator) {
-        this.activator = activator;
-    }
-
-    public MaterialButton getActivator() {
+    public MaterialWidget getActivator() {
         return activator;
+    }
+
+    public void setActivator(MaterialWidget activator) {
+        if (this.activator == null) {
+            this.activator = activator;
+            this.activator.addStyleName("overlay-tab-activator");
+            this.activator.addClickHandler(e -> restore());
+            this.activator.add(badge);
+        }
     }
 }

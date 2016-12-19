@@ -12,20 +12,6 @@
     background: #fff;
 }
 
-/** Overlay Container **/
-.overlay-tab button.activator  {
-    position: fixed !important;
-    right: 40px;
-    bottom: 40px;
-    z-index: 1001;
-    overflow: visible;
-}
-
-.overlay-tab button.activator .badge {
-    right: -8px;
-    top: 0px;
-}
-
 .overlay-tab .lean-overlay {
     background: rgba(0,0,0,0.7);
 }
@@ -42,6 +28,7 @@
     position: absolute;
     right: 20px;
     top: 20px;
+    z-index: 1010;
 }
 
 .overlay-panel .number {
@@ -57,4 +44,24 @@
 
 .overlay-panel.hidden {
     transform: translate3d(0, 100%, 0) scale(1) !important;
+}
+
+.overlay-tab .close {
+    position: fixed;
+    bottom: 32px;
+    right: 22px;
+    z-index: 1020;
+}
+
+.overlay-tab-activator {
+    position: relative;
+}
+
+.overlay-tab-activator .badge {
+    width: 16px !important;
+    height: 16px !important;
+    padding-top: 8px !important;
+    right: 0;
+    top: -8px;
+    background: #E91E63;
 }
