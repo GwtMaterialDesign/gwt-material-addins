@@ -146,13 +146,13 @@
     position: absolute;
     top: 50%;
     margin-top: -32px;
-    width: 28px !important;
-    height: 28px !important;
-    line-height: 28px !important;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
 }
 
 .material-carousel .carousel-next-arrow i, .material-carousel .carousel-prev-arrow i {
-    line-height: 28px !important;
+    line-height: 28px;
 }
 
 .material-carousel .carousel-next-arrow {
@@ -186,22 +186,22 @@
 }
 
 .carousel-image .carousel-next-arrow, .carousel-onboard .carousel-next-arrow {
-    background: transparent !important;
-    box-shadow: none !important;
-    right: 12px !important;
+    background: transparent;
+    box-shadow: none;
+    right: 12px;
 }
 
 .carousel-image .carousel-prev-arrow, .carousel-onboard .carousel-prev-arrow {
-    background: transparent !important;
-    box-shadow: none !important;
-    left: 12px !important;
+    background: transparent;
+    box-shadow: none;
+    left: 12px;
 }
 
 
 /** OnBoard Type Carousel **/
 .carousel-onboard .carousel-next-arrow, .carousel-onboard .carousel-prev-arrow {
     bottom: 20px;
-    top: initial !important;
+    top: initial;
     z-index: 1001;
 }
 
