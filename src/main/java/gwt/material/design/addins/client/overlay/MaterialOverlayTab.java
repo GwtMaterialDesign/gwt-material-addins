@@ -105,13 +105,17 @@ public class MaterialOverlayTab extends MaterialWidget {
     }
 
     public void restore() {
+        float scale;
+        float transY;
         float index;
         for (MaterialOverlay overlay : overlays) {
             // Calculate the specific tab overlay width to stacked them.
             index = overlays.indexOf(overlay);
+            transY = index * 10;
+            scale = 0.5f + (index / 25.0f);
             overlay.setVisibility(Style.Visibility.VISIBLE);
             overlay.setOpacity(1);
-            transform(overlay.getElement(), "translate3d(0," + index * 10 + "vh, 0) scale(" + 0.5f + (index / 25.0f) + ")");
+            transform(overlay.getElement(), "translate3d(0," + transY + "vh, 0) scale(" + scale + ")");
 
             // Add maximize handler to this overlay
             maximizeHandlers.add(overlay.addMouseDownHandler(e -> maximize(overlay)));
@@ -121,9 +125,7 @@ public class MaterialOverlayTab extends MaterialWidget {
     }
 
     public void maximize(MaterialOverlay overlay) {
-        overlays.stream().filter(other -> other != overlay).forEach(other -> {
-            other.addStyleName(AddinsCssName.HIDDEN);
-        });
+        overlays.stream().filter(other -> other != overlay).forEach(other -> other.addStyleName(AddinsCssName.HIDDEN));
         overlay.addStyleName(AddinsCssName.MAXIMIZE);
         maximized = true;
     }
