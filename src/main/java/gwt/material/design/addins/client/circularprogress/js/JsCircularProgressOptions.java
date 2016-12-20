@@ -23,6 +23,11 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+/**
+ * Options for circular progress component
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsCircularProgressOptions {
 
@@ -52,7 +57,4 @@ public class JsCircularProgressOptions {
 
     @JsProperty
     public Object animation;
-
-    @JsProperty
-    public double animationStartValue;
 }

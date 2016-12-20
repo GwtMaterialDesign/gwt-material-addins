@@ -23,11 +23,25 @@ import com.google.gwt.event.shared.HasHandlers;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
 
+/**
+ * Interface that defines widgets that contains Circular Progress Handlers.
+ *
+ * @author kevzlou7979
+ */
 public interface HasCircularProgressHandlers extends HasHandlers {
 
+    /**
+     * Adds a Circular progress handler.
+     */
     void addCircularProgressEvent(CircularProgressEvent.CircularProgressHandler handler);
 
+    /**
+     * Adds a Start handler.
+     */
     void addStartHandler(StartEvent.StartHandler handler);
 
+    /**
+     * Adds a Complete handler.
+     */
     void addCompleteHandler(CompleteEvent.CompleteHandler handler);
 }

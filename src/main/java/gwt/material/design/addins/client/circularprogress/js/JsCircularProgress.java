@@ -25,6 +25,11 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
+/**
+ * JSInterop util for circular progress component
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true)
 public class JsCircularProgress extends JQueryElement {
 
@@ -42,4 +47,10 @@ public class JsCircularProgress extends JQueryElement {
 
     @JsMethod
     public native JQueryElement circleProgress();
+
+    @JsMethod
+    public native JQueryElement circleProgress(Object param1);
+
+    @JsMethod
+    public native JQueryElement circleProgress(Object param1, Object param2);
 }
