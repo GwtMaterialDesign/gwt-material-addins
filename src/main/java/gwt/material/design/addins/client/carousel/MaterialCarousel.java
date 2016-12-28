@@ -151,27 +151,27 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
 
-        $(getElement()).off("afterChange").on("afterChange", (e, slick, currentSlide) -> {
+        $(getElement()).off(CarouselEvents.AFTER_CHANGE).on(CarouselEvents.AFTER_CHANGE, (e, slick, currentSlide) -> {
             AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
             return true;
         });
 
-        $(getElement()).off("beforeChange").on("beforeChange", (e, slick, currentSlide, nextSlide) -> {
+        $(getElement()).off(CarouselEvents.BEFORE_CHANGE).on(CarouselEvents.BEFORE_CHANGE, (e, slick, currentSlide, nextSlide) -> {
             BeforeChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()), Integer.parseInt(nextSlide.toString()));
             return true;
         });
 
-        $(getElement()).off("init").on("init", (e) -> {
+        $(getElement()).off(CarouselEvents.INIT).on(CarouselEvents.INIT, (e) -> {
             InitEvent.fire(this);
             return true;
         });
 
-        $(getElement()).off("destroy").on("destroy", (e) -> {
+        $(getElement()).off(CarouselEvents.DESTROY).on(CarouselEvents.DESTROY, (e) -> {
             DestroyEvent.fire(this);
             return true;
         });
 
-        $(getElement()).off("swipe").on("swipe", (e, slick, direction) -> {
+        $(getElement()).off(CarouselEvents.SWIPE).on(CarouselEvents.SWIPE, (e, slick, direction) -> {
             SwipeEvent.fire(this, direction.toString());
             return true;
         });
@@ -359,8 +359,6 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     public void setFade(boolean fade) {
         this.fade = fade;
     }
-
-    /** TODO METHODS **/
 
     /**
      * Returns the current slide index

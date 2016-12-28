@@ -68,6 +68,14 @@ public class GwtMaterialAddinsTestComponent extends GWTTestCase {
         new MaterialCameraTest().init();
     }
 
+    public void testCarousel() {
+        new MaterialCarouselTest().init();
+    }
+
+    public void testCircularProgress() {
+        new MaterialCircularProgressTest().init();
+    }
+
     public void testCombobox() {
         new MaterialComboBoxTest().init();
     }
@@ -102,6 +110,10 @@ public class GwtMaterialAddinsTestComponent extends GWTTestCase {
 
     public void testOverlay() {
         new MaterialOverlayTest().init();
+    }
+
+    public void testOverlayTab() {
+        //new MaterialOverlayTabTest().init();
     }
 
     public void testPathAnimator() {

@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
+import gwt.material.design.addins.client.overlay.MaterialOverlayTab;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialButton;
 

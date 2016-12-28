@@ -161,4 +161,20 @@ public class MaterialOverlayTab extends MaterialWidget {
         $(element).css("transform", property);
         $(element).css("-webkit-transform", property);
     }
+
+    public MaterialButton getBtnClose() {
+        return btnClose;
+    }
+
+    public MaterialBadge getBadge() {
+        return badge;
+    }
+
+    public MaterialPanel getLeanOverlay() {
+        return leanOverlay;
+    }
+
+    public List<MaterialOverlay> getOverlays() {
+        return overlays;
+    }
 }
