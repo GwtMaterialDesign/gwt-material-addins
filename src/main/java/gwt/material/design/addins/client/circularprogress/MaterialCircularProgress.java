@@ -132,7 +132,6 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
         });
         $(getElement()).circleProgress(options);
 
-        lblText.setWidth(size + "px");
         lblText.setHeight(size + "px");
         lblText.getElement().getStyle().setLineHeight(size, Style.Unit.PX);
         add(lblText);

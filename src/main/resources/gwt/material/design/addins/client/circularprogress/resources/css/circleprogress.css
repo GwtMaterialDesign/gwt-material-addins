@@ -6,5 +6,6 @@
     position: absolute;
     top: 0;
     text-align: center;
-    left: 12px;
+    left: 0px;
+    width: 100%;
 }
