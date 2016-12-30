@@ -80,6 +80,10 @@ public class GwtMaterialAddinsTestComponent extends GWTTestCase {
         new MaterialComboBoxTest().init();
     }
 
+    public void testCountUp() {
+        new MaterialCountUpTest().init();
+    }
+
     public void testCutout() {
         new MaterialCutoutTest().init();
     }
