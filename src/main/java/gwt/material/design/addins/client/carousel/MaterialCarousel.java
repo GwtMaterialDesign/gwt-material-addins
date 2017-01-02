@@ -92,6 +92,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     private int speed = 300;
     private int autoplaySpeed = 3000;
     private double edgeFriction = 0.15;
+    private boolean focusOnSelect;
     private String centerPadding = "100px";
     private JsCarouselOptions options = new JsCarouselOptions();
     private JsResponsiveOptions[] responsiveOptions = new JsResponsiveOptions[]{};
@@ -99,7 +100,10 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     private JsCarouselOptions mobileSettings;
 
     private final CssTypeMixin<CarouselType, MaterialCarousel> typeMixin = new CssTypeMixin<>(this);
-    private HandlerRegistration tabSelectionHandler, beforeChangeHandler;
+    private HandlerRegistration tabSelectionHandler, tabBeforeChangeHandler, beforeChangeHandler, afterChangeHandler;
+
+    public MaterialCarousel() {
+    }
 
     @Override
     protected void onLoad() {
@@ -151,6 +155,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         options.centerPadding = centerPadding;
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
+        options.focusOnSelect = focusOnSelect;
 
         $(getElement()).off(CarouselEvents.AFTER_CHANGE).on(CarouselEvents.AFTER_CHANGE, (e, slick, currentSlide) -> {
             AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
@@ -159,6 +164,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
         $(getElement()).off(CarouselEvents.BEFORE_CHANGE).on(CarouselEvents.BEFORE_CHANGE, (e, slick, currentSlide, nextSlide) -> {
             BeforeChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()), Integer.parseInt(nextSlide.toString()));
+            e.stopPropagation();
             return true;
         });
 
@@ -441,17 +447,29 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     public void setTabNavigation(MaterialTab tab) {
         if (tabSelectionHandler == null) {
-            tabSelectionHandler = tab.addSelectionHandler(e -> {
-                goToSlide(e.getSelectedItem());
-            });
+            tabSelectionHandler = tab.addSelectionHandler(e -> goToSlide(e.getSelectedItem()));
         }
 
+        if (tabBeforeChangeHandler == null) {
+            tabBeforeChangeHandler = addBeforeChangeHandler(e -> tab.setTabIndex(e.getNextSlide()));
+        }
+    }
+
+    public void setCarouselNavigation(MaterialCarousel navigation) {
+        if (afterChangeHandler == null) {
+            afterChangeHandler = navigation.addAfterChangeHandler(event -> goToSlide(event.getCurrentSlide()));
+        }
         if (beforeChangeHandler == null) {
-            beforeChangeHandler = addBeforeChangeHandler(e -> {
-                tab.setTabIndex(e.getNextSlide());
-            });
+            beforeChangeHandler = addBeforeChangeHandler(event -> navigation.goToSlide(event.getNextSlide()));
         }
+    }
 
+    public boolean isFocusOnSelect() {
+        return focusOnSelect;
+    }
+
+    public void setFocusOnSelect(boolean focusOnSelect) {
+        this.focusOnSelect = focusOnSelect;
     }
 
     @Override
