@@ -106,5 +106,5 @@ public interface AddinsCssName {
     String CLOSE = "close";
     String OVERLAY_TAB_INDICATOR = "overlay-tab-activator";
     String OVERLAY_TAB = "overlay-tab";
-    String MATERIAL_NOTE = "note";
+    String MATERIAL_NOTE = "material-note";
 }
