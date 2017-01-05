@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.carousel;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
