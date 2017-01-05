@@ -102,6 +102,13 @@ public class MaterialOverlayTab extends MaterialWidget {
                 overlay.removeStyleName(AddinsCssName.MAXIMIZE);
             });
         }
+        maximized = false;
+    }
+
+    public void maximize(MaterialOverlay overlay) {
+        overlays.stream().filter(other -> other != overlay).forEach(other -> other.addStyleName(AddinsCssName.HIDDEN));
+        overlay.addStyleName(AddinsCssName.MAXIMIZE);
+        maximized = true;
     }
 
     public void restore() {
@@ -122,12 +129,6 @@ public class MaterialOverlayTab extends MaterialWidget {
         }
         leanOverlay.setDisplay(Display.BLOCK);
         btnClose.setDisplay(Display.BLOCK);
-    }
-
-    public void maximize(MaterialOverlay overlay) {
-        overlays.stream().filter(other -> other != overlay).forEach(other -> other.addStyleName(AddinsCssName.HIDDEN));
-        overlay.addStyleName(AddinsCssName.MAXIMIZE);
-        maximized = true;
     }
 
     public void close() {
