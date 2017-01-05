@@ -32,4 +32,7 @@ public interface MaterialCarouselDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/slick.css")
     TextResource carouselCssDebug();
+
+    @Source("resources/css/custom.css")
+    TextResource customCssDebug();
 }

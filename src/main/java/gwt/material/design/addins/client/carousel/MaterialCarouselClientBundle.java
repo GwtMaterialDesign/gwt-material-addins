@@ -23,13 +23,16 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface MaterialCarouselClienBundle extends ClientBundle {
+public interface MaterialCarouselClientBundle extends ClientBundle {
 
-    MaterialCarouselClienBundle INSTANCE = GWT.create(MaterialCarouselClienBundle.class);
+    MaterialCarouselClientBundle INSTANCE = GWT.create(MaterialCarouselClientBundle.class);
 
     @Source("resources/js/slick.min.js")
     TextResource carouselJs();
 
     @Source("resources/css/slick.min.css")
     TextResource carouselCss();
+
+    @Source("resources/css/custom.min.css")
+    TextResource customCss();
 }

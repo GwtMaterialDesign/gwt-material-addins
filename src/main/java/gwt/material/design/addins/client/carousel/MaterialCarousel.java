@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.carousel;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
@@ -31,6 +30,8 @@ import gwt.material.design.addins.client.carousel.js.JsResponsiveOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialTab;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
@@ -71,11 +72,13 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     static {
         if (MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialCarouselDebugClientBundle.INSTANCE.customCssDebug());
             MaterialDesignBase.injectCss(MaterialCarouselDebugClientBundle.INSTANCE.carouselCssDebug());
             MaterialDesignBase.injectDebugJs(MaterialCarouselDebugClientBundle.INSTANCE.carouselJsDebug());
         } else {
-            MaterialDesignBase.injectCss(MaterialCarouselClienBundle.INSTANCE.carouselCss());
-            MaterialDesignBase.injectJs(MaterialCarouselClienBundle.INSTANCE.carouselJs());
+            MaterialDesignBase.injectCss(MaterialCarouselClientBundle.INSTANCE.customCss());
+            MaterialDesignBase.injectCss(MaterialCarouselClientBundle.INSTANCE.carouselCss());
+            MaterialDesignBase.injectJs(MaterialCarouselClientBundle.INSTANCE.carouselJs());
         }
     }
 
@@ -104,6 +107,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     public MaterialCarousel() {
     }
+    private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
 
     @Override
     protected void onLoad() {
@@ -209,6 +213,17 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     public void destroy() {
         getCarouselElement().slick("destroy");
+    }
+
+    /**
+     * Set the image slider to fullscreen view.
+     */
+    public void setFullscreen(boolean fullscreen) {
+        fsMixin.setOn(fullscreen);
+    }
+
+    public boolean isFullscreen() {
+        return fsMixin.isOn();
     }
 
     public boolean isShowDots() {
@@ -462,14 +477,7 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         if (beforeChangeHandler == null) {
             beforeChangeHandler = addBeforeChangeHandler(event -> navigation.goToSlide(event.getNextSlide()));
         }
-    }
 
-    public boolean isFocusOnSelect() {
-        return focusOnSelect;
-    }
-
-    public void setFocusOnSelect(boolean focusOnSelect) {
-        this.focusOnSelect = focusOnSelect;
     }
 
     @Override
