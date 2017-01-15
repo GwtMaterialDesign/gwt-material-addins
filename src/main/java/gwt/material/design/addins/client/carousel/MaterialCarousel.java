@@ -435,6 +435,17 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         getCarouselElement().slick("slickPlay");
     }
 
+    public boolean isFocusOnSelect() {
+        return focusOnSelect;
+    }
+
+    /**
+     * Enable focus on selected element (click)
+     */
+    public void setFocusOnSelect(boolean focusOnSelect) {
+        this.focusOnSelect = focusOnSelect;
+    }
+
     @Override
     public void setType(CarouselType type) {
         typeMixin.setType(type);
