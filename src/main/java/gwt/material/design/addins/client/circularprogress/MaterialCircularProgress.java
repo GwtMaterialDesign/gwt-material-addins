@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.circularprogress;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.circularprogress.events.CircularProgressEvent;
 import gwt.material.design.addins.client.circularprogress.events.CircularProgressEvents;
 import gwt.material.design.addins.client.circularprogress.events.HasCircularProgressHandlers;
@@ -85,7 +86,7 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     private Span lblText = new Span();
 
     public MaterialCircularProgress() {
-        super(Document.get().createDivElement(), "circular-progress");
+        super(Document.get().createDivElement(), AddinsCssName.CIRCULAR_PROGRESS);
     }
 
     @Override

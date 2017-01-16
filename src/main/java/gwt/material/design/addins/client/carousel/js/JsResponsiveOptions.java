@@ -23,6 +23,11 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+/**
+ * Responsive Options for Carousel component
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsResponsiveOptions {
 

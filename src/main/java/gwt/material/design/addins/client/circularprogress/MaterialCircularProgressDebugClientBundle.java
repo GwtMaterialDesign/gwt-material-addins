@@ -23,6 +23,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
+/**
+ * Client Bundle for Circular Progress component
+ *
+ * @author kevzlou7979
+ */
 public interface MaterialCircularProgressDebugClientBundle extends ClientBundle {
 
     MaterialCircularProgressDebugClientBundle INSTANCE = GWT.create(MaterialCircularProgressDebugClientBundle.class);

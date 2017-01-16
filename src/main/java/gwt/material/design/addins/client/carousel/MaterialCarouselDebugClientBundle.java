@@ -23,6 +23,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
+/**
+ * Client Bundle for Carousel component
+ *
+ * @author kevzlou7979
+ */
 public interface MaterialCarouselDebugClientBundle extends ClientBundle {
 
     MaterialCarouselDebugClientBundle INSTANCE = GWT.create(MaterialCarouselDebugClientBundle.class);
