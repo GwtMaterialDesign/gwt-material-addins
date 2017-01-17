@@ -37,6 +37,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.ListItem;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -260,7 +261,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                             directInput.setDisplay(value);
                             directInput.setSuggestion(value);
                             changed = addItem(directInput);
-                            itemBox.setValue("");
+                            if (getType() == AutocompleteType.TEXT) {
+                                itemBox.setText(value);
+                            } else {
+                                itemBox.setValue("");
+                            }
                             itemBox.setFocus(true);
                         }
                     }
@@ -382,9 +387,8 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
             suggestionMap.put(suggestion, chip);
             displayItem.add(chip);
+            list.insert(displayItem, list.getWidgetCount() - 1);
         }
-
-        list.insert(displayItem, list.getWidgetCount() - 1);
         return true;
     }
 
@@ -643,7 +647,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * Interface that defines how a {@link MaterialChip} is created, given a
      * {@link Suggestion}.
      *
-     * @see gwt.material.design.addins.client.autocomplete.MaterialAutoComplete#setChipProvider(MaterialChipProvider)
+     * @see MaterialAutoComplete#setChipProvider(MaterialChipProvider)
      */
     public static interface MaterialChipProvider {
 
@@ -683,13 +687,13 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     /**
      * Default implementation of the {@link MaterialChipProvider} interface,
-     * used by the {@link gwt.material.design.addins.client.autocomplete.MaterialAutoComplete}.
+     * used by the {@link MaterialAutoComplete}.
      * <p>
      * <p>
      * By default all chips are selectable and removable. The default {@link IconType} used by the chips provided is the {@link IconType#CLOSE}.
      * </p>
      *
-     * @see gwt.material.design.addins.client.autocomplete.MaterialAutoComplete#setChipProvider(MaterialChipProvider)
+     * @see MaterialAutoComplete#setChipProvider(MaterialChipProvider)
      */
     public static class DefaultMaterialChipProvider implements MaterialChipProvider {
 
@@ -770,6 +774,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public void setValue(List<? extends Suggestion> value, boolean fireEvents) {
         clear();
         if (value != null) {
+            lblPlaceholder.addStyleName(CssName.ACTIVE);
             for (Suggestion suggestion : value) {
                 addItem(suggestion);
             }
