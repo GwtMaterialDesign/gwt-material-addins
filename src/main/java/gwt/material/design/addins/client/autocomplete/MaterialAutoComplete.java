@@ -774,6 +774,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public void setValue(List<? extends Suggestion> value, boolean fireEvents) {
         clear();
         if (value != null) {
+            lblPlaceholder.addStyleName(CssName.ACTIVE);
             for (Suggestion suggestion : value) {
                 addItem(suggestion);
             }
