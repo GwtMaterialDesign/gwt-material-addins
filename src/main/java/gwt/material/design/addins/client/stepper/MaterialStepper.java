@@ -117,12 +117,12 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public void setDetectOrientation(boolean detectOrientation) {
         this.detectOrientation = detectOrientation;
 
-        if(orientationHandler != null) {
+        if (orientationHandler != null) {
             orientationHandler.removeHandler();
             orientationHandler = null;
         }
 
-        if(detectOrientation) {
+        if (detectOrientation) {
             orientationHandler = com.google.gwt.user.client.Window.addResizeHandler(resizeEvent -> {
                 detectAndApplyOrientation();
             });
@@ -162,7 +162,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
-                step.setSuccess(step.getDescription());
+
+                if (step.getDescription() != null) {
+                    step.setSuccess(step.getDescription());
+                }
 
                 // next step
                 int nextStepIndex = getWidgetIndex(step) + 1;
@@ -289,6 +292,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             this.currentStepIndex = currentStepIndex;
             SelectionChangeEvent.fire(this);
         }
+
     }
 
     public int getCurrentStepIndex() {

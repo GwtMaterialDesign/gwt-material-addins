@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.overlay;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
@@ -29,6 +30,8 @@ import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -69,6 +72,8 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
 
     private MaterialWidget source;
     private MaterialPathAnimator animator = new MaterialPathAnimator();
+    private MaterialOverlayTab overlayTab;
+    private MaterialIcon minimizeIcon = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
 
     public MaterialOverlay() {
         super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
@@ -94,6 +99,15 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         animator.setSourceElement(source.getElement());
         animator.setTargetElement(getElement());
         animator.animate();
+        OpenEvent.fire(this, this);
+    }
+
+    /**
+     * Open the Overlay Panel without Path Animator
+     */
+    public void open() {
+        setVisibility(Style.Visibility.VISIBLE);
+        setOpacity(1);
         OpenEvent.fire(this, this);
     }
 
@@ -176,5 +190,28 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void setExtraTransitionDuration(double extraTransitionDuration) {
         animator.setExtraTransitionDuration(extraTransitionDuration);
+    }
+
+    public MaterialOverlayTab getOverlayTab() {
+        return overlayTab;
+    }
+
+    public void setOverlayTab(MaterialOverlayTab overlayTab) {
+        this.overlayTab = overlayTab;
+        minimizeIcon.addStyleName(AddinsCssName.MINIMIZE_ICON);
+        minimizeIcon.addMouseDownHandler(e -> minimize());
+        add(minimizeIcon);
+    }
+
+    protected void minimize() {
+        if (overlayTab != null) {
+            overlayTab.minimize(this);
+        } else {
+            GWT.log("You must set the overlay container before minimizing the overlay.", new IllegalStateException());
+        }
+    }
+
+    public MaterialIcon getMinimizeIcon() {
+        return minimizeIcon;
     }
 }

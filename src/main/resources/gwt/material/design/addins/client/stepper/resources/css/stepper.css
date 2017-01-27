@@ -99,6 +99,9 @@
     color: #C9C9C9;
     font-weight: 400;
 }
+.stepper .step.inactive > :nth-child(2) {
+    visibility: hidden;
+}
 .stepper .step.inactive .body{
     opacity: 0;
     transition: 0.6s all;
