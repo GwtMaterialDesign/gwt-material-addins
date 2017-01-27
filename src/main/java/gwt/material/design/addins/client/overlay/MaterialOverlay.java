@@ -103,6 +103,15 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     }
 
     /**
+     * Open the Overlay Panel without Path Animator
+     */
+    public void open() {
+        setVisibility(Style.Visibility.VISIBLE);
+        setOpacity(1);
+        OpenEvent.fire(this, this);
+    }
+
+    /**
      * Close the Overlay Panel with Path Animator applied
      */
     public void close() {
