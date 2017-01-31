@@ -217,7 +217,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         final Iterator<Widget> it = iterator();
         while (it.hasNext()) {
         	final Widget widget = it.next();
-        	if (widget != label && widget != lblError) {
+        	if (widget != label && widget != lblError && widget != listbox) {
 	            it.remove();
         	}
         }
