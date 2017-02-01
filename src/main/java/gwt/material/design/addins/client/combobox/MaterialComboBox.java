@@ -46,6 +46,7 @@ import gwt.material.design.client.ui.html.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
@@ -209,6 +210,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             values.add((T) ((Option) child).getValue());
         }
         listbox.add(child);
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<Widget> it = iterator();
+        while (it.hasNext()) {
+        	final Widget widget = it.next();
+        	if (widget != label && widget != lblError && widget != listbox) {
+	            it.remove();
+        	}
+        }
     }
 
     /**
