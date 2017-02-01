@@ -72,6 +72,8 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
 
     private MaterialWidget source;
     private MaterialPathAnimator animator = new MaterialPathAnimator();
+    private MaterialOverlayTab overlayTab;
+    private MaterialIcon minimizeIcon = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
 
     public MaterialOverlay() {
         super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
@@ -188,5 +190,28 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void setExtraTransitionDuration(double extraTransitionDuration) {
         animator.setExtraTransitionDuration(extraTransitionDuration);
+    }
+
+    public MaterialOverlayTab getOverlayTab() {
+        return overlayTab;
+    }
+
+    public void setOverlayTab(MaterialOverlayTab overlayTab) {
+        this.overlayTab = overlayTab;
+        minimizeIcon.addStyleName(AddinsCssName.MINIMIZE_ICON);
+        minimizeIcon.addMouseDownHandler(e -> minimize());
+        add(minimizeIcon);
+    }
+
+    protected void minimize() {
+        if (overlayTab != null) {
+            overlayTab.minimize(this);
+        } else {
+            GWT.log("You must set the overlay container before minimizing the overlay.", new IllegalStateException());
+        }
+    }
+
+    public MaterialIcon getMinimizeIcon() {
+        return minimizeIcon;
     }
 }
