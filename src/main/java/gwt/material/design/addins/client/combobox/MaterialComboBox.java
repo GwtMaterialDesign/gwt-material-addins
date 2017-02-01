@@ -246,6 +246,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         listbox.setEnabled(enabled);
     }
 
+    @Override
+    public boolean isEnabled() {
+        return listbox.isEnabled();
+    }
+
     /**
      * Check if allow clear option is enabled
      */
