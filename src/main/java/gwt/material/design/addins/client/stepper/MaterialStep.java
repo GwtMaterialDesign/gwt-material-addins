@@ -28,6 +28,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.constants.Axis;
@@ -69,7 +70,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     private int step;
     private String title;
-    private String description;
+    private String description = "";
 
     // containers
     private Div conCircle = new Div();
@@ -87,6 +88,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
 
     private Axis axis = Axis.VERTICAL;
+    private State state;
 
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
@@ -176,6 +178,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         removeStyleName(AddinsCssName.SUCCESS);
         addStyleName(AddinsCssName.ERROR);
         applyIconStatus(iconError, error);
+        state = State.ERROR;
     }
 
     @Override
@@ -183,11 +186,16 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         removeStyleName(AddinsCssName.ERROR);
         addStyleName(AddinsCssName.SUCCESS);
         applyIconStatus(iconSuccess, success);
+        state = State.SUCCESS;
     }
 
     @Override
     public void setHelperText(String helperText) {
         setDescription(helperText);
+    }
+
+    public State getState() {
+        return state;
     }
 
     @Override
@@ -204,7 +212,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         iconSuccess.removeFromParent();
         divCircle.removeFromParent();
         conCircle.insert(icon, 0);
-        divDescription.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(description));
+        if (description != null) {
+            divDescription.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(description));
+        }
     }
 
     public Div getConCircle() {
