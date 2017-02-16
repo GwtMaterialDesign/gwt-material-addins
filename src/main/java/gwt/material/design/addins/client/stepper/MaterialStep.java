@@ -166,6 +166,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     @Override
     public void setActive(boolean active) {
         activeMixin.setActive(active);
+        if (active) {
+            state = State.ACTIVE;
+        }
     }
 
     @Override

@@ -248,7 +248,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                 MaterialStep materialStep = (MaterialStep) w;
                 boolean active = materialStep.equals(step);
                 materialStep.setActive(active);
-                if (active) {
+                if (materialStep.getState() == State.ACTIVE) {
                     setCurrentStepIndex(i);
                 }
             }
@@ -403,7 +403,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     public void onSelection(SelectionEvent<MaterialStep> event) {
         if (stepSkippingAllowed) {
-            if (event.getSelectedItem().getState() == State.SUCCESS) {
+            if (event.getSelectedItem().getState() == State.SUCCESS || event.getSelectedItem().getState() == State.ACTIVE) {
                 goToStep(event.getSelectedItem());
             }
         }
