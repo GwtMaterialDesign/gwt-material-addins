@@ -17,9 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.stepper.constants;
+package gwt.material.design.addins.client.inputmask;
 
-public enum State {
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-    ERROR, SUCCESS, ACTIVE
+/**
+ * Client Bundle for Input Mask component
+ *
+ * @author kevzlou7979
+ */
+public interface MaterialInputMaskDebugClientBundle extends ClientBundle {
+
+    MaterialInputMaskDebugClientBundle INSTANCE = GWT.create(MaterialInputMaskDebugClientBundle.class);
+
+    @Source("resources/js/inputmask.min.js")
+    TextResource inputMaskDebugJs();
 }

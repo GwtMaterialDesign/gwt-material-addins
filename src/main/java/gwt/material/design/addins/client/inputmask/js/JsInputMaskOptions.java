@@ -17,9 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.stepper.constants;
+package gwt.material.design.addins.client.inputmask.js;
 
-public enum State {
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 
-    ERROR, SUCCESS, ACTIVE
+/**
+ * Options for input mask component
+ *
+ * @author kevzlou7979
+ */
+@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+public class JsInputMaskOptions {
+
+    @JsProperty
+    public boolean reverse;
+
+    @JsProperty
+    public boolean clearIfNotMatch;
+
+    @JsProperty
+    public boolean selectOnFocus;
 }
