@@ -450,15 +450,14 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             return;
         }
         List<Suggestion> list = new ArrayList<>(itemValues.size());
-        lblPlaceholder.addStyleName(CssName.ACTIVE);
         for (String value : itemValues) {
             Suggestion suggestion = new gwt.material.design.client.base.Suggestion(value, value);
             list.add(suggestion);
         }
+        setValue(list, fireEvents);
         if (itemValues.size() > 0) {
             lblPlaceholder.addStyleName(CssName.ACTIVE);
         }
-        setValue(list, fireEvents);
     }
 
     /**
