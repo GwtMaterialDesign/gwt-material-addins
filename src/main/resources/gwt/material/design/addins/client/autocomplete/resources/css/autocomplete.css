@@ -22,6 +22,10 @@ ul.multiValueSuggestBox-list {
     display: none;
 }
 
+.autocomplete-text .multiValueSuggestBox-input-token, .autocomplete-text .multiValueSuggestBox-input-token input {
+    width: 100% !important;
+}
+
 .autocomplete.read-only ul.multiValueSuggestBox-list {
     border: none !important;
 }

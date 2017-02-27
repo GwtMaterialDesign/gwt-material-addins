@@ -37,7 +37,6 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.ListItem;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -191,7 +190,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private FocusableMixin<MaterialWidget> focusableMixin;
     private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
 
-    public final CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin = new CssTypeMixin<>(this);
+    public final CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin = new CssTypeMixin<>(this, this);
 
     /**
      * Use MaterialAutocomplete to search for matches from local or remote data
