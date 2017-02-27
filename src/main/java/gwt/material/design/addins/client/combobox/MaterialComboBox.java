@@ -329,7 +329,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     @Override
     public void setValue(T value) {
-        setValue(value, false);
+        setValue(value, true);
     }
 
     @Override
