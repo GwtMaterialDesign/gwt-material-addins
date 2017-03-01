@@ -72,7 +72,7 @@
     display: inline-block;
     height: 72px;
     padding-top: 20px;
-    position: initial
+    position: static;
 }
 
 .stepper.horizontal .step .line, .stepper.horizontal .step .title, .stepper.horizontal .step > div:first-child .circle {
