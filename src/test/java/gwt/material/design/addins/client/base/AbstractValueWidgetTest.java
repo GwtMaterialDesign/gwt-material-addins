@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.base;
 
-import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.*;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.HasPlaceholder;
@@ -55,5 +55,36 @@ public class AbstractValueWidgetTest extends MaterialAddinsTest {
         assertEquals(widget.getPlaceholder(), "Placeholder");
         widget.setPlaceholder("");
         assertEquals(widget.getPlaceholder(), "");
+    }
+
+    protected <T extends Widget & HasValue & HasEnabled> void checkValueChangeEvent(T widget, Object value, Object secondValue) {
+        RootPanel.get().add(widget);
+        assertNotSame(value, secondValue);
+        // Widget must be enabled before firing the event
+        widget.setEnabled(true);
+        assertTrue(widget.isEnabled());
+        // Ensure the widget is attached to the root panel
+        assertTrue(widget.isAttached());
+        // Register value change handler that listens when the widget
+        // set the value
+        final boolean[] isValueChanged = {false};
+        widget.addValueChangeHandler(event -> isValueChanged[0] = true);
+        // By default setValue(boolean) will not fire the value change event.
+        widget.setValue(value);
+        assertEquals(widget.getValue(), value);
+        // Expected result : false
+        assertFalse(isValueChanged[0]);
+        // Calling setValue(value, fireEvents) with fireEvents set to false
+        widget.setValue(secondValue, false);
+        // Expected result : secondValue
+        assertEquals(widget.getValue(), secondValue);
+        // Expected result : false
+        assertFalse(isValueChanged[0]);
+        // Calling setValue(value, fireEvents) with fireEvents set to true
+        widget.setValue(value, true);
+        // Expected result : true
+        assertTrue(isValueChanged[0]);
+        // Expected result : value
+        assertEquals(widget.getValue(), value);
     }
 }

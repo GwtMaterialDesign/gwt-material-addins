@@ -312,7 +312,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
             }
         }
 
-        setValue(parsedDate);
+        setValue(parsedDate, true);
 
         // Remove class 'valid' after hide.
         validMixin.setOn(false);
