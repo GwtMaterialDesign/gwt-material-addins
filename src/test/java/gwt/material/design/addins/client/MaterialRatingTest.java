@@ -21,6 +21,7 @@ package gwt.material.design.addins.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.rating.MaterialRating;
@@ -32,14 +33,14 @@ import gwt.material.design.client.ui.MaterialIcon;
  *
  * @author kevzlou7979
  */
-public class MaterialRatingTest extends MaterialAddinsTest {
+public class MaterialRatingTest extends AbstractValueWidgetTest {
 
     public void init() {
         MaterialRating rating = new MaterialRating();
         checkWidget(rating);
         checkStructure(rating);
         checkValue(rating);
-        checkValueChangeEvent(rating);
+        checkValueChangeEvent(rating, 5, 2);
         checkEditable(rating);
     }
 
@@ -57,17 +58,6 @@ public class MaterialRatingTest extends MaterialAddinsTest {
         icon.fireEvent(new ClickEvent() {
         });
         assertEquals(Math.toIntExact(rating.getValue()), 5);
-    }
-
-    protected <T extends MaterialRating> void checkValueChangeEvent(T rating) {
-        final boolean[] isValueChangeFired = {false};
-        final Integer VALUE = 2;
-        rating.addValueChangeHandler(valueChangeEvent -> {
-            assertEquals(valueChangeEvent.getValue(), VALUE);
-            isValueChangeFired[0] = true;
-        });
-        rating.setValue(2, true);
-        assertTrue(isValueChangeFired[0]);
     }
 
     protected <T extends MaterialRating> void checkValue(T rating) {
