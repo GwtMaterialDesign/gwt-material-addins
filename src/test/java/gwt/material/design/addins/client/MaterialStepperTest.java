@@ -26,6 +26,7 @@ import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
+import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.CssName;
@@ -77,11 +78,13 @@ public class MaterialStepperTest extends MaterialAddinsTest {
         stepper.setError("error");
         assertTrue(step.getElement().hasClassName(AddinsCssName.ERROR));
         assertEquals(step.getIconError(), conCircle.getWidget(0));
+        assertEquals(step.getState(), State.ERROR);
 
         stepper.setSuccess("success");
         assertFalse(step.getElement().hasClassName(AddinsCssName.ERROR));
         assertTrue(step.getElement().hasClassName(AddinsCssName.SUCCESS));
         assertEquals(step.getIconSuccess(), conCircle.getWidget(0));
+        assertEquals(step.getState(), State.SUCCESS);
 
         stepper.clearErrorOrSuccess();
         assertFalse(step.getElement().hasClassName(AddinsCssName.ERROR));

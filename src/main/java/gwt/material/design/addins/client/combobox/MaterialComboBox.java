@@ -129,7 +129,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             super.add(listbox);
             super.add(label);
             lblError.setLayoutPosition(Style.Position.ABSOLUTE);
-            lblError.setMarginTop(12);
+            lblError.setMarginTop(15);
             super.add(lblError);
             setId(uid);
 
@@ -430,7 +430,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         this.selectedIndex = selectedIndex;
         T value = values.get(selectedIndex);
         if (value != null) {
-            $(listbox.getElement()).val(value.toString()).trigger("change", selectedIndex);
+            $(listbox.getElement()).val(value.toString()).trigger("change.select2", selectedIndex);
         } else {
             GWT.log("Value index is not found.", new IndexOutOfBoundsException());
         }
