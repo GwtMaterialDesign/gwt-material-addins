@@ -89,6 +89,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private Dropzone uploader;
     private JsFileUploaderOptions options;
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
+    private boolean enabled = true;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
@@ -125,9 +126,35 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     protected void onLoad() {
         super.onLoad();
 
+        GWT.log(isEnabled() + "");
+        //uploader.removeEventListeners();
         if (!isInitialize()) {
             initDropzone();
             setInitialize(true);
+            applyEnabled();
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        applyEnabled();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    protected void applyEnabled() {
+        if (uploader != null) {
+            if (!enabled) {
+                addStyleName(CssName.DISABLED);
+                uploader.removeEventListeners();
+            } else {
+                removeStyleName(CssName.DISABLED);
+                uploader.setupEventListeners();
+            }
         }
     }
 

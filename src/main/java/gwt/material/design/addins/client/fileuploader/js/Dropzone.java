@@ -40,5 +40,9 @@ public class Dropzone extends JQueryElement {
 
     public native Dropzone on(String events, Functions.Func2<File, String> callback);
 
+    public native void removeEventListeners();
+
+    public native void setupEventListeners();
+
     public native void removeAllFiles();
 }
