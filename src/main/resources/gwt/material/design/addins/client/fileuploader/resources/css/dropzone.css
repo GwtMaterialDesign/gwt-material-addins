@@ -7,6 +7,22 @@
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
+
+.fileuploader.disabled .upload-label {
+  background: #d8d8d7 !important;
+  color: #9f9f9f !important;
+  cursor: not-allowed;
+}
+
+.fileuploader.disabled .upload-label i {
+  color: #aaa !important;
+  cursor: not-allowed !important;
+}
+
+.fileuploader.disabled .preview-container {
+  display: none;
+}
+
 .fileuploader .upload-label{
   background: #2196F3;
   color: #fff;
@@ -60,6 +76,8 @@
   right: 0;
   margin-right: auto;
   margin-left: auto;
+  transition: 0.8s all;
+  -webkit-transition: 0.8s all;
 }
 /** Preview of collections of uploaded documents **/
 .preview-container{
