@@ -126,8 +126,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     protected void onLoad() {
         super.onLoad();
 
-        GWT.log(isEnabled() + "");
-        //uploader.removeEventListeners();
         if (!isInitialize()) {
             initDropzone();
             setInitialize(true);
