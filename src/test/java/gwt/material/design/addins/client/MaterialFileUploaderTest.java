@@ -84,7 +84,7 @@ public class MaterialFileUploaderTest extends MaterialAddinsTest {
         MaterialFileUploader uploader = new MaterialFileUploader();
         MaterialUploadLabel label = new MaterialUploadLabel();
         uploader.add(label);
-        //TODO Check all events (If disabled - assert all events that does not trigger any of it.)
+        super.checkEnabled(label);
     }
 
     protected <T extends MaterialFileUploader> void checkFileUploaderEvents(T fileUploader) {
