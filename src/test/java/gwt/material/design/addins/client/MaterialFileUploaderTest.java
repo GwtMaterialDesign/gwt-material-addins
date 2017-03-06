@@ -20,12 +20,11 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
-import gwt.material.design.addins.client.fileuploader.MaterialUploadCollection;
-import gwt.material.design.addins.client.fileuploader.MaterialUploadHeader;
-import gwt.material.design.addins.client.fileuploader.MaterialUploadPreview;
+import gwt.material.design.addins.client.fileuploader.*;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
@@ -78,6 +77,14 @@ public class MaterialFileUploaderTest extends MaterialAddinsTest {
         assertTrue(fileUploader.isWithCredentials());
         fileUploader.setWithCredentials(false);
         assertFalse(fileUploader.isWithCredentials());
+    }
+
+    @Override
+    protected <T extends MaterialWidget & HasEnabled> void checkEnabled(T widget) {
+        MaterialFileUploader uploader = new MaterialFileUploader();
+        MaterialUploadLabel label = new MaterialUploadLabel();
+        uploader.add(label);
+        //TODO Check all events (If disabled - assert all events that does not trigger any of it.)
     }
 
     protected <T extends MaterialFileUploader> void checkFileUploaderEvents(T fileUploader) {
