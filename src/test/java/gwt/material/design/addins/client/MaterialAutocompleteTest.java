@@ -19,7 +19,9 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.SuggestOracle;
 import gwt.material.design.addins.client.autocomplete.MaterialAutoComplete;
+import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.dto.User;
 import gwt.material.design.addins.client.dto.UserOracle;
@@ -33,7 +35,7 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class MaterialAutocompleteTest extends MaterialAddinsTest {
+public class MaterialAutocompleteTest extends AbstractValueWidgetTest {
 
     public void init() {
         MaterialAutoComplete autoComplete = new MaterialAutoComplete();
@@ -57,6 +59,24 @@ public class MaterialAutocompleteTest extends MaterialAddinsTest {
         }
         widget.setItemValues(itemValues);
         assertEquals(widget.getItemValues().size(), 3);
+
+        List<String> value = new ArrayList<>();
+        value.add(itemValues.get(0));
+
+        List<String> secondValue = new ArrayList<>();
+        secondValue.add(itemValues.get(1));
+
+        assertNotSame(value, secondValue);
+
+        final boolean[] isValueChanged = {false};
+        widget.addValueChangeHandler(event -> isValueChanged[0] = true);
+
+        widget.setItemValues(value);
+        assertFalse(isValueChanged[0]);
+
+        widget.setItemValues(secondValue, true);
+        assertTrue(isValueChanged[0]);
+
         widget.clear();
         assertEquals(widget.getItemValues().size(), 0);
         widget.setLimit(2);

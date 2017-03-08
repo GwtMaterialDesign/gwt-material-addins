@@ -83,9 +83,11 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest {
 
     protected <T extends MaterialTimePicker> void checkValue(T timePicker) {
         final Date VALUE = new Date(116, 9, 14, 10, 10);
+        final Date SECOND_VALUE = new Date(116, 9, 14, 12, 32);
         timePicker.setValue(VALUE);
         assertEquals(timePicker.getValue(), VALUE);
         timePicker.reset();
         assertEquals(String.valueOf(timePicker.getValue()), String.valueOf(new Date()));
+        checkValueChangeEvent(timePicker, VALUE, SECOND_VALUE);
     }
 }

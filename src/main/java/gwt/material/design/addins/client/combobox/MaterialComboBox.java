@@ -46,6 +46,7 @@ import gwt.material.design.client.ui.html.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
@@ -128,7 +129,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             super.add(listbox);
             super.add(label);
             lblError.setLayoutPosition(Style.Position.ABSOLUTE);
-            lblError.setMarginTop(12);
+            lblError.setMarginTop(15);
             super.add(lblError);
             setId(uid);
 
@@ -245,6 +246,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         listbox.setEnabled(enabled);
     }
 
+    @Override
+    public boolean isEnabled() {
+        return listbox.isEnabled();
+    }
+
     /**
      * Check if allow clear option is enabled
      */
@@ -296,7 +302,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     @Override
     public void setAcceptableValues(Collection<T> values) {
-        this.values.clear();
         clear();
         for (T value : values) {
             addItem(value);
@@ -330,7 +335,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     @Override
     public void setValue(T value, boolean fireEvents) {
         int index = values.indexOf(value);
-        if (index > 0) {
+        if (index >= 0) {
             T before = getValue();
             setSelectedIndex(index);
 
@@ -425,7 +430,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         this.selectedIndex = selectedIndex;
         T value = values.get(selectedIndex);
         if (value != null) {
-            $(listbox.getElement()).val(value.toString()).trigger("change", selectedIndex);
+            $(listbox.getElement()).val(value.toString()).trigger("change.select2", selectedIndex);
         } else {
             GWT.log("Value index is not found.", new IndexOutOfBoundsException());
         }
@@ -495,6 +500,19 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      */
     public void close() {
         $(listbox.getElement()).select2("close");
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<Widget> it = iterator();
+        while (it.hasNext()) {
+            final Widget widget = it.next();
+            if (widget != label && widget != lblError && widget != listbox) {
+                it.remove();
+            }
+        }
+        listbox.clear();
+        values.clear();
     }
 
     /**

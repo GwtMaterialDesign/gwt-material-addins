@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
@@ -45,7 +46,7 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class MaterialComboBoxTest extends MaterialAddinsTest {
+public class MaterialComboBoxTest extends AbstractValueWidgetTest {
 
     public void init() {
         MaterialComboBox<User> comboBox = new MaterialComboBox<>();
@@ -161,6 +162,10 @@ public class MaterialComboBoxTest extends MaterialAddinsTest {
             comboBox.addItem("item" + i);
         }
         assertEquals(comboBox.getValues().size(), 5);
+        final String VALUE = comboBox.getValues().get(0);
+        final String SECOND_VALUE = comboBox.getValues().get(1);
+        checkValueChangeEvent(comboBox, VALUE, SECOND_VALUE);
+
         // Check ListBox
         assertNotNull(comboBox.getWidget(0));
         assertTrue(comboBox.getWidget(0) instanceof MaterialWidget);

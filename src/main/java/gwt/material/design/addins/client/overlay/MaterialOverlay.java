@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.overlay;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
@@ -29,6 +30,8 @@ import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -68,6 +71,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     }
 
     private MaterialWidget source;
+    private MaterialPathAnimator animator = new MaterialPathAnimator();
 
     public MaterialOverlay() {
         super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
@@ -90,7 +94,18 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     public void open(MaterialWidget source) {
         this.source = source;
         $("body").attr("style", "overflow: hidden !important");
-        MaterialPathAnimator.animate(source.getElement(), getElement());
+        animator.setSourceElement(source.getElement());
+        animator.setTargetElement(getElement());
+        animator.animate();
+        OpenEvent.fire(this, this);
+    }
+
+    /**
+     * Open the Overlay Panel without Path Animator
+     */
+    public void open() {
+        setVisibility(Style.Visibility.VISIBLE);
+        setOpacity(1);
         OpenEvent.fire(this, this);
     }
 
@@ -99,7 +114,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void close() {
         body().attr("style", "overflow: auto !important");
-        MaterialPathAnimator.reverseAnimate(source.getElement(), getElement());
+        animator.reverseAnimate();
         CloseEvent.fire(this, this);
     }
 
@@ -140,5 +155,38 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void setSource(MaterialWidget source) {
         this.source = source;
+    }
+
+    public double getDuration() {
+        return animator.getDuration();
+    }
+
+    /**
+     * Duration (in seconds) of animation. Default is 0.3 seconds.
+     */
+    public void setDuration(double duration) {
+        animator.setDuration(duration);
+    }
+
+    public double getTargetShowDuration() {
+        return animator.getTargetShowDuration();
+    }
+
+    /**
+     * Duration (in seconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
+     */
+    public void setTargetShowDuration(double targetShowDuration) {
+        animator.setTargetShowDuration(targetShowDuration);
+    }
+
+    public double getExtraTransitionDuration() {
+        return animator.getExtraTransitionDuration();
+    }
+
+    /**
+     * Extra duration (in seconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
+     */
+    public void setExtraTransitionDuration(double extraTransitionDuration) {
+        animator.setExtraTransitionDuration(extraTransitionDuration);
     }
 }

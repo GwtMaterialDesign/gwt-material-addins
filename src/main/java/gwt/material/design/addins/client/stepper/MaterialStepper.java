@@ -31,6 +31,7 @@ import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandle
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
+import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 import gwt.material.design.addins.client.stepper.events.NextEvent;
 import gwt.material.design.addins.client.stepper.events.PreviousEvent;
@@ -117,12 +118,12 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public void setDetectOrientation(boolean detectOrientation) {
         this.detectOrientation = detectOrientation;
 
-        if(orientationHandler != null) {
+        if (orientationHandler != null) {
             orientationHandler.removeHandler();
             orientationHandler = null;
         }
 
-        if(detectOrientation) {
+        if (detectOrientation) {
             orientationHandler = com.google.gwt.user.client.Window.addResizeHandler(resizeEvent -> {
                 detectAndApplyOrientation();
             });
@@ -162,6 +163,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
+
                 step.setSuccess(step.getDescription());
 
                 // next step
@@ -289,6 +291,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             this.currentStepIndex = currentStepIndex;
             SelectionChangeEvent.fire(this);
         }
+
     }
 
     public int getCurrentStepIndex() {
@@ -400,7 +403,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     public void onSelection(SelectionEvent<MaterialStep> event) {
         if (stepSkippingAllowed) {
-            goToStep(event.getSelectedItem());
+            if (event.getSelectedItem().getState() == State.SUCCESS) {
+                goToStep(event.getSelectedItem());
+            }
         }
     }
 

@@ -182,11 +182,13 @@
 .select2-container--default .select2-selection--single .select2-selection__clear {
     cursor: pointer;
     float: right;
-    font-weight: bold
+    font-size: 2em;
+    font-weight: normal;
+    color: #b5b5b5;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__placeholder {
-    color: #999
+    color: #cccccc
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -257,7 +259,7 @@
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__placeholder {
-    color: #999;
+    color: #cccccc;
     margin-top: 5px;
     float: left
 }
@@ -439,7 +441,7 @@
 }
 
 .select2-container--classic .select2-selection--single .select2-selection__placeholder {
-    color: #999
+    color: #cccccc
 }
 
 .select2-container--classic .select2-selection--single .select2-selection__arrow {

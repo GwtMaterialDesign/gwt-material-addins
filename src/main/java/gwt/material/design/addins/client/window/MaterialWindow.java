@@ -101,8 +101,6 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
 
-    private Color toolbarColor;
-
     private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
     private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(this, AddinsCssName.MAXIMIZE);
     private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
@@ -183,7 +181,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
         // Add a draggable header
         dnd = MaterialDnd.draggable(this, JsDragOptions.create(
-                new Restriction("body", true, 0, 0, 1.2, 1)));
+            new Restriction("body", true, 0, 0, 1.2, 1)));
         dnd.ignoreFrom(".content, .window-action");
     }
 
@@ -301,11 +299,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     public Color getToolbarColor() {
-        return toolbarColor;
+        return toolbarColorMixin.getBackgroundColor();
     }
 
     public void setToolbarColor(Color toolbarColor) {
-        this.toolbarColor = toolbarColor;
         toolbarColorMixin.setBackgroundColor(toolbarColor);
     }
 

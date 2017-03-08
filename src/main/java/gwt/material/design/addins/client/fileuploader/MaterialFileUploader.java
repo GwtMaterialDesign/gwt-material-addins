@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.fileuploader;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -88,6 +89,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     private Dropzone uploader;
     private JsFileUploaderOptions options;
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
+    private boolean enabled = true;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
@@ -127,32 +129,61 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         if (!isInitialize()) {
             initDropzone();
             setInitialize(true);
+            applyEnabled();
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        applyEnabled();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    protected void applyEnabled() {
+        if (uploader != null) {
+            if (!enabled) {
+                addStyleName(CssName.DISABLED);
+                uploader.removeEventListeners();
+            } else {
+                removeStyleName(CssName.DISABLED);
+                uploader.setupEventListeners();
+            }
         }
     }
 
     public void initDropzone() {
-        String previews = DOM.createUniqueId();
-        uploadPreview.getUploadCollection().setId(previews);
-        if (options.clickable.isEmpty()) {
-            String clickable = DOM.createUniqueId();
-            if (getWidget(1) instanceof MaterialUploadLabel) {
-                MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
-                label.getIcon().setId(clickable);
-            } else {
-                getWidget(1).getElement().setId(clickable);
+        if (getWidgetCount() > 1) {
+            String previews = DOM.createUniqueId();
+            uploadPreview.getUploadCollection().setId(previews);
+            if (options.clickable.isEmpty()) {
+                String clickable = DOM.createUniqueId();
+
+                if (getWidget(1) instanceof MaterialUploadLabel) {
+                    MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
+                    label.getIcon().setId(clickable);
+                } else {
+                    getWidget(1).getElement().setId(clickable);
+                }
+                setClickable(clickable);
             }
-            setClickable(clickable);
-        }
 
-        if (!isPreview()) {
-            uploadPreview.setDisplay(Display.NONE);
-        }
+            if (!isPreview()) {
+                uploadPreview.setDisplay(Display.NONE);
+            }
 
-        initDropzone(getElement(),
-                uploadPreview.getUploadCollection().getItem().getElement(),
-                previews,
-                uploadPreview.getElement(),
-                uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+            initDropzone(getElement(),
+                    uploadPreview.getUploadCollection().getItem().getElement(),
+                    previews,
+                    uploadPreview.getElement(),
+                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+        }else {
+            GWT.log("You don't have any child widget to use as a upload label");
+        }
     }
 
     /**

@@ -38,5 +38,11 @@ public class JsPathAnimator extends JQueryElement {
     public static native void cta(Element source, Element target, Functions.Func callback);
 
     @JsMethod(namespace = JsPackage.GLOBAL)
+    public static native void cta(Element source, Element target, JsPathAnimatorOptions options, Functions.Func callback);
+
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native void cta(Element source, Element target);
+
+    @JsMethod(namespace = JsPackage.GLOBAL)
+    public static native void cta(Element source, Element target, JsPathAnimatorOptions options);
 }

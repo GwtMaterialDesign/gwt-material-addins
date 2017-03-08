@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.jquery.client.api.Functions;
 
 /**
  * Test case for path animator component
@@ -33,10 +34,44 @@ import gwt.material.design.client.ui.MaterialPanel;
 public class MaterialPathAnimatorTest extends MaterialAddinsTest {
 
     public void init() {
-        checkBasic();
+        checkStaticInstance();
+        checkProperties();
     }
 
-    protected void checkBasic() {
+    protected void checkProperties() {
+        final double DURATION = 300;
+        final double TARGET_DURATION = 500;
+        final double EXTRA_DURATION = 800;
+
+        final Functions.Func animateCallback = () -> {};
+        final Functions.Func reverseCallback = () -> {};
+        final MaterialPanel source = new MaterialPanel();
+        final MaterialPanel target = new MaterialPanel();
+
+        MaterialPathAnimator animator = new MaterialPathAnimator();
+        animator.setDuration(DURATION);
+        assertEquals(animator.getDuration(), DURATION);
+
+        animator.setTargetShowDuration(TARGET_DURATION);
+        assertEquals(animator.getTargetShowDuration(), TARGET_DURATION);
+
+        animator.setAnimateCallback(animateCallback);
+        assertEquals(animator.getAnimateCallback(), animateCallback);
+
+        animator.setReverseCallback(reverseCallback);
+        assertEquals(animator.getReverseCallback(), reverseCallback);
+
+        animator.setExtraTransitionDuration(EXTRA_DURATION);
+        assertEquals(animator.getExtraTransitionDuration(), EXTRA_DURATION);
+
+        animator.setSourceElement(source.getElement());
+        assertEquals(animator.getSourceElement(), source.getElement());
+
+        animator.setTargetElement(target.getElement());
+        assertEquals(animator.getTargetElement(), target.getElement());
+    }
+
+    protected void checkStaticInstance() {
         MaterialPanel source = new MaterialPanel();
         MaterialPanel target = new MaterialPanel();
         RootPanel.get().add(source);
