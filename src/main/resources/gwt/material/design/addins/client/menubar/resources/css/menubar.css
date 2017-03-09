@@ -5,13 +5,15 @@
     padding: 16px 0px;
 }
 .menu-bar ul.dropdown-content .dropdown-content{
-    position: absolute !important;
-    margin-top: -48px;
+    position: relative !important;
+    margin-top: 0px;
     left: 280px !important;
+    top: -48px !important;
 }
 .menu-bar .dropdown-content li {
     min-height: 0px;
     line-height: 0px;
+    max-height: 32px !important;
 }
 .menu-bar .dropdown-content li > a, .menu-bar .dropdown-content li > span {
     font-size: 12px !important;
