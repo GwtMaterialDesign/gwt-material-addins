@@ -11,9 +11,13 @@
     top: -48px !important;
 }
 .menu-bar .dropdown-content li {
+    display: inline-block;
     min-height: 0px;
     line-height: 0px;
-    max-height: 32px !important;
+    max-height: 32px;
+}
+.menu-bar li {
+    height: 40px;
 }
 .menu-bar .dropdown-content li > a, .menu-bar .dropdown-content li > span {
     font-size: 12px !important;
@@ -21,6 +25,7 @@
     line-height: 16px;
     color: #000;
     padding: 8px 24px;
+    display: inline-block;
 }
 /** Supports checkbox on dropdown **/
 .menu-bar ul.dropdown-content [type="checkbox"] + label{
