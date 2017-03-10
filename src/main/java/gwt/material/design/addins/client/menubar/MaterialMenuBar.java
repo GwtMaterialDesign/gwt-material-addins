@@ -25,6 +25,8 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
 //@formatter:off
 
 /**
@@ -72,7 +74,21 @@ public class MaterialMenuBar extends MaterialWidget {
         }
     }
 
+    private String minHeight;
+
     public MaterialMenuBar() {
         super(Document.get().createDivElement(), AddinsCssName.MENU_BAR);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+        $(getElement()).find(".dropdown-content li").css("minHeight", minHeight);
+        $(getElement()).find(".dropdown-content li").css("lineHeight", minHeight);
+        $(getElement()).find(".dropdown-content li").css("maxHeight", minHeight);
+    }
+
+    public void setItemHeight(String minHeight) {
+        this.minHeight = minHeight;
     }
 }
