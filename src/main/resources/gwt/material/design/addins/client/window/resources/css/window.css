@@ -60,10 +60,11 @@
     transform: translate(0px ,0px) !important;
     -webkit-transform: translate(0px ,0px) !important;
     -moz-transform: translate(0px ,0px) !important;
-    -webkit-transition:width 200ms ease-in-out, max-height 500ms ease-in-out;
-    -moz-transition:width 200ms ease-in-out, max-height 500ms ease-in-out;
-    -o-transition:width 200ms ease-in-out, max-height 500ms ease-in-out;
-    transition:width 200ms ease-in-out, max-height 500ms ease-in-out;
+    -webkit-transition:width 400ms ease-in-out, height 400ms ease-in-out;
+    -moz-transition:width 400ms ease-in-out, height 400ms ease-in-out;
+    -o-transition:width 400ms ease-in-out, height 400ms ease-in-out;
+    transition:width 400ms ease-in-out, height 400ms ease-in-out;
+    height: 100vh !important;
 }
 
 .window.open {
