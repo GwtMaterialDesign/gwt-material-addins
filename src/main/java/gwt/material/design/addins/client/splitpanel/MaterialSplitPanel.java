@@ -84,6 +84,7 @@ public class MaterialSplitPanel extends MaterialWidget {
     private double thickness = 8;
     private Dock dock = Dock.LEFT;
     private Axis axis = Axis.HORIZONTAL;
+    private boolean initialized;
 
     public MaterialSplitPanel() {
         super(Document.get().createDivElement());
@@ -93,7 +94,10 @@ public class MaterialSplitPanel extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        initSplitter();
+        if (!initialized) {
+            initSplitter();
+            initialized = true;
+        }
     }
 
     /**
