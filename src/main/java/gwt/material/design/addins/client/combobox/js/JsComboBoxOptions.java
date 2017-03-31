@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.combobox.js;
 
+import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -33,6 +34,9 @@ public class JsComboBoxOptions {
 
     @JsProperty
     public String placeholder;
+    
+    @JsProperty
+    public JQueryElement dropdownParent;
 
     @JsProperty
     public boolean allowClear;
