@@ -43,6 +43,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,6 +99,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private boolean hideSearch;
     private int limit;
     private boolean closeOnSelect = true;
+    private String dropdownParent = "body";
 
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
@@ -146,6 +148,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         options.placeholder = placeholder;
         options.maximumSelectionLength = limit;
         options.closeOnSelect = closeOnSelect;
+        options.dropdownParent = $(dropdownParent);
+        
         if (isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
@@ -212,6 +216,18 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         listbox.add(child);
     }
 
+    /**
+     * Sets the parent element of the dropdown
+     * @param dropdownParent
+     */
+    public void setDropdownParent(String dropdownParent) {
+		this.dropdownParent = dropdownParent;
+	}
+    
+    public String getDropdownParent() {
+		return dropdownParent;
+	}
+    
     /**
      * Sets multi-value select boxes.
      */
