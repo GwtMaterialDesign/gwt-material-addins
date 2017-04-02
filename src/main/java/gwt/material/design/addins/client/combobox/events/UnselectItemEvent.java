@@ -21,49 +21,50 @@ package gwt.material.design.addins.client.combobox.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.combobox.base.HasRemoveItemHandler;
+import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
+
+import java.util.List;
 
 /**
  * Combobox event fired once user removes an item from multiple list selection.
  *
  * @author kevzlou7979
  */
-public class RemoveItemEvent<T> extends GwtEvent<RemoveItemEvent.RemoveItemHandler<T>> {
+public class UnselectItemEvent<T> extends GwtEvent<UnselectItemEvent.UnselectComboHandler<T>> {
 
-    private static Type<RemoveItemHandler<?>> TYPE;
+    private static Type<UnselectItemEvent.UnselectComboHandler<?>> TYPE;
 
-    public interface RemoveItemHandler<T> extends EventHandler {
-        void onRemoveItem(RemoveItemEvent<T> event);
+    public interface UnselectComboHandler<T> extends EventHandler {
+        void onUnselectItem(UnselectItemEvent<T> event);
     }
 
-    public static <T> void fire(HasRemoveItemHandler<T> source, T target) {
+    public static <T> void fire(HasUnselectItemHandler<T> source, List<T> values) {
         if (TYPE != null) {
-            RemoveItemEvent<T> event = new RemoveItemEvent<T>(target);
-            source.fireEvent(event);
+            source.fireEvent(new UnselectItemEvent<>(values));
         }
     }
 
-    public static Type<RemoveItemHandler<?>> getType() {
+    public static Type<UnselectItemEvent.UnselectComboHandler<?>> getType() {
         return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
-    private final T target;
+    private final List<T> values;
 
-    protected RemoveItemEvent(T target) {
-        this.target = target;
+    protected UnselectItemEvent(List<T> values) {
+        this.values = values;
     }
 
     @Override
-    public final Type<RemoveItemHandler<T>> getAssociatedType() {
+    public final Type<UnselectItemEvent.UnselectComboHandler<T>> getAssociatedType() {
         return (Type) TYPE;
     }
 
-    public T getTarget() {
-        return target;
+    public List<T> getSelectedValues() {
+        return values;
     }
 
     @Override
-    protected void dispatch(RemoveItemHandler<T> handler) {
-        handler.onRemoveItem(this);
+    protected void dispatch(UnselectItemEvent.UnselectComboHandler<T> handler) {
+        handler.onUnselectItem(this);
     }
 }

@@ -28,10 +28,9 @@ import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
-import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
-import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -70,7 +69,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertFalse(comboBox.isToggleReadOnly());
         List<User> users = new ArrayList<>();
         users.add(new User());
-        comboBox.setAcceptableValues(users);
+        comboBox.addItems(users);
         comboBox.setHideSearch(true);
         assertTrue(comboBox.isHideSearch());
         comboBox.setLimit(10);
@@ -92,15 +91,15 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         comboBox.addRemoveItemHandler(event -> {
             isRemoveItemEvent[0] = true;
         });
-        comboBox.fireEvent(new GwtEvent<RemoveItemEvent.RemoveItemHandler<?>>() {
+        comboBox.fireEvent(new GwtEvent<UnselectItemEvent.UnselectComboHandler<?>>() {
             @Override
-            public Type<RemoveItemEvent.RemoveItemHandler<?>> getAssociatedType() {
-                return RemoveItemEvent.getType();
+            public Type<UnselectItemEvent.UnselectComboHandler<?>> getAssociatedType() {
+                return UnselectItemEvent.getType();
             }
 
             @Override
-            protected void dispatch(RemoveItemEvent.RemoveItemHandler<?> eventHandler) {
-                eventHandler.onRemoveItem(null);
+            protected void dispatch(UnselectItemEvent.UnselectComboHandler<?> eventHandler) {
+                eventHandler.onUnselectItem(null);
             }
         });
         assertTrue(isRemoveItemEvent[0]);

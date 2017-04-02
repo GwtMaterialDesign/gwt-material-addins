@@ -21,11 +21,11 @@ package gwt.material.design.addins.client.combobox.base;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 
 /**
  * @author kevzlou7979
  */
-public interface HasRemoveItemHandler<T> extends HasHandlers {
-    HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler);
+public interface HasUnselectItemHandler<T> extends HasHandlers {
+    HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler);
 }
