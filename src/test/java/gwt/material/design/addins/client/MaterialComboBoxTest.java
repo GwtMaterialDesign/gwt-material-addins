@@ -36,8 +36,10 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jscore.client.api.Array;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -163,7 +165,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertEquals(comboBox.getValues().size(), 5);
         final String VALUE = comboBox.getValues().get(0);
         final String SECOND_VALUE = comboBox.getValues().get(1);
-        checkValueChangeEvent(comboBox, VALUE, SECOND_VALUE);
+        checkValueChangeEvent(comboBox, Collections.singletonList(VALUE), Collections.singletonList(SECOND_VALUE));
 
         // Check ListBox
         assertNotNull(comboBox.getWidget(0));

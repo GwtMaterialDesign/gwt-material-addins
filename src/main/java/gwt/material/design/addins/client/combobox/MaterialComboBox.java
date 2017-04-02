@@ -351,7 +351,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void setValue(List<T> value) {
-        setValue(value, true);
+        setValue(value, false);
     }
 
     /**
@@ -359,7 +359,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * in single selection mode.
      */
     public void setSingleValue(T value) {
-        setValue(Collections.singletonList(value), true);
+        setValue(Collections.singletonList(value));
     }
 
     @Override
@@ -369,9 +369,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
                 setSingleValue(values.get(0), fireEvents);
             }
         } else {
-            for(T value : values) {
-                setSingleValue(value, fireEvents);
-            }
+            setValues(values);
         }
     }
 
