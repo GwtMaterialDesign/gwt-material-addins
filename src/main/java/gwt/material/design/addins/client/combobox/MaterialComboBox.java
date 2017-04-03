@@ -100,6 +100,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private boolean hideSearch;
     private int limit;
     private boolean closeOnSelect = true;
+    private boolean suppressChangeEvent;
 
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
@@ -156,7 +157,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.select2(options);
 
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
-            ValueChangeEvent.fire(this, getValue());
+            if(!suppressChangeEvent) {
+                ValueChangeEvent.fire(this, getValue());
+            }
             return true;
         });
 
@@ -394,11 +397,21 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * combobox and build options into it.
      */
     public void setValues(List<T> values) {
+        setValues(values, true);
+    }
+
+    /**
+     * Set directly all the values that will be stored into
+     * combobox and build options into it.
+     */
+    public void setValues(List<T> values, boolean fireEvents) {
         String[] stringValues = new String[values.size()];
         for (int i = 0; i < values.size(); i++) {
             stringValues[i] = keyFactory.generateKey(values.get(i));
         }
+        suppressChangeEvent = true;
         $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
+        suppressChangeEvent = false;
     }
 
     public Option addItem(T value) {
