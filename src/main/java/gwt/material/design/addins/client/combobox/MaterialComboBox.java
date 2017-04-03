@@ -409,7 +409,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         for (int i = 0; i < values.size(); i++) {
             stringValues[i] = keyFactory.generateKey(values.get(i));
         }
-        suppressChangeEvent = true;
+        suppressChangeEvent = !fireEvents;
         $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
         suppressChangeEvent = false;
     }
