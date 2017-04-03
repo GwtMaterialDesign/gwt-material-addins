@@ -372,7 +372,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
                 setSingleValue(values.get(0), fireEvents);
             }
         } else {
-            setValues(values);
+            setValues(values, fireEvents);
         }
     }
 
