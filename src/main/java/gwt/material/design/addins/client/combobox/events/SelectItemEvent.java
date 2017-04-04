@@ -35,7 +35,7 @@ public class SelectItemEvent<T> extends GwtEvent<SelectItemEvent.SelectComboHand
     private static Type<SelectComboHandler<?>> TYPE;
 
     public interface SelectComboHandler<T> extends EventHandler {
-        void onRemoveItem(SelectItemEvent<T> event);
+        void onSelectItem(SelectItemEvent<T> event);
     }
 
     public static <T> void fire(HasUnselectItemHandler<T> source, List<T> values) {
@@ -65,6 +65,6 @@ public class SelectItemEvent<T> extends GwtEvent<SelectItemEvent.SelectComboHand
 
     @Override
     protected void dispatch(SelectComboHandler<T> handler) {
-        handler.onRemoveItem(this);
+        handler.onSelectItem(this);
     }
 }

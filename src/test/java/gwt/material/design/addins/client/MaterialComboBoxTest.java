@@ -19,8 +19,6 @@
  */
 package gwt.material.design.addins.client;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -30,13 +28,13 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
+import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
-import gwt.material.design.jscore.client.api.Array;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,15 +108,15 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         comboBox.addSelectionHandler(event -> {
             isSelectionEvent[0] = true;
         });
-        comboBox.fireEvent(new GwtEvent<SelectionHandler<?>>() {
+        comboBox.fireEvent(new GwtEvent<SelectItemEvent.SelectComboHandler<?>>() {
             @Override
-            public Type<SelectionHandler<?>> getAssociatedType() {
-                return SelectionEvent.getType();
+            public Type<SelectItemEvent.SelectComboHandler<?>> getAssociatedType() {
+                return SelectItemEvent.getType();
             }
 
             @Override
-            protected void dispatch(SelectionHandler<?> eventHandler) {
-                eventHandler.onSelection(null);
+            protected void dispatch(SelectItemEvent.SelectComboHandler<?> eventHandler) {
+                eventHandler.onSelectItem(null);
             }
         });
         assertTrue(isSelectionEvent[0]);
