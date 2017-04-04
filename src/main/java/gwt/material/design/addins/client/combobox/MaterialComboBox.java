@@ -40,6 +40,7 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -81,7 +82,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements HasPlaceholder,
-        HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly {
+        HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -579,9 +580,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         this.keyFactory = keyFactory;
     }
 
-    @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<T> selectionHandler) {
-        return addHandler(selectionHandler, SelectionEvent.getType());
+    public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
+        return addHandler(selectionHandler, SelectItemEvent.getType());
     }
 
     @Override
