@@ -44,6 +44,7 @@ import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.JQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -111,7 +112,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private Label label = new Label();
     private MaterialLabel lblError = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
-    private HandlerRegistration valueChangeHandler;
+    private HandlerRegistration valueChangeHandler, clearInputHandler;
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
             this, lblError, this.asWidget());
@@ -150,6 +151,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         options.placeholder = placeholder;
         options.maximumSelectionLength = limit;
         options.closeOnSelect = closeOnSelect;
+
+        if (clearInputHandler == null) {
+            clearInputHandler = addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val(""));
+        }
+
         if (isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
