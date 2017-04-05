@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.combobox;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -36,6 +37,7 @@ import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
@@ -183,6 +185,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
             OpenEvent.fire(this, null);
+            // Improved Material Design using the Chosen Look and Feel
+            // Display Search icon only on Single Selection UI
+            $(".select2-container--open").addClass("show");
+            if (!multiple) {
+                Element searchIcon = Document.get().createElement("i");
+                searchIcon.setInnerHTML(IconType.SEARCH.getCssName());
+                searchIcon.addClassName(CssName.MATERIAL_ICONS);
+                if ($(".select2-search").find("i.material-icons").get(0) == null) {
+                    $(".select2-search").append(searchIcon);
+                }
+            }
             return true;
         });
 
@@ -193,6 +206,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         jsComboBox.on(ComboBoxEvents.CLOSING, (e, param1) -> {
             ComboBoxClosingEvent.fire(this);
+            $(".select2-container--open").removeClass("show");
             return true;
         });
     }
@@ -208,6 +222,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.UNSELECT);
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
+        jsComboBox.off(ComboBoxEvents.OPENING);
+        jsComboBox.off(ComboBoxEvents.CLOSING);
         jsComboBox.select2("destroy");
 
         if (valueChangeHandler != null) {
