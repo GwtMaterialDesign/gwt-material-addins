@@ -108,6 +108,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     private MaterialDnd dnd;
     private boolean initialized;
+    private boolean preventClose;
 
     private HandlerRegistration toolbarAttachHandler;
 
@@ -169,10 +170,12 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         // Add handlers to action buttons
         iconMaximize.addClickHandler(event -> toggleMaximize());
         iconClose.addClickHandler(event -> {
-            if (!isOpen()) {
-                open();
-            } else {
-                close();
+            if (!preventClose) {
+                if (!isOpen()) {
+                    open();
+                } else {
+                    close();
+                }
             }
         });
 
@@ -182,6 +185,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         dnd = MaterialDnd.draggable(this, JsDragOptions.create(
             new Restriction("body", true, 0, 0, 1.2, 1)));
         dnd.ignoreFrom(".content, .window-action");
+    }
+
+    protected void onClose() {
+
     }
 
     protected void toggleMaximize() {
@@ -397,6 +404,14 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     @Override
     public void setPaddingBottom(double padding) {
         content.setPaddingBottom(padding);
+    }
+
+    public boolean isPreventClose() {
+        return preventClose;
+    }
+
+    public void setPreventClose(boolean preventClose) {
+        this.preventClose = preventClose;
     }
 
     /**
