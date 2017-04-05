@@ -21,50 +21,37 @@ package gwt.material.design.addins.client.combobox.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.combobox.base.HasSelectionHandlers;
-
-import java.util.List;
 
 /**
- * Combobox event fired once user removes an item from multiple list selection.
+ * Combobox event fired once user is opening the combobox menu items.
  *
  * @author kevzlou7979
  */
-public class SelectItemEvent<T> extends GwtEvent<SelectItemEvent.SelectComboHandler<T>> {
+public class ComboBoxClosingEvent<T> extends GwtEvent<ComboBoxClosingEvent.ComboBoxClosingHandler<T>> {
 
-    private static Type<SelectComboHandler<?>> TYPE;
+    private static Type<ComboBoxClosingHandler<?>> TYPE;
 
-    public interface SelectComboHandler<T> extends EventHandler {
-        void onSelectItem(SelectItemEvent<T> event);
+    public interface ComboBoxClosingHandler<T> extends EventHandler {
+        void onComboBoxClosing(ComboBoxClosingEvent<T> event);
     }
 
-    public static <T> void fire(HasSelectionHandlers<T> source, List<T> values) {
+    public static <T> void fire(HasComboBoxHandlers<T> source) {
         if (TYPE != null) {
-            source.fireEvent(new SelectItemEvent<>(values));
+            source.fireEvent(new ComboBoxClosingEvent<T>());
         }
     }
 
-    public static Type<SelectComboHandler<?>> getType() {
+    public static Type<ComboBoxClosingHandler<?>> getType() {
         return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
-
-    private final List<T> values;
-
-    protected SelectItemEvent(List<T> values) {
-        this.values = values;
-    }
-
+    
     @Override
-    public final Type<SelectComboHandler<T>> getAssociatedType() {
+    public final Type<ComboBoxClosingHandler<T>> getAssociatedType() {
         return (Type) TYPE;
     }
 
-    public List<T> getSelectedValues() {
-        return values;
-    }
-
     @Override
-    protected void dispatch(SelectComboHandler<T> handler) {
-        handler.onSelectItem(this);
+    protected void dispatch(ComboBoxClosingHandler<T> handler) {
+        handler.onComboBoxClosing(this);
     }
 }

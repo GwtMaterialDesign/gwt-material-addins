@@ -17,20 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.combobox.events;
+package gwt.material.design.addins.client.combobox.base;
+
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 
 /**
- * Events for Combobox
- *
  * @author kevzlou7979
  */
-public interface ComboBoxEvents {
+public interface HasSelectionHandlers<T> extends HasHandlers {
 
-    String CHANGE = "change";
-    String SELECT = "select2:select";
-    String UNSELECT = "select2:unselect";
-    String OPEN = "select2:open";
-    String OPENING = "select2:opening";
-    String CLOSE = "select2:close";
-    String CLOSING = "select2:closing";
+    HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler);
+
+    HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler);
 }

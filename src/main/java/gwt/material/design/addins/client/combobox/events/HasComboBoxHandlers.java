@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.combobox.base;
+package gwt.material.design.addins.client.combobox.events;
 
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.event.logical.shared.HasOpenHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
+import gwt.material.design.addins.client.combobox.base.HasSelectionHandlers;
 
 /**
- * @author kevzlou7979
+ * Implements all ComboBox required handlers
  */
-public interface HasUnselectItemHandler<T> extends HasHandlers {
-    HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler);
+public interface HasComboBoxHandlers<T> extends HasOpenHandlers<T>, HasCloseHandlers<T>, HasSelectionHandlers<T> {
+
+    HandlerRegistration addOpeningHandler(ComboBoxOpeningEvent.ComboBoxOpeningHandler openingHandler);
+
+    HandlerRegistration addClosingHandler(ComboBoxClosingEvent.ComboBoxClosingHandler closingHandler);
 }

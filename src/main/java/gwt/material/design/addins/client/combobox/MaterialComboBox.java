@@ -28,10 +28,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
-import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
-import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
-import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
+import gwt.material.design.addins.client.combobox.events.*;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
@@ -40,7 +37,6 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -82,7 +78,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements HasPlaceholder,
-        HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly {
+        HasComboBoxHandlers<T>,  HasReadOnly {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -174,6 +170,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        jsComboBox.on(ComboBoxEvents.OPENING, (e, param1) -> {
+            ComboBoxOpeningEvent.fire(this);
+            return true;
+        });
+
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
             OpenEvent.fire(this, null);
             return true;
@@ -181,6 +182,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
             CloseEvent.fire(this, null);
+            return true;
+        });
+
+        jsComboBox.on(ComboBoxEvents.CLOSING, (e, param1) -> {
+            ComboBoxClosingEvent.fire(this);
             return true;
         });
     }
@@ -580,6 +586,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         this.keyFactory = keyFactory;
     }
 
+    @Override
+    public HandlerRegistration addOpeningHandler(ComboBoxOpeningEvent.ComboBoxOpeningHandler openingHandler) {
+        return addHandler(openingHandler, ComboBoxOpeningEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addClosingHandler(ComboBoxClosingEvent.ComboBoxClosingHandler closingHandler) {
+        return addHandler(closingHandler, ComboBoxClosingEvent.getType());
+    }
+
+    @Override
     public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectItemEvent.getType());
     }
