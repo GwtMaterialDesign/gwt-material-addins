@@ -691,7 +691,7 @@
 }
 
 .select2-results__option {
-    padding: 1rem
+    padding: 0.6rem
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
@@ -777,11 +777,10 @@ ul.select2-results__options[aria-multiselectable="true"] li.select2-results__opt
     z-index: 0;
     border: 2px solid #5a5a5a;
     border-radius: 1px;
-    margin-top: 2px;
     transition: .2s;
     -webkit-transition: .2s;
     -moz-transition: .2s;
-    margin: 1rem;
+    margin: 10px 1rem 0px;
 }
 
 ul.select2-results__options[aria-multiselectable="true"] li.select2-results__option:not([role="group"]):before {
@@ -811,7 +810,7 @@ ul.select2-results__options[aria-multiselectable="true"] li.select2-results__opt
     -moz-transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
     z-index: 1;
     border-radius: 2px;
-    margin: 1rem;
+    margin: 10px 1rem 0px;
 }
 /** Selected **/
 ul.select2-results__options[aria-multiselectable="true"] li.select2-results__option:not([role="group"])[aria-selected="true"]:after {
@@ -874,4 +873,18 @@ ul.select2-results__options[aria-multiselectable="true"] li.select2-results__opt
 .select2-container--open .select2-dropdown {
     border-top: 2px solid #42a5f5;
     margin-top: -2px;
+}
+
+/** Style for messages **/
+ul li.select2-results__option.select2-results__message {
+    background: #F5F5F5;
+    color: #9E9E9E;
+}
+
+ul li.select2-results__option.select2-results__message:before, ul li.select2-results__option.select2-results__message:after {
+    display: none;
+    padding: 0.6rem;
+}
+ul.select2-results__options[aria-multiselectable="true"] li.select2-results__option:not([role="group"]).select2-results__message {
+    padding-left: 0.6rem !important;
 }
