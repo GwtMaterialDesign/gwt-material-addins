@@ -20,9 +20,11 @@
 package gwt.material.design.addins.client.iconmorph;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
@@ -54,7 +56,7 @@ import gwt.material.design.client.ui.MaterialIcon;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#morphingIcons">Material Icon Morph</a>
  */
 //@formatter:on
-public class MaterialIconMorph extends MaterialWidget {
+public class MaterialIconMorph extends MaterialWidget implements HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -65,6 +67,7 @@ public class MaterialIconMorph extends MaterialWidget {
     }
 
     private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);
+    private MaterialIcon source, target;
 
     public MaterialIconMorph() {
         super(Document.get().createDivElement(), AddinsCssName.ANIM_CONTAINER);
@@ -76,14 +79,32 @@ public class MaterialIconMorph extends MaterialWidget {
         super.onLoad();
 
         if (getWidgetCount() >= 2) {
-            MaterialIcon source = (MaterialIcon) getWidget(0);
+            source = (MaterialIcon) getWidget(0);
             source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);
-            MaterialIcon target = (MaterialIcon) getWidget(1);
+            target = (MaterialIcon) getWidget(1);
             target.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.TARGET);
         }
     }
 
     public void setIconSize(IconSize size) {
         sizeMixin.setCssName(size);
+    }
+
+    @Override
+    public void setDuration(int duration) {
+        setTransition("all", duration);
+    }
+
+    @Override
+    public int getDuration() {
+        return 0;
+    }
+
+    public MaterialIcon getSource() {
+        return source;
+    }
+
+    public MaterialIcon getTarget() {
+        return target;
     }
 }

@@ -27,6 +27,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialRow;
@@ -62,7 +63,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow {
+public class MaterialMasonry extends MaterialRow implements HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -78,7 +79,7 @@ public class MaterialMasonry extends MaterialRow {
     private boolean percentPosition = true;
     private boolean originLeft = true;
     private boolean originTop = true;
-    private double transitionDuration = 400;
+    private int duration = 400;
     private boolean initialize;
 
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
@@ -116,7 +117,7 @@ public class MaterialMasonry extends MaterialRow {
         options.columnWidth = "." + AddinsCssName.COL_SIZER;
         options.originLeft = isOriginLeft();
         options.originTop = isOriginTop();
-        options.transitionDuration = getTransitionDuration() + "ms";
+        options.transitionDuration = getDuration() + "ms";
         return options;
     }
 
@@ -266,21 +267,17 @@ public class MaterialMasonry extends MaterialRow {
         this.originTop = originTop;
     }
 
-    /**
-     * Get the transition duration in milliseconds.
-     */
-    public double getTransitionDuration() {
-        return transitionDuration;
-    }
-
-    /**
-     * Sets the transition duration in milliseconds, if 0 then there will be no transition.
-     */
-    public void setTransitionDuration(double transitionDuration) {
-        this.transitionDuration = transitionDuration;
-    }
-
     public MaterialWidget getSizerDiv() {
         return sizerDiv;
+    }
+
+    @Override
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public int getDuration() {
+        return duration;
     }
 }
