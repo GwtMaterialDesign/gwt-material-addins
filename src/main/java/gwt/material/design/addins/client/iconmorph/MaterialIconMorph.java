@@ -20,13 +20,12 @@
 package gwt.material.design.addins.client.iconmorph;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.TransitionProperty;
+import gwt.material.design.client.base.TransitionConfig;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -93,7 +92,7 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
 
     @Override
     public void setDuration(int duration) {
-        setTransition(new TransitionProperty(duration, "all"));
+        setTransition(new TransitionConfig(duration, "all"));
     }
 
     @Override
