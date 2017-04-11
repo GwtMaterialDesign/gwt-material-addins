@@ -62,6 +62,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#menubar">MenuBar</a>
+ * @see <a href="https://material.io/guidelines/components/menus.html">Material Design Specification</a>
  */
 //@formatter:on
 public class MaterialMenuBar extends MaterialWidget {

@@ -54,6 +54,7 @@ import gwt.material.design.client.ui.MaterialIcon;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#morphingIcons">Material Icon Morph</a>
+ * @see <a href="https://material.io/guidelines/motion/creative-customization.html#creative-customization-icons">Material Design Specification</a>
  */
 //@formatter:on
 public class MaterialIconMorph extends MaterialWidget implements HasDurationTransition {

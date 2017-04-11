@@ -63,6 +63,7 @@ import gwt.material.design.client.ui.html.Div;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#steppers">Material Steppers</a>
+ * @see <a href="https://material.io/guidelines/components/steppers.html">Material Design Specification</a>
  */
 // @formatter:on
 public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasAxis,
