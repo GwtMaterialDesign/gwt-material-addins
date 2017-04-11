@@ -508,6 +508,18 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
     }
 
+    /**
+     * Set the number of suggestions to be displayed to the user. This differs from
+     * setLimit() which set both the suggestions displayed AND the limit of values
+     * allowed within the autocomplete.
+     * @param limit
+     */
+    public void setAutoSuggestLimit(int limit) {
+        if (this.box != null) {
+            this.box.setLimit(limit);
+        }
+    }
+
     @Override
     public String getPlaceholder() {
         return lblPlaceholder.getText();
