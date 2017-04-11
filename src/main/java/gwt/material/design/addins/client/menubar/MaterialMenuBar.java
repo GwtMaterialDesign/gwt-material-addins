@@ -83,6 +83,12 @@ public class MaterialMenuBar extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         $(getElement()).find(".dropdown-content li").css("minHeight", minHeight);
         $(getElement()).find(".dropdown-content li").css("lineHeight", minHeight);
         $(getElement()).find(".dropdown-content li").css("maxHeight", minHeight);

@@ -110,6 +110,19 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     public MaterialCutOut() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CUTOUT);
+
+        build();
+    }
+
+    public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
+        this();
+        setBackgroundColor(backgroundColor);
+        setCircle(circle);
+        setOpacity(opacity);
+    }
+
+    @Override
+    protected void build() {
         focusElement = Document.get().createDivElement();
         getElement().appendChild(focusElement);
 
@@ -128,13 +141,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);
         style.setZIndex(-1);
-    }
-
-    public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
-        this();
-        setBackgroundColor(backgroundColor);
-        setCircle(circle);
-        setOpacity(opacity);
     }
 
     @Override

@@ -93,6 +93,22 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
 
+        build();
+    }
+
+    public MaterialStep(String title, String description) {
+        this();
+        setTitle(title);
+        setDescription(description);
+    }
+
+    public MaterialStep(String title, String description, Integer step) {
+        this(title, description);
+        setStep(step);
+    }
+
+    @Override
+    protected void build() {
         super.add(conCircle);
         conCircle.add(divCircle);
         conCircle.add(divLine);
@@ -114,17 +130,6 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         conCircle.addClickHandler(handler);
         divTitle.addClickHandler(handler);
         divDescription.addClickHandler(handler);
-    }
-
-    public MaterialStep(String title, String description) {
-        this();
-        setTitle(title);
-        setDescription(description);
-    }
-
-    public MaterialStep(String title, String description, Integer step) {
-        this(title, description);
-        setStep(step);
     }
 
     @Override

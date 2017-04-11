@@ -78,6 +78,11 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
     protected void onLoad() {
         super.onLoad();
 
+        build();
+    }
+
+    @Override
+    protected void build() {
         if (getWidgetCount() >= 2) {
             source = (MaterialIcon) getWidget(0);
             source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);

@@ -129,6 +129,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     protected void onLoad() {
         super.onLoad();
 
+        build();
+    }
+
+    @Override
+    protected void build() {
         if (!initialized) {
             label.setInitialClasses(AddinsCssName.SELECT2LABEL);
             super.add(listbox);

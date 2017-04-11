@@ -88,6 +88,12 @@ public class MaterialWaterfall extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         if (openCallback == null) {
             openCallback = () -> {
                 for (Widget w : getChildren()) {

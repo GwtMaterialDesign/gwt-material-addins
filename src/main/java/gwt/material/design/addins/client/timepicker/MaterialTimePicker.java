@@ -141,6 +141,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void onLoad() {
         super.onLoad();
 
+        build();
+    }
+
+    @Override
+    protected void build() {
         uniqueId = DOM.createUniqueId();
         timeInput.setType(InputType.TEXT);
         readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);

@@ -219,13 +219,13 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public MaterialAutoComplete(SuggestOracle suggestions) {
         this();
-        generateAutoComplete(suggestions);
+        build(suggestions);
     }
 
     /**
      * Generate and build the List Items to be set on Auto Complete box.
      */
-    protected void generateAutoComplete(SuggestOracle suggestions) {
+    protected void build(SuggestOracle suggestions) {
         list.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_LIST);
         this.suggestions = suggestions;
         final ListItem item = new ListItem();
@@ -489,7 +489,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public void setSuggestions(SuggestOracle suggestions) {
         this.suggestions = suggestions;
-        generateAutoComplete(suggestions);
+        build(suggestions);
     }
 
     public void setSuggestions(SuggestOracle suggestions, AutocompleteType type) {

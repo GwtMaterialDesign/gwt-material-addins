@@ -86,10 +86,8 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
 
     public MaterialMasonry() {
         super(Document.get().createDivElement(), AddinsCssName.MASONRY, CssName.ROW);
-        enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
-        sizerDiv.setWidth("8.3333%");
-        sizerDiv.setStyleName(AddinsCssName.COL_SIZER);
-        add(sizerDiv);
+
+        build();
     }
 
     @Override
@@ -100,6 +98,14 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
         if (!initialize) {
             initialize = true;
         }
+    }
+
+    @Override
+    protected void build() {
+        enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
+        sizerDiv.setWidth("8.3333%");
+        sizerDiv.setStyleName(AddinsCssName.COL_SIZER);
+        add(sizerDiv);
     }
 
     public void initMasonry() {
