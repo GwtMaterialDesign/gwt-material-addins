@@ -125,4 +125,8 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         positionMixin.setCssName(position);
         initBubble();
     }
+
+    public MaterialWidget getTriangle() {
+        return triangle;
+    }
 }

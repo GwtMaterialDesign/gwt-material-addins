@@ -169,7 +169,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     private Map<Suggestion, Widget> suggestionMap = new LinkedHashMap<>();
-    private Label lblPlaceholder = new Label();
+    private Label placeholderLabel = new Label();
 
     private List<ListItem> itemsHighlighted = new ArrayList<>();
     private FlowPanel panel = new FlowPanel();
@@ -178,14 +178,14 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private TextBox itemBox = new TextBox();
     private SuggestBox box;
     private int limit = 0;
-    private MaterialLabel lblError = new MaterialLabel();
+    private MaterialLabel errorLabel = new MaterialLabel();
     private final ProgressMixin<MaterialAutoComplete> progressMixin = new ProgressMixin<>(this);
 
     private String selectedChipStyle = "blue white-text";
     private boolean directInputAllowed = true;
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, list, lblPlaceholder);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, errorLabel, list, placeholderLabel);
 
     private FocusableMixin<MaterialWidget> focusableMixin;
     private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
@@ -237,14 +237,14 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.getElement().setId(autocompleteId);
 
         item.add(box);
-        item.add(lblPlaceholder);
+        item.add(placeholderLabel);
         list.add(item);
 
         list.addDomHandler(event -> box.showSuggestionList(), ClickEvent.getType());
 
         itemBox.addBlurHandler(blurEvent -> {
             if (getValue().size() > 0) {
-                lblPlaceholder.addStyleName(CssName.ACTIVE);
+                placeholderLabel.addStyleName(CssName.ACTIVE);
             }
         });
 
@@ -315,7 +315,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         panel.add(list);
         panel.getElement().setAttribute("onclick",
             "document.getElementById('" + autocompleteId + "').focus()");
-        panel.add(lblError);
+        panel.add(errorLabel);
         box.setFocus(true);
     }
 
@@ -396,7 +396,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public void clear() {
         itemBox.setValue("");
-        lblPlaceholder.removeStyleName(CssName.ACTIVE);
+        placeholderLabel.removeStyleName(CssName.ACTIVE);
 
         Collection<Widget> values = suggestionMap.values();
         for (Widget widget : values) {
@@ -456,7 +456,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
         setValue(list, fireEvents);
         if (itemValues.size() > 0) {
-            lblPlaceholder.addStyleName(CssName.ACTIVE);
+            placeholderLabel.addStyleName(CssName.ACTIVE);
         }
     }
 
@@ -510,12 +510,12 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     @Override
     public String getPlaceholder() {
-        return lblPlaceholder.getText();
+        return placeholderLabel.getText();
     }
 
     @Override
     public void setPlaceholder(String placeholder) {
-        lblPlaceholder.setText(placeholder);
+        placeholderLabel.setText(placeholder);
     }
 
     /**
@@ -781,7 +781,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public void setValue(List<? extends Suggestion> value, boolean fireEvents) {
         clear();
         if (value != null) {
-            lblPlaceholder.addStyleName(CssName.ACTIVE);
+            placeholderLabel.addStyleName(CssName.ACTIVE);
             for (Suggestion suggestion : value) {
                 addItem(suggestion);
             }
@@ -798,5 +798,17 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
         return errorMixin;
+    }
+
+    public Label getPlaceholderLabel() {
+        return placeholderLabel;
+    }
+
+    public TextBox getItemBox() {
+        return itemBox;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
     }
 }

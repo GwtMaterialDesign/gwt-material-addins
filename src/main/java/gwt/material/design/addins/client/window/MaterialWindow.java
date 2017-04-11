@@ -381,6 +381,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         return labelTitle;
     }
 
+    public static MaterialPanel getWindowOverlay() {
+        return windowOverlay;
+    }
+
     @Override
     public void setPadding(double padding) {
         content.setPadding(padding);

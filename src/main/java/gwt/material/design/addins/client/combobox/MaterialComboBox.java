@@ -40,11 +40,9 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
-import gwt.material.design.jquery.client.api.JQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -110,12 +108,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     protected List<T> values = new ArrayList<>();
 
     private Label label = new Label();
-    private MaterialLabel lblError = new MaterialLabel();
+    private MaterialLabel errorLabel = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
     private HandlerRegistration valueChangeHandler, clearInputHandler;
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
-            this, lblError, this.asWidget());
+            this, errorLabel, this.asWidget());
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     // By default the key is generated using toString
@@ -138,9 +136,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             label.setInitialClasses(AddinsCssName.SELECT2LABEL);
             super.add(listbox);
             super.add(label);
-            lblError.setLayoutPosition(Style.Position.ABSOLUTE);
-            lblError.setMarginTop(15);
-            super.add(lblError);
+            errorLabel.setLayoutPosition(Style.Position.ABSOLUTE);
+            errorLabel.setMarginTop(15);
+            super.add(errorLabel);
             setId(uid);
 
             listbox.setGwtDisplay(Style.Display.BLOCK);
@@ -576,7 +574,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         final Iterator<Widget> it = iterator();
         while (it.hasNext()) {
             final Widget widget = it.next();
-            if (widget != label && widget != lblError && widget != listbox) {
+            if (widget != label && widget != errorLabel && widget != listbox) {
                 it.remove();
             }
         }
@@ -667,5 +665,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public Label getLabel() {
         return label;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
     }
 }

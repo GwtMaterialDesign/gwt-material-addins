@@ -44,6 +44,12 @@ public class MaterialUploadHeader extends MaterialWidget {
 
     public MaterialUploadHeader() {
         super(Document.get().createDivElement(), AddinsCssName.HEADER);
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         iconClose.setId(AddinsCssName.UPLOAD_CLOSE);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);

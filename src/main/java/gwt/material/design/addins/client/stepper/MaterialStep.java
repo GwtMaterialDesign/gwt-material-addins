@@ -227,6 +227,30 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         return divBody;
     }
 
+    public Div getConCircle() {
+        return conCircle;
+    }
+
+    public Div getConBody() {
+        return conBody;
+    }
+
+    public Div getDivCircle() {
+        return divCircle;
+    }
+
+    public Div getDivLine() {
+        return divLine;
+    }
+
+    public Div getDivTitle() {
+        return divTitle;
+    }
+
+    public Div getDivDescription() {
+        return divDescription;
+    }
+
     @Override
     public void setAxis(Axis axis) {
         if (axis == null) {
