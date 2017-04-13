@@ -94,6 +94,11 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     protected void onLoad() {
         super.onLoad();
 
+        build();
+    }
+
+    @Override
+    protected void build() {
         for (Widget w : getChildren()) {
             if (!w.getStyleName().contains(AddinsCssName.IGNORED)) {
                 initSwipeable(w.getElement(), w);

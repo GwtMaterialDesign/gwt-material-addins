@@ -58,6 +58,7 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#splitpanel">Split Panel</a>
+ * @see <a href="https://material.io/guidelines/layout/split-screen.html#split-screen-usage">Material Design Specification</a>
  */
 //@formatter:on
 public class MaterialSplitPanel extends MaterialWidget {

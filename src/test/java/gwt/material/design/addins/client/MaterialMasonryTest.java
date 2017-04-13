@@ -73,8 +73,8 @@ public class MaterialMasonryTest extends MaterialAddinsTest {
         assertTrue(masonry.isOriginTop());
         masonry.setOriginTop(false);
         assertFalse(masonry.isOriginTop());
-        assertEquals(masonry.getTransitionDuration(), Double.valueOf(400));
-        masonry.setTransitionDuration(100);
-        assertEquals(masonry.getTransitionDuration(), Double.valueOf(100));
+        assertEquals(masonry.getDuration(), 400);
+        masonry.setDuration(100);
+        assertEquals(masonry.getDuration(), 100);
     }
 }

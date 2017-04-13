@@ -63,6 +63,7 @@ import gwt.material.design.client.ui.html.Div;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#steppers">Material Steppers</a>
+ * @see <a href="https://material.io/guidelines/components/steppers.html">Material Design Specification</a>
  */
 // @formatter:on
 public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasAxis,
@@ -93,6 +94,22 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
 
+        build();
+    }
+
+    public MaterialStep(String title, String description) {
+        this();
+        setTitle(title);
+        setDescription(description);
+    }
+
+    public MaterialStep(String title, String description, Integer step) {
+        this(title, description);
+        setStep(step);
+    }
+
+    @Override
+    protected void build() {
         super.add(conCircle);
         conCircle.add(divCircle);
         conCircle.add(divLine);
@@ -114,17 +131,6 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         conCircle.addClickHandler(handler);
         divTitle.addClickHandler(handler);
         divDescription.addClickHandler(handler);
-    }
-
-    public MaterialStep(String title, String description) {
-        this();
-        setTitle(title);
-        setDescription(description);
-    }
-
-    public MaterialStep(String title, String description, Integer step) {
-        this(title, description);
-        setStep(step);
     }
 
     @Override
@@ -219,6 +225,30 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     public Div getDivBody() {
         return divBody;
+    }
+
+    public Div getConCircle() {
+        return conCircle;
+    }
+
+    public Div getConBody() {
+        return conBody;
+    }
+
+    public Div getDivCircle() {
+        return divCircle;
+    }
+
+    public Div getDivLine() {
+        return divLine;
+    }
+
+    public Div getDivTitle() {
+        return divTitle;
+    }
+
+    public Div getDivDescription() {
+        return divDescription;
     }
 
     @Override

@@ -56,6 +56,7 @@ import gwt.material.design.client.constants.CssName;
  * @author kevzlou7979
  * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!sidenavs">Material Side Profile</a>
+ * @see <a href="https://material.io/guidelines/patterns/navigation-drawer.html">Material Design Specification</a>
  */
 //@formatter:on
 public class MaterialSideProfile extends MaterialWidget implements HasImage {

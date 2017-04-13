@@ -62,6 +62,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#menubar">MenuBar</a>
+ * @see <a href="https://material.io/guidelines/components/menus.html">Material Design Specification</a>
  */
 //@formatter:on
 public class MaterialMenuBar extends MaterialWidget {
@@ -83,6 +84,12 @@ public class MaterialMenuBar extends MaterialWidget {
     @Override
     protected void onLoad() {
         super.onLoad();
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         $(getElement()).find(".dropdown-content li").css("minHeight", minHeight);
         $(getElement()).find(".dropdown-content li").css("lineHeight", minHeight);
         $(getElement()).find(".dropdown-content li").css("maxHeight", minHeight);

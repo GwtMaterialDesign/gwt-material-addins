@@ -28,6 +28,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
@@ -60,7 +61,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>, HasCloseHandlers<MaterialOverlay> {
+public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>, HasCloseHandlers<MaterialOverlay>, HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -157,36 +158,35 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         this.source = source;
     }
 
-    public double getDuration() {
+    @Override
+    public int getDuration() {
         return animator.getDuration();
     }
 
-    /**
-     * Duration (in seconds) of animation. Default is 0.3 seconds.
-     */
-    public void setDuration(double duration) {
+    @Override
+    public void setDuration(int duration) {
         animator.setDuration(duration);
     }
 
-    public double getTargetShowDuration() {
+    public int getTargetShowDuration() {
         return animator.getTargetShowDuration();
     }
 
     /**
-     * Duration (in seconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
+     * Duration (in milliseconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
      */
-    public void setTargetShowDuration(double targetShowDuration) {
+    public void setTargetShowDuration(int targetShowDuration) {
         animator.setTargetShowDuration(targetShowDuration);
     }
 
-    public double getExtraTransitionDuration() {
+    public int getExtraTransitionDuration() {
         return animator.getExtraTransitionDuration();
     }
 
     /**
-     * Extra duration (in seconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
+     * Extra duration (in milliseconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
      */
-    public void setExtraTransitionDuration(double extraTransitionDuration) {
+    public void setExtraTransitionDuration(int extraTransitionDuration) {
         animator.setExtraTransitionDuration(extraTransitionDuration);
     }
 }

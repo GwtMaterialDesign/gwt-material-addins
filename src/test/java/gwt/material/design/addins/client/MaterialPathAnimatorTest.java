@@ -39,9 +39,9 @@ public class MaterialPathAnimatorTest extends MaterialAddinsTest {
     }
 
     protected void checkProperties() {
-        final double DURATION = 300;
-        final double TARGET_DURATION = 500;
-        final double EXTRA_DURATION = 800;
+        final int DURATION = 300;
+        final int TARGET_DURATION = 500;
+        final int EXTRA_DURATION = 800;
 
         final Functions.Func animateCallback = () -> {};
         final Functions.Func reverseCallback = () -> {};

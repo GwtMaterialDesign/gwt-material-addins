@@ -27,6 +27,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -56,7 +57,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#pathAnimator">Material Path Animator</a>
  */
 //@formatter:on
-public class MaterialPathAnimator {
+public class MaterialPathAnimator implements HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -70,9 +71,9 @@ public class MaterialPathAnimator {
     private Element targetElement;
     private Functions.Func animateCallback;
     private Functions.Func reverseCallback;
-    private double duration = 0.3;
-    private double targetShowDuration = 0;
-    private double extraTransitionDuration = 1;
+    private int duration = 300;
+    private int targetShowDuration = 0;
+    private int extraTransitionDuration = 100;
     private JsPathAnimatorOptions options = new JsPathAnimatorOptions();
 
     public MaterialPathAnimator() {
@@ -83,13 +84,9 @@ public class MaterialPathAnimator {
      */
     public void animate() {
         $("document").ready(() -> {
-            options.duration = duration;
-            options.targetShowDuration = targetShowDuration;
-            options.extraTransitionDuration = extraTransitionDuration;
-
-            GWT.log("Duration " + duration);
-            GWT.log("Target Show Duration " + targetShowDuration);
-            GWT.log("Extra Transition Duration " + extraTransitionDuration);
+            options.duration = duration / 1000;
+            options.targetShowDuration = targetShowDuration / 1000;
+            options.extraTransitionDuration = extraTransitionDuration / 1000;
 
             JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
                 if (animateCallback != null) {
@@ -266,36 +263,35 @@ public class MaterialPathAnimator {
         this.reverseCallback = reverseCallback;
     }
 
-    public double getDuration() {
-        return duration;
-    }
-
-    /**
-     * Duration (in seconds) of animation. Default is 0.3 seconds.
-     */
-    public void setDuration(double duration) {
+    @Override
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
-    public double getTargetShowDuration() {
+    @Override
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getTargetShowDuration() {
         return targetShowDuration;
     }
 
     /**
-     * Duration (in seconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
+     * Duration (in milliseconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
      */
-    public void setTargetShowDuration(double targetShowDuration) {
+    public void setTargetShowDuration(int targetShowDuration) {
         this.targetShowDuration = targetShowDuration;
     }
 
-    public double getExtraTransitionDuration() {
+    public int getExtraTransitionDuration() {
         return extraTransitionDuration;
     }
 
     /**
-     * Extra duration (in seconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
+     * Extra duration (in milliseconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
      */
-    public void setExtraTransitionDuration(double extraTransitionDuration) {
+    public void setExtraTransitionDuration(int extraTransitionDuration) {
         this.extraTransitionDuration = extraTransitionDuration;
     }
 }
