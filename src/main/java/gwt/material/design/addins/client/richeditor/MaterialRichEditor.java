@@ -202,6 +202,25 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         $(e).materialnote("pasteHTML", html);
     }
 
+    /**
+     * Insert custom HTML inside the note zone
+     * @param html
+     */
+    public void pasteHTML(String html) {
+        pasteHTML(getElement(), html);
+    }
+
+    /**
+     * Insert custom HTML inside the note zone with JSNI function
+     * @param e
+     * @param html
+     */
+    protected native void pasteHTML(Element e, String html) /*-{
+        $wnd.jQuery(document).ready(function () {
+            $wnd.jQuery(e).materialnote('pasteHTML', html);
+        });
+    }-*/;
+
     @Override
     public void clear() {
         $(getElement()).materialnote("reset");
