@@ -38,7 +38,6 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.js.JsMaterialElement;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialInput;
@@ -70,6 +69,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @author kevzlou7979
  * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
+ * @see <a href="https://material.io/guidelines/components/pickers.html#pickers-time-pickers">Material Design Specification</a>
  */
 //@formatter:on
 public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder, HasOrientation,
@@ -88,7 +88,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     /**
      * Wraps the actual input.
      */
-    private MaterialPanel panel = new MaterialPanel();
+    private MaterialPanel container = new MaterialPanel();
 
     /**
      * The input element for the time picker.
@@ -98,19 +98,19 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     /**
      * Label to display errors messages.
      */
-    private MaterialLabel lblError = new MaterialLabel();
+    private MaterialLabel errorLabel = new MaterialLabel();
 
     /**
      * The current value held by the time picker.
      */
     private Date time;
 
-    private Label lblPlaceholder = new Label();
+    private Label placeholderLabel = new Label();
 
     private MaterialIcon icon = new MaterialIcon();
 
     private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.timeInput, CssName.VALID);
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, lblError, timeInput, lblPlaceholder);
+    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, errorLabel, timeInput, placeholderLabel);
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
 
     private String uniqueId;
@@ -141,13 +141,18 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void onLoad() {
         super.onLoad();
 
+        build();
+    }
+
+    @Override
+    protected void build() {
         uniqueId = DOM.createUniqueId();
         timeInput.setType(InputType.TEXT);
         readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
-        panel.add(lblPlaceholder);
-        panel.add(timeInput);
-        panel.add(lblError);
-        add(panel);
+        container.add(placeholderLabel);
+        container.add(timeInput);
+        container.add(errorLabel);
+        add(container);
         timeInput.getElement().setAttribute("type", "text");
         initialize();
     }
@@ -211,7 +216,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-        lblPlaceholder.setText(placeholder);
+        placeholderLabel.setText(placeholder);
     }
 
     /**
@@ -358,7 +363,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     public void clear() {
         time = null;
         this.clearErrorOrSuccess();
-        lblPlaceholder.removeStyleName(CssName.ACTIVE);
+        placeholderLabel.removeStyleName(CssName.ACTIVE);
         timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
     }
@@ -374,8 +379,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         if (this.time == null) {
             return;
         }
-        lblPlaceholder.removeStyleName(CssName.ACTIVE);
-        lblPlaceholder.addStyleName(CssName.ACTIVE);
+        placeholderLabel.removeStyleName(CssName.ACTIVE);
+        placeholderLabel.addStyleName(CssName.ACTIVE);
         $(timeInput.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
         super.setValue(time, fireEvents);
     }
@@ -397,8 +402,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     public void setIconType(IconType iconType) {
         icon.setIconType(iconType);
         icon.setIconPrefix(true);
-        lblError.setPaddingLeft(44);
-        panel.insert(icon, 0);
+        errorLabel.setPaddingLeft(44);
+        container.insert(icon, 0);
     }
 
     @Override
@@ -465,5 +470,17 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     public MaterialInput getTimeInput() {
         return timeInput;
+    }
+
+    public MaterialPanel getContainer() {
+        return container;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
+    }
+
+    public Label getPlaceholderLabel() {
+        return placeholderLabel;
     }
 }

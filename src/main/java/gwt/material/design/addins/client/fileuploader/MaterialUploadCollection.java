@@ -43,6 +43,11 @@ public class MaterialUploadCollection extends MaterialCollection {
     private MaterialProgress progress = new MaterialProgress();
 
     public MaterialUploadCollection() {
+        build();
+    }
+
+    @Override
+    protected void build() {
         // Element property
         setStyleName(AddinsCssName.PREVIEWS);
         addStyleName(CssName.CARD);
@@ -98,5 +103,45 @@ public class MaterialUploadCollection extends MaterialCollection {
 
     public MaterialCollectionItem getItem() {
         return item;
+    }
+
+    public MaterialWidget getDropInfo() {
+        return dropInfo;
+    }
+
+    public MaterialWidget getNameWrapper() {
+        return nameWrapper;
+    }
+
+    public MaterialWidget getErrorWrapper() {
+        return errorWrapper;
+    }
+
+    public Span getName() {
+        return name;
+    }
+
+    public Span getSize() {
+        return size;
+    }
+
+    public Span getErrorMessage() {
+        return errorMessage;
+    }
+
+    public MaterialCollectionSecondary getSecondaryAction() {
+        return secondaryAction;
+    }
+
+    public MaterialButton getBtnClear() {
+        return btnClear;
+    }
+
+    public MaterialIcon getPreviewIcon() {
+        return previewIcon;
+    }
+
+    public MaterialProgress getProgress() {
+        return progress;
     }
 }

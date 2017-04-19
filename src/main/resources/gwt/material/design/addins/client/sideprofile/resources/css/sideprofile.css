@@ -4,6 +4,10 @@
 .side-profile i{
     line-height: 1.5;
 }
+.side-profile .dropProfile i {
+    position: absolute;
+    right: 20px;
+}
 .side-profile{
     padding: 16px;
 }

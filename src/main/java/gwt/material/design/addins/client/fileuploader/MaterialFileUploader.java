@@ -93,9 +93,8 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
-        setId(AddinsCssName.ZDROP);
-        add(uploadPreview);
-        options = getDefaultOptions();
+
+        build();
     }
 
     public MaterialFileUploader(String url, FileMethod method) {
@@ -120,6 +119,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         options.withCredentials = false;
         options.acceptedFiles = "";
         return options;
+    }
+
+    @Override
+    protected void build() {
+        setId(AddinsCssName.ZDROP);
+        add(uploadPreview);
+        options = getDefaultOptions();
     }
 
     @Override
