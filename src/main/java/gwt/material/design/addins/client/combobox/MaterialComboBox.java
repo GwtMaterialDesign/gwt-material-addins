@@ -36,8 +36,10 @@ import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
@@ -192,6 +194,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             CloseEvent.fire(this, null);
             return true;
         });
+
+        if (getTextColor() != null) {
+            $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
+        }
     }
 
     @Override
