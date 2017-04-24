@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -57,6 +56,21 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         checkWidget(comboBox);
         checkEvents(comboBox);
         checkProperties(comboBox);
+        checkEmptyOrNullValue(comboBox);
+    }
+
+    protected void checkEmptyOrNullValue(MaterialComboBox comboBox) {
+        comboBox.clear();
+        assertNotNull(comboBox.getValue());
+        assertEquals(comboBox.getValue().size(), 0);
+
+        assertNotNull(comboBox.getValues());
+        assertEquals(comboBox.getValues().size(), 0);
+
+        assertNotNull(comboBox.getSelectedValue());
+        assertEquals(comboBox.getSelectedValue().size(), 0);
+
+        assertNull(comboBox.getSingleValue());
     }
 
     @Override
