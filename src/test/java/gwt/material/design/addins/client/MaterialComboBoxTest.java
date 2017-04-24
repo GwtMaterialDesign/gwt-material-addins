@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -31,7 +32,9 @@ import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.dto.User;
+import gwt.material.design.client.base.HasColors;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
@@ -39,6 +42,8 @@ import gwt.material.design.client.ui.html.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
 /**
  * Test case for combobox component
@@ -52,6 +57,17 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         checkWidget(comboBox);
         checkEvents(comboBox);
         checkProperties(comboBox);
+    }
+
+    @Override
+    protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
+        MaterialComboBox comboBox = new MaterialComboBox();
+        for (int i = 1; i <= 5; i++) {
+            comboBox.addItem(String.valueOf(i), String.valueOf(i));
+        }
+        comboBox.setTextColor(Color.RED);
+        RootPanel.get().add(comboBox);
+        assertEquals(comboBox.getTextColor(), Color.RED);
     }
 
     protected <T extends MaterialComboBox<User>> void checkProperties(T comboBox) {
