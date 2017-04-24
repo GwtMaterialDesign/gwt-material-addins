@@ -344,7 +344,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         } else {
             return getSelectedValues();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**
