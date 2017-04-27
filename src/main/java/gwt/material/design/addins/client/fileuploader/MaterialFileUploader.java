@@ -128,6 +128,9 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
+    protected void onUnload() {}
+
+    @Override
     protected void initialize() {
         if (getWidgetCount() > 1) {
             String previews = DOM.createUniqueId();
