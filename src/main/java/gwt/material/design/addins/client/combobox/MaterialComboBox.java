@@ -98,7 +98,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private String placeholder;
     private boolean allowClear;
     private boolean multiple;
-    private boolean initialized;
     private boolean hideSearch;
     private int limit;
     private boolean closeOnSelect = true;
@@ -127,29 +126,25 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     protected void onLoad() {
-        super.onLoad();
-
         build();
+
+        super.onLoad();
     }
 
     @Override
     protected void build() {
-        if (!initialized) {
-            label.setInitialClasses(AddinsCssName.SELECT2LABEL);
-            super.add(listbox);
-            super.add(label);
-            errorLabel.setMarginTop(15);
-            $(errorLabel.getElement()).insertAfter($(getElement()));
-            setId(uid);
+        label.setInitialClasses(AddinsCssName.SELECT2LABEL);
+        super.add(listbox);
+        super.add(label);
+        errorLabel.setMarginTop(15);
+        $(errorLabel.getElement()).insertAfter($(getElement()));
+        setId(uid);
 
-            listbox.setGwtDisplay(Style.Display.BLOCK);
-            initialized = true;
-        }
-
-        initialize();
+        listbox.setGwtDisplay(Style.Display.BLOCK);
     }
 
-    public void initialize() {
+    @Override
+    protected void initialize() {
         JsComboBoxOptions options = new JsComboBoxOptions();
         options.allowClear = allowClear;
         options.placeholder = placeholder;

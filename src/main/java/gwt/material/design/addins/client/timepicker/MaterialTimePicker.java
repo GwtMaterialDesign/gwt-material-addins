@@ -115,7 +115,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     private String uniqueId;
     private String placeholder;
-    private boolean initialized;
     private boolean autoClose;
     private boolean hour24;
     private boolean detectOrientation = false;
@@ -139,9 +138,9 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     protected void onLoad() {
-        super.onLoad();
-
         build();
+
+        super.onLoad();
     }
 
     @Override
@@ -158,11 +157,24 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     }
 
     @Override
+    protected void initialize() {
+        JsTimePickerOptions options = new JsTimePickerOptions();
+        options.autoclose = isAutoClose();
+        options.orientation = getOrientation().getCssName();
+        options.hour24 = isHour24();
+        options.uniqueId = getUniqueId();
+        options.beforeShow = this::beforeShow;
+        options.afterShow = this::afterShow;
+        options.afterHide = this::afterHide;
+        $(timeInput.getElement()).lolliclock(options);
+        $(timeInput.getElement()).blur();
+    }
+
+    @Override
     protected void onUnload() {
         super.onUnload();
 
         $(timeInput.getElement()).lolliclock("remove");
-        initialized = false;
     }
 
     /**
@@ -233,7 +245,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
-        if(initialized) {
+        if(isInitialize()) {
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", orientation.getCssName());
         } else {
             initialize();
@@ -258,22 +270,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     public boolean isDetectOrientation() {
         return detectOrientation;
-    }
-
-    protected void initialize() {
-        if(!initialized) {
-            JsTimePickerOptions options = new JsTimePickerOptions();
-            options.autoclose = isAutoClose();
-            options.orientation = getOrientation().getCssName();
-            options.hour24 = isHour24();
-            options.uniqueId = getUniqueId();
-            options.beforeShow = this::beforeShow;
-            options.afterShow = this::afterShow;
-            options.afterHide = this::afterHide;
-            $(timeInput.getElement()).lolliclock(options);
-            $(timeInput.getElement()).blur();
-            initialized = true;
-        }
     }
 
     protected void detectAndApplyOrientation() {

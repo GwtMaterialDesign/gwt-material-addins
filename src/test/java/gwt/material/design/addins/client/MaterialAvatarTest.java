@@ -40,7 +40,7 @@ public class MaterialAvatarTest extends MaterialAddinsTest {
     protected <T extends MaterialAvatar> void checkNameAndHashCode(T avatar) {
         final String NAME = "test1";
         avatar.setName(NAME);
-        avatar.initialize();
+        avatar.reinitialize();
         final String HASH_CODE = JsAvatar.md5(NAME);
         assertEquals(avatar.getName(), NAME);
         assertTrue(avatar.getElement().hasAttribute("data-jdenticon-hash"));

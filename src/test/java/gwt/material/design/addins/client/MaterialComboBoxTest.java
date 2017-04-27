@@ -185,7 +185,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         RootPanel.get().add(comboBox);
         // Check Initial children
         assertEquals(comboBox.getValues().size(), 0);
-        assertEquals(comboBox.getChildren().size(), 3);
+        assertEquals(comboBox.getChildren().size(), 2);
         // Check simple String object
         for (int i = 1; i <= 5; i++) {
             comboBox.addItem("item" + i);
@@ -210,9 +210,6 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertTrue(comboBox.getWidget(1) instanceof Label);
         Label lblTitle = (Label) comboBox.getWidget(1);
         assertTrue(lblTitle.getElement().hasClassName(AddinsCssName.SELECT2LABEL));
-        // Check Error Label
-        assertNotNull(comboBox.getWidget(2));
-        assertTrue(comboBox.getWidget(2) instanceof MaterialLabel);
     }
 
     @Override

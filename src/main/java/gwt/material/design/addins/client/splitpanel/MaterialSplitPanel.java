@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.splitpanel;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanel;
@@ -86,26 +87,21 @@ public class MaterialSplitPanel extends MaterialWidget {
     private Dock dock = Dock.LEFT;
     private Axis axis = Axis.HORIZONTAL;
     private boolean initialized;
+    private JsSplitPanel splitted;
 
     public MaterialSplitPanel() {
         super(Document.get().createDivElement());
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        if (!initialized) {
-            initSplitter();
-            initialized = true;
-        }
-    }
+    protected void onUnload() {}
 
     /**
      * Initialize the splitter component.
      */
-    protected void initSplitter() {
-        JsSplitPanel splitted = $(getElement());
+    @Override
+    protected void initialize() {
+        splitted = $(getElement());
         if (splitted.get(0) != null) {
             JsSplitPanelOptions options = new JsSplitPanelOptions();
             options.barPosition = getBarPosition();

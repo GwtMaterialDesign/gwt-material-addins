@@ -83,7 +83,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     private boolean preview = true;
-    private boolean initialize = false;
     private int totalFiles = 0;
     private String globalResponse = "";
     private Dropzone uploader;
@@ -129,40 +128,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        if (!isInitialize()) {
-            initDropzone();
-            setInitialize(true);
-            applyEnabled();
-        }
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-        applyEnabled();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    protected void applyEnabled() {
-        if (uploader != null) {
-            if (!enabled) {
-                addStyleName(CssName.DISABLED);
-                uploader.removeEventListeners();
-            } else {
-                removeStyleName(CssName.DISABLED);
-                uploader.setupEventListeners();
-            }
-        }
-    }
-
-    public void initDropzone() {
+    protected void initialize() {
         if (getWidgetCount() > 1) {
             String previews = DOM.createUniqueId();
             uploadPreview.getUploadCollection().setId(previews);
@@ -190,6 +156,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         }else {
             GWT.log("You don't have any child widget to use as a upload label");
         }
+        applyEnabled();
     }
 
     /**
@@ -327,6 +294,30 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
             MaxFilesExceededEvent.fire(this, convertUploadFile(file));
         });
+    }
+
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        applyEnabled();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    protected void applyEnabled() {
+        if (uploader != null) {
+            if (!enabled) {
+                addStyleName(CssName.DISABLED);
+                uploader.removeEventListeners();
+            } else {
+                removeStyleName(CssName.DISABLED);
+                uploader.setupEventListeners();
+            }
+        }
     }
 
     /**
@@ -599,20 +590,6 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     public void setPreview(boolean preview) {
         this.preview = preview;
-    }
-
-    /**
-     * Check whether the component has been initialized.
-     */
-    public boolean isInitialize() {
-        return initialize;
-    }
-
-    /**
-     * Set the initialization of the component.
-     */
-    public void setInitialize(boolean initialize) {
-        this.initialize = initialize;
     }
 
     public void reset() {

@@ -90,16 +90,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        initRichEditor();
-    }
-
-    /**
-     * Intialize the rich editor with custom properties.
-     */
-    protected void initRichEditor() {
+    protected void initialize() {
         JsRichEditor jsRichEditor = $(getElement());
 
         JsRichEditorOptions options = new JsRichEditorOptions();
