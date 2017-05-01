@@ -26,6 +26,6 @@
         <when-type-is class="gwt.material.design.addins.client.StartupState"/>
     </replace-with>
 
-    <inherits name="gwt.material.design.GwtMaterialDesignDebug"/>
+    <inherits name="gwt.material.design.GwtMaterialDesignBasicDebug"/>
     <inherits name="gwt.material.design.addins.GwtMaterialAddinsBase"/>
 </module>
