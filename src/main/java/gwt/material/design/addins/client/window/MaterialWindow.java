@@ -107,7 +107,6 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     private MaterialAnimation closeAnimation;
 
     private MaterialDnd dnd;
-    private boolean initialized;
     private boolean preventClose;
 
     private HandlerRegistration toolbarAttachHandler;
@@ -134,18 +133,6 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        if (!initialized) {
-            initialize();
-            initialized = true;
-        }
-    }
-
-    /**
-     * Builds the toolbar
-     */
     protected void initialize() {
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
         labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);

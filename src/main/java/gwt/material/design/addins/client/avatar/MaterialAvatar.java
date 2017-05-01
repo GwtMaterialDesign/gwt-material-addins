@@ -75,12 +75,16 @@ public class MaterialAvatar extends MaterialWidget {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void initialize() {
         if (getName() != null) {
-            initialize();
+            getElement().setAttribute("data-jdenticon-hash", generateHashCode(getName()));
+            JsAvatar.jdenticon();
         }
+    }
+
+    @Override
+    public void reinitialize() {
+        initialize();
     }
 
     /**
@@ -113,17 +117,5 @@ public class MaterialAvatar extends MaterialWidget {
      */
     protected String generateHashCode(String value) {
         return JsAvatar.md5(value);
-    }
-
-    /**
-     * Initialize the avatar process - useful when trying to update your avatar
-     */
-    public void initialize() {
-        getElement().setAttribute("data-jdenticon-hash", generateHashCode(getName()));
-        update();
-    }
-
-    protected void update() {
-        JsAvatar.jdenticon();
     }
 }

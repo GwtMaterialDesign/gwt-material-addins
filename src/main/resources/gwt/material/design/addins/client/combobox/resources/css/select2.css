@@ -175,7 +175,7 @@
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #444 !important;
+    color: #444;
     line-height: 28px
 }
 
@@ -716,7 +716,7 @@
 }
 
 .combobox {
-    margin-bottom: 16px;
+    margin-bottom: 15px;
 }
 
 .field-success .select2-selection, .field-error .select2-selection {

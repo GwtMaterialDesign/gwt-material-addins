@@ -76,7 +76,11 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
 
     public MaterialBubble() {
         super(Document.get().createSpanElement(), AddinsCssName.BUBBLE);
-        build();
+        triangle.setStyleName(AddinsCssName.TRIANGLE);
+        positionMixin = new CssNameMixin<>(triangle);
+        positionMixin.setCssName(Position.LEFT);
+        add(triangle);
+        setShadow(1);
     }
 
     public MaterialBubble(Color textColor, Color backgroundColor) {
@@ -90,25 +94,10 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         setPosition(position);
     }
 
-    @Override
-    protected void build() {
-        triangle.setStyleName(AddinsCssName.TRIANGLE);
-        positionMixin = new CssNameMixin<>(triangle);
-        positionMixin.setCssName(Position.LEFT);
-        add(triangle);
-        setShadow(1);
-    }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        initBubble();
-    }
-
     /**
      * Initialize the bubble component.
      */
-    protected void initBubble() {
+    protected void initialize() {
         JsBubbleOptions options = new JsBubbleOptions();
         options.position = getPosition().getCssName();
         options.color = ColorHelper.setupComputedBackgroundColor(getBackgroundColor());
@@ -123,7 +112,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     @Override
     public void setPosition(Position position) {
         positionMixin.setCssName(position);
-        initBubble();
+        initialize();
     }
 
     public MaterialWidget getTriangle() {

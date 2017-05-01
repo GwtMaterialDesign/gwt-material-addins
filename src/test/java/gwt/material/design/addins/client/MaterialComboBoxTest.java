@@ -33,7 +33,9 @@ import gwt.material.design.addins.client.combobox.events.ComboBoxOpeningEvent;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.dto.User;
+import gwt.material.design.client.base.HasColors;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
@@ -41,6 +43,8 @@ import gwt.material.design.client.ui.html.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
 /**
  * Test case for combobox component
@@ -54,6 +58,32 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         checkWidget(comboBox);
         checkEvents(comboBox);
         checkProperties(comboBox);
+        checkEmptyOrNullValue(comboBox);
+    }
+
+    protected void checkEmptyOrNullValue(MaterialComboBox comboBox) {
+        comboBox.clear();
+        assertNotNull(comboBox.getValue());
+        assertEquals(comboBox.getValue().size(), 0);
+
+        assertNotNull(comboBox.getValues());
+        assertEquals(comboBox.getValues().size(), 0);
+
+        assertNotNull(comboBox.getSelectedValue());
+        assertEquals(comboBox.getSelectedValue().size(), 0);
+
+        assertNull(comboBox.getSingleValue());
+    }
+
+    @Override
+    protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
+        MaterialComboBox comboBox = new MaterialComboBox();
+        for (int i = 1; i <= 5; i++) {
+            comboBox.addItem(String.valueOf(i), String.valueOf(i));
+        }
+        comboBox.setTextColor(Color.RED);
+        RootPanel.get().add(comboBox);
+        assertEquals(comboBox.getTextColor(), Color.RED);
     }
 
     protected <T extends MaterialComboBox<User>> void checkProperties(T comboBox) {
@@ -192,7 +222,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         RootPanel.get().add(comboBox);
         // Check Initial children
         assertEquals(comboBox.getValues().size(), 0);
-        assertEquals(comboBox.getChildren().size(), 3);
+        assertEquals(comboBox.getChildren().size(), 2);
         // Check simple String object
         for (int i = 1; i <= 5; i++) {
             comboBox.addItem("item" + i);
@@ -217,9 +247,6 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertTrue(comboBox.getWidget(1) instanceof Label);
         Label lblTitle = (Label) comboBox.getWidget(1);
         assertTrue(lblTitle.getElement().hasClassName(AddinsCssName.SELECT2LABEL));
-        // Check Error Label
-        assertNotNull(comboBox.getWidget(2));
-        assertTrue(comboBox.getWidget(2) instanceof MaterialLabel);
     }
 
     @Override

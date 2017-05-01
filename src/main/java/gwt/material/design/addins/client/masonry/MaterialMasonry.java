@@ -80,7 +80,6 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
     private boolean originLeft = true;
     private boolean originTop = true;
     private int duration = 400;
-    private boolean initialize;
 
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
@@ -91,16 +90,6 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-        initMasonry();
-
-        if (!initialize) {
-            initialize = true;
-        }
-    }
-
-    @Override
     protected void build() {
         enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
         sizerDiv.setWidth("8.3333%");
@@ -108,7 +97,8 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
         add(sizerDiv);
     }
 
-    public void initMasonry() {
+    @Override
+    protected void initialize() {
         initMasonryJs(getElement());
     }
 
@@ -132,8 +122,8 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
         Widget widget = (Widget) child;
         remove(widget.getElement());
 
-        if (initialize) {
-            initMasonry();
+        if (isInitialize()) {
+            initialize();
         }
         return true;
     }
@@ -153,7 +143,7 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * Remove the item with Masonry support
      */
     protected void remove(Element e) {
-        if (initialize) {
+        if (isInitialize()) {
             $(getElement()).masonry(getMasonryOptions()).masonry("remove", e).masonry("layout");
         }
     }
@@ -168,33 +158,34 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
     @Override
     public void add(Widget child) {
         super.add(child);
-        reload();
+        reinitialize();
     }
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
         super.add(child, container);
-        reload();
+        reinitialize();
     }
 
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
         super.insert(child, container, beforeIndex, domInsert);
-        reload();
+        reinitialize();
     }
 
     @Override
     public void insert(Widget child, int beforeIndex) {
         super.insert(child, beforeIndex);
-        reload();
+        reinitialize();
     }
 
     /**
      * Reload the layout effective only when adding and inserting items
      */
-    public void reload() {
-        if (initialize) {
-            reloadItems();
+    @Override
+    public void reinitialize() {
+        if (isInitialize()) {
+            reinitializeItem();
             layout();
         }
     }
@@ -202,7 +193,7 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
     /**
      * Reload all items inside the masonry
      */
-    public void reloadItems() {
+    public void reinitializeItem() {
         $(getElement()).masonry(getMasonryOptions()).masonry("reloadItems");
     }
 
