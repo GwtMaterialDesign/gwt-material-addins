@@ -30,7 +30,5 @@ public interface ComboBoxEvents {
     String SELECT = "select2:select";
     String UNSELECT = "select2:unselect";
     String OPEN = "select2:open";
-    String OPENING = "select2:opening";
     String CLOSE = "select2:close";
-    String CLOSING = "select2:closing";
 }

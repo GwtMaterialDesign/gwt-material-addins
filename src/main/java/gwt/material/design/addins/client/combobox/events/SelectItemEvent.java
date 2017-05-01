@@ -21,7 +21,7 @@ package gwt.material.design.addins.client.combobox.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.combobox.base.HasSelectionHandlers;
+import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class SelectItemEvent<T> extends GwtEvent<SelectItemEvent.SelectComboHand
         void onSelectItem(SelectItemEvent<T> event);
     }
 
-    public static <T> void fire(HasSelectionHandlers<T> source, List<T> values) {
+    public static <T> void fire(HasUnselectItemHandler<T> source, List<T> values) {
         if (TYPE != null) {
             source.fireEvent(new SelectItemEvent<>(values));
         }
