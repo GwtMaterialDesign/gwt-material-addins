@@ -33,7 +33,4 @@
 
     <set-configuration-property name="CssResource.enableGss" value="true"/>
     <!--<set-configuration-property name="CssResource.legacy" value="true"/>-->
-
-    <!-- Specify the app entry point class -->
-    <entry-point class='gwt.material.design.addins.client.MaterialAddins'/>
 </module>
