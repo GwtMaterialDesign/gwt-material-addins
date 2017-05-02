@@ -176,7 +176,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private UnorderedList list = new UnorderedList();
     private SuggestOracle suggestions;
     private TextBox itemBox = new TextBox();
-    private SuggestBox box;
+    private SuggestBox suggestBox;
     private int limit = 0;
     private MaterialLabel errorLabel = new MaterialLabel();
     private final ProgressMixin<MaterialAutoComplete> progressMixin = new ProgressMixin<>(this);
@@ -231,16 +231,16 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         final ListItem item = new ListItem();
 
         item.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_INPUT_TOKEN);
-        box = new SuggestBox(suggestions, itemBox);
+        suggestBox = new SuggestBox(suggestions, itemBox);
         setLimit(this.limit);
         String autocompleteId = DOM.createUniqueId();
         itemBox.getElement().setId(autocompleteId);
 
-        item.add(box);
+        item.add(suggestBox);
         item.add(placeholderLabel);
         list.add(item);
 
-        list.addDomHandler(event -> box.showSuggestionList(), ClickEvent.getType());
+        list.addDomHandler(event -> suggestBox.showSuggestionList(), ClickEvent.getType());
 
         itemBox.addBlurHandler(blurEvent -> {
             if (getValue().size() > 0) {
@@ -301,9 +301,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             }
         });
 
-        itemBox.addClickHandler(event -> box.showSuggestionList());
+        itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
 
-        box.addSelectionHandler(selectionEvent -> {
+        suggestBox.addSelectionHandler(selectionEvent -> {
             Suggestion selectedItem = selectionEvent.getSelectedItem();
             itemBox.setValue("");
             if (addItem(selectedItem)) {
@@ -316,7 +316,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         panel.getElement().setAttribute("onclick",
             "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(errorLabel);
-        box.setFocus(true);
+        suggestBox.setFocus(true);
     }
 
     protected boolean tryRemoveSuggestion(Widget widget) {
@@ -379,7 +379,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                         list.remove(displayItem);
                         itemsHighlighted.remove(displayItem);
                         ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
-                        box.showSuggestionList();
+                        suggestBox.showSuggestionList();
                     }
                 });
             }
@@ -503,8 +503,8 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     public void setLimit(int limit) {
         this.limit = limit;
-        if (this.box != null) {
-            this.box.setLimit(limit);
+        if (this.suggestBox != null) {
+            this.suggestBox.setLimit(limit);
         }
     }
 
@@ -515,8 +515,8 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * @param limit
      */
     public void setAutoSuggestLimit(int limit) {
-        if (this.box != null) {
-            this.box.setLimit(limit);
+        if (this.suggestBox != null) {
+            this.suggestBox.setLimit(limit);
         }
     }
 
@@ -822,5 +822,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     public MaterialLabel getErrorLabel() {
         return errorLabel;
+    }
+
+    public SuggestBox getSuggestBox() {
+        return suggestBox;
     }
 }

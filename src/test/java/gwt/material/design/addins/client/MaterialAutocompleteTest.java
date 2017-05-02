@@ -42,6 +42,16 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest {
         checkWidget(autoComplete);
         checkPlaceholder(autoComplete);
         checkValue(autoComplete);
+        checkLimit(autoComplete);
+    }
+
+    protected void checkLimit(MaterialAutoComplete autocomplete) {
+        final int LIMIT = 2;
+        autocomplete.setLimit(LIMIT);
+        assertEquals(autocomplete.getLimit() , LIMIT);
+
+        autocomplete.setAutoSuggestLimit(LIMIT);
+        assertEquals(autocomplete.getSuggestBox().getLimit(), LIMIT);
     }
 
     @Override
