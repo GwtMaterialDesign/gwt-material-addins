@@ -471,6 +471,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             Option option = buildOption(text, value);
             values.add(value);
             listbox.add(option);
+            return option;
         }
         return null;
     }

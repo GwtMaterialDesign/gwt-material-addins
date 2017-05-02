@@ -77,7 +77,8 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
     protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
         MaterialComboBox comboBox = new MaterialComboBox();
         for (int i = 1; i <= 5; i++) {
-            comboBox.addItem(String.valueOf(i), String.valueOf(i));
+            Option option = comboBox.addItem(String.valueOf(i), String.valueOf(i));
+            assertNotNull(option);
         }
         comboBox.setTextColor(Color.RED);
         RootPanel.get().add(comboBox);
