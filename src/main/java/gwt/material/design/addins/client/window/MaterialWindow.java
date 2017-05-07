@@ -113,7 +113,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
-        content.setStyleName(AddinsCssName.CONTENT);
+        build();
     }
 
     public MaterialWindow(String title) {
@@ -133,7 +133,8 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     @Override
-    protected void initialize() {
+    protected void build() {
+        content.setStyleName(AddinsCssName.CONTENT);
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
         labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
         iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
