@@ -24,6 +24,7 @@ import com.google.gwt.resources.client.ImageResource;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasImage;
+import gwt.material.design.client.base.HasNoSideNavSelection;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 
@@ -56,9 +57,10 @@ import gwt.material.design.client.constants.CssName;
  * @author kevzlou7979
  * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!sidenavs">Material Side Profile</a>
+ * @see <a href="https://material.io/guidelines/patterns/navigation-drawer.html">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialSideProfile extends MaterialWidget implements HasImage {
+public class MaterialSideProfile extends MaterialWidget implements HasImage, HasNoSideNavSelection {
 
     static {
         if (MaterialAddins.isDebug()) {

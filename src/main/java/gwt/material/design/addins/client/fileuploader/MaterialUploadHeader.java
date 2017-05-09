@@ -44,6 +44,12 @@ public class MaterialUploadHeader extends MaterialWidget {
 
     public MaterialUploadHeader() {
         super(Document.get().createDivElement(), AddinsCssName.HEADER);
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         iconClose.setId(AddinsCssName.UPLOAD_CLOSE);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
@@ -60,15 +66,14 @@ public class MaterialUploadHeader extends MaterialWidget {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-        initUploadHeader(iconClose.getElement(),
+    protected void initialize() {
+        initialize(iconClose.getElement(),
                 iconColaps.getElement(),
                 getPreview().getElement(),
                 getPreview().getUploadCollection().getElement());
     }
 
-    protected void initUploadHeader(Element iconClose, Element iconColaps, Element preview, Element collection) {
+    protected void initialize(Element iconClose, Element iconColaps, Element preview, Element collection) {
         $(iconColaps).click(e -> {
             if (toggle) {
                 $(collection).css("visibility", "hidden");

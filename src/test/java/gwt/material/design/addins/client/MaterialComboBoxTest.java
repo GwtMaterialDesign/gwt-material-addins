@@ -19,8 +19,6 @@
  */
 package gwt.material.design.addins.client;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -28,18 +26,23 @@ import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
-import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
-import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
+import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.dto.User;
+import gwt.material.design.client.base.HasColors;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
 /**
  * Test case for combobox component
@@ -53,6 +56,33 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         checkWidget(comboBox);
         checkEvents(comboBox);
         checkProperties(comboBox);
+        checkEmptyOrNullValue(comboBox);
+    }
+
+    protected void checkEmptyOrNullValue(MaterialComboBox comboBox) {
+        comboBox.clear();
+        assertNotNull(comboBox.getValue());
+        assertEquals(comboBox.getValue().size(), 0);
+
+        assertNotNull(comboBox.getValues());
+        assertEquals(comboBox.getValues().size(), 0);
+
+        assertNotNull(comboBox.getSelectedValue());
+        assertEquals(comboBox.getSelectedValue().size(), 0);
+
+        assertNull(comboBox.getSingleValue());
+    }
+
+    @Override
+    protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
+        MaterialComboBox comboBox = new MaterialComboBox();
+        for (int i = 1; i <= 5; i++) {
+            Option option = comboBox.addItem(String.valueOf(i), String.valueOf(i));
+            assertNotNull(option);
+        }
+        comboBox.setTextColor(Color.RED);
+        RootPanel.get().add(comboBox);
+        assertEquals(comboBox.getTextColor(), Color.RED);
     }
 
     protected <T extends MaterialComboBox<User>> void checkProperties(T comboBox) {
@@ -70,7 +100,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertFalse(comboBox.isToggleReadOnly());
         List<User> users = new ArrayList<>();
         users.add(new User());
-        comboBox.setAcceptableValues(users);
+        comboBox.addItems(users);
         comboBox.setHideSearch(true);
         assertTrue(comboBox.isHideSearch());
         comboBox.setLimit(10);
@@ -79,6 +109,12 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertEquals(comboBox.getLabel().getText(), "label");
         comboBox.setPlaceholder("placeholder");
         assertEquals(comboBox.getPlaceholder(), "placeholder");
+
+        final String BODY_SELECTOR = "body";
+        final String SELF_SELECTOR = "#" + comboBox.getElement().getId();
+        assertEquals(comboBox.getDropdownParent(), BODY_SELECTOR);
+        comboBox.setDropdownParent(SELF_SELECTOR);
+        assertEquals(comboBox.getDropdownParent(), SELF_SELECTOR);
     }
 
     protected <T extends MaterialComboBox> void checkEvents(T comboBox) {
@@ -92,15 +128,15 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         comboBox.addRemoveItemHandler(event -> {
             isRemoveItemEvent[0] = true;
         });
-        comboBox.fireEvent(new GwtEvent<RemoveItemEvent.RemoveItemHandler<?>>() {
+        comboBox.fireEvent(new GwtEvent<UnselectItemEvent.UnselectComboHandler<?>>() {
             @Override
-            public Type<RemoveItemEvent.RemoveItemHandler<?>> getAssociatedType() {
-                return RemoveItemEvent.getType();
+            public Type<UnselectItemEvent.UnselectComboHandler<?>> getAssociatedType() {
+                return UnselectItemEvent.getType();
             }
 
             @Override
-            protected void dispatch(RemoveItemEvent.RemoveItemHandler<?> eventHandler) {
-                eventHandler.onRemoveItem(null);
+            protected void dispatch(UnselectItemEvent.UnselectComboHandler<?> eventHandler) {
+                eventHandler.onUnselectItem(null);
             }
         });
         assertTrue(isRemoveItemEvent[0]);
@@ -109,15 +145,15 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         comboBox.addSelectionHandler(event -> {
             isSelectionEvent[0] = true;
         });
-        comboBox.fireEvent(new GwtEvent<SelectionHandler<?>>() {
+        comboBox.fireEvent(new GwtEvent<SelectItemEvent.SelectComboHandler<?>>() {
             @Override
-            public Type<SelectionHandler<?>> getAssociatedType() {
-                return SelectionEvent.getType();
+            public Type<SelectItemEvent.SelectComboHandler<?>> getAssociatedType() {
+                return SelectItemEvent.getType();
             }
 
             @Override
-            protected void dispatch(SelectionHandler<?> eventHandler) {
-                eventHandler.onSelection(null);
+            protected void dispatch(SelectItemEvent.SelectComboHandler<?> eventHandler) {
+                eventHandler.onSelectItem(null);
             }
         });
         assertTrue(isSelectionEvent[0]);
@@ -156,7 +192,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         RootPanel.get().add(comboBox);
         // Check Initial children
         assertEquals(comboBox.getValues().size(), 0);
-        assertEquals(comboBox.getChildren().size(), 3);
+        assertEquals(comboBox.getChildren().size(), 2);
         // Check simple String object
         for (int i = 1; i <= 5; i++) {
             comboBox.addItem("item" + i);
@@ -164,7 +200,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertEquals(comboBox.getValues().size(), 5);
         final String VALUE = comboBox.getValues().get(0);
         final String SECOND_VALUE = comboBox.getValues().get(1);
-        checkValueChangeEvent(comboBox, VALUE, SECOND_VALUE);
+        checkValueChangeEvent(comboBox, Collections.singletonList(VALUE), Collections.singletonList(SECOND_VALUE));
 
         // Check ListBox
         assertNotNull(comboBox.getWidget(0));
@@ -181,9 +217,6 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertTrue(comboBox.getWidget(1) instanceof Label);
         Label lblTitle = (Label) comboBox.getWidget(1);
         assertTrue(lblTitle.getElement().hasClassName(AddinsCssName.SELECT2LABEL));
-        // Check Error Label
-        assertNotNull(comboBox.getWidget(2));
-        assertTrue(comboBox.getWidget(2) instanceof MaterialLabel);
     }
 
     @Override

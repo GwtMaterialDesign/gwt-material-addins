@@ -30,6 +30,12 @@ public class MaterialUploadPreview extends MaterialWidget {
 
     public MaterialUploadPreview() {
         super(Document.get().createDivElement(), AddinsCssName.PREVIEW_CONTAINER);
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         uploadHeader.setPreview(this);
         add(uploadHeader);
         add(uploadCollection);

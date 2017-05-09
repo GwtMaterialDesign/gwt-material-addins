@@ -1,5 +1,8 @@
 <img src="http://i.imgur.com/k7iZMbE.png" />
-# gwt-material-addins [![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins) [![Join the chat at https://gitter.im/GwtMaterialDesign/gwt-material-addins](https://badges.gitter.im/GwtMaterialDesign/gwt-material-addins.svg)](https://gitter.im/GwtMaterialDesign/gwt-material-addins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+# gwt-material-addins 
+
+[![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins) [![Join the chat at https://gitter.im/GwtMaterialDesign/gwt-material-addins](https://badges.gitter.im/GwtMaterialDesign/gwt-material-addins.svg)](https://gitter.im/GwtMaterialDesign/gwt-material-addins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
@@ -8,7 +11,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.0-rc4</version>
+    <version>2.0-rc5</version>
 </dependency>
 ```
 
@@ -53,9 +56,11 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Menubar</li>
 <li>Overlay</li>
 <li>Path Animator</li>
+<li>Popup Menu</li>
 <li>Rating</li>
 <li>Rich Editor</li> 
 <li>Scrollfire</li>
+<li>SideProfile</li>
 <li>SplitPanel</li>
 <li>Steppers</li>
 <li>Subheader</li>

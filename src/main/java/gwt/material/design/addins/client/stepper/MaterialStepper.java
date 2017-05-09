@@ -77,6 +77,7 @@ import gwt.material.design.client.ui.html.Span;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#steppers">Material Steppers</a>
+ * @see <a href="https://material.io/guidelines/components/steppers.html">Material Design Specification</a>
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>,
@@ -101,8 +102,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     public MaterialStepper() {
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
-        divFeedback.setStyleName(AddinsCssName.FEEDBACK);
-        divFeedback.add(feedbackSpan);
+
+        build();
     }
 
     @Override
@@ -113,6 +114,12 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             StartEvent.fire(MaterialStepper.this);
             goToStep(currentStepIndex + 1);
         }
+    }
+
+    @Override
+    protected void build() {
+        divFeedback.setStyleName(AddinsCssName.FEEDBACK);
+        divFeedback.add(feedbackSpan);
     }
 
     public void setDetectOrientation(boolean detectOrientation) {

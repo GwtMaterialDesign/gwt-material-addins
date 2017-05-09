@@ -63,6 +63,11 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
     protected void onLoad() {
         super.onLoad();
 
+        build();
+    }
+
+    @Override
+    protected void build() {
         $(this).attr("tabindex", "0");
         $(this).on("blur", e -> {
             close();

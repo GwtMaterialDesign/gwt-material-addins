@@ -91,23 +91,18 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void initialize() {
         for (Widget w : getChildren()) {
             if (!w.getStyleName().contains(AddinsCssName.IGNORED)) {
-                initSwipeable(w.getElement(), w);
+                initialize(w.getElement(), w);
             }
         }
     }
 
-    @Override
-    public void initSwipeable(Element element, Widget target) {
+    protected void initialize(Element element, Widget target) {
         JsSwipeable.initSwipeablePanel(element, () -> {
             SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
-        }, () -> {
-            SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
-        });
+        }, () -> SwipeRightEvent.fire(MaterialSwipeablePanel.this, target));
     }
 
     @Override

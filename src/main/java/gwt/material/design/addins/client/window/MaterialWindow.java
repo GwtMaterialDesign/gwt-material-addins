@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.window;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -40,9 +41,7 @@ import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 //@formatter:off
@@ -101,7 +100,6 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
 
-    private final ColorsMixin<MaterialWidget> toolbarColorMixin = new ColorsMixin<>(toolbar);
     private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(this, AddinsCssName.MAXIMIZE);
     private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
 
@@ -109,11 +107,13 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     private MaterialAnimation closeAnimation;
 
     private MaterialDnd dnd;
-    private boolean initialized;
+    private boolean preventClose;
+
+    private HandlerRegistration toolbarAttachHandler;
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
-        content.setStyleName(AddinsCssName.CONTENT);
+        build();
     }
 
     public MaterialWindow(String title) {
@@ -133,19 +133,8 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        if (!initialized) {
-            initialize();
-            initialized = true;
-        }
-    }
-
-    /**
-     * Builds the toolbar
-     */
-    protected void initialize() {
+    protected void build() {
+        content.setStyleName(AddinsCssName.CONTENT);
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
         labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
         iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
@@ -166,14 +155,15 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         });
         super.add(toolbar);
         super.add(content);
-
         // Add handlers to action buttons
         iconMaximize.addClickHandler(event -> toggleMaximize());
         iconClose.addClickHandler(event -> {
-            if (!isOpen()) {
-                open();
-            } else {
-                close();
+            if (!preventClose) {
+                if (!isOpen()) {
+                    open();
+                } else {
+                    close();
+                }
             }
         });
 
@@ -183,6 +173,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         dnd = MaterialDnd.draggable(this, JsDragOptions.create(
             new Restriction("body", true, 0, 0, 1.2, 1)));
         dnd.ignoreFrom(".content, .window-action");
+    }
+
+    protected void onClose() {
+
     }
 
     protected void toggleMaximize() {
@@ -299,11 +293,30 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     public Color getToolbarColor() {
-        return toolbarColorMixin.getBackgroundColor();
+        return toolbar.getBackgroundColor();
     }
 
     public void setToolbarColor(Color toolbarColor) {
-        toolbarColorMixin.setBackgroundColor(toolbarColor);
+        if (toolbar.isAttached()) {
+            toolbar.setBackgroundColor(toolbarColor);
+        } else {
+            if (toolbarAttachHandler == null) {
+                toolbarAttachHandler = toolbar.addAttachHandler(attachEvent -> {
+                    toolbar.setBackgroundColor(toolbarColor);
+                });
+            }
+        }
+
+    }
+
+    @Override
+    public void setBackgroundColor(Color bgColor) {
+        content.setBackgroundColor(bgColor);
+    }
+
+    @Override
+    public Color getBackgroundColor() {
+        return content.getBackgroundColor();
     }
 
     public void setOpenAnimation(final MaterialAnimation openAnimation) {
@@ -356,6 +369,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         return labelTitle;
     }
 
+    public static MaterialPanel getWindowOverlay() {
+        return windowOverlay;
+    }
+
     @Override
     public void setPadding(double padding) {
         content.setPadding(padding);
@@ -379,6 +396,14 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     @Override
     public void setPaddingBottom(double padding) {
         content.setPaddingBottom(padding);
+    }
+
+    public boolean isPreventClose() {
+        return preventClose;
+    }
+
+    public void setPreventClose(boolean preventClose) {
+        this.preventClose = preventClose;
     }
 
     /**

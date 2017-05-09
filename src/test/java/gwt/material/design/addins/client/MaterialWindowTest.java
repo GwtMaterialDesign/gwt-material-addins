@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.base.MaterialAddinsTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.window.MaterialWindow;
@@ -79,6 +80,7 @@ public class MaterialWindowTest extends MaterialAddinsTest {
     @Override
     protected <T extends MaterialWidget & HasColors> void checkColor(T widget) {
         MaterialWindow window = new MaterialWindow();
+        RootPanel.get().add(window);
         window.setBackgroundColor(Color.RED);
         assertEquals(window.getBackgroundColor(), Color.RED);
         window.setToolbarColor(Color.BLUE);

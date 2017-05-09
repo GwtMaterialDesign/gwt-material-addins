@@ -34,6 +34,12 @@ public class MaterialUploadLabel extends MaterialWidget implements HasTitle {
 
     public MaterialUploadLabel() {
         super(Document.get().createDivElement(), AddinsCssName.UPLOAD_LABEL);
+
+        build();
+    }
+
+    @Override
+    protected void build() {
         add(icon);
     }
 

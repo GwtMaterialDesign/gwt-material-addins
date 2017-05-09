@@ -46,7 +46,7 @@ public class MaterialCutoutTest extends MaterialAddinsTest {
     }
 
     protected <T extends MaterialCutOut> void checkProperties(T cutOut) {
-        final String ANIMATION_DURATION = "20s";
+        final int ANIMATION_DURATION = 200;
         final String ANIMATION_TIMING = "linear";
         final String BACKGROUND_SIZE = "100px";
         final int CUTOUT_PADDING = 20;
@@ -54,8 +54,8 @@ public class MaterialCutoutTest extends MaterialAddinsTest {
         assertTrue(cutOut.isAnimated());
         cutOut.setAnimated(false);
         assertFalse(cutOut.isAnimated());
-        cutOut.setAnimationDuration(ANIMATION_DURATION);
-        assertEquals(cutOut.getAnimationDuration(), ANIMATION_DURATION);
+        cutOut.setDuration(ANIMATION_DURATION);
+        assertEquals(cutOut.getDuration(), ANIMATION_DURATION);
         cutOut.setAnimationTimingFunction(ANIMATION_TIMING);
         assertEquals(cutOut.getAnimationTimingFunction(), ANIMATION_TIMING);
         cutOut.setBackgroundSize(BACKGROUND_SIZE);

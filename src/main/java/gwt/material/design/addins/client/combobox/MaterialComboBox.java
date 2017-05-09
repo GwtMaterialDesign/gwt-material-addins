@@ -25,19 +25,21 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HasConstrainedValue;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.combobox.base.HasRemoveItemHandler;
+import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
-import gwt.material.design.addins.client.combobox.events.RemoveItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
+import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
@@ -46,6 +48,7 @@ import gwt.material.design.client.ui.html.Option;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -75,11 +78,12 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * </pre>
  *
  * @author kevzlou7979
+ * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPlaceholder, HasConstrainedValue<T>,
-        HasSelectionHandlers<T>, HasOpenHandlers<T>, HasCloseHandlers<T>, HasRemoveItemHandler<T>, HasReadOnly {
+public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements HasPlaceholder,
+        HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -94,10 +98,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     private String placeholder;
     private boolean allowClear;
     private boolean multiple;
-    private boolean initialized;
     private boolean hideSearch;
     private int limit;
     private boolean closeOnSelect = true;
+    private String dropdownParent = "body";
+    private boolean suppressChangeEvent;
 
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
@@ -105,12 +110,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     protected List<T> values = new ArrayList<>();
 
     private Label label = new Label();
-    private MaterialLabel lblError = new MaterialLabel();
+    private MaterialLabel errorLabel = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
-    private HandlerRegistration valueChangeHandler;
+    private HandlerRegistration valueChangeHandler, clearInputHandler;
 
     private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
-            this, lblError, this.asWidget());
+            this, errorLabel, this.asWidget());
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     // By default the key is generated using toString
@@ -122,30 +127,36 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     @Override
     protected void onLoad() {
+        build();
+
         super.onLoad();
-
-        if (!initialized) {
-            label.setInitialClasses(AddinsCssName.SELECT2LABEL);
-            super.add(listbox);
-            super.add(label);
-            lblError.setLayoutPosition(Style.Position.ABSOLUTE);
-            lblError.setMarginTop(15);
-            super.add(lblError);
-            setId(uid);
-
-            listbox.setGwtDisplay(Style.Display.BLOCK);
-            initialized = true;
-        }
-
-        initialize();
     }
 
-    public void initialize() {
+    @Override
+    protected void build() {
+        label.setInitialClasses(AddinsCssName.SELECT2LABEL);
+        super.add(listbox);
+        super.add(label);
+        errorLabel.setMarginTop(15);
+        $(errorLabel.getElement()).insertAfter($(getElement()));
+        setId(uid);
+
+        listbox.setGwtDisplay(Style.Display.BLOCK);
+    }
+
+    @Override
+    protected void initialize() {
         JsComboBoxOptions options = new JsComboBoxOptions();
         options.allowClear = allowClear;
         options.placeholder = placeholder;
         options.maximumSelectionLength = limit;
         options.closeOnSelect = closeOnSelect;
+        options.dropdownParent = $(dropdownParent);
+
+        if (clearInputHandler == null) {
+            clearInputHandler = addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val(""));
+        }
+
         if (isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
         }
@@ -154,29 +165,35 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         jsComboBox.select2(options);
 
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
-            ValueChangeEvent.fire(MaterialComboBox.this, getValue());
+            if(!suppressChangeEvent) {
+                ValueChangeEvent.fire(this, getValue());
+            }
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.SELECT, event -> {
-            SelectionEvent.fire(MaterialComboBox.this, getValue());
+            SelectItemEvent.fire(this, getValue());
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.UNSELECT, event -> {
-            RemoveItemEvent.fire(this, getValue());
+            UnselectItemEvent.fire(this, getValue());
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
-            OpenEvent.fire(MaterialComboBox.this, getValue());
+            OpenEvent.fire(this, null);
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
-            CloseEvent.fire(MaterialComboBox.this, getValue());
+            CloseEvent.fire(this, null);
             return true;
         });
+
+        if (getTextColor() != null) {
+            $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
+        }
     }
 
     @Override
@@ -210,6 +227,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             values.add((T) ((Option) child).getValue());
         }
         listbox.add(child);
+    }
+
+    /**
+    * Sets the parent element of the dropdown
+    */
+    public void setDropdownParent(String dropdownParent) {
+        this.dropdownParent = dropdownParent;
+    }
+
+    public String getDropdownParent() {
+        return dropdownParent;
     }
 
     /**
@@ -300,21 +328,30 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         return multiple;
     }
 
-    @Override
     public void setAcceptableValues(Collection<T> values) {
+        setItems(values);
+    }
+
+    public void setItems(Collection<T> items) {
         clear();
-        for (T value : values) {
-            addItem(value);
-        }
+        addItems(items);
+    }
+
+    public void addItems(Collection<T> items) {
+        items.forEach(this::addItem);
     }
 
     @Override
-    public T getValue() {
-        int index = getSelectedIndex();
-        if(index != -1) {
-            return values.get(index);
+    public List<T> getValue() {
+        if(!multiple) {
+            int index = getSelectedIndex();
+            if (index != -1) {
+                return Collections.singletonList(values.get(index));
+            }
+        } else {
+            return getSelectedValues();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -323,24 +360,57 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      *
      * @return the value for selected item, or {@code null} if none is selected
      */
-    public T getSelectedValue() {
+    public List<T> getSelectedValue() {
         return getValue();
     }
 
-    @Override
-    public void setValue(T value) {
-        setValue(value, true);
+    /**
+     * Only return a single value even if multi support is activate.
+     */
+    public T getSingleValue() {
+        List<T> values = getSelectedValue();
+        if(!values.isEmpty()) {
+            return values.get(0);
+        }
+        return null;
     }
 
     @Override
-    public void setValue(T value, boolean fireEvents) {
-        int index = values.indexOf(value);
+    public void setValue(List<T> value) {
+        setValue(value, false);
+    }
+
+    /**
+     * Set the selected value using a single item, generally used
+     * in single selection mode.
+     */
+    public void setSingleValue(T value) {
+        setValue(Collections.singletonList(value));
+    }
+
+    @Override
+    public void setValue(List<T> values, boolean fireEvents) {
+        if(!multiple) {
+            if(!values.isEmpty()) {
+                setSingleValue(values.get(0), fireEvents);
+            }
+        } else {
+            setValues(values, fireEvents);
+        }
+    }
+
+    /**
+     * Set the selected value using a single item, generally used
+     * in single selection mode.
+     */
+    public void setSingleValue(T value, boolean fireEvents) {
+        int index = this.values.indexOf(value);
         if (index >= 0) {
-            T before = getValue();
+            List<T> before = getValue();
             setSelectedIndex(index);
 
             if (fireEvents) {
-                ValueChangeEvent.fireIfNotEqual(this, before, value);
+                ValueChangeEvent.fireIfNotEqual(this, before, values);
             }
         }
     }
@@ -350,11 +420,21 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
      * combobox and build options into it.
      */
     public void setValues(List<T> values) {
+        setValues(values, true);
+    }
+
+    /**
+     * Set directly all the values that will be stored into
+     * combobox and build options into it.
+     */
+    public void setValues(List<T> values, boolean fireEvents) {
         String[] stringValues = new String[values.size()];
         for (int i = 0; i < values.size(); i++) {
-            stringValues[i] = values.get(i).toString();
+            stringValues[i] = keyFactory.generateKey(values.get(i));
         }
+        suppressChangeEvent = !fireEvents;
         $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
+        suppressChangeEvent = false;
     }
 
     public Option addItem(T value) {
@@ -404,6 +484,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
             Option option = buildOption(text, value);
             values.add(value);
             listbox.add(option);
+            return option;
         }
         return null;
     }
@@ -430,7 +511,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         this.selectedIndex = selectedIndex;
         T value = values.get(selectedIndex);
         if (value != null) {
-            $(listbox.getElement()).val(value.toString()).trigger("change.select2", selectedIndex);
+            $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
         } else {
             GWT.log("Value index is not found.", new IndexOutOfBoundsException());
         }
@@ -507,7 +588,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         final Iterator<Widget> it = iterator();
         while (it.hasNext()) {
             final Widget widget = it.next();
-            if (widget != label && widget != lblError && widget != listbox) {
+            if (widget != label && widget != errorLabel && widget != listbox) {
                 it.remove();
             }
         }
@@ -522,9 +603,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
         this.keyFactory = keyFactory;
     }
 
-    @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<T> selectionHandler) {
-        return addHandler(selectionHandler, SelectionEvent.getType());
+    public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
+        return addHandler(selectionHandler, SelectItemEvent.getType());
     }
 
     @Override
@@ -538,8 +618,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
     }
 
     @Override
-    public HandlerRegistration addRemoveItemHandler(RemoveItemEvent.RemoveItemHandler<T> handler) {
-        return addHandler(handler, RemoveItemEvent.getType());
+    public HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler) {
+        return addHandler(handler, UnselectItemEvent.getType());
     }
 
     @Override
@@ -599,5 +679,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<T> implements HasPl
 
     public Label getLabel() {
         return label;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
     }
 }

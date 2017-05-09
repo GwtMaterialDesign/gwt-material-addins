@@ -87,7 +87,13 @@ public class MaterialWaterfall extends MaterialWidget {
 
     @Override
     protected void onLoad() {
+        build();
+
         super.onLoad();
+    }
+
+    @Override
+    protected void build() {
         if (openCallback == null) {
             openCallback = () -> {
                 for (Widget w : getChildren()) {
@@ -105,6 +111,10 @@ public class MaterialWaterfall extends MaterialWidget {
         if (offset == 0) {
             offset = getOffsetHeight();
         }
+    }
+
+    @Override
+    protected void initialize() {
         initWaterfall(getElement().getOffsetHeight(), openCallback, closeCallback, offset);
     }
 

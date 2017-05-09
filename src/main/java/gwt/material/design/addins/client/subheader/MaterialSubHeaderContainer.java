@@ -76,8 +76,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
+    protected void initialize() {
         if (getType() == SubHeaderType.PINNED) {
             String uniqueName = DOM.createUniqueId();
             for (Widget w : getChildren()) {
@@ -85,11 +84,11 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
                     w.addStyleName(uniqueName);
                 }
             }
-            initSubheaders("." + uniqueName, getElement());
+            initialize("." + uniqueName, getElement());
         }
     }
 
-    protected void initSubheaders(String subheader, Element container) {
+    protected void initialize(String subheader, Element container) {
         JsSubHeader.initSubheader(subheader, container);
     }
 

@@ -62,7 +62,7 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 public class MaterialBubble extends MaterialWidget implements HasPosition {
 
     private MaterialWidget triangle = new MaterialWidget(Document.get().createDivElement());
-    private final CssNameMixin<MaterialWidget, Position> positionMixin;
+    private CssNameMixin<MaterialWidget, Position> positionMixin;
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -94,16 +94,10 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         setPosition(position);
     }
 
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-        initBubble();
-    }
-
     /**
      * Initialize the bubble component.
      */
-    protected void initBubble() {
+    protected void initialize() {
         JsBubbleOptions options = new JsBubbleOptions();
         options.position = getPosition().getCssName();
         options.color = ColorHelper.setupComputedBackgroundColor(getBackgroundColor());
@@ -118,6 +112,10 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     @Override
     public void setPosition(Position position) {
         positionMixin.setCssName(position);
-        initBubble();
+        initialize();
+    }
+
+    public MaterialWidget getTriangle() {
+        return triangle;
     }
 }

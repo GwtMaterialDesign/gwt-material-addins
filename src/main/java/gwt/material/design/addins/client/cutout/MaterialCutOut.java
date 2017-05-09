@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.HasCircle;
+import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
@@ -86,13 +87,12 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  */
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
-        HasOpenHandlers<MaterialCutOut>, HasCircle {
+        HasOpenHandlers<MaterialCutOut>, HasCircle, HasDurationTransition {
 
     private Color backgroundColor = Color.BLUE;
     private double opacity = 0.8;
 
     private boolean animated = true;
-    private String animationDuration = "0.5s";
     private String animationTimingFunction = "ease";
     private String backgroundSize;
 
@@ -106,9 +106,23 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     private HandlerRegistration resizeHandler;
     private HandlerRegistration scrollHandler;
+    private int duration = 500;
 
     public MaterialCutOut() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CUTOUT);
+
+        build();
+    }
+
+    public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
+        this();
+        setBackgroundColor(backgroundColor);
+        setCircle(circle);
+        setOpacity(opacity);
+    }
+
+    @Override
+    protected void build() {
         focusElement = Document.get().createDivElement();
         getElement().appendChild(focusElement);
 
@@ -127,13 +141,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);
         style.setZIndex(-1);
-    }
-
-    public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
-        this();
-        setBackgroundColor(backgroundColor);
-        setCircle(circle);
-        setOpacity(opacity);
     }
 
     @Override
@@ -158,23 +165,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     @Override
     public double getOpacity() {
         return opacity;
-    }
-
-    /**
-     * @return the animation duration of the opening cut out
-     */
-    public String getAnimationDuration() {
-        return animationDuration;
-    }
-
-    /**
-     * Sets the animation duration of the opening cut out.
-     * The default is 0.5s.
-     *
-     * @param animationDuration The duration in CSS time unit, such as s and ms.
-     */
-    public void setAnimationDuration(String animationDuration) {
-        this.animationDuration = animationDuration;
     }
 
     /**
@@ -439,8 +429,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     protected void setupTransition() {
         if (animated) {
-            focusElement.getStyle().setProperty("WebkitTransition", "box-shadow " + animationDuration + " " + animationTimingFunction);
-            focusElement.getStyle().setProperty("transition", "box-shadow " + animationDuration + " " + animationTimingFunction);
+            focusElement.getStyle().setProperty("WebkitTransition", "box-shadow " + getDuration() + "ms " + animationTimingFunction);
+            focusElement.getStyle().setProperty("transition", "box-shadow " + getDuration() + "ms " + animationTimingFunction);
         } else {
             focusElement.getStyle().clearProperty("WebkitTransition");
             focusElement.getStyle().clearProperty("transition");
@@ -490,5 +480,15 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
     public Element getFocusElement() {
         return focusElement;
+    }
+
+    @Override
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public int getDuration() {
+        return duration;
     }
 }
