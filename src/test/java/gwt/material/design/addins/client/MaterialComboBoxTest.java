@@ -28,8 +28,6 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
-import gwt.material.design.addins.client.combobox.events.ComboBoxClosingEvent;
-import gwt.material.design.addins.client.combobox.events.ComboBoxOpeningEvent;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.dto.User;
@@ -176,41 +174,6 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
             }
         });
         assertTrue(isValueChangeEvent[0]);
-        // Opening Handler
-        final boolean[] isOpeningEvent = {false};
-        comboBox.addOpeningHandler(event -> {
-            isOpeningEvent[0] = true;
-        });
-        comboBox.fireEvent(new GwtEvent<ComboBoxOpeningEvent.ComboBoxOpeningHandler<?>>() {
-            @Override
-            public Type<ComboBoxOpeningEvent.ComboBoxOpeningHandler<?>> getAssociatedType() {
-                return ComboBoxOpeningEvent.getType();
-            }
-
-            @Override
-            protected void dispatch(ComboBoxOpeningEvent.ComboBoxOpeningHandler<?> eventHandler) {
-                eventHandler.onComboBoxOpening(null);
-            }
-        });
-        assertTrue(isOpeningEvent[0]);
-        
-        // Closing Handler
-        final boolean[] isClosingEvent = {false};
-        comboBox.addClosingHandler(event -> {
-            isClosingEvent[0] = true;
-        });
-        comboBox.fireEvent(new GwtEvent<ComboBoxClosingEvent.ComboBoxClosingHandler<?>>() {
-            @Override
-            public Type<ComboBoxClosingEvent.ComboBoxClosingHandler<?>> getAssociatedType() {
-                return ComboBoxClosingEvent.getType();
-            }
-
-            @Override
-            protected void dispatch(ComboBoxClosingEvent.ComboBoxClosingHandler<?> eventHandler) {
-                eventHandler.onComboBoxClosing(null);
-            }
-        });
-        assertTrue(isClosingEvent[0]);
     }
 
     @Override
