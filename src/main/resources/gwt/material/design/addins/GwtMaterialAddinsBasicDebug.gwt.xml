@@ -22,15 +22,14 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN"
         "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module rename-to='GwtMaterialAddins'>
-    <set-configuration-property name="CssResource.conversionMode" value="strict" />
+    <replace-with class="gwt.material.design.addins.client.StartupState.DebugState">
+        <when-type-is class="gwt.material.design.addins.client.StartupState"/>
+    </replace-with>
 
-    <inherits name='com.google.gwt.user.User'/>
-    <inherits name="com.google.gwt.core.Core"/>
-    <inherits name="gwt.material.design.jquery.JQuery"/>
+    <inherits name="gwt.material.design.addins.GwtMaterialAddinsBase"/>
+    <inherits name="gwt.material.design.GwtMaterialDesignBasicDebug"/>
+    <inherits name='gwt.material.design.ResourcesBasic'/>
 
-    <!-- Specify the paths for translatable code                    -->
-    <source path='client'/>
-
-    <set-configuration-property name="CssResource.enableGss" value="true"/>
-    <!--<set-configuration-property name="CssResource.legacy" value="true"/>-->
+    <!-- Specify the app entry point class -->
+    <entry-point class='gwt.material.design.addins.client.MaterialAddins'/>
 </module>
