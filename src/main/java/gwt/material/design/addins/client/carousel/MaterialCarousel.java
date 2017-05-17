@@ -111,14 +111,6 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        buildArrowNavigation();
-        initialize();
-    }
-
-    @Override
     protected void onUnload() {
         super.onUnload();
 
@@ -142,7 +134,8 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         getContainer().clear();
     }
 
-    public void initialize() {
+    @Override
+    protected void initialize() {
         options.dots = showDots;
         options.arrows = showArrows;
         options.infinite = infinite;

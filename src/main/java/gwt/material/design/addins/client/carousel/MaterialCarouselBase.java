@@ -44,7 +44,15 @@ public class MaterialCarouselBase extends MaterialWidget {
     private MaterialButton btnNextArrow = new MaterialButton();
     private MaterialButton btnPrevArrow = new MaterialButton();
 
-    protected void buildArrowNavigation() {
+    @Override
+    protected void onLoad() {
+        build();
+
+        super.onLoad();
+    }
+
+    @Override
+    protected void build() {
         String uid = DOM.createUniqueId();
 
         btnNextArrow.setIconType(IconType.KEYBOARD_ARROW_RIGHT);
