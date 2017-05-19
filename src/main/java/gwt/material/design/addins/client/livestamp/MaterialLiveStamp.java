@@ -66,15 +66,11 @@ public class MaterialLiveStamp extends MaterialLabel {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-        if (!initialized) {
-            if (date != null) {
-                getElement().setAttribute("data-livestamp", date.toString());
-            } else {
-                GWT.log("You must specify the date value.", new IllegalStateException());
-            }
-            initialized = true;
+    protected void initialize() {
+        if (date != null) {
+            getElement().setAttribute("data-livestamp", date.toString());
+        } else {
+            GWT.log("You must specify the date value.", new IllegalStateException());
         }
     }
 

@@ -81,7 +81,6 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     private Color fillColor = Color.BLUE;
     private Color emptyFillColor = Color.GREY_LIGHTEN_2;
     private boolean reverse;
-    private boolean initialized;
 
     private Span lblText = new Span();
 
@@ -93,10 +92,7 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     protected void onLoad() {
         super.onLoad();
 
-        if (!initialized) {
-            initialize();
-            initialized = true;
-        }
+        build();
     }
 
     @Override
@@ -106,9 +102,16 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
         $(getElement()).off(CircularProgressEvents.START);
         $(getElement()).off(CircularProgressEvents.PROGRESS);
         $(getElement()).off(CircularProgressEvents.COMPLETED);
-        initialized = false;
     }
 
+    @Override
+    protected void build() {
+        lblText.setHeight(size + "px");
+        lblText.getElement().getStyle().setLineHeight(size, Style.Unit.PX);
+        add(lblText);
+    }
+
+    @Override
     protected void initialize() {
         JsCircularProgressOptions options = new JsCircularProgressOptions();
         options.value = value;
@@ -132,11 +135,6 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
             return true;
         });
         $(getElement()).circleProgress(options);
-
-        lblText.setHeight(size + "px");
-        lblText.getElement().getStyle().setLineHeight(size, Style.Unit.PX);
-        add(lblText);
-
     }
 
     public double getValue() {
@@ -148,7 +146,7 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
      */
     public void setValue(double value) {
         this.value = value;
-        if (initialized) {
+        if (isInitialize()) {
             $(getElement()).circleProgress("value", value);
         }
     }
@@ -184,6 +182,7 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
      */
     public void setSize(int size) {
         this.size = size;
+        lblText.setWidth(size + "px");
     }
 
     public int getThickness() {
