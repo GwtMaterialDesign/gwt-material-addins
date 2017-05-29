@@ -6,3 +6,174 @@
     top: 0;
     bottom: 0;
 }
+
+/** Image Type Carousel **/
+.carousel-image .slick-dots {
+    margin-top: -40px;
+}
+
+.carousel-image .slick-dots li {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-image .slick-dots li.slick-active {
+    background: white;
+}
+
+.carousel-image .carousel-next-arrow {
+    background: transparent;
+    box-shadow: none;
+}
+
+.carousel-image .carousel-next-arrow, .carousel-onboard .carousel-next-arrow {
+    background: transparent;
+    box-shadow: none;
+    right: 12px;
+}
+
+.carousel-image .carousel-prev-arrow, .carousel-onboard .carousel-prev-arrow {
+    background: transparent;
+    box-shadow: none;
+    left: 12px;
+}
+
+/** OnBoard Type Carousel **/
+.carousel-onboard .carousel-next-arrow, .carousel-onboard .carousel-prev-arrow {
+    bottom: 20px;
+    top: initial;
+    z-index: 1001;
+}
+
+.carousel-onboard .slick-dots {
+    margin-top: -56px;
+    z-index: 1;
+    position: relative;
+}
+
+.carousel-onboard .slick-dots li {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-onboard .slick-dots li.slick-active {
+    background: white;
+}
+
+.carousel-onboard .slick-slide {
+    padding-bottom: 80px;
+    margin-bottom: 0px;
+}
+
+.carousel-onboard {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: 100%;
+    position: relative;
+    z-index: 1009;
+}
+
+.carousel-onboard img {
+    margin: auto;
+}
+
+/** Desktop Onboarding Carousel **/
+@media only screen and (min-width: 993px) {
+    .material-carousel.carousel-onboard {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        background: #e9e9e9;
+    }
+
+    .material-carousel.carousel-onboard .material-carousel-container {
+        width: 30%;
+        margin: auto;
+    }
+
+    .material-carousel.carousel-onboard .slick-list {
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+    }
+
+    .material-carousel.carousel-onboard .slick-slide {
+        padding-left: 4%;
+        padding-right: 4%;
+        padding-bottom: 60px;
+        text-align: center;
+        margin-bottom: -20px;
+    }
+
+    .material-carousel.carousel-onboard .carousel-next-arrow, .material-carousel .carousel-prev-arrow {
+        background: white;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    .material-carousel.carousel-onboard .carousel-next-arrow.btn-floating:hover, .material-carousel .carousel-prev-arrow.btn-floating:hover {
+        background: #fff;
+    }
+
+    .material-carousel.carousel-onboard .carousel-next-arrow i, .material-carousel .carousel-prev-arrow i {
+        color: #9E9E9E !important;
+    }
+
+    .material-carousel.carousel-onboard .slick-dots {
+        margin-top: 4px;
+    }
+
+    .material-carousel.carousel-onboard .slick-dots li {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .material-carousel.carousel-onboard .slick-dots li.slick-active {
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .material-carousel.carousel-onboard .carousel-next-arrow {
+        right: 31%;
+    }
+
+    .material-carousel.carousel-onboard .carousel-prev-arrow {
+        left: 31%;
+    }
+}
+
+/** Tablet and Mobile OnBoarding */
+@media only screen and (max-width: 992px) {
+    .material-carousel.carousel-onboard .slick-slide {
+        height: 100vh;
+    }
+
+    .material-carousel.carousel-onboard .col {
+        width: 100%;
+        font-size: 1.4em;
+    }
+
+    .material-carousel.carousel-onboard .carousel-next-arrow, .material-carousel.carousel-onboard .carousel-prev-arrow {
+        display: none !important;
+    }
+}
+
+@media only screen and (max-width: 992px) and (orientation: portrait) {
+    .material-carousel.carousel-onboard {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 992px) and (orientation: landscape) {
+    .material-carousel.carousel-onboard .slick-slide {
+        display: flex !important;
+        align-items: center;
+    }
+
+    .material-carousel.carousel-onboard .col:nth-child(2) {
+        margin-top: 80px !important;
+    }
+
+    .material-carousel.carousel-onboard .col {
+        width: 50%;
+    }
+}
