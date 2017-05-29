@@ -119,8 +119,12 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
     @Override
     public void add(Widget child) {
-        getContainer().add(child);
-        getCarouselElement().slick("slickAdd", child.getElement());
+        if (child instanceof MaterialCarouselFixedItem) {
+            getWrapper().add(child);
+        } else {
+            getContainer().add(child);
+            getCarouselElement().slick("slickAdd", child.getElement());
+        }
     }
 
     @Override

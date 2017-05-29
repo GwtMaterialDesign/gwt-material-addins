@@ -43,6 +43,7 @@ public class MaterialCarouselBase extends MaterialWidget {
     private MaterialPanel container = new MaterialPanel();
     private MaterialButton btnNextArrow = new MaterialButton();
     private MaterialButton btnPrevArrow = new MaterialButton();
+    private MaterialPanel wrapper = new MaterialPanel();
 
     @Override
     protected void onLoad() {
@@ -72,9 +73,14 @@ public class MaterialCarouselBase extends MaterialWidget {
         super.add(btnNextArrow);
         super.add(btnPrevArrow);
 
-        container.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
+        wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         container.setId(uid + "-container");
-        super.add(container);
+        wrapper.add(container);
+        super.add(wrapper);
+    }
+
+    public MaterialPanel getWrapper() {
+        return wrapper;
     }
 
     public MaterialPanel getContainer() {

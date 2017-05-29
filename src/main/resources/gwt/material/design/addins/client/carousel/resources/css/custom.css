@@ -147,7 +147,7 @@
         height: 100vh;
     }
 
-    .material-carousel.carousel-onboard .col {
+    .material-carousel.carousel-onboard .col .material-label {
         width: 100%;
         font-size: 1.4em;
     }
