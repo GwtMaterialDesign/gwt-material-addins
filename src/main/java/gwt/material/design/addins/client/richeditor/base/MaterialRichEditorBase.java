@@ -199,12 +199,12 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     @Override
     public String getText() {
-        return getElement().getInnerText();
+        return getHTML();
     }
 
     @Override
     public void setText(String text) {
-        getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(text));
+        setHTML(text);
     }
 
     protected String getHTMLCode(Element e) {
@@ -217,12 +217,12 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     @Override
     public String getValue() {
-        return getText();
+        return getHTML();
     }
 
     @Override
     public void setValue(String value, boolean fireEvents) {
-        setText(value);
+        setHTML(value);
 
         // We won't invoke the super call since the internal
         // library will handle change events.
