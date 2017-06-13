@@ -30,6 +30,11 @@ import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static gwt.material.design.client.js.JsMaterialElement.$;
+
 //@formatter:off
 
 /**
@@ -65,6 +70,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
     }
 
     private final CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin = new CssTypeMixin<>(this);
+    private List<MaterialSubHeader> subHeaders = new ArrayList<>();
 
     public MaterialSubHeaderContainer() {
         super(Document.get().createDivElement(), AddinsCssName.CONTAINER1);
@@ -77,14 +83,19 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
 
     @Override
     protected void initialize() {
+        subHeaders.clear();
         if (getType() == SubHeaderType.PINNED) {
             String uniqueName = DOM.createUniqueId();
             for (Widget w : getChildren()) {
                 if (w instanceof MaterialSubHeader) {
                     w.addStyleName(uniqueName);
+                    subHeaders.add((MaterialSubHeader) w);
                 }
             }
             initialize("." + uniqueName, getElement());
+            if (subHeaders.size() == 0) {
+                $(getElement()).find(".top_holder").css("display", "none");
+            }
         }
     }
 
