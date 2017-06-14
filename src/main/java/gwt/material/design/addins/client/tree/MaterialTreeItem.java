@@ -125,8 +125,14 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void onLoad() {
-        super.build();
+        build();
+
         super.onLoad();
+    }
+
+    @Override
+    protected void build() {
+        super.build();
     }
 
     @Override
