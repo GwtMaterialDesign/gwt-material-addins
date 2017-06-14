@@ -1,18 +1,23 @@
-.side-profile span{
-    line-height: 0 !important;
+ul.side-nav .side-profile span{
+    line-height: 1 !important;
 }
-.side-profile i{
+ul.side-nav .side-profile a {
+    display: block;
+    padding-left: 0px;
+    height: initial;
+}
+ul.side-nav .side-profile i{
     line-height: 1.5;
 }
-.side-profile .dropProfile i {
+.side-nav .side-profile .dropProfile i {
     position: absolute;
     right: 20px;
 }
-.side-profile{
+ul.side-nav .side-profile{
     padding: 16px;
 }
 
-.side-profile a.dropdown-button{
+ul.side-nav .side-profile a.dropdown-button{
     cursor: pointer !important;
     padding: 0px !important;;
     line-height: 3;
@@ -20,16 +25,16 @@
     font-size: 0.8em;
 }
 
-.side-profile .dropdown-content a {
+ul.side-nav .side-profile .dropdown-content a {
     padding: 0px 15px;
     height: inherit;
     line-height: 64px;
 }
 
-.side-profile img{
+ul.side-nav .side-profile img{
     width: 60px;
     height: 60px;
-    margin-bottom: 16px;
+    margin-bottom: 0px;
     border-radius: 100%;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
