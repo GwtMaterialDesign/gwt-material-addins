@@ -96,4 +96,5 @@ public interface AddinsCssName {
     String IGNORED = "swipe-ignored";
     String TOTAL_UPLOAD_PROGRESS = "total-upload-progress";
     String PH = "ph";
+    String EMPTY_STATE = "empty-state";
 }
