@@ -108,4 +108,5 @@ public interface AddinsCssName {
     String OVERLAY_TAB = "overlay-tab";
     String MATERIAL_NOTE = "material-note";
     String CIRCULAR_PROGRESS = "circular-progress";
+    String EMPTY_STATE = "empty-state";
 }
