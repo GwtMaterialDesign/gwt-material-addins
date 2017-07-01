@@ -101,6 +101,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private boolean hideSearch;
     private int limit;
     private boolean closeOnSelect = true;
+    private boolean tags;
     private String dropdownParent = "body";
     private boolean suppressChangeEvent;
 
@@ -152,6 +153,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         options.maximumSelectionLength = limit;
         options.closeOnSelect = closeOnSelect;
         options.dropdownParent = $(dropdownParent);
+        options.tags = tags;
 
         if (clearInputHandler == null) {
             clearInputHandler = addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val(""));
@@ -683,5 +685,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public MaterialLabel getErrorLabel() {
         return errorLabel;
+    }
+
+    public boolean isTags() {
+        return tags;
+    }
+
+    public void setTags(boolean tags) {
+        this.tags = tags;
     }
 }
