@@ -49,4 +49,7 @@ public class JsComboBoxOptions {
 
     @JsProperty
     public boolean closeOnSelect;
+
+    @JsProperty
+    public boolean tags;
 }

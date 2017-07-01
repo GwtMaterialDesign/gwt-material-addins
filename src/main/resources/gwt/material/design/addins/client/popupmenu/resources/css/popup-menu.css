@@ -6,6 +6,10 @@
     max-height: 70vh !important;
 }
 
+.popup-menu li {
+    padding: 16px;
+}
+
 .popup-menu li a, .popup-menu ul.dropdown-content li a {
     font-size: 1em;
 }
