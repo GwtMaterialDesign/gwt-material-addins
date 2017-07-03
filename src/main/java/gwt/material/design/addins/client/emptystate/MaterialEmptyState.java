@@ -29,6 +29,7 @@ import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.html.Div;
 
@@ -64,6 +65,7 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     private MaterialIcon icon = new MaterialIcon();
     private MaterialTitle title = new MaterialTitle();
     private Div container = new Div();
+    private boolean loading;
 
     public MaterialEmptyState() {
         super(Document.get().createDivElement(), CssName.VALIGN_WRAPPER, AddinsCssName.EMPTY_STATE);
@@ -143,5 +145,14 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
 
     public Div getContainer() {
         return container;
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        MaterialLoader.showLoading(true, icon);
     }
 }
