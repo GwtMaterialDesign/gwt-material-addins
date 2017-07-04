@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.richeditor;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -78,6 +79,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     }
 
     private boolean toggleFullScreen = true;
+
     public MaterialRichEditor() {
         super();
     }
@@ -152,7 +154,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
             return true;
         });
 
-        toggleFullScreen();
+        checkContainer();
     }
 
     @Override
@@ -170,14 +172,25 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         jsRichEditor.destroy();
     }
 
-    protected void toggleFullScreen() {
-        getEditor().find("div[data-event='fullscreen']").off("cl").on("click", (e, param1) -> {
-            if (getParent() instanceof MaterialModal) {
-                ((MaterialModal) getParent()).setFullscreen(toggleFullScreen);
-            } else if (getParent() instanceof MaterialModalContent) {
-                MaterialModal modal = (MaterialModal) getParent().getParent();
-                modal.setFullscreen(toggleFullScreen);
-            }
+    protected void checkContainer() {
+        if (getParent() instanceof MaterialModal) {
+            MaterialModal modal = (MaterialModal) getParent();
+            adjustFullScreen(modal);
+            adjustNestedModals(modal);
+        } else if (getParent() instanceof MaterialModalContent) {
+            MaterialModal modal = (MaterialModal) getParent().getParent();
+            adjustFullScreen(modal);
+            adjustNestedModals(modal);
+        }
+    }
+
+    protected void adjustNestedModals(MaterialModal modal) {
+        modal.addOpenHandler(openEvent -> modal.setDepth(9999));
+    }
+
+    protected void adjustFullScreen(MaterialModal modal) {
+        getEditor().find("div[data-event='fullscreen']").off("click").on("click", (e, param1) -> {
+            modal.setFullscreen(toggleFullScreen);
             if (toggleFullScreen) {
                 toggleFullScreen = false;
             } else {
