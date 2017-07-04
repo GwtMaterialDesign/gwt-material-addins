@@ -267,6 +267,7 @@
 .note-editor ul.dropdown-menu .colorTable, .popover ul.dropdown-menu .colorTable {
   padding: 3px 0; }
 .note-editor ul.dropdown-menu .tabs, .popover ul.dropdown-menu .tabs {
+  background: transparent;
 }
 .popover ul.dropdown-menu .tabs:hover {
   background-color: #e9e9e9;
