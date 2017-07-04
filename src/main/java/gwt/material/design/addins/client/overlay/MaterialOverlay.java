@@ -112,7 +112,9 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void close() {
         body().attr("style", "overflow: auto !important");
-        animator.reverseAnimate();
+        if (source != null) {
+            animator.reverseAnimate();
+        }
         CloseEvent.fire(this, this);
     }
 
