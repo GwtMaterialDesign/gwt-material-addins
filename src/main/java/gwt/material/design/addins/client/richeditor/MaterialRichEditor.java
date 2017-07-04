@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
@@ -37,6 +36,9 @@ import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 
@@ -75,6 +77,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         }
     }
 
+    private boolean toggleFullScreen = true;
     public MaterialRichEditor() {
         super();
     }
@@ -148,6 +151,8 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
             ValueChangeEvent.fire(MaterialRichEditor.this, getHTMLCode(getElement()));
             return true;
         });
+
+        toggleFullScreen();
     }
 
     @Override
@@ -163,6 +168,27 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
         jsRichEditor.destroy();
+    }
+
+    protected void toggleFullScreen() {
+        getEditor().find("div[data-event='fullscreen']").off("cl").on("click", (e, param1) -> {
+            if (getParent() instanceof MaterialModal) {
+                ((MaterialModal) getParent()).setFullscreen(toggleFullScreen);
+            } else if (getParent() instanceof MaterialModalContent) {
+                MaterialModal modal = (MaterialModal) getParent().getParent();
+                modal.setFullscreen(toggleFullScreen);
+            }
+            if (toggleFullScreen) {
+                toggleFullScreen = false;
+            } else {
+                toggleFullScreen = true;
+            }
+            return true;
+        });
+    }
+
+    public JQueryElement getEditor() {
+        return $(getElement()).next(".note-editor");
     }
 
     /**
