@@ -31,4 +31,7 @@ public class XHR {
 
     @JsProperty
     public String statusText;
+
+    @JsProperty
+    public String responseText;
 }
