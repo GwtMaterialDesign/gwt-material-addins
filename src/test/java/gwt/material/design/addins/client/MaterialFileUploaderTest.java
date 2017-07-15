@@ -65,6 +65,10 @@ public class MaterialFileUploaderTest extends MaterialAddinsTest {
         assertEquals(fileUploader.getMethod(), FileMethod.POST);
         fileUploader.setMethod(FileMethod.PUT);
         assertEquals(fileUploader.getMethod(), FileMethod.PUT);
+        fileUploader.setAutoProcessQueue(true);
+        assertTrue(fileUploader.isAutoProcessQueue());
+        fileUploader.setAutoProcessQueue(false);
+        assertFalse(fileUploader.isAutoProcessQueue());
         fileUploader.setAutoQueue(true);
         assertTrue(fileUploader.isAutoQueue());
         fileUploader.setAutoQueue(false);

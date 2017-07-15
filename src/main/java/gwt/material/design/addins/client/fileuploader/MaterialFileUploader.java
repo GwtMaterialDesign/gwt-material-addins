@@ -111,6 +111,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     protected JsFileUploaderOptions getDefaultOptions() {
         JsFileUploaderOptions options = new JsFileUploaderOptions();
         options.clickable = "";
+        options.autoProcessQueue = true;
         options.autoQueue = true;
         options.maxFilesize = 20;
         options.maxFiles = 100;
@@ -335,6 +336,19 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
     }
 
+    /**
+     * Manually start upload queued files when option autoProcessQueue is disabled
+     */
+    public void processQueue() {
+        uploader.processQueue();
+    }
+
+    /**
+     * Manually enqueue file when option autoQueue is disabled
+     */
+    public void enqueueFile(File file) {
+        uploader.enqueueFile(file);
+    }
 
     /**
      * Get the form url.
@@ -362,6 +376,20 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      */
     public void setMaxFileSize(int maxFileSize) {
         options.maxFilesize = maxFileSize;
+    }
+
+    /**
+     * Check whether it's auto process queue or not.
+     */
+    public boolean isAutoProcessQueue() {
+        return options.autoProcessQueue;
+    }
+
+    /**
+     * Set the auto process queue boolean value.
+     */
+    public void setAutoProcessQueue(boolean autoProcessQueue) {
+        options.autoProcessQueue = autoProcessQueue;
     }
 
     /**
