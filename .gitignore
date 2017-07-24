@@ -3,3 +3,7 @@ gwt-material-addins.iml
 .idea
 /war
 /gwt-unitCache
+.project
+.classpath
+.settings/
+
