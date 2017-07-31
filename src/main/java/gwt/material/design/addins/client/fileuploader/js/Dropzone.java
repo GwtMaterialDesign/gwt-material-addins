@@ -45,4 +45,8 @@ public class Dropzone extends JQueryElement {
     public native void setupEventListeners();
 
     public native void removeAllFiles();
+
+    public native void processQueue();
+
+    public native void enqueueFile(File file);
 }
