@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.window;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -36,12 +35,13 @@ import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 //@formatter:off
