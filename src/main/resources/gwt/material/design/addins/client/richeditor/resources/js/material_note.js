@@ -5064,7 +5064,7 @@
 
         this.attach = function(layoutInfo) {
 
-            if (window.clipboardData || agent.isFF) {
+            if (window.clipboardData) {
                 $paste = $('<div />').attr('contenteditable', true).css({
                     position : 'absolute',
                     left : -100000,

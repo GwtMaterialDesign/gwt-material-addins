@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,6 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     private HandlerRegistration clickRegistration;
 
     private boolean hide = true;
-    private boolean initialized;
 
     public MaterialTreeItem() {
         super(AddinsCssName.TREE_ITEM);
@@ -126,16 +125,23 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void onLoad() {
-        super.onLoad();
+        build();
 
-        if(!initialized) {
-            if(image != null) {
-                divHeader.add(image);
-            }
-            divHeader.add(getIcon());
-            divHeader.add(span);
-            initialized = true;
+        super.onLoad();
+    }
+
+    @Override
+    protected void build() {
+        super.build();
+    }
+
+    @Override
+    protected void initialize() {
+        if(image != null) {
+            divHeader.add(image);
         }
+        divHeader.add(getIcon());
+        divHeader.add(span);
 
         if (clickRegistration != null) {
             clickRegistration.removeHandler();
