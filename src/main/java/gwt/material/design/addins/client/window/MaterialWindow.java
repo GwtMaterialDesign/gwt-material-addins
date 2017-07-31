@@ -170,11 +170,27 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         setTop(100);
 
         // Add a draggable header
-        dnd = MaterialDnd.draggable(this, JsDragOptions.create(
-            new Restriction("body", true, 0, 0, 1.2, 1)));
-        dnd.ignoreFrom(".content, .window-action");
+        dnd = buildDnd();
     }
 
+    /**
+     * Override to provide custom options for window drag'n'drop
+     */
+    protected JsDragOptions buildDragOptions() {
+        return JsDragOptions.create(new Restriction("body", true, 0, 0, 1.2, 1));
+    }
+
+    /**
+     * Override to provide custom {@link MaterialDnd} instance. Default implementation will construct {@link MaterialDnd}
+     * using options provided by {@link {@link #buildDragOptions()} and will ignore drag events from content portion of
+     * the window ({@link AddinsCssName#CONTENT}) as well from action buttons (close, maximize and other {@link AddinsCssName#WINDOW_ACTION}.
+     */
+    protected MaterialDnd buildDnd() {
+        MaterialDnd dnd = MaterialDnd.draggable(this, buildDragOptions());
+        dnd.ignoreFrom(".content, .window-action");
+        return dnd;
+    }
+    
     protected void onClose() {
 
     }
