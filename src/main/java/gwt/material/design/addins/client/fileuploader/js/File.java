@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.fileuploader.js;
 
 import com.google.gwt.dom.client.Element;
+import elemental2.dom.XMLHttpRequest;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -40,7 +41,7 @@ public class File {
     public String type;
 
     @JsProperty
-    public XHR xhr;
+    public XMLHttpRequest xhr;
 
     @JsProperty
     public Element previewElement;

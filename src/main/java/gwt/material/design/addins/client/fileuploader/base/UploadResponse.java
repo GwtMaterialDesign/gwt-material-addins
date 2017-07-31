@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.fileuploader.base;
 
+import elemental2.dom.XMLHttpRequest;
+
 /**
  * Upload Response with Code (e.g 404, 503, 200) and message ("File Upload url not found etc."
  *
@@ -29,16 +31,19 @@ public class UploadResponse {
     private String code;
     private String message;
     private String body;
+    private final XMLHttpRequest xhr;
 
-    public UploadResponse(String code, String message) {
-        this.code = code;
-        this.message = message;
+    public UploadResponse(XMLHttpRequest xhr) {
+        this.code = String.valueOf(xhr.status);
+        this.message = xhr.statusText;
+        this.xhr=xhr;
     }
 
-    public UploadResponse(String code, String message, String body) {
-        this.code = code;
-        this.message = message;
+    public UploadResponse(XMLHttpRequest xhr, String body) {
+        this.code = String.valueOf(xhr.status);
+        this.message = xhr.statusText;
         this.body = body;
+        this.xhr=xhr;
     }
 
     public String getCode() {
@@ -63,5 +68,9 @@ public class UploadResponse {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public XMLHttpRequest getXhr() {
+        return xhr;
     }
 }

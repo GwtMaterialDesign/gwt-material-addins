@@ -235,13 +235,13 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         uploader.on("error", (file, response) -> {
             String code = "200";
             if (file.xhr != null) {
-                code = file.xhr.status;
+                code = String.valueOf(file.xhr.status);
             }
 
             if (response.indexOf("401") >= 0) {
                 response = "Unauthorized. Your session may have expired. Log in and try again.";
                 globalResponse = response;
-                UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+                UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr, response));
             }
 
             if (response.indexOf("404") >= 0) {
@@ -255,7 +255,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             }
 
             $(file.previewElement).find("#error-message").html(response);
-            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr, response));
         });
 
         uploader.on("totaluploadprogress", (progress, file, response) -> {
@@ -273,16 +273,16 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         });
 
         uploader.on("sending", file -> {
-            SendingEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText));
+            SendingEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr));
         });
 
         uploader.on("success", (file, response) -> {
             globalResponse = response;
-            SuccessEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            SuccessEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr, response));
         });
 
         uploader.on("complete", file -> {
-            CompleteEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
+            CompleteEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr, globalResponse));
         });
 
         uploader.on("canceled", file -> {
