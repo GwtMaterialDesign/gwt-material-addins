@@ -40,7 +40,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <ma:timpicker:MaterialTimePicker placeholder="Time Arrival"/>
 ```
 
-##Extra Components
+## Extra Components
 <ul>
 <li>Autcomplete</li>
 <li>Avatar</li>
@@ -72,7 +72,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Window</li>
 </ul>
 
-##Documentation
+## Documentation
 We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apidocs-addins/) for better understanding the usage of addins.
 
 ##Package Information
