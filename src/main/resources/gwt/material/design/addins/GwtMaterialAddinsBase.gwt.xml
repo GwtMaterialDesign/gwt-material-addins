@@ -27,6 +27,8 @@
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.gwt.core.Core"/>
     <inherits name="gwt.material.design.jquery.JQuery"/>
+    <inherits name="elemental2.core.Core"/>
+    <inherits name="elemental2.dom.Dom"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path='client'/>
