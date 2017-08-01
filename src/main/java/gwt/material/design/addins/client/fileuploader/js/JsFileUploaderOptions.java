@@ -51,6 +51,9 @@ public class JsFileUploaderOptions {
     public String acceptedFiles;
 
     @JsProperty
+    public boolean autoProcessQueue;
+
+    @JsProperty
     public boolean autoQueue;
 
     @JsProperty

@@ -11,7 +11,7 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.0-rc5</version>
+    <version>2.0-rc6</version>
 </dependency>
 ```
 
@@ -40,7 +40,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <ma:timpicker:MaterialTimePicker placeholder="Time Arrival"/>
 ```
 
-##Extra Components
+## Extra Components
 <ul>
 <li>Autcomplete</li>
 <li>Avatar</li>
@@ -50,6 +50,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Cutout</li>
 <li>Document Viewer</li>
 <li>Dnd</li>
+<li>EmptyState (NEW) </li>
 <li>File Uploader</li>
 <li>Icon Morph</li>
 <li>Masonry</li>
@@ -71,7 +72,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <li>Window</li>
 </ul>
 
-##Documentation
+## Documentation
 We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apidocs-addins/) for better understanding the usage of addins.
 
 ##Package Information
