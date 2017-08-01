@@ -84,6 +84,10 @@ public class GwtMaterialAddinsTestComponent extends GWTTestCase {
         new MaterialDocViewerTest().init();
     }
 
+    public void testEmptyState() {
+        new MaterialEmptyStateTest().init();
+    }
+
     public void testFileUploader() {
         new MaterialFileUploaderTest().init();
     }

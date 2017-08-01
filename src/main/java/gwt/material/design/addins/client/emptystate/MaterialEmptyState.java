@@ -153,6 +153,6 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
 
     public void setLoading(boolean loading) {
         this.loading = loading;
-        MaterialLoader.showLoading(true, icon);
+        MaterialLoader.showLoading(loading, icon);
     }
 }
