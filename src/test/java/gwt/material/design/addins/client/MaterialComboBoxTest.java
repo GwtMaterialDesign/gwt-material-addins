@@ -109,6 +109,10 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest {
         assertEquals(comboBox.getLabel().getText(), "label");
         comboBox.setPlaceholder("placeholder");
         assertEquals(comboBox.getPlaceholder(), "placeholder");
+        comboBox.setTags(true);
+        assertTrue(comboBox.isTags());
+        comboBox.setTags(false);
+        assertFalse(comboBox.isTags());
 
         final String BODY_SELECTOR = "body";
         final String SELF_SELECTOR = "#" + comboBox.getElement().getId();
