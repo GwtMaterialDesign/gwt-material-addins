@@ -98,6 +98,8 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
 
     protected boolean pauseOnUnload = true;
+    protected int width = 1280;
+    protected int height = 720;
     
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
 
@@ -238,8 +240,12 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         if (stream != null) {
             Navigator.getMedia = stream;
             Constraints constraints = new Constraints();
-            constraints.video = true;
             constraints.audio = false;
+
+            MediaTrackConstraints mediaTrackConstraints = new MediaTrackConstraints();
+            mediaTrackConstraints.width = width;
+            mediaTrackConstraints.height = height;
+            constraints.video = mediaTrackConstraints;
 
             Navigator.getMedia(constraints, (streamObj) -> {
                 if (URL.createObjectURL(streamObj) != null) {
@@ -256,6 +262,12 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
                 onCameraCaptureError(error);
             });
         }
+    }
+
+    public void setResolution(int width, int height) {
+        this.width = width;
+        this.height = height;
+        restart();
     }
 
     /**
@@ -329,5 +341,13 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         overlay.setTop(top);
         overlay.setLeft(left);
         addOverlay(overlay);
+    }
+
+    public MaterialWidget getVideo() {
+        return video;
+    }
+
+    public void setVideo(MaterialWidget video) {
+        this.video = video;
     }
 }
