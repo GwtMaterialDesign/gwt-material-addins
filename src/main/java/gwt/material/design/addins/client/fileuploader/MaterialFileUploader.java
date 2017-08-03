@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -239,18 +239,18 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             }
 
             if (response.indexOf("401") >= 0) {
-                response = "Unautharized. Probably Your's session expired. Log in and try again.";
+                response = "Unauthorized. Your session may have expired. Log in and try again.";
                 globalResponse = response;
                 UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
             }
 
             if (response.indexOf("404") >= 0) {
-                response = "There's a problem uploading your file.";
+                response = "There is a problem uploading your file.";
                 globalResponse = response;
             }
 
             if (response.indexOf("500") >= 0) {
-                response = "There's a problem uploading your file.";
+                response = "There is a problem uploading your file.";
                 globalResponse = response;
             }
 

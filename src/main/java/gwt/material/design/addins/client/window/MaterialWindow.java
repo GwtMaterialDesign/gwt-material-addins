@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.window;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -36,12 +35,13 @@ import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 
 //@formatter:off
@@ -170,11 +170,27 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         setTop(100);
 
         // Add a draggable header
-        dnd = MaterialDnd.draggable(this, JsDragOptions.create(
-            new Restriction("body", true, 0, 0, 1.2, 1)));
-        dnd.ignoreFrom(".content, .window-action");
+        dnd = buildDnd();
     }
 
+    /**
+     * Override to provide custom options for window drag'n'drop
+     */
+    protected JsDragOptions buildDragOptions() {
+        return JsDragOptions.create(new Restriction("body", true, 0, 0, 1.2, 1));
+    }
+
+    /**
+     * Override to provide custom {@link MaterialDnd} instance. Default implementation will construct {@link MaterialDnd}
+     * using options provided by {@link {@link #buildDragOptions()} and will ignore drag events from content portion of
+     * the window ({@link AddinsCssName#CONTENT}) as well from action buttons (close, maximize and other {@link AddinsCssName#WINDOW_ACTION}.
+     */
+    protected MaterialDnd buildDnd() {
+        MaterialDnd dnd = MaterialDnd.draggable(this, buildDragOptions());
+        dnd.ignoreFrom(".content, .window-action");
+        return dnd;
+    }
+    
     protected void onClose() {
 
     }

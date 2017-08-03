@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,6 +101,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private boolean hideSearch;
     private int limit;
     private boolean closeOnSelect = true;
+    private boolean tags;
     private String dropdownParent = "body";
     private boolean suppressChangeEvent;
 
@@ -152,6 +153,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         options.maximumSelectionLength = limit;
         options.closeOnSelect = closeOnSelect;
         options.dropdownParent = $(dropdownParent);
+        options.tags = tags;
 
         if (clearInputHandler == null) {
             clearInputHandler = addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val(""));
@@ -509,11 +511,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
-        T value = values.get(selectedIndex);
-        if (value != null) {
-            $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
-        } else {
-            GWT.log("Value index is not found.", new IndexOutOfBoundsException());
+        if (values.size() > 0) {
+            T value = values.get(selectedIndex);
+            if (value != null) {
+                $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
+            } else {
+                GWT.log("Value index is not found.", new IndexOutOfBoundsException());
+            }
         }
     }
 
@@ -683,5 +687,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public MaterialLabel getErrorLabel() {
         return errorLabel;
+    }
+
+    public boolean isTags() {
+        return tags;
+    }
+
+    public void setTags(boolean tags) {
+        this.tags = tags;
     }
 }

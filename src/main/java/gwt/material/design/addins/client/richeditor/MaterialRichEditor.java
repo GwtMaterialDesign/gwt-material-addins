@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
@@ -37,6 +36,9 @@ import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 
@@ -74,6 +76,8 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
             MaterialDesignBase.injectCss(MaterialRichEditorClientBundle.INSTANCE.richEditorCss());
         }
     }
+
+    private boolean toggleFullScreen = true;
 
     public MaterialRichEditor() {
         super();
@@ -148,6 +152,8 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
             ValueChangeEvent.fire(MaterialRichEditor.this, getHTMLCode(getElement()));
             return true;
         });
+
+        checkContainer();
     }
 
     @Override
@@ -163,6 +169,38 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
         jsRichEditor.destroy();
+    }
+
+    protected void checkContainer() {
+        if (getParent() instanceof MaterialModal) {
+            MaterialModal modal = (MaterialModal) getParent();
+            adjustFullScreen(modal);
+            adjustNestedModals(modal);
+        } else if (getParent() instanceof MaterialModalContent) {
+            MaterialModal modal = (MaterialModal) getParent().getParent();
+            adjustFullScreen(modal);
+            adjustNestedModals(modal);
+        }
+    }
+
+    protected void adjustNestedModals(MaterialModal modal) {
+        modal.addOpenHandler(openEvent -> modal.setDepth(9999));
+    }
+
+    protected void adjustFullScreen(MaterialModal modal) {
+        getEditor().find("div[data-event='fullscreen']").off("click").on("click", (e, param1) -> {
+            modal.setFullscreen(toggleFullScreen);
+            if (toggleFullScreen) {
+                toggleFullScreen = false;
+            } else {
+                toggleFullScreen = true;
+            }
+            return true;
+        });
+    }
+
+    public JQueryElement getEditor() {
+        return $(getElement()).next(".note-editor");
     }
 
     /**

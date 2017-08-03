@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2016 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,9 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void close() {
         body().attr("style", "overflow: auto !important");
-        animator.reverseAnimate();
+        if (source != null) {
+            animator.reverseAnimate();
+        }
         CloseEvent.fire(this, this);
     }
 
