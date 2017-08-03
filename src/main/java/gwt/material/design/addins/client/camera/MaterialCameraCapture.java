@@ -23,16 +23,15 @@ package gwt.material.design.addins.client.camera;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.*;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.VideoElement;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.Display;
 import gwt.material.design.jscore.client.api.*;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
@@ -99,9 +98,11 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
 
     protected boolean pauseOnUnload = true;
+    
+    private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
 
     public MaterialCameraCapture() {
-        super(Document.get().createVideoElement());
+        super(Document.get().createDivElement(), "camera-wrapper");
     }
 
     /**
@@ -123,13 +124,23 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      * or sent to the server
      */
     public String captureToDataURL(String mimeType) {
-        return nativeCaptureToDataURL(Canvas.createIfSupported().getCanvasElement(), getElement(), mimeType);
+        return nativeCaptureToDataURL(Canvas.createIfSupported().getCanvasElement(), video.getElement(), mimeType);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        VideoElement el = getElement().cast();
+        build();
+    }
+
+    @Override
+    protected void build() {
+        super.build();
+
+        setDisplay(Display.INLINE_BLOCK);
+        setLayoutPosition(Style.Position.RELATIVE);
+        add(video);
+        VideoElement el = video.getElement().cast();
         if (el.getSrc() == null || el.isPaused()) {
             play();
         }
@@ -158,9 +169,9 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
-        VideoElement el = getElement().cast();
+        VideoElement el = video.getElement().cast();
         if (el.getSrc() == null) {
-            nativePlay(getElement());
+            nativePlay(video.getElement());
         } else {
             el.play();
         }
@@ -175,14 +186,14 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
-        nativePlay(getElement());
+        nativePlay(video.getElement());
     }
 
     /**
      * Pauses the video stream from the camera.
      */
     public void pause() {
-        VideoElement el = getElement().cast();
+        VideoElement el = video.getElement().cast();
         el.pause();
         onCameraCapturePause();
     }
@@ -308,4 +319,15 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         }, CameraCaptureEvent.getType());
     }
 
+    public void addOverlay(MaterialWidget overlay) {
+        overlay.setLayoutPosition(Style.Position.ABSOLUTE);
+        overlay.addStyleName("camera-overlay");
+        add(overlay);
+    }
+
+    public void addOverlay(MaterialWidget overlay, int top, int left) {
+        overlay.setTop(top);
+        overlay.setLeft(left);
+        addOverlay(overlay);
+    }
 }
