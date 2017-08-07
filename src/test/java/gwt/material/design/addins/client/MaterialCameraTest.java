@@ -57,6 +57,6 @@ public class MaterialCameraTest extends MaterialAddinsTest {
         assertTrue(cameraCapture.isPauseOnUnload());
         cameraCapture.setPauseOnUnload(false);
         assertFalse(cameraCapture.isPauseOnUnload());
-        cameraCapture.restart();
+        cameraCapture.reinitialize();
     }
 }

@@ -24,7 +24,9 @@ import java.util.List;
 
 public enum CameraFacingMode {
     FRONT("user"),
-    REAR("environment");
+    REAR("environment"),
+    LEFT("left"),
+    RIGHT("right");
 
     String name;
 
@@ -40,6 +42,8 @@ public enum CameraFacingMode {
         List<CameraFacingMode> facingModes = new ArrayList<>();
         facingModes.add(CameraFacingMode.FRONT);
         facingModes.add(CameraFacingMode.REAR);
+        facingModes.add(CameraFacingMode.LEFT);
+        facingModes.add(CameraFacingMode.RIGHT);
         return facingModes;
     }
 }
