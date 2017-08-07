@@ -33,6 +33,7 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.Captur
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.jscore.client.api.*;
+import gwt.material.design.jscore.client.api.media.*;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 
@@ -93,6 +94,7 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
  * </p>
  *
  * @author gilberto-torrezan
+ * @author kevzlou7979
  */
 // @formatter:on
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
@@ -101,7 +103,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     protected int width = 1280;
     protected int height = 720;
     protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
-    
+    private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
 
     public MaterialCameraCapture() {
@@ -142,6 +144,11 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
         setLayoutPosition(Style.Position.RELATIVE);
         add(video);
+
+    }
+
+    @Override
+    protected void initialize() {
         VideoElement el = video.getElement().cast();
         if (el.getSrc() == null || el.isPaused()) {
             play();
@@ -179,16 +186,16 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         }
     }
 
-    /**
-     * Restarts the video stream from the camera.
-     * The user is requested again by the browser to allow the application to use the camera.
-     */
-    public void restart() {
+    @Override
+    public void reinitialize() {
         if (!isSupported()) {
             onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
-        nativePlay(video.getElement());
+        if (mediaStream != null) {
+            stop();
+            nativePlay(video.getElement());
+        }
     }
 
     /**
@@ -248,27 +255,24 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             mediaTrackConstraints.facingMode = facingMode.getName();
             constraints.video = mediaTrackConstraints;
 
-            Navigator.getMedia(constraints, (streamObj) -> {
-                if (URL.createObjectURL(streamObj) != null) {
-                    $(video).attr("src", URL.createObjectURL(streamObj));
-                } else if (WebkitURL.createObjectURL(streamObj) != null) {
-                    $(video).attr("src", WebkitURL.createObjectURL(streamObj));
+            Navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
+                mediaStream = (MediaStream) streamObj;
+                if (URL.createObjectURL(mediaStream) != null) {
+                    $(video).attr("src", URL.createObjectURL(mediaStream));
+                } else if (WebkitURL.createObjectURL(mediaStream) != null) {
+                    $(video).attr("src", WebkitURL.createObjectURL(mediaStream));
                 }
                 if (video instanceof VideoElement) {
                     ((VideoElement) video).play();
                 }
                 onCameraCaptureLoad();
-            }, (error) -> {
+                return null;
+            }).catchException(error -> {
                 GWT.log("MaterialCameraCapture: An error occured! " + error);
-                onCameraCaptureError(error);
+                onCameraCaptureError(error.toString());
+                return null;
             });
         }
-    }
-
-    public void setResolution(int width, int height) {
-        this.width = width;
-        this.height = height;
-        restart();
     }
 
     /**
@@ -353,10 +357,30 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     }
 
     /**
+     * Set the resolution of the camera
+     */
+    public void setResolution(int width, int height) {
+        this.width = width;
+        this.height = height;
+        reinitialize();
+    }
+
+    /**
      * Set the facing mode of the camera (Best usecase for Mobile Devices)
      */
     public void setFacingMode(CameraFacingMode facingMode) {
         this.facingMode = facingMode;
-        restart();
+        reinitialize();
+    }
+
+    /**
+     * Stops all the Tracks that is currently streaming
+     */
+    public void stop() {
+        if (mediaStream != null) {
+            for (MediaStreamTrack track : mediaStream.getTracks()) {
+                track.stop();
+            }
+        }
     }
 }
