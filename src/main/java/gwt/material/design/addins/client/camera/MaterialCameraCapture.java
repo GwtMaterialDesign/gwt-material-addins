@@ -27,11 +27,11 @@ import com.google.gwt.dom.client.*;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
+import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.Display;
 import gwt.material.design.jscore.client.api.*;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
@@ -100,6 +100,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     protected boolean pauseOnUnload = true;
     protected int width = 1280;
     protected int height = 720;
+    protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
     
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
 
@@ -139,7 +140,6 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     protected void build() {
         super.build();
 
-        setDisplay(Display.INLINE_BLOCK);
         setLayoutPosition(Style.Position.RELATIVE);
         add(video);
         VideoElement el = video.getElement().cast();
@@ -245,6 +245,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             MediaTrackConstraints mediaTrackConstraints = new MediaTrackConstraints();
             mediaTrackConstraints.width = width;
             mediaTrackConstraints.height = height;
+            mediaTrackConstraints.facingMode = facingMode.getName();
             constraints.video = mediaTrackConstraints;
 
             Navigator.getMedia(constraints, (streamObj) -> {
@@ -349,5 +350,13 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
 
     public void setVideo(MaterialWidget video) {
         this.video = video;
+    }
+
+    /**
+     * Set the facing mode of the camera (Best usecase for Mobile Devices)
+     */
+    public void setFacingMode(CameraFacingMode facingMode) {
+        this.facingMode = facingMode;
+        restart();
     }
 }
