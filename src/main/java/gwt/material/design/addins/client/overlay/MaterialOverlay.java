@@ -61,7 +61,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>, HasCloseHandlers<MaterialOverlay>, HasDurationTransition {
+public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>,
+        HasCloseHandlers<MaterialOverlay>, HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {

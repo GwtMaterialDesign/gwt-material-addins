@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -51,7 +52,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#avatar">Material Avatar</a>
  */
 //@formatter:on
-public class MaterialAvatar extends MaterialWidget {
+public class MaterialAvatar extends AbstractValueWidget<String> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -91,7 +92,7 @@ public class MaterialAvatar extends MaterialWidget {
      * Get the name of the avatar.
      */
     public String getName() {
-        return name;
+        return getValue();
     }
 
     /**
@@ -99,7 +100,19 @@ public class MaterialAvatar extends MaterialWidget {
      * pass it into jdenticon avatar process.
      */
     public void setName(String name) {
-        this.name = name;
+        setValue(name, true);
+    }
+
+    @Override
+    public void setValue(String value, boolean fireEvents) {
+        this.name = value;
+        reinitialize();
+        super.setValue(value, fireEvents);
+    }
+
+    @Override
+    public String getValue() {
+        return name;
     }
 
     @Override
