@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.timepicker;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.editor.client.LeafValueEditor;
@@ -248,8 +249,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         this.orientation = orientation;
         if(isInitialize()) {
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", orientation.getCssName());
-        } else {
-            initialize();
         }
     }
 
