@@ -32,8 +32,12 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.jscore.client.api.*;
 import gwt.material.design.jscore.client.api.media.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 
@@ -105,6 +109,7 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
     private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
+    private MaterialWidget overlayPanel = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialCameraCapture() {
         super(Document.get().createDivElement(), "camera-wrapper");
@@ -145,6 +150,12 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         setLayoutPosition(Style.Position.RELATIVE);
         add(video);
 
+        overlayPanel.setLayoutPosition(Style.Position.FIXED);
+        overlayPanel.setTop(0);
+        overlayPanel.setLeft(0);
+        overlayPanel.setBottom(0);
+        overlayPanel.setRight(0);
+        add(overlayPanel);
     }
 
     @Override
@@ -337,15 +348,15 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
     }
 
     public void addOverlay(MaterialWidget overlay) {
-        overlay.setLayoutPosition(Style.Position.ABSOLUTE);
-        overlay.addStyleName("camera-overlay");
-        add(overlay);
+        overlayPanel.add(overlay);
     }
 
-    public void addOverlay(MaterialWidget overlay, int top, int left) {
-        overlay.setTop(top);
-        overlay.setLeft(left);
-        addOverlay(overlay);
+    public void removeOverlay(MaterialWidget overlay) {
+        overlayPanel.remove(overlay);
+    }
+
+    public void clearOverlays() {
+        overlayPanel.clear();
     }
 
     public MaterialWidget getVideo() {
