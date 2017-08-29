@@ -7,6 +7,11 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
+/**
+ * JSInterop util for Image Cropping Component
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true)
 public class JsCropper extends JQueryElement {
 

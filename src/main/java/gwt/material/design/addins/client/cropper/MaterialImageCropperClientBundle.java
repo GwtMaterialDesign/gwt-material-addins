@@ -32,7 +32,6 @@ interface MaterialImageCropperClientBundle extends ClientBundle {
 
     MaterialImageCropperClientBundle INSTANCE = GWT.create(MaterialImageCropperClientBundle.class);
 
-
     @Source("resources/js/croppie.min.js")
     TextResource imageCropperJs();
 

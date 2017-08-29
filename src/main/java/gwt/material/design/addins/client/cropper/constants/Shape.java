@@ -1,18 +1,18 @@
 package gwt.material.design.addins.client.cropper.constants;
 
 /**
- * Indicating the image format defaults to {@link #PNG}
+ * The cropper guideline shape within the viewport defaults to {@link #SQUARE}
  *
  * @author kevzlou7979
  */
-public enum Format {
-    PNG("png"),
-    JPEG("jpeg"),
-    WEBP("webp");
+public enum  Shape {
+
+    SQUARE("square"),
+    CIRCLE("circle");
 
     private String name;
 
-    Format(String name) {
+    Shape(String name) {
         this.name = name;
     }
 

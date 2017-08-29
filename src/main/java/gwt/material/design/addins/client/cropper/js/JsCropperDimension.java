@@ -4,8 +4,13 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+/**
+ * Dimensions for Image Cropper
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class JsViewPort {
+public class JsCropperDimension {
 
     @JsProperty
     public int width;
