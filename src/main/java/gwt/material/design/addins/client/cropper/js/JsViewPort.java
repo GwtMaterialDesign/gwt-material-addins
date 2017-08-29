@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.image.js;
+package gwt.material.design.addins.client.cropper.js;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;

@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.image.constants;
+package gwt.material.design.addins.client.cropper.constants;
 
 public enum Size {
     VIEWPORT("viewport"),

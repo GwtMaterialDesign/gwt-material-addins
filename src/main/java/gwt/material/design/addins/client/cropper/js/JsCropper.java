@@ -1,4 +1,4 @@
-package gwt.material.design.addins.client.image.js;
+package gwt.material.design.addins.client.cropper.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -23,7 +23,7 @@ public class JsCropper extends JQueryElement {
     public native JsCropper croppie();
 
     @JsMethod
-    public native JsCropper croppie(Object options);
+    public native JsCropper croppie(JsCropperOptions options);
 
     @JsMethod
     public native Promise croppie(String method, Object... args);

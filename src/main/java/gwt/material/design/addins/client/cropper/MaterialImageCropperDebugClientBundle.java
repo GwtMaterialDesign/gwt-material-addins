@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.image;
+package gwt.material.design.addins.client.cropper;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -28,14 +28,13 @@ import com.google.gwt.resources.client.TextResource;
  *
  * @author kevzlou7979
  */
-interface MaterialImageCropperClientBundle extends ClientBundle {
+interface MaterialImageCropperDebugClientBundle extends ClientBundle {
 
-    MaterialImageCropperClientBundle INSTANCE = GWT.create(MaterialImageCropperClientBundle.class);
+    MaterialImageCropperDebugClientBundle INSTANCE = GWT.create(MaterialImageCropperDebugClientBundle.class);
 
+    @Source("resources/js/croppie.js")
+    TextResource imageCropperDebugJs();
 
-    @Source("resources/js/croppie.min.js")
-    TextResource imageCropperJs();
-
-    @Source("resources/css/croppie.min.css")
-    TextResource imageCropperCss();
+    @Source("resources/css/croppie.css")
+    TextResource imageCropperDebugCss();
 }
