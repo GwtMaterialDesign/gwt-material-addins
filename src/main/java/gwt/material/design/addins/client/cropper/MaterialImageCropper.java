@@ -150,9 +150,6 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
         cropper.croppie("bind", url).then((result, object) -> {
             callback.call();
             return true;
-        }).fail((event, error) -> {
-            GWT.log("Error on resolving promise " + error.toString());
-            return false;
         });
     }
 
