@@ -125,9 +125,8 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
      * the Result Cropped Data.
      */
     public void crop(Type type) {
-        cropper.croppie("result", type.getName()).then((param1, param2) -> {
-            String result = param1.toString();
-            CropEvent.fire(this, result);
+        cropper.croppie("result", type.getName()).then((result) -> {
+            CropEvent.fire(this, result.toString());
             return true;
         });
     }
