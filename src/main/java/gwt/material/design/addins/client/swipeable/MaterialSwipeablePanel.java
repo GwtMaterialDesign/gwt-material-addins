@@ -27,8 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
-import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
-import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
+import gwt.material.design.addins.client.swipeable.events.*;
 import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
@@ -100,9 +99,13 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     protected void initialize(Element element, Widget target) {
-        JsSwipeable.initSwipeablePanel(element, () -> {
-            SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
-        }, () -> SwipeRightEvent.fire(MaterialSwipeablePanel.this, target));
+        JsSwipeable.initSwipeablePanel(element,
+                () -> SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target),
+                () -> SwipeRightEvent.fire(MaterialSwipeablePanel.this, target),
+                () -> OnStartSwipeLeftEvent.fire(this, target),
+                () -> OnStartSwipeRightEvent.fire(this, target),
+                () -> OnEndSwipeLeftEvent.fire(this, target),
+                () -> OnEndSwipeRightEvent.fire(this, target));
     }
 
     @Override
@@ -127,6 +130,26 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
                 }
             }
         }, SwipeRightEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOnStartSwipeLeftHandler(OnStartSwipeLeftEvent.OnStartSwipeLeftHandler<Widget> handler) {
+        return addHandler(handler, OnStartSwipeLeftEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOnStartSwipeRightHandler(OnStartSwipeRightEvent.OnStartSwipeRightHandler<Widget> handler) {
+        return addHandler(handler, OnStartSwipeRightEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOnEndSwipeLeftHandler(OnEndSwipeLeftEvent.OnEndSwipeLeftHandler<Widget> handler) {
+        return addHandler(handler, OnEndSwipeLeftEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOnEndSwipeRightHandler(OnEndSwipeRightEvent.OnEndSwipeRightHandler<Widget> handler) {
+        return addHandler(handler, OnEndSwipeRightEvent.getType());
     }
 
     /**

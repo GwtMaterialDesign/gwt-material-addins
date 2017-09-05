@@ -21,9 +21,11 @@ package gwt.material.design.addins.client.swipeable.base;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.addins.client.swipeable.events.SwipeLeftEvent;
-import gwt.material.design.addins.client.swipeable.events.SwipeRightEvent;
+import gwt.material.design.addins.client.swipeable.events.*;
 
+/**
+ * @author kevzlou7979
+ */
 public interface HasSwipeableHandler<T> extends HasHandlers {
 
     /**
@@ -35,5 +37,25 @@ public interface HasSwipeableHandler<T> extends HasHandlers {
      * Add swipe right handler.
      */
     HandlerRegistration addSwipeRightHandler(SwipeRightEvent.SwipeRightHandler<T> handler);
+
+    /**
+     * Add on start swipe left handler.
+     */
+    HandlerRegistration addOnStartSwipeLeftHandler(OnStartSwipeLeftEvent.OnStartSwipeLeftHandler<T> handler);
+
+    /**
+     * Add on start swipe right handler.
+     */
+    HandlerRegistration addOnStartSwipeRightHandler(OnStartSwipeRightEvent.OnStartSwipeRightHandler<T> handler);
+
+    /**
+     *  Add on end swipe left handler.
+     */
+    HandlerRegistration addOnEndSwipeLeftHandler(OnEndSwipeLeftEvent.OnEndSwipeLeftHandler<T> handler);
+
+    /**
+     *  Add on end swipe right handler.
+     */
+    HandlerRegistration addOnEndSwipeRightHandler(OnEndSwipeRightEvent.OnEndSwipeRightHandler<T> handler);
 
 }
