@@ -66,7 +66,7 @@ public class MaterialSplitPanel extends MaterialWidget {
 
     static {
         if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
+            MaterialDesignBase.injectDebugJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
             MaterialDesignBase.injectCss(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss());
         } else {
             MaterialDesignBase.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());

@@ -1,10 +1,32 @@
-function initSwipeablePanel(element, leftCallback, rightCallback) {
+function initSwipeablePanel(element, leftCallback, rightCallback, onStartLeft, onStartRight, onEndLeft, onEndRight) {
     var swipeLeftToRight;
     var swipeRightToLeft;
+
     var callbacks = $.Callbacks();
+
+    // Teardown previous callbacks
+    callbacks.empty();
+
     $(element).each(function() {
         $(this).hammer({
             prevent_default: false
+        }).bind('panstart', function(e) {
+            if (e.gesture.pointerType === "touch") {
+                var direction = e.gesture.direction;
+                var x = e.gesture.deltaX;
+                var velocityX = e.gesture.velocityX;
+                // On Start Swipe Left
+                if (direction === 4 && (x > (parent.innerWidth() / 2) || velocityX < -0.75)) {
+                    callbacks.add(onStartLeft);
+                    callbacks.fire();
+                }
+
+                // On Start Swipe Right
+                if (direction === 2 && (x < (-1 * parent.innerWidth() / 2) || velocityX > 0.75)) {
+                    callbacks.add(onStartRight);
+                    callbacks.fire();
+                }
+            }
         }).bind('pan', function(e) {
             if (e.gesture.pointerType === "touch") {
                 var parent = $(this);
@@ -66,6 +88,23 @@ function initSwipeablePanel(element, leftCallback, rightCallback) {
                 }
                 swipeLeftToRight = false;
                 swipeRightToLeft = false;
+            }
+        }).bind('panend', function(e) {
+            if (e.gesture.pointerType === "touch") {
+                var direction = e.gesture.direction;
+                var x = e.gesture.deltaX;
+                var velocityX = e.gesture.velocityX;
+                // On Start Swipe Left
+                if (direction === 4 && (x > (parent.innerWidth() / 2) || velocityX < -0.75)) {
+                    callbacks.add(onEndLeft);
+                    callbacks.fire();
+                }
+
+                // On Start Swipe Right
+                if (direction === 2 && (x < (-1 * parent.innerWidth() / 2) || velocityX > 0.75)) {
+                    callbacks.add(onEndRight);
+                    callbacks.fire();
+                }
             }
         });
 
