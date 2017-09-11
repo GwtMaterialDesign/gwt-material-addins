@@ -60,7 +60,7 @@ public class MaterialPathAnimator implements HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
+            MaterialDesignBase.injectDebugJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
         }
