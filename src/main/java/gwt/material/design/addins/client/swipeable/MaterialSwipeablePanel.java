@@ -26,12 +26,18 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.gesture.velocity.js.JsTransitionOptions;
+import gwt.material.design.addins.client.gesture.velocity.js.JsVelocity;
+import gwt.material.design.addins.client.gesture.velocity.js.JsVelocityOptions;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.*;
-import gwt.material.design.addins.client.swipeable.js.JsSwipeable;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.JQueryElement;
+
+import static gwt.material.design.addins.client.gesture.hammer.js.JsHammer.$;
 
 /**
  * A panel that allows any of its nested children to be swiped away.
@@ -98,14 +104,83 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         }
     }
 
-    protected void initialize(Element element, Widget target) {
-        JsSwipeable.initSwipeablePanel(element,
-                () -> SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target),
-                () -> SwipeRightEvent.fire(MaterialSwipeablePanel.this, target),
-                () -> OnStartSwipeLeftEvent.fire(this, target),
-                () -> OnStartSwipeRightEvent.fire(this, target),
-                () -> OnEndSwipeLeftEvent.fire(this, target),
-                () -> OnEndSwipeRightEvent.fire(this, target));
+    protected void initialize(Element container, Widget target) {
+        JQueryElement parent = $(container);
+        parent.each((object, element) -> {
+            boolean swipeLeftToRight[] = {false};
+            boolean swipeRightToLeft[] = {false};
+
+
+            $(element).hammer().bind("pan", (result) -> {
+                int direction = result.gesture.direction;
+                int x = result.gesture.deltaX;
+                double velocityX = result.gesture.velocityX;
+
+                JsVelocity.$(container).velocity(buildVelocityOption(x), buildTransitionOption(50, false, "easeOutQuad", null));
+
+                if (direction == 4 && (x > parent.innerWidth() || velocityX < -0.75)) {
+                    swipeLeftToRight[0] = true;
+                }
+
+                if (direction == 2 && (x < (-1 * parent.innerWidth() / 2) || velocityX > 0.75)) {
+                    swipeRightToLeft[0] = true;
+                }
+
+            }).bind("panend", e -> {
+                // Reset if collection is moved back into original position
+                if (Math.abs(e.gesture.deltaX) < ($(element).innerWidth() / 2)) {
+                    swipeLeftToRight[0] = false;
+                    swipeRightToLeft[0] = false;
+                }
+
+                // Sets final position once pan ended
+                if (swipeLeftToRight[0] || swipeRightToLeft[0]) {
+                    double fullWidth = 0;
+                    if (swipeLeftToRight[0]) {
+                        fullWidth = parent.innerWidth();
+                        SwipeRightEvent.fire(MaterialSwipeablePanel.this, target);
+                    }
+
+                    if (swipeRightToLeft[0]) {
+                        fullWidth = -1 * parent.innerWidth();
+                        SwipeLeftEvent.fire(MaterialSwipeablePanel.this, target);
+                    }
+
+                    Functions.Func completeCallback = () -> {
+                        parent.css("border", "none");
+                        JsVelocity.$(parent).velocity(buildVelocityOption(0, 0), buildTransitionOption(200, false, "easeQuadOut", () -> parent.remove()));
+                    };
+
+                    JsVelocity.$(parent).velocity(buildVelocityOption(fullWidth), buildTransitionOption(100, false, "easeOutQuad", completeCallback));
+                } else {
+                    JsVelocity.$(parent).velocity(buildVelocityOption(0), buildTransitionOption(100, false, "easeQuad", null));
+                }
+            });
+        });
+    }
+
+    protected JsVelocityOptions buildVelocityOption(double translateX) {
+        JsVelocityOptions option = new JsVelocityOptions();
+        option.translateX = translateX;
+        return option;
+    }
+
+    protected JsVelocityOptions buildVelocityOption(double height, double padding) {
+        JsVelocityOptions option = new JsVelocityOptions();
+        option.height = 0;
+        option.padding = 0;
+        return option;
+    }
+
+    protected JsTransitionOptions buildTransitionOption(int duration, boolean queue, String easing, Functions.Func completeCallback) {
+        JsTransitionOptions option = new JsTransitionOptions();
+        option.duration = duration;
+        option.easing = easing;
+        option.queue = queue;
+        if (completeCallback != null) {
+            option.complete = completeCallback;
+        }
+        return option;
     }
 
     @Override
