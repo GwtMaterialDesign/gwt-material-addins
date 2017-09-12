@@ -44,7 +44,7 @@ import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.animate.MaterialAnimator;
+import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Span;
@@ -372,8 +372,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      */
     public void showFeedback(String feedbackText) {
         feedbackSpan.setText(feedbackText);
-        MaterialAnimator.animate(Transition.FADEINUP, feedbackSpan, 500);
-        MaterialLoader.showLoading(true, getCurrentStep().getDivBody());
+        new MaterialAnimation().transition(Transition.FADEINUP).duration(400).animate(feedbackSpan);
+        MaterialLoader.loading(true, getCurrentStep().getDivBody());
         add(divFeedback);
     }
 
