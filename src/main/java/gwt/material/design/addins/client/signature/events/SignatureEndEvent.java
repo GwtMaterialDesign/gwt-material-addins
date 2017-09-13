@@ -23,27 +23,31 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
-public class BeginSignatureEvent extends GwtEvent<BeginSignatureEvent.BeginSignatureHandler> {
+/**
+ * @author kevzlou7979
+ */
+public class SignatureEndEvent extends GwtEvent<SignatureEndEvent.SignatureEndHandler> {
 
-    public interface BeginSignatureHandler extends EventHandler {
-        void onBeginSignature(BeginSignatureEvent event);
+    public interface SignatureEndHandler extends EventHandler {
+        void onSignatureEnd(SignatureEndEvent event);
     }
 
-    public static final Type<BeginSignatureEvent.BeginSignatureHandler> TYPE = new Type<>();
+    public static final Type<SignatureEndHandler> TYPE = new Type<>();
 
-    public BeginSignatureEvent() {}
+    public SignatureEndEvent() {
+    }
 
     public static void fire(HasHandlers source) {
-        source.fireEvent(new BeginSignatureEvent());
+        source.fireEvent(new SignatureEndEvent());
     }
 
     @Override
-    public Type<BeginSignatureEvent.BeginSignatureHandler> getAssociatedType() {
+    public Type<SignatureEndHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(BeginSignatureEvent.BeginSignatureHandler handler) {
-        handler.onBeginSignature(this);
+    protected void dispatch(SignatureEndHandler handler) {
+        handler.onSignatureEnd(this);
     }
 }

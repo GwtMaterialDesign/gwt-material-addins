@@ -33,6 +33,6 @@ interface MaterialSignaturePadClientBundle extends ClientBundle {
     MaterialSignaturePadClientBundle INSTANCE = GWT.create(MaterialSignaturePadClientBundle.class);
 
     @Source("resources/js/signature-pad.min.js")
-    TextResource signaPadJs();
+    TextResource signaturePadJs();
 
 }

@@ -28,13 +28,13 @@ import jsinterop.annotations.JsType;
 public class JsSignaturePadOptions {
 
     @JsProperty
-    public float dotSize;
+    public double dotSize;
 
     @JsProperty
-    public float minWidth;
+    public double minWidth;
 
     @JsProperty
-    public float maxWidth;
+    public double maxWidth;
 
     @JsProperty
     public int throttle;
@@ -46,7 +46,7 @@ public class JsSignaturePadOptions {
     public String penColor;
 
     @JsProperty
-    public float velocityFilterWeight;
+    public double velocityFilterWeight;
 
     @JsProperty
     public Functions.Func onBegin;

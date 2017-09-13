@@ -23,27 +23,31 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
-public class ClearSignatureEvent extends GwtEvent<ClearSignatureEvent.ClearSignatureHandler> {
+/**
+ * @author kevzlou7979
+ */
+public class SignatureClearEvent extends GwtEvent<SignatureClearEvent.SignatureClearHandler> {
 
-    public interface ClearSignatureHandler extends EventHandler {
-        void onClearSignature(ClearSignatureEvent event);
+    public interface SignatureClearHandler extends EventHandler {
+        void onSignatureClear(SignatureClearEvent event);
     }
 
-    public static final Type<ClearSignatureEvent.ClearSignatureHandler> TYPE = new Type<>();
+    public static final Type<SignatureClearHandler> TYPE = new Type<>();
 
-    public ClearSignatureEvent() {}
+    public SignatureClearEvent() {
+    }
 
     public static void fire(HasHandlers source) {
-        source.fireEvent(new ClearSignatureEvent());
+        source.fireEvent(new SignatureClearEvent());
     }
 
     @Override
-    public Type<ClearSignatureEvent.ClearSignatureHandler> getAssociatedType() {
+    public Type<SignatureClearHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(ClearSignatureEvent.ClearSignatureHandler handler) {
-        handler.onClearSignature(this);
+    protected void dispatch(SignatureClearHandler handler) {
+        handler.onSignatureClear(this);
     }
 }

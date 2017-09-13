@@ -23,14 +23,43 @@ import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+/**
+ * JSInterop utils for Signature Pad component
+ *
+ * @author kevzlou7979
+ */
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class SignaturePad extends JQueryElement {
 
-    public SignaturePad(Element element) {}
+    public SignaturePad(Element element) {
+    }
 
-    public SignaturePad(Element element, JsSignaturePadOptions options) {}
+    public SignaturePad(Element element, JsSignaturePadOptions options) {
+    }
+
+    @JsProperty
+    public double dotSize;
+
+    @JsProperty
+    public double minWidth;
+
+    @JsProperty
+    public double maxWidth;
+
+    @JsProperty
+    public int throttle;
+
+    @JsProperty
+    public String backgroundColor;
+
+    @JsProperty
+    public String penColor;
+
+    @JsProperty
+    public double velocityFilterWeight;
 
     @JsMethod
     public native String toDataURL();

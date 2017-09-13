@@ -21,11 +21,23 @@ package gwt.material.design.addins.client.signature.events;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
+/**
+ * @author kevzlou7979
+ */
 public interface HasSignatureHandlers {
 
-    HandlerRegistration addClearSignatureHandler(ClearSignatureEvent.ClearSignatureHandler handler);
+    /**
+     * Fired once signature canvas has been cleared.
+     */
+    HandlerRegistration addClearSignatureHandler(SignatureClearEvent.SignatureClearHandler handler);
 
-    HandlerRegistration addBeginSignatureHandler(BeginSignatureEvent.BeginSignatureHandler handler);
+    /**
+     * Fired once signature drawing was started.
+     */
+    HandlerRegistration addBeginSignatureHandler(SignatureStartEvent.SignatureStartHandler handler);
 
-    HandlerRegistration addEndSignatureHandler(EndSignatureEvent.EndSignatureHandler handler);
+    /**
+     * Fired once signature drawing was ended.
+     */
+    HandlerRegistration addEndSignatureHandler(SignatureEndEvent.SignatureEndHandler handler);
 }
