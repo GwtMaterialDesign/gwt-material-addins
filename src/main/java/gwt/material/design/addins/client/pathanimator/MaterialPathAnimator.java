@@ -78,6 +78,11 @@ public class MaterialPathAnimator implements HasDurationTransition {
     public MaterialPathAnimator() {
     }
 
+    public MaterialPathAnimator(Element sourceElement, Element targetElement) {
+        this.sourceElement = sourceElement;
+        this.targetElement = targetElement;
+    }
+
     /**
      * Animate the path animator
      */
