@@ -96,9 +96,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     private Span feedbackSpan = new Span();
     private boolean stepSkippingAllowed = true;
     private boolean detectOrientation = false;
-    protected HandlerRegistration orientationHandler;
+    private HandlerRegistration orientationHandler;
 
-    private final CssNameMixin<MaterialStepper, Axis> axisMixin = new CssNameMixin<>(this);
+    private CssNameMixin<MaterialStepper, Axis> axisMixin;
 
     public MaterialStepper() {
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
@@ -114,6 +114,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
             StartEvent.fire(MaterialStepper.this);
             goToStep(currentStepIndex + 1);
         }
+
+        setDetectOrientation(detectOrientation);
     }
 
     @Override
@@ -131,9 +133,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
         }
 
         if (detectOrientation) {
-            orientationHandler = com.google.gwt.user.client.Window.addResizeHandler(resizeEvent -> {
-                detectAndApplyOrientation();
-            });
+            orientationHandler = registerHandler(Window.addResizeHandler(resizeEvent -> detectAndApplyOrientation()));
             detectAndApplyOrientation();
         }
     }
@@ -156,7 +156,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public void add(MaterialStep step) {
         this.add((Widget) step);
         step.setAxis(getAxis());
-        step.addSelectionHandler(this);
+        registerHandler(step.addSelectionHandler(this));
     }
 
     /**
@@ -307,7 +307,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     @Override
     public void setAxis(Axis axis) {
-        axisMixin.setCssName(axis);
+        getAxisMixin().setCssName(axis);
         for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
             if (w instanceof MaterialStep) {
@@ -318,7 +318,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     @Override
     public Axis getAxis() {
-        return axisMixin.getCssName();
+        return getAxisMixin().getCssName();
     }
 
     /**
@@ -439,5 +439,12 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     @Override
     public HandlerRegistration addPreviousHandler(PreviousEvent.PreviousHandler handler) {
         return addHandler(handler, PreviousEvent.TYPE);
+    }
+
+    protected CssNameMixin<MaterialStepper, Axis> getAxisMixin() {
+        if (axisMixin == null) {
+            axisMixin = new CssNameMixin<>(this);
+        }
+        return axisMixin;
     }
 }

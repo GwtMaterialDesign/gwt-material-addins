@@ -24,7 +24,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.*;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
 import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
@@ -32,12 +31,8 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.jscore.client.api.*;
+import gwt.material.design.jscore.client.api.Navigator;
 import gwt.material.design.jscore.client.api.media.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 

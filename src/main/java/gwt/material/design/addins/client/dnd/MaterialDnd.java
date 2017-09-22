@@ -78,7 +78,7 @@ public class MaterialDnd {
     }
 
     protected MaterialDnd draggable() {
-        if(jsDnd == null) {
+        if (jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
 
             // Events
@@ -106,7 +106,7 @@ public class MaterialDnd {
         if (target.isAttached()) {
             draggable();
         } else {
-            target.addAttachHandler(event -> draggable(), true);
+            target.registerHandler(target.addAttachHandler(event -> draggable(), true));
         }
         return this;
     }
@@ -120,7 +120,7 @@ public class MaterialDnd {
     }
 
     protected MaterialDnd dropzone() {
-        if(jsDnd == null) {
+        if (jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
 
             // Events
@@ -156,7 +156,7 @@ public class MaterialDnd {
         if (target.isAttached()) {
             dropzone();
         } else {
-            target.addAttachHandler(event -> dropzone(), true);
+            target.registerHandler(target.addAttachHandler(event -> dropzone(), true));
         }
         return this;
     }
@@ -176,15 +176,15 @@ public class MaterialDnd {
     public void ignoreFrom(Element... elements) {
         this.ignoreFrom = elements;
         if (target.isAttached()) {
-            for(Element element : ignoreFrom) {
+            for (Element element : ignoreFrom) {
                 JsDnd.interact(target.getElement()).ignoreFrom(element);
             }
         } else {
-            target.addAttachHandler(event -> {
-                for(Element element : ignoreFrom) {
+            target.registerHandler(target.addAttachHandler(event -> {
+                for (Element element : ignoreFrom) {
                     JsDnd.interact(target.getElement()).ignoreFrom(element);
                 }
-            }, true);
+            }, true));
         }
     }
 
@@ -193,9 +193,7 @@ public class MaterialDnd {
         if (target.isAttached()) {
             JsDnd.interact(target.getElement()).ignoreFrom(selector);
         } else {
-            target.addAttachHandler(event -> {
-                JsDnd.interact(target.getElement()).ignoreFrom(selector);
-            }, true);
+            target.registerHandler(target.addAttachHandler(event -> JsDnd.interact(target.getElement()).ignoreFrom(selector), true));
         }
     }
 

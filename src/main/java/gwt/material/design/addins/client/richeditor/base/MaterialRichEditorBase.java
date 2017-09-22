@@ -23,7 +23,6 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
@@ -40,6 +39,8 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
     private boolean airMode;
     private String placeholder = "";
     private boolean disableDragAndDrop;
+    private HandlerRegistration handlerRegistration;
+    private String html;
 
     public MaterialRichEditorBase() {
         super(Document.get().createDivElement(), AddinsCssName.EDITOR);
@@ -62,14 +63,19 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
     private ToolbarButton[] heightOptions = new ToolbarButton[]
             {ToolbarButton.LINE_HEIGHT};
 
-    private HandlerRegistration htmlAttachHandler;
-
     public JsArrayString extractOptions(ToolbarButton[] options) {
         JsArrayString jsOptions = JsArrayString.createArray().cast();
         for (ToolbarButton option : options) {
             jsOptions.push(option.getId());
         }
         return jsOptions;
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        setHTML(html);
     }
 
     public ToolbarButton[] getStyleOptions() {
@@ -183,16 +189,16 @@ public class MaterialRichEditorBase extends AbstractValueWidget<String> implemen
 
     @Override
     public void setHTML(final String html) {
-        if (htmlAttachHandler != null) {
-            htmlAttachHandler.removeHandler();
-            htmlAttachHandler = null;
+        this.html = html;
+
+        if (handlerRegistration != null) {
+            handlerRegistration.removeHandler();
+            handlerRegistration = null;
         }
 
-        if (!isAttached()) {
-
-            htmlAttachHandler = addAttachHandler(e -> setHTMLCode(getElement(), html));
+        if (!isAttached() && html != null) {
+            handlerRegistration = registerHandler(addAttachHandler(e -> setHTMLCode(getElement(), html)));
         } else {
-
             setHTMLCode(getElement(), html);
         }
     }

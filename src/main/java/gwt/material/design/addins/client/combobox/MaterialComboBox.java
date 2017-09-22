@@ -30,27 +30,21 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
-import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
-import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
@@ -104,23 +98,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private boolean tags;
     private String dropdownParent = "body";
     private boolean suppressChangeEvent;
-
     private int selectedIndex;
     private String uid = DOM.createUniqueId();
-
     protected List<T> values = new ArrayList<>();
-
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
-    private HandlerRegistration valueChangeHandler, clearInputHandler;
-
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
-            this, errorLabel, this.asWidget());
-    private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
-
-    // By default the key is generated using toString
     private KeyFactory<T, String> keyFactory = Object::toString;
+
+    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
@@ -155,9 +142,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         options.dropdownParent = $(dropdownParent);
         options.tags = tags;
 
-        if (clearInputHandler == null) {
-            clearInputHandler = addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val(""));
-        }
+        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
 
         if (isHideSearch()) {
             options.minimumResultsForSearch = "Infinity";
@@ -167,7 +152,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.select2(options);
 
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
-            if(!suppressChangeEvent) {
+            if (!suppressChangeEvent) {
                 ValueChangeEvent.fire(this, getValue());
             }
             return true;
@@ -210,10 +195,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
         jsComboBox.select2("destroy");
-
-        if (valueChangeHandler != null) {
-            valueChangeHandler.removeHandler();
-        }
     }
 
     @Override
@@ -232,8 +213,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
-    * Sets the parent element of the dropdown
-    */
+     * Sets the parent element of the dropdown
+     */
     public void setDropdownParent(String dropdownParent) {
         this.dropdownParent = dropdownParent;
     }
@@ -345,7 +326,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public List<T> getValue() {
-        if(!multiple) {
+        if (!multiple) {
             int index = getSelectedIndex();
             if (index != -1) {
                 return Collections.singletonList(values.get(index));
@@ -371,7 +352,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public T getSingleValue() {
         List<T> values = getSelectedValue();
-        if(!values.isEmpty()) {
+        if (!values.isEmpty()) {
             return values.get(0);
         }
         return null;
@@ -392,8 +373,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void setValue(List<T> values, boolean fireEvents) {
-        if(!multiple) {
-            if(!values.isEmpty()) {
+        if (!multiple) {
+            if (!values.isEmpty()) {
                 setSingleValue(values.get(0), fireEvents);
             }
         } else {
@@ -549,13 +530,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         Object[] curVal = (Object[]) $(listbox.getElement()).val();
 
         List<T> selectedValues = new ArrayList<>();
-        if(curVal == null || curVal.length < 1) {
+        if (curVal == null || curVal.length < 1) {
             return selectedValues;
         }
 
         List<String> keyIndex = getValuesKeyIndex();
         for (Object val : curVal) {
-            if(val instanceof String) {
+            if (val instanceof String) {
                 int selectedIndex = keyIndex.indexOf(val);
                 if (selectedIndex != -1) {
                     selectedValues.add(values.get(selectedIndex));
@@ -627,18 +608,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        return errorMixin;
-    }
-
-    public ReadOnlyMixin<MaterialComboBox, MaterialWidget> getReadOnlyMixin() {
-        if (readOnlyMixin == null) {
-            readOnlyMixin = new ReadOnlyMixin<>(this, listbox);
-        }
-        return readOnlyMixin;
-    }
-
-    @Override
     public void setReadOnly(boolean value) {
         getReadOnlyMixin().setReadOnly(value);
     }
@@ -651,11 +620,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void setToggleReadOnly(boolean toggle) {
         getReadOnlyMixin().setToggleReadOnly(toggle);
-        valueChangeHandler = addValueChangeHandler(valueChangeEvent -> {
+        registerHandler(addValueChangeHandler(valueChangeEvent -> {
             if (isToggleReadOnly()) {
                 setReadOnly(true);
             }
-        });
+        }));
     }
 
     @Override
@@ -695,5 +664,20 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public void setTags(boolean tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        if (errorMixin == null) {
+            errorMixin = new ErrorMixin<>(this, errorLabel, this.asWidget());
+        }
+        return errorMixin;
+    }
+
+    public ReadOnlyMixin<MaterialComboBox, MaterialWidget> getReadOnlyMixin() {
+        if (readOnlyMixin == null) {
+            readOnlyMixin = new ReadOnlyMixin<>(this, listbox);
+        }
+        return readOnlyMixin;
     }
 }

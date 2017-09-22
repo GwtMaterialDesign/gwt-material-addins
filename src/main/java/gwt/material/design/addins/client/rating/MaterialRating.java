@@ -224,19 +224,21 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
         for (int i = 0; i < maxRating; i++) {
             final int rating = i + 1;
             MaterialIcon icon = new MaterialIcon(unselectedRatingIcon);
-            icon.addClickHandler(event -> {
+            registerHandler(icon.addClickHandler(event -> {
                 if (!isEnabled() || !isEditable()) {
                     return;
                 }
                 setValue(rating, true);
-            });
-            icon.addMouseOverHandler(event -> {
+            }));
+
+            registerHandler(icon.addMouseOverHandler(event -> {
                 if (!isEnabled() || !isEditable()) {
                     return;
                 }
                 revalidateSelection(rating);
-            });
-            icon.addMouseOutHandler(outHandler);
+            }));
+
+            registerHandler(icon.addMouseOutHandler(outHandler));
             add(icon);
             iconList.add(icon);
         }

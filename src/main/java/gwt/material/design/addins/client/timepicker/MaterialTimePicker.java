@@ -72,7 +72,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @see <a href="https://material.io/guidelines/components/pickers.html#pickers-time-pickers">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder, HasOrientation,
+public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly {
 
     static {
@@ -109,18 +109,15 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     private MaterialIcon icon = new MaterialIcon();
 
-    private ToggleStyleMixin<MaterialInput> validMixin = new ToggleStyleMixin<>(this.timeInput, CssName.VALID);
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, errorLabel, timeInput, placeholderLabel);
+    private ToggleStyleMixin<MaterialInput> validMixin;
+    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
 
     private String uniqueId;
     private String placeholder;
     private boolean autoClose;
     private boolean hour24;
-    private boolean detectOrientation = false;
     private Orientation orientation = Orientation.PORTRAIT;
-
-    protected HandlerRegistration orientationHandler;
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
@@ -147,7 +144,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void build() {
         uniqueId = DOM.createUniqueId();
         timeInput.setType(InputType.TEXT);
-        readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
         container.add(placeholderLabel);
         container.add(timeInput);
         container.add(errorLabel);
@@ -231,12 +227,9 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         placeholderLabel.setText(placeholder);
     }
 
-    /**
-     * @return The orientation.
-     */
     @Override
     public Orientation getOrientation() {
-        return this.orientation;
+        return orientation;
     }
 
     /**
@@ -245,38 +238,10 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
-        if(isInitialize()) {
+        if (isInitialize()) {
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", orientation.getCssName());
         } else {
             initialize();
-        }
-    }
-
-    public void setDetectOrientation(boolean detectOrientation) {
-        this.detectOrientation = detectOrientation;
-
-        if(orientationHandler != null) {
-            orientationHandler.removeHandler();
-            orientationHandler = null;
-        }
-
-        if(detectOrientation) {
-            orientationHandler = com.google.gwt.user.client.Window.addResizeHandler(resizeEvent -> {
-                detectAndApplyOrientation();
-            });
-            detectAndApplyOrientation();
-        }
-    }
-
-    public boolean isDetectOrientation() {
-        return detectOrientation;
-    }
-
-    protected void detectAndApplyOrientation() {
-        if (Window.matchMedia("(orientation: portrait)")) {
-            setOrientation(Orientation.PORTRAIT);
-        } else {
-            setOrientation(Orientation.LANDSCAPE);
         }
     }
 
@@ -287,7 +252,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         timeInput.getElement().blur();
 
         // Add class 'valid' for visual feedback.
-        validMixin.setOn(true);
+        getValidMixin().setOn(true);
     }
 
     /**
@@ -295,7 +260,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     protected void afterShow() {
         OpenEvent.fire(this, this.time);
-        fireEvent(new FocusEvent() {});
+        fireEvent(new FocusEvent() {
+        });
     }
 
     /**
@@ -316,10 +282,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         setValue(parsedDate, true);
 
         // Remove class 'valid' after hide.
-        validMixin.setOn(false);
+        getValidMixin().setOn(false);
 
         CloseEvent.fire(this, this.time);
-        fireEvent(new BlurEvent() {});
+        fireEvent(new BlurEvent() {
+        });
     }
 
     protected String getTime() {
@@ -434,14 +401,24 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        if (errorMixin == null) {
+            errorMixin = new ErrorMixin<>(this, errorLabel, timeInput, placeholderLabel);
+        }
         return errorMixin;
     }
 
-    public ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {
+    protected ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {
         if (readOnlyMixin == null) {
             readOnlyMixin = new ReadOnlyMixin<>(this, timeInput);
         }
         return readOnlyMixin;
+    }
+
+    protected ToggleStyleMixin<MaterialInput> getValidMixin() {
+        if (validMixin == null) {
+            validMixin = new ToggleStyleMixin<>(timeInput, CssName.VALID);
+        }
+        return validMixin;
     }
 
     @Override

@@ -27,6 +27,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.mixin.TitleMixin;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLoader;

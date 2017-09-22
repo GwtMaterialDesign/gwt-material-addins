@@ -77,8 +77,7 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
     public MaterialBubble() {
         super(Document.get().createSpanElement(), AddinsCssName.BUBBLE);
         triangle.setStyleName(AddinsCssName.TRIANGLE);
-        positionMixin = new CssNameMixin<>(triangle);
-        positionMixin.setCssName(Position.LEFT);
+        getPositionMixin().setCssName(Position.LEFT);
         add(triangle);
         setShadow(1);
     }
@@ -106,16 +105,23 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
 
     @Override
     public Position getPosition() {
-        return positionMixin.getCssName();
+        return getPositionMixin().getCssName();
     }
 
     @Override
     public void setPosition(Position position) {
-        positionMixin.setCssName(position);
+        getPositionMixin().setCssName(position);
         initialize();
     }
 
     public MaterialWidget getTriangle() {
         return triangle;
+    }
+
+    protected CssNameMixin<MaterialWidget, Position> getPositionMixin() {
+        if (positionMixin == null) {
+            positionMixin = new CssNameMixin<>(triangle);
+        }
+        return positionMixin;
     }
 }

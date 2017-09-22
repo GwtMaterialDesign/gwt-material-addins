@@ -69,7 +69,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
         MaterialSubHeader.loadResources();
     }
 
-    private final CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin = new CssTypeMixin<>(this);
+    private CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin;
     private List<MaterialSubHeader> subHeaders = new ArrayList<>();
 
     public MaterialSubHeaderContainer() {
@@ -105,11 +105,18 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
 
     @Override
     public void setType(SubHeaderType type) {
-        typeMixin.setType(type);
+        getTypeMixin().setType(type);
     }
 
     @Override
     public SubHeaderType getType() {
-        return typeMixin.getType();
+        return getTypeMixin().getType();
+    }
+
+    protected CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> getTypeMixin() {
+        if (typeMixin == null) {
+            typeMixin = new CssTypeMixin<>(this);
+        }
+        return typeMixin;
     }
 }

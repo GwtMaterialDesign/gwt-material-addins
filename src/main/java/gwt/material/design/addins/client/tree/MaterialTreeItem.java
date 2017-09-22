@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -75,7 +74,6 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     private MaterialTree tree;
     private Object object;
-    private HandlerRegistration clickRegistration;
 
     private boolean hide = true;
 
@@ -143,20 +141,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         divHeader.add(getIcon());
         divHeader.add(span);
 
-        if (clickRegistration != null) {
-            clickRegistration.removeHandler();
-        }
-        clickRegistration = divHeader.addClickHandler(event -> select());
-    }
-
-    @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        if (clickRegistration != null) {
-            clickRegistration.removeHandler();
-            clickRegistration = null;
-        }
+        registerHandler(divHeader.addClickHandler(event -> select()));
     }
 
     @Override

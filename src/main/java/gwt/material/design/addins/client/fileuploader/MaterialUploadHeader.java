@@ -53,7 +53,7 @@ public class MaterialUploadHeader extends MaterialWidget {
         iconClose.setId(AddinsCssName.UPLOAD_CLOSE);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
-        iconClose.addClickHandler(clickEvent -> preview.setVisibility(Style.Visibility.HIDDEN));
+        registerHandler(iconClose.addClickHandler(clickEvent -> preview.setVisibility(Style.Visibility.HIDDEN)));
         iconColaps.setId(AddinsCssName.UPLOAD_COLAPS);
         iconColaps.setCircle(true);
         iconColaps.setWaves(WavesType.DEFAULT);

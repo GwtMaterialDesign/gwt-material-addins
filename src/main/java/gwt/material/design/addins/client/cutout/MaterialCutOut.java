@@ -103,9 +103,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private String viewportOverflow;
     private Element targetElement;
     private Element focusElement;
-
-    private HandlerRegistration resizeHandler;
-    private HandlerRegistration scrollHandler;
     private int duration = 500;
 
     public MaterialCutOut() {
@@ -298,7 +295,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         viewportOverflow = docStyle.getOverflow();
         docStyle.setProperty("overflow", "hidden");
 
-        if(backgroundSize == null) {
+        if (backgroundSize == null) {
             backgroundSize = body().width() + 300 + "px";
         }
 
@@ -354,15 +351,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
 
         getElement().getStyle().setDisplay(Display.NONE);
 
-        //remove old handlers to avoid memory leaks
-        if (resizeHandler != null) {
-            resizeHandler.removeHandler();
-            resizeHandler = null;
-        }
-        if (scrollHandler != null) {
-            scrollHandler.removeHandler();
-            scrollHandler = null;
-        }
+        getHandlerRegistry().clearHandlers();
 
         // if the component added himself to the document, it must remove
         // himself too
@@ -413,18 +402,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * properly adjust the Cut Out.
      */
     protected void setupWindowHandlers() {
-        if (resizeHandler != null) {
-            resizeHandler.removeHandler();
-        }
-        if (scrollHandler != null) {
-            scrollHandler.removeHandler();
-        }
-        resizeHandler = Window.addResizeHandler(event -> {
-            setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
-        });
-        scrollHandler = Window.addWindowScrollHandler(event -> {
-            setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
-        });
+
+        registerHandler(Window.addResizeHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle)));
+        registerHandler(Window.addWindowScrollHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle)));
     }
 
     protected void setupTransition() {

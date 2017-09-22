@@ -179,18 +179,15 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private SuggestBox suggestBox;
     private int limit = 0;
     private MaterialLabel errorLabel = new MaterialLabel();
-    private final ProgressMixin<MaterialAutoComplete> progressMixin = new ProgressMixin<>(this);
-
     private String selectedChipStyle = "blue white-text";
     private boolean directInputAllowed = true;
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(this, errorLabel, list, placeholderLabel);
-
+    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private ProgressMixin<MaterialAutoComplete> progressMixin;
     private FocusableMixin<MaterialWidget> focusableMixin;
     private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
-
-    public final CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin = new CssTypeMixin<>(this, this);
+    private CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin;
 
     /**
      * Use MaterialAutocomplete to search for matches from local or remote data
@@ -240,15 +237,15 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         item.add(placeholderLabel);
         list.add(item);
 
-        list.addDomHandler(event -> suggestBox.showSuggestionList(), ClickEvent.getType());
+        registerHandler(list.addDomHandler(event -> suggestBox.showSuggestionList(), ClickEvent.getType()));
 
-        itemBox.addBlurHandler(blurEvent -> {
+        registerHandler(itemBox.addBlurHandler(blurEvent -> {
             if (getValue().size() > 0) {
                 placeholderLabel.addStyleName(CssName.ACTIVE);
             }
-        });
+        }));
 
-        itemBox.addKeyDownHandler(event -> {
+        registerHandler(itemBox.addKeyDownHandler(event -> {
             boolean changed = false;
 
             switch (event.getNativeKeyCode()) {
@@ -299,18 +296,18 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             if (changed) {
                 ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
             }
-        });
+        }));
 
-        itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        registerHandler(itemBox.addClickHandler(event -> suggestBox.showSuggestionList()));
 
-        suggestBox.addSelectionHandler(selectionEvent -> {
+        registerHandler(suggestBox.addSelectionHandler(selectionEvent -> {
             Suggestion selectedItem = selectionEvent.getSelectedItem();
             itemBox.setValue("");
             if (addItem(selectedItem)) {
                 ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
             }
             itemBox.setFocus(true);
-        });
+        }));
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
@@ -360,7 +357,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                 return false;
             }
 
-            chip.addClickHandler(event -> {
+            registerHandler(chip.addClickHandler(event -> {
                 if (chipProvider.isChipSelectable(suggestion)) {
                     if (itemsHighlighted.contains(displayItem)) {
                         chip.removeStyleName(selectedChipStyle);
@@ -370,10 +367,10 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                         itemsHighlighted.add(displayItem);
                     }
                 }
-            });
+            }));
 
             if (chip.getIcon() != null) {
-                chip.getIcon().addClickHandler(event -> {
+                registerHandler(chip.getIcon().addClickHandler(event -> {
                     if (chipProvider.isChipRemovable(suggestion)) {
                         suggestionMap.remove(suggestion);
                         list.remove(displayItem);
@@ -381,7 +378,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                         ValueChangeEvent.fire(MaterialAutoComplete.this, getValue());
                         suggestBox.showSuggestionList();
                     }
-                });
+                }));
             }
 
             suggestionMap.put(suggestion, chip);
@@ -408,14 +405,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         suggestionMap.clear();
 
         clearErrorOrSuccess();
-    }
-
-    @Override
-    protected FocusableMixin<MaterialWidget> getFocusableMixin() {
-        if (focusableMixin == null) {
-            focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement()));
-        }
-        return focusableMixin;
     }
 
     /**
@@ -588,17 +577,17 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     @Override
     public void showProgress(ProgressType type) {
-        progressMixin.showProgress(ProgressType.INDETERMINATE);
+        getProgressMixin().showProgress(ProgressType.INDETERMINATE);
     }
 
     @Override
     public void setPercent(double percent) {
-        progressMixin.setPercent(percent);
+        getProgressMixin().setPercent(percent);
     }
 
     @Override
     public void hideProgress() {
-        progressMixin.hideProgress();
+        getProgressMixin().hideProgress();
     }
 
     @Override
@@ -612,12 +601,12 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     @Override
     public void setType(AutocompleteType type) {
-        typeMixin.setType(type);
+        getTypeMixin().setType(type);
     }
 
     @Override
     public AutocompleteType getType() {
-        return typeMixin.getType();
+        return getTypeMixin().getType();
     }
 
     @Override
@@ -630,13 +619,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                 }
             }
         }, SelectionEvent.getType());
-    }
-
-    public ReadOnlyMixin<MaterialAutoComplete, TextBox> getReadOnlyMixin() {
-        if (readOnlyMixin == null) {
-            readOnlyMixin = new ReadOnlyMixin<>(this, itemBox);
-        }
-        return readOnlyMixin;
     }
 
     @Override
@@ -805,11 +787,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         itemBox.setEnabled(enabled);
-    }
-
-    @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        return errorMixin;
     }
 
     public Label getPlaceholderLabel() {

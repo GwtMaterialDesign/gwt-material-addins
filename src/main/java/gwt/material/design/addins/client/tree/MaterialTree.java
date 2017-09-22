@@ -74,7 +74,6 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     }
 
     private MaterialTreeItem selectedItem;
-    private HandlerRegistration selectionHandler;
 
     public MaterialTree() {
         super(Document.get().createDivElement(), AddinsCssName.TREE);
@@ -97,10 +96,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
         }
 
         // Add selection event
-        if (selectionHandler != null) {
-            selectionHandler.removeHandler();
-        }
-        selectionHandler = addSelectionHandler(event -> {
+        registerHandler(addSelectionHandler(event -> {
             for (Widget item : getChildren()) {
                 if (item instanceof MaterialTreeItem) {
                     clearSelectedStyles((MaterialTreeItem) item);
@@ -109,7 +105,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
             MaterialTreeItem treeItem = event.getSelectedItem();
             treeItem.addStyleName(AddinsCssName.SELECTED);
             setSelectedItem(treeItem);
-        });
+        }));
     }
 
     @Override

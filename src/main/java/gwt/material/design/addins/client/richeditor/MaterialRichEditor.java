@@ -184,7 +184,7 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     }
 
     protected void adjustNestedModals(MaterialModal modal) {
-        modal.addOpenHandler(openEvent -> modal.setDepth(9999));
+        registerHandler(modal.addOpenHandler(openEvent -> modal.setDepth(9999)));
     }
 
     protected void adjustFullScreen(MaterialModal modal) {

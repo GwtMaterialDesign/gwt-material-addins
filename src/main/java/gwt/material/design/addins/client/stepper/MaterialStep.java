@@ -86,7 +86,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
-    private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
+    private ActiveMixin<MaterialStep> activeMixin;
 
     private Axis axis = Axis.VERTICAL;
     private State state;
@@ -128,9 +128,9 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
                 SelectionEvent.fire(MaterialStep.this, MaterialStep.this);
             }
         };
-        conCircle.addClickHandler(handler);
-        divTitle.addClickHandler(handler);
-        divDescription.addClickHandler(handler);
+        registerHandler(conCircle.addClickHandler(handler));
+        registerHandler(divTitle.addClickHandler(handler));
+        registerHandler(divDescription.addClickHandler(handler));
     }
 
     @Override
@@ -171,12 +171,12 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     @Override
     public void setActive(boolean active) {
-        activeMixin.setActive(active);
+        getActiveMixin().setActive(active);
     }
 
     @Override
     public boolean isActive() {
-        return activeMixin.isActive();
+        return getActiveMixin().isActive();
     }
 
     @Override
@@ -295,5 +295,12 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     public MaterialIcon getIconSuccess() {
         return iconSuccess;
+    }
+
+    protected ActiveMixin<MaterialStep> getActiveMixin() {
+        if (activeMixin == null) {
+            activeMixin = new ActiveMixin<>(this);
+        }
+        return activeMixin;
     }
 }

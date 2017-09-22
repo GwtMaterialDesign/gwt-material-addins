@@ -86,7 +86,6 @@ public class MaterialSplitPanel extends MaterialWidget {
     private double thickness = 8;
     private Dock dock = Dock.LEFT;
     private Axis axis = Axis.HORIZONTAL;
-    private boolean initialized;
     private JsSplitPanel splitted;
 
     public MaterialSplitPanel() {
