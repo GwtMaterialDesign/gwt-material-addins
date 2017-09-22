@@ -804,4 +804,41 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public SuggestBox getSuggestBox() {
         return suggestBox;
     }
+
+    protected ProgressMixin<MaterialAutoComplete> getProgressMixin() {
+        if (progressMixin == null) {
+            progressMixin = new ProgressMixin<>(this);
+        }
+        return progressMixin;
+    }
+
+    protected CssTypeMixin<AutocompleteType, MaterialAutoComplete> getTypeMixin() {
+        if (typeMixin == null) {
+            typeMixin = new CssTypeMixin<>(this, this);
+        }
+        return typeMixin;
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        if (errorMixin == null) {
+            errorMixin = new ErrorMixin<>(this, errorLabel, list, placeholderLabel);
+        }
+        return errorMixin;
+    }
+
+    protected ReadOnlyMixin<MaterialAutoComplete, TextBox> getReadOnlyMixin() {
+        if (readOnlyMixin == null) {
+            readOnlyMixin = new ReadOnlyMixin<>(this, itemBox);
+        }
+        return readOnlyMixin;
+    }
+
+    @Override
+    protected FocusableMixin<MaterialWidget> getFocusableMixin() {
+        if (focusableMixin == null) {
+            focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement()));
+        }
+        return focusableMixin;
+    }
 }
