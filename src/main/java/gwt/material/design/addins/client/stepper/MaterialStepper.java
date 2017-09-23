@@ -92,10 +92,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     }
 
     private int currentStepIndex = 0;
-    private Div divFeedback = new Div();
-    private Span feedbackSpan = new Span();
     private boolean stepSkippingAllowed = true;
     private boolean detectOrientation = false;
+    private Div divFeedback = new Div();
+    private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
 
     private CssNameMixin<MaterialStepper, Axis> axisMixin;

@@ -168,19 +168,18 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
     }
 
+    private int limit = 0;
+    private boolean directInputAllowed = true;
+    private String selectedChipStyle = "blue white-text";
     private Map<Suggestion, Widget> suggestionMap = new LinkedHashMap<>();
     private Label placeholderLabel = new Label();
-
     private List<ListItem> itemsHighlighted = new ArrayList<>();
     private FlowPanel panel = new FlowPanel();
     private UnorderedList list = new UnorderedList();
     private SuggestOracle suggestions;
     private TextBox itemBox = new TextBox();
     private SuggestBox suggestBox;
-    private int limit = 0;
     private MaterialLabel errorLabel = new MaterialLabel();
-    private String selectedChipStyle = "blue white-text";
-    private boolean directInputAllowed = true;
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
@@ -407,6 +406,21 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         clearErrorOrSuccess();
     }
 
+    @Override
+    public void showProgress(ProgressType type) {
+        getProgressMixin().showProgress(ProgressType.INDETERMINATE);
+    }
+
+    @Override
+    public void setPercent(double percent) {
+        getProgressMixin().setPercent(percent);
+    }
+
+    @Override
+    public void hideProgress() {
+        getProgressMixin().hideProgress();
+    }
+
     /**
      * @return the item values on autocomplete
      * @see #getValue()
@@ -576,21 +590,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     @Override
-    public void showProgress(ProgressType type) {
-        getProgressMixin().showProgress(ProgressType.INDETERMINATE);
-    }
-
-    @Override
-    public void setPercent(double percent) {
-        getProgressMixin().setPercent(percent);
-    }
-
-    @Override
-    public void hideProgress() {
-        getProgressMixin().hideProgress();
-    }
-
-    @Override
     public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
         return itemBox.addKeyUpHandler(event -> {
             if (isEnabled()) {
@@ -729,36 +728,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
     }
 
-    @Override
-    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<List<? extends Suggestion>> handler) {
-        return addHandler(new ValueChangeHandler<List<? extends Suggestion>>() {
-            @Override
-            public void onValueChange(ValueChangeEvent<List<? extends Suggestion>> event) {
-                if (isEnabled()) {
-                    handler.onValueChange(event);
-                }
-            }
-        }, ValueChangeEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addBlurHandler(BlurHandler handler) {
-        return itemBox.addHandler(blurEvent -> {
-            if (isEnabled()) {
-                handler.onBlur(blurEvent);
-            }
-        }, BlurEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addFocusHandler(FocusHandler handler) {
-        return itemBox.addHandler(focusEvent -> {
-            if (isEnabled()) {
-                handler.onFocus(focusEvent);
-            }
-        }, FocusEvent.getType());
-    }
-
     /**
      * Returns the selected {@link Suggestion}s. Modifications to the list are
      * not propagated to the component.
@@ -803,6 +772,36 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     public SuggestBox getSuggestBox() {
         return suggestBox;
+    }
+
+    @Override
+    public HandlerRegistration addValueChangeHandler(final ValueChangeHandler<List<? extends Suggestion>> handler) {
+        return addHandler(new ValueChangeHandler<List<? extends Suggestion>>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<List<? extends Suggestion>> event) {
+                if (isEnabled()) {
+                    handler.onValueChange(event);
+                }
+            }
+        }, ValueChangeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addBlurHandler(BlurHandler handler) {
+        return itemBox.addHandler(blurEvent -> {
+            if (isEnabled()) {
+                handler.onBlur(blurEvent);
+            }
+        }, BlurEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+        return itemBox.addHandler(focusEvent -> {
+            if (isEnabled()) {
+                handler.onFocus(focusEvent);
+            }
+        }, FocusEvent.getType());
     }
 
     protected ProgressMixin<MaterialAutoComplete> getProgressMixin() {

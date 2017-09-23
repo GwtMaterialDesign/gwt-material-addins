@@ -49,10 +49,10 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         }
     }
 
-    private String id;
-    private Object selected;
     private int popupX;
     private int popupY;
+    private String id;
+    private Object selected;
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();

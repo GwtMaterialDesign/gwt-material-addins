@@ -183,6 +183,32 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
         return option;
     }
 
+    /**
+     * Ignore any elements to be swipeable
+     */
+    public void ignore(UIObject object, UIObject... objects) {
+        object.addStyleName(AddinsCssName.IGNORED);
+
+        if (objects != null) {
+            for (UIObject obj : objects) {
+                obj.addStyleName(AddinsCssName.IGNORED);
+            }
+        }
+    }
+
+    /**
+     * Remove Ignore property to any ignored elements
+     */
+    public void removeIgnore(UIObject object, UIObject... objects) {
+        object.removeStyleName(AddinsCssName.IGNORED);
+
+        if (objects != null) {
+            for (UIObject obj : objects) {
+                obj.removeStyleName(AddinsCssName.IGNORED);
+            }
+        }
+    }
+
     @Override
     public HandlerRegistration addSwipeLeftHandler(final SwipeLeftEvent.SwipeLeftHandler<Widget> handler) {
         return addHandler(new SwipeLeftEvent.SwipeLeftHandler<Widget>() {
@@ -225,31 +251,5 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     @Override
     public HandlerRegistration addOnEndSwipeRightHandler(OnEndSwipeRightEvent.OnEndSwipeRightHandler<Widget> handler) {
         return addHandler(handler, OnEndSwipeRightEvent.getType());
-    }
-
-    /**
-     * Ignore any elements to be swipeable
-     */
-    public void ignore(UIObject object, UIObject... objects) {
-        object.addStyleName(AddinsCssName.IGNORED);
-
-        if (objects != null) {
-            for (UIObject obj : objects) {
-                obj.addStyleName(AddinsCssName.IGNORED);
-            }
-        }
-    }
-
-    /**
-     * Remove Ignore property to any ignored elements
-     */
-    public void removeIgnore(UIObject object, UIObject... objects) {
-        object.removeStyleName(AddinsCssName.IGNORED);
-
-        if (objects != null) {
-            for (UIObject obj : objects) {
-                obj.removeStyleName(AddinsCssName.IGNORED);
-            }
-        }
     }
 }

@@ -269,11 +269,6 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Integer> handler) {
-        return addHandler(handler, ValueChangeEvent.getType());
-    }
-
-    @Override
     public Integer getValue() {
         return currentRating;
     }
@@ -313,5 +308,10 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      */
     public boolean isEditable() {
         return editable;
+    }
+
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Integer> handler) {
+        return addHandler(handler, ValueChangeEvent.getType());
     }
 }

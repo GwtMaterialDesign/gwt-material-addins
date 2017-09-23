@@ -63,10 +63,10 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
         }
     }
 
+    private boolean loading;
     private MaterialIcon icon = new MaterialIcon();
     private MaterialTitle title = new MaterialTitle();
     private Div container = new Div();
-    private boolean loading;
 
     public MaterialEmptyState() {
         super(Document.get().createDivElement(), CssName.VALIGN_WRAPPER, AddinsCssName.EMPTY_STATE);

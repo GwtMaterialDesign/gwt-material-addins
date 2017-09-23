@@ -66,10 +66,8 @@ public class MaterialDnd {
     }
 
     private JsDnd jsDnd;
-
     private final MaterialWidget target;
     private Element[] ignoreFrom;
-
     private JsDropOptions dropOptions;
     private JsDragOptions dragOptions;
 
@@ -102,7 +100,6 @@ public class MaterialDnd {
 
     public MaterialDnd draggable(JsDragOptions options) {
         dragOptions = options;
-        // TODO: Validate options
         if (target.isAttached()) {
             draggable();
         } else {
@@ -152,7 +149,6 @@ public class MaterialDnd {
 
     public MaterialDnd dropzone(JsDropOptions options) {
         dropOptions = options;
-        // TODO: Validate options
         if (target.isAttached()) {
             dropzone();
         } else {

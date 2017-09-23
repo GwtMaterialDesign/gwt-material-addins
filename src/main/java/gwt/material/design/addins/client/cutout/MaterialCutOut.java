@@ -90,14 +90,12 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         HasOpenHandlers<MaterialCutOut>, HasCircle, HasDurationTransition {
 
     private Color backgroundColor = Color.BLUE;
+    private int cutOutPadding = 10;
     private double opacity = 0.8;
-
     private boolean animated = true;
     private String animationTimingFunction = "ease";
     private String backgroundSize;
-
     private String computedBackgroundColor;
-    private int cutOutPadding = 10;
     private boolean circle = false;
     private boolean autoAddedToDocument = false;
     private String viewportOverflow;
@@ -138,6 +136,95 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         style.setProperty("content", "\'\'");
         style.setPosition(Position.ABSOLUTE);
         style.setZIndex(-1);
+    }
+
+    /**
+     * Opens the modal cut out taking all the screen. The target element should
+     * be set before calling this method.
+     *
+     * @throws IllegalStateException if the target element is <code>null</code>
+     * @see #setTarget(Widget)
+     */
+    public void open() {
+        if (targetElement == null) {
+            throw new IllegalStateException("The target element should be set before calling open().");
+        }
+        targetElement.scrollIntoView();
+
+        if (computedBackgroundColor == null) {
+            setupComputedBackgroundColor();
+        }
+
+        //temporarily disables scrolling by setting the overflow of the page to hidden
+        Style docStyle = Document.get().getDocumentElement().getStyle();
+        viewportOverflow = docStyle.getOverflow();
+        docStyle.setProperty("overflow", "hidden");
+
+        if (backgroundSize == null) {
+            backgroundSize = body().width() + 300 + "px";
+        }
+
+        setupTransition();
+        if (animated) {
+            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem " + computedBackgroundColor);
+
+            //the animation will take place after the boxshadow is set by the deferred command
+            Scheduler.get().scheduleDeferred(() -> {
+                focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+            });
+        } else {
+            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
+        }
+
+        if (circle) {
+            focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
+            focusElement.getStyle().setProperty("borderRadius", "50%");
+        } else {
+            focusElement.getStyle().clearProperty("WebkitBorderRadius");
+            focusElement.getStyle().clearProperty("borderRadius");
+        }
+        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
+
+        setupWindowHandlers();
+        getElement().getStyle().clearDisplay();
+
+        // verify if the component is added to the document (via UiBinder for
+        // instance)
+        if (getParent() == null) {
+            autoAddedToDocument = true;
+            RootPanel.get().add(this);
+        }
+        OpenEvent.fire(this, this);
+    }
+
+    /**
+     * Closes the cut out. It is the same as calling
+     * {@link #close(boolean)} with <code>false</code>.
+     */
+    public void close() {
+        this.close(false);
+    }
+
+    /**
+     * Closes the cut out.
+     *
+     * @param autoClosed Notifies with the modal was auto closed or closed by user action
+     */
+    public void close(boolean autoClosed) {
+        //restore the old overflow of the page
+        Document.get().getDocumentElement().getStyle().setProperty("overflow", viewportOverflow);
+
+        getElement().getStyle().setDisplay(Display.NONE);
+
+        getHandlerRegistry().clearHandlers();
+
+        // if the component added himself to the document, it must remove
+        // himself too
+        if (autoAddedToDocument) {
+            this.removeFromParent();
+            autoAddedToDocument = false;
+        }
+        CloseEvent.fire(this, this, autoClosed);
     }
 
     @Override
@@ -274,95 +361,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * Opens the modal cut out taking all the screen. The target element should
-     * be set before calling this method.
-     *
-     * @throws IllegalStateException if the target element is <code>null</code>
-     * @see #setTarget(Widget)
-     */
-    public void open() {
-        if (targetElement == null) {
-            throw new IllegalStateException("The target element should be set before calling open().");
-        }
-        targetElement.scrollIntoView();
-
-        if (computedBackgroundColor == null) {
-            setupComputedBackgroundColor();
-        }
-
-        //temporarily disables scrolling by setting the overflow of the page to hidden
-        Style docStyle = Document.get().getDocumentElement().getStyle();
-        viewportOverflow = docStyle.getOverflow();
-        docStyle.setProperty("overflow", "hidden");
-
-        if (backgroundSize == null) {
-            backgroundSize = body().width() + 300 + "px";
-        }
-
-        setupTransition();
-        if (animated) {
-            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px 0rem " + computedBackgroundColor);
-
-            //the animation will take place after the boxshadow is set by the deferred command
-            Scheduler.get().scheduleDeferred(() -> {
-                focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
-            });
-        } else {
-            focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
-        }
-
-        if (circle) {
-            focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
-            focusElement.getStyle().setProperty("borderRadius", "50%");
-        } else {
-            focusElement.getStyle().clearProperty("WebkitBorderRadius");
-            focusElement.getStyle().clearProperty("borderRadius");
-        }
-        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
-
-        setupWindowHandlers();
-        getElement().getStyle().clearDisplay();
-
-        // verify if the component is added to the document (via UiBinder for
-        // instance)
-        if (getParent() == null) {
-            autoAddedToDocument = true;
-            RootPanel.get().add(this);
-        }
-        OpenEvent.fire(this, this);
-    }
-
-    /**
-     * Closes the cut out. It is the same as calling
-     * {@link #close(boolean)} with <code>false</code>.
-     */
-    public void close() {
-        this.close(false);
-    }
-
-    /**
-     * Closes the cut out.
-     *
-     * @param autoClosed Notifies with the modal was auto closed or closed by user action
-     */
-    public void close(boolean autoClosed) {
-        //restore the old overflow of the page
-        Document.get().getDocumentElement().getStyle().setProperty("overflow", viewportOverflow);
-
-        getElement().getStyle().setDisplay(Display.NONE);
-
-        getHandlerRegistry().clearHandlers();
-
-        // if the component added himself to the document, it must remove
-        // himself too
-        if (autoAddedToDocument) {
-            this.removeFromParent();
-            autoAddedToDocument = false;
-        }
-        CloseEvent.fire(this, this, autoClosed);
-    }
-
-    /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
@@ -448,16 +446,6 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         computedBackgroundColor = computed;
     }
 
-    @Override
-    public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
-        return addHandler(handler, CloseEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<MaterialCutOut> handler) {
-        return addHandler(handler, OpenEvent.getType());
-    }
-
     public Element getFocusElement() {
         return focusElement;
     }
@@ -470,5 +458,15 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     @Override
     public int getDuration() {
         return duration;
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(final CloseHandler<MaterialCutOut> handler) {
+        return addHandler(handler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialCutOut> handler) {
+        return addHandler(handler, OpenEvent.getType());
     }
 }

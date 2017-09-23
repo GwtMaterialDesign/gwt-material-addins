@@ -67,15 +67,12 @@ import java.util.List;
 // @formatter:on
 public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems {
 
+    private boolean hide = true;
     private MaterialWidget divHeader = new MaterialWidget(Document.get().createDivElement());
-
     private Span span;
     private MaterialImage image;
-
     private MaterialTree tree;
     private Object object;
-
-    private boolean hide = true;
 
     public MaterialTreeItem() {
         super(AddinsCssName.TREE_ITEM);

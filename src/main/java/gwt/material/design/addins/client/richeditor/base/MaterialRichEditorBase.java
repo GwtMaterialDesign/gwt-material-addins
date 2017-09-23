@@ -37,8 +37,8 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 public class MaterialRichEditorBase extends AbstractValueWidget<String> implements HasPlaceholder, HasHTML {
 
     private boolean airMode;
-    private String placeholder = "";
     private boolean disableDragAndDrop;
+    private String placeholder = "";
     private HandlerRegistration handlerRegistration;
     private String html;
 

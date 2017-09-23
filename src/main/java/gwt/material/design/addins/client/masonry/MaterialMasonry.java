@@ -75,12 +75,11 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
         }
     }
 
-    private String itemSelector = ".col";
+    private int duration = 400;
     private boolean percentPosition = true;
     private boolean originLeft = true;
     private boolean originTop = true;
-    private int duration = 400;
-
+    private String itemSelector = ".col";
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialMasonry() {

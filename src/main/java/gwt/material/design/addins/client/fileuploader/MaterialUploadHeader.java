@@ -35,12 +35,12 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class MaterialUploadHeader extends MaterialWidget {
 
+    private boolean toggle = true;
     private Span uploadedFiles = new Span();
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
     private MaterialIcon iconColaps = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
     private MaterialUploadPreview preview;
     private MaterialProgress progress = new MaterialProgress(ProgressType.DETERMINATE);
-    private boolean toggle = true;
 
     public MaterialUploadHeader() {
         super(Document.get().createDivElement(), AddinsCssName.HEADER);

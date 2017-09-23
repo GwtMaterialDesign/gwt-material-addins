@@ -72,22 +72,16 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private int step;
     private String title;
     private String description = "";
-
-    // containers
     private Div conCircle = new Div();
     private Div conBody = new Div();
-
-    // elements
     private Div divCircle = new Div();
     private Div divLine = new Div();
     private Div divTitle = new Div();
     private Div divDescription = new Div();
     private Div divBody = new Div();
-
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
     private ActiveMixin<MaterialStep> activeMixin;
-
     private Axis axis = Axis.VERTICAL;
     private State state;
 
@@ -277,18 +271,6 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         return axis;
     }
 
-    @Override
-    public HandlerRegistration addSelectionHandler(final SelectionHandler<MaterialStep> handler) {
-        return this.addHandler(new SelectionHandler<MaterialStep>() {
-            @Override
-            public void onSelection(SelectionEvent<MaterialStep> event) {
-                if (isEnabled()) {
-                    handler.onSelection(event);
-                }
-            }
-        }, SelectionEvent.getType());
-    }
-
     public MaterialIcon getIconError() {
         return iconError;
     }
@@ -302,5 +284,17 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
             activeMixin = new ActiveMixin<>(this);
         }
         return activeMixin;
+    }
+
+    @Override
+    public HandlerRegistration addSelectionHandler(final SelectionHandler<MaterialStep> handler) {
+        return this.addHandler(new SelectionHandler<MaterialStep>() {
+            @Override
+            public void onSelection(SelectionEvent<MaterialStep> event) {
+                if (isEnabled()) {
+                    handler.onSelection(event);
+                }
+            }
+        }, SelectionEvent.getType());
     }
 }

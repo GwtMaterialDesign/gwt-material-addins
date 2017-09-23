@@ -89,16 +89,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         }
     }
 
-    private String placeholder;
+
+    private int selectedIndex;
     private boolean allowClear;
     private boolean multiple;
     private boolean hideSearch;
-    private int limit;
     private boolean closeOnSelect = true;
     private boolean tags;
-    private String dropdownParent = "body";
     private boolean suppressChangeEvent;
-    private int selectedIndex;
+    private int limit;
+    private String placeholder;
+    private String dropdownParent = "body";
     private String uid = DOM.createUniqueId();
     protected List<T> values = new ArrayList<>();
     private Label label = new Label();
@@ -213,6 +214,95 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
+     * Add OptionGroup directly to combobox component
+     *
+     * @param group - Option Group component
+     */
+    public void addGroup(OptGroup group) {
+        listbox.add(group);
+    }
+
+    /**
+     * Add item directly to combobox component with existing OptGroup
+     *
+     * @param text     - The text you want to labeled on the option item
+     * @param value    - The value you want to pass through in this option
+     * @param optGroup - Add directly this option into the existing group
+     */
+    public void addItem(String text, T value, OptGroup optGroup) {
+        if (!values.contains(value)) {
+            values.add(value);
+            optGroup.add(buildOption(text, value));
+        }
+    }
+
+    /**
+     * Add Value directly to combobox component
+     *
+     * @param text  - The text you want to labeled on the option item
+     * @param value - The value you want to pass through in this option
+     */
+    public Option addItem(String text, T value) {
+        if (!values.contains(value)) {
+            Option option = buildOption(text, value);
+            values.add(value);
+            listbox.add(option);
+            return option;
+        }
+        return null;
+    }
+
+    public Option addItem(T value) {
+        return addItem(keyFactory.generateKey(value), value);
+    }
+
+    public void setItems(Collection<T> items) {
+        clear();
+        addItems(items);
+    }
+
+    public void addItems(Collection<T> items) {
+        items.forEach(this::addItem);
+    }
+
+    /**
+     * Build the Option Element with provided params
+     */
+    protected Option buildOption(String text, T value) {
+        Option option = new Option();
+        option.setText(text);
+        option.setValue(keyFactory.generateKey(value));
+        return option;
+    }
+
+    /**
+     * Programmatically open the combobox component
+     */
+    public void open() {
+        $(listbox.getElement()).select2("open");
+    }
+
+    /**
+     * Programmatically close the combobox component
+     */
+    public void close() {
+        $(listbox.getElement()).select2("close");
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<Widget> it = iterator();
+        while (it.hasNext()) {
+            final Widget widget = it.next();
+            if (widget != label && widget != errorLabel && widget != listbox) {
+                it.remove();
+            }
+        }
+        listbox.clear();
+        values.clear();
+    }
+
+    /**
      * Sets the parent element of the dropdown
      */
     public void setDropdownParent(String dropdownParent) {
@@ -315,15 +405,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         setItems(values);
     }
 
-    public void setItems(Collection<T> items) {
-        clear();
-        addItems(items);
-    }
-
-    public void addItems(Collection<T> items) {
-        items.forEach(this::addItem);
-    }
-
     @Override
     public List<T> getValue() {
         if (!multiple) {
@@ -420,10 +501,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         suppressChangeEvent = false;
     }
 
-    public Option addItem(T value) {
-        return addItem(keyFactory.generateKey(value), value);
-    }
-
     /**
      * Gets the index of the value pass in this method
      *
@@ -431,55 +508,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public int getValueIndex(T value) {
         return values.indexOf(value);
-    }
-
-    /**
-     * Add OptionGroup directly to combobox component
-     *
-     * @param group - Option Group component
-     */
-    public void addGroup(OptGroup group) {
-        listbox.add(group);
-    }
-
-    /**
-     * Add item directly to combobox component with existing OptGroup
-     *
-     * @param text     - The text you want to labeled on the option item
-     * @param value    - The value you want to pass through in this option
-     * @param optGroup - Add directly this option into the existing group
-     */
-    public void addItem(String text, T value, OptGroup optGroup) {
-        if (!values.contains(value)) {
-            values.add(value);
-            optGroup.add(buildOption(text, value));
-        }
-    }
-
-    /**
-     * Add Value directly to combobox component
-     *
-     * @param text  - The text you want to labeled on the option item
-     * @param value - The value you want to pass through in this option
-     */
-    public Option addItem(String text, T value) {
-        if (!values.contains(value)) {
-            Option option = buildOption(text, value);
-            values.add(value);
-            listbox.add(option);
-            return option;
-        }
-        return null;
-    }
-
-    /**
-     * Build the Option Element with provided params
-     */
-    protected Option buildOption(String text, T value) {
-        Option option = new Option();
-        option.setText(text);
-        option.setValue(keyFactory.generateKey(value));
-        return option;
     }
 
     /**
@@ -555,56 +583,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
-     * Programmatically open the combobox component
-     */
-    public void open() {
-        $(listbox.getElement()).select2("open");
-    }
-
-    /**
-     * Programmatically close the combobox component
-     */
-    public void close() {
-        $(listbox.getElement()).select2("close");
-    }
-
-    @Override
-    public void clear() {
-        final Iterator<Widget> it = iterator();
-        while (it.hasNext()) {
-            final Widget widget = it.next();
-            if (widget != label && widget != errorLabel && widget != listbox) {
-                it.remove();
-            }
-        }
-        listbox.clear();
-        values.clear();
-    }
-
-    /**
      * Use your own key factory for value keys.
      */
     public void setKeyFactory(KeyFactory<T, String> keyFactory) {
         this.keyFactory = keyFactory;
-    }
-
-    public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
-        return addHandler(selectionHandler, SelectItemEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<T> openHandler) {
-        return addHandler(openHandler, OpenEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<T> closeHandler) {
-        return addHandler(closeHandler, CloseEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler) {
-        return addHandler(handler, UnselectItemEvent.getType());
     }
 
     @Override
@@ -664,6 +646,25 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public void setTags(boolean tags) {
         this.tags = tags;
+    }
+
+    public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
+        return addHandler(selectionHandler, SelectItemEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<T> openHandler) {
+        return addHandler(openHandler, OpenEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(CloseHandler<T> closeHandler) {
+        return addHandler(closeHandler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler) {
+        return addHandler(handler, UnselectItemEvent.getType());
     }
 
     @Override

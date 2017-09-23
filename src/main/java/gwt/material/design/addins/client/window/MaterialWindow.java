@@ -91,25 +91,19 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     private static MaterialPanel windowOverlay;
     private static int windowCount = 0;
-
+    private boolean preventClose;
+    private MaterialAnimation openAnimation;
+    private MaterialAnimation closeAnimation;
+    private MaterialDnd dnd;
     private MaterialPanel content = new MaterialPanel();
-
-    // Toolbar elements
     private MaterialLink labelTitle = new MaterialLink();
     private MaterialPanel toolbar = new MaterialPanel();
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
+    private HandlerRegistration toolbarAttachHandler;
 
     private ToggleStyleMixin<MaterialWidget> maximizeMixin;
     private ToggleStyleMixin<MaterialWindow> openMixin;
-
-    private MaterialAnimation openAnimation;
-    private MaterialAnimation closeAnimation;
-
-    private MaterialDnd dnd;
-    private boolean preventClose;
-
-    private HandlerRegistration toolbarAttachHandler;
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);

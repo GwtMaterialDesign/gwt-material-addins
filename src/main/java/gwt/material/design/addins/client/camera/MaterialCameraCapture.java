@@ -98,9 +98,9 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
 // @formatter:on
 public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
 
-    protected boolean pauseOnUnload = true;
     protected int width = 1280;
     protected int height = 720;
+    protected boolean pauseOnUnload = true;
     protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
     private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
@@ -168,6 +168,18 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         }
     }
 
+    @Override
+    public void reinitialize() {
+        if (!isSupported()) {
+            onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
+            return;
+        }
+        if (mediaStream != null) {
+            stop();
+            nativePlay(video.getElement());
+        }
+    }
+
     /**
      * <p>
      * Starts the video stream from the camera. This is called when the component is loaded.
@@ -189,18 +201,6 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             nativePlay(video.getElement());
         } else {
             el.play();
-        }
-    }
-
-    @Override
-    public void reinitialize() {
-        if (!isSupported()) {
-            onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
-            return;
-        }
-        if (mediaStream != null) {
-            stop();
-            nativePlay(video.getElement());
         }
     }
 

@@ -67,7 +67,7 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
         }
     }
 
-    private final CssNameMixin<MaterialIconMorph, IconSize> sizeMixin = new CssNameMixin<>(this);
+    private CssNameMixin<MaterialIconMorph, IconSize> sizeMixin;
     private MaterialIcon source, target;
 
     public MaterialIconMorph() {
@@ -93,7 +93,7 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
     }
 
     public void setIconSize(IconSize size) {
-        sizeMixin.setCssName(size);
+        getSizeMixin().setCssName(size);
     }
 
     @Override
@@ -112,5 +112,12 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
 
     public MaterialIcon getTarget() {
         return target;
+    }
+
+    public CssNameMixin<MaterialIconMorph, IconSize> getSizeMixin() {
+        if (sizeMixin == null) {
+            sizeMixin = new CssNameMixin<>(this);
+        }
+        return sizeMixin;
     }
 }

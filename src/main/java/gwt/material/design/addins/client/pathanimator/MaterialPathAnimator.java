@@ -66,13 +66,13 @@ public class MaterialPathAnimator implements HasDurationTransition {
         }
     }
 
+    private int duration = 300;
+    private int targetShowDuration = 0;
+    private int extraTransitionDuration = 100;
     private Element sourceElement;
     private Element targetElement;
     private Functions.Func animateCallback;
     private Functions.Func reverseCallback;
-    private int duration = 300;
-    private int targetShowDuration = 0;
-    private int extraTransitionDuration = 100;
     private JsPathAnimatorOptions options = new JsPathAnimatorOptions();
 
     public MaterialPathAnimator() {

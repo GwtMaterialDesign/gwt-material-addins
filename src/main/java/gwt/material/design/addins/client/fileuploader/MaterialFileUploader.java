@@ -83,12 +83,12 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     private boolean preview = true;
+    private boolean enabled = true;
     private int totalFiles = 0;
     private String globalResponse = "";
     private Dropzone uploader;
     private JsFileUploaderOptions options;
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
-    private boolean enabled = true;
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
@@ -469,6 +469,30 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         DropEvent.fire(this, null);
     }
 
+    public String getClickable() {
+        return options.clickable.length()==0?options.clickable:options.clickable.substring(1);
+    }
+
+    public void setClickable(String clickable) {
+        options.clickable = "#"+clickable;
+    }
+
+    public boolean isPreview() {
+        return preview;
+    }
+
+    public void setPreview(boolean preview) {
+        this.preview = preview;
+    }
+
+    public void reset() {
+        uploader.removeAllFiles();
+    }
+
+    public MaterialUploadPreview getUploadPreview() {
+        return uploadPreview;
+    }
+
     @Override
     public HandlerRegistration addAddedFileHandler(final AddedFileEvent.AddedFileHandler<UploadFile> handler) {
         return addHandler(new AddedFileEvent.AddedFileHandler<UploadFile>() {
@@ -605,29 +629,5 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 }
             }
         }, MaxFilesExceededEvent.getType());
-    }
-
-    public String getClickable() {
-        return options.clickable.length()==0?options.clickable:options.clickable.substring(1);
-    }
-
-    public void setClickable(String clickable) {
-        options.clickable = "#"+clickable;
-    }
-
-    public boolean isPreview() {
-        return preview;
-    }
-
-    public void setPreview(boolean preview) {
-        this.preview = preview;
-    }
-
-    public void reset() {
-        uploader.removeAllFiles();
-    }
-
-    public MaterialUploadPreview getUploadPreview() {
-        return uploadPreview;
     }
 }

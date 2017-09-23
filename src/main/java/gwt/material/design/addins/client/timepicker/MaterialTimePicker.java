@@ -85,39 +85,21 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         }
     }
 
-    /**
-     * Wraps the actual input.
-     */
-    private MaterialPanel container = new MaterialPanel();
-
-    /**
-     * The input element for the time picker.
-     */
-    private MaterialInput timeInput = new MaterialInput();
-
-    /**
-     * Label to display errors messages.
-     */
-    private MaterialLabel errorLabel = new MaterialLabel();
-
-    /**
-     * The current value held by the time picker.
-     */
     private Date time;
-
+    private boolean autoClose;
+    private boolean hour24;
+    private Orientation orientation = Orientation.PORTRAIT;
+    private String uniqueId;
+    private String placeholder;
+    private MaterialPanel container = new MaterialPanel();
+    private MaterialInput timeInput = new MaterialInput();
+    private MaterialLabel errorLabel = new MaterialLabel();
     private Label placeholderLabel = new Label();
-
     private MaterialIcon icon = new MaterialIcon();
 
     private ToggleStyleMixin<MaterialInput> validMixin;
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
-
-    private String uniqueId;
-    private String placeholder;
-    private boolean autoClose;
-    private boolean hour24;
-    private Orientation orientation = Orientation.PORTRAIT;
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
@@ -171,6 +153,29 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         super.onUnload();
 
         $(timeInput.getElement()).lolliclock("remove");
+    }
+
+    /**
+     * Programmatically open the time picker component
+     */
+    public void open() {
+        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("show"));
+    }
+
+    /**
+     * Programmatically close the time picker component
+     */
+    public void close() {
+        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("hide"));
+    }
+
+    @Override
+    public void clear() {
+        time = null;
+        this.clearErrorOrSuccess();
+        placeholderLabel.removeStyleName(CssName.ACTIVE);
+        timeInput.removeStyleName(CssName.VALID);
+        $(timeInput.getElement()).val("");
     }
 
     /**
@@ -299,39 +304,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     }
 
     @Override
-    public HandlerRegistration addCloseHandler(final CloseHandler<Date> handler) {
-        return addHandler(handler, CloseEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
-        return addHandler(handler, OpenEvent.getType());
-    }
-
-    /**
-     * Programmatically open the time picker component
-     */
-    public void open() {
-        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("show"));
-    }
-
-    /**
-     * Programmatically close the time picker component
-     */
-    public void close() {
-        Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("hide"));
-    }
-
-    @Override
-    public void clear() {
-        time = null;
-        this.clearErrorOrSuccess();
-        placeholderLabel.removeStyleName(CssName.ACTIVE);
-        timeInput.removeStyleName(CssName.VALID);
-        $(timeInput.getElement()).val("");
-    }
-
-    @Override
     public Date getValue() {
         return time;
     }
@@ -455,5 +427,15 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     public Label getPlaceholderLabel() {
         return placeholderLabel;
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(final CloseHandler<Date> handler) {
+        return addHandler(handler, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
+        return addHandler(handler, OpenEvent.getType());
     }
 }
