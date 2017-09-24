@@ -55,13 +55,22 @@ import gwt.material.design.client.constants.Color;
 //@formatter:on
 public class MaterialSubHeader extends AbstractIconButton {
 
+    private static boolean resourcesLoaded = false;
+
     static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
-            MaterialDesignBase.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
-            MaterialDesignBase.injectCss(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss());
+        loadResources();
+    }
+
+    static void loadResources() {
+        if (!resourcesLoaded) {
+            if (MaterialAddins.isDebug()) {
+                MaterialDesignBase.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
+                MaterialDesignBase.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());
+            } else {
+                MaterialDesignBase.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
+                MaterialDesignBase.injectCss(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss());
+            }
+            resourcesLoaded = true;
         }
     }
 
