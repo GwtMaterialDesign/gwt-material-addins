@@ -27,11 +27,15 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
 import gwt.material.design.addins.client.stepper.constants.State;
+import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.html.Span;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test case for stepper component
@@ -40,28 +44,70 @@ import gwt.material.design.client.ui.html.Span;
  */
 public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
 
+    private List<MaterialStep> steps;
+
     @Override
     protected MaterialStepper createWidget() {
-        return new MaterialStepper();
+        MaterialStepper stepper = new MaterialStepper();
+        steps = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            MaterialStep step = new MaterialStep();
+            step.setStep(i);
+            step.setTitle("step" + i);
+            step.setDescription("description" + i);
+            stepper.add(step);
+            steps.add(step);
+        }
+
+        return stepper;
+    }
+
+    public void testStructure() {
+        MaterialWidget stepper = getWidget();
+
+        steps.forEach(step -> {
+            int i = steps.indexOf(step) + 1;
+            assertEquals(2, step.getWidgetCount());
+            assertTrue(step.getWidget(0) instanceof MaterialWidget);
+            MaterialWidget cle = (MaterialWidget) step.getWidget(0);
+            MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
+            assertEquals(2, cle.getWidgetCount());
+            assertEquals(3, conBody.getWidgetCount());
+
+            MaterialWidget divCircle = (MaterialWidget) cle.getWidget(0);
+            MaterialWidget divLine = (MaterialWidget) cle.getWidget(1);
+
+            assertEquals(step.getStep(), i);
+            assertTrue(divCircle.getElement().hasClassName(CssName.CIRCLE));
+            assertTrue(divLine.getElement().hasClassName(AddinsCssName.LINE));
+            assertEquals(String.valueOf(i), divCircle.getElement().getInnerHTML());
+
+            MaterialWidget divTitle = (MaterialWidget) conBody.getWidget(0);
+            MaterialWidget divDescription = (MaterialWidget) conBody.getWidget(1);
+            MaterialWidget divBody = (MaterialWidget) conBody.getWidget(2);
+
+            assertTrue(divTitle.getElement().hasClassName(CssName.TITLE));
+            assertEquals("step" + i, divTitle.getElement().getInnerHTML());
+            assertTrue(divDescription.getElement().hasClassName(AddinsCssName.DESCRIPTION));
+            assertEquals("description" + i, divDescription.getElement().getInnerHTML());
+            assertTrue(divBody.getElement().hasClassName(AddinsCssName.BODY));
+
+            MaterialPanel panel = new MaterialPanel();
+            step.add(panel);
+            assertEquals(1, step.getDivBody().getWidgetCount());
+            assertEquals(panel, step.getDivBody().getWidget(0));
+            assertEquals("step" + i, step.getTitle());
+            assertEquals("description" + i, step.getDescription());
+        });
+
+        assertEquals(stepper.getWidgetCount(), 5);
     }
 
     public void testSelection() {
         MaterialStepper stepper = getWidget();
         final boolean[] isSelectionFired = {false};
-        stepper.addSelectionChangeHandler(event -> {
-            isSelectionFired[0] = true;
-        });
-        stepper.fireEvent(new GwtEvent<SelectionChangeEvent.Handler>() {
-            @Override
-            public Type<SelectionChangeEvent.Handler> getAssociatedType() {
-                return SelectionChangeEvent.getType();
-            }
-
-            @Override
-            protected void dispatch(SelectionChangeEvent.Handler eventHandler) {
-                eventHandler.onSelectionChange(null);
-            }
-        });
+        stepper.addSelectionChangeHandler(event -> isSelectionFired[0] = true);
+        SelectionChangeEvent.fire(stepper);
         assertTrue(isSelectionFired[0]);
     }
 
@@ -114,10 +160,8 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     public void testStepNavigation() {
         MaterialStepper stepper = getWidget();
         final boolean[] isStartFired = {false};
-        stepper.addStartHandler(event -> {
-            isStartFired[0] = true;
-        });
-        RootPanel.get().add(stepper);
+        stepper.addStartHandler(event -> isStartFired[0] = true);
+        StartEvent.fire(stepper);
         assertTrue(isStartFired[0]);
         assertEquals(5, stepper.getWidgetCount());
         assertEquals(stepper.getWidget(0), stepper.getCurrentStep());
@@ -141,9 +185,7 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
         assertEquals(stepper.getWidget(lastStepIndex - 1), stepper.getCurrentStep());
         for (int i = stepper.getWidgetCount() - 1; i > 0; i--) {
             final boolean[] isPreviousFired = {false};
-            stepper.addPreviousHandler(event -> {
-                isPreviousFired[0] = true;
-            });
+            stepper.addPreviousHandler(event -> isPreviousFired[0] = true);
 
             stepper.prevStep();
             assertTrue(stepper.getWidget(i - 1) instanceof MaterialStep);
@@ -155,9 +197,7 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
 
         // Check Complete Event
         final boolean[] isCompleteFired = {false};
-        stepper.addCompleteHandler(event -> {
-            isCompleteFired[0] = true;
-        });
+        stepper.addCompleteHandler(event -> isCompleteFired[0] = true);
         stepper.goToStep(lastStepIndex);
         stepper.nextStep();
         assertTrue(isCompleteFired[0]);
@@ -181,53 +221,5 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
         stepper.hideFeedback();
         assertFalse(feedback.isAttached());
         assertFalse(stepper.getFeedbackSpan().isAttached());
-    }
-
-    public void testStructure() {
-        MaterialWidget stepper = getWidget();
-        for (int i = 1; i <= 5; i++) {
-            MaterialStep step = new MaterialStep();
-            step.setStep(i);
-            step.setTitle("step" + i);
-            step.setDescription("description" + i);
-            stepper.add(step);
-            assertEquals(2, step.getWidgetCount());
-            assertTrue(step.getWidget(0) instanceof MaterialWidget);
-            MaterialWidget cle = (MaterialWidget) step.getWidget(0);
-            MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
-            assertEquals(2, cle.getWidgetCount());
-            assertEquals(3, conBody.getWidgetCount());
-
-            MaterialWidget divCircle = (MaterialWidget) cle.getWidget(0);
-            MaterialWidget divLine = (MaterialWidget) cle.getWidget(1);
-
-            assertEquals(step.getStep(), i);
-            assertTrue(divCircle.getElement().hasClassName(CssName.CIRCLE));
-            assertTrue(divLine.getElement().hasClassName(AddinsCssName.LINE));
-            assertEquals(String.valueOf(i), divCircle.getElement().getInnerHTML());
-
-            MaterialWidget divTitle = (MaterialWidget) conBody.getWidget(0);
-            MaterialWidget divDescription = (MaterialWidget) conBody.getWidget(1);
-            MaterialWidget divBody = (MaterialWidget) conBody.getWidget(2);
-
-            assertTrue(divTitle.getElement().hasClassName(CssName.TITLE));
-            assertEquals("step" + i, divTitle.getElement().getInnerHTML());
-            assertTrue(divDescription.getElement().hasClassName(AddinsCssName.DESCRIPTION));
-            assertEquals("description" + i, divDescription.getElement().getInnerHTML());
-            assertTrue(divBody.getElement().hasClassName(AddinsCssName.BODY));
-
-            MaterialPanel panel = new MaterialPanel();
-            step.add(panel);
-            assertEquals(1, step.getDivBody().getWidgetCount());
-            assertEquals(panel, step.getDivBody().getWidget(0));
-        }
-
-        assertEquals(stepper.getWidgetCount(), 5);
-        for (int i = 0; i < 5; i++) {
-            assertTrue(stepper.getWidget(i) instanceof MaterialStep);
-            MaterialStep step = (MaterialStep) stepper.getWidget(i);
-            assertEquals("step" + (i + 1), step.getTitle());
-            assertEquals("description" + (i + 1), step.getDescription());
-        }
     }
 }

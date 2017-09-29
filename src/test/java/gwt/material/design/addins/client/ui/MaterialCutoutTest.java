@@ -23,7 +23,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.cutout.MaterialCutOut;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialIcon;
 
 /**
  * Test case for cut out component
@@ -32,9 +34,26 @@ import gwt.material.design.client.ui.MaterialButton;
  */
 public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
 
+    private MaterialIcon target;
+
     @Override
     protected MaterialCutOut createWidget() {
-        return new MaterialCutOut();
+        MaterialCutOut cutOut = new MaterialCutOut();
+        target = new MaterialIcon(IconType.POLYMER);
+        RootPanel.get().add(target);
+        // when
+        cutOut.setTarget(target);
+
+        // then
+        assertEquals(target.getElement(), cutOut.getTargetElement());
+        return cutOut;
+    }
+
+    @Override
+    protected void gwtTearDown() throws Exception {
+        super.gwtTearDown();
+
+        target.removeFromParent();
     }
 
     public void testProperties() {
@@ -60,7 +79,6 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
 
     public void testStructure() {
         MaterialCutOut cutOut = getWidget();
-
         RootPanel.get().add(cutOut);
         MaterialButton target = new MaterialButton();
         cutOut.setTarget(target);

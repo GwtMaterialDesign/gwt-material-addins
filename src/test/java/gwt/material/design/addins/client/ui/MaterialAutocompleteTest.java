@@ -19,7 +19,9 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import com.google.gwt.event.dom.client.HasAllKeyHandlers;
+import com.google.gwt.user.client.ui.HasEnabled;
+import com.google.gwt.user.client.ui.SuggestBox;
 import gwt.material.design.addins.client.autocomplete.MaterialAutoComplete;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.ui.base.dto.User;
@@ -39,7 +41,22 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     @Override
     protected MaterialAutoComplete createWidget() {
-        return new MaterialAutoComplete();
+        return constructAndAttach();
+    }
+
+    public static MaterialAutoComplete constructAndAttach() {
+        MaterialAutoComplete autocomplete = new MaterialAutoComplete();
+        UserOracle oracle = new UserOracle();
+        oracle.addContacts(getAllUsers());
+        autocomplete.setSuggestions(oracle);
+        List<String> itemValues = new ArrayList<>();
+        for (int i = 1; i <= 3; i++) {
+            itemValues.add("Item " + i);
+        }
+        autocomplete.setItemValues(itemValues);
+        assertEquals(autocomplete.getItemValues().size(), 3);
+
+        return autocomplete;
     }
 
     public void testLimit() {
@@ -58,17 +75,7 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
     public void testValue() {
         // given
         MaterialAutoComplete autocomplete = getWidget();
-
-        // when / then
-        UserOracle oracle = new UserOracle();
-        oracle.addContacts(getAllUsers());
-        autocomplete.setSuggestions(oracle);
-        List<String> itemValues = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            itemValues.add("Item " + i);
-        }
-        autocomplete.setItemValues(itemValues);
-        assertEquals(autocomplete.getItemValues().size(), 3);
+        List<String> itemValues = autocomplete.getItemValues();
 
         List<String> value = new ArrayList<>();
         value.add(itemValues.get(0));
@@ -99,11 +106,42 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         assertEquals("test", autocomplete.getPlaceholder());
     }
 
-    public List<User> getAllUsers() {
+    public static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
             users.add(new User("User " + i));
         }
         return users;
+    }
+
+    @Override
+    public void testTabIndex() {
+        MaterialAutoComplete autoComplete = getWidget();
+        SuggestBox widget = autoComplete.getSuggestBox();
+
+        final int INITIAL_TAB_INDEX = 0;
+        final int FINAL_TAB_INDEX = 1;
+
+        // when / then
+        widget.setTabIndex(INITIAL_TAB_INDEX);
+        assertEquals(INITIAL_TAB_INDEX, widget.getTabIndex());
+        assertEquals(String.valueOf(INITIAL_TAB_INDEX), widget.getElement().getPropertyString("tabIndex"));
+
+        // when / then
+        widget.setTabIndex(FINAL_TAB_INDEX);
+        assertEquals(FINAL_TAB_INDEX, widget.getTabIndex());
+        assertEquals(String.valueOf(FINAL_TAB_INDEX), widget.getElement().getPropertyString("tabIndex"));
+    }
+
+    @Override
+    public void testKeyEvents() {
+        MaterialAutoComplete autoComplete = getWidget();
+        super.checkKeyEvents(autoComplete.getItemBox());
+    }
+
+    @Override
+    public void testFocusAndBlurEvents() {
+        MaterialAutoComplete autoComplete = getWidget();
+        super.checkFocusAndBlurEvents(autoComplete.getItemBox());
     }
 }
