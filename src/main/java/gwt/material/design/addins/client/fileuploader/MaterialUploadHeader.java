@@ -20,7 +20,6 @@
 package gwt.material.design.addins.client.fileuploader;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
@@ -45,15 +44,9 @@ public class MaterialUploadHeader extends MaterialWidget {
     public MaterialUploadHeader() {
         super(Document.get().createDivElement(), AddinsCssName.HEADER);
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         iconClose.setId(AddinsCssName.UPLOAD_CLOSE);
         iconClose.setCircle(true);
         iconClose.setWaves(WavesType.DEFAULT);
-        registerHandler(iconClose.addClickHandler(clickEvent -> preview.setVisibility(Style.Visibility.HIDDEN)));
         iconColaps.setId(AddinsCssName.UPLOAD_COLAPS);
         iconColaps.setCircle(true);
         iconColaps.setWaves(WavesType.DEFAULT);
@@ -66,28 +59,25 @@ public class MaterialUploadHeader extends MaterialWidget {
     }
 
     @Override
-    protected void initialize() {
-        initialize(iconClose.getElement(),
-                iconColaps.getElement(),
-                getPreview().getElement(),
-                getPreview().getUploadCollection().getElement());
-    }
+    protected void onLoad() {
+        super.onLoad();
 
-    protected void initialize(Element iconClose, Element iconColaps, Element preview, Element collection) {
-        $(iconColaps).click(e -> {
+        $(iconColaps.getElement()).click(e -> {
             if (toggle) {
-                $(collection).css("visibility", "hidden");
+                $(getPreview().getUploadCollection().getElement()).css("visibility", "hidden");
                 $(iconColaps).html("keyboard_arrow_up");
-                $(collection).css("height", "0px");
+                $(getPreview().getUploadCollection().getElement()).css("height", "0px");
                 toggle = false;
             } else {
-                $(collection).css("visibility", "visible");
+                $(getPreview().getUploadCollection().getElement()).css("visibility", "visible");
                 $(iconColaps).html("keyboard_arrow_down");
-                $(collection).css("height", "initial");
+                $(getPreview().getUploadCollection().getElement()).css("height", "initial");
                 toggle = true;
             }
             return true;
         });
+
+        registerHandler(iconClose.addClickHandler(clickEvent -> preview.setVisibility(Style.Visibility.HIDDEN)));
     }
 
     public MaterialUploadPreview getPreview() {

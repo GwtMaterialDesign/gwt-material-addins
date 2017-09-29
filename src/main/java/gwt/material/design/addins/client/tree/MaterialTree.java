@@ -83,11 +83,6 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     protected void onLoad() {
         super.onLoad();
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         // Ensure all children know we are the root.
         for (Widget child : getChildren()) {
             if (child instanceof MaterialTreeItem) {

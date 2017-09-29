@@ -30,7 +30,6 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
@@ -38,7 +37,6 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialInput;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -72,7 +70,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @see <a href="https://material.io/guidelines/components/pickers.html#pickers-time-pickers">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends AbstractValueWidget<Date> implements HasPlaceholder,
+public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly {
 
     static {
@@ -86,20 +84,19 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     }
 
     private Date time;
-    private boolean autoClose;
-    private boolean hour24;
     private Orientation orientation = Orientation.PORTRAIT;
-    private String uniqueId;
     private String placeholder;
     private MaterialPanel container = new MaterialPanel();
     private MaterialInput timeInput = new MaterialInput();
     private MaterialLabel errorLabel = new MaterialLabel();
     private Label placeholderLabel = new Label();
     private MaterialIcon icon = new MaterialIcon();
+    private JsTimePickerOptions options = new JsTimePickerOptions();
 
     private ToggleStyleMixin<MaterialInput> validMixin;
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
+
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
@@ -117,33 +114,25 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     protected void onLoad() {
-        build();
-
         super.onLoad();
-    }
 
-    @Override
-    protected void build() {
-        uniqueId = DOM.createUniqueId();
+        setUniqueId(DOM.createUniqueId());
         timeInput.setType(InputType.TEXT);
         container.add(placeholderLabel);
         container.add(timeInput);
         container.add(errorLabel);
         add(container);
         timeInput.getElement().setAttribute("type", "text");
-        initialize();
+
+        load();
     }
 
     @Override
-    protected void initialize() {
-        JsTimePickerOptions options = new JsTimePickerOptions();
-        options.autoclose = isAutoClose();
-        options.orientation = getOrientation().getCssName();
-        options.hour24 = isHour24();
-        options.uniqueId = getUniqueId();
+    public void load() {
         options.beforeShow = this::beforeShow;
         options.afterShow = this::afterShow;
         options.afterHide = this::afterHide;
+
         $(timeInput.getElement()).lolliclock(options);
         $(timeInput.getElement()).blur();
     }
@@ -152,7 +141,18 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     protected void onUnload() {
         super.onUnload();
 
+        unload();
+    }
+
+    @Override
+    public void unload() {
         $(timeInput.getElement()).lolliclock("remove");
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     /**
@@ -172,7 +172,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void clear() {
         time = null;
-        this.clearErrorOrSuccess();
+        clearErrorOrSuccess();
         placeholderLabel.removeStyleName(CssName.ACTIVE);
         timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
@@ -191,11 +191,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     }
 
     public boolean isAutoClose() {
-        return this.autoClose;
+        return options.autoclose;
     }
 
     public void setAutoClose(boolean autoClose) {
-        this.autoClose = autoClose;
+        options.autoclose = autoClose;
     }
 
     /**
@@ -205,14 +205,14 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      * <code>true</code> otherwise.
      */
     public boolean isHour24() {
-        return this.hour24;
+        return options.hour24;
     }
 
     /**
      * Set the time to 24 hour mode.
      */
     public void setHour24(boolean hour24) {
-        this.hour24 = hour24;
+        options.hour24 = hour24;
     }
 
     /**
@@ -234,7 +234,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
     @Override
     public Orientation getOrientation() {
-        return orientation;
+        return options.orientation != null ? Orientation.fromStyleName(options.orientation) : null;
     }
 
     /**
@@ -242,12 +242,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     @Override
     public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
-        if (isInitialize()) {
-            JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", orientation.getCssName());
-        } else {
-            initialize();
-        }
+        options.orientation = orientation.getCssName();
     }
 
     /**
@@ -265,8 +260,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
      */
     protected void afterShow() {
         OpenEvent.fire(this, this.time);
-        fireEvent(new FocusEvent() {
-        });
+        fireEvent(new FocusEvent() {});
     }
 
     /**
@@ -278,7 +272,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
 
         if (timeString != null && !timeString.equals("")) {
             try {
-                parsedDate = DateTimeFormat.getFormat(this.hour24 ? "HH:mm" : "hh:mm aa").parse(timeString);
+                parsedDate = DateTimeFormat.getFormat(options.hour24 ? "HH:mm" : "hh:mm aa").parse(timeString);
             } catch (IllegalArgumentException e) {
                 // Silently catch parse errors
             }
@@ -290,8 +284,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         getValidMixin().setOn(false);
 
         CloseEvent.fire(this, this.time);
-        fireEvent(new BlurEvent() {
-        });
+        fireEvent(new BlurEvent() {});
     }
 
     protected String getTime() {
@@ -316,16 +309,16 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
         }
         placeholderLabel.removeStyleName(CssName.ACTIVE);
         placeholderLabel.addStyleName(CssName.ACTIVE);
-        $(timeInput.getElement()).val(DateTimeFormat.getFormat(hour24 ? "HH:mm" : "hh:mm aa").format(time));
+        $(timeInput.getElement()).val(DateTimeFormat.getFormat(options.hour24 ? "HH:mm" : "hh:mm aa").format(time));
         super.setValue(time, fireEvents);
     }
 
     public String getUniqueId() {
-        return uniqueId;
+        return options.uniqueId;
     }
 
     public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
+        options.uniqueId = uniqueId;
     }
 
     @Override
@@ -359,6 +352,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements Has
     @Override
     public void setIconColor(Color iconColor) {
         icon.setIconColor(iconColor);
+    }
+
+    @Override
+    public Color getIconColor() {
+        return getIcon().getIconColor();
     }
 
     @Override

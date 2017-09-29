@@ -88,7 +88,18 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
 
-        build();
+        super.add(conCircle);
+        conCircle.add(divCircle);
+        conCircle.add(divLine);
+
+        super.add(conBody);
+        conBody.add(divTitle);
+        conBody.add(divBody);
+
+        divCircle.setStyleName(CssName.CIRCLE);
+        divLine.setStyleName(AddinsCssName.LINE);
+        divTitle.setStyleName(CssName.TITLE);
+        divBody.setStyleName(AddinsCssName.BODY);
     }
 
     public MaterialStep(String title, String description) {
@@ -103,19 +114,8 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     }
 
     @Override
-    protected void build() {
-        super.add(conCircle);
-        conCircle.add(divCircle);
-        conCircle.add(divLine);
-
-        super.add(conBody);
-        conBody.add(divTitle);
-        conBody.add(divBody);
-
-        divCircle.setStyleName(CssName.CIRCLE);
-        divLine.setStyleName(AddinsCssName.LINE);
-        divTitle.setStyleName(CssName.TITLE);
-        divBody.setStyleName(AddinsCssName.BODY);
+    protected void onLoad() {
+        super.onLoad();
 
         ClickHandler handler = event -> {
             if (isEnabled() && isVisible()) {

@@ -25,6 +25,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
@@ -59,10 +60,11 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#bubble">Material Bubble</a>
  */
 //@formatter:on
-public class MaterialBubble extends MaterialWidget implements HasPosition {
+public class MaterialBubble extends MaterialWidget implements JsLoader, HasPosition {
 
     private MaterialWidget triangle = new MaterialWidget(Document.get().createDivElement());
     private CssNameMixin<MaterialWidget, Position> positionMixin;
+    private JsBubbleOptions options = new JsBubbleOptions();
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -93,25 +95,51 @@ public class MaterialBubble extends MaterialWidget implements HasPosition {
         setPosition(position);
     }
 
-    /**
-     * Initialize the bubble component.
-     */
-    protected void initialize() {
-        JsBubbleOptions options = new JsBubbleOptions();
-        options.position = getPosition().getCssName();
-        options.color = ColorHelper.setupComputedBackgroundColor(getBackgroundColor());
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
+    }
+
+    @Override
+    public void load() {
         $(getElement()).bubble(options);
     }
 
     @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {}
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+    @Override
+    public void setBackgroundColor(Color bgColor) {
+        super.setBackgroundColor(bgColor);
+        options.color = ColorHelper.setupComputedBackgroundColor(bgColor);
+        reload();
+    }
+
+    @Override
     public Position getPosition() {
-        return getPositionMixin().getCssName();
+        return options.position != null ? Position.fromStyleName(options.position) : null;
     }
 
     @Override
     public void setPosition(Position position) {
+        options.position = position.getCssName();
         getPositionMixin().setCssName(position);
-        initialize();
+        reload();
     }
 
     public MaterialWidget getTriangle() {

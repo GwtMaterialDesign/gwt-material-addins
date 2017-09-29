@@ -107,27 +107,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
-        build();
-    }
 
-    public MaterialWindow(String title) {
-        this();
-        setTitle(title);
-    }
-
-    public MaterialWindow(String title, Color backgroundColor, Color textColor) {
-        this(title);
-        setBackgroundColor(backgroundColor);
-        setTextColor(textColor);
-    }
-
-    public MaterialWindow(String title, Color backgroundColor, Color textColor, Color toolbarColor) {
-        this(title, backgroundColor, textColor);
-        setToolbarColor(toolbarColor);
-    }
-
-    @Override
-    protected void build() {
         content.setStyleName(AddinsCssName.CONTENT);
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
         labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
@@ -152,7 +132,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
         // Add handlers to action buttons
         registerHandler(iconMaximize.addClickHandler(event -> toggleMaximize()));
-        registerHandler(addClickHandler(event -> {
+        registerHandler(iconClose.addClickHandler(event -> {
             if (!preventClose) {
                 if (!isOpen()) {
                     open();
@@ -166,6 +146,22 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
         // Add a draggable header
         dnd = buildDnd();
+    }
+
+    public MaterialWindow(String title) {
+        this();
+        setTitle(title);
+    }
+
+    public MaterialWindow(String title, Color backgroundColor, Color textColor) {
+        this(title);
+        setBackgroundColor(backgroundColor);
+        setTextColor(textColor);
+    }
+
+    public MaterialWindow(String title, Color backgroundColor, Color textColor, Color toolbarColor) {
+        this(title, backgroundColor, textColor);
+        setToolbarColor(toolbarColor);
     }
 
     /**

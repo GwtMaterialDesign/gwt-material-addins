@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.richeditor;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -28,14 +29,20 @@ import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
-import gwt.material.design.addins.client.richeditor.base.MaterialRichEditorBase;
+import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
 import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
+import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
 import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.HasPlaceholder;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialModal;
 import gwt.material.design.client.ui.MaterialModalContent;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -65,7 +72,7 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#richeditor">Material Rich Editor</a>
  */
 //@formatter:on
-public class MaterialRichEditor extends MaterialRichEditorBase implements HasValueChangeHandlers<String>, HasPasteHandlers {
+public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>, HasPasteHandlers, HasPlaceholder, HasHTML  {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -77,11 +84,18 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         }
     }
 
+
+    private String html;
+    private ToolBarManager manager = new ToolBarManager();
     private boolean toggleFullScreen = true;
+    private JsRichEditorOptions options = JsRichEditorOptions.create();
+
+    private HandlerRegistration handlerRegistration;
 
     public MaterialRichEditor() {
-        super();
+        super(Document.get().createDivElement(), AddinsCssName.EDITOR);
     }
+
 
     public MaterialRichEditor(String placeholder) {
         this();
@@ -94,58 +108,44 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     }
 
     @Override
-    protected void initialize() {
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
+
+        setHTML(html);
+    }
+
+    @Override
+    public void load() {
+
         JsRichEditor jsRichEditor = $(getElement());
 
-        JsRichEditorOptions options = new JsRichEditorOptions();
-        // Set up the toolbar items
-        Object[][] toolbar = new Object[][]{};
-        toolbar[0] = new Object[]{"style", extractOptions(getStyleOptions())};
-        toolbar[1] = new Object[]{"para", extractOptions(getParaOptions())};
-        toolbar[2] = new Object[]{"height", extractOptions(getHeightOptions())};
-        toolbar[3] = new Object[]{"undo", extractOptions(getUndoOptions())};
-        toolbar[4] = new Object[]{"fonts", extractOptions(getFontOptions())};
-        toolbar[5] = new Object[]{"color", extractOptions(getColorOptions())};
-        toolbar[6] = new Object[]{"ckMedia", extractOptions(getCkMediaOptions())};
-        toolbar[7] = new Object[]{"misc", extractOptions(getMiscOptions())};
-
-        // Other important options
-        options.toolbar = toolbar;
-        options.airMode = isAirMode();
-        options.disableDragAndDrop = isDisableDragAndDrop();
-        options.followingToolbar = false;
+        options.toolbar = manager.getToolbars();
         options.placeholder = getPlaceholder();
         options.height = getHeight();
-        options.minHeight = 200;
-        options.defaultBackColor = "#777";
-        options.defaultTextColor = "#fff";
 
         jsRichEditor.materialnote(options);
 
         // Events
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_BLUR, event -> {
-            fireEvent(new BlurEvent() {
-            });
+            fireEvent(new BlurEvent() {});
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_FOCUS, event -> {
-            fireEvent(new FocusEvent() {
-            });
+            fireEvent(new FocusEvent() {});
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYUP, event -> {
-            fireEvent(new KeyUpEvent() {
-            });
+            fireEvent(new KeyUpEvent() {});
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYDOWN, event -> {
-            fireEvent(new KeyDownEvent() {
-            });
+            fireEvent(new KeyDownEvent() {});
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_PASTE, event -> {
-            fireEvent(new PasteEvent() {
-            });
+            fireEvent(new PasteEvent() {});
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_CHANGE, event -> {
@@ -160,7 +160,11 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     protected void onUnload() {
         super.onUnload();
 
-        // Perform tear down on materialnote
+        unload();
+    }
+
+    @Override
+    public void unload() {
         JsRichEditor jsRichEditor = $(getElement());
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_BLUR);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_FOCUS);
@@ -169,6 +173,76 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
         jsRichEditor.destroy();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+    public ToolbarButton[] getStyleOptions() {
+        return manager.getStyleOptions();
+    }
+
+    public void setStyleOptions(ToolbarButton... styleOptions) {
+        manager.setStyleOptions(styleOptions);
+    }
+
+    public ToolbarButton[] getFontOptions() {
+        return manager.getFontOptions();
+    }
+
+    public void setFontOptions(ToolbarButton... fontOptions) {
+        manager.setFontOptions(fontOptions);
+    }
+
+    public ToolbarButton[] getColorOptions() {
+        return manager.getColorOptions();
+    }
+
+    public void setColorOptions(ToolbarButton... colorOptions) {
+        manager.setColorOptions(colorOptions);
+    }
+
+    public ToolbarButton[] getUndoOptions() {
+        return manager.getUndoOptions();
+    }
+
+    public void setUndoOptions(ToolbarButton... undoOptions) {
+        manager.setUndoOptions(undoOptions);
+    }
+
+    public ToolbarButton[] getCkMediaOptions() {
+        return manager.getCkMediaOptions();
+    }
+
+    public void setCkMediaOptions(ToolbarButton... ckMediaOptions) {
+        manager.setCkMediaOptions(ckMediaOptions);
+    }
+
+    public ToolbarButton[] getMiscOptions() {
+        return manager.getMiscOptions();
+    }
+
+    public void setMiscOptions(ToolbarButton... miscOptions) {
+        manager.setMiscOptions(miscOptions);
+    }
+
+    public ToolbarButton[] getParaOptions() {
+        return manager.getParaOptions();
+    }
+
+    public void setParaOptions(ToolbarButton... paraOptions) {
+        manager.setParaOptions(paraOptions);
+    }
+
+    public ToolbarButton[] getHeightOptions() {
+        return manager.getHeightOptions();
+    }
+
+    public void setHeightOptions(ToolbarButton... heightOptions) {
+        manager.setHeightOptions(heightOptions);
     }
 
     protected void checkContainer() {
@@ -234,6 +308,95 @@ public class MaterialRichEditor extends MaterialRichEditorBase implements HasVal
     @Override
     public void clear() {
         $(getElement()).materialnote("reset");
+    }
+
+    public boolean isAirMode() {
+        return options.airMode;
+    }
+
+    public void setAirMode(boolean airMode) {
+        options.airMode = airMode;
+    }
+
+    /**
+     * Check if the dnd for rich editor is enabled / disabled
+     */
+    public boolean isDisableDragAndDrop() {
+        return options.disableDragAndDrop;
+    }
+
+    /**
+     * If true, disable the ability to drag and drop items to rich editor
+     */
+    public void setDisableDragAndDrop(boolean disableDragAndDrop) {
+        options.disableDragAndDrop = disableDragAndDrop;
+    }
+
+    @Override
+    public String getPlaceholder() {
+        return options.placeholder;
+    }
+
+    @Override
+    public void setPlaceholder(String placeholder) {
+        options.placeholder = placeholder;
+    }
+
+    public String getHeight() {
+        String height = getElement().getStyle().getHeight();
+        if (height == null || height.isEmpty()) {
+            height = "550px";
+        }
+        return height;
+    }
+
+    @Override
+    public String getHTML() {
+        return getHTMLCode(getElement());
+    }
+
+    @Override
+    public void setHTML(final String html) {
+        this.html = html;
+
+        if (handlerRegistration != null) {
+            handlerRegistration.removeHandler();
+            handlerRegistration = null;
+        }
+
+        if (!isAttached() && html != null) {
+            handlerRegistration = registerHandler(addAttachHandler(e -> setHTMLCode(getElement(), html)));
+        } else {
+            setHTMLCode(getElement(), html);
+        }
+    }
+
+    @Override
+    public String getText() {
+        return getHTML();
+    }
+
+    @Override
+    public void setText(String text) {
+        setHTML(text);
+    }
+
+    protected String getHTMLCode(Element e) {
+        return $(e).code();
+    }
+
+    protected void setHTMLCode(Element e, String html) {
+        $(e).code(html);
+    }
+
+    @Override
+    public String getValue() {
+        return getHTML();
+    }
+
+    @Override
+    public void setValue(String value, boolean fireEvents) {
+        setHTML(value);
     }
 
     @Override

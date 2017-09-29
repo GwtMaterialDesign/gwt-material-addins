@@ -25,9 +25,11 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.masonry.js.JsMasonry;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialRow;
@@ -63,7 +65,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow implements HasDurationTransition {
+public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -75,61 +77,62 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
         }
     }
 
-    private int duration = 400;
-    private boolean percentPosition = true;
-    private boolean originLeft = true;
-    private boolean originTop = true;
     private String itemSelector = ".col";
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
+    private JsMasonryOptions options = new JsMasonryOptions();
 
     public MaterialMasonry() {
         super(Document.get().createDivElement(), AddinsCssName.MASONRY, CssName.ROW);
 
-        build();
-    }
-
-    @Override
-    protected void build() {
-        enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName(AddinsCssName.COL_SIZER);
         add(sizerDiv);
     }
 
     @Override
-    protected void initialize() {
-        initMasonryJs(getElement());
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
     }
 
-    protected void initMasonryJs(Element e) {
-        window().ready(() -> $(e).imagesLoaded(() -> $(e).masonry(getMasonryOptions())));
-    }
-
-    protected JsMasonryOptions getMasonryOptions() {
-        JsMasonryOptions options = new JsMasonryOptions();
+    @Override
+    public void load() {
+        JsMasonry element = $(getElement());
         options.itemSelector = ".masonry > " + getItemSelector();
-        options.percentPosition = isPercentPosition();
         options.columnWidth = "." + AddinsCssName.COL_SIZER;
-        options.originLeft = isOriginLeft();
-        options.originTop = isOriginTop();
-        options.transitionDuration = getDuration() + "ms";
-        return options;
+        window().ready(() -> element.imagesLoaded(() -> element.masonry(options)));
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        $(getElement()).masonry("destroy");
+    }
+
+    @Override
+    public void reload() {
+        reloadItems();
+        layout();
     }
 
     @Override
     public boolean remove(IsWidget child) {
         Widget widget = (Widget) child;
         remove(widget.getElement());
-
-        if (isInitialize()) {
-            initialize();
-        }
+        reload();
         return true;
     }
 
     @Override
     public boolean remove(Widget w) {
-        return this.remove((IsWidget) w);
+        return remove((IsWidget) w);
     }
 
     @Override
@@ -142,9 +145,7 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * Remove the item with Masonry support
      */
     protected void remove(Element e) {
-        if (isInitialize()) {
-            $(getElement()).masonry(getMasonryOptions()).masonry("remove", e).masonry("layout");
-        }
+        $(getElement()).masonry(options).masonry("remove", e).masonry("layout");
     }
 
     @Override
@@ -157,50 +158,39 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
     @Override
     public void add(Widget child) {
         super.add(child);
-        reinitialize();
+        reload();
     }
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
         super.add(child, container);
-        reinitialize();
+        reload();
     }
 
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
         super.insert(child, container, beforeIndex, domInsert);
-        reinitialize();
+        reload();
     }
 
     @Override
     public void insert(Widget child, int beforeIndex) {
         super.insert(child, beforeIndex);
-        reinitialize();
-    }
-
-    /**
-     * Reload the layout effective only when adding and inserting items
-     */
-    @Override
-    public void reinitialize() {
-        if (isInitialize()) {
-            reinitializeItem();
-            layout();
-        }
+        reload();
     }
 
     /**
      * Reload all items inside the masonry
      */
-    public void reinitializeItem() {
-        $(getElement()).masonry(getMasonryOptions()).masonry("reloadItems");
+    public void reloadItems() {
+        $(getElement()).masonry(options).masonry("reloadItems");
     }
 
     /**
      * Layout remaining item elements
      */
     public void layout() {
-        $(getElement()).masonry(getMasonryOptions()).masonry("layout");
+        $(getElement()).masonry(options).masonry("layout");
     }
 
     /**
@@ -222,7 +212,7 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * Get the percent position boolean value.
      */
     public boolean isPercentPosition() {
-        return percentPosition;
+        return options.percentPosition;
     }
 
     /**
@@ -230,14 +220,14 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * well with percent-width items, as items will not transition their position on resize.
      */
     public void setPercentPosition(boolean percentPosition) {
-        this.percentPosition = percentPosition;
+        options.percentPosition = percentPosition;
     }
 
     /**
      * Get the boolean value of origin left.
      */
     public boolean isOriginLeft() {
-        return originLeft;
+        return options.originLeft;
     }
 
     /**
@@ -245,14 +235,14 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * left, with originLeft: true. Set originLeft: false for right-to-left layouts.
      */
     public void setOriginLeft(boolean originLeft) {
-        this.originLeft = originLeft;
+        options.originLeft = originLeft;
     }
 
     /**
      * Get the boolean value of origin top.
      */
     public boolean isOriginTop() {
-        return originTop;
+        return options.originTop;
     }
 
     /**
@@ -260,7 +250,7 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * with originTop: true. Set originTop: false for bottom-up layouts. It’s like Tetris
      */
     public void setOriginTop(boolean originTop) {
-        this.originTop = originTop;
+        options.originTop = originTop;
     }
 
     public MaterialWidget getSizerDiv() {
@@ -269,11 +259,11 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
 
     @Override
     public void setDuration(int duration) {
-        this.duration = duration;
+        options.transitionDuration = duration + "ms";
     }
 
     @Override
     public int getDuration() {
-        return duration;
+        return options.transitionDuration != null ? Integer.parseInt(options.transitionDuration.replace("ms", "")) : 0;
     }
 }

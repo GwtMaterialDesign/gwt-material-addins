@@ -45,11 +45,7 @@ public class Html5Camera extends AbstractValueWidget<String> {
     @Override
     protected void onLoad() {
         super.onLoad();
-        build();
-    }
 
-    @Override
-    protected void build() {
         add(imageFileInput);
         imageFileInput.setDataAttribute("accept", "image/*");
         imageFileInput.setDataAttribute("capture", "camera");

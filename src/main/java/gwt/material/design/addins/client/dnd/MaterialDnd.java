@@ -22,6 +22,8 @@ package gwt.material.design.addins.client.dnd;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.dnd.constants.DragEvents;
+import gwt.material.design.addins.client.dnd.constants.DropEvents;
 import gwt.material.design.addins.client.dnd.js.JsDnd;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.addins.client.dnd.js.JsDropOptions;
@@ -80,16 +82,16 @@ public class MaterialDnd {
             jsDnd = JsDnd.interact(target.getElement());
 
             // Events
-            jsDnd.on("dragmove", event -> {
+            jsDnd.off(DragEvents.DRAG_MOVE).on(DragEvents.DRAG_MOVE, event -> {
                 move(event);
                 DragMoveEvent.fire(this.target);
                 return true;
             });
-            jsDnd.on("dragstart", event -> {
+            jsDnd.off(DragEvents.DRAG_START).on(DragEvents.DRAG_START, event -> {
                 DragStartEvent.fire(this.target);
                 return true;
             });
-            jsDnd.on("dragend", event -> {
+            jsDnd.off(DragEvents.DRAG_END).on(DragEvents.DRAG_END, event -> {
                 DragEndEvent.fire(this.target);
                 return true;
             });
@@ -121,23 +123,23 @@ public class MaterialDnd {
             jsDnd = JsDnd.interact(target.getElement());
 
             // Events
-            jsDnd.on("dropactivate", event -> {
+            jsDnd.off(DropEvents.DROP_ACTIVATE).on(DropEvents.DROP_ACTIVATE, event -> {
                 DropActivateEvent.fire(this.target);
                 return true;
             });
-            jsDnd.on("dragenter", event -> {
+            jsDnd.off(DragEvents.DRAG_ENTER).on(DragEvents.DRAG_ENTER, event -> {
                 DragEnterEvent.fire(this.target, event.getRelatedTarget());
                 return true;
             });
-            jsDnd.on("dragleave", event -> {
+            jsDnd.off(DragEvents.DRAG_LEAVE).on(DragEvents.DRAG_LEAVE, event -> {
                 DragLeaveEvent.fire(this.target, event.getRelatedTarget());
                 return true;
             });
-            jsDnd.on("drop", event -> {
+            jsDnd.off(DropEvents.DROP).on(DropEvents.DROP, event -> {
                 DropEvent.fire(this.target, event.getRelatedTarget());
                 return true;
             });
-            jsDnd.on("dropdeactivate", event -> {
+            jsDnd.off(DropEvents.DROP_DEACTIVATE).on(DropEvents.DROP_DEACTIVATE, event -> {
                 DropDeactivateEvent.fire(this.target);
                 return true;
             });

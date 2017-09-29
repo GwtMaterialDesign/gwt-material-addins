@@ -32,6 +32,7 @@ import gwt.material.design.addins.client.gesture.velocity.js.JsVelocityOptions;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.*;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
@@ -69,7 +70,7 @@ import static gwt.material.design.addins.client.gesture.hammer.js.JsHammer.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
  */
 //@formatter:on
-public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeableHandler<Widget> {
+public class MaterialSwipeablePanel extends MaterialWidget implements JsLoader, HasSwipeableHandler<Widget> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -96,20 +97,26 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
     }
 
     @Override
-    protected void initialize() {
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
+    }
+
+    @Override
+    public void load() {
         for (Widget w : getChildren()) {
             if (!w.getStyleName().contains(AddinsCssName.IGNORED)) {
-                initialize(w.getElement(), w);
+                load(w.getElement(), w);
             }
         }
     }
 
-    protected void initialize(Element container, Widget target) {
+    protected void load(Element container, Widget target) {
         JQueryElement parent = $(container);
         parent.each((object, element) -> {
             boolean swipeLeftToRight[] = {false};
             boolean swipeRightToLeft[] = {false};
-
 
             $(element).hammer().bind("pan", (result) -> {
                 int direction = result.gesture.direction;
@@ -157,6 +164,21 @@ public class MaterialSwipeablePanel extends MaterialWidget implements HasSwipeab
                 }
             });
         });
+    }
+
+    @Override
+    public void unload() {
+        for (Widget widget : getChildren()) {
+            JQueryElement element = $(widget.getElement());
+            element.off("pan");
+            element.off("panend");
+        }
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     protected JsVelocityOptions buildVelocityOption(double translateX) {

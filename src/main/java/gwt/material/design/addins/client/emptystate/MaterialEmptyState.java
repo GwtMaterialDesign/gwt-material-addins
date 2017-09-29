@@ -27,7 +27,6 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.mixin.TitleMixin;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLoader;
@@ -70,7 +69,6 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
 
     public MaterialEmptyState() {
         super(Document.get().createDivElement(), CssName.VALIGN_WRAPPER, AddinsCssName.EMPTY_STATE);
-        build();
     }
 
     public MaterialEmptyState(Color bgColor, Color textColor, IconType iconType, String title, String description) {
@@ -83,9 +81,10 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     }
 
     @Override
-    protected void build() {
+    protected void onLoad() {
+        super.onLoad();
+
         setTextAlign(TextAlign.CENTER);
-        setHeight("100%");
         add(container);
         container.setWidth("100%");
         container.setStyleName(CssName.VALIGN + " " + CssName.CENTER);
@@ -132,6 +131,11 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     @Override
     public void setIconColor(Color iconColor) {
         icon.setIconColor(iconColor);
+    }
+
+    @Override
+    public Color getIconColor() {
+        return icon.getIconColor();
     }
 
     @Override

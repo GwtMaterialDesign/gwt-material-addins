@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -43,6 +42,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.*;
 
@@ -76,7 +76,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements HasPlaceholder,
+public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
         HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly {
 
     static {
@@ -91,21 +91,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
 
     private int selectedIndex;
-    private boolean allowClear;
-    private boolean multiple;
-    private boolean hideSearch;
-    private boolean closeOnSelect = true;
-    private boolean tags;
     private boolean suppressChangeEvent;
-    private int limit;
-    private String placeholder;
-    private String dropdownParent = "body";
-    private String uid = DOM.createUniqueId();
     protected List<T> values = new ArrayList<>();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
     private KeyFactory<T, String> keyFactory = Object::toString;
+    private JsComboBoxOptions options = JsComboBoxOptions.create();
 
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
@@ -116,39 +108,22 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     protected void onLoad() {
-        build();
-
-        super.onLoad();
-    }
-
-    @Override
-    protected void build() {
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
         super.add(listbox);
         super.add(label);
         errorLabel.setMarginTop(15);
         $(errorLabel.getElement()).insertAfter($(getElement()));
-        setId(uid);
-
         listbox.setGwtDisplay(Style.Display.BLOCK);
+
+        super.onLoad();
+
+        load();
+
+        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
     }
 
     @Override
-    protected void initialize() {
-        JsComboBoxOptions options = new JsComboBoxOptions();
-        options.allowClear = allowClear;
-        options.placeholder = placeholder;
-        options.maximumSelectionLength = limit;
-        options.closeOnSelect = closeOnSelect;
-        options.dropdownParent = $(dropdownParent);
-        options.tags = tags;
-
-        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
-
-        if (isHideSearch()) {
-            options.minimumResultsForSearch = "Infinity";
-        }
-
+    public void load() {
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.select2(options);
 
@@ -188,7 +163,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     protected void onUnload() {
         super.onUnload();
 
-        // Perform tear down on select2
+        unload();
+    }
+
+    @Override
+    public void unload() {
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
@@ -199,7 +178,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    public void reload() {
+        unload();
+        load();
+    }
+
+    @Override
     public void add(Widget child) {
         if (child instanceof OptGroup) {
             for (Widget w : ((OptGroup) child).getChildren()) {
@@ -306,23 +290,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Sets the parent element of the dropdown
      */
     public void setDropdownParent(String dropdownParent) {
-        this.dropdownParent = dropdownParent;
+        options.dropdownParent = $(dropdownParent);
     }
 
-    public String getDropdownParent() {
-        return dropdownParent;
-    }
-
-    /**
-     * Sets multi-value select boxes.
-     */
-    public void setMultiple(boolean multiple) {
-        this.multiple = multiple;
-        if (multiple) {
-            $(listbox.getElement()).attr("multiple", "multiple");
-        } else {
-            $(listbox.getElement()).removeAttr("multiple");
-        }
+    public JQueryElement getDropdownParent() {
+        return options.dropdownParent;
     }
 
     /**
@@ -334,12 +306,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public String getPlaceholder() {
-        return placeholder;
+        return options.placeholder;
     }
 
     @Override
     public void setPlaceholder(String placeholder) {
-        this.placeholder = placeholder;
+        options.placeholder = placeholder;
     }
 
     @Override
@@ -356,50 +328,68 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Check if allow clear option is enabled
      */
     public boolean isAllowClear() {
-        return allowClear;
+        return options.allowClear;
     }
 
     /**
      * Add a clear button on the right side of the combobox
      */
     public void setAllowClear(boolean allowClear) {
-        this.allowClear = allowClear;
+        options.allowClear = allowClear;
     }
 
     /**
      * Get the maximum number of items to be entered on multiple combobox
      */
     public int getLimit() {
-        return limit;
+        return options.maximumSelectionLength;
     }
 
     /**
      * Set the maximum number of items to be entered on multiple combobox
      */
     public void setLimit(int limit) {
-        this.limit = limit;
+        options.maximumSelectionLength = limit;
     }
 
     /**
      * Check whether the search box is enabled on combobox
      */
     public boolean isHideSearch() {
-        return hideSearch;
+        return options.minimumResultsForSearch.equals("Infinity");
     }
 
     /**
      * Set the option to display the search box inside the combobox component
      */
     public void setHideSearch(boolean hideSearch) {
-        this.hideSearch = hideSearch;
+        if (hideSearch) {
+            options.minimumResultsForSearch = "Infinity";
+        }
     }
 
     /**
      * Check whether the multiple option is enabled
      */
     public boolean isMultiple() {
-        return multiple;
+        if (listbox != null) {
+            return listbox.getElement().hasAttribute("multiple");
+        }
+        return false;
     }
+
+
+    /**
+     * Sets multi-value select boxes.
+     */
+    public void setMultiple(boolean multiple) {
+        if (multiple) {
+            $(listbox.getElement()).attr("multiple", "multiple");
+        } else {
+            $(listbox.getElement()).removeAttr("multiple");
+        }
+    }
+
 
     public void setAcceptableValues(Collection<T> values) {
         setItems(values);
@@ -407,7 +397,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public List<T> getValue() {
-        if (!multiple) {
+        if (!isMultiple()) {
             int index = getSelectedIndex();
             if (index != -1) {
                 return Collections.singletonList(values.get(index));
@@ -454,7 +444,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void setValue(List<T> values, boolean fireEvents) {
-        if (!multiple) {
+        if (!isMultiple()) {
             if (!values.isEmpty()) {
                 setSingleValue(values.get(0), fireEvents);
             }
@@ -537,7 +527,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * @return the text for selected item, or {@code null} if none is selected
      */
     public int getSelectedIndex() {
-        Object o = $("#" + uid).find("option:selected").last().prop("index");
+        Object o = $(getElement()).find("option:selected").last().prop("index");
         if (o != null) {
             return Integer.parseInt(o.toString());
         }
@@ -618,14 +608,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Check whether the dropdown will be close or not when result is selected
      */
     public boolean isCloseOnSelect() {
-        return closeOnSelect;
+        return options.closeOnSelect;
     }
 
     /**
      * Allow or Prevent the dropdown from closing when a result is selected (Default true)
      */
     public void setCloseOnSelect(boolean closeOnSelect) {
-        this.closeOnSelect = closeOnSelect;
+        options.closeOnSelect = closeOnSelect;
     }
 
     public MaterialWidget getListbox() {
@@ -641,11 +631,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     public boolean isTags() {
-        return tags;
+        return options.tags;
     }
 
     public void setTags(boolean tags) {
-        this.tags = tags;
+        options.tags = tags;
     }
 
     public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {

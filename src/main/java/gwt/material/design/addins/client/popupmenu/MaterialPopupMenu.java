@@ -27,6 +27,7 @@ import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.UnorderedList;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -39,7 +40,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author Mark Kevin
  * @author Ben Dol
  */
-public class MaterialPopupMenu extends UnorderedList implements HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>, HasCloseHandlers<MaterialPopupMenu> {
+public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
+        HasCloseHandlers<MaterialPopupMenu> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -63,11 +65,11 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
     protected void onLoad() {
         super.onLoad();
 
-        build();
+        load();
     }
 
     @Override
-    protected void build() {
+    public void load() {
         $(this).attr("tabindex", "0");
         $(this).on("blur", e -> {
             close();
@@ -88,13 +90,27 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
     protected void onUnload() {
         super.onUnload();
 
+       unload();
+    }
+
+    @Override
+    public void unload() {
+        $(".popup-menu li").off("mouseleave");
+        $(".popup-menu li").off("click");
+        $(".popup-menu li").off("mouseover");
         $(this).off("." + id);
         $("*").off("." + id);
     }
 
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+
     private void initializeSelectionEvent() {
         // Initialization of Selection event
-        $(".popup-menu li").off("click");
         $(".popup-menu li").on("click", e -> {
             e.stopPropagation();
             SelectionEvent.fire(MaterialPopupMenu.this, $(e.getCurrentTarget()).asElement());
@@ -103,7 +119,6 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
         });
 
         // Check if the dropdown is not visible anymore into it's container either left / bottom side
-        $(".popup-menu li").off("mouseover");
         $(".popup-menu li").on("mouseover", (e, param1) -> {
             JQueryElement item = $(e.getCurrentTarget()).find("a");
             if (item.attr("data-activates") != null) {
@@ -128,7 +143,6 @@ public class MaterialPopupMenu extends UnorderedList implements HasSelectionHand
             return true;
         });
 
-        $(".popup-menu li").off("mouseleave");
         $(".popup-menu li").on("mouseleave", (e, param) -> {
             JQueryElement item = $(e.getCurrentTarget()).find("a");
             if (item.attr("data-activates") != null) {

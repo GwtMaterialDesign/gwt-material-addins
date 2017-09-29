@@ -103,7 +103,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     public MaterialStepper() {
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
 
-        build();
+        divFeedback.setStyleName(AddinsCssName.FEEDBACK);
+        divFeedback.add(feedbackSpan);
     }
 
     @Override
@@ -116,12 +117,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
         }
 
         setDetectOrientation(detectOrientation);
-    }
-
-    @Override
-    protected void build() {
-        divFeedback.setStyleName(AddinsCssName.FEEDBACK);
-        divFeedback.add(feedbackSpan);
     }
 
     public void setDetectOrientation(boolean detectOrientation) {
