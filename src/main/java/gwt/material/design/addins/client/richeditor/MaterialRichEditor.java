@@ -305,8 +305,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         $(e).materialnote("pasteHTML", html);
     }
 
-    @Override
-    public void clear() {
+    public void reset() {
         $(getElement()).materialnote("reset");
     }
 

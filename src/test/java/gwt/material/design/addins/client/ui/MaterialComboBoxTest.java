@@ -28,12 +28,14 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
+import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.ui.base.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,12 +115,20 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
         comboBox.setTags(false);
         assertFalse(comboBox.isTags());
 
+        // given
         final String BODY_SELECTOR = "body";
-        final String SELF_SELECTOR = "#" + comboBox.getElement().getId();
+
+        // when / then
         comboBox.setDropdownParent(BODY_SELECTOR);
-        assertEquals($(BODY_SELECTOR), comboBox.getDropdownParent());
+        assertEquals($(BODY_SELECTOR).html(), comboBox.getDropdownParent().html());
+
+        // given
+        comboBox.setId("my-combo");
+        final String SELF_SELECTOR = "#" + comboBox.getElement().getId();
+
+        // when / then
         comboBox.setDropdownParent(SELF_SELECTOR);
-        assertEquals($(SELF_SELECTOR), comboBox.getDropdownParent());
+        assertEquals($(SELF_SELECTOR).html(), comboBox.getDropdownParent().html());
     }
 
     public void testEvents() {

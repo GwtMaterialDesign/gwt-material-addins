@@ -19,8 +19,6 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.event.dom.client.HasAllKeyHandlers;
-import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.SuggestBox;
 import gwt.material.design.addins.client.autocomplete.MaterialAutoComplete;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
@@ -46,6 +44,8 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     public static MaterialAutoComplete constructAndAttach() {
         MaterialAutoComplete autocomplete = new MaterialAutoComplete();
+
+        // given
         UserOracle oracle = new UserOracle();
         oracle.addContacts(getAllUsers());
         autocomplete.setSuggestions(oracle);
@@ -53,6 +53,8 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         for (int i = 1; i <= 3; i++) {
             itemValues.add("Item " + i);
         }
+
+        // when / then
         autocomplete.setItemValues(itemValues);
         assertEquals(autocomplete.getItemValues().size(), 3);
 
@@ -77,23 +79,18 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         MaterialAutoComplete autocomplete = getWidget();
         List<String> itemValues = autocomplete.getItemValues();
 
+        // when / then
         List<String> value = new ArrayList<>();
         value.add(itemValues.get(0));
-
         List<String> secondValue = new ArrayList<>();
         secondValue.add(itemValues.get(1));
-
         assertNotSame(secondValue, value);
-
         final boolean[] isValueChanged = {false};
         autocomplete.addValueChangeHandler(event -> isValueChanged[0] = true);
-
         autocomplete.setItemValues(value);
         assertFalse(isValueChanged[0]);
-
         autocomplete.setItemValues(secondValue, true);
         assertTrue(isValueChanged[0]);
-
         autocomplete.clear();
         assertEquals(0, autocomplete.getItemValues().size());
         autocomplete.setLimit(2);
@@ -101,12 +98,15 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
     }
 
     public void testPlaceholder() {
+        // given
         MaterialAutoComplete autocomplete = getWidget();
+
+        // when / then
         autocomplete.setPlaceholder("test");
         assertEquals("test", autocomplete.getPlaceholder());
     }
 
-    public static List<User> getAllUsers() {
+    protected static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
             users.add(new User("User " + i));
@@ -116,6 +116,7 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     @Override
     public void testTabIndex() {
+        // givem
         MaterialAutoComplete autoComplete = getWidget();
         SuggestBox widget = autoComplete.getSuggestBox();
 
@@ -126,8 +127,6 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         widget.setTabIndex(INITIAL_TAB_INDEX);
         assertEquals(INITIAL_TAB_INDEX, widget.getTabIndex());
         assertEquals(String.valueOf(INITIAL_TAB_INDEX), widget.getElement().getPropertyString("tabIndex"));
-
-        // when / then
         widget.setTabIndex(FINAL_TAB_INDEX);
         assertEquals(FINAL_TAB_INDEX, widget.getTabIndex());
         assertEquals(String.valueOf(FINAL_TAB_INDEX), widget.getElement().getPropertyString("tabIndex"));
