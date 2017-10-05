@@ -49,6 +49,7 @@ ul.multiValueSuggestBox-list {
 }
 .gwt-SuggestBoxPopup {
     z-index: 9999;
+    position: fixed !important;
     min-width: 300px !important;
     background: white;
     border-radius: 2px;

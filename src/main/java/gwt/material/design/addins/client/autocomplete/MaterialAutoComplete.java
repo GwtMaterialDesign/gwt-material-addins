@@ -37,6 +37,7 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialProgress;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.ListItem;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -215,13 +216,13 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public MaterialAutoComplete(SuggestOracle suggestions) {
         this();
-        build(suggestions);
+        setup(suggestions);
     }
 
     /**
      * Generate and build the List Items to be set on Auto Complete box.
      */
-    protected void build(SuggestOracle suggestions) {
+    protected void setup(SuggestOracle suggestions) {
         list.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_LIST);
         this.suggestions = suggestions;
         final ListItem item = new ListItem();
@@ -421,6 +422,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         getProgressMixin().hideProgress();
     }
 
+    @Override
+    public MaterialProgress getProgress() {
+        return getProgressMixin().getProgress();
+    }
+
     /**
      * @return the item values on autocomplete
      * @see #getValue()
@@ -492,7 +498,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public void setSuggestions(SuggestOracle suggestions) {
         this.suggestions = suggestions;
-        build(suggestions);
+        setup(suggestions);
     }
 
     public void setSuggestions(SuggestOracle suggestions, AutocompleteType type) {

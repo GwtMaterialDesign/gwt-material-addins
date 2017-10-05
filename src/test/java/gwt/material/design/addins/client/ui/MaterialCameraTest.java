@@ -56,7 +56,7 @@ public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture
         assertTrue(cameraCapture.isPauseOnUnload());
         cameraCapture.setPauseOnUnload(false);
         assertFalse(cameraCapture.isPauseOnUnload());
-        cameraCapture.reinitialize();
+        cameraCapture.reload();
     }
 
     // TODO Update Test
