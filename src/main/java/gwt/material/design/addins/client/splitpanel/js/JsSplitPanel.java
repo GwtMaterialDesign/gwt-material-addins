@@ -23,7 +23,6 @@ import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
@@ -33,9 +32,6 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true)
 public class JsSplitPanel extends JQueryElement {
-
-    @JsProperty
-    public JsSplitPanel touchSplitter;
 
     @JsMethod(name = "$", namespace = JsPackage.GLOBAL)
     public static native JsSplitPanel $(JQueryElement element);
@@ -47,11 +43,5 @@ public class JsSplitPanel extends JQueryElement {
     public static native JsSplitPanel $(String selector);
 
     @JsMethod
-    public native JsSplitPanel touchSplit(JsSplitPanelOptions options);
-
-    @JsMethod
-    public native void destroy();
-
-    @JsMethod
-    public native void destroy(String side);
+    public native TouchSplitter touchSplit(JsSplitPanelOptions options);
 }

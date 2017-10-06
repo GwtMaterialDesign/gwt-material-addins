@@ -30,6 +30,7 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
@@ -37,10 +38,7 @@ import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialInput;
-import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Label;
 
 import java.util.Date;
@@ -84,7 +82,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     private Date time;
-    private Orientation orientation = Orientation.PORTRAIT;
     private String placeholder;
     private MaterialPanel container = new MaterialPanel();
     private MaterialInput timeInput = new MaterialInput();
@@ -135,6 +132,10 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
         $(timeInput.getElement()).lolliclock(options);
         $(timeInput.getElement()).blur();
+
+        registerHandler(addOrientationChangeHandler(event -> {
+            JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", event.getOrientation().getCssName());
+        }));
     }
 
     @Override
@@ -230,19 +231,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
         placeholderLabel.setText(placeholder);
-    }
-
-    @Override
-    public Orientation getOrientation() {
-        return options.orientation != null ? Orientation.fromStyleName(options.orientation) : null;
-    }
-
-    /**
-     * @param orientation The orientation to set: Can be Horizontal or Vertical.
-     */
-    @Override
-    public void setOrientation(Orientation orientation) {
-        options.orientation = orientation.getCssName();
     }
 
     /**

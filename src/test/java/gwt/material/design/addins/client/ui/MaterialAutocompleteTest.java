@@ -61,6 +61,15 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         return autocomplete;
     }
 
+    // TODO Test Structure
+    public void testStructure() {}
+
+    // TODO Test Progress
+    public void testProgress() {}
+
+    // TODO Test Text Type
+    public void testTextType() {}
+
     public void testLimit() {
         // given
         MaterialAutoComplete autocomplete = getWidget();

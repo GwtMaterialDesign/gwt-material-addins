@@ -167,6 +167,13 @@ public class MaterialSwipeablePanel extends MaterialWidget implements JsLoader, 
     }
 
     @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
     public void unload() {
         for (Widget widget : getChildren()) {
             JQueryElement element = $(widget.getElement());

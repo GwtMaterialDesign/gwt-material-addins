@@ -123,24 +123,9 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         toolbar.add(labelTitle);
         toolbar.add(iconClose);
         toolbar.add(iconMaximize);
-        registerHandler(toolbar.addDoubleClickHandler(event -> {
-            toggleMaximize();
-            Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-        }));
+
         super.add(toolbar);
         super.add(content);
-
-        // Add handlers to action buttons
-        registerHandler(iconMaximize.addClickHandler(event -> toggleMaximize()));
-        registerHandler(iconClose.addClickHandler(event -> {
-            if (!preventClose) {
-                if (!isOpen()) {
-                    open();
-                } else {
-                    close();
-                }
-            }
-        }));
 
         setTop(100);
 
@@ -162,6 +147,29 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     public MaterialWindow(String title, Color backgroundColor, Color textColor, Color toolbarColor) {
         this(title, backgroundColor, textColor);
         setToolbarColor(toolbarColor);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        // Add handlers to action buttons
+        registerHandler(iconMaximize.addClickHandler(event -> toggleMaximize()));
+
+        registerHandler(toolbar.addDoubleClickHandler(event -> {
+            toggleMaximize();
+            Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
+        }));
+
+        registerHandler(iconClose.addClickHandler(event -> {
+            if (!preventClose) {
+                if (!isOpen()) {
+                    open();
+                } else {
+                    close();
+                }
+            }
+        }));
     }
 
     /**

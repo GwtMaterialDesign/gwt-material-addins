@@ -41,11 +41,10 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
 
     @Override
     protected MaterialRichEditor createWidget() {
-
         return new MaterialRichEditor();
     }
 
-    public void testProperties() {
+    public void testToolbars() {
         MaterialRichEditor editor = getWidget();
         assertTrue(editor.getElement().hasClassName(AddinsCssName.EDITOR));
         final String HTML = "<b>html</b>";
@@ -86,6 +85,14 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         editor.setUndoOptions(UNDO_OPT);
         assertEquals(UNDO_OPT, editor.getUndoOptions());
     }
+
+    // TODO Clear
+
+    // TODO Airmode
+
+    // TODO Set Value / Html
+
+    // TODO Test Placeholder
 
     public void testEvents() {
         MaterialRichEditor editor = getWidget();

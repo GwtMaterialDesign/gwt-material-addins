@@ -19,11 +19,13 @@
  */
 package gwt.material.design.addins.client.splitpanel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
-import gwt.material.design.addins.client.splitpanel.js.JsSplitPanel;
+import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
+import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -74,7 +76,7 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
         }
     }
 
-    private JsSplitPanel splitted;
+    private TouchSplitter touchSplitter;
     private JsSplitPanelOptions options = JsSplitPanelOptions.create();
 
     public MaterialSplitPanel() {
@@ -90,12 +92,13 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
 
     @Override
     public void load() {
-        splitted = $(getElement());
-        if (splitted.touchSplitter == null) {
-            options.dock = getDock().getCssName();
-            options.orientation = getAxis().getCssName();
-            splitted.touchSplit(options);
-        }
+        options.dock = getDock().getCssName();
+        options.orientation = getAxis().getCssName();
+        touchSplitter = $(getElement()).touchSplit(options);
+    }
+
+    public TouchSplitter getTouchSplitter() {
+        return touchSplitter;
     }
 
     @Override
@@ -107,7 +110,19 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
 
     @Override
     public void unload() {
-        JsSplitPanel.$(splitted.get(0)).touchSplitter.destroy();
+        destroy();
+    }
+
+    public void destroy() {
+        destroy(Side.ALL);
+    }
+
+    public void destroy(Side side) {
+        if (touchSplitter != null) {
+            touchSplitter.destroy(side.getCssName());
+        } else {
+            GWT.log("Please initialize the touchsplitter.", new IllegalStateException());
+        }
     }
 
     @Override

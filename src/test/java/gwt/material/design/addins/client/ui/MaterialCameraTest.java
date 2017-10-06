@@ -49,7 +49,7 @@ public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture
         assertTrue(isCaptureFired[0]);
     }
 
-    public void testPausePlayRestart() {
+    public void testStartPauseReload() {
         MaterialCameraCapture cameraCapture = getWidget();
         cameraCapture.play();
         cameraCapture.setPauseOnUnload(true);
@@ -59,5 +59,5 @@ public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture
         cameraCapture.reload();
     }
 
-    // TODO Update Test
+    // TODO Test other events
 }

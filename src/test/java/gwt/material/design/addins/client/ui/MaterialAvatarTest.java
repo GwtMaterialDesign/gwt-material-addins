@@ -35,7 +35,7 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
         return new MaterialAvatar();
     }
 
-    public void testNameAndHashCode() {
+    public void testValue() {
         MaterialAvatar avatar = getWidget();
         final String NAME = "test1";
         avatar.setValue(NAME);
@@ -44,6 +44,12 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
         assertTrue(avatar.getElement().hasAttribute("data-jdenticon-hash"));
         assertEquals(HASH_CODE, avatar.getElement().getAttribute("data-jdenticon-hash"));
     }
+
+    // TODO Test Value Change Handler
+    public void testValueChangeHandler() {}
+
+    // TODO Test Dimension
+    public void testDimension() {}
 
     public void testSVGWithHeight() {
         MaterialAvatar avatar = getWidget();

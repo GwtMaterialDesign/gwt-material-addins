@@ -96,7 +96,6 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         super(Document.get().createDivElement(), AddinsCssName.EDITOR);
     }
 
-
     public MaterialRichEditor(String placeholder) {
         this();
         setPlaceholder(placeholder);
@@ -299,13 +298,16 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     }
 
     /**
-     * Insert custom HTML inside the note zone with JSNI function.
+     * Insert custom HTML inside the note zone.
      */
     protected void pasteHTML(Element e, String html) {
         $(e).materialnote("pasteHTML", html);
     }
 
-    public void reset() {
+    /**
+     * Reset the Rich Editor component
+     */
+    public void clear() {
         $(getElement()).materialnote("reset");
     }
 

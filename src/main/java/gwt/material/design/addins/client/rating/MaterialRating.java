@@ -115,7 +115,6 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
      */
     public MaterialRating() {
         super(DOM.createDiv(), AddinsCssName.MATERIAL_RATING);
-        revalidateLayout();
     }
 
     public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor) {
@@ -132,6 +131,13 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     public MaterialRating(IconType selectedRatingIcon, IconType unselectedRatingIcon, Color textColor, Integer value, Integer maxRating) {
         this(selectedRatingIcon, unselectedRatingIcon, textColor, value);
         setMaxRating(maxRating);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        revalidateLayout();
     }
 
     /**

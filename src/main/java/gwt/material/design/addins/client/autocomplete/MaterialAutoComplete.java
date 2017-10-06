@@ -38,6 +38,7 @@ import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialProgress;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.ListItem;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -219,23 +220,9 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         setup(suggestions);
     }
 
-    /**
-     * Generate and build the List Items to be set on Auto Complete box.
-     */
-    protected void setup(SuggestOracle suggestions) {
-        list.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_LIST);
-        this.suggestions = suggestions;
-        final ListItem item = new ListItem();
-
-        item.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_INPUT_TOKEN);
-        suggestBox = new SuggestBox(suggestions, itemBox);
-        setLimit(this.limit);
-        String autocompleteId = DOM.createUniqueId();
-        itemBox.getElement().setId(autocompleteId);
-
-        item.add(suggestBox);
-        item.add(placeholderLabel);
-        list.add(item);
+    @Override
+    protected void onLoad() {
+        super.onLoad();
 
         registerHandler(list.addDomHandler(event -> suggestBox.showSuggestionList(), ClickEvent.getType()));
 
@@ -308,6 +295,25 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             }
             itemBox.setFocus(true);
         }));
+    }
+
+    /**
+     * Generate and build the List Items to be set on Auto Complete box.
+     */
+    protected void setup(SuggestOracle suggestions) {
+        list.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_LIST);
+        this.suggestions = suggestions;
+        final ListItem item = new ListItem();
+
+        item.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_INPUT_TOKEN);
+        suggestBox = new SuggestBox(suggestions, itemBox);
+        setLimit(this.limit);
+        String autocompleteId = DOM.createUniqueId();
+        itemBox.getElement().setId(autocompleteId);
+
+        item.add(suggestBox);
+        item.add(placeholderLabel);
+        list.add(item);
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
@@ -596,15 +602,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     @Override
-    public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
-        return itemBox.addKeyUpHandler(event -> {
-            if (isEnabled()) {
-                handler.onKeyUp(event);
-            }
-        });
-    }
-
-    @Override
     public void setType(AutocompleteType type) {
         getTypeMixin().setType(type);
     }
@@ -612,18 +609,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     @Override
     public AutocompleteType getType() {
         return getTypeMixin().getType();
-    }
-
-    @Override
-    public HandlerRegistration addSelectionHandler(final SelectionHandler<Suggestion> handler) {
-        return addHandler(new SelectionHandler<Suggestion>() {
-            @Override
-            public void onSelection(SelectionEvent<Suggestion> event) {
-                if (isEnabled()) {
-                    handler.onSelection(event);
-                }
-            }
-        }, SelectionEvent.getType());
     }
 
     @Override
@@ -655,7 +640,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      *
      * @see MaterialAutoComplete#setChipProvider(MaterialChipProvider)
      */
-    public static interface MaterialChipProvider {
+    public interface MaterialChipProvider {
 
         /**
          * Creates and returns a {@link MaterialChip} based on the selected
@@ -778,6 +763,27 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     public SuggestBox getSuggestBox() {
         return suggestBox;
+    }
+
+    @Override
+    public HandlerRegistration addKeyUpHandler(final KeyUpHandler handler) {
+        return itemBox.addKeyUpHandler(event -> {
+            if (isEnabled()) {
+                handler.onKeyUp(event);
+            }
+        });
+    }
+
+    @Override
+    public HandlerRegistration addSelectionHandler(final SelectionHandler<Suggestion> handler) {
+        return addHandler(new SelectionHandler<Suggestion>() {
+            @Override
+            public void onSelection(SelectionEvent<Suggestion> event) {
+                if (isEnabled()) {
+                    handler.onSelection(event);
+                }
+            }
+        }, SelectionEvent.getType());
     }
 
     @Override
