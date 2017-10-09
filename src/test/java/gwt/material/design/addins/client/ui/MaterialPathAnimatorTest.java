@@ -44,50 +44,54 @@ public class MaterialPathAnimatorTest extends MaterialWidgetTest<MaterialPanel> 
         return source;
     }
 
+    @Override
+    protected void gwtTearDown() throws Exception {
+        super.gwtTearDown();
+
+        source.removeFromParent();
+        target.removeFromParent();
+    }
+
     public void testProperties() {
+        // given
         final int DURATION = 300;
         final int TARGET_DURATION = 500;
         final int EXTRA_DURATION = 800;
-
         final Functions.Func animateCallback = () -> {};
         final Functions.Func reverseCallback = () -> {};
-
         MaterialPathAnimator animator = new MaterialPathAnimator();
+
+        // when / then
         animator.setDuration(DURATION);
         assertEquals(DURATION, animator.getDuration());
-
         animator.setTargetShowDuration(TARGET_DURATION);
         assertEquals(TARGET_DURATION, animator.getTargetShowDuration());
-
         animator.setAnimateCallback(animateCallback);
         assertEquals(animateCallback, animator.getAnimateCallback());
-
         animator.setReverseCallback(reverseCallback);
         assertEquals(reverseCallback, animator.getReverseCallback());
-
         animator.setExtraTransitionDuration(EXTRA_DURATION);
         assertEquals(EXTRA_DURATION, animator.getExtraTransitionDuration());
-
         MaterialPanel source = getWidget();
-
         animator.setSourceElement(source.getElement());
         assertEquals(source.getElement(), animator.getSourceElement());
-
         assertNotNull(target);
         animator.setTargetElement(target.getElement());
         assertEquals(target.getElement(), animator.getTargetElement());
     }
 
     public void testStaticInstance() {
+        // given
         MaterialPanel source = new MaterialPanel();
         MaterialPanel target = new MaterialPanel();
         RootPanel.get().add(source);
         RootPanel.get().add(target);
 
+        // when / then
         target.setVisibility(Style.Visibility.HIDDEN);
         target.setOpacity(0);
-        assertEquals(target.getElement().getStyle().getVisibility(), "hidden");
-        assertEquals(target.getElement().getStyle().getOpacity(), "0");
+        assertEquals("hidden", target.getElement().getStyle().getVisibility());
+        assertEquals("0", target.getElement().getStyle().getOpacity());
         MaterialPathAnimator.animate(source, target);
         MaterialPathAnimator.reverseAnimate(source, target);
     }

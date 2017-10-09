@@ -38,7 +38,10 @@ public class MaterialBubbleTest extends MaterialWidgetTest<MaterialBubble> {
     }
 
     public void testPosition() {
+        // given
         MaterialBubble bubble = getWidget();
+
+        // when / then
         checkPosition(bubble, Position.RIGHT);
         checkPosition(bubble, Position.LEFT);
         checkPosition(bubble, Position.TOP);
@@ -52,8 +55,12 @@ public class MaterialBubbleTest extends MaterialWidgetTest<MaterialBubble> {
     }
 
     public void testStructure() {
+        // given
         MaterialBubble bubble = getWidget();
-        assertTrue(getTriangle(bubble).getElement().hasClassName(AddinsCssName.TRIANGLE));
+
+        // when / then
+        MaterialWidget triangle = getTriangle(bubble);
+        assertTrue(triangle.getElement().hasClassName(AddinsCssName.TRIANGLE));
     }
 
     protected MaterialWidget getTriangle(MaterialBubble bubble) {

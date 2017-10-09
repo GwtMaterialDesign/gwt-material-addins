@@ -37,41 +37,44 @@ public class MaterialEmptyStateTest extends MaterialWidgetTest<MaterialEmptyStat
     }
 
     public void testStructure() {
+        // given
         MaterialEmptyState emptyState = getWidget();
-
         final String TITLE = "title";
         final String DESCRIPTION = "description";
         final IconType ICON = IconType.POLL;
 
+        // when
         emptyState.setTitle(TITLE);
         emptyState.setDescription(DESCRIPTION);
         emptyState.setIconType(ICON);
-        RootPanel.get().add(emptyState);
 
+        // then
         assertTrue(emptyState.getElement().hasClassName(AddinsCssName.EMPTY_STATE));
         assertTrue(emptyState.getElement().hasClassName(CssName.VALIGN_WRAPPER));
-
         assertEquals(1, emptyState.getWidgetCount());
         assertEquals(emptyState.getContainer(), emptyState.getWidget(0));
 
+        // given
         Div container = emptyState.getContainer();
+
+        // when / then
         assertEquals(1, container.getWidgetCount());
         assertTrue(container.getElement().hasClassName(CssName.VALIGN));
         assertTrue(container.getElement().hasClassName(CssName.CENTER));
-
         assertTrue(container.getWidget(0) instanceof MaterialTitle);
         MaterialTitle title = (MaterialTitle) container.getWidget(0);
-
         assertEquals(TITLE, title.getHeader().getText());
         assertEquals(DESCRIPTION, title.getParagraph().getText());
-
         assertTrue(title.getWidget(0) instanceof MaterialIcon);
         MaterialIcon icon = (MaterialIcon) title.getWidget(0);
         assertEquals(ICON, icon.getIconType());
     }
 
     public void testLoading() {
+        // given
         MaterialEmptyState emptyState = getWidget();
+
+        // when / then
         emptyState.setLoading(true);
         assertTrue(emptyState.isLoading());
         emptyState.setLoading(false);

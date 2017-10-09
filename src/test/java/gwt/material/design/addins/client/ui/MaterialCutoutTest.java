@@ -38,9 +38,11 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
 
     @Override
     protected MaterialCutOut createWidget() {
+        // given
         MaterialCutOut cutOut = new MaterialCutOut();
         target = new MaterialIcon(IconType.POLYMER);
         RootPanel.get().add(target);
+
         // when
         cutOut.setTarget(target);
 
@@ -57,12 +59,14 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
     }
 
     public void testProperties() {
+        // given
         MaterialCutOut cutOut = getWidget();
-
         final int ANIMATION_DURATION = 200;
         final String ANIMATION_TIMING = "linear";
         final String BACKGROUND_SIZE = "100px";
         final int CUTOUT_PADDING = 20;
+
+        // when / then
         cutOut.setAnimated(true);
         assertTrue(cutOut.isAnimated());
         cutOut.setAnimated(false);
@@ -78,43 +82,47 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
     }
 
     public void testStructure() {
+        // given
         MaterialCutOut cutOut = getWidget();
-        RootPanel.get().add(cutOut);
-        MaterialButton target = new MaterialButton();
+
+        // when / then
         cutOut.setTarget(target);
         assertEquals(cutOut.getTargetElement(), target.getElement());
     }
 
     public void testOpenCloseProgrammatically() {
+        // given
         MaterialCutOut cutOut = getWidget();
-
         final boolean[] isOpenFired = {false};
+        final boolean[] isCloseFired = {false};
+
+        // when / then
         cutOut.addOpenHandler(openEvent -> isOpenFired[0] = true);
         cutOut.open();
-
-        final boolean[] isCloseFired = {false};
         cutOut.addCloseHandler(closeEvent -> isCloseFired[0] = true);
         cutOut.close();
-
         assertTrue(isOpenFired[0]);
         assertTrue(isCloseFired[0]);
     }
 
     @Override
     public void testColor() {
+        // given
         MaterialCutOut cutOut = getWidget();
 
+        // when / then
         cutOut.setBackgroundColor(Color.RED);
         assertEquals(Color.RED, cutOut.getBackgroundColor());
-
         cutOut.setTextColor(Color.RED);
         assertEquals(Color.RED, cutOut.getTextColor());
     }
 
     @Override
     public  void testCircle() {
+        // given
         MaterialCutOut cutOut = getWidget();
 
+        // when / then
         cutOut.setCircle(true);
         assertTrue(cutOut.isCircle());
         cutOut.setCircle(false);

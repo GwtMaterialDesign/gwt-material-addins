@@ -40,24 +40,28 @@ public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
     }
     
     public void testEditable() {
+        // given
         MaterialRating rating = getWidget();
+
+        // when / then
         rating.setEnabled(true);
         rating.setValue(5);
         rating.setMaxRating(10);
         rating.setEditable(false);
         assertFalse(rating.isEditable());
-
         // Get single icon to test whether mouse out / click handler will be fired (Expected : false)
         // And the value should not be changed (Expected : 5)
         assertTrue(rating.getWidget(3) instanceof MaterialIcon);
         MaterialIcon icon = (MaterialIcon) rating.getWidget(0);
-        icon.fireEvent(new ClickEvent() {
-        });
+        fireClickEvent(icon);
         assertEquals(5, Math.toIntExact(rating.getValue()));
     }
 
     public void testValue() {
+        // given
         MaterialRating rating = getWidget();
+
+        // when / then
         // Determine the number of selected icons vs. unselected ones
         rating.setSelectedRatingIcon(IconType.FAVORITE);
         rating.setUnselectedRatingIcon(IconType.FAVORITE_BORDER);
@@ -76,10 +80,10 @@ public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
             assertTrue(w instanceof MaterialIcon);
             MaterialIcon icon = (MaterialIcon) w;
             if (rating.getWidgetIndex(w) < value) {
-                assertEquals(icon.getIconType(), IconType.FAVORITE);
+                assertEquals(IconType.FAVORITE, icon.getIconType());
                 assertTrue(icon.getElement().hasClassName(AddinsCssName.MATERIAL_RATING_SELECTED));
             } else {
-                assertEquals(icon.getIconType(), IconType.FAVORITE_BORDER);
+                assertEquals(IconType.FAVORITE_BORDER, icon.getIconType());
                 assertTrue(icon.getElement().hasClassName(AddinsCssName.MATERIAL_RATING_UNSELECTED));
             }
         }
@@ -87,15 +91,16 @@ public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
     }
 
     public void testStructure() {
+        // given
         MaterialRating rating = getWidget();
         final int MAX_RATING = rating.getMaxRating();
+
+        // when / then
         assertEquals(5, MAX_RATING);
         IconType selectedIcon = rating.getSelectedRatingIcon();
         IconType unselectedIcon = rating.getUnselectedRatingIcon();
-
         assertEquals(IconType.STAR, selectedIcon);
         assertEquals(IconType.STAR_BORDER, unselectedIcon);
-
         assertEquals(rating.getWidgetCount(), MAX_RATING);
         for (Widget w : rating) {
             assertTrue(w instanceof MaterialIcon);

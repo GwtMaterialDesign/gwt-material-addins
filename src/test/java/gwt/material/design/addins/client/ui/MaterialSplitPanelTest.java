@@ -38,9 +38,12 @@ public class MaterialSplitPanelTest extends MaterialWidgetTest<MaterialSplitPane
     }
 
     public void testStructure() {
+        // given
         MaterialSplitPanel splitPanel = getWidget();
         MaterialPanel panelLeft = new MaterialPanel();
         MaterialPanel panelRight = new MaterialPanel();
+
+        // when / then
         splitPanel.add(panelLeft);
         splitPanel.add(panelRight);
         assertEquals(panelLeft, splitPanel.getWidget(0));
@@ -48,7 +51,10 @@ public class MaterialSplitPanelTest extends MaterialWidgetTest<MaterialSplitPane
     }
 
     public void testProperties() {
+        // given
         MaterialSplitPanel splitPanel = getWidget();
+
+        // when / then
         splitPanel.setBarPosition(20);
         assertEquals(0.2, splitPanel.getBarPosition());
         splitPanel.setLeftMin(10);

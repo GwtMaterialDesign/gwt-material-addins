@@ -40,7 +40,10 @@ public class MaterialIconMorphTest extends MaterialWidgetTest<MaterialIconMorph>
     }
 
     public void testSize() {
+        // given
         MaterialIconMorph iconMorph = getWidget();
+
+        // when / then
         iconMorph.setIconSize(IconSize.SMALL);
         assertTrue(iconMorph.getElement().hasClassName(IconSize.SMALL.getCssName()));
         iconMorph.setIconSize(IconSize.MEDIUM);
@@ -52,30 +55,28 @@ public class MaterialIconMorphTest extends MaterialWidgetTest<MaterialIconMorph>
     }
 
     public void testStructure() {
+        // given
         MaterialIconMorph iconMorph = getWidget();
+
+        // when / then
         MaterialIcon icon1 = new MaterialIcon();
         icon1.setIconType(IconType.POLYMER);
         MaterialIcon icon2 = new MaterialIcon();
         icon2.setIconType(IconType.AC_UNIT);
         iconMorph.add(icon1);
         iconMorph.add(icon2);
-
         assertEquals(icon1, iconMorph.getWidget(0));
         assertEquals(icon2, iconMorph.getWidget(1));
-
-        RootPanel.get().add(iconMorph);
-
         assertTrue(icon1.getElement().hasClassName(AddinsCssName.SOURCE));
         assertTrue(icon2.getElement().hasClassName(AddinsCssName.TARGET));
 
+        // given
         final boolean[] isClicked = {false};
-        iconMorph.addClickHandler(clickEvent -> {
-            isClicked[0] = true;
-        });
+        iconMorph.addClickHandler(clickEvent -> isClicked[0] = true);
 
+        // when / then
         fireClickEvent(iconMorph);
         assertTrue(isClicked[0]);
-
         assertTrue(iconMorph.getElement().hasAttribute("onclick"));
         assertEquals("this.classList.toggle('morphed')", iconMorph.getElement().getAttribute("onclick"));
     }

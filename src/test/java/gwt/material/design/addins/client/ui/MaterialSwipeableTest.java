@@ -45,52 +45,64 @@ public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeableP
         return swipeablePanel;
     }
 
+    @Override
+    protected void gwtTearDown() throws Exception {
+        super.gwtTearDown();
+
+        label1.removeFromParent();
+        label2.removeFromParent();
+    }
+
     public void testSwipeHandler() {
+        // given
         MaterialSwipeablePanel swipeablePanel = getWidget();
 
+        // when / then
         swipeablePanel.setEnabled(true);
         assertTrue(swipeablePanel.isEnabled());
         checkSwipeHandlers(swipeablePanel);
     }
 
     protected void checkSwipeHandlers(MaterialSwipeablePanel swipeablePanel) {
+        // given
         final boolean[] isSwipeRightFired = {false};
+        final boolean[] isSwipeLeftFired = {false};
+        final boolean[] isOnStartSwipeLeftFired = {false};
+        final boolean[] isOnStartSwipeRightFired = {false};
+        final boolean[] isOnEndSwipeLeftFired = {false};
+        final boolean[] isOnEndSwipeRightFired = {false};
+
+        // when / then
         swipeablePanel.addSwipeRightHandler(event -> {
             assertEquals(label1, event.getTarget());
             isSwipeRightFired[0] = true;
         });
         SwipeRightEvent.fire(swipeablePanel, label1);
 
-
-        final boolean[] isSwipeLeftFired = {false};
         swipeablePanel.addSwipeLeftHandler(event -> {
             assertEquals(label2, event.getTarget());
             isSwipeLeftFired[0] = true;
         });
         SwipeLeftEvent.fire(swipeablePanel, label2);
 
-        final boolean[] isOnStartSwipeLeftFired = {false};
         swipeablePanel.addOnStartSwipeLeftHandler(event -> {
             assertEquals(label1, event.getTarget());
             isOnStartSwipeLeftFired[0] = true;
         });
         OnStartSwipeLeftEvent.fire(swipeablePanel, label1);
 
-        final boolean[] isOnStartSwipeRightFired = {false};
         swipeablePanel.addOnStartSwipeRightHandler(event -> {
             assertEquals(label2, event.getTarget());
             isOnStartSwipeRightFired[0] = true;
         });
         OnStartSwipeRightEvent.fire(swipeablePanel, label2);
 
-        final boolean[] isOnEndSwipeLeftFired = {false};
         swipeablePanel.addOnEndSwipeLeftHandler(event -> {
             assertEquals(label1, event.getTarget());
             isOnEndSwipeLeftFired[0] = true;
         });
         OnEndSwipeLeftEvent.fire(swipeablePanel, label1);
 
-        final boolean[] isOnEndSwipeRightFired = {false};
         swipeablePanel.addOnEndSwipeRightHandler(event -> {
             assertEquals(label2, event.getTarget());
             isOnEndSwipeRightFired[0] = true;
@@ -106,8 +118,10 @@ public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeableP
     }
 
     public void testIgnored() {
+        // given
         MaterialSwipeablePanel swipeablePanel = getWidget();
 
+        // when / then
         assertEquals(2, swipeablePanel.getWidgetCount());
         MaterialLabel label1 = (MaterialLabel) swipeablePanel.getWidget(0);
         MaterialLabel label2 = (MaterialLabel) swipeablePanel.getWidget(1);
@@ -117,8 +131,10 @@ public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeableP
     }
 
     public void testStructure() {
+        // given
         MaterialSwipeablePanel swipeablePanel = getWidget();
 
+        // when / then
         assertEquals(label1, swipeablePanel.getWidget(0));
         assertEquals(label2, swipeablePanel.getWidget(1));
         swipeablePanel.ignore(label1, label2);

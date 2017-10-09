@@ -36,18 +36,21 @@ public class MaterialPopupMenuTest extends MaterialWidgetTest<MaterialPopupMenu>
 
     @Override
     protected MaterialPopupMenu createWidget() {
-        return new MaterialPopupMenu();
-    }
-
-    public void testStructure() {
-        MaterialPopupMenu popupMenu = getWidget();
-        assertTrue(popupMenu.getElement().hasAttribute("tabindex"));
-        assertEquals("0", popupMenu.getElement().getAttribute("tabindex"));
+        MaterialPopupMenu popupMenu = new MaterialPopupMenu();
         for (int i = 1; i <= 5; i++) {
             MaterialLink link = new MaterialLink();
             popupMenu.add(link);
         }
+        return popupMenu;
+    }
 
+    public void testStructure() {
+        // given
+        MaterialPopupMenu popupMenu = getWidget();
+
+        // when / then
+        assertTrue(popupMenu.getElement().hasAttribute("tabindex"));
+        assertEquals("0", popupMenu.getElement().getAttribute("tabindex"));
         assertEquals(5, popupMenu.getWidgetCount());
         for (Widget w : popupMenu) {
             assertNotNull(w);
@@ -55,32 +58,34 @@ public class MaterialPopupMenuTest extends MaterialWidgetTest<MaterialPopupMenu>
     }
 
     public void testOpenCloseHandler() {
+        // given
         MaterialPopupMenu popupMenu = getWidget();
         final int X = 10;
         final int Y = 10;
+        final boolean[] isOpenFired = {false};
+        final boolean[] isCloseFired = {false};
+
+        // when / then
         checkOpenHandler(popupMenu);
         checkCloseHandler(popupMenu);
-        final boolean[] isOpenFired = {false};
-        popupMenu.addOpenHandler(closeEvent -> {
-            isOpenFired[0] = true;
-        });
+        popupMenu.addOpenHandler(closeEvent -> isOpenFired[0] = true);
         popupMenu.setPopupPosition(X, Y);
         assertEquals(Y, popupMenu.getPopupY());
         assertEquals(X, popupMenu.getPopupX());
         popupMenu.open();
-
-        final boolean[] isCloseFired = {false};
         popupMenu.addCloseHandler(closeEvent -> isCloseFired[0] = true);
         popupMenu.close();
-
         assertTrue(isOpenFired[0]);
         assertTrue(isCloseFired[0]);
     }
 
     public void testSelectionHandler() {
+        // given
         MaterialPopupMenu popupMenu = getWidget();
-        popupMenu.setEnabled(true);
         final boolean[] isSelectionFired = {false};
+
+        // when / then
+        popupMenu.setEnabled(true);
         popupMenu.addSelectionHandler(selectionEvent -> isSelectionFired[0] = true);
         popupMenu.fireEvent(new GwtEvent<SelectionHandler<?>>() {
             @Override

@@ -45,8 +45,8 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     }
 
     public void testToolbars() {
+        // given
         MaterialRichEditor editor = getWidget();
-        assertTrue(editor.getElement().hasClassName(AddinsCssName.EDITOR));
         final String HTML = "<b>html</b>";
         final ToolbarButton[] MEDIA_OPT = new ToolbarButton[]{ToolbarButton.CK_IMAGE_UPLOAD, ToolbarButton.CK_IMAGE_VIDEO};
         final ToolbarButton[] COLOR_OPT = new ToolbarButton[]{ToolbarButton.COLOR};
@@ -57,6 +57,8 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         final ToolbarButton[] STYLE_OPT = new ToolbarButton[]{ToolbarButton.STYLE, ToolbarButton.BOLD, ToolbarButton.ITALIC, ToolbarButton.UNDERLINE, ToolbarButton.STRIKETHROUGH, ToolbarButton.CLEAR, ToolbarButton.SUPERSCRIPT, ToolbarButton.SUBSCRIPT};
         final ToolbarButton[] UNDO_OPT = new ToolbarButton[]{ToolbarButton.UNDO, ToolbarButton.REDO, ToolbarButton.HELP};
 
+        // when / then
+        assertTrue(editor.getElement().hasClassName(AddinsCssName.EDITOR));
         editor.setAirMode(true);
         assertTrue(editor.isAirMode());
         editor.setAirMode(false);
@@ -67,7 +69,6 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         assertFalse(editor.isDisableDragAndDrop());
         editor.setHTML(HTML);
         assertEquals(HTML, editor.getHTML());
-
         editor.setCkMediaOptions(MEDIA_OPT);
         assertEquals(MEDIA_OPT, editor.getCkMediaOptions());
         editor.setColorOptions(COLOR_OPT);
@@ -95,37 +96,35 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     // TODO Test Placeholder
 
     public void testEvents() {
+        // given
         MaterialRichEditor editor = getWidget();
+
+        // when / then
         editor.setEnabled(true);
         // Paste Event
         final boolean[] isPasteEventFired = {false};
         editor.addPasteHandler(event -> isPasteEventFired[0] = true);
-        editor.fireEvent(new PasteEvent() {
-        });
+        editor.fireEvent(new PasteEvent() {});
         assertTrue(isPasteEventFired[0]);
         // Blur Event
         final boolean[] isBlurEventFired = {false};
         editor.addBlurHandler(event -> isBlurEventFired[0] = true);
-        editor.fireEvent(new BlurEvent() {
-        });
+        fireBlurEvent(editor);
         assertTrue(isBlurEventFired[0]);
         // Focus Event
         final boolean[] isFocusEventFired = {false};
         editor.addFocusHandler(event -> isFocusEventFired[0] = true);
-        editor.fireEvent(new FocusEvent() {
-        });
-        assertTrue(isFocusEventFired[0]);
+        editor.fireEvent(new FocusEvent() {});
+        fireFocusEvent(editor);
         // KeyUp Event
         final boolean[] isKeyUpEventFired = {false};
         editor.addKeyUpHandler(event -> isKeyUpEventFired[0] = true);
-        editor.fireEvent(new KeyUpEvent() {
-        });
+        fireKeyUpEvent(editor);
         assertTrue(isKeyUpEventFired[0]);
         // KeyDown Event
         final boolean[] isKeyDownEventFired = {false};
         editor.addKeyDownHandler(event -> isKeyDownEventFired[0] = true);
-        editor.fireEvent(new KeyDownEvent() {
-        });
+        fireKeyDownEvent(editor);
         assertTrue(isKeyDownEventFired[0]);
         // ValueChange Event
         final boolean[] isValueChangeEventFired = {false};

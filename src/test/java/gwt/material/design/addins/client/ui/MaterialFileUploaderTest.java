@@ -22,7 +22,10 @@ package gwt.material.design.addins.client.ui;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.fileuploader.*;
+import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
+import gwt.material.design.addins.client.fileuploader.MaterialUploadCollection;
+import gwt.material.design.addins.client.fileuploader.MaterialUploadHeader;
+import gwt.material.design.addins.client.fileuploader.MaterialUploadPreview;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.client.base.MaterialWidget;
@@ -46,8 +49,10 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     }
 
     public void testProperties() {
+        // given
         MaterialFileUploader fileUploader = getWidget();
 
+        // when / then
         fileUploader.setAcceptedFiles("jpg");
         assertEquals("jpg", fileUploader.getAcceptedFiles());
         fileUploader.setUrl("someurl");
@@ -82,13 +87,21 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
 
     @Override
     public void testEnabled() {
-        MaterialFileUploader uploader = new MaterialFileUploader();
-        MaterialUploadLabel label = new MaterialUploadLabel();
-        uploader.add(label);
+        // given
+        MaterialFileUploader uploader = getWidget();
+
+        // when / then
+        uploader.setEnabled(false);
+        assertTrue(uploader.getElement().hasClassName(CssName.DISABLED));
+        uploader.setEnabled(true);
+        assertFalse(uploader.getElement().hasClassName(CssName.DISABLED));
     }
 
     public void testFileUploaderEvents() {
+        // given
         MaterialFileUploader fileUploader = getWidget();
+
+        // when / then
         fileUploader.setEnabled(true);
         // Drag Move
         final boolean[] isDragMoveFired = {false};
@@ -382,13 +395,14 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     }
 
     public void testStructure() {
+        // given
         MaterialFileUploader fileUploader = getWidget();
 
+        // when / then
         assertEquals(1, fileUploader.getWidgetCount());
         assertTrue(fileUploader.getWidget(0) instanceof MaterialUploadPreview);
         MaterialUploadPreview uploadPreview = (MaterialUploadPreview) fileUploader.getWidget(0);
         assertEquals(uploadPreview, fileUploader.getUploadPreview());
-
         // Upload Header
         assertNotNull(uploadPreview.getWidget(0));
         assertTrue(uploadPreview.getWidget(0) instanceof MaterialUploadHeader);
@@ -413,7 +427,6 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         MaterialProgress progress = (MaterialProgress) header.getWidget(3);
         assertEquals(ProgressType.DETERMINATE, progress.getType());
         assertEquals(AddinsCssName.TOTAL_UPLOAD_PROGRESS, progress.getId());
-
         // Upload Collection
         assertNotNull(uploadPreview.getWidget(1));
         assertTrue(uploadPreview.getWidget(1) instanceof MaterialUploadCollection);
@@ -421,7 +434,6 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertEquals(collection, fileUploader.getUploadPreview().getUploadCollection());
         assertTrue(collection.getElement().hasClassName(AddinsCssName.PREVIEWS));
         assertTrue(collection.getElement().hasClassName(CssName.CARD));
-
         // Collection Item
         assertTrue(collection.getWidget(0) instanceof MaterialCollectionItem);
         MaterialCollectionItem item = (MaterialCollectionItem) collection.getWidget(0);
@@ -429,7 +441,6 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(item.getElement().hasClassName(AddinsCssName.CLEARHACK));
         assertTrue(item.getElement().hasClassName(CssName.VALIGN_WRAPPER));
         assertTrue(item.getElement().hasClassName(AddinsCssName.ITEM_TEMPLATE));
-
         // Upload Information
         assertTrue(item.getWidget(0) instanceof MaterialWidget);
         MaterialWidget dropInfo = (MaterialWidget) item.getWidget(0);
@@ -448,7 +459,6 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(nameWrapper.getWidget(1) instanceof Span);
         Span size = (Span) nameWrapper.getWidget(1);
         assertTrue(size.getElement().hasAttribute("data-dz-size"));
-
         // Preview Icon
         assertTrue(dropInfo.getWidget(1) instanceof MaterialIcon);
         MaterialIcon previewIcon = (MaterialIcon) dropInfo.getWidget(1);
@@ -467,7 +477,6 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         Span errorMessage = (Span) errorWrapper.getWidget(0);
         assertTrue(errorMessage.getElement().hasAttribute("data-dz-errormessage"));
         assertEquals(AddinsCssName.ERROR_MESSAGE, errorMessage.getId());
-
         assertTrue(item.getWidget(1) instanceof MaterialCollectionSecondary);
         MaterialCollectionSecondary secondary = (MaterialCollectionSecondary) item.getWidget(1);
         assertTrue(secondary.getWidget(0) instanceof MaterialButton);

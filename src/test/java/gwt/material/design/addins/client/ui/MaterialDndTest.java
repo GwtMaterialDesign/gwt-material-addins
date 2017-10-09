@@ -46,9 +46,12 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testDropzone() {
+        // given
         final String ACCEPT = "accept";
         final double OVERLAP = 20;
         MaterialPanel panel = getWidget();
+
+        // when / then
         MaterialDnd dnd = MaterialDnd.dropzone(panel, JsDropOptions.create(ACCEPT, OVERLAP));
         JsDropOptions options = dnd.getDropOptions();
         assertEquals(ACCEPT, options.accept);
@@ -56,9 +59,12 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testAxis() {
+        // given
         final String VERTICAL_AXIS = "y";
         final String HORIZONTAL_AXIS = "x";
         MaterialPanel panel = getWidget();
+
+        // when / then
         MaterialDnd dnd = MaterialDnd.draggable(panel, JsDragOptions.create(Axis.VERTICAL));
         assertEquals(VERTICAL_AXIS, dnd.getDragOptions().axis);
         dnd.getDragOptions().axis = HORIZONTAL_AXIS;
@@ -66,7 +72,10 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testInertia() {
+        // given
         MaterialPanel panel = getWidget();
+
+        // when / then
         MaterialDnd dnd = MaterialDnd.draggable(panel, JsDragOptions.create(true));
         assertTrue(dnd.getDragOptions().inertia);
         dnd.getDragOptions().inertia = false;
@@ -74,10 +83,12 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testRestriction() {
+        // given
         MaterialPanel panel = getWidget();
         MaterialIcon iconIgnore = new MaterialIcon();
         panel.add(iconIgnore);
 
+        // when
         Restriction restriction = new Restriction();
         restriction.setBottom(20);
         restriction.setLeft(20);
@@ -85,10 +96,11 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
         restriction.setTop(20);
         restriction.setEndOnly(true);
         restriction.setRestriction(Restriction.Restrict.PARENT);
-
         MaterialDnd dnd = MaterialDnd.draggable(panel, JsDragOptions.create(restriction));
         dnd.ignoreFrom(iconIgnore);
         JsDragOptions options = dnd.getDragOptions();
+
+        // then
         assertEquals(panel, dnd.getTarget());
         assertTrue(Arrays.asList(dnd.getIgnoreFrom()).contains(iconIgnore.getElement()));
         assertEquals(Double.valueOf(20), options.restrict.elementRect.top);
@@ -100,7 +112,10 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testDropEvents() {
+        // given
         MaterialPanel panel = getWidget();
+
+        // when / then
         MaterialDnd.draggable(panel);
         // Drop Activate Event
         final boolean[] isDropActivateFired = {false};
@@ -120,7 +135,10 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testDragEvents() {
+        // given
         MaterialPanel panel = getWidget();
+
+        // when / then
         MaterialDnd.draggable(panel);
         // Drag Start Event
         final boolean[] isDragStartFired = {false};

@@ -36,10 +36,15 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
     }
 
     public void testValue() {
+        // given
         MaterialAvatar avatar = getWidget();
         final String NAME = "test1";
-        avatar.setValue(NAME);
         final String HASH_CODE = JsAvatar.md5(NAME);
+
+        // when
+        avatar.setValue(NAME);
+
+        // then
         assertEquals(NAME, avatar.getValue());
         assertTrue(avatar.getElement().hasAttribute("data-jdenticon-hash"));
         assertEquals(HASH_CODE, avatar.getElement().getAttribute("data-jdenticon-hash"));
@@ -52,16 +57,18 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
     public void testDimension() {}
 
     public void testSVGWithHeight() {
+        // given
         MaterialAvatar avatar = getWidget();
-
         final String WIDTH = "50";
         final String HEIGHT = "50";
+
+        // when
         avatar.setWidth(WIDTH);
         avatar.setHeight(HEIGHT);
 
+        // then
         assertTrue(avatar.getElement().hasAttribute("width"));
         assertEquals(WIDTH, avatar.getElement().getAttribute("width"));
-
         assertTrue(avatar.getElement().hasAttribute("height"));
         assertEquals(HEIGHT, avatar.getElement().getAttribute("height"));
     }

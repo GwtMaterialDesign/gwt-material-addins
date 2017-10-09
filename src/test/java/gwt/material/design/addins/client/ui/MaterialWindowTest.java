@@ -42,7 +42,10 @@ public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
     }
 
     public void testHeightAndWidth() {
+        // given
         MaterialWindow window = getWidget();
+
+        // when / then
         window.setWidth("200px");
         window.setHeight("100px");
         assertEquals("200px", window.getElement().getStyle().getWidth());
@@ -50,7 +53,10 @@ public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
     }
 
     public void testStructure() {
+        // given
         MaterialWindow window = getWidget();
+
+        // when / then
         assertNotNull(window);
         // Check Window Toolbar Structure
         assertTrue(window.getWidget(0) instanceof MaterialWidget);
@@ -77,25 +83,32 @@ public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
 
     @Override
     public void testColor() {
+        // given
         MaterialWindow window = getWidget();
+
+        // when / then
         window.setBackgroundColor(Color.RED);
-        assertEquals(window.getBackgroundColor(), Color.RED);
+        assertEquals(Color.RED, window.getBackgroundColor());
         window.setToolbarColor(Color.BLUE);
-        assertEquals(window.getToolbarColor(), Color.BLUE);
+        assertEquals(Color.BLUE, window.getToolbarColor());
         assertTrue(window.getToolbar().getElement().hasClassName(Color.BLUE.getCssName()));
     }
 
     public void testMaximizeAndClose() {
+        // given
         MaterialWindow window = getWidget();
+        final boolean[] isOpenFired = {false};
+        boolean[] isCloseFired = {false};
+
+        // when / then
         window.setEnabled(true);
         assertTrue(window.isEnabled());
-        final boolean[] isOpenFired = {false};
+
         window.addOpenHandler(openEvent -> {
             isOpenFired[0] = true;
         });
         window.open();
 
-        boolean[] isCloseFired = {false};
         window.addCloseHandler(closeEvent -> {
             isCloseFired[0] = true;
         });
@@ -104,10 +117,10 @@ public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
         assertTrue(isOpenFired[0]);
         assertTrue(isCloseFired[0]);
 
-        assertEquals(window.getIconMaximize().getIconType(), IconType.CHECK_BOX_OUTLINE_BLANK);
+        assertEquals(IconType.CHECK_BOX_OUTLINE_BLANK, window.getIconMaximize().getIconType());
         assertFalse(window.getElement().hasClassName(AddinsCssName.MAXIMIZE));
         window.setMaximize(true);
-        assertEquals(window.getIconMaximize().getIconType(), IconType.FILTER_NONE);
+        assertEquals(IconType.FILTER_NONE, window.getIconMaximize().getIconType());
         window.open();
         assertTrue(window.isMaximized());
         assertTrue(window.getElement().hasClassName(AddinsCssName.MAXIMIZE));

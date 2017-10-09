@@ -40,38 +40,54 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
         MaterialOverlay overlay = new MaterialOverlay();
         source = new MaterialButton();
         RootPanel.get().add(source);
-        RootPanel.get().add(overlay);
         return overlay;
     }
 
+    @Override
+    protected void gwtTearDown() throws Exception {
+        super.gwtTearDown();
+
+        source.removeFromParent();
+    }
+
     public void testOpenCloseEvents() {
+        // given
         MaterialOverlay overlay = getWidget();
+
+        // when / then
         overlay.setEnabled(true);
         checkOpenHandler(overlay);
         checkCloseHandler(overlay);
+
+        // given
         final boolean[] isOpenFired = {false};
         overlay.addOpenHandler(openEvent -> {
             isOpenFired[0] = true;
         });
 
+        // when / then
         overlay.open(source);
         assertEquals("hidden", overlay.body().asElement().getStyle().getOverflow());
         assertEquals(source, overlay.getSource());
+        assertTrue(isOpenFired[0]);
 
+        // given
         final boolean[] isCloseFired = {false};
         overlay.addCloseHandler(closeEvent -> {
             isCloseFired[0] = true;
         });
 
+        // when / then
         overlay.close();
         assertEquals("auto", overlay.body().asElement().getStyle().getOverflow());
-
-        assertTrue(isOpenFired[0]);
         assertTrue(isCloseFired[0]);
     }
 
     public void testStructure() {
+        // given
         MaterialOverlay overlay = getWidget();
+
+        // when / then
         assertTrue(overlay.getElement().hasClassName(AddinsCssName.OVERLAY_PANEL));
     }
 }

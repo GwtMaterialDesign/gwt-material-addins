@@ -36,9 +36,11 @@ public class MaterialDocViewerTest extends MaterialWidgetTest<MaterialDocViewer>
     }
 
     public void testUrl() {
+        // given
         MaterialDocViewer docViewer = getWidget();
-
         final String URL = "someurl";
+
+        // when / then
         docViewer.setUrl(URL);
         RootPanel.get().add(docViewer);
         assertEquals(URL, docViewer.getUrl());

@@ -63,8 +63,11 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testStructure() {
+        // given
         MaterialWidget stepper = getWidget();
 
+
+        // when / then
         steps.forEach(step -> {
             int i = steps.indexOf(step) + 1;
             assertEquals(2, step.getWidgetCount());
@@ -104,19 +107,23 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testSelection() {
+        // given
         MaterialStepper stepper = getWidget();
         final boolean[] isSelectionFired = {false};
+
+        // when / then
         stepper.addSelectionChangeHandler(event -> isSelectionFired[0] = true);
         SelectionChangeEvent.fire(stepper);
         assertTrue(isSelectionFired[0]);
     }
 
     public void testErrorSuccess() {
+        // given
         MaterialStepper stepper = getWidget();
-        // Specific tests for error and success
         MaterialStep step = stepper.getCurrentStep();
         MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
 
+        // when / then
         stepper.setError("error");
         assertTrue(step.getElement().hasClassName(AddinsCssName.ERROR));
         assertEquals(step.getIconError(), conCircle.getWidget(0));
@@ -134,12 +141,14 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testAxis() {
+        // given
         MaterialStepper stepper = getWidget();
-        assertNotNull(stepper.getCurrentStep());
         MaterialStep step = stepper.getCurrentStep();
         MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
         MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
 
+        // when / then
+        assertNotNull(stepper.getCurrentStep());
         stepper.setAxis(Axis.VERTICAL);
         assertEquals(Axis.VERTICAL, stepper.getAxis());
         assertTrue(stepper.getElement().hasClassName(Axis.VERTICAL.getCssName()));
@@ -158,8 +167,11 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testStepNavigation() {
+        // given
         MaterialStepper stepper = getWidget();
         final boolean[] isStartFired = {false};
+
+        // when / then
         stepper.addStartHandler(event -> isStartFired[0] = true);
         StartEvent.fire(stepper);
         assertTrue(isStartFired[0]);
@@ -209,9 +221,12 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testFeedback() {
+        // given
         MaterialStepper stepper = getWidget();
         final String FEEDBACK = "feedback";
         final int FEEDBACK_INDEX = stepper.getWidgetCount();
+
+        // when / then
         stepper.showFeedback(FEEDBACK);
         assertEquals(FEEDBACK, stepper.getFeedback());
         MaterialWidget feedback = (MaterialWidget) stepper.getWidget(FEEDBACK_INDEX);

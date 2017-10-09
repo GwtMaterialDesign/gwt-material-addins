@@ -46,7 +46,10 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
     }
 
     public void testOrientation() {
+        // given
         MaterialTimePicker timePicker = getWidget();
+
+        // when / then
         timePicker.setOrientation(Orientation.LANDSCAPE);
         assertEquals(Orientation.LANDSCAPE, timePicker.getOrientation());
         timePicker.setOrientation(Orientation.PORTRAIT);
@@ -55,14 +58,19 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
 
     @Override
     public void testEnabled() {
-        MaterialTimePicker timePicker = new MaterialTimePicker();
+        // given
+        MaterialTimePicker timePicker = getWidget();
+
+        // when / then
         super.checkEnabled(timePicker, timePicker.getTimeInput());
     }
 
     @Override
     public void testChildren() {
-        MaterialTimePicker timePicker = new MaterialTimePicker();
-        RootPanel.get().add(timePicker);
+        // given
+        MaterialTimePicker timePicker = getWidget();
+
+        // when / then
         assertEquals(1, timePicker.getWidgetCount());
         assertTrue(timePicker.getWidget(0) instanceof MaterialPanel);
         MaterialPanel panel = (MaterialPanel) timePicker.getWidget(0);
@@ -73,9 +81,12 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
     }
 
     public void testValue() {
+        // given
         MaterialTimePicker timePicker = getWidget();
         final Date VALUE = new Date(116, 9, 14, 10, 10);
         final Date SECOND_VALUE = new Date(116, 9, 14, 12, 32);
+
+        // when / then
         timePicker.setValue(VALUE);
         assertEquals(VALUE, timePicker.getValue());
         timePicker.reset();

@@ -125,7 +125,7 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     @Override
     public void testTabIndex() {
-        // givem
+        // given
         MaterialAutoComplete autoComplete = getWidget();
         SuggestBox widget = autoComplete.getSuggestBox();
 
@@ -143,13 +143,19 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     @Override
     public void testKeyEvents() {
+        // given
         MaterialAutoComplete autoComplete = getWidget();
+
+        // when / then
         super.checkKeyEvents(autoComplete.getItemBox());
     }
 
     @Override
     public void testFocusAndBlurEvents() {
+        // given
         MaterialAutoComplete autoComplete = getWidget();
+
+        // when / then
         super.checkFocusAndBlurEvents(autoComplete.getItemBox());
     }
 }

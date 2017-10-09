@@ -35,22 +35,31 @@ public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture
     }
 
     public void testCameraCaptureEvent() {
+        // given
         MaterialCameraCapture cameraCapture = getWidget();
-
         final boolean[] isCaptureFired = new boolean[1];
+
+        // when / then
         cameraCapture.setEnabled(true);
         assertTrue(cameraCapture.isEnabled());
         cameraCapture.addCameraCaptureHandler(event -> isCaptureFired[0] = true);
         cameraCapture.play();
+
+        // given
         final String URL = "data:image/png;base64,";
         final String url = cameraCapture.captureToDataURL();
+
+        // when / then
         assertNotNull(url);
         assertEquals(url, URL);
         assertTrue(isCaptureFired[0]);
     }
 
     public void testStartPauseReload() {
+        // given
         MaterialCameraCapture cameraCapture = getWidget();
+
+        // when / then
         cameraCapture.play();
         cameraCapture.setPauseOnUnload(true);
         assertTrue(cameraCapture.isPauseOnUnload());

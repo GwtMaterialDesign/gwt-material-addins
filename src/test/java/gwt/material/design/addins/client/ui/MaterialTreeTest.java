@@ -44,42 +44,58 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
     }
 
     public void testCreateItemAndSelect() {
+        // given
         MaterialTree tree = getWidget();
         MaterialTreeItem treeItem = new MaterialTreeItem();
+
+        // when / then
         treeItem.setText("Child");
         tree.add(treeItem);
         treeItem.select();
     }
 
     public void testInsertItemAndSelect() {
+        // given
         MaterialTree tree = getWidget();
         MaterialTreeItem treeItem = new MaterialTreeItem();
+
+        // when / then
         treeItem.setText("Child");
         tree.insert(treeItem, 0);
         treeItem.select();
     }
 
     public void testCreateSubItemAndSelect() {
+        // given
         MaterialTree tree = getWidget();
         MaterialTreeItem root = new MaterialTreeItem("Root");
-        tree.add(root);
         MaterialTreeItem child = new MaterialTreeItem("Child");
+
+        // when / then
+        tree.add(root);
         root.add(child);
         tree.expand();
         child.select();
     }
 
     public void testInsertSubItemAndSelect() {
+        // given
         MaterialTree tree = getWidget();
         MaterialTreeItem root = new MaterialTreeItem("Root");
-        tree.add(root);
         MaterialTreeItem child = new MaterialTreeItem("Child");
+
+        // when / then
+        tree.add(root);
         root.insert(child, 0);
         tree.expand();
         child.select();
     }
 
-    protected <T extends MaterialTree> void testExpandAndColapse(T tree) {
+    public void testExpandAndColapse() {
+        // given
+        MaterialTree tree = getWidget();
+
+        // when / then
         tree.expand();
         testItemVisibility(tree, true);
         tree.collapse();
@@ -109,7 +125,11 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         }
     }
 
-    protected <T extends MaterialTree> void testSelectedItem(T tree) {
+    public void testSelectedItem() {
+        // given
+        MaterialTree tree = getWidget();
+
+        // when / then
         assertNotNull(tree.getWidget(0));
         assertTrue(tree.getWidget(0) instanceof MaterialTreeItem);
         MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
@@ -120,7 +140,11 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         assertNull(tree.getSelectedItem());
     }
 
-    protected <T extends MaterialTree> void testStructure(T tree) {
+    public void testStructure() {
+        // given
+        MaterialTree tree = getWidget();
+
+        // when / then
         assertNotNull(tree.getWidget(0));
         assertTrue(tree.getWidget(0) instanceof MaterialTreeItem);
         MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
@@ -133,8 +157,10 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
 
     @Override
     public void testChildren() {
+        // given
         MaterialTree tree = getWidget();
-        RootPanel.get().add(tree);
+
+        // when / then
         for (int i = 1; i <= 5; i++) {
             final String TEXT = "item" + i;
             final String URL = "url" + i + ".png";
@@ -154,7 +180,7 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
             assertEquals(URL, item.getUrl());
             assertTrue(divHeader.getWidget(0) instanceof MaterialImage);
             MaterialImage image = (MaterialImage) divHeader.getWidget(0);
-            assertEquals(image.getUrl(), URL);
+            assertEquals(URL, image.getUrl());
             assertTrue(image.getElement().hasAttribute("src"));
 
             // Check Icon

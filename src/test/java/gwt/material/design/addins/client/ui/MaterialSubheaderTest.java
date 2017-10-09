@@ -34,17 +34,20 @@ public class MaterialSubheaderTest extends MaterialWidgetTest<MaterialSubHeaderC
 
     @Override
     protected MaterialSubHeaderContainer createWidget() {
-        return new MaterialSubHeaderContainer();
-    }
-
-    public void testStructure() {
-        MaterialSubHeaderContainer container = getWidget();
+        MaterialSubHeaderContainer container = new MaterialSubHeaderContainer();
         for (int i = 1; i <= 5; i++) {
             MaterialSubHeader subHeader = new MaterialSubHeader();
             subHeader.setText("item" + i);
             container.add(subHeader);
         }
+        return container;
+    }
 
+    public void testStructure() {
+        // given
+        MaterialSubHeaderContainer container = getWidget();
+
+        // when / then
         assertEquals(5, container.getWidgetCount());
         for (int i = 0; i < 4; i++) {
             assertTrue(container.getWidget(i) instanceof MaterialSubHeader);
@@ -56,7 +59,10 @@ public class MaterialSubheaderTest extends MaterialWidgetTest<MaterialSubHeaderC
     }
 
     public void testType() {
+        // given
         MaterialSubHeaderContainer container = getWidget();
+
+        // when / then
         container.setType(SubHeaderType.PINNED);
         assertTrue(container.getElement().hasClassName(SubHeaderType.PINNED.getCssName()));
         container.setType(SubHeaderType.STATIC);
