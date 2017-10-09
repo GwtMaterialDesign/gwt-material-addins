@@ -50,11 +50,24 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
         assertEquals(HASH_CODE, avatar.getElement().getAttribute("data-jdenticon-hash"));
     }
 
-    // TODO Test Value Change Handler
-    public void testValueChangeHandler() {}
+    public void testValueChangeHandler() {
+        final String FIRST_VALUE = "test1";
+        final String SECOND_VALUE = "test2";
+        MaterialAvatar avatar = getWidget();
+
+        checkValueChangeEvent(avatar, FIRST_VALUE, SECOND_VALUE);
+    }
 
     // TODO Test Dimension
-    public void testDimension() {}
+    public void testDimension() {
+        final int WIDTH = 100;
+        final int HEIGHT = 100;
+        MaterialAvatar avatar = getWidget();
+
+        avatar.setDimension(WIDTH, HEIGHT);
+        assertEquals(WIDTH, avatar.getWidth());
+        assertEquals(HEIGHT, avatar.getHe);
+    }
 
     public void testSVGWithHeight() {
         // given

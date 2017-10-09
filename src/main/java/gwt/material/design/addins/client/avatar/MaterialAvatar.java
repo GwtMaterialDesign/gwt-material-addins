@@ -50,6 +50,7 @@ import gwt.material.design.client.base.JsLoader;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#avatar">Material Avatar</a>
+ * @see <a href="https://github.com/dmester/jdenticon">Jdenticon 1.3.2</a>
  */
 //@formatter:on
 public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoader {
@@ -131,6 +132,17 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     @Override
     public void setHeight(String height) {
         getElement().setAttribute("height", height);
+    }
+
+    @Override
+    public int getWidth() {
+        String width = getElement().getAttribute("width");
+        return width != null ? Integer.parseInt(width) : 0;
+    }
+
+    public int getHeight() {
+        String height = getElement().getAttribute("height");
+        return height != null ? Integer.parseInt(height) : 0;
     }
 
     /**
