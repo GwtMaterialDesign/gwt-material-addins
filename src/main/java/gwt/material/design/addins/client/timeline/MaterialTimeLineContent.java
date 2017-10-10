@@ -32,11 +32,6 @@ public class MaterialTimeLineContent extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         setGrid("s10 m9 l9");
     }
 }

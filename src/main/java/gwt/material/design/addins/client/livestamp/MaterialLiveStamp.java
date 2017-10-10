@@ -66,7 +66,10 @@ public class MaterialLiveStamp extends MaterialLabel {
     }
 
     @Override
-    protected void initialize() {
+    protected void onLoad() {
+        super.onLoad();
+
+        // TODO Implement JSLoader
         if (date != null) {
             getElement().setAttribute("data-livestamp", date.toString());
         } else {

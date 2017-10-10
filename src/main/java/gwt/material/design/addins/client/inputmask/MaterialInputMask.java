@@ -68,7 +68,10 @@ public class MaterialInputMask extends MaterialTextBox {
     private JsInputMaskOptions options = new JsInputMaskOptions();
 
     @Override
-    protected void initialize() {
+    protected void onLoad() {
+        super.onLoad();
+
+        // TODO Implement JSLoader
         if (mask == null || mask.isEmpty()) {
             GWT.log("You must provide a mask pattern in order to mask your field");
         } else {

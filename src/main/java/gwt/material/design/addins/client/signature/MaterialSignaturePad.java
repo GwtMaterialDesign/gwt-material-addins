@@ -75,7 +75,10 @@ public class MaterialSignaturePad extends MaterialWidget implements HasSignature
     private double velocityFilterWeight = 0.7;
 
     @Override
-    protected void initialize() {
+    protected void onLoad() {
+        super.onLoad();
+
+        //TODO Implement JSLoader
         JsSignaturePadOptions options = new JsSignaturePadOptions();
         options.dotSize = dotSize;
         options.minWidth = lineMinWidth;

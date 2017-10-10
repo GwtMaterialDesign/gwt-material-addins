@@ -72,15 +72,6 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
     private JsCropperOptions options;
     private JsCropper cropper;
 
-    @Override
-    protected void initialize() {
-        if (options == null) {
-            options = getDefaultOptions();
-        }
-
-        cropper = $(getElement()).croppie(options);
-    }
-
     /**
      * Get the options of the cropper
      * Defaults to {@link #getDefaultOptions}
@@ -97,13 +88,19 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
     public void setOptions(JsCropperOptions options) {
         this.options = options;
 
-        reinitialize();
+        /*reinitialize();*/
     }
 
     @Override
-    public void reinitialize() {
-        destroy();
-        initialize();
+    protected void onLoad() {
+        super.onLoad();
+
+        // TODO Implement JsLoader
+        if (options == null) {
+            options = getDefaultOptions();
+        }
+
+        cropper = $(getElement()).croppie(options);
     }
 
     /**
@@ -155,7 +152,7 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
      */
     public void crop(String url, Type type) {
         setUrl(url);
-        reinitialize();
+        /*reinitialize();*/
         bind(url, () -> crop(type));
     }
 

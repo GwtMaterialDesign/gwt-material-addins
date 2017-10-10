@@ -37,11 +37,6 @@ public class MaterialTimeLineItem extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         line.setStyleName(AddinsCssName.LINE);
         add(line);
     }

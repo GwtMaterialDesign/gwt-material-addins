@@ -32,11 +32,6 @@ public class MaterialTimeLineHeader extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         setGrid("s2 m2 l2");
     }
 }

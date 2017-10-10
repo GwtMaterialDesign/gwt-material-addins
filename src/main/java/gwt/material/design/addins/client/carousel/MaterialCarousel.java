@@ -111,35 +111,10 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
 
     @Override
-    protected void onUnload() {
-        super.onUnload();
+    protected void onLoad() {
+        super.onLoad();
 
-        destroy();
-    }
-
-    @Override
-    public void add(Widget child) {
-        if (child instanceof MaterialCarouselFixedItem) {
-            getWrapper().add(child);
-        } else {
-            getContainer().add(child);
-            getCarouselElement().slick("slickAdd", child.getElement());
-        }
-    }
-
-    @Override
-    public boolean remove(int index) {
-        getCarouselElement().slick("slickRemove", index);
-        return true;
-    }
-
-    @Override
-    public void clear() {
-        getContainer().clear();
-    }
-
-    @Override
-    protected void initialize() {
+        // Todo Implement JSLoader
         options.dots = showDots;
         options.arrows = showArrows;
         options.infinite = infinite;
@@ -203,6 +178,34 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
 
         options.responsive = responsiveOptions;
         Scheduler.get().scheduleDeferred(() -> getCarouselElement().slick(options));
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        destroy();
+    }
+
+    @Override
+    public void add(Widget child) {
+        if (child instanceof MaterialCarouselFixedItem) {
+            getWrapper().add(child);
+        } else {
+            getContainer().add(child);
+            getCarouselElement().slick("slickAdd", child.getElement());
+        }
+    }
+
+    @Override
+    public boolean remove(int index) {
+        getCarouselElement().slick("slickRemove", index);
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        getContainer().clear();
     }
 
     protected JsCarousel getCarouselElement() {

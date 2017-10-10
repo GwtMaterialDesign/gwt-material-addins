@@ -17,32 +17,27 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.addins.client.overlay.MaterialOverlayTab;
-import java.util.List;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MaterialOverlayTabTest extends MaterialAddinsTest {
+public class MaterialOverlayTabTest extends MaterialWidgetTest<MaterialOverlayTab> {
 
-    public void init() {
-        MaterialOverlayTab overlayTab = new MaterialOverlayTab();
-        RootPanel.get().add(overlayTab);
-        checkWidget(overlayTab);
-
-        checkStructure(overlayTab);
-        checkTab(overlayTab);
+    @Override
+    protected MaterialOverlayTab createWidget() {
+        return new MaterialOverlayTab();
     }
 
-    protected <T extends MaterialOverlayTab> void checkStructure(T overlayTab) {
+    public void testOverlayTab() {
+        // given
+        MaterialOverlayTab overlayTab = getWidget();
 
-    }
-
-    protected <T extends MaterialOverlayTab> void checkTab(T overlayTab) {
+        // when / then
         List<MaterialOverlay> overlays = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
             MaterialOverlay overlay = new MaterialOverlay();
@@ -50,4 +45,6 @@ public class MaterialOverlayTabTest extends MaterialAddinsTest {
             overlays.add(overlay);
         }
     }
+
+
 }

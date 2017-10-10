@@ -92,27 +92,11 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     protected void onLoad() {
         super.onLoad();
 
-        build();
-    }
-
-    @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        $(getElement()).off(CircularProgressEvents.START);
-        $(getElement()).off(CircularProgressEvents.PROGRESS);
-        $(getElement()).off(CircularProgressEvents.COMPLETED);
-    }
-
-    @Override
-    protected void build() {
+        // TODO Implement JSLoader
         lblText.setHeight(size + "px");
         lblText.getElement().getStyle().setLineHeight(size, Style.Unit.PX);
         add(lblText);
-    }
 
-    @Override
-    protected void initialize() {
         JsCircularProgressOptions options = new JsCircularProgressOptions();
         options.value = value;
         options.fill = ColorHelper.setupComputedBackgroundColor(fillColor);
@@ -137,6 +121,15 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
         $(getElement()).circleProgress(options);
     }
 
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        $(getElement()).off(CircularProgressEvents.START);
+        $(getElement()).off(CircularProgressEvents.PROGRESS);
+        $(getElement()).off(CircularProgressEvents.COMPLETED);
+    }
+
     public double getValue() {
         return value;
     }
@@ -146,9 +139,8 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
      */
     public void setValue(double value) {
         this.value = value;
-        if (isInitialize()) {
-            $(getElement()).circleProgress("value", value);
-        }
+        // TODO Need to Check the JSLoader
+        $(getElement()).circleProgress("value", value);
     }
 
     public Color getFillColor() {

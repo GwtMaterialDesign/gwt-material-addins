@@ -38,16 +38,4 @@ public class MaterialTimeLine extends MaterialWidget {
     public MaterialTimeLine() {
         super(Document.get().createDivElement(), "timeline", CssName.ROW);
     }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        build();
-    }
-
-    @Override
-    protected void build() {
-
-    }
 }

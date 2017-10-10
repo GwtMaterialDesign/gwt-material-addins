@@ -79,11 +79,6 @@ public class MaterialNote extends MaterialWidget implements HasIcon {
     protected void onLoad() {
         super.onLoad();
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         add(icon);
         add(lblMessage);
     }
@@ -124,6 +119,11 @@ public class MaterialNote extends MaterialWidget implements HasIcon {
     @Override
     public void setIconColor(Color color) {
         icon.setIconColor(color);
+    }
+
+    @Override
+    public Color getIconColor() {
+        return icon.getIconColor();
     }
 
     @Override

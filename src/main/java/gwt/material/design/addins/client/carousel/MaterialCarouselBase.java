@@ -47,13 +47,6 @@ public class MaterialCarouselBase extends MaterialWidget {
 
     @Override
     protected void onLoad() {
-        build();
-
-        super.onLoad();
-    }
-
-    @Override
-    protected void build() {
         String uid = DOM.createUniqueId();
 
         btnNextArrow.setIconType(IconType.KEYBOARD_ARROW_RIGHT);
@@ -77,6 +70,8 @@ public class MaterialCarouselBase extends MaterialWidget {
         container.setId(uid + "-container");
         wrapper.add(container);
         super.add(wrapper);
+
+        super.onLoad();
     }
 
     public MaterialPanel getWrapper() {

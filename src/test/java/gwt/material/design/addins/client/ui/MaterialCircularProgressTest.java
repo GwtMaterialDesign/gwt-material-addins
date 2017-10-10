@@ -17,10 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.base.MaterialAddinsTest;
+import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.circularprogress.MaterialCircularProgress;
 import gwt.material.design.addins.client.circularprogress.events.CircularProgressEvent;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
@@ -29,18 +28,18 @@ import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.html.Span;
 
-public class MaterialCircularProgressTest extends MaterialAddinsTest {
+public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCircularProgress> {
 
-    public void init() {
-        MaterialCircularProgress circularProgress = new MaterialCircularProgress();
-        checkWidget(circularProgress);
-        checkStructure(circularProgress);
-        checkValue(circularProgress);
-        checkProperties(circularProgress);
-        checkEvents(circularProgress);
+    @Override
+    protected MaterialCircularProgress createWidget() {
+        return null;
     }
 
-    protected <T extends MaterialCircularProgress> void checkEvents(T circularProgress) {
+    public void testEvents() {
+        // given
+        MaterialCircularProgress circularProgress = getWidget();
+
+        // when / then
         final boolean[] startEventFired = {false};
         circularProgress.addStartHandler(e -> startEventFired[0] = true);
         circularProgress.fireEvent(new StartEvent());
@@ -57,8 +56,11 @@ public class MaterialCircularProgressTest extends MaterialAddinsTest {
         assertTrue(progressEventFired[0]);
     }
 
-    protected <T extends MaterialCircularProgress> void checkStructure(T circularProgress) {
-        RootPanel.get().add(circularProgress);
+    public void testStructure() {
+        // given
+        MaterialCircularProgress circularProgress = getWidget();
+
+        // when / then
         assertEquals(circularProgress.getChildren().size(), 1);
         assertTrue(circularProgress.getWidget(0) instanceof Span);
         Span lblText = (Span) circularProgress.getWidget(0);
@@ -66,7 +68,11 @@ public class MaterialCircularProgressTest extends MaterialAddinsTest {
         assertEquals(lblText.getText(), "50%");
     }
 
-    protected <T extends MaterialCircularProgress> void checkProperties(T circularProgress) {
+    public void testProperties() {
+        // given
+        MaterialCircularProgress circularProgress = getWidget();
+
+        // when / then
         // Size
         assertEquals(circularProgress.getSize(), 100.0);
         circularProgress.setSize(200);
@@ -95,7 +101,11 @@ public class MaterialCircularProgressTest extends MaterialAddinsTest {
         assertTrue(circularProgress.isReverse());
     }
 
-    protected <T extends MaterialCircularProgress> void checkValue(T circularProgress) {
+    public void testValue() {
+        // given
+        MaterialCircularProgress circularProgress = getWidget();
+
+        // when / then
         assertEquals(circularProgress.getValue(), 0.0);
         circularProgress.setValue(0.5);
         assertEquals(circularProgress.getValue(), 0.5);
