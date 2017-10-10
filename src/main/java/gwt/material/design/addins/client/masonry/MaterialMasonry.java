@@ -63,6 +63,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
+ * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
 public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition {

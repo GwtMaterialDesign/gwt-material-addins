@@ -70,6 +70,7 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#richeditor">Material Rich Editor</a>
+ * @see <a href="https://github.com/Cerealkillerway/materialNote">1.2.1</a>
  */
 //@formatter:on
 public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>, HasPasteHandlers, HasPlaceholder, HasHTML  {
@@ -307,8 +308,14 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     /**
      * Reset the Rich Editor component
      */
-    public void clear() {
+    public void reset() {
         $(getElement()).materialnote("reset");
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        reset();
     }
 
     public boolean isAirMode() {

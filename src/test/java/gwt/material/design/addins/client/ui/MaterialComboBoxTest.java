@@ -208,6 +208,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
     public void testAddItemOption() {
         // given
         MaterialComboBox<String> comboBox = new MaterialComboBox<>();
+        RootPanel.get().add(comboBox);
 
         // when / then
         // Check Initial children

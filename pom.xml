@@ -53,12 +53,21 @@
             <version>${gwt-material.version}</version>
         </dependency>
 
-        <!-- GwtMaterial -->
+        <!-- GwtMaterial Test Jar -->
         <dependency>
             <groupId>com.github.gwtmaterialdesign</groupId>
             <artifactId>gwt-material</artifactId>
             <version>${gwt-material.version}</version>
             <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- GwtMaterial Test Sources -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material</artifactId>
+            <version>${gwt-material.version}</version>
+            <classifier>test-sources</classifier>
             <scope>test</scope>
         </dependency>
 

@@ -70,6 +70,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#fileuploader">File Uploader</a>
+ * @see <a href="https://github.com/enyo/dropzone">Dropzone 4.3.0</a>
  */
 //@formatter:on
 public class MaterialFileUploader extends MaterialWidget implements JsLoader, HasFileUpload<UploadFile> {
@@ -139,7 +140,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             GWT.log("You don't have any child widget to use as a upload label");
         }
 
-        applyEnabled();
+        setEnabled(enabled);
     }
 
     @Override
@@ -162,7 +163,9 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
     @Override
     public void unload() {
-        uploader.destroy();
+        if (uploader != null) {
+            uploader.destroy();
+        }
     }
 
     @Override
@@ -313,24 +316,19 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        applyEnabled();
+
+        if (enabled) {
+            if (uploader != null) uploader.setupEventListeners();
+            removeStyleName(CssName.DISABLED);
+        } else {
+            if (uploader != null) uploader.removeEventListeners();
+            addStyleName(CssName.DISABLED);
+        }
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
-    }
-
-    protected void applyEnabled() {
-        if (uploader != null) {
-            if (!enabled) {
-                addStyleName(CssName.DISABLED);
-                uploader.removeEventListeners();
-            } else {
-                removeStyleName(CssName.DISABLED);
-                uploader.setupEventListeners();
-            }
-        }
+        return !getElement().hasClassName(CssName.DISABLED);
     }
 
     /**

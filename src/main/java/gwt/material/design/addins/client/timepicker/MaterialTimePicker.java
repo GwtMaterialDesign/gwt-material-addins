@@ -66,6 +66,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#timepickers">Material Pickers</a>
  * @see <a href="https://material.io/guidelines/components/pickers.html#pickers-time-pickers">Material Design Specification</a>
+ * @see <a href="https://github.com/weareoutman/clockpicker">ClockPicker 0.0.7</a>
  */
 //@formatter:on
 public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder,

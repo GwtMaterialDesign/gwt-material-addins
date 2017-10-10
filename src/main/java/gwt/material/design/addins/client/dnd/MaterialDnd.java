@@ -55,6 +55,7 @@ import gwt.material.design.jquery.client.api.JQuery;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#dnd">Drag and Drop</a>
+ * @see <a href="https://github.com/taye/interact.js">InteractJs 1.2.6</a>
  */
 //@formatter:on
 public class MaterialDnd {

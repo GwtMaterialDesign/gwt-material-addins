@@ -48,6 +48,11 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         return new MaterialFileUploader();
     }
 
+    @Override
+    public boolean unloadThenLoad() {
+        return false;
+    }
+
     public void testProperties() {
         // given
         MaterialFileUploader fileUploader = getWidget();
@@ -88,13 +93,15 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     @Override
     public void testEnabled() {
         // given
-        MaterialFileUploader uploader = getWidget();
+        MaterialFileUploader fileUploader = getWidget();
 
         // when / then
-        uploader.setEnabled(false);
-        assertTrue(uploader.getElement().hasClassName(CssName.DISABLED));
-        uploader.setEnabled(true);
-        assertFalse(uploader.getElement().hasClassName(CssName.DISABLED));
+        fileUploader.setEnabled(true);
+        assertTrue(fileUploader.isEnabled());
+        assertFalse(fileUploader.getElement().hasClassName(CssName.DISABLED));
+        fileUploader.setEnabled(false);
+        assertFalse(fileUploader.isEnabled());
+        assertTrue(fileUploader.getElement().hasClassName(CssName.DISABLED));
     }
 
     public void testFileUploaderEvents() {

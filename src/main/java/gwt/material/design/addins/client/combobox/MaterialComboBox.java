@@ -74,6 +74,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @author kevzlou7979
  * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
+ * @see <a href="https://github.com/select2/select2">Select2 4.0.3</a>
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,

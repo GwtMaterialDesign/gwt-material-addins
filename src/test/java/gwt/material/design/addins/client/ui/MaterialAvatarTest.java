@@ -66,7 +66,7 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
 
         avatar.setDimension(WIDTH, HEIGHT);
         assertEquals(WIDTH, avatar.getWidth());
-        assertEquals(HEIGHT, avatar.getHe);
+        assertEquals(HEIGHT, avatar.getHeight());
     }
 
     public void testSVGWithHeight() {

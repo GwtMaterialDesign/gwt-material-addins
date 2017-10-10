@@ -87,13 +87,50 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         assertEquals(UNDO_OPT, editor.getUndoOptions());
     }
 
-    // TODO Clear
+    public void testReset() {
+        // given
+        MaterialRichEditor editor = getWidget();
 
-    // TODO Airmode
+        // when / then
+        editor.reset();
+        assertEquals("", editor.getHTML());
+        assertEquals("", editor.getValue());
+        assertEquals("", editor.getText());
+    }
 
-    // TODO Set Value / Html
+    public void testAirmode() {
+        // given
+        MaterialRichEditor editor = getWidget();
+        final String AIR_MODE_CLASS = "note-air-editor";
 
-    // TODO Test Placeholder
+        // when / then
+        editor.setAirMode(true);
+        editor.reload();
+        assertTrue(editor.getElement().hasClassName(AIR_MODE_CLASS));
+        editor.setAirMode(false);
+        editor.reload();
+        assertFalse(editor.getElement().hasClassName(AIR_MODE_CLASS));
+    }
+
+    public void testValueHtml() {
+        // given
+        MaterialRichEditor editor = getWidget();
+        final String VALUE = "value";
+
+        editor.setValue(VALUE);
+        assertEquals(VALUE, editor.getValue());
+        assertEquals(VALUE, editor.getHTML());
+        assertEquals(VALUE, editor.getText());
+    }
+
+    public void testPlaceHolder() {
+        // given
+        MaterialRichEditor editor = getWidget();
+        final String PLACEHOLDER = "placeholder";
+
+        editor.setPlaceholder(PLACEHOLDER);
+        assertEquals(PLACEHOLDER, editor.getPlaceholder());
+    }
 
     public void testEvents() {
         // given

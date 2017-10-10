@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -38,20 +37,32 @@ import gwt.material.design.client.ui.html.Span;
  */
 public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
 
+    final static int NUMBER_OF_ITEM = 5;
+    final static String TEXT = "sometext";
+    final static String URL = "url";
+    final static IconType ICON = IconType.POLYMER;
+
     @Override
     protected MaterialTree createWidget() {
-        return new MaterialTree();
+        MaterialTree tree = new MaterialTree();
+        for (int i = 1; i <= NUMBER_OF_ITEM; i++) {
+            MaterialTreeItem item = new MaterialTreeItem();
+            item.setText(TEXT);
+            item.setUrl(URL);
+            item.setIconType(ICON);
+            tree.add(item);
+        }
+        return tree;
     }
 
     public void testCreateItemAndSelect() {
         // given
         MaterialTree tree = getWidget();
-        MaterialTreeItem treeItem = new MaterialTreeItem();
+        MaterialTreeItem item = (MaterialTreeItem) tree.getChildren().get(0);
 
         // when / then
-        treeItem.setText("Child");
-        tree.add(treeItem);
-        treeItem.select();
+        item.select();
+        assertEquals(item, tree.getSelectedItem());
     }
 
     public void testInsertItemAndSelect() {
@@ -63,6 +74,8 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         treeItem.setText("Child");
         tree.insert(treeItem, 0);
         treeItem.select();
+        assertEquals(treeItem, tree.getWidget(0));
+        assertEquals(treeItem, tree.getSelectedItem());
     }
 
     public void testCreateSubItemAndSelect() {
@@ -76,6 +89,8 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         root.add(child);
         tree.expand();
         child.select();
+        assertEquals(child, tree.getSelectedItem());
+        assertEquals(child, root.getTreeItems().get(0));
     }
 
     public void testInsertSubItemAndSelect() {
@@ -89,38 +104,39 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         root.insert(child, 0);
         tree.expand();
         child.select();
+        assertEquals(child, tree.getSelectedItem());
+        assertEquals(child, root.getTreeItems().get(0));
     }
 
     public void testExpandAndColapse() {
         // given
         MaterialTree tree = getWidget();
+        MaterialTreeItem item1 = (MaterialTreeItem) tree.getWidget(0);
+        MaterialTreeItem item2 = (MaterialTreeItem) tree.getWidget(1);
+        for (int i = 1; i <= 3; i++) {
+            item1.add(new MaterialTreeItem(TEXT));
+            item2.add(new MaterialTreeItem(TEXT));
+        }
+
+        assertEquals(3, item1.getTreeItems().size());
+        assertEquals(3, item2.getTreeItems().size());
 
         // when / then
         tree.expand();
-        testItemVisibility(tree, true);
+        checkTreeItemVisibility(tree, true);
+
         tree.collapse();
-        testItemVisibility(tree, false);
+        checkTreeItemVisibility(tree, false);
     }
 
-    protected <T extends MaterialTree> void testItemVisibility(T tree, boolean isVisible) {
-        for (Widget w : tree) {
-            assertNotNull(w);
-            assertTrue(w instanceof MaterialTreeItem);
-            MaterialTreeItem item = (MaterialTreeItem) w;
-            if (isVisible) {
+    protected void checkTreeItemVisibility(MaterialWidget tree, boolean expand) {
+        for (Widget widget : tree) {
+            assertTrue(widget instanceof MaterialTreeItem);
+            MaterialTreeItem item = (MaterialTreeItem) widget;
+            if (expand) {
                 assertTrue(item.isHide());
             } else {
                 assertFalse(item.isHide());
-            }
-            assertEquals(3, item.getTreeItems().size());
-            for (MaterialTreeItem childItem : item.getTreeItems()) {
-                assertNotNull(childItem);
-                // Check whether item's child is visible or not
-                if (isVisible) {
-                    assertTrue(childItem.isVisible());
-                } else {
-                    assertFalse(childItem.isVisible());
-                }
             }
         }
     }
@@ -130,14 +146,9 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         MaterialTree tree = getWidget();
 
         // when / then
-        assertNotNull(tree.getWidget(0));
-        assertTrue(tree.getWidget(0) instanceof MaterialTreeItem);
         MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(0);
         tree.setSelectedItem(item);
         assertEquals(item, tree.getSelectedItem());
-        tree.deselectSelectedItem();
-        assertFalse(item.getElement().hasClassName(AddinsCssName.SELECTED));
-        assertNull(tree.getSelectedItem());
     }
 
     public void testStructure() {
@@ -161,19 +172,7 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         MaterialTree tree = getWidget();
 
         // when / then
-        for (int i = 1; i <= 5; i++) {
-            final String TEXT = "item" + i;
-            final String URL = "url" + i + ".png";
-            MaterialTreeItem item = new MaterialTreeItem();
-            item.setUrl(URL);
-            item.setIconType(IconType.POLYMER);
-            item.setText(TEXT);
-            tree.add(item);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            final String TEXT = "item" + (i + 1);
-            final String URL = "url" + (i + 1) + ".png";
+        for (int i = 0; i < NUMBER_OF_ITEM; i++) {
             MaterialTreeItem item = (MaterialTreeItem) tree.getWidget(i);
             MaterialWidget divHeader = (MaterialWidget) item.getWidget(0);
             // Check Url
@@ -186,7 +185,7 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
             // Check Icon
             assertTrue(divHeader.getWidget(1) instanceof MaterialIcon);
             MaterialIcon icon = (MaterialIcon) divHeader.getWidget(1);
-            assertEquals(IconType.POLYMER, icon.getIconType());
+            assertEquals(ICON, icon.getIconType());
 
             // Check Text
             assertEquals(TEXT, item.getText());
@@ -200,6 +199,6 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
                 item.add(child);
             }
         }
-        assertEquals(5, tree.getChildren().size());
+        assertEquals(NUMBER_OF_ITEM, tree.getChildren().size());
     }
 }
