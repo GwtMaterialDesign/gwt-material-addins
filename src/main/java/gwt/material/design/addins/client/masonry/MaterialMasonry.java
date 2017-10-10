@@ -20,14 +20,20 @@
 package gwt.material.design.addins.client.masonry;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.masonry.events.HasMasonryHandler;
+import gwt.material.design.addins.client.masonry.events.LayoutCompleteEvent;
+import gwt.material.design.addins.client.masonry.events.MasonryEvents;
+import gwt.material.design.addins.client.masonry.events.RemoveCompleteEvent;
+import gwt.material.design.addins.client.masonry.js.JsMasonry;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialRow;
@@ -61,9 +67,10 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#masonry">Material Masonry</a>
+ * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow implements HasDurationTransition {
+public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition, HasMasonryHandler {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -75,140 +82,144 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
         }
     }
 
-    private String itemSelector = ".col";
-    private boolean percentPosition = true;
-    private boolean originLeft = true;
-    private boolean originTop = true;
-    private int duration = 400;
-
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
+    private JsMasonryOptions options = JsMasonryOptions.create();
+    private JsMasonry masonryElement;
+    private Widget target;
 
     public MaterialMasonry() {
         super(Document.get().createDivElement(), AddinsCssName.MASONRY, CssName.ROW);
 
-        build();
-    }
-
-    @Override
-    protected void build() {
-        enableFeature(Feature.ONLOAD_ADD_QUEUE, true);
         sizerDiv.setWidth("8.3333%");
         sizerDiv.setStyleName(AddinsCssName.COL_SIZER);
         add(sizerDiv);
     }
 
     @Override
-    protected void initialize() {
-        initMasonryJs(getElement());
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
+
+        masonryElement.on(MasonryEvents.REMOVE_COMPLETE, (e, param1) -> {
+            RemoveCompleteEvent.fire(this, target);
+            return true;
+        });
+
+        masonryElement.on(MasonryEvents.LAYOUT_COMPLETE, (e, param1) -> {
+            LayoutCompleteEvent.fire(this);
+            return true;
+        });
     }
 
-    protected void initMasonryJs(Element e) {
-        window().ready(() -> $(e).imagesLoaded(() -> $(e).masonry(getMasonryOptions())));
+    @Override
+    public void load() {
+        masonryElement = $(getElement());
+        masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
     }
 
-    protected JsMasonryOptions getMasonryOptions() {
-        JsMasonryOptions options = new JsMasonryOptions();
-        options.itemSelector = ".masonry > " + getItemSelector();
-        options.percentPosition = isPercentPosition();
-        options.columnWidth = "." + AddinsCssName.COL_SIZER;
-        options.originLeft = isOriginLeft();
-        options.originTop = isOriginTop();
-        options.transitionDuration = getDuration() + "ms";
-        return options;
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        if (masonryElement != null) {
+            masonryElement.masonry("destroy");
+            masonryElement.off(MasonryEvents.REMOVE_COMPLETE);
+            masonryElement.off(MasonryEvents.LAYOUT_COMPLETE);
+        }
+    }
+
+    @Override
+    public void reload() {
+        // reload items and layout specific to masonry plugin
+        if (masonryElement != null) {
+            layout();
+            reloadItems();
+        }
+    }
+
+    @Override
+    public boolean remove(Widget w) {
+        return remove((IsWidget) w);
+    }
+
+    @Override
+    public boolean remove(int index) {
+        remove(getWidget(index));
+        return true;
     }
 
     @Override
     public boolean remove(IsWidget child) {
         Widget widget = (Widget) child;
-        remove(widget.getElement());
-
-        if (isInitialize()) {
-            initialize();
-        }
-        return true;
-    }
-
-    @Override
-    public boolean remove(Widget w) {
-        return this.remove((IsWidget) w);
-    }
-
-    @Override
-    public boolean remove(int index) {
-        remove(getWidget(index).getElement());
+        masonryRemove(widget);
+        reload();
         return true;
     }
 
     /**
      * Remove the item with Masonry support
      */
-    protected void remove(Element e) {
-        if (isInitialize()) {
-            $(getElement()).masonry(getMasonryOptions()).masonry("remove", e).masonry("layout");
-        }
+    protected void masonryRemove(Widget target) {
+        this.target = target;
+        $(getElement()).masonry(options).masonry("remove", target.getElement());
     }
 
     @Override
     public void clear() {
         for (Widget widget : getChildren()) {
-            remove(widget.getElement());
+            remove(widget);
         }
     }
 
     @Override
     public void add(Widget child) {
         super.add(child);
-        reinitialize();
+        reload();
     }
 
     @Override
     protected void add(Widget child, com.google.gwt.user.client.Element container) {
         super.add(child, container);
-        reinitialize();
+        reload();
     }
 
     @Override
     protected void insert(Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert) {
         super.insert(child, container, beforeIndex, domInsert);
-        reinitialize();
+        reload();
     }
 
     @Override
     public void insert(Widget child, int beforeIndex) {
         super.insert(child, beforeIndex);
-        reinitialize();
-    }
-
-    /**
-     * Reload the layout effective only when adding and inserting items
-     */
-    @Override
-    public void reinitialize() {
-        if (isInitialize()) {
-            reinitializeItem();
-            layout();
-        }
+        reload();
     }
 
     /**
      * Reload all items inside the masonry
      */
-    public void reinitializeItem() {
-        $(getElement()).masonry(getMasonryOptions()).masonry("reloadItems");
+    protected void reloadItems() {
+        masonryElement.masonry(options).masonry("reloadItems");
     }
 
     /**
      * Layout remaining item elements
      */
-    public void layout() {
-        $(getElement()).masonry(getMasonryOptions()).masonry("layout");
+    protected void layout() {
+        masonryElement.masonry(options).masonry("layout");
     }
 
     /**
      * Get the item selector.
      */
     public String getItemSelector() {
-        return itemSelector;
+        return options.itemSelector;
     }
 
     /**
@@ -216,14 +227,14 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * layout.It's .col by default for grid components.
      */
     public void setItemSelector(String itemSelector) {
-        this.itemSelector = itemSelector;
+        options.itemSelector = itemSelector;
     }
 
     /**
      * Get the percent position boolean value.
      */
     public boolean isPercentPosition() {
-        return percentPosition;
+        return options.percentPosition;
     }
 
     /**
@@ -231,14 +242,14 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * well with percent-width items, as items will not transition their position on resize.
      */
     public void setPercentPosition(boolean percentPosition) {
-        this.percentPosition = percentPosition;
+        options.percentPosition = percentPosition;
     }
 
     /**
      * Get the boolean value of origin left.
      */
     public boolean isOriginLeft() {
-        return originLeft;
+        return options.originLeft;
     }
 
     /**
@@ -246,14 +257,14 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * left, with originLeft: true. Set originLeft: false for right-to-left layouts.
      */
     public void setOriginLeft(boolean originLeft) {
-        this.originLeft = originLeft;
+        options.originLeft = originLeft;
     }
 
     /**
      * Get the boolean value of origin top.
      */
     public boolean isOriginTop() {
-        return originTop;
+        return options.originTop;
     }
 
     /**
@@ -261,7 +272,7 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
      * with originTop: true. Set originTop: false for bottom-up layouts. It’s like Tetris
      */
     public void setOriginTop(boolean originTop) {
-        this.originTop = originTop;
+        options.originTop = originTop;
     }
 
     public MaterialWidget getSizerDiv() {
@@ -270,11 +281,21 @@ public class MaterialMasonry extends MaterialRow implements HasDurationTransitio
 
     @Override
     public void setDuration(int duration) {
-        this.duration = duration;
+        options.transitionDuration = duration + "ms";
     }
 
     @Override
     public int getDuration() {
-        return duration;
+        return options.transitionDuration != null ? Integer.parseInt(options.transitionDuration.replace("ms", "")) : 0;
+    }
+
+    @Override
+    public HandlerRegistration addLayoutCompleteHandler(LayoutCompleteEvent.LayoutCompleteHandler handler) {
+        return addHandler(handler, LayoutCompleteEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addRemoveCompleteHandler(RemoveCompleteEvent.RemoveCompleteHandler handler) {
+        return addHandler(handler, RemoveCompleteEvent.TYPE);
     }
 }

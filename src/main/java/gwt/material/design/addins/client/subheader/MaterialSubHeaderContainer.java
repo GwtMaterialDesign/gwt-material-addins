@@ -20,13 +20,13 @@
 package gwt.material.design.addins.client.subheader;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.addins.client.subheader.js.JsSubHeader;
 import gwt.material.design.client.base.HasType;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 
@@ -63,13 +63,13 @@ import static gwt.material.design.client.js.JsMaterialElement.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
  */
 //@formatter:on
-public class MaterialSubHeaderContainer extends MaterialWidget implements HasType<SubHeaderType> {
+public class MaterialSubHeaderContainer extends MaterialWidget implements JsLoader, HasType<SubHeaderType> {
 
     static {
         MaterialSubHeader.loadResources();
     }
 
-    private final CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin = new CssTypeMixin<>(this);
+    private CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin;
     private List<MaterialSubHeader> subHeaders = new ArrayList<>();
 
     public MaterialSubHeaderContainer() {
@@ -82,34 +82,63 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasTyp
     }
 
     @Override
-    protected void initialize() {
-        subHeaders.clear();
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
+    }
+
+    @Override
+    public void load() {
         if (getType() == SubHeaderType.PINNED) {
-            String uniqueName = DOM.createUniqueId();
+            String subHeaderClass = DOM.createUniqueId();
             for (Widget w : getChildren()) {
                 if (w instanceof MaterialSubHeader) {
-                    w.addStyleName(uniqueName);
+                    w.addStyleName(subHeaderClass);
                     subHeaders.add((MaterialSubHeader) w);
                 }
             }
-            initialize("." + uniqueName, getElement());
+
+            JsSubHeader.initSubheader("." + subHeaderClass, getElement());
+
             if (subHeaders.size() == 0) {
                 $(getElement()).find(".top_holder").css("display", "none");
             }
         }
     }
 
-    protected void initialize(String subheader, Element container) {
-        JsSubHeader.initSubheader(subheader, container);
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        subHeaders.clear();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     @Override
     public void setType(SubHeaderType type) {
-        typeMixin.setType(type);
+        getTypeMixin().setType(type);
     }
 
     @Override
     public SubHeaderType getType() {
-        return typeMixin.getType();
+        return getTypeMixin().getType();
+    }
+
+    protected CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> getTypeMixin() {
+        if (typeMixin == null) {
+            typeMixin = new CssTypeMixin<>(this);
+        }
+        return typeMixin;
     }
 }

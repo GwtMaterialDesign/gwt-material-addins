@@ -62,14 +62,13 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
         }
     }
 
+    private boolean loading;
     private MaterialIcon icon = new MaterialIcon();
     private MaterialTitle title = new MaterialTitle();
     private Div container = new Div();
-    private boolean loading;
 
     public MaterialEmptyState() {
         super(Document.get().createDivElement(), CssName.VALIGN_WRAPPER, AddinsCssName.EMPTY_STATE);
-        build();
     }
 
     public MaterialEmptyState(Color bgColor, Color textColor, IconType iconType, String title, String description) {
@@ -82,9 +81,10 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     }
 
     @Override
-    protected void build() {
+    protected void onLoad() {
+        super.onLoad();
+
         setTextAlign(TextAlign.CENTER);
-        setHeight("100%");
         add(container);
         container.setWidth("100%");
         container.setStyleName(CssName.VALIGN + " " + CssName.CENTER);
@@ -131,6 +131,11 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     @Override
     public void setIconColor(Color iconColor) {
         icon.setIconColor(iconColor);
+    }
+
+    @Override
+    public Color getIconColor() {
+        return icon.getIconColor();
     }
 
     @Override

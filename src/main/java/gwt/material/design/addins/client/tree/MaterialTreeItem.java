@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -68,16 +67,12 @@ import java.util.List;
 // @formatter:on
 public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems {
 
+    private boolean hide = true;
     private MaterialWidget divHeader = new MaterialWidget(Document.get().createDivElement());
-
     private Span span;
     private MaterialImage image;
-
     private MaterialTree tree;
     private Object object;
-    private HandlerRegistration clickRegistration;
-
-    private boolean hide = true;
 
     public MaterialTreeItem() {
         super(AddinsCssName.TREE_ITEM);
@@ -125,38 +120,21 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void onLoad() {
-        build();
-
         super.onLoad();
-    }
 
-    @Override
-    protected void build() {
-        super.build();
-    }
-
-    @Override
-    protected void initialize() {
         if(image != null) {
             divHeader.add(image);
         }
-        divHeader.add(getIcon());
-        divHeader.add(span);
 
-        if (clickRegistration != null) {
-            clickRegistration.removeHandler();
+        if (getIcon() != null) {
+            divHeader.add(getIcon());
         }
-        clickRegistration = divHeader.addClickHandler(event -> select());
-    }
 
-    @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        if (clickRegistration != null) {
-            clickRegistration.removeHandler();
-            clickRegistration = null;
+        if (span != null) {
+            divHeader.add(span);
         }
+
+        registerHandler(divHeader.addClickHandler(event -> select()));
     }
 
     @Override

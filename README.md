@@ -40,37 +40,36 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 <ma:timpicker:MaterialTimePicker placeholder="Time Arrival"/>
 ```
 
-## Extra Components
-<ul>
-<li>Autcomplete</li>
-<li>Avatar</li>
-<li>Bubble</li>
-<li>Camera</li>
-<li>ComboBox</li>
-<li>Cutout</li>
-<li>Document Viewer</li>
-<li>Dnd</li>
-<li>EmptyState (NEW) </li>
-<li>File Uploader</li>
-<li>Icon Morph</li>
-<li>Masonry</li>
-<li>Menubar</li>
-<li>Overlay</li>
-<li>Path Animator</li>
-<li>Popup Menu</li>
-<li>Rating</li>
-<li>Rich Editor</li> 
-<li>Scrollfire</li>
-<li>SideProfile</li>
-<li>SplitPanel</li>
-<li>Steppers</li>
-<li>Subheader</li>
-<li>Swipeable</li>
-<li>Time Picker</li>
-<li>Tree View</li>
-<li>Waterfall</li>
-<li>Window</li>
-</ul>
+| Addin Name | Dependency | Version |
+| --- | --- | --- |
+| Autocomplete | N/A | N/A |
+| Avatar | [JDenticon](https://github.com/dmester/jdenticon) | 1.3.2 |
+| Bubble | N/A | N/A |
+| Camera | N/A | N/A |
+| ComboBox | [Select2](https://github.com/select2/select2) | 4.0.3 |
+| Cutout | N/A | N/A |
+| Document Viewer | N/A | N/A |
+| Dnd | [InteractJs](https://github.com/taye/interact.js) | 1.2.6 |
+| EmptyState | N/A | N/A |
+| File Uploader | [DropzoneJs](https://github.com/enyo/dropzone) | 4.3.0 |
+| Icon Morph | N/A | N/A |
+| Masonry | [Masonry](https://github.com/desandro/masonry) | 4.0.0 |
+| Menubar | N/A | N/A |
+| Overlay | N/A | N/A |
+| Path Animator | [CTAJs](https://github.com/chinchang/cta.js) | 0.3.2 |
+| Popup Menu | N/A | N/A |
+| Rating | N/A | N/A |
+| Rich Editor | [Material Note](https://github.com/Cerealkillerway/materialNote) | 1.2.1 |
+| Scrollfire | N/A | N/A |
+| SideProfile | N/A | N/A |
+| SplitPanel | [TouchSplitterJQuery](https://github.com/colelawrence/Touch-Splitter-jQuery) | 0.5.1 |
+| Steppers | N/A | N/A |
+| Subheader | N/A | N/A |
+| Swipeable | N/A | N/A |
+| Time Picker | [ClockPicker](https://github.com/weareoutman/clockpicker) | 0.0.7 |
+| Tree View | N/A | N/A |
+| Waterfall | N/A | N/A |
+| Window | N/A | N/A |
 
 ## Documentation
 We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apidocs-addins/) for better understanding the usage of addins.

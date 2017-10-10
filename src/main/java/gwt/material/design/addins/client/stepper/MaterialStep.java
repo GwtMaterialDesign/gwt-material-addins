@@ -72,29 +72,34 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private int step;
     private String title;
     private String description = "";
-
-    // containers
     private Div conCircle = new Div();
     private Div conBody = new Div();
-
-    // elements
     private Div divCircle = new Div();
     private Div divLine = new Div();
     private Div divTitle = new Div();
     private Div divDescription = new Div();
     private Div divBody = new Div();
-
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
-    private final ActiveMixin<MaterialStep> activeMixin = new ActiveMixin<>(this);
-
+    private ActiveMixin<MaterialStep> activeMixin;
     private Axis axis = Axis.VERTICAL;
     private State state;
 
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
 
-        build();
+        super.add(conCircle);
+        conCircle.add(divCircle);
+        conCircle.add(divLine);
+
+        super.add(conBody);
+        conBody.add(divTitle);
+        conBody.add(divBody);
+
+        divCircle.setStyleName(CssName.CIRCLE);
+        divLine.setStyleName(AddinsCssName.LINE);
+        divTitle.setStyleName(CssName.TITLE);
+        divBody.setStyleName(AddinsCssName.BODY);
     }
 
     public MaterialStep(String title, String description) {
@@ -109,28 +114,17 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     }
 
     @Override
-    protected void build() {
-        super.add(conCircle);
-        conCircle.add(divCircle);
-        conCircle.add(divLine);
-
-        super.add(conBody);
-        conBody.add(divTitle);
-        conBody.add(divBody);
-
-        divCircle.setStyleName(CssName.CIRCLE);
-        divLine.setStyleName(AddinsCssName.LINE);
-        divTitle.setStyleName(CssName.TITLE);
-        divBody.setStyleName(AddinsCssName.BODY);
+    protected void onLoad() {
+        super.onLoad();
 
         ClickHandler handler = event -> {
             if (isEnabled() && isVisible()) {
                 SelectionEvent.fire(MaterialStep.this, MaterialStep.this);
             }
         };
-        conCircle.addClickHandler(handler);
-        divTitle.addClickHandler(handler);
-        divDescription.addClickHandler(handler);
+        registerHandler(conCircle.addClickHandler(handler));
+        registerHandler(divTitle.addClickHandler(handler));
+        registerHandler(divDescription.addClickHandler(handler));
     }
 
     @Override
@@ -171,15 +165,12 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     @Override
     public void setActive(boolean active) {
-        activeMixin.setActive(active);
-        if (active) {
-            state = State.ACTIVE;
-        }
+        getActiveMixin().setActive(active);
     }
 
     @Override
     public boolean isActive() {
-        return activeMixin.isActive();
+        return getActiveMixin().isActive();
     }
 
     @Override
@@ -280,6 +271,21 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         return axis;
     }
 
+    public MaterialIcon getIconError() {
+        return iconError;
+    }
+
+    public MaterialIcon getIconSuccess() {
+        return iconSuccess;
+    }
+
+    protected ActiveMixin<MaterialStep> getActiveMixin() {
+        if (activeMixin == null) {
+            activeMixin = new ActiveMixin<>(this);
+        }
+        return activeMixin;
+    }
+
     @Override
     public HandlerRegistration addSelectionHandler(final SelectionHandler<MaterialStep> handler) {
         return this.addHandler(new SelectionHandler<MaterialStep>() {
@@ -290,13 +296,5 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
                 }
             }
         }, SelectionEvent.getType());
-    }
-
-    public MaterialIcon getIconError() {
-        return iconError;
-    }
-
-    public MaterialIcon getIconSuccess() {
-        return iconSuccess;
     }
 }

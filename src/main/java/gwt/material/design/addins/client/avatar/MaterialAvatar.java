@@ -24,7 +24,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.JsLoader;
 
 //@formatter:off
 
@@ -50,9 +50,10 @@ import gwt.material.design.client.base.MaterialWidget;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#avatar">Material Avatar</a>
+ * @see <a href="https://github.com/dmester/jdenticon">Jdenticon 1.3.2</a>
  */
 //@formatter:on
-public class MaterialAvatar extends AbstractValueWidget<String> {
+public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoader {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -64,55 +65,63 @@ public class MaterialAvatar extends AbstractValueWidget<String> {
         }
     }
 
-    private String name;
-
+    private String value;
     public MaterialAvatar() {
         super(Document.get().createCanvasElement());
     }
 
     public MaterialAvatar(String name) {
         this();
-        setName(name);
+        setValue(name, false);
     }
 
     @Override
-    protected void initialize() {
-        if (getName() != null) {
-            getElement().setAttribute("data-jdenticon-hash", generateHashCode(getName()));
-            JsAvatar.jdenticon();
-        }
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
     }
 
     @Override
-    public void reinitialize() {
-        initialize();
+    public void load() {
+        JsAvatar.jdenticon();
+    }
+
+    @Override
+    public void unload() {}
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     /**
-     * Get the name of the avatar.
+     * Replaced by {@link MaterialAvatar#getValue()}
      */
+    @Deprecated
     public String getName() {
         return getValue();
     }
 
     /**
-     * Set the name of the avatar and hashed it using md5 js library to
-     * pass it into jdenticon avatar process.
+     * Replaced by {@link MaterialAvatar#setValue(Object)}
+     * @param name
      */
+    @Deprecated
     public void setName(String name) {
         setValue(name, true);
     }
 
     @Override
     public void setValue(String value, boolean fireEvents) {
-        this.name = value;
-        reinitialize();
         super.setValue(value, fireEvents);
+        getElement().setAttribute("data-jdenticon-hash", generateHashCode(value));
     }
 
     @Override
     public String getValue() {
-        return name;
+        return value;
     }
 
     @Override
@@ -125,10 +134,35 @@ public class MaterialAvatar extends AbstractValueWidget<String> {
         getElement().setAttribute("height", height);
     }
 
+    @Override
+    public int getWidth() {
+        String width = getElement().getAttribute("width");
+        return width != null ? Integer.parseInt(width) : 0;
+    }
+
+    public int getHeight() {
+        String height = getElement().getAttribute("height");
+        return height != null ? Integer.parseInt(height) : 0;
+    }
+
+    /**
+     * Allowing to set the dimension of the Avatar component.
+     * @param width - the width dimension of the avatar without any Unit suffix (e.i 100)
+     * @param height - the height dimension of the avatar without any Unit suffix (e.i 100)
+     */
+    public void setDimension(int width, int height) {
+        setWidth(String.valueOf(width));
+        setHeight(String.valueOf(height));
+        reload();
+    }
+
     /**
      * Generate hash code - needed by jdenticon to generate avatar.
      */
     protected String generateHashCode(String value) {
+        this.value = value;
         return JsAvatar.md5(value);
     }
+
+
 }
