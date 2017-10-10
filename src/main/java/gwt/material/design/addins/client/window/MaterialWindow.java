@@ -91,29 +91,46 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     private static MaterialPanel windowOverlay;
     private static int windowCount = 0;
-
+    private boolean preventClose;
+    private MaterialAnimation openAnimation;
+    private MaterialAnimation closeAnimation;
+    private MaterialDnd dnd;
     private MaterialPanel content = new MaterialPanel();
-
-    // Toolbar elements
     private MaterialLink labelTitle = new MaterialLink();
     private MaterialPanel toolbar = new MaterialPanel();
     private MaterialIcon iconMaximize = new MaterialIcon(IconType.CHECK_BOX_OUTLINE_BLANK);
     private MaterialIcon iconClose = new MaterialIcon(IconType.CLOSE);
-
-    private final ToggleStyleMixin<MaterialWidget> maximizeMixin = new ToggleStyleMixin<>(this, AddinsCssName.MAXIMIZE);
-    private final ToggleStyleMixin<MaterialWindow> openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
-
-    private MaterialAnimation openAnimation;
-    private MaterialAnimation closeAnimation;
-
-    private MaterialDnd dnd;
-    private boolean preventClose;
-
     private HandlerRegistration toolbarAttachHandler;
+
+    private ToggleStyleMixin<MaterialWidget> maximizeMixin;
+    private ToggleStyleMixin<MaterialWindow> openMixin;
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
-        build();
+
+        content.setStyleName(AddinsCssName.CONTENT);
+        toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
+        labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
+        iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
+        iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
+
+        iconClose.setCircle(true);
+        iconClose.setWaves(WavesType.DEFAULT);
+
+        iconMaximize.setCircle(true);
+        iconMaximize.setWaves(WavesType.DEFAULT);
+
+        toolbar.add(labelTitle);
+        toolbar.add(iconClose);
+        toolbar.add(iconMaximize);
+
+        super.add(toolbar);
+        super.add(content);
+
+        setTop(100);
+
+        // Add a draggable header
+        dnd = buildDnd();
     }
 
     public MaterialWindow(String title) {
@@ -133,31 +150,18 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     @Override
-    protected void build() {
-        content.setStyleName(AddinsCssName.CONTENT);
-        toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
-        labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
-        iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
-        iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
+    protected void onLoad() {
+        super.onLoad();
 
-        iconClose.setCircle(true);
-        iconClose.setWaves(WavesType.DEFAULT);
+        // Add handlers to action buttons
+        registerHandler(iconMaximize.addClickHandler(event -> toggleMaximize()));
 
-        iconMaximize.setCircle(true);
-        iconMaximize.setWaves(WavesType.DEFAULT);
-
-        toolbar.add(labelTitle);
-        toolbar.add(iconClose);
-        toolbar.add(iconMaximize);
-        toolbar.addDoubleClickHandler(event -> {
+        registerHandler(toolbar.addDoubleClickHandler(event -> {
             toggleMaximize();
             Document.get().getDocumentElement().getStyle().setCursor(Style.Cursor.DEFAULT);
-        });
-        super.add(toolbar);
-        super.add(content);
-        // Add handlers to action buttons
-        iconMaximize.addClickHandler(event -> toggleMaximize());
-        iconClose.addClickHandler(event -> {
+        }));
+
+        registerHandler(iconClose.addClickHandler(event -> {
             if (!preventClose) {
                 if (!isOpen()) {
                     open();
@@ -165,12 +169,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
                     close();
                 }
             }
-        });
-
-        setTop(100);
-
-        // Add a draggable header
-        dnd = buildDnd();
+        }));
     }
 
     /**
@@ -230,12 +229,12 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     public boolean isMaximized() {
-        return maximizeMixin.isOn();
+        return getMaximizeMixin().isOn();
     }
 
     public void setMaximize(boolean maximize) {
-        maximizeMixin.setOn(maximize);
-        if (maximizeMixin.isOn()) {
+        getMaximizeMixin().setOn(maximize);
+        if (getMaximizeMixin().isOn()) {
             iconMaximize.setIconType(IconType.FILTER_NONE);
         } else {
             iconMaximize.setIconType(IconType.CHECK_BOX_OUTLINE_BLANK);
@@ -272,12 +271,12 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         }
 
         if (openAnimation == null) {
-            openMixin.setOn(true);
+            getOpenMixin().setOn(true);
             OpenEvent.fire(this, true);
         } else {
             setOpacity(0);
             Scheduler.get().scheduleDeferred(() -> {
-                openMixin.setOn(true);
+                getOpenMixin().setOn(true);
                 openAnimation.animate(this, () -> OpenEvent.fire(this, true));
             });
         }
@@ -292,14 +291,14 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
         windowCount--;
         if (closeAnimation == null) {
-            openMixin.setOn(false);
+            getOpenMixin().setOn(false);
             if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
                 windowOverlay.removeFromParent();
             }
             CloseEvent.fire(this, false);
         } else {
             closeAnimation.animate(this, () -> {
-                openMixin.setOn(false);
+                getOpenMixin().setOn(false);
                 if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
                     windowOverlay.removeFromParent();
                 }
@@ -313,16 +312,20 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     public void setToolbarColor(Color toolbarColor) {
-        if (toolbar.isAttached()) {
-            toolbar.setBackgroundColor(toolbarColor);
-        } else {
-            if (toolbarAttachHandler == null) {
-                toolbarAttachHandler = toolbar.addAttachHandler(attachEvent -> {
-                    toolbar.setBackgroundColor(toolbarColor);
-                });
-            }
+        if (toolbarAttachHandler != null) {
+            toolbarAttachHandler.removeHandler();
+            toolbarAttachHandler = null;
         }
 
+        if (toolbarColor != null) {
+            if (toolbar.isAttached()) {
+                toolbar.setBackgroundColor(toolbarColor);
+            } else {
+                if (toolbarAttachHandler == null) {
+                    toolbarAttachHandler = registerHandler(toolbar.addAttachHandler(attachEvent -> toolbar.setBackgroundColor(toolbarColor)));
+                }
+            }
+        }
     }
 
     @Override
@@ -354,7 +357,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     public boolean isOpen() {
-        return openMixin.isOn();
+        return getOpenMixin().isOn();
     }
 
     /**
@@ -433,5 +436,19 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         if(dnd != null) {
             dnd.draggable(JsDragOptions.create(new Restriction(dndArea, true, 0, 0, 1.2, 1)));
         }
+    }
+
+    protected ToggleStyleMixin<MaterialWidget> getMaximizeMixin() {
+        if (maximizeMixin == null) {
+            maximizeMixin = new ToggleStyleMixin<>(this, AddinsCssName.MAXIMIZE);
+        }
+        return maximizeMixin;
+    }
+
+    protected ToggleStyleMixin<MaterialWindow> getOpenMixin() {
+        if (openMixin == null) {
+            openMixin = new ToggleStyleMixin<>(this, AddinsCssName.OPEN);
+        }
+        return openMixin;
     }
 }

@@ -19,13 +19,15 @@
  */
 package gwt.material.design.addins.client.splitpanel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
-import gwt.material.design.addins.client.splitpanel.js.JsSplitPanel;
+import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
+import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 
@@ -60,9 +62,10 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#splitpanel">Split Panel</a>
  * @see <a href="https://material.io/guidelines/layout/split-screen.html#split-screen-usage">Material Design Specification</a>
+ * @see <a href="https://github.com/colelawrence/Touch-Splitter-jQuery">TouchSplitterJQuery 0.5.1</a>
  */
 //@formatter:on
-public class MaterialSplitPanel extends MaterialWidget {
+public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -74,217 +77,226 @@ public class MaterialSplitPanel extends MaterialWidget {
         }
     }
 
-    private double leftMax;
-    private double leftMin;
-    private double rightMax;
-    private double rightMin;
-    private double topMin;
-    private double topMax;
-    private double bottomMin;
-    private double bottomMax;
-    private double barPosition = 50;
-    private double thickness = 8;
-    private Dock dock = Dock.LEFT;
-    private Axis axis = Axis.HORIZONTAL;
-    private boolean initialized;
-    private JsSplitPanel splitted;
+    private TouchSplitter touchSplitter;
+    private JsSplitPanelOptions options = JsSplitPanelOptions.create();
 
     public MaterialSplitPanel() {
         super(Document.get().createDivElement());
     }
 
     @Override
-    protected void onUnload() {}
+    protected void onLoad() {
+        super.onLoad();
 
-    /**
-     * Initialize the splitter component.
-     */
+        load();
+    }
+
     @Override
-    protected void initialize() {
-        splitted = $(getElement());
-        if (splitted.get(0) != null) {
-            JsSplitPanelOptions options = new JsSplitPanelOptions();
-            options.barPosition = getBarPosition();
-            options.thickness = getThickness() + "px";
-            options.rightMax = getRightMax();
-            options.rightMin = getRightMin();
-            options.leftMax = getLeftMax();
-            options.leftMin = getLeftMin();
-            options.topMax = getTopMax();
-            options.topMin = getTopMin();
-            options.bottomMax = getBottomMax();
-            options.bottomMin = getBottomMin();
-            options.dock = getDock().getCssName();
-            options.orientation = getAxis().getCssName();
-            splitted.touchSplit(options);
+    public void load() {
+        options.dock = getDock().getCssName();
+        options.orientation = getAxis().getCssName();
+        touchSplitter = $(getElement()).touchSplit(options);
+    }
+
+    public TouchSplitter getTouchSplitter() {
+        return touchSplitter;
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        destroy();
+    }
+
+    public void destroy() {
+        destroy(Side.ALL);
+    }
+
+    public void destroy(Side side) {
+        if (touchSplitter != null) {
+            touchSplitter.destroy(side.getCssName());
+        } else {
+            GWT.log("Please initialize the touchsplitter.", new IllegalStateException());
         }
     }
 
-    /**
-     * Get the Maximum left space.
-     */
-    public double getLeftMax() {
-        return leftMax;
-    }
-
-    /**
-     * Set the Maximum left space while dragging horizontally.
-     */
-    public void setLeftMax(double leftMax) {
-        this.leftMax = leftMax;
-    }
-
-    /**
-     * Get the Minimum left max space.
-     */
-    public double getLeftMin() {
-        return leftMin;
-    }
-
-    /**
-     * Set the Minimum left space while dragging horizontally.
-     */
-    public void setLeftMin(double leftMin) {
-        this.leftMin = leftMin;
-    }
-
-    /**
-     * Get the Maximum right space.
-     */
-    public double getRightMax() {
-        return rightMax;
-    }
-
-    /**
-     * Set the Maximum right space while dragging horizontally.
-     */
-    public void setRightMax(double rightMax) {
-        this.rightMax = rightMax;
-    }
-
-    /**
-     * Get the minimum right space.
-     */
-    public double getRightMin() {
-        return rightMin;
-    }
-
-    /**
-     * Set the minimum right space while dragging horizontally.
-     */
-    public void setRightMin(double rightMin) {
-        this.rightMin = rightMin;
-    }
-
-    /**
-     * Get the axis orientation of splitter component.
-     */
-    public Axis getAxis() {
-        return axis;
-    }
-
-    /**
-     * Set the axis orientation of splitter component (HORIZONTAL(Default) and VERTICAL).
-     */
-    public void setAxis(Axis axis) {
-        this.axis = axis;
-    }
-
-    /**
-     * Get the dock value.
-     */
-    public Dock getDock() {
-        return dock;
-    }
-
-    /**
-     * Set the dock value (LEFT, RIGHT -> HORIZONTAL AXIS and TOP,LEFT -> VERTICAL AXIS).
-     */
-    public void setDock(Dock dock) {
-        this.dock = dock;
-    }
-
-    /**
-     * Get the minimum top space.
-     */
-    public double getTopMin() {
-        return topMin;
-    }
-
-    /**
-     * Set the minimum top space while dragging vertically.
-     */
-    public void setTopMin(double topMin) {
-        this.topMin = topMin;
-    }
-
-    /**
-     * Get the maximum top space.
-     */
-    public double getTopMax() {
-        return topMax;
-    }
-
-    /**
-     * Set the maximum top space while dragging vertically.
-     */
-    public void setTopMax(double topMax) {
-        this.topMax = topMax;
-    }
-
-    /**
-     * Get the minimum bottom space.
-     */
-    public double getBottomMin() {
-        return bottomMin;
-    }
-
-    /**
-     * Set the minimum bottom space while dragging vertically.
-     */
-    public void setBottomMin(double bottomMin) {
-        this.bottomMin = bottomMin;
-    }
-
-    /**
-     * Get the maximum bottom space.
-     */
-    public double getBottomMax() {
-        return bottomMax;
-    }
-
-    /**
-     * Set the maximum bottom space while dragging vertically.
-     */
-    public void setBottomMax(double bottomMax) {
-        this.bottomMax = bottomMax;
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     /**
      * Get the bar position in percent divided by 100.
      */
     public double getBarPosition() {
-        return barPosition / 100;
+        return options.barPosition;
     }
 
     /**
      * Set the bar position in percent.
      */
     public void setBarPosition(double barPosition) {
-        this.barPosition = barPosition;
+        options.barPosition = barPosition / 100;
     }
 
     /**
      * Get the bar's thickness in px.
      */
     public double getThickness() {
-        return thickness;
+        return options.thickness != null ? Double.parseDouble(options.thickness.replace("px", "")) : null;
     }
 
     /**
      * Set the bar's thickness in px.
      */
     public void setThickness(double thickness) {
-        this.thickness = thickness;
+        options.thickness = thickness + "px";
+    }
+
+    /**
+     * Get the Maximum left space.
+     */
+    public double getLeftMax() {
+        return options.leftMax;
+    }
+
+    /**
+     * Set the Maximum left space while dragging horizontally.
+     */
+    public void setLeftMax(double leftMax) {
+        options.leftMax = leftMax;
+    }
+
+    /**
+     * Get the Minimum left max space.
+     */
+    public double getLeftMin() {
+        return options.leftMin;
+    }
+
+    /**
+     * Set the Minimum left space while dragging horizontally.
+     */
+    public void setLeftMin(double leftMin) {
+        options.leftMin = leftMin;
+    }
+
+    /**
+     * Get the Maximum right space.
+     */
+    public double getRightMax() {
+        return options.rightMax;
+    }
+
+    /**
+     * Set the Maximum right space while dragging horizontally.
+     */
+    public void setRightMax(double rightMax) {
+        options.rightMax = rightMax;
+    }
+
+    /**
+     * Get the minimum right space.
+     */
+    public double getRightMin() {
+        return options.rightMin;
+    }
+
+    /**
+     * Set the minimum right space while dragging horizontally.
+     */
+    public void setRightMin(double rightMin) {
+        options.rightMin = rightMin;
+    }
+
+    /**
+     * Get the minimum top space.
+     */
+    public double getTopMin() {
+        return options.topMin;
+    }
+
+    /**
+     * Set the minimum top space while dragging vertically.
+     */
+    public void setTopMin(double topMin) {
+        options.topMin = topMin;
+    }
+
+    /**
+     * Get the maximum top space.
+     */
+    public double getTopMax() {
+        return options.topMax;
+    }
+
+    /**
+     * Set the maximum top space while dragging vertically.
+     */
+    public void setTopMax(double topMax) {
+        options.topMax = topMax;
+    }
+
+    /**
+     * Get the minimum bottom space.
+     */
+    public double getBottomMin() {
+        return options.bottomMin;
+    }
+
+    /**
+     * Set the minimum bottom space while dragging vertically.
+     */
+    public void setBottomMin(double bottomMin) {
+        options.bottomMin = bottomMin;
+    }
+
+    /**
+     * Get the maximum bottom space.
+     */
+    public double getBottomMax() {
+        return options.bottomMax;
+    }
+
+    /**
+     * Set the maximum bottom space while dragging vertically.
+     */
+    public void setBottomMax(double bottomMax) {
+        options.bottomMax = bottomMax;
+    }
+
+    /**
+     * Get the axis orientation of splitter component.
+     */
+    public Axis getAxis() {
+        return options.orientation != null ? Axis.fromStyleName(options.orientation) : null;
+    }
+
+    /**
+     * Set the axis orientation of splitter component (HORIZONTAL(Default) and VERTICAL).
+     */
+    public void setAxis(Axis axis) {
+        options.orientation = axis.getCssName();
+    }
+
+    /**
+     * Get the dock value.
+     */
+    public Dock getDock() {
+        return options.dock != null ? Dock.fromStyleName(options.dock) : null;
+    }
+
+    /**
+     * Set the dock value (LEFT, RIGHT -> HORIZONTAL AXIS and TOP,LEFT -> VERTICAL AXIS).
+     */
+    public void setDock(Dock dock) {
+        options.dock = dock.getCssName();
     }
 }

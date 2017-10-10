@@ -24,20 +24,17 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.*;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.camera.base.HasCameraActions;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
 import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.jscore.client.api.*;
+import gwt.material.design.jscore.client.api.Navigator;
 import gwt.material.design.jscore.client.api.media.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 
@@ -101,11 +98,11 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
  * @author kevzlou7979
  */
 // @formatter:on
-public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
+public class MaterialCameraCapture extends MaterialWidget implements JsLoader, HasCameraCaptureHandlers, HasCameraActions {
 
-    protected boolean pauseOnUnload = true;
     protected int width = 1280;
     protected int height = 720;
+    protected boolean pauseOnUnload = false;
     protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
     private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
@@ -115,37 +112,9 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         super(Document.get().createDivElement(), "camera-wrapper");
     }
 
-    /**
-     * Captures the current frame of the video to an image data URL. It's the same as calling
-     * {@link #captureToDataURL(String)} using "image/png".
-     *
-     * @return The Data URL of the captured image, which can be used as "src" on an "img" element
-     * or sent to the server
-     */
-    public String captureToDataURL() {
-        return captureToDataURL("image/png");
-    }
-
-    /**
-     * Captures the current frame of the video to an image data URL.
-     *
-     * @param mimeType The type of the output image, such as "image/png" or "image/jpeg".
-     * @return The Data URL of the captured image, which can be used as "src" on an "img" element
-     * or sent to the server
-     */
-    public String captureToDataURL(String mimeType) {
-        return nativeCaptureToDataURL(Canvas.createIfSupported().getCanvasElement(), video.getElement(), mimeType);
-    }
-
     @Override
     protected void onLoad() {
         super.onLoad();
-        build();
-    }
-
-    @Override
-    protected void build() {
-        super.build();
 
         setLayoutPosition(Style.Position.RELATIVE);
         add(video);
@@ -156,66 +125,71 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         overlayPanel.setBottom(0);
         overlayPanel.setRight(0);
         add(overlayPanel);
+
+        load();
     }
 
     @Override
-    protected void initialize() {
-        VideoElement el = video.getElement().cast();
-        if (el.getSrc() == null || el.isPaused()) {
-            play();
-        }
+    public void load() {
+        play();
     }
 
     @Override
     protected void onUnload() {
-        if (pauseOnUnload) {
-            pause();
-        }
+        super.onUnload();
+
+        unload();
     }
 
-    /**
-     * <p>
-     * Starts the video stream from the camera. This is called when the component is loaded.
-     * Use {@link CameraCaptureHandler}s to be notified when the stream actually starts or if
-     * an error occurs.
-     * </p>
-     * <p>
-     * At this point the user is requested by the browser to allow the application to use the camera.
-     * If the user doesn't allow it, an error is notified to the {@link CameraCaptureHandler}s.
-     * </p>
-     */
+    @Override
+    public void unload() {
+        stop();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+    @Override
     public void play() {
         if (!isSupported()) {
             onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
-        VideoElement el = video.getElement().cast();
-        if (el.getSrc() == null) {
-            nativePlay(video.getElement());
-        } else {
-            el.play();
-        }
+
+        nativePlay(video.getElement());
     }
 
     @Override
-    public void reinitialize() {
-        if (!isSupported()) {
-            onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
-            return;
-        }
-        if (mediaStream != null) {
-            stop();
-            nativePlay(video.getElement());
-        }
-    }
-
-    /**
-     * Pauses the video stream from the camera.
-     */
     public void pause() {
         VideoElement el = video.getElement().cast();
         el.pause();
         onCameraCapturePause();
+    }
+
+    @Override
+    public void stop() {
+        if (pauseOnUnload) {
+            pause();
+        }
+
+        if (mediaStream != null) {
+            for (MediaStreamTrack track : mediaStream.getTracks()) {
+                track.stop();
+            }
+        }
+    }
+
+    @Override
+    public String captureToDataURL() {
+        return captureToDataURL("image/png");
+    }
+
+    @Override
+    public String captureToDataURL(String mimeType) {
+        return nativeCaptureToDataURL(Canvas.createIfSupported().getCanvasElement(), video.getElement(), mimeType);
     }
 
     /**
@@ -312,9 +286,46 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      */
     public static boolean isSupported() {
         return Navigator.webkitGetUserMedia != null
-            || Navigator.getUserMedia != null
-            || Navigator.mozGetUserMedia != null
-            || Navigator.msGetUserMedia != null;
+                || Navigator.getUserMedia != null
+                || Navigator.mozGetUserMedia != null
+                || Navigator.msGetUserMedia != null;
+    }
+
+    public void addOverlay(MaterialWidget overlay) {
+        overlayPanel.add(overlay);
+    }
+
+    public void removeOverlay(MaterialWidget overlay) {
+        overlayPanel.remove(overlay);
+    }
+
+    public void clearOverlays() {
+        overlayPanel.clear();
+    }
+
+    public MaterialWidget getVideo() {
+        return video;
+    }
+
+    public void setVideo(MaterialWidget video) {
+        this.video = video;
+    }
+
+    /**
+     * Set the resolution of the camera
+     */
+    public void setResolution(int width, int height) {
+        this.width = width;
+        this.height = height;
+        reload();
+    }
+
+    /**
+     * Set the facing mode of the camera (Best usecase for Mobile Devices)
+     */
+    public void setFacingMode(CameraFacingMode facingMode) {
+        this.facingMode = facingMode;
+        reload();
     }
 
     /**
@@ -345,53 +356,5 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
                 handler.onCameraCaptureChange(event);
             }
         }, CameraCaptureEvent.getType());
-    }
-
-    public void addOverlay(MaterialWidget overlay) {
-        overlayPanel.add(overlay);
-    }
-
-    public void removeOverlay(MaterialWidget overlay) {
-        overlayPanel.remove(overlay);
-    }
-
-    public void clearOverlays() {
-        overlayPanel.clear();
-    }
-
-    public MaterialWidget getVideo() {
-        return video;
-    }
-
-    public void setVideo(MaterialWidget video) {
-        this.video = video;
-    }
-
-    /**
-     * Set the resolution of the camera
-     */
-    public void setResolution(int width, int height) {
-        this.width = width;
-        this.height = height;
-        reinitialize();
-    }
-
-    /**
-     * Set the facing mode of the camera (Best usecase for Mobile Devices)
-     */
-    public void setFacingMode(CameraFacingMode facingMode) {
-        this.facingMode = facingMode;
-        reinitialize();
-    }
-
-    /**
-     * Stops all the Tracks that is currently streaming
-     */
-    public void stop() {
-        if (mediaStream != null) {
-            for (MediaStreamTrack track : mediaStream.getTracks()) {
-                track.stop();
-            }
-        }
     }
 }
