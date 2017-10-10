@@ -20,11 +20,15 @@
 package gwt.material.design.addins.client.masonry;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.masonry.events.HasMasonryHandler;
+import gwt.material.design.addins.client.masonry.events.LayoutCompleteEvent;
+import gwt.material.design.addins.client.masonry.events.MasonryEvents;
+import gwt.material.design.addins.client.masonry.events.RemoveCompleteEvent;
 import gwt.material.design.addins.client.masonry.js.JsMasonry;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
@@ -66,7 +70,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition {
+public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition, HasMasonryHandler {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -78,9 +82,10 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
         }
     }
 
-    private String itemSelector = ".col";
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
-    private JsMasonryOptions options = new JsMasonryOptions();
+    private JsMasonryOptions options = JsMasonryOptions.create();
+    private JsMasonry masonryElement;
+    private Widget target;
 
     public MaterialMasonry() {
         super(Document.get().createDivElement(), AddinsCssName.MASONRY, CssName.ROW);
@@ -95,14 +100,22 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
         super.onLoad();
 
         load();
+
+        masonryElement.on(MasonryEvents.REMOVE_COMPLETE, (e, param1) -> {
+            RemoveCompleteEvent.fire(this, target);
+            return true;
+        });
+
+        masonryElement.on(MasonryEvents.LAYOUT_COMPLETE, (e, param1) -> {
+            LayoutCompleteEvent.fire(this);
+            return true;
+        });
     }
 
     @Override
     public void load() {
-        JsMasonry element = $(getElement());
-        options.itemSelector = ".masonry > " + getItemSelector();
-        options.columnWidth = "." + AddinsCssName.COL_SIZER;
-        window().ready(() -> element.imagesLoaded(() -> element.masonry(options)));
+        masonryElement = $(getElement());
+        masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
     }
 
     @Override
@@ -114,21 +127,20 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
 
     @Override
     public void unload() {
-        $(getElement()).masonry("destroy");
+        if (masonryElement != null) {
+            masonryElement.masonry("destroy");
+            masonryElement.off(MasonryEvents.REMOVE_COMPLETE);
+            masonryElement.off(MasonryEvents.LAYOUT_COMPLETE);
+        }
     }
 
     @Override
     public void reload() {
-        reloadItems();
-        layout();
-    }
-
-    @Override
-    public boolean remove(IsWidget child) {
-        Widget widget = (Widget) child;
-        remove(widget.getElement());
-        reload();
-        return true;
+        // reload items and layout specific to masonry plugin
+        if (masonryElement != null) {
+            layout();
+            reloadItems();
+        }
     }
 
     @Override
@@ -138,21 +150,30 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
 
     @Override
     public boolean remove(int index) {
-        remove(getWidget(index).getElement());
+        remove(getWidget(index));
+        return true;
+    }
+
+    @Override
+    public boolean remove(IsWidget child) {
+        Widget widget = (Widget) child;
+        masonryRemove(widget);
+        reload();
         return true;
     }
 
     /**
      * Remove the item with Masonry support
      */
-    protected void remove(Element e) {
-        $(getElement()).masonry(options).masonry("remove", e).masonry("layout");
+    protected void masonryRemove(Widget target) {
+        this.target = target;
+        $(getElement()).masonry(options).masonry("remove", target.getElement());
     }
 
     @Override
     public void clear() {
         for (Widget widget : getChildren()) {
-            remove(widget.getElement());
+            remove(widget);
         }
     }
 
@@ -183,22 +204,22 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
     /**
      * Reload all items inside the masonry
      */
-    public void reloadItems() {
-        $(getElement()).masonry(options).masonry("reloadItems");
+    protected void reloadItems() {
+        masonryElement.masonry(options).masonry("reloadItems");
     }
 
     /**
      * Layout remaining item elements
      */
-    public void layout() {
-        $(getElement()).masonry(options).masonry("layout");
+    protected void layout() {
+        masonryElement.masonry(options).masonry("layout");
     }
 
     /**
      * Get the item selector.
      */
     public String getItemSelector() {
-        return itemSelector;
+        return options.itemSelector;
     }
 
     /**
@@ -206,7 +227,7 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
      * layout.It's .col by default for grid components.
      */
     public void setItemSelector(String itemSelector) {
-        this.itemSelector = itemSelector;
+        options.itemSelector = itemSelector;
     }
 
     /**
@@ -266,5 +287,15 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
     @Override
     public int getDuration() {
         return options.transitionDuration != null ? Integer.parseInt(options.transitionDuration.replace("ms", "")) : 0;
+    }
+
+    @Override
+    public HandlerRegistration addLayoutCompleteHandler(LayoutCompleteEvent.LayoutCompleteHandler handler) {
+        return addHandler(handler, LayoutCompleteEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addRemoveCompleteHandler(RemoveCompleteEvent.RemoveCompleteHandler handler) {
+        return addHandler(handler, RemoveCompleteEvent.TYPE);
     }
 }
