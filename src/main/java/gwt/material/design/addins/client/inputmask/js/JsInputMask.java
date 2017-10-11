@@ -26,7 +26,7 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * JSInterop utils for input mask component
+ * JSInterop utils for input load component
  *
  * @author kevzlou7979
  */

@@ -19,6 +19,9 @@
  */
 package gwt.material.design.addins.client.circularprogress.js;
 
+import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.constants.Color;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +33,21 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsCircularProgressOptions {
+
+    private JsCircularProgressOptions() {}
+
+    @JsOverlay
+    public static final JsCircularProgressOptions create() {
+        JsCircularProgressOptions options = new JsCircularProgressOptions();
+        options.value = 0.0;
+        options.size = 100;
+        options.thickness = 8;
+        options.startAngle = Math.PI;
+        options.fill = ColorHelper.setupComputedBackgroundColor(Color.BLUE);
+        options.emptyFill = ColorHelper.setupComputedBackgroundColor(Color.GREY_LIGHTEN_2);
+        options.reverse = false;
+        return options;
+    }
 
     @JsProperty
     public double value;

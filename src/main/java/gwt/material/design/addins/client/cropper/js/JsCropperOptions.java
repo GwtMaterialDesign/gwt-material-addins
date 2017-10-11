@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.cropper.js;
 
+import gwt.material.design.addins.client.cropper.constants.Shape;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +32,32 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsCropperOptions {
+
+    private JsCropperOptions() {}
+
+    @JsOverlay
+    public static final JsCropperOptions create() {
+        JsCropperOptions options = new JsCropperOptions();
+
+        JsCropperDimension viewPort = new JsCropperDimension();
+        viewPort.height = 100;
+        viewPort.width = 100;
+        viewPort.type = Shape.SQUARE.getName();
+
+        JsCropperDimension boundary = new JsCropperDimension();
+        boundary.height = 200;
+        boundary.width = 200;
+        boundary.type = Shape.SQUARE.getName();
+
+        options.viewport = viewPort;
+        options.boundary = boundary;
+        options.enableZoom = true;
+        options.enableOrientation = true;
+        options.mouseWheelZoom = true;
+        options.showZoomer = true;
+
+        return options;
+    }
 
     /**
      * The outer container of the cropper.

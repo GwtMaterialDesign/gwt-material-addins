@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.countup.js;
 
+import gwt.material.design.jquery.client.api.Functions;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +32,37 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsCountUpOptions {
+
+    private JsCountUpOptions() {}
+
+    @JsOverlay
+    public static final JsCountUpOptions create() {
+        JsCountUpOptions options = new JsCountUpOptions();
+        options.separator = ",";
+        options.decimal = ".";
+        options.prefix = "";
+        options.suffix = "";
+        options.startValue = 0;
+        options.endValue = 0;
+        options.decimals = 0;
+        options.duration = 2;
+        return options;
+    }
+
+    @JsProperty
+    public double startValue;
+
+    @JsProperty
+    public double endValue;
+
+    @JsProperty
+    public double decimals;
+
+    @JsProperty
+    public double duration;
+
+    @JsProperty
+    public Functions.Func callback;
 
     @JsProperty
     public String separator;

@@ -23,6 +23,7 @@ import com.google.gwt.core.client.GWT;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.inputmask.js.JsInputMaskOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialTextBox;
 
 import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
@@ -54,7 +55,7 @@ import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#inputFields">Material Input Fields</a>
  */
 //@formatter:on
-public class MaterialInputMask extends MaterialTextBox {
+public class MaterialInputMask extends MaterialTextBox implements JsLoader {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -71,12 +72,41 @@ public class MaterialInputMask extends MaterialTextBox {
     protected void onLoad() {
         super.onLoad();
 
-        // TODO Implement JSLoader
+        load();
+    }
+
+    @Override
+    public void load() {
         if (mask == null || mask.isEmpty()) {
             GWT.log("You must provide a mask pattern in order to mask your field");
         } else {
-            mask(mask);
+            load(mask);
         }
+    }
+
+    /**
+     * Mask the input field with given mask value.
+     */
+    public void load(String mask) {
+        $(asTextBox().getElement()).mask(mask, options);
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        $(asTextBox().getElement()).unmask();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     /**
@@ -112,20 +142,5 @@ public class MaterialInputMask extends MaterialTextBox {
      */
     public String getCleanValue() {
         return $(asTextBox().getElement()).cleanVal();
-    }
-
-
-    /**
-     * Destroy the mask.
-     */
-    public void unmask() {
-        $(asTextBox().getElement()).unmask();
-    }
-
-    /**
-     * Mask the input field with given mask value.
-     */
-    public void mask(String mask) {
-        $(asTextBox().getElement()).mask(mask, options);
     }
 }

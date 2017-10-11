@@ -30,7 +30,7 @@ public class MaterialTimeLineItem extends MaterialWidget {
     private Div line = new Div();
 
     public MaterialTimeLineItem() {
-        super(Document.get().createDivElement(), "timeline-item");
+        super(Document.get().createDivElement(), AddinsCssName.TIMELINE_ITEM);
     }
 
     @Override

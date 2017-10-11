@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.signature.events.HasSignatureHandlers;
 import gwt.material.design.addins.client.signature.events.SignatureClearEvent;
 import gwt.material.design.addins.client.signature.events.SignatureEndEvent;
@@ -31,6 +32,7 @@ import gwt.material.design.addins.client.signature.events.SignatureStartEvent;
 import gwt.material.design.addins.client.signature.js.JsSignaturePadOptions;
 import gwt.material.design.addins.client.signature.js.SignaturePad;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
@@ -51,7 +53,7 @@ import gwt.material.design.client.base.viewport.WidthBoundary;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialSignaturePad extends MaterialWidget implements HasSignaturePadOptions, HasSignatureHandlers {
+public class MaterialSignaturePad extends MaterialWidget implements JsLoader, HasSignaturePadOptions, HasSignatureHandlers {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -63,35 +65,21 @@ public class MaterialSignaturePad extends MaterialWidget implements HasSignature
 
 
     public MaterialSignaturePad() {
-        super(Document.get().createCanvasElement(), "signature-pad");
+        super(Document.get().createCanvasElement(), AddinsCssName.SIGNATURE_PAD);
     }
 
     private SignaturePad signaturePad;
-    private double dotSize = 1;
-    private double lineMinWidth = 0.5;
-    private double lineMaxWidth = 2.5;
-    private int throttle = 16;
-    private String penColor = "black";
-    private double velocityFilterWeight = 0.7;
+    private JsSignaturePadOptions options = JsSignaturePadOptions.create();
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        //TODO Implement JSLoader
-        JsSignaturePadOptions options = new JsSignaturePadOptions();
-        options.dotSize = dotSize;
-        options.minWidth = lineMinWidth;
-        options.maxWidth = lineMaxWidth;
-        options.throttle = throttle;
-        options.penColor = penColor;
-        options.velocityFilterWeight = velocityFilterWeight;
+        setupViewPort();
+        load();
+    }
 
-        options.onBegin = () -> SignatureStartEvent.fire(this);
-        options.onEnd = () -> SignatureEndEvent.fire(this);
-
-        signaturePad = new SignaturePad(getElement(), options);
-
+    protected void setupViewPort() {
         ViewPort.when(new WidthBoundary(0, 5120)).then(param1 -> {
             CanvasElement element = getElement().cast();
             double ratio = getRatio();
@@ -101,9 +89,31 @@ public class MaterialSignaturePad extends MaterialWidget implements HasSignature
         });
     }
 
-    protected static native double getRatio() /*-{
-        return Math.max(window.devicePixelRatio || 1, 1);
-    }-*/;
+    @Override
+    public void load() {
+        options.onBegin = () -> SignatureStartEvent.fire(this);
+        options.onEnd = () -> SignatureEndEvent.fire(this);
+
+        signaturePad = new SignaturePad(getElement(), options);
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        clear();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
 
     @Override
     public void clear() {
@@ -139,81 +149,67 @@ public class MaterialSignaturePad extends MaterialWidget implements HasSignature
 
     @Override
     public double getDotSize() {
-        return dotSize;
+        return options.dotSize;
     }
 
     @Override
     public void setDotSize(double dotSize) {
-        this.dotSize = dotSize;
-        if (signaturePad != null) {
-            signaturePad.dotSize = dotSize;
-        }
+        options.dotSize = dotSize;
     }
 
     @Override
     public double getLineMinWidth() {
-        return lineMinWidth;
+        return options.minWidth;
     }
 
     @Override
     public void setLineMinWidth(double lineMinWidth) {
-        this.lineMinWidth = lineMinWidth;
-        if (signaturePad != null) {
-            signaturePad.minWidth = lineMinWidth;
-        }
+        options.minWidth = lineMinWidth;
     }
 
     @Override
     public double getLineMaxWidth() {
-        return lineMaxWidth;
+        return options.maxWidth;
     }
 
     @Override
     public void setLineMaxWidth(double lineMaxWidth) {
-        this.lineMaxWidth = lineMaxWidth;
-        if (signaturePad != null) {
-            signaturePad.maxWidth = lineMaxWidth;
-        }
+        options.maxWidth = lineMaxWidth;
     }
 
     @Override
     public int getThrottle() {
-        return throttle;
+        return options.throttle;
     }
 
     @Override
     public void setThrottle(int throttle) {
-        this.throttle = throttle;
-        if (signaturePad != null) {
-            signaturePad.throttle = throttle;
-        }
+        options.throttle = throttle;
     }
 
     @Override
     public String getPenColor() {
-        return penColor;
+        return options.penColor;
     }
 
     @Override
     public void setPenColor(String penColor) {
-        this.penColor = penColor;
-        if (signaturePad != null) {
-            signaturePad.penColor = penColor;
-        }
+        options.penColor = penColor;
     }
 
     @Override
     public double getVelocityFilterWeight() {
-        return velocityFilterWeight;
+        return options.velocityFilterWeight;
     }
 
     @Override
     public void setVelocityFilterWeight(double velocityFilterWeight) {
-        this.velocityFilterWeight = velocityFilterWeight;
-        if (signaturePad != null) {
-            signaturePad.velocityFilterWeight = velocityFilterWeight;
-        }
+        options.velocityFilterWeight = velocityFilterWeight;
     }
+
+    public static native double getRatio() /*-{
+        return Math.max(window.devicePixelRatio || 1, 1);
+    }-*/;
 
     @Override
     public HandlerRegistration addClearSignatureHandler(SignatureClearEvent.SignatureClearHandler handler) {

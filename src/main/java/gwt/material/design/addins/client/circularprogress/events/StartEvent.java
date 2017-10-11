@@ -23,41 +23,40 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
-public class CircularProgressEvent extends GwtEvent<CircularProgressEvent.CircularProgressHandler> {
+/**
+ * Fires when the circular progress started or initialized.
+ *
+ * @author kevzlou7979
+ */
+public class StartEvent extends GwtEvent<StartEvent.StartHandler> {
 
-    public interface CircularProgressHandler extends EventHandler {
-        void onCircularProgress(CircularProgressEvent event);
+    public interface StartHandler extends EventHandler {
+        void onStart(StartEvent event);
     }
 
-    public static final Type<CircularProgressHandler> TYPE = new Type<>();
+    public static final Type<StartHandler> TYPE = new Type<>();
 
-    private final double progress;
-    private final double step;
+    private final double value;
 
-    public CircularProgressEvent(double progress, double step) {
-        this.progress = progress;
-        this.step = step;
+    public StartEvent(double value) {
+        this.value = value;
     }
 
-    public static void fire(HasHandlers source, double progress, double step) {
-        source.fireEvent(new CircularProgressEvent(progress, step));
+    public static void fire(HasHandlers source, double value) {
+        source.fireEvent(new StartEvent(value));
     }
 
-    public double getProgress() {
-        return progress;
-    }
-
-    public double getStep() {
-        return step;
+    public double getValue() {
+        return value;
     }
 
     @Override
-    public Type<CircularProgressHandler> getAssociatedType() {
+    public Type<StartHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(CircularProgressHandler handler) {
-        handler.onCircularProgress(this);
+    protected void dispatch(StartHandler handler) {
+        handler.onStart(this);
     }
 }

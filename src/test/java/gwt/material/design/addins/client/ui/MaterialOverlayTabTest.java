@@ -19,18 +19,27 @@
  */
 package gwt.material.design.addins.client.ui;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.addins.client.overlay.MaterialOverlayTab;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialOverlayTabTest extends MaterialWidgetTest<MaterialOverlayTab> {
 
+    private MaterialButton activator;
+
     @Override
     protected MaterialOverlayTab createWidget() {
-        return new MaterialOverlayTab();
+        MaterialOverlayTab overlayTab = new MaterialOverlayTab();
+        activator = new MaterialButton("SAMPLE");
+        overlayTab.setActivator(activator);
+        RootPanel.get().add(activator);
+        return overlayTab;
     }
 
     public void testOverlayTab() {

@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.timeline;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
@@ -36,6 +37,6 @@ public class MaterialTimeLine extends MaterialWidget {
     }
 
     public MaterialTimeLine() {
-        super(Document.get().createDivElement(), "timeline", CssName.ROW);
+        super(Document.get().createDivElement(), AddinsCssName.TIMELINE, CssName.ROW);
     }
 }

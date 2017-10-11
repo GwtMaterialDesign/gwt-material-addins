@@ -38,17 +38,17 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
         MaterialCarousel carousel = getWidget();
 
         // when / then
-        JsCarouselOptions mobileOptions = new JsCarouselOptions();
+        JsCarouselOptions mobileOptions = JsCarouselOptions.create();
         mobileOptions.slidesToShow = 3;
         mobileOptions.slidesToScroll = 3;
         carousel.setMobileSettings(mobileOptions);
-        assertEquals(carousel.getMobileSettings(), mobileOptions);
+        assertEquals(mobileOptions, carousel.getMobileSettings());
 
-        JsCarouselOptions tabletOptions = new JsCarouselOptions();
+        JsCarouselOptions tabletOptions = JsCarouselOptions.create();
         tabletOptions.slidesToShow = 4;
         tabletOptions.slidesToScroll = 4;
         carousel.setTabletSettings(tabletOptions);
-        assertEquals(carousel.getTabletSettings(), tabletOptions);
+        assertEquals(tabletOptions, carousel.getTabletSettings());
     }
 
     public void testEvents() {
@@ -100,15 +100,15 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
         carousel.setFade(true);
         assertTrue(carousel.isFade());
         carousel.setSlidesToShow(1);
-        assertEquals(carousel.getSlidesToShow(), 1);
+        assertEquals(1, carousel.getSlidesToShow());
         carousel.setSlidesToScroll(1);
-        assertEquals(carousel.getSlidesToScroll(), 1);
+        assertEquals(1, carousel.getSlidesToScroll());
         carousel.setSpeed(100);
-        assertEquals(carousel.getSpeed(), 100);
+        assertEquals(100, carousel.getSpeed());
         carousel.setAutoplaySpeed(100);
-        assertEquals(carousel.getAutoplaySpeed(), 100);
+        assertEquals(100, carousel.getAutoplaySpeed());
         carousel.setEdgeFriction(10);
-        assertEquals(carousel.getEdgeFriction(), 10.0);
+        assertEquals(10.0, carousel.getEdgeFriction());
     }
 
     public void testStructure() {
@@ -116,11 +116,13 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
         MaterialCarousel carousel = getWidget();
 
         // when / then
-        assertEquals(carousel.getWidget(0), carousel.getBtnNextArrow());
+        assertEquals(carousel.getBtnNextArrow(), carousel.getWidget(0));
         assertTrue(carousel.getWidget(0).getElement().hasClassName(AddinsCssName.CAROUSEL_NEXT_ARROW));
-        assertEquals(carousel.getWidget(1), carousel.getBtnPrevArrow());
+
+        assertEquals(carousel.getBtnPrevArrow(), carousel.getWidget(1));
         assertTrue(carousel.getWidget(1).getElement().hasClassName(AddinsCssName.CAROUSEL_PREV_ARROW));
-        assertEquals(carousel.getWidget(2), carousel.getContainer());
+
+        assertEquals(carousel.getWrapper(), carousel.getWidget(2));
         assertTrue(carousel.getWidget(2).getElement().hasClassName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER));
 
         for (int i = 1; i <= 5; i++) {
@@ -128,6 +130,6 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
             carousel.add(panel);
         }
 
-        assertEquals(carousel.getContainer().getChildren().size(), 5);
+        assertEquals(5, carousel.getContainer().getChildren().size());
     }
 }

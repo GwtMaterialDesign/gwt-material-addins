@@ -17,26 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.inputmask.js;
+package gwt.material.design.addins.client.circularprogress.ui;
 
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import com.google.gwt.dom.client.Style;
+import gwt.material.design.client.ui.html.Span;
 
-/**
- * Options for input load component
- *
- * @author kevzlou7979
- */
-@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class JsInputMaskOptions {
+public class CircularProgressLabel extends Span {
 
-    @JsProperty
-    public boolean reverse;
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+    }
 
-    @JsProperty
-    public boolean clearIfNotMatch;
-
-    @JsProperty
-    public boolean selectOnFocus;
+    public void setSize(double height) {
+        setHeight(height + "px");
+        getElement().getStyle().setLineHeight(height, Style.Unit.PX);
+    }
 }

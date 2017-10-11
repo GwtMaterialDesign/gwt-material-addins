@@ -109,4 +109,9 @@ public interface AddinsCssName {
     String MATERIAL_NOTE = "material-note";
     String CIRCULAR_PROGRESS = "circular-progress";
     String EMPTY_STATE = "empty-state";
+    String TIMELINE = "timeline";
+    String TIMELINE_CONTENT = "timeline-content";
+    String TIMELINE_HEADER = "timeline-header";
+    String TIMELINE_ITEM = "timeline-item";
+    String SIGNATURE_PAD = "signature-pad";
 }

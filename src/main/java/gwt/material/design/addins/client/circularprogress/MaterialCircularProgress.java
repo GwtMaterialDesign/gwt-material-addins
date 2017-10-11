@@ -20,20 +20,18 @@
 package gwt.material.design.addins.client.circularprogress;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.circularprogress.events.CircularProgressEvent;
-import gwt.material.design.addins.client.circularprogress.events.CircularProgressEvents;
-import gwt.material.design.addins.client.circularprogress.events.HasCircularProgressHandlers;
+import gwt.material.design.addins.client.circularprogress.events.*;
 import gwt.material.design.addins.client.circularprogress.js.JsCircularProgressOptions;
-import gwt.material.design.addins.client.stepper.events.CompleteEvent;
-import gwt.material.design.addins.client.stepper.events.StartEvent;
+import gwt.material.design.addins.client.circularprogress.ui.CircularProgressLabel;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
+import gwt.material.design.client.base.mixin.FontSizeMixin;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.ui.html.Span;
 
 import static gwt.material.design.addins.client.circularprogress.js.JsCircularProgress.$;
 
@@ -62,7 +60,7 @@ import static gwt.material.design.addins.client.circularprogress.js.JsCircularPr
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#circularprogress">Material Circular Progress</a>
  */
-public class MaterialCircularProgress extends MaterialWidget implements HasCircularProgressHandlers {
+public class MaterialCircularProgress extends AbstractValueWidget<Double> implements JsLoader, HasCircularProgressHandlers {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -74,15 +72,13 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
         }
     }
 
-    private double value = 0.0;
-    private int size = 100;
-    private int thickness = 8;
-    private double startAngle = Math.PI;
+
+    private CircularProgressLabel label = new CircularProgressLabel();
     private Color fillColor = Color.BLUE;
     private Color emptyFillColor = Color.GREY_LIGHTEN_2;
-    private boolean reverse;
 
-    private Span lblText = new Span();
+    private JsCircularProgressOptions options = JsCircularProgressOptions.create();
+    private FontSizeMixin<MaterialWidget> fontSizeMixin;
 
     public MaterialCircularProgress() {
         super(Document.get().createDivElement(), AddinsCssName.CIRCULAR_PROGRESS);
@@ -92,32 +88,29 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     protected void onLoad() {
         super.onLoad();
 
-        // TODO Implement JSLoader
-        lblText.setHeight(size + "px");
-        lblText.getElement().getStyle().setLineHeight(size, Style.Unit.PX);
-        add(lblText);
+        label.setSize(getSize());
+        add(label);
 
-        JsCircularProgressOptions options = new JsCircularProgressOptions();
-        options.value = value;
-        options.fill = ColorHelper.setupComputedBackgroundColor(fillColor);
-        options.emptyFill = ColorHelper.setupComputedBackgroundColor(emptyFillColor);
-        options.size = size;
-        options.thickness = thickness;
-        options.startAngle = startAngle;
-        options.reverse = reverse;
+
         $(getElement()).on(CircularProgressEvents.PROGRESS, (e, progress, step) -> {
-            CircularProgressEvent.fire(this, (double) progress, (double) step);
+            ProgressEvent.fire(this, (double) progress, (double) step);
             return true;
         });
         $(getElement()).on(CircularProgressEvents.START, (e, param1) -> {
-            StartEvent.fire(this);
+            StartEvent.fire(this, getValue());
             return true;
         });
 
         $(getElement()).on(CircularProgressEvents.COMPLETED, (e, param1) -> {
-            CompleteEvent.fire(this, (int) value);
+            CompleteEvent.fire(this, getValue());
             return true;
         });
+
+        load();
+    }
+
+    @Override
+    public void load() {
         $(getElement()).circleProgress(options);
     }
 
@@ -125,24 +118,36 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     protected void onUnload() {
         super.onUnload();
 
+        unload();
+    }
+
+    @Override
+    public void unload() {
         $(getElement()).off(CircularProgressEvents.START);
         $(getElement()).off(CircularProgressEvents.PROGRESS);
         $(getElement()).off(CircularProgressEvents.COMPLETED);
     }
 
-    public double getValue() {
-        return value;
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+    @Override
+    public Double getValue() {
+        return options.value;
+    }
+
+    @Override
+    public void setValue(Double value) {
+        setValue(value, false);
+        options.value = value;
     }
 
     /**
      * This is the only required option. It should be from 0.0 to 1.0 (Default: 0)
      */
-    public void setValue(double value) {
-        this.value = value;
-        // TODO Need to Check the JSLoader
-        $(getElement()).circleProgress("value", value);
-    }
-
     public Color getFillColor() {
         return fillColor;
     }
@@ -152,6 +157,7 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
      */
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
+        options.fill = ColorHelper.setupComputedBackgroundColor(fillColor);
     }
 
     public Color getEmptyFillColor() {
@@ -163,56 +169,75 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
      */
     public void setEmptyFillColor(Color emptyFillColor) {
         this.emptyFillColor = emptyFillColor;
+        options.emptyFill = ColorHelper.setupComputedBackgroundColor(emptyFillColor);
     }
 
     public double getSize() {
-        return size;
+        return options.size;
     }
 
     /**
      * Set the size of the circle / canvas in pixels
      */
     public void setSize(int size) {
-        this.size = size;
-        lblText.setWidth(size + "px");
+        options.size = size;
     }
 
     public int getThickness() {
-        return thickness;
+        return (int) options.thickness;
     }
 
     /**
      * Thickness width of the arc. (Default : 8)
      */
     public void setThickness(int thickness) {
-        this.thickness = thickness;
+        options.thickness = thickness;
     }
 
     public double getStartAngle() {
-        return startAngle;
+        return options.startAngle;
     }
 
     /**
      * Initial angle of the circular progress component (Default : -Math.PI);
      */
     public void setStartAngle(double startAngle) {
-        this.startAngle = startAngle;
+        options.startAngle = startAngle;
     }
 
     public boolean isReverse() {
-        return reverse;
+        return options.reverse;
     }
 
     /**
      * Reverse animation and arc draw (Default : false)
      */
     public void setReverse(boolean reverse) {
-        this.reverse = reverse;
+        options.reverse = reverse;
+    }
+
+    /**
+     * Set the text of the circular progress
+     */
+    public void setText(String text) {
+        label.setText(text);
+    }
+
+    public CircularProgressLabel getLabel() {
+        return label;
     }
 
     @Override
-    public void addCircularProgressEvent(CircularProgressEvent.CircularProgressHandler handler) {
-        addHandler(handler, CircularProgressEvent.TYPE);
+    protected FontSizeMixin<MaterialWidget> getFontSizeMixin() {
+        if (fontSizeMixin == null) {
+            fontSizeMixin = new FontSizeMixin<>(label);
+        }
+        return fontSizeMixin;
+    }
+
+    @Override
+    public void addProgressHandler(ProgressEvent.ProgressHandler handler) {
+        addHandler(handler, ProgressEvent.TYPE);
     }
 
     @Override
@@ -223,24 +248,5 @@ public class MaterialCircularProgress extends MaterialWidget implements HasCircu
     @Override
     public void addCompleteHandler(CompleteEvent.CompleteHandler handler) {
         addHandler(handler, CompleteEvent.TYPE);
-    }
-
-    /**
-     * Set the text of the circular progress
-     */
-    public void setText(String text) {
-        lblText.setText(text);
-    }
-
-    @Override
-    public void setFontSize(String fontSize) {
-        lblText.setFontSize(fontSize);
-    }
-
-    /**
-     * Redraw the the circular progress
-     */
-    public void redraw() {
-        $(getElement()).circleProgress("redraw");
     }
 }

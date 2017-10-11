@@ -30,76 +30,61 @@ public class MaterialDragula {
         MaterialDesignBase.injectJs(MaterialDragulaClientBundle.INSTANCE.dragulaJs());
     }
 
-    private String direction = "vertical";
-    private boolean copy;
-    private boolean copySortSource;
-    private boolean revertOnSpill;
-    private boolean removeOnSpill;
-    private boolean ignoreInputTextSelection = true;
+    private JsDragulaOptions options = JsDragulaOptions.create();
     private JsDragula dragula;
 
-    public MaterialDragula() {
-
-    }
+    public MaterialDragula() {}
 
     public void apply(Element... elements) {
-        JsDragulaOptions options = new JsDragulaOptions();
-        options.direction = direction;
-        options.copy = copy;
-        options.copySortSource = copySortSource;
-        options.revertOnSpill = revertOnSpill;
-        options.removeOnSpill = removeOnSpill;
-        options.ignoreInputTextSelection = ignoreInputTextSelection;
-
         dragula = JsDragula.dragula(elements, options);
     }
 
     public String getDirection() {
-        return direction;
+        return options.direction;
     }
 
     public void setDirection(String direction) {
-        this.direction = direction;
+        options.direction = direction;
     }
 
     public boolean isCopy() {
-        return copy;
+        return options.copy;
     }
 
     public void setCopy(boolean copy) {
-        this.copy = copy;
+        options.copy = copy;
     }
 
     public boolean isCopySortSource() {
-        return copySortSource;
+        return options.copySortSource;
     }
 
     public void setCopySortSource(boolean copySortSource) {
-        this.copySortSource = copySortSource;
+        options.copySortSource = copySortSource;
     }
 
     public boolean isRevertOnSpill() {
-        return revertOnSpill;
+        return options.revertOnSpill;
     }
 
     public void setRevertOnSpill(boolean revertOnSpill) {
-        this.revertOnSpill = revertOnSpill;
+        options.revertOnSpill = revertOnSpill;
     }
 
     public boolean isRemoveOnSpill() {
-        return removeOnSpill;
+        return options.removeOnSpill;
     }
 
     public void setRemoveOnSpill(boolean removeOnSpill) {
-        this.removeOnSpill = removeOnSpill;
+        this.options.removeOnSpill = removeOnSpill;
     }
 
     public boolean isIgnoreInputTextSelection() {
-        return ignoreInputTextSelection;
+        return options.ignoreInputTextSelection;
     }
 
     public void setIgnoreInputTextSelection(boolean ignoreInputTextSelection) {
-        this.ignoreInputTextSelection = ignoreInputTextSelection;
+        options.ignoreInputTextSelection = ignoreInputTextSelection;
     }
 
     public JsDragula getDragula() {

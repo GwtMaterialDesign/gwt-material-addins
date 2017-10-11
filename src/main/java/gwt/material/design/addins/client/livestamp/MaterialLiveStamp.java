@@ -20,9 +20,12 @@
 package gwt.material.design.addins.client.livestamp;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.JsLoader;
 
 import java.util.Date;
 
@@ -50,9 +53,8 @@ import java.util.Date;
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#livestamp">Material Live Stamp</a>
  */
-public class MaterialLiveStamp extends MaterialLabel {
+public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLoader {
 
-    private boolean initialized;
     private Date date = new Date();
 
     static {
@@ -65,16 +67,35 @@ public class MaterialLiveStamp extends MaterialLabel {
         }
     }
 
+    public MaterialLiveStamp() {
+        super(Document.get().createLabelElement());
+    }
+
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        // TODO Implement JSLoader
+        load();
+    }
+
+    @Override
+    public void load() {
         if (date != null) {
             getElement().setAttribute("data-livestamp", date.toString());
         } else {
             GWT.log("You must specify the date value.", new IllegalStateException());
         }
+    }
+
+    @Override
+    public void unload() {
+        getElement().removeAttribute("data-livestamp");
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     /**
@@ -89,5 +110,11 @@ public class MaterialLiveStamp extends MaterialLabel {
      */
     public void setDate(Date date) {
         this.date = date;
+        setValue(date);
+    }
+
+    @Override
+    public Date getValue() {
+        return getDate();
     }
 }

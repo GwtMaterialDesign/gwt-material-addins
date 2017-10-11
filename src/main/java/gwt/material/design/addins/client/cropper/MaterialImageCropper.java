@@ -22,7 +22,6 @@ package gwt.material.design.addins.client.cropper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.cropper.constants.Shape;
 import gwt.material.design.addins.client.cropper.constants.Type;
 import gwt.material.design.addins.client.cropper.events.CropEvent;
 import gwt.material.design.addins.client.cropper.events.HasCropEvents;
@@ -30,19 +29,21 @@ import gwt.material.design.addins.client.cropper.js.JsCropper;
 import gwt.material.design.addins.client.cropper.js.JsCropperDimension;
 import gwt.material.design.addins.client.cropper.js.JsCropperOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.addins.client.cropper.js.JsCropper.$;
 
 //@formatter:off
+
 /**
  * A simple Image Cropping addin component.
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code xmlns:ma='urn:import:gwt.material.design.addins.client'}
  * </pre>
- *
+ * <p>
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code <ma:cropper.MaterialImageCropper ui:field="cropper" url="some.png" />}
@@ -57,7 +58,7 @@ import static gwt.material.design.addins.client.cropper.js.JsCropper.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialImageCropper extends MaterialImage implements HasCropEvents {
+public class MaterialImageCropper extends MaterialImage implements JsLoader, HasCropEvents {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -69,12 +70,12 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
         }
     }
 
-    private JsCropperOptions options;
+    private JsCropperOptions options = JsCropperOptions.create();
     private JsCropper cropper;
 
     /**
      * Get the options of the cropper
-     * Defaults to {@link #getDefaultOptions}
+     *
      * @return
      */
     public JsCropperOptions getOptions() {
@@ -87,45 +88,87 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
      */
     public void setOptions(JsCropperOptions options) {
         this.options = options;
-
-        /*reinitialize();*/
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        // TODO Implement JsLoader
-        if (options == null) {
-            options = getDefaultOptions();
-        }
+        load();
+    }
 
+    @Override
+    public void load() {
         cropper = $(getElement()).croppie(options);
     }
 
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        destroy();
+    }
+
     /**
-     * Get the default option for the Cropper
+     * Destroy the cropper instance and remove it from the DOM
      */
-    protected JsCropperOptions getDefaultOptions() {
-        JsCropperOptions options = new JsCropperOptions();
+    public void destroy() {
+        if (cropper != null) {
+            cropper.croppie("destroy");
+        } else {
+            GWT.log("Image Cropper component is not attached");
+        }
+    }
 
-        JsCropperDimension viewPort = new JsCropperDimension();
-        viewPort.height = 100;
-        viewPort.width = 100;
-        viewPort.type = Shape.SQUARE.getName();
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
 
-        JsCropperDimension boundary = new JsCropperDimension();
-        boundary.height = 200;
-        boundary.width = 200;
-        boundary.type = Shape.SQUARE.getName();
+    /**
+     * Cropped the image with given URL and result type
+     */
+    public void crop(String url, Type type) {
+        setUrl(url);
+        reload();
+        bind(url, () -> crop(type));
+    }
 
-        options.viewport = viewPort;
-        options.boundary = boundary;
-        options.enableZoom = true;
-        options.enableOrientation = true;
-        options.mouseWheelZoom = true;
-        options.showZoomer = true;
-        return options;
+    /**
+     * Bind an image the cropper. Returns a promise to be resolved when the image has been loaded and the cropper has been initialized.
+     *
+     * @param url      - URL to Image
+     * @param callback - Callback when the Promise has been resolved.
+     */
+    public void bind(String url, Functions.Func callback) {
+        cropper.croppie("bind", url).then((result, object) -> {
+            callback.call();
+            return true;
+        });
+    }
+
+    /**
+     * Rotate the image by a specified degree amount. Only works with enableOrientation option enabled see {@link JsCropperOptions#enableOrientation}.
+     *
+     * @param degrees - Valid values 90, 180, 270, -90, -180, -270
+     */
+    public void rotate(int degrees) {
+        cropper.croppie("rotate", degrees);
+    }
+
+    /**
+     * Set the zoom of a Cropper instance. The value passed in is still restricted to the min/max set by Cropper
+     *
+     * @param value - a floating point to scale the image within the Cropper. Must be between a min and max value set by Cropper.
+     */
+    public void setZoom(int value) {
+        cropper.croppie("setZoom", value);
     }
 
     /**
@@ -147,52 +190,92 @@ public class MaterialImageCropper extends MaterialImage implements HasCropEvents
         });
     }
 
-    /**
-     * Cropped the image with given URL and result type
-     */
-    public void crop(String url, Type type) {
-        setUrl(url);
-        /*reinitialize();*/
-        bind(url, () -> crop(type));
+    public JsCropperDimension getBoundary() {
+        return options.boundary;
     }
 
     /**
-     * Bind an image the cropper. Returns a promise to be resolved when the image has been loaded and the cropper has been initialized.
-     * @param url - URL to Image
-     * @param callback - Callback when the Promise has been resolved.
+     * The outer container of the cropper.
      */
-    public void bind(String url, Functions.Func callback) {
-        cropper.croppie("bind", url).then((result, object) -> {
-            callback.call();
-            return true;
-        });
+    public void setBoundary(JsCropperDimension boundary) {
+        options.boundary = boundary;
+    }
+
+    public JsCropperDimension getViewPort() {
+        return options.viewport;
     }
 
     /**
-     * Destroy the cropper instance and remove it from the DOM
+     * The inner container of the cropper. The visible part of the image
      */
-    public void destroy() {
-        if (cropper != null) {
-            cropper.croppie("destroy");
-        } else {
-            GWT.log("Image Cropper component is not attached");
-        }
+    public void setViewport(JsCropperDimension viewport) {
+        options.viewport = viewport;
+    }
+
+    public String getCustomClass() {
+        return options.customClass;
     }
 
     /**
-     * Rotate the image by a specified degree amount. Only works with enableOrientation option enabled see {@link JsCropperOptions#enableOrientation}.
-     * @param degrees - Valid values 90, 180, 270, -90, -180, -270
+     * A class of your choosing to add to the container to add custom styles to your cropper
      */
-    public void rotate(int degrees) {
-        cropper.croppie("rotate", degrees);
+    public void setCustomClass(String customClass) {
+        options.customClass = customClass;
+    }
+
+    public boolean isEnableOrientation() {
+        return options.enableOrientation;
     }
 
     /**
-     * Set the zoom of a Cropper instance. The value passed in is still restricted to the min/max set by Cropper
-     * @param value - a floating point to scale the image within the Cropper. Must be between a min and max value set by Cropper.
+     * Enable or disable support for specifying a custom orientation when binding images.
      */
-    public void setZoom(int value) {
-        cropper.croppie("setZoom", value);
+    public void setEnableOrientation(boolean enableOrientation) {
+        options.enableOrientation = enableOrientation;
+    }
+
+    public boolean isEnableZoom() {
+        return options.enableZoom;
+    }
+
+    /**
+     * Enable zooming functionality. If set to false - scrolling and pinching would not zoom.
+     */
+    public void setEnableZoom(boolean enableZoom) {
+        options.enableZoom = enableZoom;
+    }
+
+    public boolean isEnforceBoundary() {
+        return options.enforceBoundary;
+    }
+
+    /**
+     * Restricts zoom so image cannot be smaller than viewport
+     */
+    public void setEnforceBoundary(boolean enforceBoundary) {
+        options.enforceBoundary = enforceBoundary;
+    }
+
+    public boolean isMouseWheelZoom() {
+        return options.mouseWheelZoom;
+    }
+
+    /**
+     * Enable or disable the ability to use the mouse wheel to zoom in and out on a cropper instance
+     */
+    public void setMouseWheelZoom(boolean mouseWheelZoom) {
+        options.mouseWheelZoom = mouseWheelZoom;
+    }
+
+    public boolean isShowZoomer() {
+        return options.showZoomer;
+    }
+
+    /**
+     * Hide or Show the zoom slider
+     */
+    public void setShowZoomer(boolean showZoomer) {
+        options.showZoomer = showZoomer;
     }
 
     @Override

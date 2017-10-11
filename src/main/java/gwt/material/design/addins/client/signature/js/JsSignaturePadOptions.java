@@ -20,12 +20,27 @@
 package gwt.material.design.addins.client.signature.js;
 
 import gwt.material.design.jquery.client.api.Functions;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsSignaturePadOptions {
+
+    private JsSignaturePadOptions() {}
+
+    @JsOverlay
+    public static final JsSignaturePadOptions create() {
+        JsSignaturePadOptions options = new JsSignaturePadOptions();
+        options.dotSize = 1;
+        options.minWidth = 0.5;
+        options.maxWidth = 2.5;
+        options.throttle = 16;
+        options.penColor = "black";
+        options.velocityFilterWeight = 0.7;
+        return options;
+    }
 
     @JsProperty
     public double dotSize;

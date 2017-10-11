@@ -19,20 +19,28 @@
  */
 package gwt.material.design.addins.client.carousel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.events.*;
-import gwt.material.design.addins.client.carousel.js.JsCarousel;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
-import gwt.material.design.addins.client.carousel.js.JsResponsiveOptions;
+import gwt.material.design.addins.client.carousel.ui.NextArrow;
+import gwt.material.design.addins.client.carousel.ui.PreviousArrow;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
+import gwt.material.design.client.base.JsLoader;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTab;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
@@ -69,7 +77,10 @@ import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#carousel">Material Carousel</a>
  */
 //@formatter:on
-public class MaterialCarousel extends MaterialCarouselBase implements HasType<CarouselType>, HasCarouselEvents {
+public class MaterialCarousel extends MaterialWidget implements JsLoader, HasType<CarouselType>, HasCarouselEvents {
+
+    static int TABLET_SETTINGS = 0;
+    static int MOBILE_SETTINGS = 1;
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -83,123 +94,111 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         }
     }
 
-    private boolean infinite;
-    private boolean centerMode;
-    private boolean variableWidth;
-    private boolean showDots = true;
-    private boolean showArrows = true;
-    private boolean adaptiveHeight = false;
-    private boolean autoplay;
-    private boolean fade;
-    private int slidesToShow = 1;
-    private int slidesToScroll = 1;
-    private int speed = 300;
-    private int autoplaySpeed = 3000;
-    private double edgeFriction = 0.15;
-    private boolean focusOnSelect;
-    private String centerPadding = "100px";
-    private JsCarouselOptions options = new JsCarouselOptions();
-    private JsResponsiveOptions[] responsiveOptions = new JsResponsiveOptions[]{};
-    private JsCarouselOptions tabletSettings;
-    private JsCarouselOptions mobileSettings;
+    private MaterialPanel container = new MaterialPanel();
+    private NextArrow nextArrow = new NextArrow();
+    private PreviousArrow previousArrow = new PreviousArrow();
+    private MaterialPanel wrapper = new MaterialPanel();
 
-    private final CssTypeMixin<CarouselType, MaterialCarousel> typeMixin = new CssTypeMixin<>(this);
-    private HandlerRegistration tabSelectionHandler, tabBeforeChangeHandler, beforeChangeHandler, afterChangeHandler;
+
+    private JsCarouselOptions options = JsCarouselOptions.create();
+
+    private CssTypeMixin<CarouselType, MaterialCarousel> typeMixin;
 
     public MaterialCarousel() {
+        super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
     }
+
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        // Todo Implement JSLoader
-        options.dots = showDots;
-        options.arrows = showArrows;
-        options.infinite = infinite;
-        options.centerMode = centerMode;
-        options.variableWidth = variableWidth;
-        options.adaptiveHeight = adaptiveHeight;
-        options.autoplay = autoplay;
-        options.fade = fade;
-        options.edgeFriction = edgeFriction;
-        options.autoplaySpeed = autoplaySpeed;
-        options.slidesToShow = slidesToShow;
-        options.slidesToScroll = slidesToScroll;
-        options.speed = speed;
-        options.swipeToSlide = false;
-        options.centerPadding = centerPadding;
-        options.nextArrow = "#" + getBtnNextArrow().getId();
-        options.prevArrow = "#" + getBtnPrevArrow().getId();
-        options.focusOnSelect = focusOnSelect;
+        wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
+        container.setId(DOM.createUniqueId());
+        wrapper.add(container);
 
-        $(getElement()).off(CarouselEvents.AFTER_CHANGE).on(CarouselEvents.AFTER_CHANGE, (e, slick, currentSlide) -> {
+        super.add(nextArrow);
+        super.add(previousArrow);
+        super.add(wrapper);
+
+        $(getElement()).on(CarouselEvents.AFTER_CHANGE, (e, slick, currentSlide) -> {
             AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
             return true;
         });
 
-        $(getElement()).off(CarouselEvents.BEFORE_CHANGE).on(CarouselEvents.BEFORE_CHANGE, (e, slick, currentSlide, nextSlide) -> {
+        $(getElement()).on(CarouselEvents.BEFORE_CHANGE, (e, slick, currentSlide, nextSlide) -> {
             BeforeChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()), Integer.parseInt(nextSlide.toString()));
             e.stopPropagation();
             return true;
         });
 
-        $(getElement()).off(CarouselEvents.INIT).on(CarouselEvents.INIT, (e) -> {
+        $(getElement()).on(CarouselEvents.INIT, (e) -> {
             InitEvent.fire(this);
             return true;
         });
 
-        $(getElement()).off(CarouselEvents.DESTROY).on(CarouselEvents.DESTROY, (e) -> {
+        $(getElement()).on(CarouselEvents.DESTROY, (e) -> {
             DestroyEvent.fire(this);
             return true;
         });
 
-        $(getElement()).off(CarouselEvents.SWIPE).on(CarouselEvents.SWIPE, (e, slick, direction) -> {
+        $(getElement()).on(CarouselEvents.SWIPE, (e, slick, direction) -> {
             SwipeEvent.fire(this, direction.toString());
             return true;
         });
 
-        // Tablet Settings
-        if (tabletSettings != null) {
-            JsResponsiveOptions tabletOpt = new JsResponsiveOptions();
-            tabletOpt.breakpoint = 992;
-            tabletOpt.settings = tabletSettings;
-            responsiveOptions[0] = tabletOpt;
-        }
+        load();
+    }
 
-        // Mobile Settings
-        if (mobileSettings != null) {
-            JsResponsiveOptions mobileOpt = new JsResponsiveOptions();
-            mobileOpt.breakpoint = 600;
-            mobileOpt.settings = mobileSettings;
-            responsiveOptions[1] = mobileOpt;
-        }
-
-        options.responsive = responsiveOptions;
-        Scheduler.get().scheduleDeferred(() -> getCarouselElement().slick(options));
+    @Override
+    public void load() {
+        options.nextArrow = "#" + getBtnNextArrow().getId();
+        options.prevArrow = "#" + getBtnPrevArrow().getId();
+        Scheduler.get().scheduleDeferred(() -> $(container.getElement()).slick(options));
     }
 
     @Override
     protected void onUnload() {
         super.onUnload();
 
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        $(getElement()).off(CarouselEvents.AFTER_CHANGE);
+        $(getElement()).off(CarouselEvents.BEFORE_CHANGE);
+        $(getElement()).off(CarouselEvents.INIT);
+        $(getElement()).off(CarouselEvents.DESTROY);
+        $(getElement()).off(CarouselEvents.SWIPE);
+
         destroy();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+    public void destroy() {
+        command("destroy");
     }
 
     @Override
     public void add(Widget child) {
         if (child instanceof MaterialCarouselFixedItem) {
-            getWrapper().add(child);
+            wrapper.add(child);
         } else {
-            getContainer().add(child);
-            getCarouselElement().slick("slickAdd", child.getElement());
+            container.add(child);
+            command("slickAdd", child.getElement());
         }
     }
 
     @Override
     public boolean remove(int index) {
-        getCarouselElement().slick("slickRemove", index);
+        command("slickRemove", index);
         return true;
     }
 
@@ -208,12 +207,65 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
         getContainer().clear();
     }
 
-    protected JsCarousel getCarouselElement() {
-        return $("#" + getContainer().getId());
+    /**
+     * Returns the current slide index
+     */
+    public int getCurrentSlideIndex() {
+        if (command("slickCurrentSlide").toString() != null) {
+            return Integer.parseInt(command("slickCurrentSlide").toString());
+        }
+        return -1;
     }
 
-    public void destroy() {
-        getCarouselElement().slick("destroy");
+    /**
+     * Navigates to a slide by index with animate as second parameter
+     */
+    public void goToSlide(int index, boolean noAnimation) {
+        command("slickGoTo", index, noAnimation);
+    }
+
+    /**
+     * Navigates to a slide by index with animation
+     */
+    public void goToSlide(int index) {
+        command("slickGoTo", index, false);
+    }
+
+    /**
+     * Navigates to the next slide
+     */
+    public void next() {
+        command("slickNext");
+    }
+
+    /**
+     * Navigates to the previous slide
+     */
+    public void previous() {
+        command("slickPrev");
+    }
+
+    /**
+     * Pauses autoplay
+     */
+    public void pause() {
+        command("slickPause");
+    }
+
+    /**
+     * Starts autoplay
+     */
+    public void play() {
+        command("slickPlay");
+    }
+
+    protected Object command(String action, Object... params) {
+        if (container == null) {
+            GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
+        } else {
+            return $("#" + container.getId()).slick(action, params);
+        }
+        return null;
     }
 
     /**
@@ -228,268 +280,222 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     }
 
     public boolean isShowDots() {
-        return showDots;
+        return options.dots;
     }
 
     /**
      * Show dots indicators (Default : true)
      */
     public void setShowDots(boolean showDots) {
-        this.showDots = showDots;
+        options.dots = showDots;
     }
 
     public boolean isShowArrows() {
-        return showArrows;
+        return options.arrows;
     }
 
     /**
      * Show Prev/Next Arrows (Default : true)
      */
     public void setShowArrows(boolean showArrows) {
-        this.showArrows = showArrows;
+        options.arrows = showArrows;
         getBtnPrevArrow().setVisible(showArrows);
         getBtnNextArrow().setVisible(showArrows);
     }
 
     public int getSlidesToShow() {
-        return slidesToShow;
+        return options.slidesToShow;
     }
 
     /**
      * Number of Slides to show (Default : 1)
      */
     public void setSlidesToShow(int slidesToShow) {
-        this.slidesToShow = slidesToShow;
+        options.slidesToShow = slidesToShow;
     }
 
     public int getSlidesToScroll() {
-        return slidesToScroll;
+        return options.slidesToScroll;
     }
 
     /**
      * Number of Slides to Scroll (Default : 1)
      */
     public void setSlidesToScroll(int slidesToScroll) {
-        this.slidesToScroll = slidesToScroll;
+        options.slidesToScroll = slidesToScroll;
     }
 
     public boolean isInfinite() {
-        return infinite;
+        return options.infinite;
     }
 
     /**
      * Provides Infinite loop sliding (Default : true)
      */
     public void setInfinite(boolean infinite) {
-        this.infinite = infinite;
+        options.infinite = infinite;
     }
 
     public boolean isCenterMode() {
-        return centerMode;
+        return options.centerMode;
     }
 
     /**
      * Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts. (Default : false)
      */
     public void setCenterMode(boolean centerMode) {
-        this.centerMode = centerMode;
+        options.centerMode = centerMode;
     }
 
     public boolean isVariableWidth() {
-        return variableWidth;
+        return options.variableWidth;
     }
 
     /**
      * Allow any Variable width slides (Default : false)
      */
     public void setVariableWidth(boolean variableWidth) {
-        this.variableWidth = variableWidth;
+        options.variableWidth = variableWidth;
     }
 
     public boolean isAdaptiveHeight() {
-        return adaptiveHeight;
+        return options.adaptiveHeight;
     }
 
     /**
      * Enables adaptive height for single slide horizontal carousels. (Default : false)
      */
     public void setAdaptiveHeight(boolean adaptiveHeight) {
-        this.adaptiveHeight = adaptiveHeight;
+        options.adaptiveHeight = adaptiveHeight;
     }
 
     public int getSpeed() {
-        return speed;
+        return options.speed;
     }
 
     /**
      * Slide/Fade animation speed in milliseconds (Default : 300ms)
      */
     public void setSpeed(int speed) {
-        this.speed = speed;
+        options.speed = speed;
     }
 
     public String getCenterPadding() {
-        return centerPadding;
+        return options.centerPadding;
     }
 
     /**
      * Side padding when in center mode (px or %) (Default : 50px)
      */
     public void setCenterPadding(String centerPadding) {
-        this.centerPadding = centerPadding;
+        options.centerPadding = centerPadding;
     }
 
     public boolean isAutoplay() {
-        return autoplay;
+        return options.autoplay;
     }
 
     /**
      * Enables Autoplay (Default : false)
      */
     public void setAutoplay(boolean autoplay) {
-        this.autoplay = autoplay;
+        options.autoplay = autoplay;
     }
 
     public int getAutoplaySpeed() {
-        return autoplaySpeed;
+        return options.autoplaySpeed;
     }
 
     /**
      * Autoplay Speed in milliseconds (Default : 3000 ms or 3 seconds)
      */
     public void setAutoplaySpeed(int autoplaySpeed) {
-        this.autoplaySpeed = autoplaySpeed;
+        options.autoplaySpeed = autoplaySpeed;
     }
 
     public double getEdgeFriction() {
-        return edgeFriction;
+        return options.edgeFriction;
     }
 
     /**
      * Resistance when swiping edges of non-infinite carousels
      */
     public void setEdgeFriction(double edgeFriction) {
-        this.edgeFriction = edgeFriction;
+        options.edgeFriction = edgeFriction;
     }
 
     public boolean isFade() {
-        return fade;
+        return options.fade;
     }
 
     /**
      * Enable Fade Transition
      */
     public void setFade(boolean fade) {
-        this.fade = fade;
-    }
-
-    /**
-     * Returns the current slide index
-     */
-    public int getCurrentSlideIndex() {
-        if (getCarouselElement().slick("slickCurrentSlide").toString() != null) {
-            return Integer.parseInt(getCarouselElement().slick("slickCurrentSlide").toString());
-        }
-        return -1;
-    }
-
-    /**
-     * Navigates to a slide by index with animate as second parameter
-     */
-    public void goToSlide(int index, boolean noAnimation) {
-        getCarouselElement().slick("slickGoTo", index, noAnimation);
-    }
-
-    /**
-     * Navigates to a slide by index with animation
-     */
-    public void goToSlide(int index) {
-        getCarouselElement().slick("slickGoTo", index, false);
-    }
-
-    /**
-     * Navigates to the next slide
-     */
-    public void next() {
-        getCarouselElement().slick("slickNext");
-    }
-
-    /**
-     * Navigates to the previous slide
-     */
-    public void previous() {
-        getCarouselElement().slick("slickPrev");
-    }
-
-    /**
-     * Pauses autoplay
-     */
-    public void pause() {
-        getCarouselElement().slick("slickPause");
-    }
-
-    /**
-     * Starts autoplay
-     */
-    public void play() {
-        getCarouselElement().slick("slickPlay");
+        options.fade = fade;
     }
 
     public boolean isFocusOnSelect() {
-        return focusOnSelect;
+        return options.focusOnSelect;
     }
 
     /**
      * Enable focus on selected element (click)
      */
     public void setFocusOnSelect(boolean focusOnSelect) {
-        this.focusOnSelect = focusOnSelect;
+        options.focusOnSelect = focusOnSelect;
     }
 
     @Override
     public void setType(CarouselType type) {
-        typeMixin.setType(type);
+        getTypeMixin().setType(type);
     }
 
     @Override
     public CarouselType getType() {
-        return typeMixin.getType();
+        return getTypeMixin().getType();
     }
 
     public JsCarouselOptions getTabletSettings() {
-        return tabletSettings;
+        return options.responsive[TABLET_SETTINGS].settings;
     }
 
     public void setTabletSettings(JsCarouselOptions tabletSettings) {
-        this.tabletSettings = tabletSettings;
+        options.responsive[TABLET_SETTINGS].settings = tabletSettings;
     }
 
     public JsCarouselOptions getMobileSettings() {
-        return mobileSettings;
+        return options.responsive[MOBILE_SETTINGS].settings;
     }
 
     public void setMobileSettings(JsCarouselOptions mobileSettings) {
-        this.mobileSettings = mobileSettings;
+        options.responsive[MOBILE_SETTINGS].settings = mobileSettings;
     }
 
     public void setTabNavigation(MaterialTab tab) {
-        if (tabSelectionHandler == null) {
-            tabSelectionHandler = tab.addSelectionHandler(e -> goToSlide(e.getSelectedItem()));
-        }
-
-        if (tabBeforeChangeHandler == null) {
-            tabBeforeChangeHandler = addBeforeChangeHandler(e -> tab.setTabIndex(e.getNextSlide()));
-        }
+        registerHandler(tab.addSelectionHandler(e -> goToSlide(e.getSelectedItem())));
+        registerHandler(addBeforeChangeHandler(e -> tab.setTabIndex(e.getNextSlide())));
     }
 
     public void setCarouselNavigation(MaterialCarousel navigation) {
-        if (afterChangeHandler == null) {
-            afterChangeHandler = navigation.addAfterChangeHandler(event -> goToSlide(event.getCurrentSlide()));
-        }
-        if (beforeChangeHandler == null) {
-            beforeChangeHandler = addBeforeChangeHandler(event -> navigation.goToSlide(event.getNextSlide()));
-        }
+        registerHandler(navigation.addAfterChangeHandler(event -> goToSlide(event.getCurrentSlide())));
+        registerHandler(addBeforeChangeHandler(event -> navigation.goToSlide(event.getNextSlide())));
+    }
 
+    public MaterialPanel getWrapper() {
+        return wrapper;
+    }
+
+    public MaterialPanel getContainer() {
+        return container;
+    }
+
+    public MaterialButton getBtnNextArrow() {
+        return nextArrow;
+    }
+
+    public MaterialButton getBtnPrevArrow() {
+        return previousArrow;
     }
 
     @Override
@@ -515,5 +521,12 @@ public class MaterialCarousel extends MaterialCarouselBase implements HasType<Ca
     @Override
     public HandlerRegistration addSwipeHandler(SwipeEvent.SwipeHandler handler) {
         return addHandler(handler, SwipeEvent.getType());
+    }
+
+    protected CssTypeMixin<CarouselType, MaterialCarousel> getTypeMixin() {
+        if (typeMixin == null) {
+            typeMixin = new CssTypeMixin<>(this);
+        }
+        return typeMixin;
     }
 }

@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.carousel.js;
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +31,54 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsCarouselOptions {
+
+    private JsCarouselOptions() {}
+
+    @JsOverlay
+    public final static JsCarouselOptions create() {
+        JsCarouselOptions options = new JsCarouselOptions();
+        options.infinite = false;
+        options.centerMode = false;
+        options.variableWidth = false;
+        options.dots = true;
+        options.arrows = true;
+        options.adaptiveHeight = false;
+        options.autoplay = false;
+        options.fade = false;
+        options.slidesToShow = 1;
+        options.slidesToScroll = 1;
+        options.speed = 300;
+        options.autoplaySpeed = 3000;
+        options.edgeFriction = 0.15;
+        options.swipeToSlide = true;
+        options.focusOnSelect = false;
+        options.centerPadding = "100px";
+
+        // Responsive options
+        JsResponsiveOptions[] responsiveOptions = new JsResponsiveOptions[]{};
+        JsCarouselOptions tabletSettings = new JsCarouselOptions();
+        JsCarouselOptions mobileSettings = new JsCarouselOptions();
+
+        // Tablet Settings
+        if (tabletSettings != null) {
+            JsResponsiveOptions tabletOpt = new JsResponsiveOptions();
+            tabletOpt.breakpoint = 992;
+            tabletOpt.settings = tabletSettings;
+            responsiveOptions[0] = tabletOpt;
+        }
+
+        // Mobile Settings
+        if (mobileSettings != null) {
+            JsResponsiveOptions mobileOpt = new JsResponsiveOptions();
+            mobileOpt.breakpoint = 600;
+            mobileOpt.settings = mobileSettings;
+            responsiveOptions[1] = mobileOpt;
+        }
+
+        options.responsive = responsiveOptions;
+
+        return options;
+    }
 
     @JsProperty
     public boolean accessibility;

@@ -20,12 +20,13 @@
 package gwt.material.design.addins.client.timeline;
 
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.MaterialWidget;
 
 public class MaterialTimeLineHeader extends MaterialWidget {
 
     public MaterialTimeLineHeader() {
-        super(Document.get().createDivElement(), "timeline-header");
+        super(Document.get().createDivElement(), AddinsCssName.TIMELINE_HEADER);
     }
 
     @Override

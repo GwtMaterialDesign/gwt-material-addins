@@ -17,22 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.timeline;
+package gwt.material.design.addins.client.carousel.ui;
 
-import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.constants.ButtonType;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.WavesType;
+import gwt.material.design.client.ui.MaterialButton;
 
-public class MaterialTimeLineContent extends MaterialWidget {
-
-    public MaterialTimeLineContent() {
-        super(Document.get().createDivElement(), AddinsCssName.TIMELINE_CONTENT);
-    }
+public class NextArrow extends MaterialButton {
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        setGrid("s10 m9 l9");
+        setIconType(IconType.KEYBOARD_ARROW_RIGHT);
+        setType(ButtonType.FLOATING);
+        setWaves(WavesType.DEFAULT);
+        setText("Next");
+        addStyleName(AddinsCssName.CAROUSEL_NEXT_ARROW);
+        setId(DOM.createUniqueId());
     }
 }

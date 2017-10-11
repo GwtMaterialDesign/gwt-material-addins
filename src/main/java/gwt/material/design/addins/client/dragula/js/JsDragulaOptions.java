@@ -31,6 +31,19 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsDragulaOptions {
 
+    private JsDragulaOptions() {}
+
+    public static final JsDragulaOptions create() {
+        JsDragulaOptions options = new JsDragulaOptions();
+        options.direction = "vertical";
+        options.copy = false;
+        options.copySortSource = false;
+        options.revertOnSpill = false;
+        options.removeOnSpill = false;
+        options.ignoreInputTextSelection = true;
+        return options;
+    }
+
     @JsProperty
     public String direction;
 
