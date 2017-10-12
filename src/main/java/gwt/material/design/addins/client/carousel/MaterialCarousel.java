@@ -106,6 +106,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
 
     public MaterialCarousel() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
+        container.setId(DOM.createUniqueId());
     }
 
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
@@ -115,7 +116,6 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         super.onLoad();
 
         wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
-        container.setId(DOM.createUniqueId());
         wrapper.add(container);
 
         super.add(nextArrow);
@@ -155,7 +155,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     public void load() {
         options.nextArrow = "#" + getBtnNextArrow().getId();
         options.prevArrow = "#" + getBtnPrevArrow().getId();
-        Scheduler.get().scheduleDeferred(() -> $(container.getElement()).slick(options));
+        $(container.getElement()).slick(options);
     }
 
     @Override
@@ -183,7 +183,9 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     public void destroy() {
-        command("destroy");
+        if (container != null) {
+            command("destroy");
+        }
     }
 
     @Override
@@ -260,7 +262,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     protected Object command(String action, Object... params) {
-        if (container == null) {
+        if (container == null && container.isAttached()) {
             GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
         } else {
             return $("#" + container.getId()).slick(action, params);
