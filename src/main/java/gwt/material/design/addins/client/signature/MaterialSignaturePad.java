@@ -106,7 +106,7 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
 
     @Override
     public void unload() {
-        clear();
+        getSignaturePad().off();
     }
 
     @Override
@@ -155,6 +155,10 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setDotSize(double dotSize) {
         options.dotSize = dotSize;
+
+        if (signaturePad != null) {
+            signaturePad.dotSize = dotSize;
+        }
     }
 
     @Override
@@ -165,6 +169,10 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setLineMinWidth(double lineMinWidth) {
         options.minWidth = lineMinWidth;
+
+        if (signaturePad != null) {
+            signaturePad.minWidth = lineMinWidth;
+        }
     }
 
     @Override
@@ -175,6 +183,10 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setLineMaxWidth(double lineMaxWidth) {
         options.maxWidth = lineMaxWidth;
+
+        if (signaturePad != null) {
+            signaturePad.maxWidth = lineMaxWidth;
+        }
     }
 
     @Override
@@ -185,6 +197,10 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setThrottle(int throttle) {
         options.throttle = throttle;
+
+        if (signaturePad != null) {
+            signaturePad.throttle = throttle;
+        }
     }
 
     @Override
@@ -195,6 +211,10 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setPenColor(String penColor) {
         options.penColor = penColor;
+
+        if (signaturePad != null) {
+            signaturePad.penColor = penColor;
+        }
     }
 
     @Override
@@ -205,6 +225,10 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public void setVelocityFilterWeight(double velocityFilterWeight) {
         options.velocityFilterWeight = velocityFilterWeight;
+
+        if (signaturePad != null) {
+            signaturePad.velocityFilterWeight = velocityFilterWeight;
+        }
     }
 
     public static native double getRatio() /*-{
