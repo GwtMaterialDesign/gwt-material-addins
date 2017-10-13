@@ -40,19 +40,20 @@ public class JsCropperOptions {
         JsCropperOptions options = new JsCropperOptions();
 
         JsCropperDimension viewPort = new JsCropperDimension();
-        viewPort.height = 100;
-        viewPort.width = 100;
-        viewPort.type = Shape.SQUARE.getName();
+        viewPort.height = 200;
+        viewPort.width = 200;
+        viewPort.type = Shape.SQUARE.getCssName();
 
         JsCropperDimension boundary = new JsCropperDimension();
-        boundary.height = 200;
-        boundary.width = 200;
-        boundary.type = Shape.SQUARE.getName();
+        boundary.height = 400;
+        boundary.width = 400;
+        boundary.type = Shape.SQUARE.getCssName();
 
         options.viewport = viewPort;
         options.boundary = boundary;
         options.enableZoom = true;
         options.enableOrientation = true;
+        options.enableResize = true;
         options.mouseWheelZoom = true;
         options.showZoomer = true;
 
@@ -94,6 +95,12 @@ public class JsCropperOptions {
      */
     @JsProperty
     public boolean enforceBoundary;
+
+    /**
+     * Provides the ability to resize your viewport target
+     */
+    @JsProperty
+    public boolean enableResize;
 
     /**
      * Enable or disable the ability to use the mouse wheel to zoom in and out on a cropper instance

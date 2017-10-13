@@ -52,6 +52,7 @@ import java.util.Date;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#livestamp">Material Live Stamp</a>
+ * @see <a href="https://github.com/mattbradley/livestampjs">LiveStamp 1.1.2</a>
  */
 public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLoader {
 
@@ -68,7 +69,7 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
     }
 
     public MaterialLiveStamp() {
-        super(Document.get().createLabelElement());
+        super(Document.get().createSpanElement());
     }
 
     @Override

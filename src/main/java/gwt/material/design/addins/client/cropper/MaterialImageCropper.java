@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.cropper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.cropper.constants.Shape;
 import gwt.material.design.addins.client.cropper.constants.Type;
 import gwt.material.design.addins.client.cropper.events.CropEvent;
 import gwt.material.design.addins.client.cropper.events.HasCropEvents;
@@ -56,6 +57,8 @@ import static gwt.material.design.addins.client.cropper.js.JsCropper.$;
  * </pre>
  *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#imageCropper">Material Image Cropper</a>
+ * @see <a href="https://github.com/Foliotek/Croppie">Croppie 2.5.0</a>
  */
 //@formatter:on
 public class MaterialImageCropper extends MaterialImage implements JsLoader, HasCropEvents {
@@ -136,7 +139,6 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
      */
     public void crop(String url, Type type) {
         setUrl(url);
-        reload();
         bind(url, () -> crop(type));
     }
 
@@ -159,7 +161,7 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
      * @param degrees - Valid values 90, 180, 270, -90, -180, -270
      */
     public void rotate(int degrees) {
-        cropper.croppie("rotate", degrees);
+        cropper.rotate(degrees);
     }
 
     /**
@@ -245,6 +247,17 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
         options.enableZoom = enableZoom;
     }
 
+    public boolean isEnableResize() {
+        return options.enableResize;
+    }
+
+    /**
+     * Provides the ability to resize your viewport target
+     */
+    public void setEnableResize(boolean enableResize) {
+        options.enableResize = enableResize;
+    }
+
     public boolean isEnforceBoundary() {
         return options.enforceBoundary;
     }
@@ -269,6 +282,14 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
 
     public boolean isShowZoomer() {
         return options.showZoomer;
+    }
+
+    public Shape getShape() {
+        return getViewPort().type != null ? Shape.fromStyleName(options.viewport.type) : null;
+    }
+
+    public void setShape(Shape shape) {
+        getViewPort().type = shape.getCssName();
     }
 
     /**

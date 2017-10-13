@@ -36,6 +36,7 @@ import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
+import gwt.material.design.client.ui.MaterialToast;
 
 //@formatter:off
 
@@ -51,6 +52,8 @@ import gwt.material.design.client.base.viewport.WidthBoundary;
  * {@code <ma:signature.MaterialSignaturePad dotSize="5" lineMinWidth="5" lineMaxWidth="10" />}
  *
  * @author kevzlou7979
+ * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#signaturePad">Material Signature Pad</a>
+ * @see <a href="https://github.com/szimek/signature_pad">LiveStamp SignaturePad 2.3.0</a>
  */
 //@formatter:on
 public class MaterialSignaturePad extends MaterialWidget implements JsLoader, HasSignaturePadOptions, HasSignatureHandlers {

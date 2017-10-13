@@ -75,6 +75,7 @@ import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#carousel">Material Carousel</a>
+ * @see <a href="https://github.com/kenwheeler/slick">SlickJs 1.6.0</a>
  */
 //@formatter:on
 public class MaterialCarousel extends MaterialWidget implements JsLoader, HasType<CarouselType>, HasCarouselEvents {

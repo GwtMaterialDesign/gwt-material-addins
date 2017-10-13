@@ -32,11 +32,11 @@ public class PreviousArrow extends MaterialButton {
     protected void onLoad() {
         super.onLoad();
 
-        setId(DOM.createUniqueId());
         setIconType(IconType.KEYBOARD_ARROW_LEFT);
         setType(ButtonType.FLOATING);
         setWaves(WavesType.DEFAULT);
         setText("Previous");
         addStyleName(AddinsCssName.CAROUSEL_PREV_ARROW);
+        setId(DOM.createUniqueId());
     }
 }

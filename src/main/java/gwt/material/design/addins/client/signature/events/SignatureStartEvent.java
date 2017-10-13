@@ -32,22 +32,19 @@ public class SignatureStartEvent extends GwtEvent<SignatureStartEvent.SignatureS
         void onSignatureStart(SignatureStartEvent event);
     }
 
-    public static final Type<SignatureStartHandler> TYPE = new Type<>();
-
-    public SignatureStartEvent() {
-    }
+    public static final Type<SignatureStartEvent.SignatureStartHandler> TYPE = new Type<>();
 
     public static void fire(HasHandlers source) {
         source.fireEvent(new SignatureStartEvent());
     }
 
     @Override
-    public Type<SignatureStartHandler> getAssociatedType() {
+    public Type<SignatureStartEvent.SignatureStartHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(SignatureStartHandler handler) {
+    protected void dispatch(SignatureStartEvent.SignatureStartHandler handler) {
         handler.onSignatureStart(this);
     }
 }

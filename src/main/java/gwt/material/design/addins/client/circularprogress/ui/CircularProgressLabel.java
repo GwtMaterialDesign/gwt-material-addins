@@ -29,8 +29,9 @@ public class CircularProgressLabel extends Span {
         super.onLoad();
     }
 
-    public void setSize(double height) {
-        setHeight(height + "px");
-        getElement().getStyle().setLineHeight(height, Style.Unit.PX);
+    public void setSize(double size) {
+        setWidth(size + "px");
+        setHeight(size + "px");
+        getElement().getStyle().setLineHeight(size, Style.Unit.PX);
     }
 }

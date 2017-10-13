@@ -19,12 +19,18 @@
  */
 package gwt.material.design.addins.client.cropper.constants;
 
+import com.google.gwt.dom.client.Style;
+import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
+import gwt.material.design.client.base.helper.EnumHelper;
+import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.constants.CssType;
+
 /**
  * The cropper guideline shape within the viewport defaults to {@link #SQUARE}
  *
  * @author kevzlou7979
  */
-public enum  Shape {
+public enum  Shape implements CssType {
 
     SQUARE("square"),
     CIRCLE("circle");
@@ -35,7 +41,12 @@ public enum  Shape {
         this.name = name;
     }
 
-    public String getName() {
+    @Override
+    public String getCssName() {
         return name;
+    }
+
+    public static Shape fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, Shape.class, SQUARE);
     }
 }

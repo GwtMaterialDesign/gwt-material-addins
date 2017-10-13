@@ -58,6 +58,7 @@ import gwt.material.design.jquery.client.api.Functions;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#countup">Material CountUp</a>
+ * @see <a href="https://github.com/inorganik/countUp.js">CountUpJs 1.9.0</a>
  */
 //@formatter:on
 public class MaterialCountUp extends AbstractValueWidget<Double> {

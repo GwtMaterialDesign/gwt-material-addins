@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.circularprogress;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -31,6 +32,7 @@ import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.FontSizeMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
 
 import static gwt.material.design.addins.client.circularprogress.js.JsCircularProgress.$;
@@ -59,6 +61,7 @@ import static gwt.material.design.addins.client.circularprogress.js.JsCircularPr
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#circularprogress">Material Circular Progress</a>
+ * @see <a href="https://github.com/kottenator/jquery-circle-progress">jquery-circle-progress 1.2.2</a>
  */
 public class MaterialCircularProgress extends AbstractValueWidget<Double> implements JsLoader, HasCircularProgressHandlers {
 
@@ -77,6 +80,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     private Color fillColor = Color.BLUE;
     private Color emptyFillColor = Color.GREY_LIGHTEN_2;
 
+    private ToggleStyleMixin<MaterialWidget> responsiveMixin;
     private JsCircularProgressOptions options = JsCircularProgressOptions.create();
     private FontSizeMixin<MaterialWidget> fontSizeMixin;
 
@@ -111,7 +115,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     @Override
     public void load() {
-        $(getElement()).circleProgress(options);
+        Scheduler.get().scheduleDeferred(() -> $(getElement()).circleProgress(options));
     }
 
     @Override
@@ -223,8 +227,29 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
         label.setText(text);
     }
 
+    public boolean isResponsive() {
+        return getResponsiveMixin().isOn();
+    }
+
+    /**
+     * Enable Responsive circular progress
+     * If responsive we will set the size to maximum value = 1000,
+     * else set it to the default size = 100
+     **/
+    public void setResponsive(boolean responsive) {
+        options.size = responsive == true ? 1000 : 100;
+        getResponsiveMixin().setOn(responsive);
+    }
+
     public CircularProgressLabel getLabel() {
         return label;
+    }
+
+    public ToggleStyleMixin<MaterialWidget> getResponsiveMixin() {
+        if (responsiveMixin == null) {
+            responsiveMixin = new ToggleStyleMixin(this, AddinsCssName.RESPONSIVE);
+        }
+        return responsiveMixin;
     }
 
     @Override

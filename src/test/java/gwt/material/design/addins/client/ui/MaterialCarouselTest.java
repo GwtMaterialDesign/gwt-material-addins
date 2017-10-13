@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.ui;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.carousel.MaterialCarousel;
+import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -49,6 +50,21 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
         tabletOptions.slidesToScroll = 4;
         carousel.setTabletSettings(tabletOptions);
         assertEquals(tabletOptions, carousel.getTabletSettings());
+    }
+
+    public void testTypes() {
+        // given
+        MaterialCarousel carousel = getWidget();
+
+        // when / then
+        carousel.setType(CarouselType.IMAGE);
+        assertEquals(CarouselType.IMAGE, carousel.getType());
+        assertTrue(carousel.getElement().hasClassName(CarouselType.IMAGE.getCssName()));
+
+        // when / then
+        carousel.setType(CarouselType.ONBOARD);
+        assertEquals(CarouselType.ONBOARD, carousel.getType());
+        assertTrue(carousel.getElement().hasClassName(CarouselType.ONBOARD.getCssName()));
     }
 
     public void testEvents() {

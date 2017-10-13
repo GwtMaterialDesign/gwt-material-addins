@@ -53,6 +53,7 @@ import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#inputFields">Material Input Fields</a>
+ * @see <a href="https://github.com/Foliotek/Croppie">jQuery-Mask-Plugin 1.14.10</a>
  */
 //@formatter:on
 public class MaterialInputMask extends MaterialTextBox implements JsLoader {

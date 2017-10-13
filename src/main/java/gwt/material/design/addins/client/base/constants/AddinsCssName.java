@@ -114,4 +114,5 @@ public interface AddinsCssName {
     String TIMELINE_HEADER = "timeline-header";
     String TIMELINE_ITEM = "timeline-item";
     String SIGNATURE_PAD = "signature-pad";
+    String RESPONSIVE = "responsive";
 }

@@ -26,30 +26,53 @@ public class MaterialCountUpTest extends MaterialWidgetTest<MaterialCountUp> {
 
     @Override
     protected MaterialCountUp createWidget() {
-        return new MaterialCountUp();
+        MaterialCountUp countUp = new MaterialCountUp();
+        countUp.setStartValue(0);
+        countUp.setEndValue(1);
+        assertEquals(countUp.getStartValue(), 0.0);
+        assertEquals(countUp.getEndValue(), 10.5);
+        return countUp;
     }
 
-    public void testProperties() {
+    public void testSeparatorAndDecimal() {
+        // given
+        MaterialCountUp countUp = getWidget();
+
+        // when / then
+        countUp.setSeparator(",");
+        countUp.setDecimal(".");
+        countUp.setDecimals(2);
+        assertEquals(countUp.getSeparator(), ",");
+        assertEquals(countUp.getDecimal(), ".");
+        assertEquals(countUp.getDecimals(), 2.0);
+    }
+
+    public void testDuration() {
         // given
         MaterialCountUp countup = getWidget();
 
         // when / then
-        countup.setStartValue(0);
-        countup.setEndValue(10.5);
-        countup.setSeparator(",");
-        countup.setDecimal(".");
         countup.setDuration(1000);
-        countup.setDecimals(2);
-        countup.setPrefix("$");
-        countup.setSuffix("US");
-        countup.start();
-        assertEquals(countup.getStartValue(), 0.0);
-        assertEquals(countup.getEndValue(), 10.5);
-        assertEquals(countup.getSeparator(), ",");
-        assertEquals(countup.getDecimal(), ".");
         assertEquals(countup.getDuration(), 1000.0);
-        assertEquals(countup.getDecimals(), 2.0);
-        assertEquals(countup.getPrefix(), "$");
-        assertEquals(countup.getSuffix(), "US");
+    }
+
+    public void testSuffixAndPrefix() {
+        // given
+        MaterialCountUp countUp = getWidget();
+
+        // when / then
+        countUp.setPrefix("$");
+        countUp.setSuffix("US");
+        assertEquals(countUp.getPrefix(), "$");
+        assertEquals(countUp.getSuffix(), "US");
+    }
+
+    public void testReset() {
+        // given
+        MaterialCountUp countUp = getWidget();
+
+        // given / then
+        countUp.reset();
+        assertEquals("", countUp.getElement().getInnerHTML());
     }
 }

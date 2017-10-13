@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.circularprogress.MaterialCircularProgress;
 import gwt.material.design.addins.client.circularprogress.events.CompleteEvent;
 import gwt.material.design.addins.client.circularprogress.events.ProgressEvent;
@@ -144,5 +145,20 @@ public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCir
         assertEquals(0.0, circularProgress.getValue());
         circularProgress.setValue(0.5);
         assertEquals(0.5, circularProgress.getValue());
+    }
+
+    public void testResponsive() {
+        // given
+        MaterialCircularProgress circularProgress = getWidget();
+
+        circularProgress.setResponsive(true);
+        assertTrue(circularProgress.isResponsive());
+        assertTrue(circularProgress.getElement().hasClassName(AddinsCssName.RESPONSIVE));
+        assertEquals(1000, circularProgress.getSize());
+
+        circularProgress.setResponsive(false);
+        assertFalse(circularProgress.isResponsive());
+        assertFalse(circularProgress.getElement().hasClassName(AddinsCssName.RESPONSIVE));
+        assertEquals(100, circularProgress.getSize());
     }
 }

@@ -8,62 +8,62 @@
 }
 
 /** Image Type Carousel **/
-.carousel-image .slick-dots {
+.material-carousel.carousel-image .slick-dots {
     margin-top: -40px;
 }
 
-.carousel-image .slick-dots li {
+.material-carousel.carousel-image .slick-dots li {
     background: rgba(255, 255, 255, 0.5);
 }
 
-.carousel-image .slick-dots li.slick-active {
+.material-carousel.carousel-image .slick-dots li.slick-active {
     background: white;
 }
 
-.carousel-image .carousel-next-arrow {
+.material-carousel.carousel-image .carousel-next-arrow {
     background: transparent;
     box-shadow: none;
 }
 
-.carousel-image .carousel-next-arrow, .carousel-onboard .carousel-next-arrow {
+.material-carousel.carousel-image .carousel-next-arrow, .carousel-onboard .carousel-next-arrow {
     background: transparent;
     box-shadow: none;
     right: 12px;
 }
 
-.carousel-image .carousel-prev-arrow, .carousel-onboard .carousel-prev-arrow {
+.material-carousel.carousel-image .carousel-prev-arrow, .carousel-onboard .carousel-prev-arrow {
     background: transparent;
     box-shadow: none;
     left: 12px;
 }
 
 /** OnBoard Type Carousel **/
-.carousel-onboard .carousel-next-arrow, .carousel-onboard .carousel-prev-arrow {
+.material-carousel.carousel-onboard .carousel-next-arrow, .material-carousel.carousel-onboard .carousel-prev-arrow {
     bottom: 20px;
     top: initial;
     z-index: 1001;
 }
 
-.carousel-onboard .slick-dots {
+.material-carousel.carousel-onboard .slick-dots {
     margin-top: -56px;
     z-index: 1;
     position: relative;
 }
 
-.carousel-onboard .slick-dots li {
+.material-carousel.carousel-onboard .slick-dots li {
     background: rgba(255, 255, 255, 0.5);
 }
 
-.carousel-onboard .slick-dots li.slick-active {
+.material-carousel.carousel-onboard .slick-dots li.slick-active {
     background: white;
 }
 
-.carousel-onboard .slick-slide {
+.material-carousel.carousel-onboard .slick-slide {
     padding-bottom: 80px;
     margin-bottom: 0px;
 }
 
-.carousel-onboard {
+.material-carousel.carousel-onboard {
     top: 0;
     left: 0;
     right: 0;
@@ -73,7 +73,7 @@
     z-index: 1009;
 }
 
-.carousel-onboard img {
+.material-carousel.carousel-onboard img {
     margin: auto;
 }
 
@@ -107,16 +107,16 @@
         margin-bottom: -20px;
     }
 
-    .material-carousel.carousel-onboard .carousel-next-arrow, .material-carousel .carousel-prev-arrow {
+    .material-carousel.carousel-onboard .carousel-next-arrow, .material-carousel.carousel-onboard .carousel-prev-arrow {
         background: white;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     }
 
-    .material-carousel.carousel-onboard .carousel-next-arrow.btn-floating:hover, .material-carousel .carousel-prev-arrow.btn-floating:hover {
+    .material-carousel.carousel-onboard .carousel-next-arrow.btn-floating:hover, .material-carousel.carousel-onboard .carousel-prev-arrow.btn-floating:hover {
         background: #fff;
     }
 
-    .material-carousel.carousel-onboard .carousel-next-arrow i, .material-carousel .carousel-prev-arrow i {
+    .material-carousel.carousel-onboard .carousel-next-arrow i, .material-carousel.carousel-onboard .carousel-prev-arrow i {
         color: #9E9E9E !important;
     }
 
@@ -133,10 +133,12 @@
     }
 
     .material-carousel.carousel-onboard .carousel-next-arrow {
+        top: 50%;
         right: 31%;
     }
 
     .material-carousel.carousel-onboard .carousel-prev-arrow {
+        top: 50%;
         left: 31%;
     }
 }

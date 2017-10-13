@@ -10,6 +10,15 @@
     width: 100%;
 }
 
+.circular-progress.responsive canvas {
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.col.circular-progress span:nth-child(2) {
+    left: 12px;
+}
+
 .col.circular-progress {
     padding: 0px;
 }
