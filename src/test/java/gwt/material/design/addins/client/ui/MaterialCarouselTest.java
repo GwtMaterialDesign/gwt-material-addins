@@ -39,14 +39,14 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
 
         // when / then
         JsCarouselOptions mobileOptions = JsCarouselOptions.create();
-        mobileOptions.slidesToShow = 3;
-        mobileOptions.slidesToScroll = 3;
+        mobileOptions.setSlidesToShow(3);
+        mobileOptions.setSlidesToScroll(3);
         carousel.setMobileSettings(mobileOptions);
         assertEquals(mobileOptions, carousel.getMobileSettings());
 
         JsCarouselOptions tabletOptions = JsCarouselOptions.create();
-        tabletOptions.slidesToShow = 4;
-        tabletOptions.slidesToScroll = 4;
+        tabletOptions.setSlidesToShow(4);
+        tabletOptions.setSlidesToScroll(4);
         carousel.setTabletSettings(tabletOptions);
         assertEquals(tabletOptions, carousel.getTabletSettings());
     }

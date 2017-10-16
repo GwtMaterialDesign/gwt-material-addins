@@ -26,6 +26,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.MaterialAddinWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.events.*;
@@ -34,8 +35,6 @@ import gwt.material.design.addins.client.carousel.ui.NextArrow;
 import gwt.material.design.addins.client.carousel.ui.PreviousArrow;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
@@ -77,7 +76,7 @@ import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#carousel">Material Carousel</a>
  */
 //@formatter:on
-public class MaterialCarousel extends MaterialWidget implements JsLoader, HasType<CarouselType>, HasCarouselEvents {
+public class MaterialCarousel extends MaterialAddinWidget<JsCarouselOptions> implements HasType<CarouselType>, HasCarouselEvents {
 
     static int TABLET_SETTINGS = 0;
     static int MOBILE_SETTINGS = 1;
@@ -99,13 +98,10 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     private PreviousArrow previousArrow = new PreviousArrow();
     private MaterialPanel wrapper = new MaterialPanel();
 
-
-    private JsCarouselOptions options = JsCarouselOptions.create();
-
     private CssTypeMixin<CarouselType, MaterialCarousel> typeMixin;
 
     public MaterialCarousel() {
-        super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
+        super(Document.get().createDivElement(), JsCarouselOptions.create(), AddinsCssName.MATERIAL_CAROUSEL);
     }
 
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
@@ -153,8 +149,11 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
 
     @Override
     public void load() {
-        options.nextArrow = "#" + getBtnNextArrow().getId();
-        options.prevArrow = "#" + getBtnPrevArrow().getId();
+        options.setNextArrow("#" + getBtnNextArrow().getId());
+        options.setPrevArrow("#" + getBtnPrevArrow().getId());
+
+        super.load();
+
         Scheduler.get().scheduleDeferred(() -> $(container.getElement()).slick(options));
     }
 
@@ -280,170 +279,171 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     public boolean isShowDots() {
-        return options.dots;
+        return options.isDots();
     }
 
     /**
      * Show dots indicators (Default : true)
      */
     public void setShowDots(boolean showDots) {
-        options.dots = showDots;
+        options.setDots(showDots);
     }
 
     public boolean isShowArrows() {
-        return options.arrows;
+        return options.isArrows();
     }
 
     /**
      * Show Prev/Next Arrows (Default : true)
      */
     public void setShowArrows(boolean showArrows) {
-        options.arrows = showArrows;
+        options.setArrows(showArrows);
+
         getBtnPrevArrow().setVisible(showArrows);
         getBtnNextArrow().setVisible(showArrows);
     }
 
     public int getSlidesToShow() {
-        return options.slidesToShow;
+        return options.getSlidesToShow();
     }
 
     /**
      * Number of Slides to show (Default : 1)
      */
     public void setSlidesToShow(int slidesToShow) {
-        options.slidesToShow = slidesToShow;
+        options.setSlidesToShow(slidesToShow);
     }
 
     public int getSlidesToScroll() {
-        return options.slidesToScroll;
+        return options.getSlidesToScroll();
     }
 
     /**
      * Number of Slides to Scroll (Default : 1)
      */
     public void setSlidesToScroll(int slidesToScroll) {
-        options.slidesToScroll = slidesToScroll;
+        options.setSlidesToScroll(slidesToScroll);
     }
 
     public boolean isInfinite() {
-        return options.infinite;
+        return options.isInfinite();
     }
 
     /**
      * Provides Infinite loop sliding (Default : true)
      */
     public void setInfinite(boolean infinite) {
-        options.infinite = infinite;
+        options.setInfinite(infinite);
     }
 
     public boolean isCenterMode() {
-        return options.centerMode;
+        return options.isCenterMode();
     }
 
     /**
      * Enables centered view with partial prev/next slides. Use with odd numbered slidesToShow counts. (Default : false)
      */
     public void setCenterMode(boolean centerMode) {
-        options.centerMode = centerMode;
+        options.setCenterMode(centerMode);
     }
 
     public boolean isVariableWidth() {
-        return options.variableWidth;
+        return options.isVariableWidth();
     }
 
     /**
      * Allow any Variable width slides (Default : false)
      */
     public void setVariableWidth(boolean variableWidth) {
-        options.variableWidth = variableWidth;
+        options.setVariableWidth(variableWidth);
     }
 
     public boolean isAdaptiveHeight() {
-        return options.adaptiveHeight;
+        return options.isAdaptiveHeight();
     }
 
     /**
      * Enables adaptive height for single slide horizontal carousels. (Default : false)
      */
     public void setAdaptiveHeight(boolean adaptiveHeight) {
-        options.adaptiveHeight = adaptiveHeight;
+        options.setAdaptiveHeight(adaptiveHeight);
     }
 
     public int getSpeed() {
-        return options.speed;
+        return options.getSpeed();
     }
 
     /**
      * Slide/Fade animation speed in milliseconds (Default : 300ms)
      */
     public void setSpeed(int speed) {
-        options.speed = speed;
+        options.setSpeed(speed);
     }
 
     public String getCenterPadding() {
-        return options.centerPadding;
+        return options.getCenterPadding();
     }
 
     /**
      * Side padding when in center mode (px or %) (Default : 50px)
      */
     public void setCenterPadding(String centerPadding) {
-        options.centerPadding = centerPadding;
+        options.setCenterPadding(centerPadding);
     }
 
     public boolean isAutoplay() {
-        return options.autoplay;
+        return options.isAutoplay();
     }
 
     /**
      * Enables Autoplay (Default : false)
      */
     public void setAutoplay(boolean autoplay) {
-        options.autoplay = autoplay;
+        options.setAutoplay(autoplay);
     }
 
     public int getAutoplaySpeed() {
-        return options.autoplaySpeed;
+        return options.getAutoplaySpeed();
     }
 
     /**
      * Autoplay Speed in milliseconds (Default : 3000 ms or 3 seconds)
      */
     public void setAutoplaySpeed(int autoplaySpeed) {
-        options.autoplaySpeed = autoplaySpeed;
+        options.setAutoplaySpeed(autoplaySpeed);
     }
 
     public double getEdgeFriction() {
-        return options.edgeFriction;
+        return options.getEdgeFriction();
     }
 
     /**
      * Resistance when swiping edges of non-infinite carousels
      */
     public void setEdgeFriction(double edgeFriction) {
-        options.edgeFriction = edgeFriction;
+        options.setEdgeFriction(edgeFriction);
     }
 
     public boolean isFade() {
-        return options.fade;
+        return options.isFade();
     }
 
     /**
      * Enable Fade Transition
      */
     public void setFade(boolean fade) {
-        options.fade = fade;
+        options.setFade(fade);
     }
 
     public boolean isFocusOnSelect() {
-        return options.focusOnSelect;
+        return options.isFocusOnSelect();
     }
 
     /**
      * Enable focus on selected element (click)
      */
     public void setFocusOnSelect(boolean focusOnSelect) {
-        options.focusOnSelect = focusOnSelect;
+        options.setFocusOnSelect(focusOnSelect);
     }
 
     @Override
@@ -457,19 +457,19 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     public JsCarouselOptions getTabletSettings() {
-        return options.responsive[TABLET_SETTINGS].settings;
+        return options.getResponsive()[TABLET_SETTINGS].settings;
     }
 
     public void setTabletSettings(JsCarouselOptions tabletSettings) {
-        options.responsive[TABLET_SETTINGS].settings = tabletSettings;
+        options.getResponsive()[TABLET_SETTINGS].settings = tabletSettings;
     }
 
     public JsCarouselOptions getMobileSettings() {
-        return options.responsive[MOBILE_SETTINGS].settings;
+        return options.getResponsive()[MOBILE_SETTINGS].settings;
     }
 
     public void setMobileSettings(JsCarouselOptions mobileSettings) {
-        options.responsive[MOBILE_SETTINGS].settings = mobileSettings;
+        options.getResponsive()[MOBILE_SETTINGS].settings = mobileSettings;
     }
 
     public void setTabNavigation(MaterialTab tab) {
