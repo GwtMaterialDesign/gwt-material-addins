@@ -26,6 +26,7 @@ import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTab;
 
 public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
 
@@ -148,4 +149,21 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
 
         assertEquals(5, carousel.getContainer().getChildren().size());
     }
+
+    // Test Tab Navigation
+    public void testTabNavigation() {
+        // given
+        MaterialCarousel carousel = getWidget();
+
+        carousel.setTabNavigation(constructTab());
+    }
+
+    protected MaterialTab constructTab() {
+        MaterialTab tab = new MaterialTab();
+
+        return tab;
+    }
+
+    // Test Fullscreen
+    public void testFullscreen() {}
 }
