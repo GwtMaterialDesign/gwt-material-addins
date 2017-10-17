@@ -400,8 +400,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public List<T> getValue() {
         if (!isMultiple()) {
             int index = getSelectedIndex();
+            T value;
             if (index != -1) {
-                return Collections.singletonList(values.get(index));
+
+                // Check when the value is a custom tag
+                if (isTags()) {
+                    value = (T) $(listbox.getElement()).val();
+                } else {
+                    value = values.get(index);
+                }
+
+                return Collections.singletonList(value);
             }
         } else {
             return getSelectedValues();
@@ -559,6 +568,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
                 int selectedIndex = keyIndex.indexOf(val);
                 if (selectedIndex != -1) {
                     selectedValues.add(values.get(selectedIndex));
+                } else {
+                    if (isTags() && val instanceof String) {
+                        selectedValues.add((T) val);
+                    }
                 }
             }
         }
@@ -635,7 +648,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return options.tags;
     }
 
+    /**
+     * Note: Tags will only support String as generic params starting 2.x.
+     */
     public void setTags(boolean tags) {
+        if (tags) GWT.log("Note: Tags will only support String as generic params.");
         options.tags = tags;
     }
 
