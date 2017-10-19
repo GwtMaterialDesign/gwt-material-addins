@@ -71,7 +71,7 @@ public class MaterialPathAnimator implements HasDurationTransition {
     private Element targetElement;
     private Functions.Func animateCallback;
     private Functions.Func reverseCallback;
-    private JsPathAnimatorOptions options = new JsPathAnimatorOptions();
+    private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
 
     public MaterialPathAnimator() {
     }
@@ -289,5 +289,16 @@ public class MaterialPathAnimator implements HasDurationTransition {
 
     public int getExtraTransitionDuration() {
         return (int) (options.extraTransitionDuration * 1000);
+    }
+
+    public boolean isRelativeToWindow() {
+        return options.relativeToWindow;
+    }
+
+    /**
+     * Set to true if your target element is fixed positioned in the window. Default is relative to document (works good with normal elements).
+     */
+    public void setRelativeToWindow(boolean relativeToWindow) {
+        options.relativeToWindow = relativeToWindow;
     }
 }

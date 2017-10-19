@@ -109,21 +109,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         focusElement = Document.get().createDivElement();
         getElement().appendChild(focusElement);
 
-        Style style = getElement().getStyle();
-        style.setWidth(100, Unit.PCT);
-        style.setHeight(100, Unit.PCT);
-        style.setPosition(Position.FIXED);
-        style.setTop(0, Unit.PX);
-        style.setLeft(0, Unit.PX);
-        style.setOverflow(Overflow.HIDDEN);
-        style.setZIndex(10000);
-        style.setDisplay(Display.NONE);
-
-        focusElement.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
-        style = focusElement.getStyle();
-        style.setProperty("content", "\'\'");
-        style.setPosition(Position.ABSOLUTE);
-        style.setZIndex(-1);
+        getElement().getStyle().setOverflow(Overflow.HIDDEN);
+        getElement().getStyle().setDisplay(Display.NONE);
     }
 
     public MaterialCutOut(Color backgroundColor, Boolean circle, Double opacity) {
@@ -141,6 +128,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * @see #setTarget(Widget)
      */
     public void open() {
+        setCutOutStyle();
+
         if (targetElement == null) {
             throw new IllegalStateException("The target element should be set before calling open().");
         }
@@ -190,6 +179,22 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             RootPanel.get().add(this);
         }
         OpenEvent.fire(this, this);
+    }
+
+    protected void setCutOutStyle() {
+        Style style = getElement().getStyle();
+        style.setWidth(100, Unit.PCT);
+        style.setHeight(100, Unit.PCT);
+        style.setPosition(Position.FIXED);
+        style.setTop(0, Unit.PX);
+        style.setLeft(0, Unit.PX);
+        style.setZIndex(10000);
+
+        focusElement.setClassName(AddinsCssName.MATERIAL_CUTOUT_FOCUS);
+        style = focusElement.getStyle();
+        style.setProperty("content", "\'\'");
+        style.setPosition(Position.ABSOLUTE);
+        style.setZIndex(-1);
     }
 
     /**

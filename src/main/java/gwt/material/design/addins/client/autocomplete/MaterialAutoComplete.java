@@ -179,7 +179,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private UnorderedList list = new UnorderedList();
     private SuggestOracle suggestions;
     private TextBox itemBox = new TextBox();
-    private SuggestBox suggestBox;
+    private SuggestBox suggestBox = new SuggestBox();
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
