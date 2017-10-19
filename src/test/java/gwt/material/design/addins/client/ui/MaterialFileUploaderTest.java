@@ -54,10 +54,22 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     }
 
     public void testProperties() {
+        // UiBinder
         // given
-        MaterialFileUploader fileUploader = getWidget();
+        MaterialFileUploader fileUploader = getWidget(false);
 
         // when / then
+        checkProperties(fileUploader);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkProperties(fileUploader);
+    }
+
+    protected void checkProperties(MaterialFileUploader fileUploader) {
         fileUploader.setAcceptedFiles("jpg");
         assertEquals("jpg", fileUploader.getAcceptedFiles());
         fileUploader.setUrl("someurl");
@@ -93,9 +105,20 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     @Override
     public void testEnabled() {
         // given
-        MaterialFileUploader fileUploader = getWidget();
+        MaterialFileUploader fileUploader = getWidget(false);
 
         // when / then
+        checkEnabled(fileUploader);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkEnabled(fileUploader);
+    }
+
+    protected void checkEnabled(MaterialFileUploader fileUploader) {
         fileUploader.setEnabled(true);
         assertTrue(fileUploader.isEnabled());
         assertFalse(fileUploader.getElement().hasClassName(CssName.DISABLED));
@@ -105,16 +128,27 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     }
 
     public void testFileUploaderEvents() {
+        // UiBinder
         // given
-        MaterialFileUploader fileUploader = getWidget();
+        MaterialFileUploader fileUploader = getWidget(false);
 
+        // when / then
+        checkFileUploaderEvents(fileUploader);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkFileUploaderEvents(fileUploader);
+    }
+
+    protected void checkFileUploaderEvents(MaterialFileUploader fileUploader) {
         // when / then
         fileUploader.setEnabled(true);
         // Drag Move
         final boolean[] isDragMoveFired = {false};
-        fileUploader.addDragMoveHandler(dragMoveEvent -> {
-            isDragMoveFired[0] = true;
-        });
+        fileUploader.addDragMoveHandler(dragMoveEvent -> isDragMoveFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<DragMoveEvent.DragMoveHandler>() {
             @Override
             public Type<DragMoveEvent.DragMoveHandler> getAssociatedType() {
@@ -129,9 +163,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isDragMoveFired[0]);
         // Drag Over
         final boolean[] isDragOverFired = {false};
-        fileUploader.addDragOverHandler(dragOverEvent -> {
-            isDragOverFired[0] = true;
-        });
+        fileUploader.addDragOverHandler(dragOverEvent -> isDragOverFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<DragOverEvent.DragOverHandler>() {
             @Override
             public Type<DragOverEvent.DragOverHandler> getAssociatedType() {
@@ -146,9 +178,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isDragOverFired[0]);
         // Drag Start
         final boolean[] isDragStartFired = {false};
-        fileUploader.addDragStartHandler(dragStartEvent -> {
-            isDragStartFired[0] = true;
-        });
+        fileUploader.addDragStartHandler(dragStartEvent -> isDragStartFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<DragStartEvent.DragStartHandler>() {
             @Override
             public Type<DragStartEvent.DragStartHandler> getAssociatedType() {
@@ -163,9 +193,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isDragStartFired[0]);
         // Drag End
         final boolean[] isDragEndFired = {false};
-        fileUploader.addDragEndHandler(dragEndEvent -> {
-            isDragEndFired[0] = true;
-        });
+        fileUploader.addDragEndHandler(dragEndEvent -> isDragEndFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<DragEndEvent.DragEndHandler>() {
             @Override
             public Type<DragEndEvent.DragEndHandler> getAssociatedType() {
@@ -180,9 +208,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isDragEndFired[0]);
         // Drag Enter
         final boolean[] isDragEnterFired = {false};
-        fileUploader.addDragEnterHandler(dragEnterEvent -> {
-            isDragEnterFired[0] = true;
-        });
+        fileUploader.addDragEnterHandler(dragEnterEvent -> isDragEnterFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<DragEnterEvent.DragEnterHandler>() {
             @Override
             public Type<DragEnterEvent.DragEnterHandler> getAssociatedType() {
@@ -197,9 +223,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isDragEnterFired[0]);
         // Drag Leave
         final boolean[] isDragLeaveFired = {false};
-        fileUploader.addDragLeaveHandler(dragLeaveEvent -> {
-            isDragLeaveFired[0] = true;
-        });
+        fileUploader.addDragLeaveHandler(dragLeaveEvent -> isDragLeaveFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<DragLeaveEvent.DragLeaveHandler>() {
             @Override
             public Type<DragLeaveEvent.DragLeaveHandler> getAssociatedType() {
@@ -214,9 +238,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isDragLeaveFired[0]);
         // AddedFile Event
         final boolean[] isAddedFileFired = {false};
-        fileUploader.addAddedFileHandler(event -> {
-            isAddedFileFired[0] = true;
-        });
+        fileUploader.addAddedFileHandler(event -> isAddedFileFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<AddedFileEvent.AddedFileHandler<?>>() {
             @Override
             public Type<AddedFileEvent.AddedFileHandler<?>> getAssociatedType() {
@@ -231,9 +253,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isAddedFileFired[0]);
         // RemovedFile Event
         final boolean[] isRemovedFileFired = {false};
-        fileUploader.addRemovedFileHandler(event -> {
-            isRemovedFileFired[0] = true;
-        });
+        fileUploader.addRemovedFileHandler(event -> isRemovedFileFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<RemovedFileEvent.RemovedFileHandler<?>>() {
             @Override
             public Type<RemovedFileEvent.RemovedFileHandler<?>> getAssociatedType() {
@@ -248,9 +268,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isRemovedFileFired[0]);
         // Error Event
         final boolean[] isErrorFired = {false};
-        fileUploader.addErrorHandler(event -> {
-            isErrorFired[0] = true;
-        });
+        fileUploader.addErrorHandler(event -> isErrorFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<ErrorEvent.ErrorHandler<?>>() {
             @Override
             public Type<ErrorEvent.ErrorHandler<?>> getAssociatedType() {
@@ -265,9 +283,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isErrorFired[0]);
         // TotalUploadProgress Event
         final boolean[] isTotalUploadProgressFired = {false};
-        fileUploader.addTotalUploadProgressHandler(event -> {
-            isTotalUploadProgressFired[0] = true;
-        });
+        fileUploader.addTotalUploadProgressHandler(event -> isTotalUploadProgressFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<TotalUploadProgressEvent.TotalUploadProgressHandler>() {
             @Override
             public Type<TotalUploadProgressEvent.TotalUploadProgressHandler> getAssociatedType() {
@@ -282,9 +298,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isTotalUploadProgressFired[0]);
         // CurrentUploadProgress Event
         final boolean[] isCurrentUploadProgressFired = {false};
-        fileUploader.addCurrentUploadProgressHandler(event -> {
-            isCurrentUploadProgressFired[0] = true;
-        });
+        fileUploader.addCurrentUploadProgressHandler(event -> isCurrentUploadProgressFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<CurrentUploadProgressEvent.CurrentUploadProgressHandler>() {
             @Override
             public Type<CurrentUploadProgressEvent.CurrentUploadProgressHandler> getAssociatedType() {
@@ -299,9 +313,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isCurrentUploadProgressFired[0]);
         // Sending Event
         final boolean[] isSendingFired = {false};
-        fileUploader.addSendingHandler(event -> {
-            isSendingFired[0] = true;
-        });
+        fileUploader.addSendingHandler(event -> isSendingFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<SendingEvent.SendingHandler<?>>() {
             @Override
             public Type<SendingEvent.SendingHandler<?>> getAssociatedType() {
@@ -316,9 +328,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isSendingFired[0]);
         // Success Event
         final boolean[] isSuccessFired = {false};
-        fileUploader.addSuccessHandler(event -> {
-            isSuccessFired[0] = true;
-        });
+        fileUploader.addSuccessHandler(event -> isSuccessFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<SuccessEvent.SuccessHandler<?>>() {
             @Override
             public Type<SuccessEvent.SuccessHandler<?>> getAssociatedType() {
@@ -333,9 +343,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isSuccessFired[0]);
         // Complete Event
         final boolean[] isCompleteFired = {false};
-        fileUploader.addCompleteHandler(event -> {
-            isCompleteFired[0] = true;
-        });
+        fileUploader.addCompleteHandler(event -> isCompleteFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<CompleteEvent.CompleteHandler<?>>() {
             @Override
             public Type<CompleteEvent.CompleteHandler<?>> getAssociatedType() {
@@ -350,9 +358,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isCompleteFired[0]);
         // Canceled Event
         final boolean[] isCanceledFired = {false};
-        fileUploader.addCancelHandler(event -> {
-            isCanceledFired[0] = true;
-        });
+        fileUploader.addCancelHandler(event -> isCanceledFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<CanceledEvent.CanceledHandler<?>>() {
             @Override
             public Type<CanceledEvent.CanceledHandler<?>> getAssociatedType() {
@@ -367,9 +373,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isCanceledFired[0]);
         // MaxFilesReached Event
         final boolean[] isMaxFilesReachedFired = {false};
-        fileUploader.addMaxFilesReachHandler(event -> {
-            isMaxFilesReachedFired[0] = true;
-        });
+        fileUploader.addMaxFilesReachHandler(event -> isMaxFilesReachedFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<MaxFilesReachedEvent.MaxFilesReachedHandler<?>>() {
             @Override
             public Type<MaxFilesReachedEvent.MaxFilesReachedHandler<?>> getAssociatedType() {
@@ -384,9 +388,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isMaxFilesReachedFired[0]);
         // MaxFilesExceeded Event
         final boolean[] isMaxFilesExceededFired = {false};
-        fileUploader.addMaxFilesExceededHandler(event -> {
-            isMaxFilesExceededFired[0] = true;
-        });
+        fileUploader.addMaxFilesExceededHandler(event -> isMaxFilesExceededFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<MaxFilesExceededEvent.MaxFilesExceededHandler<?>>() {
             @Override
             public Type<MaxFilesExceededEvent.MaxFilesExceededHandler<?>> getAssociatedType() {
@@ -402,9 +404,22 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
     }
 
     public void testStructure() {
+        // Standard
         // given
-        MaterialFileUploader fileUploader = getWidget();
+        MaterialFileUploader fileUploader = getWidget(false);
 
+        // when / then
+        checkStructure(fileUploader);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(fileUploader);
+    }
+
+    protected void checkStructure(MaterialFileUploader fileUploader) {
         // when / then
         assertEquals(1, fileUploader.getWidgetCount());
         assertTrue(fileUploader.getWidget(0) instanceof MaterialUploadPreview);

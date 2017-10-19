@@ -36,50 +36,86 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
     }
 
     public void testValue() {
+        // UiBinder
         // given
-        MaterialAvatar avatar = getWidget();
+        MaterialAvatar avatar = getWidget(false);
+
+        // when / then
+        checkValue(avatar);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkValue(avatar);
+    }
+
+    protected void checkValue(MaterialAvatar avatar) {
+        // when / then
         final String NAME = "test1";
         final String HASH_CODE = JsAvatar.md5(NAME);
-
-        // when
         avatar.setValue(NAME);
-
-        // then
         assertEquals(NAME, avatar.getValue());
         assertTrue(avatar.getElement().hasAttribute("data-jdenticon-hash"));
         assertEquals(HASH_CODE, avatar.getElement().getAttribute("data-jdenticon-hash"));
     }
 
     public void testValueChangeHandler() {
-        final String FIRST_VALUE = "test1";
-        final String SECOND_VALUE = "test2";
+        // given
         MaterialAvatar avatar = getWidget();
 
+        // when / then
+        final String FIRST_VALUE = "test1";
+        final String SECOND_VALUE = "test2";
         checkValueChangeEvent(avatar, FIRST_VALUE, SECOND_VALUE);
     }
 
-    // TODO Test Dimension
     public void testDimension() {
+        // UiBinder
+        // given
+        MaterialAvatar avatar = getWidget(false);
+
+        // when / then
+        checkDimension(avatar);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkDimension(avatar);
+    }
+
+    protected void checkDimension(MaterialAvatar avatar) {
         final int WIDTH = 100;
         final int HEIGHT = 100;
-        MaterialAvatar avatar = getWidget();
-
         avatar.setDimension(WIDTH, HEIGHT);
         assertEquals(WIDTH, avatar.getWidth());
         assertEquals(HEIGHT, avatar.getHeight());
     }
 
     public void testSVGWithHeight() {
+        // UiBinder
         // given
-        MaterialAvatar avatar = getWidget();
+        MaterialAvatar avatar = getWidget(false);
+
+        // when / then
+        checkSVGWithHeight(avatar);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkSVGWithHeight(avatar);
+    }
+
+    protected void checkSVGWithHeight(MaterialAvatar avatar) {
         final String WIDTH = "50";
         final String HEIGHT = "50";
-
-        // when
         avatar.setWidth(WIDTH);
         avatar.setHeight(HEIGHT);
-
-        // then
         assertTrue(avatar.getElement().hasAttribute("width"));
         assertEquals(WIDTH, avatar.getElement().getAttribute("width"));
         assertTrue(avatar.getElement().hasAttribute("height"));

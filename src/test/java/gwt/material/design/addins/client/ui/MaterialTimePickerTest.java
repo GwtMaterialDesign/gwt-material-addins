@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
 import gwt.material.design.client.constants.Orientation;
@@ -46,10 +45,22 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
     }
 
     public void testOrientation() {
+        // UiBinder
         // given
-        MaterialTimePicker timePicker = getWidget();
+        MaterialTimePicker timePicker = getWidget(false);
 
         // when / then
+        checkOrientation(timePicker);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkOrientation(timePicker);
+    }
+
+    protected void checkOrientation(MaterialTimePicker timePicker) {
         timePicker.setOrientation(Orientation.LANDSCAPE);
         assertEquals(Orientation.LANDSCAPE, timePicker.getOrientation());
         timePicker.setOrientation(Orientation.PORTRAIT);
@@ -59,18 +70,25 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
     @Override
     public void testEnabled() {
         // given
-        MaterialTimePicker timePicker = getWidget();
+        MaterialTimePicker timePicker = getWidget(false);
 
         // when / then
-        super.checkEnabled(timePicker, timePicker.getTimeInput());
+        checkEnabled(timePicker, timePicker.getTimeInput());
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkEnabled(timePicker, timePicker.getTimeInput());
     }
 
     @Override
     public void testChildren() {
+        // UiBinder
         // given
-        MaterialTimePicker timePicker = getWidget();
+        MaterialTimePicker timePicker = getWidget(true);
 
-        // when / then
         assertEquals(1, timePicker.getWidgetCount());
         assertTrue(timePicker.getWidget(0) instanceof MaterialPanel);
         MaterialPanel panel = (MaterialPanel) timePicker.getWidget(0);
@@ -81,12 +99,13 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
     }
 
     public void testValue() {
+        // UiBinder
         // given
-        MaterialTimePicker timePicker = getWidget();
-        final Date VALUE = new Date(116, 9, 14, 10, 10);
-        final Date SECOND_VALUE = new Date(116, 9, 14, 12, 32);
+        MaterialTimePicker timePicker = getWidget(true);
 
         // when / then
+        final Date VALUE = new Date(116, 9, 14, 10, 10);
+        final Date SECOND_VALUE = new Date(116, 9, 14, 12, 32);
         timePicker.setValue(VALUE);
         assertEquals(VALUE, timePicker.getValue());
         timePicker.reset();

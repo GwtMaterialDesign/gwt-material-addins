@@ -19,18 +19,15 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
 import gwt.material.design.addins.client.richeditor.events.PasteEvent;
+import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 
 /**
  * Test case for rich editor component
@@ -45,8 +42,11 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     }
 
     public void testToolbars() {
+        // UiBinder
         // given
         MaterialRichEditor editor = getWidget();
+
+        // when / then
         final String HTML = "<b>html</b>";
         final ToolbarButton[] MEDIA_OPT = new ToolbarButton[]{ToolbarButton.CK_IMAGE_UPLOAD, ToolbarButton.CK_IMAGE_VIDEO};
         final ToolbarButton[] COLOR_OPT = new ToolbarButton[]{ToolbarButton.COLOR};
@@ -56,8 +56,6 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         final ToolbarButton[] PARA_OPT = new ToolbarButton[]{ToolbarButton.UL, ToolbarButton.OL, ToolbarButton.PARAGRAPH, ToolbarButton.LEFT, ToolbarButton.CENTER, ToolbarButton.RIGHT, ToolbarButton.JUSTIFY, ToolbarButton.OUTDENT, ToolbarButton.INDENT};
         final ToolbarButton[] STYLE_OPT = new ToolbarButton[]{ToolbarButton.STYLE, ToolbarButton.BOLD, ToolbarButton.ITALIC, ToolbarButton.UNDERLINE, ToolbarButton.STRIKETHROUGH, ToolbarButton.CLEAR, ToolbarButton.SUPERSCRIPT, ToolbarButton.SUBSCRIPT};
         final ToolbarButton[] UNDO_OPT = new ToolbarButton[]{ToolbarButton.UNDO, ToolbarButton.REDO, ToolbarButton.HELP};
-
-        // when / then
         assertTrue(editor.getElement().hasClassName(AddinsCssName.EDITOR));
         editor.setAirMode(true);
         assertTrue(editor.isAirMode());
@@ -88,10 +86,10 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     }
 
     public void testReset() {
+        // UiBinder
         // given
         MaterialRichEditor editor = getWidget();
 
-        // when / then
         editor.reset();
         assertEquals("", editor.getHTML());
         assertEquals("", editor.getValue());
@@ -99,11 +97,12 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     }
 
     public void testAirmode() {
+        // UiBinder
         // given
         MaterialRichEditor editor = getWidget();
-        final String AIR_MODE_CLASS = "note-air-editor";
 
         // when / then
+        final String AIR_MODE_CLASS = "note-air-editor";
         editor.setAirMode(true);
         editor.reload();
         assertTrue(editor.getElement().hasClassName(AIR_MODE_CLASS));
@@ -115,8 +114,9 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     public void testValueHtml() {
         // given
         MaterialRichEditor editor = getWidget();
-        final String VALUE = "value";
 
+        // when / then
+        final String VALUE = "value";
         editor.setValue(VALUE);
         assertEquals(VALUE, editor.getValue());
         assertEquals(VALUE, editor.getHTML());
@@ -124,18 +124,44 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
     }
 
     public void testPlaceHolder() {
+        // UiBinder
         // given
-        MaterialRichEditor editor = getWidget();
-        final String PLACEHOLDER = "placeholder";
+        MaterialRichEditor editor = getWidget(false);
 
+        // when / then
+        checkPlaceholder(editor);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkPlaceholder(editor);
+    }
+
+    protected void checkPlaceholder(MaterialRichEditor editor) {
+        final String PLACEHOLDER = "placeholder";
         editor.setPlaceholder(PLACEHOLDER);
         assertEquals(PLACEHOLDER, editor.getPlaceholder());
     }
 
     public void testEvents() {
+        // UiBinder
         // given
-        MaterialRichEditor editor = getWidget();
+        MaterialRichEditor editor = getWidget(false);
 
+        // when / then
+        checkEvents(editor);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkEvents(editor);
+    }
+
+    protected void checkEvents(MaterialRichEditor editor) {
         // when / then
         editor.setEnabled(true);
         // Paste Event

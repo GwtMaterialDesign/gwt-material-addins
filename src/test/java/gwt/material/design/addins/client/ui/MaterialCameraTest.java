@@ -35,31 +35,51 @@ public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture
     }
 
     public void testCameraCaptureEvent() {
+        // UiBinder
         // given
-        MaterialCameraCapture cameraCapture = getWidget();
-        final boolean[] isCaptureFired = new boolean[1];
+        MaterialCameraCapture cameraCapture = getWidget(false);
 
         // when / then
+        checkCameraCaptureEvent(cameraCapture);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkCameraCaptureEvent(cameraCapture);
+    }
+
+    protected void checkCameraCaptureEvent(MaterialCameraCapture cameraCapture) {
+        final boolean[] isCaptureFired = new boolean[1];
+        final String URL = "data:image/png;base64,";
+        final String url = cameraCapture.captureToDataURL();
         cameraCapture.setEnabled(true);
         assertTrue(cameraCapture.isEnabled());
         cameraCapture.addCameraCaptureHandler(event -> isCaptureFired[0] = true);
         cameraCapture.play();
-
-        // given
-        final String URL = "data:image/png;base64,";
-        final String url = cameraCapture.captureToDataURL();
-
-        // when / then
         assertNotNull(url);
         assertEquals(url, URL);
         assertTrue(isCaptureFired[0]);
     }
 
     public void testStartPauseReload() {
+        // UiBinder
         // given
-        MaterialCameraCapture cameraCapture = getWidget();
+        MaterialCameraCapture cameraCapture = getWidget(false);
 
         // when / then
+        checkStartPauseReload(cameraCapture);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStartPauseReload(cameraCapture);
+    }
+
+    protected void checkStartPauseReload(MaterialCameraCapture cameraCapture) {
         cameraCapture.play();
         cameraCapture.setPauseOnUnload(true);
         assertTrue(cameraCapture.isPauseOnUnload());
@@ -67,6 +87,4 @@ public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture
         assertFalse(cameraCapture.isPauseOnUnload());
         cameraCapture.reload();
     }
-
-    // TODO Test other events
 }
