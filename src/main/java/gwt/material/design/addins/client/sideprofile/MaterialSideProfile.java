@@ -23,9 +23,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.resources.client.ImageResource;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.HasNoSideNavSelection;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 
 //@formatter:off
@@ -60,7 +60,7 @@ import gwt.material.design.client.constants.CssName;
  * @see <a href="https://material.io/guidelines/patterns/navigation-drawer.html">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialSideProfile extends MaterialWidget implements HasImage, HasNoSideNavSelection {
+public class MaterialSideProfile extends AbstractValueWidget<String> implements HasImage, HasNoSideNavSelection {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -78,28 +78,39 @@ public class MaterialSideProfile extends MaterialWidget implements HasImage, Has
     }
 
     @Override
-    public void setUrl(String url) {
-        this.url = url;
-        applyBackground(url);
+    public String getValue() {
+        return url;
     }
 
-    protected void applyBackground(String url) {
-        getElement().setAttribute("style", "background-image: url(" + url + "); background-size: cover;");
+    @Override
+    public void setValue(String value, boolean fireEvents) {
+        this.url = value;
+        applyBackground(url);
+        super.setValue(value, fireEvents);
+    }
+
+    @Override
+    public void setUrl(String url) {
+        setValue(url, true);
     }
 
     @Override
     public String getUrl() {
-        return url;
+        return getValue();
     }
 
     @Override
     public void setResource(ImageResource resource) {
         this.resource = resource;
-        applyBackground(resource.getSafeUri().asString());
+        setUrl(resource.getSafeUri().asString());
     }
 
     @Override
     public ImageResource getResource() {
         return resource;
+    }
+
+    protected void applyBackground(String url) {
+        getElement().setAttribute("style", "background-image: url(" + url + "); background-size: cover;");
     }
 }

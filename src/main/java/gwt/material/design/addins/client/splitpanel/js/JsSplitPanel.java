@@ -43,5 +43,5 @@ public class JsSplitPanel extends JQueryElement {
     public static native JsSplitPanel $(String selector);
 
     @JsMethod
-    public native JQueryElement touchSplit(JsSplitPanelOptions options);
+    public native TouchSplitter touchSplit(JsSplitPanelOptions options);
 }

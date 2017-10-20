@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.richeditor.js;
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +31,18 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsRichEditorOptions {
+
+    @JsOverlay
+    public final static JsRichEditorOptions create() {
+        JsRichEditorOptions options = new JsRichEditorOptions();
+        options.airMode = false;
+        options.disableDragAndDrop = false;
+        options.followingToolbar = false;
+        options.minHeight = 200;
+        options.defaultBackColor = "#777";
+        options.defaultTextColor = "#fff";
+        return options;
+    }
 
     @JsProperty
     public Object[][] toolbar;

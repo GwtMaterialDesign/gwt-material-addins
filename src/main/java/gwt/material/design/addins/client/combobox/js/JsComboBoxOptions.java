@@ -20,9 +20,12 @@
 package gwt.material.design.addins.client.combobox.js;
 
 import gwt.material.design.jquery.client.api.JQueryElement;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+
+import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
 /**
  * Options for combobox component
@@ -31,6 +34,16 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsComboBoxOptions {
+
+    private JsComboBoxOptions() {}
+
+    @JsOverlay
+    public static final JsComboBoxOptions create() {
+        JsComboBoxOptions options = new JsComboBoxOptions();
+        options.dropdownParent = $("body");
+        options.closeOnSelect = true;
+        return options;
+    }
 
     @JsProperty
     public String placeholder;

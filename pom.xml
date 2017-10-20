@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>gwt-material-parent</artifactId>
         <groupId>com.github.gwtmaterialdesign</groupId>
-        <version>2.0-rc6</version>
+        <version>2.0-rc7</version>
     </parent>
 
     <artifactId>gwt-material-addins</artifactId>
 
     <name>Gwt Material Addins</name>
-    <version>2.0-rc6</version>
+    <version>2.0-rc7</version>
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>2.0-rc6</gwt-material.version>
+        <gwt-material.version>2.0-rc7</gwt-material.version>
     </properties>
 
     <scm>
         <connection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</connection>
         <developerConnection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</developerConnection>
         <url>http://github.com/GwtMaterialDesign/gwt-material-addins</url>
-        <tag>v2.0-rc6</tag>
+        <tag>v2.0-rc7</tag>
     </scm>
 
     <licenses>
@@ -51,6 +52,25 @@
             <artifactId>gwt-material</artifactId>
             <version>${gwt-material.version}</version>
         </dependency>
+
+        <!-- GwtMaterial Test Jar -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material</artifactId>
+            <version>${gwt-material.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- GwtMaterial Test Sources -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material</artifactId>
+            <version>${gwt-material.version}</version>
+            <classifier>test-sources</classifier>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Gwt -->
         <dependency>
             <groupId>com.google.gwt</groupId>
@@ -92,18 +112,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <excludes>
-                        <exclude>**/*Test.java</exclude>
-                    </excludes>
-                    <includes>
-                        <include>**/GwtMaterialAddinsTest*.java</include>
-                    </includes>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
                         <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
                     </additionalClasspathElements>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <forkMode>always</forkMode>
+                    <argLine>-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.NoOpLog</argLine>
                 </configuration>
             </plugin>
             <plugin>

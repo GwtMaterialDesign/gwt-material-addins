@@ -19,12 +19,24 @@
  */
 package gwt.material.design.addins.client.pathanimator.js;
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsPathAnimatorOptions {
+
+    private JsPathAnimatorOptions() {}
+
+    @JsOverlay
+    public static final JsPathAnimatorOptions create() {
+        JsPathAnimatorOptions options = new JsPathAnimatorOptions();
+        options.duration = 0.3;
+        options.extraTransitionDuration = 1;
+        options.targetShowDuration = 0;
+        return options;
+    }
 
     @JsProperty
     public double duration;
@@ -34,4 +46,7 @@ public class JsPathAnimatorOptions {
 
     @JsProperty
     public double extraTransitionDuration;
+
+    @JsProperty
+    public boolean relativeToWindow;
 }

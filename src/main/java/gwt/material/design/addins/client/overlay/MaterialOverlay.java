@@ -58,7 +58,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>, HasCloseHandlers<MaterialOverlay>, HasDurationTransition {
+public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>,
+        HasCloseHandlers<MaterialOverlay>, HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -118,30 +119,6 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         CloseEvent.fire(this, this);
     }
 
-    @Override
-    public HandlerRegistration addCloseHandler(CloseHandler<MaterialOverlay> closeHandler) {
-        return addHandler(new CloseHandler<MaterialOverlay>() {
-            @Override
-            public void onClose(CloseEvent<MaterialOverlay> closeEvent) {
-                if (isEnabled()) {
-                    closeHandler.onClose(closeEvent);
-                }
-            }
-        }, CloseEvent.getType());
-    }
-
-    @Override
-    public HandlerRegistration addOpenHandler(OpenHandler<MaterialOverlay> openHandler) {
-        return addHandler(new OpenHandler<MaterialOverlay>() {
-            @Override
-            public void onOpen(OpenEvent<MaterialOverlay> openEvent) {
-                if (isEnabled()) {
-                    openHandler.onOpen(openEvent);
-                }
-            }
-        }, OpenEvent.getType());
-    }
-
     /**
      * Get source widget for path animator
      * @return
@@ -187,5 +164,29 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void setExtraTransitionDuration(int extraTransitionDuration) {
         animator.setExtraTransitionDuration(extraTransitionDuration);
+    }
+
+    @Override
+    public HandlerRegistration addCloseHandler(CloseHandler<MaterialOverlay> closeHandler) {
+        return addHandler(new CloseHandler<MaterialOverlay>() {
+            @Override
+            public void onClose(CloseEvent<MaterialOverlay> closeEvent) {
+                if (isEnabled()) {
+                    closeHandler.onClose(closeEvent);
+                }
+            }
+        }, CloseEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addOpenHandler(OpenHandler<MaterialOverlay> openHandler) {
+        return addHandler(new OpenHandler<MaterialOverlay>() {
+            @Override
+            public void onOpen(OpenEvent<MaterialOverlay> openEvent) {
+                if (isEnabled()) {
+                    openHandler.onOpen(openEvent);
+                }
+            }
+        }, OpenEvent.getType());
     }
 }

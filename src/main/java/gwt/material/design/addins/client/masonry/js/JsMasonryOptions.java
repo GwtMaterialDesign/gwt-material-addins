@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.masonry.js;
 
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +32,20 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsMasonryOptions {
+
+    private JsMasonryOptions() {}
+
+    @JsOverlay
+    public static final JsMasonryOptions create() {
+        JsMasonryOptions options = new JsMasonryOptions();
+        options.itemSelector = ".masonry > .col";
+        options.columnWidth = "." + AddinsCssName.COL_SIZER;
+        options.percentPosition = true;
+        options.originLeft = true;
+        options.originTop = true;
+        options.transitionDuration = "400ms";
+        return options;
+    }
 
     @JsProperty
     public String itemSelector;

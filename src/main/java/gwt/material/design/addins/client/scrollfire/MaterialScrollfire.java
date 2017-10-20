@@ -64,9 +64,9 @@ public class MaterialScrollfire {
         }
     }
 
+    private int offset = 100;
     private Element element;
     private Functions.Func callback;
-    private int offset = 100;
 
     public MaterialScrollfire() {
     }

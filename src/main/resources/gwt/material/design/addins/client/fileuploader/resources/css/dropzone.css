@@ -136,7 +136,7 @@
   line-height: 1;
   color: #C3C3C3;
   line-height: 1;
-  margin-top: -16px;
+  margin-top: -16px !important;
 }
 .preview-container .previews .dz-error-message{
   font-size: 0.8em;

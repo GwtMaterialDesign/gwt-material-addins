@@ -43,11 +43,6 @@ public class MaterialUploadCollection extends MaterialCollection {
     private MaterialProgress progress = new MaterialProgress();
 
     public MaterialUploadCollection() {
-        build();
-    }
-
-    @Override
-    protected void build() {
         // Element property
         setStyleName(AddinsCssName.PREVIEWS);
         addStyleName(CssName.CARD);
