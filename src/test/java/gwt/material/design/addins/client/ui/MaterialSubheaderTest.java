@@ -24,6 +24,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.subheader.MaterialSubHeader;
 import gwt.material.design.addins.client.subheader.MaterialSubHeaderContainer;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialSearch;
 
 /**
@@ -71,6 +72,23 @@ public class MaterialSubheaderTest extends MaterialWidgetTest<MaterialSubHeaderC
                 assertTrue(subHeader.getElement().hasClassName(AddinsCssName.SUBHEADER));
             }
         }
+    }
+
+    public void testContainer() {
+        // UiBinder
+        // given
+        MaterialSubHeaderContainer container = getWidget(true);
+
+        // when / then
+        assertEquals(5, container.getWidgetCount());
+        container.clear();
+        assertEquals(0, container.getWidgetCount());
+
+        MaterialPanel notSubHeader = new MaterialPanel();
+        container.add(notSubHeader);
+
+        assertEquals(notSubHeader, container.getWidget(0));
+        assertFalse(notSubHeader.getElement().hasClassName(AddinsCssName.SUBHEADER));
     }
 
     public void testType() {

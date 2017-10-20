@@ -451,4 +451,8 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         }
         return openMixin;
     }
+
+    public MaterialDnd getDnd() {
+        return dnd;
+    }
 }

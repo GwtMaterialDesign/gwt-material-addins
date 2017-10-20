@@ -19,12 +19,14 @@
  */
 package gwt.material.design.addins.client.ui;
 
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 
 /**
@@ -92,6 +94,39 @@ public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
         MaterialPanel panel = new MaterialPanel();
         window.add(panel);
         assertEquals(content.getWidget(0), panel);
+    }
+
+    public void testClearContent() {
+        // UiBinder
+        // given
+        MaterialWindow window = getWidget(false);
+        MaterialLabel content = new MaterialLabel("Content");
+        window.add(content);
+
+        // when / then
+        assertEquals(content, window.getContent().getWidget(0));
+        assertTrue(content.isAttached());
+        assertEquals(0, content.getChildren().size());
+
+        window.clear();
+        assertEquals(0, window.getContent().getChildren().size());
+    }
+
+    public void testDndArea() {
+        // UiBinder
+        // given
+        MaterialWindow window = getWidget(false);
+        MaterialPanel dndArea = new MaterialPanel();
+        window.setDndArea(dndArea);
+
+        attachWidget();
+
+        window.open();
+
+        assertTrue(window.getDnd().getDragOptions().restrict.restriction instanceof Element);
+        Element element = (Element) window.getDnd().getDragOptions().restrict.restriction;
+        assertEquals(dndArea.getElement().getInnerHTML(), element.getInnerHTML());
+        assertEquals(dndArea.getElement(), element);
     }
 
     @Override

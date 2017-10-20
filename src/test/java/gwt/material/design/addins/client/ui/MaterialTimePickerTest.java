@@ -19,9 +19,9 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
-import gwt.material.design.client.constants.Orientation;
+import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
+import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialInput;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -29,12 +29,17 @@ import gwt.material.design.client.ui.html.Label;
 
 import java.util.Date;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
 /**
  * Test case for Time Picker
  *
  * @author kevzlou7979
  */
-public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicker> {
+public class MaterialTimePickerTest extends AbstractValueWidgetTest<MaterialTimePicker> {
+
+    final static Date VALUE = new Date(116, 9, 14, 10, 10);
+    final static Date SECOND_VALUE = new Date(116, 9, 14, 12, 32);
 
     @Override
     protected MaterialTimePicker createWidget() {
@@ -42,6 +47,76 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
         checkOpenHandler(timePicker);
         checkCloseHandler(timePicker);
         return timePicker;
+    }
+
+    public void test24Hour() {
+        // UiBinder
+        // given
+        MaterialTimePicker timePicker = getWidget();
+
+        // when / then
+        timePicker.setHour24(true);
+        assertTrue(timePicker.isHour24());
+
+        timePicker.addOpenHandler(openEvent -> {
+            assertEquals("00", $(".lolliclock-dial-hours .lolliclock-tick").eq(22).html());
+            timePicker.setHour24(false);
+            assertFalse(timePicker.isHour24());
+            assertEquals("12", $(".lolliclock-dial-hours .lolliclock-tick").eq(11).html());
+        });
+        timePicker.open();
+    }
+
+    public void testReset() {
+        // UiBinder
+        // given
+        MaterialTimePicker timePicker = getWidget();
+
+        // when / then
+        timePicker.setValue(VALUE);
+        assertEquals(VALUE, timePicker.getValue());
+
+        timePicker.clear();
+        assertEquals(null, timePicker.getValue());
+    }
+
+    public void testPlacehoder() {
+        MaterialTimePicker timePicker = getWidget(false);
+
+        checkPlaceholder(timePicker);
+
+        attachWidget();
+
+        checkPlaceholder(timePicker);
+    }
+
+    public void testError() {
+        MaterialTimePicker timePicker = getWidget(false);
+
+        checkFieldErrorSuccess(timePicker, timePicker.getErrorLabel());
+
+        attachWidget();
+
+        checkFieldErrorSuccess(timePicker, timePicker.getErrorLabel());
+    }
+
+    public void testReadOnly() {
+        MaterialTimePicker timePicker = getWidget();
+
+        checkReadOnly(timePicker, timePicker.getTimeInput());
+    }
+
+    public void testFieldIcon() {
+        MaterialTimePicker timePicker = getWidget();
+
+        timePicker.setIconType(IconType.DATE_RANGE);
+        timePicker.setIconSize(IconSize.LARGE);
+        timePicker.setIconColor(Color.RED);
+
+        assertEquals(timePicker.getIcon(), timePicker.getContainer().getWidget(0));
+        assertEquals(IconType.DATE_RANGE, timePicker.getIcon().getIconType());
+        assertEquals(IconSize.LARGE, timePicker.getIcon().getIconSize());
+        assertEquals(Color.RED, timePicker.getIconColor());
     }
 
     public void testOrientation() {
@@ -101,15 +176,12 @@ public class MaterialTimePickerTest extends MaterialWidgetTest<MaterialTimePicke
     public void testValue() {
         // UiBinder
         // given
-        MaterialTimePicker timePicker = getWidget(true);
+        MaterialTimePicker timePicker = getWidget();
 
         // when / then
-        final Date VALUE = new Date(116, 9, 14, 10, 10);
-        final Date SECOND_VALUE = new Date(116, 9, 14, 12, 32);
         timePicker.setValue(VALUE);
         assertEquals(VALUE, timePicker.getValue());
         timePicker.reset();
-        assertEquals(String.valueOf(new Date()), String.valueOf(timePicker.getValue()));
         checkValueChangeEvent(timePicker, VALUE, SECOND_VALUE);
     }
 }
