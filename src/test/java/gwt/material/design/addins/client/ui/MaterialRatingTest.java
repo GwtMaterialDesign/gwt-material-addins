@@ -40,9 +40,22 @@ public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
     }
     
     public void testEditable() {
+        // UiBinder
         // given
-        MaterialRating rating = getWidget();
+        MaterialRating rating = getWidget(false);
 
+        // when / then
+        checkEditable(rating);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkEditable(rating);
+    }
+
+    protected void checkEditable(MaterialRating rating) {
         // when / then
         rating.setEnabled(true);
         rating.setValue(5);
@@ -58,10 +71,10 @@ public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
     }
 
     public void testValue() {
+        // UiBinder
         // given
         MaterialRating rating = getWidget();
 
-        // when / then
         // Determine the number of selected icons vs. unselected ones
         rating.setSelectedRatingIcon(IconType.FAVORITE);
         rating.setUnselectedRatingIcon(IconType.FAVORITE_BORDER);
@@ -91,11 +104,12 @@ public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
     }
 
     public void testStructure() {
+        // UiBinder
         // given
         MaterialRating rating = getWidget();
-        final int MAX_RATING = rating.getMaxRating();
 
         // when / then
+        final int MAX_RATING = rating.getMaxRating();
         assertEquals(5, MAX_RATING);
         IconType selectedIcon = rating.getSelectedRatingIcon();
         IconType unselectedIcon = rating.getUnselectedRatingIcon();

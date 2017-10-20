@@ -52,9 +52,22 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
     }
 
     public void testOpenCloseEvents() {
+        // UiBinder
         // given
-        MaterialOverlay overlay = getWidget();
+        MaterialOverlay overlay = getWidget(false);
 
+        // when / then
+        checkOpenCloseEvents(overlay);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkOpenCloseEvents(overlay);
+    }
+
+    protected void checkOpenCloseEvents(MaterialOverlay overlay) {
         // when / then
         overlay.setEnabled(true);
         checkOpenHandler(overlay);
@@ -62,9 +75,7 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
 
         // given
         final boolean[] isOpenFired = {false};
-        overlay.addOpenHandler(openEvent -> {
-            isOpenFired[0] = true;
-        });
+        overlay.addOpenHandler(openEvent -> isOpenFired[0] = true);
 
         // when / then
         overlay.open(source);
@@ -74,9 +85,7 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
 
         // given
         final boolean[] isCloseFired = {false};
-        overlay.addCloseHandler(closeEvent -> {
-            isCloseFired[0] = true;
-        });
+        overlay.addCloseHandler(closeEvent -> isCloseFired[0] = true);
 
         // when / then
         overlay.close();
@@ -85,10 +94,24 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialOverlay overlay = getWidget();
+        MaterialOverlay overlay = getWidget(false);
 
         // when / then
-        assertTrue(overlay.getElement().hasClassName(AddinsCssName.OVERLAY_PANEL));
+        checkStructure(overlay, false);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(overlay, true);
+    }
+
+    protected void checkStructure(MaterialOverlay overlay, boolean checkElement) {
+        if (checkElement) {
+            assertTrue(overlay.getElement().hasClassName(AddinsCssName.OVERLAY_PANEL));
+        }
     }
 }

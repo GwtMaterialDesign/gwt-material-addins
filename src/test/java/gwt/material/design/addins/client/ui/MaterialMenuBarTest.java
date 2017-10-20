@@ -38,12 +38,12 @@ public class MaterialMenuBarTest extends MaterialWidgetTest<MaterialMenuBar> {
 
     public void testStructure() {
         // given
-        MaterialMenuBar menuBar = getWidget();
+        MaterialMenuBar menuBar = getWidget(false);
+
+        // when / then
         final String ACTIVATOR = "dp-activator";
         MaterialLink link = new MaterialLink();
         MaterialDropDown dropDown = new MaterialDropDown();
-
-        // when / then
         link.setActivates(ACTIVATOR);
         dropDown.setActivator(ACTIVATOR);
         menuBar.add(link);

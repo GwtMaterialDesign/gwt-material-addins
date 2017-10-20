@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.iconmorph.MaterialIconMorph;
+import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -47,10 +48,22 @@ public class MaterialIconMorphTest extends MaterialWidgetTest<MaterialIconMorph>
     }
 
     public void testSize() {
+        // UiBinder
         // given
-        MaterialIconMorph iconMorph = getWidget();
+        MaterialIconMorph iconMorph = getWidget(false);
 
         // when / then
+        checkSize(iconMorph);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkSize(iconMorph);
+    }
+
+    protected void checkSize(MaterialIconMorph iconMorph) {
         iconMorph.setIconSize(IconSize.SMALL);
         assertTrue(iconMorph.getElement().hasClassName(IconSize.SMALL.getCssName()));
         iconMorph.setIconSize(IconSize.MEDIUM);
@@ -62,10 +75,9 @@ public class MaterialIconMorphTest extends MaterialWidgetTest<MaterialIconMorph>
     }
 
     public void testStructure() {
+        // UiBinder
         // given
         MaterialIconMorph iconMorph = getWidget();
-
-        // when / then
 
         assertEquals(iconMorph.getSource(), iconMorph.getWidget(0));
         assertEquals(iconMorph.getTarget(), iconMorph.getWidget(1));

@@ -7,11 +7,12 @@
 }
 
 .popup-menu li {
-    padding: 16px;
+    padding: 0px;
 }
 
 .popup-menu li a, .popup-menu ul.dropdown-content li a {
     font-size: 1em;
+    padding: 12px;
 }
 
 .popup-menu li:hover {

@@ -38,23 +38,47 @@ public class MaterialSplitPanelTest extends MaterialWidgetTest<MaterialSplitPane
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialSplitPanel splitPanel = getWidget();
-        MaterialPanel panelLeft = new MaterialPanel();
-        MaterialPanel panelRight = new MaterialPanel();
+        MaterialSplitPanel splitPanel = getWidget(false);
+        MaterialPanel leftPanel = new MaterialPanel();
+        MaterialPanel rightPanel = new MaterialPanel();
+        splitPanel.add(leftPanel);
+        splitPanel.add(rightPanel);
 
         // when / then
-        splitPanel.add(panelLeft);
-        splitPanel.add(panelRight);
-        assertEquals(panelLeft, splitPanel.getWidget(0));
-        assertEquals(panelRight, splitPanel.getWidget(1));
+        checkStructure(splitPanel, leftPanel, rightPanel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(splitPanel, leftPanel, rightPanel);
+    }
+
+    protected void checkStructure(MaterialSplitPanel splitPanel, MaterialPanel leftPanel, MaterialPanel rightPanel) {
+        assertEquals(leftPanel, splitPanel.getWidget(0));
+        assertEquals(rightPanel, splitPanel.getWidget(1));
     }
 
     public void testProperties() {
+        // UiBinder
         // given
-        MaterialSplitPanel splitPanel = getWidget();
+        MaterialSplitPanel splitPanel = getWidget(false);
 
         // when / then
+        checkProperties(splitPanel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkProperties(splitPanel);
+    }
+
+    protected void checkProperties(MaterialSplitPanel splitPanel) {
         splitPanel.setBarPosition(20);
         assertEquals(0.2, splitPanel.getBarPosition());
         splitPanel.setLeftMin(10);

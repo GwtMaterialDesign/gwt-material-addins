@@ -24,6 +24,8 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.subheader.MaterialSubHeader;
 import gwt.material.design.addins.client.subheader.MaterialSubHeaderContainer;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialSearch;
 
 /**
  * Test case for subheader component
@@ -44,25 +46,68 @@ public class MaterialSubheaderTest extends MaterialWidgetTest<MaterialSubHeaderC
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialSubHeaderContainer container = getWidget();
+        MaterialSubHeaderContainer container = getWidget(false);
 
         // when / then
+        checkStructure(container, false);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(container, true);
+    }
+
+    protected void checkStructure(MaterialSubHeaderContainer container, boolean checkElement) {
         assertEquals(5, container.getWidgetCount());
         for (int i = 0; i < 4; i++) {
             assertTrue(container.getWidget(i) instanceof MaterialSubHeader);
             MaterialSubHeader subHeader = (MaterialSubHeader) container.getWidget(i);
             final String TEXT = "item" + (i + 1);
             assertEquals(TEXT, subHeader.getText());
-            assertTrue(subHeader.getElement().hasClassName(AddinsCssName.SUBHEADER));
+            if (checkElement) {
+                assertTrue(subHeader.getElement().hasClassName(AddinsCssName.SUBHEADER));
+            }
         }
     }
 
-    public void testType() {
+    public void testContainer() {
+        // UiBinder
         // given
-        MaterialSubHeaderContainer container = getWidget();
+        MaterialSubHeaderContainer container = getWidget(true);
 
         // when / then
+        assertEquals(5, container.getWidgetCount());
+        container.clear();
+        assertEquals(0, container.getWidgetCount());
+
+        MaterialPanel notSubHeader = new MaterialPanel();
+        container.add(notSubHeader);
+
+        assertEquals(notSubHeader, container.getWidget(0));
+        assertFalse(notSubHeader.getElement().hasClassName(AddinsCssName.SUBHEADER));
+    }
+
+    public void testType() {
+        // UiBinder
+        // given
+        MaterialSubHeaderContainer container = getWidget(false);
+
+        // when / then
+        checkType(container);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkType(container);
+    }
+
+    protected void checkType(MaterialSubHeaderContainer container) {
         container.setType(SubHeaderType.PINNED);
         assertTrue(container.getElement().hasClassName(SubHeaderType.PINNED.getCssName()));
         container.setType(SubHeaderType.STATIC);

@@ -37,8 +37,11 @@ public class MaterialEmptyStateTest extends MaterialWidgetTest<MaterialEmptyStat
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialEmptyState emptyState = getWidget();
+        MaterialEmptyState emptyState = getWidget(true);
+
+        // when / then
         final String TITLE = "title";
         final String DESCRIPTION = "description";
         final IconType ICON = IconType.POLL;
@@ -71,10 +74,22 @@ public class MaterialEmptyStateTest extends MaterialWidgetTest<MaterialEmptyStat
     }
 
     public void testLoading() {
+        // UiBinder
         // given
-        MaterialEmptyState emptyState = getWidget();
+        MaterialEmptyState emptyState = getWidget(false);
 
         // when / then
+        checkLoading(emptyState);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkLoading(emptyState);
+    }
+
+    protected void checkLoading(MaterialEmptyState emptyState) {
         emptyState.setLoading(true);
         assertTrue(emptyState.isLoading());
         emptyState.setLoading(false);

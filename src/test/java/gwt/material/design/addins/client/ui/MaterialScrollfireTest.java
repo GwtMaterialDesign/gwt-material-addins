@@ -39,10 +39,23 @@ public class MaterialScrollfireTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testScrollfire() {
+        // UiBinder
         // given
-        MaterialPanel panel = getWidget();
-        final boolean[] isScrollFired = {false};
+        MaterialPanel panel = getWidget(false);
 
+        // when / then
+        checkScrollfire(panel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkScrollfire(panel);
+    }
+
+    protected void checkScrollfire(MaterialPanel panel) {
+        final boolean[] isScrollFired = {false};
         // when / then
         MaterialScrollfire scrollfire = new MaterialScrollfire(panel.getElement());
         scrollfire.setCallback(() -> isScrollFired[0] = true);

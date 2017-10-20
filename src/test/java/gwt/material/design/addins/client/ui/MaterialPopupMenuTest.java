@@ -45,12 +45,26 @@ public class MaterialPopupMenuTest extends MaterialWidgetTest<MaterialPopupMenu>
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialPopupMenu popupMenu = getWidget();
+        MaterialPopupMenu popupMenu = getWidget(false);
 
         // when / then
-        assertTrue(popupMenu.getElement().hasAttribute("tabindex"));
-        assertEquals("0", popupMenu.getElement().getAttribute("tabindex"));
+        checkStructure(popupMenu, false);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(popupMenu, true);
+    }
+
+    protected void checkStructure(MaterialPopupMenu popupMenu, boolean checkElement) {
+        if (checkElement) {
+            assertTrue(popupMenu.getElement().hasAttribute("tabindex"));
+            assertEquals("0", popupMenu.getElement().getAttribute("tabindex"));
+        }
         assertEquals(5, popupMenu.getWidgetCount());
         for (Widget w : popupMenu) {
             assertNotNull(w);
@@ -58,8 +72,22 @@ public class MaterialPopupMenuTest extends MaterialWidgetTest<MaterialPopupMenu>
     }
 
     public void testOpenCloseHandler() {
+        // UiBinder
         // given
-        MaterialPopupMenu popupMenu = getWidget();
+        MaterialPopupMenu popupMenu = getWidget(false);
+
+        // when / then
+        checkOpenCloseHandler(popupMenu);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkOpenCloseHandler(popupMenu);
+    }
+
+    protected void checkOpenCloseHandler(MaterialPopupMenu popupMenu) {
         final int X = 10;
         final int Y = 10;
         final boolean[] isOpenFired = {false};
@@ -81,10 +109,21 @@ public class MaterialPopupMenuTest extends MaterialWidgetTest<MaterialPopupMenu>
 
     public void testSelectionHandler() {
         // given
-        MaterialPopupMenu popupMenu = getWidget();
-        final boolean[] isSelectionFired = {false};
+        MaterialPopupMenu popupMenu = getWidget(false);
 
         // when / then
+        checkSelectionHandler(popupMenu);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkSelectionHandler(popupMenu);
+    }
+
+    protected void checkSelectionHandler(MaterialPopupMenu popupMenu) {
+        final boolean[] isSelectionFired = {false};
         popupMenu.setEnabled(true);
         popupMenu.addSelectionHandler(selectionEvent -> isSelectionFired[0] = true);
         popupMenu.fireEvent(new GwtEvent<SelectionHandler<?>>() {

@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SuggestBox;
 import gwt.material.design.addins.client.autocomplete.MaterialAutoComplete;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
@@ -61,33 +62,47 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         return autocomplete;
     }
 
-    // TODO Test Structure
-    public void testStructure() {}
-
-    // TODO Test Progress
-    public void testProgress() {}
-
-    // TODO Test Text Type
-    public void testTextType() {}
-
     public void testLimit() {
+        // UiBinder
         // given
-        MaterialAutoComplete autocomplete = getWidget();
+        MaterialAutoComplete autocomplete = getWidget(false);
 
+        // when / then
+        checkLimit(autocomplete);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkLimit(autocomplete);
+    }
+
+    protected void checkLimit(MaterialAutoComplete autocomplete) {
         // when / then
         autocomplete.setLimit(LIMIT);
         assertEquals(LIMIT, autocomplete.getLimit());
-
-        // when / then
         autocomplete.setAutoSuggestLimit(LIMIT);
         assertEquals(LIMIT, autocomplete.getSuggestBox().getLimit());
     }
 
     public void testValue() {
-        // given
-        MaterialAutoComplete autocomplete = getWidget();
+        // UiBinder given
+        MaterialAutoComplete autocomplete = getWidget(false);
         List<String> itemValues = autocomplete.getItemValues();
 
+        // when / then
+        checkValue(autocomplete, itemValues);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkValue(autocomplete, itemValues);
+    }
+
+    protected void checkValue(MaterialAutoComplete autocomplete, List<String> itemValues) {
         // when / then
         List<String> value = new ArrayList<>();
         value.add(itemValues.get(0));
@@ -107,12 +122,19 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
     }
 
     public void testPlaceholder() {
+        // UiBinder
         // given
-        MaterialAutoComplete autocomplete = getWidget();
+        MaterialAutoComplete autocomplete = getWidget(false);
 
         // when / then
-        autocomplete.setPlaceholder("test");
-        assertEquals("test", autocomplete.getPlaceholder());
+        checkPlaceholder(autocomplete);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkPlaceholder(autocomplete);
     }
 
     protected static List<User> getAllUsers() {
@@ -125,10 +147,23 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     @Override
     public void testTabIndex() {
+        // UiBinder
         // given
-        MaterialAutoComplete autoComplete = getWidget();
+        MaterialAutoComplete autoComplete = getWidget(false);
         SuggestBox widget = autoComplete.getSuggestBox();
 
+        // when / then
+        checkTabIndex(widget);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkTabIndex(widget);
+    }
+
+    protected void checkTabIndex(SuggestBox widget) {
         final int INITIAL_TAB_INDEX = 0;
         final int FINAL_TAB_INDEX = 1;
 
@@ -143,19 +178,35 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     @Override
     public void testKeyEvents() {
+        // UiBinder
         // given
-        MaterialAutoComplete autoComplete = getWidget();
+        MaterialAutoComplete autoComplete = getWidget(false);
 
         // when / then
-        super.checkKeyEvents(autoComplete.getItemBox());
+        checkKeyEvents(autoComplete.getItemBox());
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkKeyEvents(autoComplete.getItemBox());
     }
 
     @Override
     public void testFocusAndBlurEvents() {
+        // UiBinder
         // given
-        MaterialAutoComplete autoComplete = getWidget();
+        MaterialAutoComplete autoComplete = getWidget(false);
 
         // when / then
-        super.checkFocusAndBlurEvents(autoComplete.getItemBox());
+        checkFocusAndBlurEvents(autoComplete.getItemBox());
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkFocusAndBlurEvents(autoComplete.getItemBox());
     }
 }

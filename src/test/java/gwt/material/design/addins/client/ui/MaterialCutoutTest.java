@@ -24,7 +24,6 @@ import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.cutout.MaterialCutOut;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIcon;
 
 /**
@@ -59,14 +58,26 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
     }
 
     public void testProperties() {
+        // UiBinder
         // given
-        MaterialCutOut cutOut = getWidget();
+        MaterialCutOut cutOut = getWidget(false);
+
+        // when / then
+        checkProperties(cutOut);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkProperties(cutOut);
+    }
+
+    protected void checkProperties(MaterialCutOut cutOut) {
         final int ANIMATION_DURATION = 200;
         final String ANIMATION_TIMING = "linear";
         final String BACKGROUND_SIZE = "100px";
         final int CUTOUT_PADDING = 20;
-
-        // when / then
         cutOut.setAnimated(true);
         assertTrue(cutOut.isAnimated());
         cutOut.setAnimated(false);
@@ -82,21 +93,45 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialCutOut cutOut = getWidget();
+        MaterialCutOut cutOut = getWidget(false);
 
         // when / then
+        checkStructure(cutOut);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(cutOut);
+    }
+
+    protected void checkStructure(MaterialCutOut cutOut) {
         cutOut.setTarget(target);
         assertEquals(cutOut.getTargetElement(), target.getElement());
     }
 
     public void testOpenCloseProgrammatically() {
+        // UiBinder
         // given
-        MaterialCutOut cutOut = getWidget();
-        final boolean[] isOpenFired = {false};
-        final boolean[] isCloseFired = {false};
+        MaterialCutOut cutOut = getWidget(false);
 
         // when / then
+        checkOpenCloseProgrammatically(cutOut);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkOpenCloseProgrammatically(cutOut);
+    }
+
+    protected void checkOpenCloseProgrammatically(MaterialCutOut cutOut) {
+        final boolean[] isOpenFired = {false};
+        final boolean[] isCloseFired = {false};
         cutOut.addOpenHandler(openEvent -> isOpenFired[0] = true);
         cutOut.open();
         cutOut.addCloseHandler(closeEvent -> isCloseFired[0] = true);
@@ -107,10 +142,22 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
 
     @Override
     public void testColor() {
+        // UiBinder
         // given
-        MaterialCutOut cutOut = getWidget();
+        MaterialCutOut cutOut = getWidget(false);
 
         // when / then
+        checkColor(cutOut);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkColor(cutOut);
+    }
+
+    protected void checkColor(MaterialCutOut cutOut) {
         cutOut.setBackgroundColor(Color.RED);
         assertEquals(Color.RED, cutOut.getBackgroundColor());
         cutOut.setTextColor(Color.RED);
@@ -119,13 +166,50 @@ public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
 
     @Override
     public  void testCircle() {
+        // UiBinder
         // given
-        MaterialCutOut cutOut = getWidget();
+        MaterialCutOut cutOut = getWidget(false);
 
         // when / then
+        checkCircle(cutOut);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkCircle(cutOut);
+    }
+
+    protected void checkCircle(MaterialCutOut cutOut) {
         cutOut.setCircle(true);
         assertTrue(cutOut.isCircle());
         cutOut.setCircle(false);
         assertFalse(cutOut.isCircle());
+    }
+
+    @Override
+    public void testOpacity() {
+        // UiBinder
+        // given
+        MaterialCutOut cutOut = getWidget(false);
+
+        // when / then
+        checkOpacity(cutOut);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkOpacity(cutOut);
+    }
+
+    protected void checkOpacity(MaterialCutOut cutOut) {
+        cutOut.setOpacity(0.0);
+        assertEquals(0.0, cutOut.getOpacity());
+
+        cutOut.setOpacity(1.0);
+        assertEquals(1.0, cutOut.getOpacity());
     }
 }

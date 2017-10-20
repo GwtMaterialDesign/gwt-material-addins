@@ -38,7 +38,6 @@ import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialProgress;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.ListItem;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -174,13 +173,13 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private boolean directInputAllowed = true;
     private String selectedChipStyle = "blue white-text";
     private Map<Suggestion, Widget> suggestionMap = new LinkedHashMap<>();
-    private Label placeholderLabel = new Label();
+    private Label label = new Label();
     private List<ListItem> itemsHighlighted = new ArrayList<>();
     private FlowPanel panel = new FlowPanel();
     private UnorderedList list = new UnorderedList();
     private SuggestOracle suggestions;
     private TextBox itemBox = new TextBox();
-    private SuggestBox suggestBox;
+    private SuggestBox suggestBox = new SuggestBox();
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
@@ -228,7 +227,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         registerHandler(itemBox.addBlurHandler(blurEvent -> {
             if (getValue().size() > 0) {
-                placeholderLabel.addStyleName(CssName.ACTIVE);
+                label.addStyleName(CssName.ACTIVE);
             }
         }));
 
@@ -312,7 +311,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.getElement().setId(autocompleteId);
 
         item.add(suggestBox);
-        item.add(placeholderLabel);
+        item.add(label);
         list.add(item);
 
         panel.add(list);
@@ -399,7 +398,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      */
     public void clear() {
         itemBox.setValue("");
-        placeholderLabel.removeStyleName(CssName.ACTIVE);
+        label.removeStyleName(CssName.ACTIVE);
 
         Collection<Widget> values = suggestionMap.values();
         for (Widget widget : values) {
@@ -471,7 +470,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
         setValue(list, fireEvents);
         if (itemValues.size() > 0) {
-            placeholderLabel.addStyleName(CssName.ACTIVE);
+            label.addStyleName(CssName.ACTIVE);
         }
     }
 
@@ -537,12 +536,24 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     @Override
     public String getPlaceholder() {
-        return placeholderLabel.getText();
+        return itemBox.getElement().getAttribute("placeholder");
     }
 
     @Override
     public void setPlaceholder(String placeholder) {
-        placeholderLabel.setText(placeholder);
+        itemBox.getElement().setAttribute("placeholder", placeholder);
+    }
+
+    /**
+     * @see gwt.material.design.client.ui.MaterialValueBox#setLabel(String)
+     *
+     * @param label
+     */
+    public void setLabel(String label) {
+        this.label.setText(label);
+        if (!getPlaceholder().isEmpty()) {
+            this.label.setStyleName(CssName.ACTIVE);
+        }
     }
 
     /**
@@ -735,7 +746,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     public void setValue(List<? extends Suggestion> value, boolean fireEvents) {
         clear();
         if (value != null) {
-            placeholderLabel.addStyleName(CssName.ACTIVE);
+            label.addStyleName(CssName.ACTIVE);
             for (Suggestion suggestion : value) {
                 addItem(suggestion);
             }
@@ -749,8 +760,8 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.setEnabled(enabled);
     }
 
-    public Label getPlaceholderLabel() {
-        return placeholderLabel;
+    public Label getLabel() {
+        return label;
     }
 
     public TextBox getItemBox() {
@@ -833,7 +844,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
         if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, list, placeholderLabel);
+            errorMixin = new ErrorMixin<>(this, errorLabel, list, label);
         }
         return errorMixin;
     }

@@ -55,15 +55,22 @@ public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeableP
 
     public void testSwipeHandler() {
         // given
-        MaterialSwipeablePanel swipeablePanel = getWidget();
+        MaterialSwipeablePanel swipeablePanel = getWidget(false);
 
         // when / then
-        swipeablePanel.setEnabled(true);
-        assertTrue(swipeablePanel.isEnabled());
+        checkSwipeHandlers(swipeablePanel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
         checkSwipeHandlers(swipeablePanel);
     }
 
     protected void checkSwipeHandlers(MaterialSwipeablePanel swipeablePanel) {
+        swipeablePanel.setEnabled(true);
+        assertTrue(swipeablePanel.isEnabled());
         // given
         final boolean[] isSwipeRightFired = {false};
         final boolean[] isSwipeLeftFired = {false};
@@ -118,10 +125,22 @@ public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeableP
     }
 
     public void testIgnored() {
+        // UiBinder
         // given
-        MaterialSwipeablePanel swipeablePanel = getWidget();
+        MaterialSwipeablePanel swipeablePanel = getWidget(false);
 
         // when / then
+        checkIgnored(swipeablePanel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkIgnored(swipeablePanel);
+    }
+
+    protected void checkIgnored(MaterialSwipeablePanel swipeablePanel) {
         assertEquals(2, swipeablePanel.getWidgetCount());
         MaterialLabel label1 = (MaterialLabel) swipeablePanel.getWidget(0);
         MaterialLabel label2 = (MaterialLabel) swipeablePanel.getWidget(1);
@@ -131,10 +150,22 @@ public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeableP
     }
 
     public void testStructure() {
+        // UiBinder
         // given
-        MaterialSwipeablePanel swipeablePanel = getWidget();
+        MaterialSwipeablePanel swipeablePanel = getWidget(false);
 
         // when / then
+        checkStructure(swipeablePanel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkStructure(swipeablePanel);
+    }
+
+    protected void checkStructure(MaterialSwipeablePanel swipeablePanel) {
         assertEquals(label1, swipeablePanel.getWidget(0));
         assertEquals(label2, swipeablePanel.getWidget(1));
         swipeablePanel.ignore(label1, label2);

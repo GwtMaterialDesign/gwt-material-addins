@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.splitpanel.MaterialSplitPanel;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
 import gwt.material.design.addins.client.stepper.constants.State;
@@ -63,9 +64,9 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testStructure() {
+        // UiBinder
         // given
         MaterialWidget stepper = getWidget();
-
 
         // when / then
         steps.forEach(step -> {
@@ -107,19 +108,45 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testSelection() {
+        // UiBinder
         // given
-        MaterialStepper stepper = getWidget();
-        final boolean[] isSelectionFired = {false};
+        MaterialStepper stepper = getWidget(false);
 
         // when / then
+        checkSelection(stepper);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkSelection(stepper);
+    }
+
+    protected void checkSelection(MaterialStepper stepper) {
+        final boolean[] isSelectionFired = {false};
         stepper.addSelectionChangeHandler(event -> isSelectionFired[0] = true);
         SelectionChangeEvent.fire(stepper);
         assertTrue(isSelectionFired[0]);
     }
 
     public void testErrorSuccess() {
+        // UiBinder
         // given
-        MaterialStepper stepper = getWidget();
+        MaterialStepper stepper = getWidget(false);
+
+        // when / then
+        checkErrorSuccess(stepper);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkErrorSuccess(stepper);
+    }
+
+    protected void checkErrorSuccess(MaterialStepper stepper) {
         MaterialStep step = stepper.getCurrentStep();
         MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
 
@@ -141,8 +168,22 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
     }
 
     public void testAxis() {
+        // UiBinder
         // given
-        MaterialStepper stepper = getWidget();
+        MaterialStepper stepper = getWidget(false);
+
+        // when / then
+        checkAxis(stepper);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkAxis(stepper);
+    }
+
+    protected void checkAxis(MaterialStepper stepper) {
         MaterialStep step = stepper.getCurrentStep();
         MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
         MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
@@ -168,9 +209,17 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
 
     public void testStepNavigation() {
         // given
-        MaterialStepper stepper = getWidget();
-        final boolean[] isStartFired = {false};
+        MaterialStepper stepper = getWidget(false);
 
+        checkStepNavigation(stepper);
+
+        attachWidget();
+
+        checkStepNavigation(stepper);
+    }
+
+    protected void checkStepNavigation(MaterialStepper stepper) {
+        final boolean[] isStartFired = {false};
         // when / then
         stepper.addStartHandler(event -> isStartFired[0] = true);
         StartEvent.fire(stepper);
@@ -222,7 +271,16 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
 
     public void testFeedback() {
         // given
-        MaterialStepper stepper = getWidget();
+        MaterialStepper stepper = getWidget(false);
+
+        checkFeedback(stepper);
+
+        attachWidget();
+
+        checkFeedback(stepper);
+    }
+
+    protected void checkFeedback(MaterialStepper stepper) {
         final String FEEDBACK = "feedback";
         final int FEEDBACK_INDEX = stepper.getWidgetCount();
 

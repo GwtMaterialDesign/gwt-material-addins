@@ -46,12 +46,24 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testDropzone() {
+        // UiBinder
         // given
-        final String ACCEPT = "accept";
-        final double OVERLAP = 20;
-        MaterialPanel panel = getWidget();
+        MaterialPanel panel = getWidget(false);
 
         // when / then
+        checkDropzone(panel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkDropzone(panel);
+    }
+
+    protected void checkDropzone(MaterialPanel panel) {
+        final String ACCEPT = "accept";
+        final double OVERLAP = 20;
         MaterialDnd dnd = MaterialDnd.dropzone(panel, JsDropOptions.create(ACCEPT, OVERLAP));
         JsDropOptions options = dnd.getDropOptions();
         assertEquals(ACCEPT, options.accept);
@@ -59,12 +71,17 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testAxis() {
+        // UiBinder
         // given
-        final String VERTICAL_AXIS = "y";
-        final String HORIZONTAL_AXIS = "x";
-        MaterialPanel panel = getWidget();
+        MaterialPanel panel = getWidget(false);
 
         // when / then
+        checkAxis(panel);
+    }
+
+    protected void checkAxis(MaterialPanel panel) {
+        final String VERTICAL_AXIS = "y";
+        final String HORIZONTAL_AXIS = "x";
         MaterialDnd dnd = MaterialDnd.draggable(panel, JsDragOptions.create(Axis.VERTICAL));
         assertEquals(VERTICAL_AXIS, dnd.getDragOptions().axis);
         dnd.getDragOptions().axis = HORIZONTAL_AXIS;
@@ -72,10 +89,22 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testInertia() {
+        // UiBinder
         // given
-        MaterialPanel panel = getWidget();
+        MaterialPanel panel = getWidget(false);
 
         // when / then
+        checkInertia(panel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkInertia(panel);
+    }
+
+    protected void checkInertia(MaterialPanel panel) {
         MaterialDnd dnd = MaterialDnd.draggable(panel, JsDragOptions.create(true));
         assertTrue(dnd.getDragOptions().inertia);
         dnd.getDragOptions().inertia = false;
@@ -83,11 +112,24 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testRestriction() {
+        // UiBinder
         // given
-        MaterialPanel panel = getWidget();
+        MaterialPanel panel = getWidget(false);
         MaterialIcon iconIgnore = new MaterialIcon();
         panel.add(iconIgnore);
 
+        // when / then
+        checkRestriction(panel, iconIgnore);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkRestriction(panel, iconIgnore);
+    }
+
+    protected void checkRestriction(MaterialPanel panel, MaterialIcon iconIgnore) {
         // when
         Restriction restriction = new Restriction();
         restriction.setBottom(20);
@@ -112,10 +154,22 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testDropEvents() {
+        // UiBinder
         // given
-        MaterialPanel panel = getWidget();
+        MaterialPanel panel = getWidget(false);
 
         // when / then
+        checkDropEvents(panel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkDropEvents(panel);
+    }
+
+    protected void checkDropEvents(MaterialPanel panel) {
         MaterialDnd.draggable(panel);
         // Drop Activate Event
         final boolean[] isDropActivateFired = {false};
@@ -135,10 +189,21 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
     }
 
     public void testDragEvents() {
+        // UiBinder
         // given
-        MaterialPanel panel = getWidget();
+        MaterialPanel panel = getWidget(false);
 
         // when / then
+        checkDragEvents(panel);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkDragEvents(panel);
+    }
+    protected void checkDragEvents(MaterialPanel panel) {
         MaterialDnd.draggable(panel);
         // Drag Start Event
         final boolean[] isDragStartFired = {false};
