@@ -19,52 +19,93 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
-import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.bubble.MaterialBubble;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.Position;
+import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.addins.client.ui.base.MaterialValueBoxTest;
 
 /**
- * Test case for bubble component
+ * Test case for Input Mask component
  *
  * @author kevzlou7979
  */
-public class MaterialInputMaskTest extends MaterialWidgetTest<MaterialBubble> {
+public class MaterialInputMaskTest extends MaterialValueBoxTest<MaterialInputMask> {
+
+    final static String MASK_REGEX = "000.000.000.000";
+    final static String VALUE = "123456789098";
 
     @Override
-    protected MaterialBubble createWidget() {
-        return new MaterialBubble();
+    protected MaterialInputMask createWidget() {
+        return new MaterialInputMask();
     }
 
-    public void testPosition() {
+    public void testProperties() {
+        // UiBinder
         // given
-        MaterialBubble bubble = getWidget();
+        MaterialInputMask inputMask = getWidget();
+        inputMask.setMask(MASK_REGEX);
+
+        assertEquals(MASK_REGEX, inputMask.getMask());
 
         // when / then
-        checkPosition(bubble, Position.RIGHT);
-        checkPosition(bubble, Position.LEFT);
-        checkPosition(bubble, Position.TOP);
-        checkPosition(bubble, Position.BOTTOM);
-    }
+        checkProperties(inputMask);
 
-    protected void checkPosition(MaterialBubble bubble, Position position) {
-        bubble.setPosition(position);
-        assertEquals(position, bubble.getPosition());
-        assertTrue(getTriangle(bubble).getElement().hasClassName(position.getCssName()));
-    }
-
-    public void testStructure() {
+        // Standard
         // given
-        MaterialBubble bubble = getWidget();
+        attachWidget();
 
         // when / then
-        MaterialWidget triangle = getTriangle(bubble);
-        assertTrue(triangle.getElement().hasClassName(AddinsCssName.TRIANGLE));
+        checkProperties(inputMask);
     }
 
-    protected MaterialWidget getTriangle(MaterialBubble bubble) {
-        MaterialWidget triangle = (MaterialWidget) bubble.getWidget(0);
-        return triangle;
+    protected void checkProperties(MaterialInputMask inputMask) {
+        inputMask.setSelectOnFocus(true);
+        assertTrue(inputMask.isSelectOnFocus());
+        inputMask.setSelectOnFocus(false);
+        assertFalse(inputMask.isSelectOnFocus());
+
+        inputMask.setClearIfNotMatch(true);
+        assertTrue(inputMask.isClearIfNotMatch());
+        inputMask.setClearIfNotMatch(false);
+        assertFalse(inputMask.isClearIfNotMatch());
+
+        inputMask.setReverse(true);
+        assertTrue(inputMask.isReverse());
+        inputMask.setReverse(false);
+        assertFalse(inputMask.isClearIfNotMatch());
+    }
+
+    public void testValue() {
+        // UiBinder
+        // given
+        MaterialInputMask inputMask = getWidget();
+
+        // when / then
+        checkValue(inputMask, false);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkValue(inputMask, true);
+    }
+
+    protected void checkValue(MaterialInputMask inputMask, boolean checkCleanValue) {
+        inputMask.setMask(MASK_REGEX);
+        inputMask.setValue(VALUE);
+        assertEquals(VALUE, inputMask.getValue());
+
+        if (checkCleanValue) {
+            assertEquals(VALUE, inputMask.getCleanValue());
+        }
+    }
+
+    public void testUnMask() {
+        MaterialInputMask inputMask = getWidget();
+
+        inputMask.setMask(MASK_REGEX);
+        inputMask.setValue(VALUE);
+        assertEquals(VALUE, inputMask.getValue());
+        inputMask.clear();
+        assertEquals("", inputMask.getValue());
     }
 }

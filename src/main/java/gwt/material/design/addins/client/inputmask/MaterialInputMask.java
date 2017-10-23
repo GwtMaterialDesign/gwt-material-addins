@@ -110,11 +110,19 @@ public class MaterialInputMask extends MaterialTextBox implements JsLoader {
         load();
     }
 
+    public String getMask() {
+        return mask;
+    }
+
     /**
      * Set the mask pattern to apply into the text field
      */
     public void setMask(String mask) {
         this.mask = mask;
+    }
+
+    public boolean isReverse() {
+        return options.reverse;
     }
 
     /**
@@ -124,11 +132,19 @@ public class MaterialInputMask extends MaterialTextBox implements JsLoader {
         options.reverse = reverse;
     }
 
+    public boolean isClearIfNotMatch() {
+        return options.clearIfNotMatch;
+    }
+
     /**
      * The textfield will automatically clears whenever the value is not match with the mask provided. (Default : false)
      */
     public void setClearIfNotMatch(boolean clearIfNotMatch) {
         options.clearIfNotMatch = clearIfNotMatch;
+    }
+
+    public boolean isSelectOnFocus() {
+        return options.selectOnFocus;
     }
 
     /**

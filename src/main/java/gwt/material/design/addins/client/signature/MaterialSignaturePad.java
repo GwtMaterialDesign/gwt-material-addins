@@ -36,7 +36,6 @@ import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
-import gwt.material.design.client.ui.MaterialToast;
 
 //@formatter:off
 
@@ -120,6 +119,11 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
 
     @Override
     public void clear() {
+        super.clear();
+        reset();
+    }
+
+    public void reset() {
         getSignaturePad().clear();
         SignatureClearEvent.fire(this);
     }
@@ -239,17 +243,17 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     }-*/;
 
     @Override
-    public HandlerRegistration addClearSignatureHandler(SignatureClearEvent.SignatureClearHandler handler) {
+    public HandlerRegistration addSignatureClearHandler(SignatureClearEvent.SignatureClearHandler handler) {
         return addHandler(handler, SignatureClearEvent.TYPE);
     }
 
     @Override
-    public HandlerRegistration addBeginSignatureHandler(SignatureStartEvent.SignatureStartHandler handler) {
+    public HandlerRegistration addSignatureStartHandler(SignatureStartEvent.SignatureStartHandler handler) {
         return addHandler(handler, SignatureStartEvent.TYPE);
     }
 
     @Override
-    public HandlerRegistration addEndSignatureHandler(SignatureEndEvent.SignatureEndHandler handler) {
+    public HandlerRegistration addSignatureEndHandler(SignatureEndEvent.SignatureEndHandler handler) {
         return addHandler(handler, SignatureEndEvent.TYPE);
     }
 }

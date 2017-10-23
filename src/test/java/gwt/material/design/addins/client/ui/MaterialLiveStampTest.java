@@ -19,38 +19,41 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
-import gwt.material.design.addins.client.menubar.MaterialMenuBar;
-import gwt.material.design.client.ui.MaterialDropDown;
-import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.addins.client.livestamp.MaterialLiveStamp;
+import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
+import gwt.material.design.client.base.AbstractValueWidget;
+
+import java.util.Date;
 
 /**
- * Test case for menu bar component
+ * Test case for Live Stamp component
  *
  * @author kevzlou7979
  */
-public class MaterialLiveStampTest extends MaterialWidgetTest<MaterialMenuBar> {
+public class MaterialLiveStampTest extends AbstractValueWidgetTest<MaterialLiveStamp> {
+
+    final static Date VALUE = new Date();
+    final static Date SECOND_VALUE = new Date(12,12,12);
 
     @Override
-    protected MaterialMenuBar createWidget() {
-        return new MaterialMenuBar();
+    protected MaterialLiveStamp createWidget() {
+        return new MaterialLiveStamp();
     }
 
     public void testStructure() {
+        MaterialLiveStamp liveStamp = getWidget();
+
+        assertTrue(liveStamp instanceof AbstractValueWidget);
+        assertEquals("SPAN", liveStamp.getElement().getTagName());
+    }
+
+    public void testValue() {
         // given
-        MaterialMenuBar menuBar = getWidget();
-        final String ACTIVATOR = "dp-activator";
-        MaterialLink link = new MaterialLink();
-        MaterialDropDown dropDown = new MaterialDropDown();
+        MaterialLiveStamp liveStamp = getWidget();
 
         // when / then
-        link.setActivates(ACTIVATOR);
-        dropDown.setActivator(ACTIVATOR);
-        menuBar.add(link);
-        menuBar.add(dropDown);
-        assertEquals(ACTIVATOR, link.getActivates());
-        assertEquals(ACTIVATOR, dropDown.getActivator());
-        assertEquals(link, menuBar.getWidget(0));
-        assertEquals(dropDown, menuBar.getWidget(1));
+        liveStamp.setValue(VALUE);
+        assertEquals(VALUE.toString(), liveStamp.getValue().toString());
+        assertEquals(VALUE.toString(), liveStamp.getDate().toString());
     }
 }

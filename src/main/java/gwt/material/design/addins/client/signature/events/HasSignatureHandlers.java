@@ -29,15 +29,15 @@ public interface HasSignatureHandlers {
     /**
      * Fired once signature canvas has been cleared.
      */
-    HandlerRegistration addClearSignatureHandler(SignatureClearEvent.SignatureClearHandler handler);
+    HandlerRegistration addSignatureClearHandler(SignatureClearEvent.SignatureClearHandler handler);
 
     /**
      * Fired once signature drawing was started.
      */
-    HandlerRegistration addBeginSignatureHandler(SignatureStartEvent.SignatureStartHandler handler);
+    HandlerRegistration addSignatureStartHandler(SignatureStartEvent.SignatureStartHandler handler);
 
     /**
      * Fired once signature drawing was ended.
      */
-    HandlerRegistration addEndSignatureHandler(SignatureEndEvent.SignatureEndHandler handler);
+    HandlerRegistration addSignatureEndHandler(SignatureEndEvent.SignatureEndHandler handler);
 }

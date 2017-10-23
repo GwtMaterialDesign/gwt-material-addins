@@ -26,7 +26,6 @@ import gwt.material.design.addins.client.circularprogress.MaterialCircularProgre
 import gwt.material.design.addins.client.circularprogress.events.CompleteEvent;
 import gwt.material.design.addins.client.circularprogress.events.ProgressEvent;
 import gwt.material.design.addins.client.circularprogress.events.StartEvent;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.html.Span;
@@ -40,8 +39,22 @@ public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCir
     }
 
     public void testEvents() {
+        // UiBinder
         // given
-        MaterialCircularProgress circularProgress = getWidget();
+        MaterialCircularProgress circularProgress = getWidget(false);
+
+        // when / then
+        checkEvents(circularProgress);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkEvents(circularProgress);
+    }
+
+    protected void checkEvents(MaterialCircularProgress circularProgress) {
         final double VALUE = 20;
         final double PROGRESS = 10;
 
@@ -74,9 +87,22 @@ public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCir
 
     @Override
     public void testFontSize() {
+        // UiBinder
         // given
-        MaterialCircularProgress circularProgress = getWidget();
+        MaterialCircularProgress circularProgress = getWidget(false);
 
+        // when / then
+        checkFontSize(circularProgress);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkFontSize(circularProgress);
+    }
+
+    protected void checkFontSize(MaterialCircularProgress circularProgress) {
         // when
         circularProgress.setFontSize("12px");
 
@@ -96,8 +122,6 @@ public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCir
         // given
         MaterialCircularProgress circularProgress = getWidget();
 
-        // when / then
-        assertEquals(1, circularProgress.getChildren().size());
         assertTrue(circularProgress.getWidget(0) instanceof Span);
         Span lblText = (Span) circularProgress.getWidget(0);
         circularProgress.setText("50%");
@@ -105,60 +129,92 @@ public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCir
     }
 
     public void testProperties() {
+        // UiBinder
         // given
-        MaterialCircularProgress circularProgress = getWidget();
+        MaterialCircularProgress circularProgress = getWidget(false);
 
         // when / then
+        checkProperties(circularProgress);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkProperties(circularProgress);
+    }
+
+    protected void checkProperties(MaterialCircularProgress circularProgress) {
         // Size
-        assertEquals(100.0, circularProgress.getSize());
         circularProgress.setSize(200);
         assertEquals(200.0, circularProgress.getSize());
         // Thickness
-        assertEquals(8, circularProgress.getThickness());
         circularProgress.setThickness(20);
         assertEquals(20, circularProgress.getThickness());
         // Start Angle
-        assertEquals(Math.PI, circularProgress.getStartAngle());
         circularProgress.setStartAngle(Math.PI / 2);
         assertEquals(Math.PI / 2, circularProgress.getStartAngle());
         // Fill Color
-        assertEquals(Color.BLUE, circularProgress.getFillColor());
         circularProgress.setFillColor(Color.RED);
         assertEquals(Color.RED, circularProgress.getFillColor());
         assertNotNull(ColorHelper.setupComputedBackgroundColor(circularProgress.getFillColor()));
         // Empty Fill Color
-        assertEquals(Color.GREY_LIGHTEN_2, circularProgress.getEmptyFillColor());
         circularProgress.setEmptyFillColor(Color.RED_LIGHTEN_2);
         assertEquals(Color.RED_LIGHTEN_2, circularProgress.getEmptyFillColor());
         assertNotNull(ColorHelper.setupComputedBackgroundColor(circularProgress.getEmptyFillColor()));
         // Reverse
-        assertFalse(circularProgress.isReverse());
         circularProgress.setReverse(true);
         assertTrue(circularProgress.isReverse());
     }
 
     public void testValue() {
+        // UiBinder
         // given
-        MaterialCircularProgress circularProgress = getWidget();
+        MaterialCircularProgress circularProgress = getWidget(false);
 
         // when / then
-        assertEquals(0.0, circularProgress.getValue());
+        checkValue(circularProgress);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkValue(circularProgress);
+    }
+
+    protected void checkValue(MaterialCircularProgress circularProgress) {
         circularProgress.setValue(0.5);
         assertEquals(0.5, circularProgress.getValue());
+        circularProgress.setValue(0.0);
+        assertEquals(0.0, circularProgress.getValue());
     }
 
     public void testResponsive() {
+        // UiBinder
         // given
-        MaterialCircularProgress circularProgress = getWidget();
+        MaterialCircularProgress circularProgress = getWidget(false);
 
+        // when / then
+        checkResponsive(circularProgress);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkResponsive(circularProgress);
+    }
+
+    protected void checkResponsive(MaterialCircularProgress circularProgress) {
         circularProgress.setResponsive(true);
         assertTrue(circularProgress.isResponsive());
         assertTrue(circularProgress.getElement().hasClassName(AddinsCssName.RESPONSIVE));
-        assertEquals(1000, circularProgress.getSize());
+        assertEquals(1000.0, circularProgress.getSize());
 
         circularProgress.setResponsive(false);
         assertFalse(circularProgress.isResponsive());
         assertFalse(circularProgress.getElement().hasClassName(AddinsCssName.RESPONSIVE));
-        assertEquals(100, circularProgress.getSize());
+        assertEquals(100.0, circularProgress.getSize());
     }
 }
