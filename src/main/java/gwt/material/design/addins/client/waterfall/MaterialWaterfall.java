@@ -52,7 +52,7 @@ import gwt.material.design.jquery.client.api.Functions;
  *          <m:MaterialAnchorButton text="Get Started" size="LARGE" backgroundColor="blue lighten-2" textColor="white"/>
  *      </m:MaterialPanel>
  * </ma:waterfall.MaterialWaterfall>
- *
+ * }
  * </pre>
  *
  * @author kevzlou7979
