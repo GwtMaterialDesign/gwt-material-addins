@@ -121,7 +121,6 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
 
     /**
      * Get source widget for path animator
-     * @return
      */
     public MaterialWidget getSource() {
         return source;
