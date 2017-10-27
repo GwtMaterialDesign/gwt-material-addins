@@ -1,0 +1,34 @@
+.language-selector {
+    padding: 0px 15px;
+    display: flex;
+    align-items: center;
+    height: 64px;
+}
+
+.language-selector img {
+    width: 2rem;
+    hreight: 2rem;
+}
+
+.language-selector img.language-activator {
+    border: 2px solid white;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.language-selector .dropdown-content {
+    min-width: 160px;
+}
+
+.language-selector .dropdown-content li {
+    min-height: 40px;
+}
+
+.language-selector .language-selector-item {
+    margin: 0px;
+    padding: 8px 8px 4px;
+}
+
+.language-selector .language-selector-item a:hover {
+    background: none;
+}

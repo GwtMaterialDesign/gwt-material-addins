@@ -17,15 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.loadingstate.events;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+public interface HasLoadingStateHandler extends HasHandlers {
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
+
+    HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler handler);
+
+    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
 }

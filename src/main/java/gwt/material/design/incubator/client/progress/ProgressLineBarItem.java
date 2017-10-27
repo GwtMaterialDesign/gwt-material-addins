@@ -17,15 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.progress;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.ui.html.Div;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+public class ProgressLineBarItem extends Div {
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        setStyleName(IncubatorCssName.PROGRESS_ITEM);
+    }
+
+    public void setActive(boolean active) {
+        if (active) {
+            addStyleName(CssName.ACTIVE);
+        } else {
+            removeStyleName(CssName.ACTIVE);
+        }
+    }
 }

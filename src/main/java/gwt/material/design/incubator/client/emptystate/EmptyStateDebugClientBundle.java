@@ -17,15 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.emptystate;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+public interface EmptyStateDebugClientBundle extends ClientBundle {
+    EmptyStateDebugClientBundle INSTANCE = GWT.create(EmptyStateDebugClientBundle.class);
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    @Source("resources/css/empty-state.css")
+    TextResource emptyStateDebugCss();
 }

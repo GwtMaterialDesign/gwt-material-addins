@@ -17,15 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.incubator.client.ui.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
-
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        AlertTest.class,
+        EmptyStateTest.class,
+        GroupToggleButtonTest.class,
+        LanguageSelectorTest.class,
+        LoadingStateTest.class,
+        ReCaptchaTest.class,
+        TimerProgressTest.class
+})
+public class AddinsIncubatorTestSuite {
 }

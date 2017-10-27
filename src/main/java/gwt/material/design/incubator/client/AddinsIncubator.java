@@ -17,15 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.addins.client.MaterialAddins;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+public class AddinsIncubator extends MaterialAddins {
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    @Override
+    public void onModuleLoad() {
+        super.onModuleLoad();
+
+        GWT.log("Incubator Addin widgets are in beta development but currently available for production purposes.");
+    }
 }

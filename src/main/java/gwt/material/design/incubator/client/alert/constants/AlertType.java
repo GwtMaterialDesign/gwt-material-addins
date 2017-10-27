@@ -17,19 +17,25 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search.constants;
+package gwt.material.design.incubator.client.alert.constants;
 
-import com.google.gwt.dom.client.Style;
 import gwt.material.design.client.base.helper.EnumHelper;
+import gwt.material.design.client.constants.CssType;
 
-public enum Theme implements Style.HasCssName {
-    DEFAULT(""),
-    LIGHT("light"),
-    DARK("dark");
+/**
+ * Types of Alert.<br>
+ *
+ * @author kevzlou7979
+ * @author Ben Dol
+ */
+public enum AlertType implements CssType {
+    WARNING("warning"),
+    INFORMATION("information"),
+    ERROR("error");
 
-    private String cssClass;
+    private final String cssClass;
 
-    Theme(String cssClass) {
+    AlertType(final String cssClass) {
         this.cssClass = cssClass;
     }
 
@@ -38,7 +44,7 @@ public enum Theme implements Style.HasCssName {
         return cssClass;
     }
 
-    public static Theme fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, Theme.class, DEFAULT);
+    public static AlertType fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, AlertType.class, INFORMATION);
     }
 }

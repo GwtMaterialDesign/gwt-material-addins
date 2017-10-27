@@ -1,0 +1,41 @@
+.timer-progress {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+    height: 5px;
+    background: #eee;
+}
+
+.timer-progress .fill {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 100%;
+    background: #2196f3;
+    width: 0;
+    -webkit-animation: 6s fullw infinite;
+    animation: 6s fullw infinite;
+}
+.timer-progress.bouncing .fill {
+    background: #2196f3;
+    width: 50%;
+    -webkit-animation: 1.5s cubic-bezier(0.08, -0.18, 0.91, 1.14) barbounce alternate infinite;
+    animation: 1.5s cubic-bezier(0.08, -0.18, 0.91, 1.14) barbounce alternate infinite;
+}
+
+@-webkit-keyframes barbounce {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: calc(100% - 50%);
+    }
+}
+@keyframes barbounce {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: calc(100% - 50%);
+    }
+}

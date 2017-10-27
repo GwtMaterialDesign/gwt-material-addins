@@ -17,15 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.base.constants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+public interface IncubatorCssName {
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
-
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    String ALERT_MODAL = "alert-modal";
+    String ASYNC_BUTTON = "async-button";
+    String TIMER_PROGRESS = "timer-progress";
+    String EMPTY_STATE = "empty-state";
+    String LOADING_STATE = "loading-state";
+    String BOUNCING = "bouncing";
+    String FILL = "fill";
+    String GROUP_TOGGLE_BUTTON = "group-toggle-button";
+    String LANGUAGE_SELECTOR = "language-selector";
+    String LANGUAGE_ACTIVATOR = "language-activator";
+    String LANGUAGE_SELECTOR_ITEM = "language-selector-item";
+    String PROGRESS_ITEM = "progress-item";
 }

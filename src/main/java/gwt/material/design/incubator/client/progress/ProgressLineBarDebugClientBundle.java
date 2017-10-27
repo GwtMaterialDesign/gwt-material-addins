@@ -17,15 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.progress;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+public interface ProgressLineBarDebugClientBundle extends ClientBundle {
+    ProgressLineBarDebugClientBundle INSTANCE = GWT.create(ProgressLineBarDebugClientBundle.class);
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    @Source("resources/css/progress-line-bar.css")
+    TextResource progressLineBarDebugCss();
 }

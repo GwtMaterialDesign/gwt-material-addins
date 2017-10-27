@@ -17,15 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.loadingstate.constants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+public enum State {
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
-
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    LOADING,
+    SUCCESS,
+    ERROR
 }

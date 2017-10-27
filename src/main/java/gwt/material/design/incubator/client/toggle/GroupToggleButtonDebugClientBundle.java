@@ -17,15 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.toggle;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+/**
+ * Client Bundle resources for GroupToggleButton component<br>
+ *
+ * @author kevzlou7979
+ */
+public interface GroupToggleButtonDebugClientBundle extends ClientBundle {
+    GroupToggleButtonDebugClientBundle INSTANCE = GWT.create(GroupToggleButtonDebugClientBundle.class);
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    @Source("resources/css/group-toggle-button.css")
+    TextResource groupToggleDebugCss();
 }

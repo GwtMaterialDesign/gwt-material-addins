@@ -17,15 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.recaptcha.constants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+/**
+ * Types for ReCaptcha component
+ *
+ * @author kevzlou7979
+ */
+public enum CaptchaType {
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+    IMAGE("image"),
+    AUDIO("audio");
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    private String type;
+
+    CaptchaType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

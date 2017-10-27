@@ -17,15 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.async;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.client.ui.MaterialCheckBox;
 
-public interface InlineSearchClientBundle extends ClientBundle {
-    InlineSearchClientBundle INSTANCE = GWT.create(InlineSearchClientBundle.class);
+public class AsyncCheckBox extends MaterialCheckBox {
 
-    @Source("resources/css/inline-search.min.css")
-    TextResource inlineSearchCss();
+    public AsyncCheckBox() {
+        super();
+    }
 }
