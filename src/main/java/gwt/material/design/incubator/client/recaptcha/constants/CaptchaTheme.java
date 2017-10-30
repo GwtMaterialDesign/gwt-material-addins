@@ -17,16 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.recaptcha.constants;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+/**
+ * Types for ReCaptcha component
+ *
+ * @author kevzlou7979
+ */
+public enum CaptchaTheme {
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+    LIGHT("light"),
+    DARK("dark");
 
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
+    private String theme;
+
+    CaptchaTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 }

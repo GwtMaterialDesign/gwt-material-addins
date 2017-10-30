@@ -17,16 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.async;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+public interface AsyncClientBundle extends ClientBundle {
+    AsyncClientBundle INSTANCE = GWT.create(AsyncClientBundle.class);
 
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    @Source("resources/css/async-button.min.css")
+    TextResource asyncButtonCss();
 }

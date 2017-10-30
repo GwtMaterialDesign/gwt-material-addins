@@ -17,16 +17,28 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.search.constants;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.dom.client.Style;
+import gwt.material.design.client.base.helper.EnumHelper;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+public enum Theme implements Style.HasCssName {
+    DEFAULT(""),
+    LIGHT("light"),
+    DARK("dark");
+
+    private String cssClass;
+
+    Theme(String cssClass) {
+        this.cssClass = cssClass;
+    }
 
     @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
+    public String getCssName() {
+        return cssClass;
+    }
+
+    public static Theme fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, Theme.class, DEFAULT);
     }
 }

@@ -17,16 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.loadingstate.constants;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+public enum State {
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
-
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    LOADING,
+    SUCCESS,
+    ERROR
 }

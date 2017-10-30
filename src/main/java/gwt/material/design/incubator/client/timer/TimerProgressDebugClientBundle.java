@@ -17,16 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.timer;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+/**
+ * Client Bundle resources for TimerProgress component<br>
+ *
+ * @author kevzlou7979
+ */
+public interface TimerProgressDebugClientBundle extends ClientBundle {
+    TimerProgressDebugClientBundle INSTANCE = GWT.create(TimerProgressDebugClientBundle.class);
 
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    @Source("resources/css/timer.css")
+    TextResource timerDebugCss();
+
+    @Source("resources/css/circular.css")
+    TextResource circularTimerDebugCss();
 }

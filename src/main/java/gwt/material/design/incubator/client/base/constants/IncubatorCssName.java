@@ -17,16 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.base.constants;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+public interface IncubatorCssName {
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
-
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    String ALERT_CONTAINER = "alert-container";
+    String ASYNC_BUTTON = "async-button";
+    String TIMER_PROGRESS = "timer-progress";
+    String LOADING_STATE = "loading-state";
+    String BOUNCING = "bouncing";
+    String FILL = "fill";
+    String GROUP_TOGGLE_BUTTON = "group-toggle-button";
+    String LANGUAGE_SELECTOR = "language-selector";
+    String LANGUAGE_ACTIVATOR = "language-activator";
+    String LANGUAGE_SELECTOR_ITEM = "language-selector-item";
+    String PROGRESS_ITEM = "progress-item";
 }

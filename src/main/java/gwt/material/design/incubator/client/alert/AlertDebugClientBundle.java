@@ -17,16 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.alert;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+/**
+ * Client Bundle resources for Alert component<br>
+ *
+ * @author kevzlou7979
+ */
+public interface AlertDebugClientBundle extends ClientBundle {
+    AlertDebugClientBundle INSTANCE = GWT.create(AlertDebugClientBundle.class);
 
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    @Source("resources/css/alert.css")
+    TextResource alertDebugCss();
 }

@@ -17,16 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.core.client.GWT;
+import gwt.material.design.addins.client.MaterialAddins;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+public class AddinsIncubator extends MaterialAddins {
 
     @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
+    public void onModuleLoad() {
+        super.onModuleLoad();
+
+        GWT.log("Incubator Addin widgets are in beta development but currently available for production purposes.");
     }
 }

@@ -17,16 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import gwt.material.design.incubator.client.ui.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
-
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        AlertTest.class,
+        GroupToggleButtonTest.class,
+        LanguageSelectorTest.class,
+        LoadingStateTest.class,
+        ReCaptchaTest.class,
+        TimerProgressTest.class
+})
+public class AddinsIncubatorTestSuite {
 }

@@ -17,16 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.toggle;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+/**
+ * Client Bundle resources for GroupToggleButton component<br>
+ *
+ * @author kevzlou7979
+ */
+public interface GroupToggleButtonClientBundle extends ClientBundle {
+    GroupToggleButtonClientBundle INSTANCE = GWT.create(GroupToggleButtonClientBundle.class);
 
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    @Source("resources/css/group-toggle-button.min.css")
+    TextResource groupToggleButtonCss();
 }

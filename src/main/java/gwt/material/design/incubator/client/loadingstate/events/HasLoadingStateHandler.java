@@ -17,16 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.loadingstate.events;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+public interface HasLoadingStateHandler extends HasHandlers {
 
-    @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
-    }
+    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
+
+    HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler handler);
+
+    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
 }

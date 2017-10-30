@@ -17,16 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui.base;
+package gwt.material.design.incubator.client.progress;
 
-import gwt.material.design.client.ui.MaterialValueBox;
-import org.junit.Ignore;
+import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.ui.html.Div;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-@Ignore
-public abstract class MaterialValueBoxTest<T extends MaterialValueBox> extends gwt.material.design.client.ui.MaterialValueBoxTest<T> {
+public class ProgressLineBarItem extends Div {
 
     @Override
-    public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
+    protected void onLoad() {
+        super.onLoad();
+
+        setStyleName(IncubatorCssName.PROGRESS_ITEM);
+    }
+
+    public void setActive(boolean active) {
+        if (active) {
+            addStyleName(CssName.ACTIVE);
+        } else {
+            removeStyleName(CssName.ACTIVE);
+        }
     }
 }
