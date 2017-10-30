@@ -30,16 +30,11 @@ import gwt.material.design.client.ui.MaterialIcon;
 public class MaterialUploadLabel extends MaterialWidget implements HasTitle {
 
     private MaterialIcon icon = new MaterialIcon(IconType.CLOUD_UPLOAD);
-    private final TitleMixin<MaterialUploadLabel> titleMixin = new TitleMixin<>(this);
+    private TitleMixin<MaterialUploadLabel> titleMixin;
 
     public MaterialUploadLabel() {
         super(Document.get().createDivElement(), AddinsCssName.UPLOAD_LABEL);
 
-        build();
-    }
-
-    @Override
-    protected void build() {
         add(icon);
     }
 
@@ -51,15 +46,22 @@ public class MaterialUploadLabel extends MaterialWidget implements HasTitle {
 
     @Override
     public void setTitle(String title) {
-        titleMixin.setTitle(title);
+        getTitleMixin().setTitle(title);
     }
 
     @Override
     public void setDescription(String description) {
-        titleMixin.setDescription(description);
+        getTitleMixin().setDescription(description);
     }
 
     public MaterialIcon getIcon() {
         return icon;
+    }
+
+    public TitleMixin<MaterialUploadLabel> getTitleMixin() {
+        if (titleMixin == null) {
+            titleMixin = new TitleMixin<>(this);
+        }
+        return titleMixin;
     }
 }

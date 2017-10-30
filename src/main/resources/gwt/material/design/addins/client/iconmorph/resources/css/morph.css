@@ -15,6 +15,8 @@
     font-size: 4em !important;
     height: 1em;
     width: 1em;
+    position: absolute;
+    left: 0;
 }
 .anim-container .source {
     transform: rotate(-135deg);

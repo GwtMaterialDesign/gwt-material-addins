@@ -23,17 +23,18 @@ package gwt.material.design.addins.client.camera;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.VideoElement;
+import com.google.gwt.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.camera.base.HasCameraActions;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
+import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.jscore.client.api.*;
+import gwt.material.design.jscore.client.api.Navigator;
+import gwt.material.design.jscore.client.api.media.*;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 
@@ -94,97 +95,101 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
  * </p>
  *
  * @author gilberto-torrezan
+ * @author kevzlou7979
  */
 // @formatter:on
-public class MaterialCameraCapture extends MaterialWidget implements HasCameraCaptureHandlers {
+public class MaterialCameraCapture extends MaterialWidget implements JsLoader, HasCameraCaptureHandlers, HasCameraActions {
 
-    protected boolean pauseOnUnload = true;
+    protected int width = 1280;
+    protected int height = 720;
+    protected boolean pauseOnUnload = false;
+    protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
+    private MediaStream mediaStream;
+    private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
+    private MaterialWidget overlayPanel = new MaterialWidget(Document.get().createDivElement());
 
     public MaterialCameraCapture() {
-        super(Document.get().createVideoElement());
-    }
-
-    /**
-     * Captures the current frame of the video to an image data URL. It's the same as calling
-     * {@link #captureToDataURL(String)} using "image/png".
-     *
-     * @return The Data URL of the captured image, which can be used as "src" on an "img" element
-     * or sent to the server
-     */
-    public String captureToDataURL() {
-        return captureToDataURL("image/png");
-    }
-
-    /**
-     * Captures the current frame of the video to an image data URL.
-     *
-     * @param mimeType The type of the output image, such as "image/png" or "image/jpeg".
-     * @return The Data URL of the captured image, which can be used as "src" on an "img" element
-     * or sent to the server
-     */
-    public String captureToDataURL(String mimeType) {
-        return nativeCaptureToDataURL(Canvas.createIfSupported().getCanvasElement(), getElement(), mimeType);
+        super(Document.get().createDivElement(), "camera-wrapper");
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        VideoElement el = getElement().cast();
-        if (el.getSrc() == null || el.isPaused()) {
-            play();
-        }
+
+        setLayoutPosition(Style.Position.RELATIVE);
+        add(video);
+
+        overlayPanel.setLayoutPosition(Style.Position.FIXED);
+        overlayPanel.setTop(0);
+        overlayPanel.setLeft(0);
+        overlayPanel.setBottom(0);
+        overlayPanel.setRight(0);
+        add(overlayPanel);
+
+        load();
+    }
+
+    @Override
+    public void load() {
+        play();
     }
 
     @Override
     protected void onUnload() {
-        if (pauseOnUnload) {
-            pause();
-        }
+        super.onUnload();
+
+        unload();
     }
 
-    /**
-     * <p>
-     * Starts the video stream from the camera. This is called when the component is loaded.
-     * Use {@link CameraCaptureHandler}s to be notified when the stream actually starts or if
-     * an error occurs.
-     * </p>
-     * <p>
-     * At this point the user is requested by the browser to allow the application to use the camera.
-     * If the user doesn't allow it, an error is notified to the {@link CameraCaptureHandler}s.
-     * </p>
-     */
+    @Override
+    public void unload() {
+        stop();
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
+    @Override
     public void play() {
         if (!isSupported()) {
             onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
             return;
         }
-        VideoElement el = getElement().cast();
-        if (el.getSrc() == null) {
-            nativePlay(getElement());
-        } else {
-            el.play();
-        }
+
+        nativePlay(video.getElement());
     }
 
-    /**
-     * Restarts the video stream from the camera.
-     * The user is requested again by the browser to allow the application to use the camera.
-     */
-    public void restart() {
-        if (!isSupported()) {
-            onCameraCaptureError("MaterialCameraCapture is not supported in this browser.");
-            return;
-        }
-        nativePlay(getElement());
-    }
-
-    /**
-     * Pauses the video stream from the camera.
-     */
+    @Override
     public void pause() {
-        VideoElement el = getElement().cast();
+        VideoElement el = video.getElement().cast();
         el.pause();
         onCameraCapturePause();
+    }
+
+    @Override
+    public void stop() {
+        if (pauseOnUnload) {
+            pause();
+        }
+
+        if (mediaStream != null) {
+            for (MediaStreamTrack track : mediaStream.getTracks()) {
+                track.stop();
+            }
+        }
+    }
+
+    @Override
+    public String captureToDataURL() {
+        return captureToDataURL("image/png");
+    }
+
+    @Override
+    public String captureToDataURL(String mimeType) {
+        return nativeCaptureToDataURL(Canvas.createIfSupported().getCanvasElement(), video.getElement(), mimeType);
     }
 
     /**
@@ -227,22 +232,30 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
         if (stream != null) {
             Navigator.getMedia = stream;
             Constraints constraints = new Constraints();
-            constraints.video = true;
             constraints.audio = false;
 
-            Navigator.getMedia(constraints, (streamObj) -> {
-                if (URL.createObjectURL(streamObj) != null) {
-                    $(video).attr("src", URL.createObjectURL(streamObj));
-                } else if (WebkitURL.createObjectURL(streamObj) != null) {
-                    $(video).attr("src", WebkitURL.createObjectURL(streamObj));
+            MediaTrackConstraints mediaTrackConstraints = new MediaTrackConstraints();
+            mediaTrackConstraints.width = width;
+            mediaTrackConstraints.height = height;
+            mediaTrackConstraints.facingMode = facingMode.getName();
+            constraints.video = mediaTrackConstraints;
+
+            Navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
+                mediaStream = (MediaStream) streamObj;
+                if (URL.createObjectURL(mediaStream) != null) {
+                    $(video).attr("src", URL.createObjectURL(mediaStream));
+                } else if (WebkitURL.createObjectURL(mediaStream) != null) {
+                    $(video).attr("src", WebkitURL.createObjectURL(mediaStream));
                 }
                 if (video instanceof VideoElement) {
                     ((VideoElement) video).play();
                 }
                 onCameraCaptureLoad();
-            }, (error) -> {
+                return null;
+            }).catchException(error -> {
                 GWT.log("MaterialCameraCapture: An error occured! " + error);
-                onCameraCaptureError(error);
+                onCameraCaptureError(error.toString());
+                return null;
             });
         }
     }
@@ -273,9 +286,46 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
      */
     public static boolean isSupported() {
         return Navigator.webkitGetUserMedia != null
-            || Navigator.getUserMedia != null
-            || Navigator.mozGetUserMedia != null
-            || Navigator.msGetUserMedia != null;
+                || Navigator.getUserMedia != null
+                || Navigator.mozGetUserMedia != null
+                || Navigator.msGetUserMedia != null;
+    }
+
+    public void addOverlay(MaterialWidget overlay) {
+        overlayPanel.add(overlay);
+    }
+
+    public void removeOverlay(MaterialWidget overlay) {
+        overlayPanel.remove(overlay);
+    }
+
+    public void clearOverlays() {
+        overlayPanel.clear();
+    }
+
+    public MaterialWidget getVideo() {
+        return video;
+    }
+
+    public void setVideo(MaterialWidget video) {
+        this.video = video;
+    }
+
+    /**
+     * Set the resolution of the camera
+     */
+    public void setResolution(int width, int height) {
+        this.width = width;
+        this.height = height;
+        reload();
+    }
+
+    /**
+     * Set the facing mode of the camera (Best usecase for Mobile Devices)
+     */
+    public void setFacingMode(CameraFacingMode facingMode) {
+        this.facingMode = facingMode;
+        reload();
     }
 
     /**
@@ -307,5 +357,4 @@ public class MaterialCameraCapture extends MaterialWidget implements HasCameraCa
             }
         }, CameraCaptureEvent.getType());
     }
-
 }

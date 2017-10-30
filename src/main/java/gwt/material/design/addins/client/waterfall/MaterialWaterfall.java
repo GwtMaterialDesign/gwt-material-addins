@@ -25,6 +25,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
@@ -58,7 +59,7 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
  */
 //@formatter:on
-public class MaterialWaterfall extends MaterialWidget {
+public class MaterialWaterfall extends MaterialWidget implements JsLoader {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -87,13 +88,6 @@ public class MaterialWaterfall extends MaterialWidget {
 
     @Override
     protected void onLoad() {
-        build();
-
-        super.onLoad();
-    }
-
-    @Override
-    protected void build() {
         if (openCallback == null) {
             openCallback = () -> {
                 for (Widget w : getChildren()) {
@@ -111,20 +105,39 @@ public class MaterialWaterfall extends MaterialWidget {
         if (offset == 0) {
             offset = getOffsetHeight();
         }
+
+        super.onLoad();
+
+        load();
     }
 
     @Override
-    protected void initialize() {
-        initWaterfall(getElement().getOffsetHeight(), openCallback, closeCallback, offset);
+    public void load() {
+        JsWaterfall.initWaterfall(getElement().getOffsetHeight(), openCallback::call, closeCallback::call, offset);
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        closeCallback = null;
+        openCallback = null;
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     public void setCallbacks(Functions.Func openCallback, Functions.Func closeCallback) {
         this.openCallback = openCallback;
         this.closeCallback = closeCallback;
-    }
-
-    protected void initWaterfall(double height, Functions.Func openCallback, Functions.Func closeCallback, double offset) {
-        JsWaterfall.initWaterfall(height, openCallback::call, closeCallback::call, offset);
     }
 
     public double getOffset() {
@@ -134,4 +147,6 @@ public class MaterialWaterfall extends MaterialWidget {
     public void setOffset(double offset) {
         this.offset = offset;
     }
+
+
 }

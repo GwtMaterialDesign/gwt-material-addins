@@ -54,13 +54,14 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#pathAnimator">Material Path Animator</a>
+ * @see <a href="https://github.com/chinchang/cta.js">CTAJs 0.3.2</a>
  */
 //@formatter:on
 public class MaterialPathAnimator implements HasDurationTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
+            MaterialDesignBase.injectDebugJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
         }
@@ -70,33 +71,29 @@ public class MaterialPathAnimator implements HasDurationTransition {
     private Element targetElement;
     private Functions.Func animateCallback;
     private Functions.Func reverseCallback;
-    private int duration = 300;
-    private int targetShowDuration = 0;
-    private int extraTransitionDuration = 100;
-    private JsPathAnimatorOptions options = new JsPathAnimatorOptions();
+    private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
 
     public MaterialPathAnimator() {
+    }
+
+    public MaterialPathAnimator(Element sourceElement, Element targetElement) {
+        this.sourceElement = sourceElement;
+        this.targetElement = targetElement;
     }
 
     /**
      * Animate the path animator
      */
     public void animate() {
-        $("document").ready(() -> {
-            options.duration = duration / 1000;
-            options.targetShowDuration = targetShowDuration / 1000;
-            options.extraTransitionDuration = extraTransitionDuration / 1000;
-
-            JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-                if (animateCallback != null) {
-                    animateCallback.call();
-                } else {
-                    // For default animateCallback when animateCallback is null
-                    targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                    targetElement.getStyle().setOpacity(1);
-                }
-            });
-        });
+        $("document").ready(() -> JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+            if (animateCallback != null) {
+                animateCallback.call();
+            } else {
+                // For default animateCallback when animateCallback is null
+                targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                targetElement.getStyle().setOpacity(1);
+            }
+        }));
     }
 
     /**
@@ -264,33 +261,44 @@ public class MaterialPathAnimator implements HasDurationTransition {
 
     @Override
     public void setDuration(int duration) {
-        this.duration = duration;
+        options.duration = duration / 1000.0;
     }
 
     @Override
     public int getDuration() {
-        return duration;
-    }
-
-    public int getTargetShowDuration() {
-        return targetShowDuration;
+        return (int) (options.duration * 1000);
     }
 
     /**
      * Duration (in milliseconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
      */
     public void setTargetShowDuration(int targetShowDuration) {
-        this.targetShowDuration = targetShowDuration;
+        options.targetShowDuration = targetShowDuration / 1000.0;
     }
 
-    public int getExtraTransitionDuration() {
-        return extraTransitionDuration;
+    public int getTargetShowDuration() {
+        return (int) (options.targetShowDuration * 1000);
     }
 
     /**
      * Extra duration (in milliseconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
      */
     public void setExtraTransitionDuration(int extraTransitionDuration) {
-        this.extraTransitionDuration = extraTransitionDuration;
+        options.extraTransitionDuration = extraTransitionDuration / 1000.0;
+    }
+
+    public int getExtraTransitionDuration() {
+        return (int) (options.extraTransitionDuration * 1000);
+    }
+
+    public boolean isRelativeToWindow() {
+        return options.relativeToWindow;
+    }
+
+    /**
+     * Set to true if your target element is fixed positioned in the window. Default is relative to document (works good with normal elements).
+     */
+    public void setRelativeToWindow(boolean relativeToWindow) {
+        options.relativeToWindow = relativeToWindow;
     }
 }

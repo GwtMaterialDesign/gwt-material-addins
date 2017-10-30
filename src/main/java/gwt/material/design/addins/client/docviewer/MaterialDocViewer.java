@@ -20,6 +20,8 @@
 package gwt.material.design.addins.client.docviewer;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.MaterialWidget;
 
 //@formatter:off
@@ -47,7 +49,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#docviewer">Doc Viewer</a>
  */
 //@formatter:on
-public class MaterialDocViewer extends MaterialWidget {
+public class MaterialDocViewer extends AbstractValueWidget<String> {
 
     private String url;
     private boolean embedded = true;
@@ -65,26 +67,33 @@ public class MaterialDocViewer extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        build();
+        updateSrc();
     }
 
     @Override
-    protected void build() {
-        getElement().setAttribute("src", "https://docs.google.com/gview?url=" + url + "&embedded=" + embedded);
+    public String getValue() {
+        return url;
+    }
+
+    @Override
+    public void setValue(String value, boolean fireEvents) {
+        this.url = value;
+        updateSrc();
+        super.setValue(value, fireEvents);
     }
 
     /**
      * Get the url of the Iframe component.
      */
     public String getUrl() {
-        return url;
+        return getValue();
     }
 
     /**
      * Set the url of the public document.
      */
     public void setUrl(String url) {
-        this.url = url;
+        setValue(url, true);
     }
 
     /**
@@ -99,5 +108,13 @@ public class MaterialDocViewer extends MaterialWidget {
      */
     public void setEmbedded(boolean embedded) {
         this.embedded = embedded;
+        updateSrc();
+    }
+
+    protected void updateSrc() {
+        Element element = getElement();
+        if(element != null) {
+            element.setAttribute("src", "https://docs.google.com/gview?url=" + url + "&embedded=" + embedded);
+        }
     }
 }

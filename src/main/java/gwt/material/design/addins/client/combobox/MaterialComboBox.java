@@ -24,33 +24,27 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
-import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
+import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
-import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
 
@@ -80,9 +74,10 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @author kevzlou7979
  * @author Ben Dol
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#combobox">Material ComboBox</a>
+ * @see <a href="https://github.com/select2/select2">Select2 4.0.3</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements HasPlaceholder,
+public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
         HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly {
 
     static {
@@ -95,32 +90,18 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         }
     }
 
-    private String placeholder;
-    private boolean allowClear;
-    private boolean multiple;
-    private boolean hideSearch;
-    private int limit;
-    private boolean closeOnSelect = true;
-    private boolean tags;
-    private String dropdownParent = "body";
-    private boolean suppressChangeEvent;
 
     private int selectedIndex;
-    private String uid = DOM.createUniqueId();
-
+    private boolean suppressChangeEvent;
     protected List<T> values = new ArrayList<>();
-
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
-    private HandlerRegistration valueChangeHandler, clearInputHandler;
-
-    private final ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin = new ErrorMixin<>(
-            this, errorLabel, this.asWidget());
-    private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
-
-    // By default the key is generated using toString
     private KeyFactory<T, String> keyFactory = Object::toString;
+    private JsComboBoxOptions options = JsComboBoxOptions.create();
+
+    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
@@ -128,46 +109,27 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     protected void onLoad() {
-        build();
-
-        super.onLoad();
-    }
-
-    @Override
-    protected void build() {
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
         super.add(listbox);
         super.add(label);
         errorLabel.setMarginTop(15);
         $(errorLabel.getElement()).insertAfter($(getElement()));
-        setId(uid);
-
         listbox.setGwtDisplay(Style.Display.BLOCK);
+
+        super.onLoad();
+
+        load();
+
+        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
     }
 
     @Override
-    protected void initialize() {
-        JsComboBoxOptions options = new JsComboBoxOptions();
-        options.allowClear = allowClear;
-        options.placeholder = placeholder;
-        options.maximumSelectionLength = limit;
-        options.closeOnSelect = closeOnSelect;
-        options.dropdownParent = $(dropdownParent);
-        options.tags = tags;
-
-        if (clearInputHandler == null) {
-            clearInputHandler = addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val(""));
-        }
-
-        if (isHideSearch()) {
-            options.minimumResultsForSearch = "Infinity";
-        }
-
+    public void load() {
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.select2(options);
 
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
-            if(!suppressChangeEvent) {
+            if (!suppressChangeEvent) {
                 ValueChangeEvent.fire(this, getValue());
             }
             return true;
@@ -202,7 +164,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     protected void onUnload() {
         super.onUnload();
 
-        // Perform tear down on select2
+        unload();
+    }
+
+    @Override
+    public void unload() {
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
@@ -210,14 +176,15 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
         jsComboBox.select2("destroy");
-
-        if (valueChangeHandler != null) {
-            valueChangeHandler.removeHandler();
-        }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    public void reload() {
+        unload();
+        load();
+    }
+
+    @Override
     public void add(Widget child) {
         if (child instanceof OptGroup) {
             for (Widget w : ((OptGroup) child).getChildren()) {
@@ -232,26 +199,103 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
-    * Sets the parent element of the dropdown
-    */
-    public void setDropdownParent(String dropdownParent) {
-        this.dropdownParent = dropdownParent;
-    }
-
-    public String getDropdownParent() {
-        return dropdownParent;
+     * Add OptionGroup directly to combobox component
+     *
+     * @param group - Option Group component
+     */
+    public void addGroup(OptGroup group) {
+        listbox.add(group);
     }
 
     /**
-     * Sets multi-value select boxes.
+     * Add item directly to combobox component with existing OptGroup
+     *
+     * @param text     - The text you want to labeled on the option item
+     * @param value    - The value you want to pass through in this option
+     * @param optGroup - Add directly this option into the existing group
      */
-    public void setMultiple(boolean multiple) {
-        this.multiple = multiple;
-        if (multiple) {
-            $(listbox.getElement()).attr("multiple", "multiple");
-        } else {
-            $(listbox.getElement()).removeAttr("multiple");
+    public void addItem(String text, T value, OptGroup optGroup) {
+        if (!values.contains(value)) {
+            values.add(value);
+            optGroup.add(buildOption(text, value));
         }
+    }
+
+    /**
+     * Add Value directly to combobox component
+     *
+     * @param text  - The text you want to labeled on the option item
+     * @param value - The value you want to pass through in this option
+     */
+    public Option addItem(String text, T value) {
+        if (!values.contains(value)) {
+            Option option = buildOption(text, value);
+            values.add(value);
+            listbox.add(option);
+            return option;
+        }
+        return null;
+    }
+
+    public Option addItem(T value) {
+        return addItem(keyFactory.generateKey(value), value);
+    }
+
+    public void setItems(Collection<T> items) {
+        clear();
+        addItems(items);
+    }
+
+    public void addItems(Collection<T> items) {
+        items.forEach(this::addItem);
+    }
+
+    /**
+     * Build the Option Element with provided params
+     */
+    protected Option buildOption(String text, T value) {
+        Option option = new Option();
+        option.setText(text);
+        option.setValue(keyFactory.generateKey(value));
+        return option;
+    }
+
+    /**
+     * Programmatically open the combobox component
+     */
+    public void open() {
+        $(listbox.getElement()).select2("open");
+    }
+
+    /**
+     * Programmatically close the combobox component
+     */
+    public void close() {
+        $(listbox.getElement()).select2("close");
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<Widget> it = iterator();
+        while (it.hasNext()) {
+            final Widget widget = it.next();
+            if (widget != label && widget != errorLabel && widget != listbox) {
+                it.remove();
+            }
+        }
+        listbox.clear();
+        values.clear();
+    }
+
+    /**
+     * Sets the parent element of the dropdown
+     */
+    public void setDropdownParent(String dropdownParent) {
+        options.dropdownParent = $(dropdownParent);
+    }
+
+    public JQueryElement getDropdownParent() {
+        return options.dropdownParent;
     }
 
     /**
@@ -263,12 +307,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public String getPlaceholder() {
-        return placeholder;
+        return options.placeholder;
     }
 
     @Override
     public void setPlaceholder(String placeholder) {
-        this.placeholder = placeholder;
+        options.placeholder = placeholder;
     }
 
     @Override
@@ -285,70 +329,88 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Check if allow clear option is enabled
      */
     public boolean isAllowClear() {
-        return allowClear;
+        return options.allowClear;
     }
 
     /**
      * Add a clear button on the right side of the combobox
      */
     public void setAllowClear(boolean allowClear) {
-        this.allowClear = allowClear;
+        options.allowClear = allowClear;
     }
 
     /**
      * Get the maximum number of items to be entered on multiple combobox
      */
     public int getLimit() {
-        return limit;
+        return options.maximumSelectionLength;
     }
 
     /**
      * Set the maximum number of items to be entered on multiple combobox
      */
     public void setLimit(int limit) {
-        this.limit = limit;
+        options.maximumSelectionLength = limit;
     }
 
     /**
      * Check whether the search box is enabled on combobox
      */
     public boolean isHideSearch() {
-        return hideSearch;
+        return options.minimumResultsForSearch.equals("Infinity");
     }
 
     /**
      * Set the option to display the search box inside the combobox component
      */
     public void setHideSearch(boolean hideSearch) {
-        this.hideSearch = hideSearch;
+        if (hideSearch) {
+            options.minimumResultsForSearch = "Infinity";
+        }
     }
 
     /**
      * Check whether the multiple option is enabled
      */
     public boolean isMultiple() {
-        return multiple;
+        if (listbox != null) {
+            return listbox.getElement().hasAttribute("multiple");
+        }
+        return false;
     }
+
+
+    /**
+     * Sets multi-value select boxes.
+     */
+    public void setMultiple(boolean multiple) {
+        if (multiple) {
+            $(listbox.getElement()).attr("multiple", "multiple");
+        } else {
+            $(listbox.getElement()).removeAttr("multiple");
+        }
+    }
+
 
     public void setAcceptableValues(Collection<T> values) {
         setItems(values);
     }
 
-    public void setItems(Collection<T> items) {
-        clear();
-        addItems(items);
-    }
-
-    public void addItems(Collection<T> items) {
-        items.forEach(this::addItem);
-    }
-
     @Override
     public List<T> getValue() {
-        if(!multiple) {
+        if (!isMultiple()) {
             int index = getSelectedIndex();
+            T value;
             if (index != -1) {
-                return Collections.singletonList(values.get(index));
+
+                // Check when the value is a custom tag
+                if (isTags()) {
+                    value = (T) $(listbox.getElement()).val();
+                } else {
+                    value = values.get(index);
+                }
+
+                return Collections.singletonList(value);
             }
         } else {
             return getSelectedValues();
@@ -371,7 +433,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public T getSingleValue() {
         List<T> values = getSelectedValue();
-        if(!values.isEmpty()) {
+        if (!values.isEmpty()) {
             return values.get(0);
         }
         return null;
@@ -392,8 +454,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void setValue(List<T> values, boolean fireEvents) {
-        if(!multiple) {
-            if(!values.isEmpty()) {
+        if (!isMultiple()) {
+            if (!values.isEmpty()) {
                 setSingleValue(values.get(0), fireEvents);
             }
         } else {
@@ -439,10 +501,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         suppressChangeEvent = false;
     }
 
-    public Option addItem(T value) {
-        return addItem(keyFactory.generateKey(value), value);
-    }
-
     /**
      * Gets the index of the value pass in this method
      *
@@ -450,55 +508,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public int getValueIndex(T value) {
         return values.indexOf(value);
-    }
-
-    /**
-     * Add OptionGroup directly to combobox component
-     *
-     * @param group - Option Group component
-     */
-    public void addGroup(OptGroup group) {
-        listbox.add(group);
-    }
-
-    /**
-     * Add item directly to combobox component with existing OptGroup
-     *
-     * @param text     - The text you want to labeled on the option item
-     * @param value    - The value you want to pass through in this option
-     * @param optGroup - Add directly this option into the existing group
-     */
-    public void addItem(String text, T value, OptGroup optGroup) {
-        if (!values.contains(value)) {
-            values.add(value);
-            optGroup.add(buildOption(text, value));
-        }
-    }
-
-    /**
-     * Add Value directly to combobox component
-     *
-     * @param text  - The text you want to labeled on the option item
-     * @param value - The value you want to pass through in this option
-     */
-    public Option addItem(String text, T value) {
-        if (!values.contains(value)) {
-            Option option = buildOption(text, value);
-            values.add(value);
-            listbox.add(option);
-            return option;
-        }
-        return null;
-    }
-
-    /**
-     * Build the Option Element with provided params
-     */
-    protected Option buildOption(String text, T value) {
-        Option option = new Option();
-        option.setText(text);
-        option.setValue(keyFactory.generateKey(value));
-        return option;
     }
 
     /**
@@ -528,7 +537,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * @return the text for selected item, or {@code null} if none is selected
      */
     public int getSelectedIndex() {
-        Object o = $("#" + uid).find("option:selected").last().prop("index");
+        Object o = $(getElement()).find("option:selected").last().prop("index");
         if (o != null) {
             return Integer.parseInt(o.toString());
         }
@@ -549,16 +558,20 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         Object[] curVal = (Object[]) $(listbox.getElement()).val();
 
         List<T> selectedValues = new ArrayList<>();
-        if(curVal == null || curVal.length < 1) {
+        if (curVal == null || curVal.length < 1) {
             return selectedValues;
         }
 
         List<String> keyIndex = getValuesKeyIndex();
         for (Object val : curVal) {
-            if(val instanceof String) {
+            if (val instanceof String) {
                 int selectedIndex = keyIndex.indexOf(val);
                 if (selectedIndex != -1) {
                     selectedValues.add(values.get(selectedIndex));
+                } else {
+                    if (isTags() && val instanceof String) {
+                        selectedValues.add((T) val);
+                    }
                 }
             }
         }
@@ -574,37 +587,73 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
-     * Programmatically open the combobox component
-     */
-    public void open() {
-        $(listbox.getElement()).select2("open");
-    }
-
-    /**
-     * Programmatically close the combobox component
-     */
-    public void close() {
-        $(listbox.getElement()).select2("close");
-    }
-
-    @Override
-    public void clear() {
-        final Iterator<Widget> it = iterator();
-        while (it.hasNext()) {
-            final Widget widget = it.next();
-            if (widget != label && widget != errorLabel && widget != listbox) {
-                it.remove();
-            }
-        }
-        listbox.clear();
-        values.clear();
-    }
-
-    /**
      * Use your own key factory for value keys.
      */
     public void setKeyFactory(KeyFactory<T, String> keyFactory) {
         this.keyFactory = keyFactory;
+    }
+
+    @Override
+    public void setReadOnly(boolean value) {
+        getReadOnlyMixin().setReadOnly(value);
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return getReadOnlyMixin().isReadOnly();
+    }
+
+    @Override
+    public void setToggleReadOnly(boolean toggle) {
+        getReadOnlyMixin().setToggleReadOnly(toggle);
+        registerHandler(addValueChangeHandler(valueChangeEvent -> {
+            if (isToggleReadOnly()) {
+                setReadOnly(true);
+            }
+        }));
+    }
+
+    @Override
+    public boolean isToggleReadOnly() {
+        return getReadOnlyMixin().isToggleReadOnly();
+    }
+
+    /**
+     * Check whether the dropdown will be close or not when result is selected
+     */
+    public boolean isCloseOnSelect() {
+        return options.closeOnSelect;
+    }
+
+    /**
+     * Allow or Prevent the dropdown from closing when a result is selected (Default true)
+     */
+    public void setCloseOnSelect(boolean closeOnSelect) {
+        options.closeOnSelect = closeOnSelect;
+    }
+
+    public MaterialWidget getListbox() {
+        return listbox;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
+    }
+
+    public boolean isTags() {
+        return options.tags;
+    }
+
+    /**
+     * Note: Tags will only support String as generic params starting 2.x.
+     */
+    public void setTags(boolean tags) {
+        if (tags) GWT.log("Note: Tags will only support String as generic params.");
+        options.tags = tags;
     }
 
     public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
@@ -628,6 +677,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        if (errorMixin == null) {
+            errorMixin = new ErrorMixin<>(this, errorLabel, this.asWidget());
+        }
         return errorMixin;
     }
 
@@ -636,64 +688,5 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             readOnlyMixin = new ReadOnlyMixin<>(this, listbox);
         }
         return readOnlyMixin;
-    }
-
-    @Override
-    public void setReadOnly(boolean value) {
-        getReadOnlyMixin().setReadOnly(value);
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return getReadOnlyMixin().isReadOnly();
-    }
-
-    @Override
-    public void setToggleReadOnly(boolean toggle) {
-        getReadOnlyMixin().setToggleReadOnly(toggle);
-        valueChangeHandler = addValueChangeHandler(valueChangeEvent -> {
-            if (isToggleReadOnly()) {
-                setReadOnly(true);
-            }
-        });
-    }
-
-    @Override
-    public boolean isToggleReadOnly() {
-        return getReadOnlyMixin().isToggleReadOnly();
-    }
-
-    /**
-     * Check whether the dropdown will be close or not when result is selected
-     */
-    public boolean isCloseOnSelect() {
-        return closeOnSelect;
-    }
-
-    /**
-     * Allow or Prevent the dropdown from closing when a result is selected (Default true)
-     */
-    public void setCloseOnSelect(boolean closeOnSelect) {
-        this.closeOnSelect = closeOnSelect;
-    }
-
-    public MaterialWidget getListbox() {
-        return listbox;
-    }
-
-    public Label getLabel() {
-        return label;
-    }
-
-    public MaterialLabel getErrorLabel() {
-        return errorLabel;
-    }
-
-    public boolean isTags() {
-        return tags;
-    }
-
-    public void setTags(boolean tags) {
-        this.tags = tags;
     }
 }

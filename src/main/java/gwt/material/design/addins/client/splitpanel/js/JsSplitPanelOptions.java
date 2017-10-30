@@ -19,6 +19,9 @@
  */
 package gwt.material.design.addins.client.splitpanel.js;
 
+import gwt.material.design.addins.client.splitpanel.constants.Dock;
+import gwt.material.design.client.constants.Axis;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -30,6 +33,19 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsSplitPanelOptions {
+
+
+    private JsSplitPanelOptions() {}
+
+    @JsOverlay
+    final static public JsSplitPanelOptions create() {
+        JsSplitPanelOptions options = new JsSplitPanelOptions();
+        options.thickness = "8px";
+        options.barPosition = 0.5;
+        options.dock = Dock.LEFT.getCssName();
+        options.orientation = Axis.HORIZONTAL.getCssName();
+        return options;
+    }
 
     @JsProperty
     public double barPosition;

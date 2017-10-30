@@ -1,18 +1,42 @@
-function initSwipeablePanel(element, leftCallback, rightCallback) {
+function initSwipeablePanel(element, leftCallback, rightCallback, onStartLeft, onStartRight, onEndLeft, onEndRight) {
     var swipeLeftToRight;
     var swipeRightToLeft;
+
     var callbacks = $.Callbacks();
-    $(element).each(function() {
+
+    // Teardown previous callbacks
+    callbacks.empty();
+
+    $(element).each(function () {
         $(this).hammer({
-            prevent_default: false
-        }).bind('pan', function(e) {
+            prevent_default: true,
+            recognizers: [
+                [Hammer.Pan,{ direction: Hammer.DIRECTION_HORIZONTAL }],
+            ]
+        }).bind('panstart', function (e) {
+            if (e.gesture.pointerType === "touch") {
+                var direction = e.gesture.direction;
+                if (direction === 4) {
+                    callbacks.add(onStartLeft);
+                    callbacks.fire();
+                    callbacks.empty();
+                }
+
+                if (direction == 2) {
+                    callbacks.add(onStartRight);
+                    callbacks.fire();
+                    callbacks.empty();
+                }
+            }
+        }).bind('pan', function (e) {
             if (e.gesture.pointerType === "touch") {
                 var parent = $(this);
                 var direction = e.gesture.direction;
                 var x = e.gesture.deltaX;
                 var velocityX = e.gesture.velocityX;
 
-                parent.velocity({ translateX: x
+                parent.velocity({
+                    translateX: x
                 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
 
                 // Swipe Left
@@ -25,7 +49,7 @@ function initSwipeablePanel(element, leftCallback, rightCallback) {
                     swipeRightToLeft = true;
                 }
             }
-        }).bind('panend', function(e) {
+        }).bind('panend', function (e) {
             // Reset if collection is moved back into original position
             if (Math.abs(e.gesture.deltaX) < ($(this).innerWidth() / 2)) {
                 swipeRightToLeft = false;
@@ -40,28 +64,35 @@ function initSwipeablePanel(element, leftCallback, rightCallback) {
                         fullWidth = parent.innerWidth();
                         callbacks.add(rightCallback);
                         callbacks.fire();
+                        callbacks.empty();
                     }
                     else {
                         fullWidth = -1 * parent.innerWidth();
                         callbacks.add(leftCallback);
                         callbacks.fire();
+                        callbacks.empty();
                     }
 
-                    parent.velocity({ translateX: fullWidth,
-                    }, {duration: 100, queue: false, easing: 'easeOutQuad', complete:
-                        function() {
-                            parent.css('border', 'none');
-                            parent.velocity({ height: 0, padding: 0,
-                            }, {duration: 200, queue: false, easing: 'easeOutQuad', complete:
-                                function() {
-                                    parent.remove();
-                                }
-                            });
-                        }
+                    parent.velocity({
+                        translateX: fullWidth,
+                    }, {
+                        duration: 100, queue: false, easing: 'easeOutQuad', complete:
+                            function () {
+                                parent.css('border', 'none');
+                                parent.velocity({
+                                    height: 0, padding: 0,
+                                }, {
+                                    duration: 200, queue: false, easing: 'easeOutQuad', complete:
+                                        function () {
+                                            parent.remove();
+                                        }
+                                });
+                            }
                     });
                 }
                 else {
-                    parent.velocity({ translateX: 0,
+                    parent.velocity({
+                        translateX: 0,
                     }, {duration: 100, queue: false, easing: 'easeOutQuad'});
                 }
                 swipeLeftToRight = false;

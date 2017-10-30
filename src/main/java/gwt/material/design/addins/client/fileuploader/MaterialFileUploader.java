@@ -30,11 +30,13 @@ import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
+import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.addins.client.fileuploader.js.Dropzone;
 import gwt.material.design.addins.client.fileuploader.js.File;
 import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
@@ -68,9 +70,10 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#fileuploader">File Uploader</a>
+ * @see <a href="https://github.com/enyo/dropzone">Dropzone 4.3.0</a>
  */
 //@formatter:on
-public class MaterialFileUploader extends MaterialWidget implements HasFileUpload<UploadFile> {
+public class MaterialFileUploader extends MaterialWidget implements JsLoader, HasFileUpload<UploadFile> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -83,17 +86,18 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     }
 
     private boolean preview = true;
+    private boolean enabled = true;
     private int totalFiles = 0;
     private String globalResponse = "";
     private Dropzone uploader;
-    private JsFileUploaderOptions options;
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
-    private boolean enabled = true;
+    private JsFileUploaderOptions options = new JsFileUploaderOptions();
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
 
-        build();
+        setId(AddinsCssName.ZDROP);
+        add(uploadPreview);
     }
 
     public MaterialFileUploader(String url, FileMethod method) {
@@ -108,59 +112,68 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         setAcceptedFiles(acceptedFiles);
     }
 
-    protected JsFileUploaderOptions getDefaultOptions() {
-        JsFileUploaderOptions options = new JsFileUploaderOptions();
-        options.clickable = "";
-        options.autoQueue = true;
-        options.maxFilesize = 20;
-        options.maxFiles = 100;
-        options.method = FileMethod.POST.getCssName();
-        options.withCredentials = false;
-        options.acceptedFiles = "";
-        return options;
-    }
-
     @Override
-    protected void build() {
-        setId(AddinsCssName.ZDROP);
-        add(uploadPreview);
-        options = getDefaultOptions();
-    }
+    protected void onLoad() {
+        super.onLoad();
 
-    @Override
-    protected void onUnload() {}
-
-    @Override
-    protected void initialize() {
         if (getWidgetCount() > 1) {
-            String previews = DOM.createUniqueId();
-            uploadPreview.getUploadCollection().setId(previews);
-            if (options.clickable.isEmpty()) {
+            uploadPreview.getUploadCollection().setId(DOM.createUniqueId());
+            if (options.clickable == null) {
                 String clickable = DOM.createUniqueId();
-
+                options.clickable = "#" + clickable;
                 if (getWidget(1) instanceof MaterialUploadLabel) {
                     MaterialUploadLabel label = (MaterialUploadLabel) getWidget(1);
                     label.getIcon().setId(clickable);
                 } else {
                     getWidget(1).getElement().setId(clickable);
                 }
-                setClickable(clickable);
+
             }
 
             if (!isPreview()) {
                 uploadPreview.setDisplay(Display.NONE);
             }
 
-            initDropzone(getElement(),
-                    uploadPreview.getUploadCollection().getItem().getElement(),
-                    previews,
-                    uploadPreview.getElement(),
-                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
-        }else {
+            load();
+
+        } else {
             GWT.log("You don't have any child widget to use as a upload label");
         }
-        applyEnabled();
+
+        setEnabled(enabled);
     }
+
+    @Override
+    public void load() {
+        MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
+        if (uploadCollection != null) {
+            initDropzone(getElement(),
+                    uploadCollection.getItem().getElement(),
+                    uploadCollection.getId(),
+                    uploadCollection.getElement(),
+                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+        }
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        if (uploader != null) {
+            uploader.destroy();
+        }
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
+    }
+
 
     /**
      * Intialize the dropzone component with element and form url to provide a
@@ -168,7 +181,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      *
      * @param e
      */
-    protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles ) {
+    protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles) {
         JQueryElement previewNode = $(template);
         previewNode.asElement().setId("");
         String previewTemplate = previewNode.parent().html();
@@ -176,7 +189,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         options.previewsContainer = "#" + previews;
         uploader = new Dropzone(e, options);
 
-        uploader.on("drop", event -> {
+        uploader.on(FileUploaderEvents.DROP, event -> {
             fireDropEvent();
             if (preview) {
                 $(e).removeClass(CssName.ACTIVE);
@@ -184,17 +197,17 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             return true;
         });
 
-        uploader.on("dragstart", event -> {
+        uploader.on(FileUploaderEvents.DRAG_START, event -> {
             DragStartEvent.fire(this);
             return true;
         });
 
-        uploader.on("dragend", event -> {
+        uploader.on(FileUploaderEvents.DRAG_END, event -> {
             DragEndEvent.fire(this);
             return true;
         });
 
-        uploader.on("dragenter", event -> {
+        uploader.on(FileUploaderEvents.DRAG_ENTER, event -> {
             DragEnterEvent.fire(this, null);
             if (preview) {
                 $(e).addClass(CssName.ACTIVE);
@@ -202,12 +215,12 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             return true;
         });
 
-        uploader.on("dragover", event -> {
+        uploader.on(FileUploaderEvents.DRAG_OVER, event -> {
             DragOverEvent.fire(this);
             return true;
         });
 
-        uploader.on("dragleave", event -> {
+        uploader.on(FileUploaderEvents.DRAG_LEAVE, event -> {
             DragLeaveEvent.fire(this, null);
             if (preview) {
                 $(e).removeClass(CssName.ACTIVE);
@@ -215,7 +228,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             return true;
         });
 
-        uploader.on("addedfile", file -> {
+        uploader.on(FileUploaderEvents.ADDED_FILE, file -> {
             AddedFileEvent.fire(this, convertUploadFile(file));
             totalFiles++;
 
@@ -226,7 +239,7 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             }
         });
 
-        uploader.on("removedfile", file -> {
+        uploader.on(FileUploaderEvents.REMOVED_FILE, file -> {
             RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
@@ -258,42 +271,42 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
             ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
         });
 
-        uploader.on("totaluploadprogress", (progress, file, response) -> {
+        uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, file, response) -> {
             TotalUploadProgressEvent.fire(this, progress);
             if (isPreview()) {
                 getUploadPreview().getUploadHeader().getProgress().setPercent(progress);
             }
         });
 
-        uploader.on("uploadprogress", (progress, file, response) -> {
+        uploader.on(FileUploaderEvents.UPLOAD_PROGRESS, (progress, file, response) -> {
             CurrentUploadProgressEvent.fire(this, progress);
             if ($this != null) {
                 $this.find(".progress .determinate").css("width", progress + "%");
             }
         });
 
-        uploader.on("sending", file -> {
+        uploader.on(FileUploaderEvents.SENDING, file -> {
             SendingEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
-        uploader.on("success", (file, response) -> {
+        uploader.on(FileUploaderEvents.SUCCESS, (file, response) -> {
             globalResponse = response;
             SuccessEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
         });
 
-        uploader.on("complete", file -> {
+        uploader.on(FileUploaderEvents.COMPLETE, file -> {
             CompleteEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
         });
 
-        uploader.on("canceled", file -> {
+        uploader.on(FileUploaderEvents.CANCELED, file -> {
             CanceledEvent.fire(this, convertUploadFile(file));
         });
 
-        uploader.on("maxfilesreached", file -> {
+        uploader.on(FileUploaderEvents.MAX_FILES_REACHED, file -> {
             MaxFilesReachedEvent.fire(this, convertUploadFile(file));
         });
 
-        uploader.on("maxfilesexceeded", file -> {
+        uploader.on(FileUploaderEvents.MAX_FILES_EXCEEDED, file -> {
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
             MaxFilesExceededEvent.fire(this, convertUploadFile(file));
         });
@@ -303,24 +316,19 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        applyEnabled();
+
+        if (enabled) {
+            if (uploader != null) uploader.setupEventListeners();
+            removeStyleName(CssName.DISABLED);
+        } else {
+            if (uploader != null) uploader.removeEventListeners();
+            addStyleName(CssName.DISABLED);
+        }
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
-    }
-
-    protected void applyEnabled() {
-        if (uploader != null) {
-            if (!enabled) {
-                addStyleName(CssName.DISABLED);
-                uploader.removeEventListeners();
-            } else {
-                removeStyleName(CssName.DISABLED);
-                uploader.setupEventListeners();
-            }
-        }
+        return !getElement().hasClassName(CssName.DISABLED);
     }
 
     /**
@@ -335,6 +343,19 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
         return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
     }
 
+    /**
+     * Manually start upload queued files when option autoProcessQueue is disabled
+     */
+    public void processQueue() {
+        uploader.processQueue();
+    }
+
+    /**
+     * Manually enqueue file when option autoQueue is disabled
+     */
+    public void enqueueFile(File file) {
+        uploader.enqueueFile(file);
+    }
 
     /**
      * Get the form url.
@@ -362,6 +383,20 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
      */
     public void setMaxFileSize(int maxFileSize) {
         options.maxFilesize = maxFileSize;
+    }
+
+    /**
+     * Check whether it's auto process queue or not.
+     */
+    public boolean isAutoProcessQueue() {
+        return options.autoProcessQueue;
+    }
+
+    /**
+     * Set the auto process queue boolean value.
+     */
+    public void setAutoProcessQueue(boolean autoProcessQueue) {
+        options.autoProcessQueue = autoProcessQueue;
     }
 
     /**
@@ -439,6 +474,30 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
 
     public void fireDropEvent() {
         DropEvent.fire(this, null);
+    }
+
+    public String getClickable() {
+        return options.clickable.length() == 0 ? options.clickable : options.clickable.substring(1);
+    }
+
+    public void setClickable(String clickable) {
+        options.clickable = "#" + clickable;
+    }
+
+    public boolean isPreview() {
+        return preview;
+    }
+
+    public void setPreview(boolean preview) {
+        this.preview = preview;
+    }
+
+    public void reset() {
+        uploader.removeAllFiles();
+    }
+
+    public MaterialUploadPreview getUploadPreview() {
+        return uploadPreview;
     }
 
     @Override
@@ -577,29 +636,5 @@ public class MaterialFileUploader extends MaterialWidget implements HasFileUploa
                 }
             }
         }, MaxFilesExceededEvent.getType());
-    }
-
-    public String getClickable() {
-        return options.clickable.length()==0?options.clickable:options.clickable.substring(1);
-    }
-
-    public void setClickable(String clickable) {
-        options.clickable = "#"+clickable;
-    }
-
-    public boolean isPreview() {
-        return preview;
-    }
-
-    public void setPreview(boolean preview) {
-        this.preview = preview;
-    }
-
-    public void reset() {
-        uploader.removeAllFiles();
-    }
-
-    public MaterialUploadPreview getUploadPreview() {
-        return uploadPreview;
     }
 }

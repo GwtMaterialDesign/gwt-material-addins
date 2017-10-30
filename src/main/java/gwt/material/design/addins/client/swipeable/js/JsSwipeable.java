@@ -30,5 +30,7 @@ import jsinterop.annotations.JsType;
 public class JsSwipeable extends JQueryElement {
 
     @JsMethod(namespace = JsPackage.GLOBAL)
-    public static native void initSwipeablePanel(Element element, Functions.Func leftCallback, Functions.Func rightCallback);
+    public static native void initSwipeablePanel(Element element, Functions.Func swipeLeftCallback, Functions.Func swipeRightCallback,
+                                                 Functions.Func onStartSwipLeftCallback, Functions.Func onStartSwipeRightCallback,
+                                                 Functions.Func onEndSwipeLeftCallback, Functions.Func onEndSwipeRightCallback);
 }
