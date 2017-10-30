@@ -17,13 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.async;
+package gwt.material.design.incubator.client.alert;
 
-import gwt.material.design.client.ui.MaterialCheckBox;
+import com.google.gwt.dom.client.Document;
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-public class AsyncCheckBox extends MaterialCheckBox {
+public class AlertContainer extends MaterialWidget {
 
-    public AsyncCheckBox() {
-        super();
+    static {
+        Alert.loadResources();
+    }
+
+    public AlertContainer() {
+        super(Document.get().createDivElement(), IncubatorCssName.ALERT_CONTAINER);
     }
 }

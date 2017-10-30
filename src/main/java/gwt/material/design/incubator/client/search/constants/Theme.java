@@ -17,15 +17,28 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.emptystate;
+package gwt.material.design.incubator.client.search.constants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.dom.client.Style;
+import gwt.material.design.client.base.helper.EnumHelper;
 
-public interface EmptyStateClientBundle extends ClientBundle {
-    EmptyStateClientBundle INSTANCE = GWT.create(EmptyStateClientBundle.class);
+public enum Theme implements Style.HasCssName {
+    DEFAULT(""),
+    LIGHT("light"),
+    DARK("dark");
 
-    @Source("resources/css/empty-state.min.css")
-    TextResource emptyStateCss();
+    private String cssClass;
+
+    Theme(String cssClass) {
+        this.cssClass = cssClass;
+    }
+
+    @Override
+    public String getCssName() {
+        return cssClass;
+    }
+
+    public static Theme fromStyleName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, Theme.class, DEFAULT);
+    }
 }

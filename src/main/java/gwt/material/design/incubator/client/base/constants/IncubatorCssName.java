@@ -21,10 +21,9 @@ package gwt.material.design.incubator.client.base.constants;
 
 public interface IncubatorCssName {
 
-    String ALERT_MODAL = "alert-modal";
+    String ALERT_CONTAINER = "alert-container";
     String ASYNC_BUTTON = "async-button";
     String TIMER_PROGRESS = "timer-progress";
-    String EMPTY_STATE = "empty-state";
     String LOADING_STATE = "loading-state";
     String BOUNCING = "bouncing";
     String FILL = "fill";

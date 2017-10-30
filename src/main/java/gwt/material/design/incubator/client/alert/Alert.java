@@ -56,7 +56,13 @@ import gwt.material.design.jquery.client.api.Functions;
  */
 public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHandlers, HasCloseHandlers, HasInOutDurationTransition {
 
+    private static boolean resourcesLoaded = false;
+
     static {
+        loadResources();
+    }
+
+    static void loadResources() {
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(AlertDebugClientBundle.INSTANCE.alertDebugCss());
         } else {
@@ -102,7 +108,7 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
         Scheduler.get().scheduleFixedDelay(() -> {
             callback.call();
             return false;
-        }, outDuration);
+        }, inDuration);
     }
 
     public void open(int delay) {

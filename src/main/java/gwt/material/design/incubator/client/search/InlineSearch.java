@@ -17,17 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.search;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.search.constants.Theme;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.ui.MaterialSearch;
+import gwt.material.design.incubator.client.search.constants.Theme;
 
 public class InlineSearch extends MaterialSearch {
 

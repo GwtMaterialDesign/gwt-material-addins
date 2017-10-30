@@ -29,3 +29,8 @@
     color: #c62828 !important;
     background: initial !important;
 }
+
+.alert-container {
+    position: relative;
+    overflow: hidden;
+}

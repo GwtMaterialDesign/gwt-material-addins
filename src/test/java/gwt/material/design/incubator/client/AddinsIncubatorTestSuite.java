@@ -26,7 +26,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         AlertTest.class,
-        EmptyStateTest.class,
         GroupToggleButtonTest.class,
         LanguageSelectorTest.class,
         LoadingStateTest.class,

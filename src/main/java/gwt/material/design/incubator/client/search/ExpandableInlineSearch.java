@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.search;
+package gwt.material.design.incubator.client.search;
 
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
