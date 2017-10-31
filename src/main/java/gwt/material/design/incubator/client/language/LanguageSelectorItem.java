@@ -27,11 +27,16 @@ import gwt.material.design.client.constants.TextAlign;
 import gwt.material.design.client.ui.MaterialColumn;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 /**
  * A child widget of {@link LanguageSelector} component which updates the ui
  * for the name and image url.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
  *
  * @author kevzlou7979
  */
@@ -54,6 +59,7 @@ public class LanguageSelectorItem extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         MaterialColumn imageColumn = new MaterialColumn(4,4,4);
         imageColumn.add(image);
 

@@ -23,7 +23,21 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 
+//@formatter:off
+
+/**
+ * A circular SVG timer component to build a similar
+ * interface like {@link gwt.material.design.addins.client.circularprogress.MaterialCircularProgress}
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
+//@formatter:on
 public class CircularSVGTimer extends ComplexPanel {
 
     static {
@@ -59,6 +73,8 @@ public class CircularSVGTimer extends ComplexPanel {
     @Override
     protected void onLoad() {
         super.onLoad();
+
+        IncubatorWidget.showWarning(this);
         getElement().setAttribute("class", "spinner");
     }
 

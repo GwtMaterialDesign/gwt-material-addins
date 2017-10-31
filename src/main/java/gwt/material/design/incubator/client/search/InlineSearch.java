@@ -27,8 +27,19 @@ import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.ui.MaterialSearch;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.search.constants.Theme;
 
+/**
+ * Extension to {@link MaterialSearch} which provides an inline
+ * style appended to {@link gwt.material.design.client.ui.MaterialNavBar} component.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
 public class InlineSearch extends MaterialSearch {
 
     private HandlerRegistration focusHandler;
@@ -52,7 +63,7 @@ public class InlineSearch extends MaterialSearch {
     protected void onLoad() {
         super.onLoad();
 
-
+        IncubatorWidget.showWarning(this);
         ViewPort.when(Resolution.ALL_MOBILE).then(portChange -> {
             focusHandler = registerHandler(addFocusHandler(focusEvent -> addStyleName(AddinsCssName.WIDE)));
             blurHandler = registerHandler(addBlurHandler(blurEvent -> removeStyleName(AddinsCssName.WIDE)));

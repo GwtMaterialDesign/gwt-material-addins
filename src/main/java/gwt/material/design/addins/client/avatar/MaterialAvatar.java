@@ -163,6 +163,4 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
         this.value = value;
         return JsAvatar.md5(value);
     }
-
-
 }

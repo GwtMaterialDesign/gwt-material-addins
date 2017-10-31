@@ -25,7 +25,14 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 
+/**
+ * A predefined {@link Walkthrough} item which includes the setting of
+ * {@link #setTitle(String)}, {@link #setDescription(String)} & {@link #setImageUrl(String)}
+ *
+ * @author kevzlou7979
+ */
 public class WalkthroughItem extends MaterialRow {
 
     private String imageUrl;
@@ -42,6 +49,7 @@ public class WalkthroughItem extends MaterialRow {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         image.setUrl(getImageUrl());
         add(image);
 

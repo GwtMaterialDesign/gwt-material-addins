@@ -28,8 +28,23 @@ import gwt.material.design.client.constants.SpinnerColor;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialSpinner;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
+//@formatter:off
+
+/**
+ * Asynchronous buttons are components that is good ux for
+ * calling the server side component and automatically updates
+ * the states of the ui logic.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ * <h3>XML Namespace Declaration</h3>
+ *
+ * @author kevzlou7979
+ */
 public class AsyncButton extends MaterialButton implements HasActive {
 
     static {
@@ -53,6 +68,7 @@ public class AsyncButton extends MaterialButton implements HasActive {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         loader.setColor(SpinnerColor.BLUE_ONLY);
         add(loader);
     }

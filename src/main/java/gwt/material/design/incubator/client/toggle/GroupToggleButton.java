@@ -30,6 +30,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 //@formatter:off
@@ -47,6 +48,10 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
  *      });
  * }
  * </pre>
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
  *
  * @author kevzlou7979
  */
@@ -74,6 +79,7 @@ public class GroupToggleButton extends MaterialWidget implements HasSelectionHan
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         registerHandler(firstToggle.addClickHandler(clickEvent -> setActive(0)));
         firstToggle.setGrid("s4");
         add(firstToggle);

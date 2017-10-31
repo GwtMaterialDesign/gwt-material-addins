@@ -26,10 +26,25 @@ import gwt.material.design.addins.client.carousel.MaterialCarousel;
 import gwt.material.design.addins.client.carousel.MaterialCarouselFixedItem;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.Type;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.walkthrough.events.CompleteEvent;
 
+//@formatter:off
+
+/**
+ * An extension to Onboard Type of {@link MaterialCarousel} component
+ * which provides additional features and handler registrations.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
+//@formatter:on
 public class Walkthrough extends MaterialCarousel {
 
     private MaterialCarouselFixedItem item = new MaterialCarouselFixedItem();
@@ -39,6 +54,7 @@ public class Walkthrough extends MaterialCarousel {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         item.add(submit);
         submit.setFontSize("0.8em");
         submit.setBackgroundColor(Color.WHITE);

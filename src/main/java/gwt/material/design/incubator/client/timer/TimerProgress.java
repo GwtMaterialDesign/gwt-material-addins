@@ -46,6 +46,10 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
  * }
  * </pre>
  *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
  * @author kevzlou7979
  */
 //@formatter:on

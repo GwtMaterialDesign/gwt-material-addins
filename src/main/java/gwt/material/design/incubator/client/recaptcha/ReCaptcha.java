@@ -27,6 +27,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.recaptcha.constants.CaptchaTheme;
 import gwt.material.design.incubator.client.recaptcha.constants.CaptchaType;
@@ -50,6 +51,10 @@ import gwt.material.design.jquery.client.api.Functions;
  *      reCaptcha.setType(CaptchaType.AUDIO);
  * }
  * </pre>
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
  *
  * @author kevzlou7979
  */
@@ -79,6 +84,7 @@ public class ReCaptcha extends MaterialWidget implements JsLoader {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         load();
     }
 

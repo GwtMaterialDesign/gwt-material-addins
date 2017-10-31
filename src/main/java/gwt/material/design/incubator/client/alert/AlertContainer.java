@@ -20,9 +20,31 @@
 package gwt.material.design.incubator.client.alert;
 
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.note.MaterialNote;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
+//@formatter:off
+
+/**
+ * Alert Container is a container to wrap all Alert components.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ * <h3>XML Namespace Declaration</h3>
+ * <pre>
+ * {@code
+ *      Alert alert = new Alert();
+ *      alert.setText("This is an error");
+ *      alert.setType(AlertType.ERROR);
+ *      alert.open();
+ * }
+ * </pre>
+ *
+ * @author kevzlou7979
+ */
 public class AlertContainer extends MaterialWidget {
 
     static {
@@ -31,5 +53,12 @@ public class AlertContainer extends MaterialWidget {
 
     public AlertContainer() {
         super(Document.get().createDivElement(), IncubatorCssName.ALERT_CONTAINER);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        IncubatorWidget.showWarning(this);
     }
 }

@@ -22,7 +22,19 @@ package gwt.material.design.incubator.client.search;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
+import gwt.material.design.incubator.client.progress.ProgressLineBar;
 
+/**
+ * Another search component the extends to {@link InlineSearch} which
+ * enables the toggle open / close functionality.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
 public class ExpandableInlineSearch extends InlineSearch {
 
     private String width;
@@ -38,6 +50,7 @@ public class ExpandableInlineSearch extends InlineSearch {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         registerHandler(addCloseHandler(closeEvent -> close()));
         registerHandler(addBlurHandler(blurEvent -> addStyleName(CssName.INACTIVE)));
         registerHandler(addFocusHandler(focusEvent -> removeStyleName(CssName.INACTIVE)));

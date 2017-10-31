@@ -34,6 +34,7 @@ import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.incubator.client.alert.constants.AlertType;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
@@ -42,6 +43,9 @@ import gwt.material.design.jquery.client.api.Functions;
  * Alert component is an extension of {@link MaterialNote} which delivers
  * a delightful message alerts.
  * <p>
+ * <p><i>
+ * Note: This component is under the incubation process and subject to change.
+ * </i></p>
  * <h3>XML Namespace Declaration</h3>
  * <pre>
  * {@code
@@ -63,10 +67,13 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
     }
 
     static void loadResources() {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(AlertDebugClientBundle.INSTANCE.alertDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(AlertClientBundle.INSTANCE.alertCss());
+        if (!resourcesLoaded) {
+            if (MaterialAddins.isDebug()) {
+                MaterialDesignBase.injectCss(AlertDebugClientBundle.INSTANCE.alertDebugCss());
+            } else {
+                MaterialDesignBase.injectCss(AlertClientBundle.INSTANCE.alertCss());
+            }
+            resourcesLoaded = true;
         }
     }
 
@@ -87,6 +94,7 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         setLayoutPosition(Style.Position.ABSOLUTE);
         setTransition(new TransitionConfig(getElement(), inDuration, "all"));
     }
@@ -101,6 +109,7 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
 
     /**
      * Open / Show alert messages with provided callback
+     *
      * @param callback
      */
     public void open(Functions.Func callback) {
@@ -196,7 +205,7 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
 
     public ToggleStyleMixin<Alert> getToggleStyleMixin() {
         if (toggleStyleMixin == null) {
-            toggleStyleMixin  = new ToggleStyleMixin<>(this, CssName.OPEN);
+            toggleStyleMixin = new ToggleStyleMixin<>(this, CssName.OPEN);
         }
         return toggleStyleMixin;
     }

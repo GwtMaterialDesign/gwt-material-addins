@@ -31,6 +31,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ import java.util.List;
 
 /**
  * A widget that provides a selection of {@link LanguageSelectorItem} for the site Internationalization (i18n)
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
  *
  * @author kevzlou7979
  */
@@ -65,6 +70,7 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         dropdown.clear();
         _languages.forEach(language -> dropdown.add(new LanguageSelectorItem(language)));
         dropdown.setConstrainWidth(false);

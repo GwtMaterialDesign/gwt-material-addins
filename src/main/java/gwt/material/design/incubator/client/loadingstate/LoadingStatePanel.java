@@ -32,6 +32,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.loadingstate.constants.State;
 import gwt.material.design.incubator.client.loadingstate.events.ErrorEvent;
@@ -39,6 +40,16 @@ import gwt.material.design.incubator.client.loadingstate.events.HasLoadingStateH
 import gwt.material.design.incubator.client.loadingstate.events.LoadingEvent;
 import gwt.material.design.incubator.client.loadingstate.events.SuccessEvent;
 
+/**
+ * An extension to {@link MaterialPanel} that defines
+ * a specific states to control it's children.
+ *
+ * <p><i>
+ *     Note: This component is under the incubator process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
 public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateHandler {
     static {
         if (AddinsIncubator.isDebug()) {
@@ -61,6 +72,7 @@ public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateH
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         setVisible(false);
         addStyleName(IncubatorCssName.LOADING_STATE);
         lblTitle.addStyleName(CssName.TITLE);

@@ -21,14 +21,25 @@ package gwt.material.design.incubator.client.progress;
 
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.Div;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
+/**
+ * A child widget set by {@link ProgressLineBar#addOption(Object)}.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
 public class ProgressLineBarItem extends Div {
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         setStyleName(IncubatorCssName.PROGRESS_ITEM);
     }
 

@@ -23,11 +23,23 @@ import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Another progress bar that provides an individual blocks
+ * to produce a bar item to indicate how many percent the '
+ * current progress is.
+ *
+ * <p><i>
+ *     Note: This component is under the incubation process and subject to change.
+ * </i></p>
+ *
+ * @author kevzlou7979
+ */
 public class ProgressLineBar<T> extends MaterialWidget {
 
     static {
@@ -49,6 +61,7 @@ public class ProgressLineBar<T> extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
+        IncubatorWidget.showWarning(this);
         double width = 100.00 / options.keySet().size();
 
         for (T value : options.keySet()) {
