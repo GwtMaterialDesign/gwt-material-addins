@@ -22,12 +22,16 @@ package gwt.material.design.incubator.client;
 import com.google.gwt.core.client.GWT;
 import gwt.material.design.addins.client.MaterialAddins;
 
+import java.util.logging.Logger;
+
 public class AddinsIncubator extends MaterialAddins {
+
+    private static Logger logger = Logger.getLogger(AddinsIncubator.class.getSimpleName());
 
     @Override
     public void onModuleLoad() {
         super.onModuleLoad();
 
-        GWT.log("Incubator Addin widgets are in beta development but currently available for production purposes.");
+        logger.warning("Incubator Addin widgets are in beta development but currently available for production purposes.");
     }
 }
