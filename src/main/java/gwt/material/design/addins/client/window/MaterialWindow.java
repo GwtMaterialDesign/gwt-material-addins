@@ -181,7 +181,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     /**
      * Override to provide custom {@link MaterialDnd} instance. Default implementation will construct {@link MaterialDnd}
-     * using options provided by {@link {@link #buildDragOptions()} and will ignore drag events from content portion of
+     * using options provided by {@link #buildDragOptions()} and will ignore drag events from content portion of
      * the window ({@link AddinsCssName#CONTENT}) as well from action buttons (close, maximize and other {@link AddinsCssName#WINDOW_ACTION}.
      */
     protected MaterialDnd buildDnd() {
