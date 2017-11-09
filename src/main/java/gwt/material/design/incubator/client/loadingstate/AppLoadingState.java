@@ -20,24 +20,24 @@
 package gwt.material.design.incubator.client.loadingstate;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.client.base.MaterialWidget;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 
 public class AppLoadingState extends LoadingStatePanel {
 
-    private MaterialWidget _target;
+    private Widget target;
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        registerHandler(addLoadingHandler(event -> _target.setVisible(false)));
-        registerHandler(addSuccessHandler(event -> _target.setVisible(false)));
-        registerHandler(addErrorHandler(event -> reset(_target)));
+        registerHandler(addLoadingHandler(event -> target.setVisible(false)));
+        registerHandler(addSuccessHandler(event -> target.setVisible(false)));
+        registerHandler(addErrorHandler(event -> reset(target)));
     }
 
-    public void reset(MaterialWidget target) {
+    public void reset(Widget target) {
         new MaterialAnimation().transition(Transition.BOUNCEOUTDOWN).delay(3000).animate(this, () -> {
             target.setVisible(true);
             new MaterialAnimation().transition(Transition.BOUNCEINUP).animate(target, () -> {
@@ -48,11 +48,11 @@ public class AppLoadingState extends LoadingStatePanel {
         });
     }
 
-    public MaterialWidget getTarget() {
-        return _target;
+    public Widget getTarget() {
+        return target;
     }
 
-    public void setTarget(MaterialWidget target) {
-        this._target = target;
+    public void setTarget(Widget target) {
+        this.target = target;
     }
 }
