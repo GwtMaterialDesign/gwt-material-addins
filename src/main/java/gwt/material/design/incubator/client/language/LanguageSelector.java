@@ -58,8 +58,8 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
 
     private MaterialImage image = new MaterialImage();
     private MaterialDropDown dropdown = new MaterialDropDown();
-    private List<Language> _languages = new ArrayList<>();
-    private Language _language;
+    private List<Language> languages = new ArrayList<>();
+    private Language language;
 
     public LanguageSelector() {
         super(Document.get().createDivElement(), IncubatorCssName.LANGUAGE_SELECTOR);
@@ -72,14 +72,14 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
 
         IncubatorWidget.showWarning(this);
         dropdown.clear();
-        _languages.forEach(language -> dropdown.add(new LanguageSelectorItem(language)));
+        languages.forEach(language -> dropdown.add(new LanguageSelectorItem(language)));
         dropdown.setConstrainWidth(false);
 
         registerHandler(dropdown.addSelectionHandler(selectionEvent -> {
             if (selectionEvent.getSelectedItem() instanceof LanguageSelectorItem) {
                 Language language = ((LanguageSelectorItem) selectionEvent.getSelectedItem()).getLanguage();
 
-                if (_language != language) {
+                if (this.language != language) {
                     setValue(language, true);
 
                     // Navigate to selected language value / locale and reload the browser
@@ -94,8 +94,8 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
 
         // Get the current locale inside the browser url
         String currentLocale = Window.Location.getParameter("locale");
-        if (_languages.size() != 0) {
-            Language currentLanguage = _languages.stream().filter(language -> language.getValue().equals(currentLocale)).findFirst().orElse(_languages.get(0));
+        if (languages.size() != 0) {
+            Language currentLanguage = languages.stream().filter(language -> language.getValue().equals(currentLocale)).findFirst().orElse(languages.get(0));
             setValue(currentLanguage);
         } else {
             GWT.log("Please add at least one language for this selector.");
@@ -107,26 +107,26 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
      * contains name, value and image url
      */
     public void addLanguage(Language language) {
-        _languages.add(language);
+        languages.add(language);
     }
 
     /**
      * Set lists of languages and repopulate inside the Language Selector Dropdown component
      */
     public void setLanguages(List<Language> languages) {
-        _languages = languages;
+        this.languages = languages;
     }
 
     /**
      * Get the lists of registered languages of this selector component
      */
     public List<Language> getLanguages() {
-        return _languages;
+        return languages;
     }
 
     @Override
     public Language getValue() {
-        return _language;
+        return language;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
 
     @Override
     public void setValue(Language language, boolean fireEvents) {
-        _language = language;
+        this.language = language;
         image.setUrl(language.getImage());
 
         if (fireEvents) {

@@ -21,21 +21,20 @@ package gwt.material.design.incubator.client.loadingstate;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 
 public class AppLoadingState extends LoadingStatePanel {
 
-    private Widget _target;
+    private Widget target;
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        registerHandler(addLoadingHandler(event -> _target.setVisible(false)));
-        registerHandler(addSuccessHandler(event -> _target.setVisible(false)));
-        registerHandler(addErrorHandler(event -> reset(_target)));
+        registerHandler(addLoadingHandler(event -> target.setVisible(false)));
+        registerHandler(addSuccessHandler(event -> target.setVisible(false)));
+        registerHandler(addErrorHandler(event -> reset(target)));
     }
 
     public void reset(Widget target) {
@@ -50,10 +49,10 @@ public class AppLoadingState extends LoadingStatePanel {
     }
 
     public Widget getTarget() {
-        return _target;
+        return target;
     }
 
     public void setTarget(Widget target) {
-        this._target = target;
+        this.target = target;
     }
 }
