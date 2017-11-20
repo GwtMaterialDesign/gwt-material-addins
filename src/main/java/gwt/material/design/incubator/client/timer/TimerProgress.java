@@ -21,6 +21,7 @@ package gwt.material.design.incubator.client.timer;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.constants.Color;
@@ -53,7 +54,7 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class TimerProgress extends MaterialWidget {
+public class TimerProgress extends MaterialWidget implements HasDurationTransition {
 
     private MaterialPanel fill = new MaterialPanel();
     private ColorsMixin<TimerProgress> emptyFillColorMixin;
@@ -67,7 +68,7 @@ public class TimerProgress extends MaterialWidget {
         }
     }
 
-    private double duration = 1;
+    private int duration = 1000;
 
     public TimerProgress() {
         super(Document.get().createDivElement(), IncubatorCssName.TIMER_PROGRESS + " " + IncubatorCssName.BOUNCING);
@@ -79,6 +80,8 @@ public class TimerProgress extends MaterialWidget {
         super.onLoad();
 
         add(fill);
+        $(fill.getElement()).css("animation-duration", duration + "ms");
+        $(fill.getElement()).css("-webkit-animation-duration", duration + "ms");
     }
 
     public MaterialPanel getFill() {
@@ -107,19 +110,13 @@ public class TimerProgress extends MaterialWidget {
         return getEmptyFillColorMixin().getBackgroundColor();
     }
 
-    /**
-     *  Set the timer duration in seconds
-     */
-    public void setDuration(double duration) {
+    @Override
+    public void setDuration(int duration) {
         this.duration = duration;
-        $(fill.getElement()).css("animation-duration", duration + "s");
-        $(fill.getElement()).css("-webkit-animation-duration", duration + "s");
     }
 
-    /**
-     * Get the animation duration of the timer progress
-     */
-    public double getDuration() {
+    @Override
+    public int getDuration() {
         return duration;
     }
 

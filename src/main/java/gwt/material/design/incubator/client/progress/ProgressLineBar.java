@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.progress;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
@@ -89,5 +90,18 @@ public class ProgressLineBar<T> extends MaterialWidget {
 
     public void setValues(List<T> values) {
         this.values = values;
+    }
+
+    public void setActive(int index) {
+        if (index < 0) {
+            GWT.log("Index must be greater than 0", new IllegalStateException());
+            return;
+        }
+
+        if (options.size() <= 0) {
+            GWT.log("No values has been added to the options.", new IllegalStateException());
+            return;
+        }
+        options.get(index).setActive(true);
     }
 }
