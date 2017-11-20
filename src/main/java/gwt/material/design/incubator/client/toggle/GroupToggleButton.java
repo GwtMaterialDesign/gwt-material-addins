@@ -69,6 +69,7 @@ public class GroupToggleButton extends MaterialWidget implements HasSelectionHan
     private MaterialLabel firstToggle = new MaterialLabel("1");
     private MaterialLabel secondToggle = new MaterialLabel("2");
     private MaterialLabel thirdToggle = new MaterialLabel("3");
+    private int index = -1;
 
     public GroupToggleButton() {
         super(Document.get().createDivElement(), IncubatorCssName.GROUP_TOGGLE_BUTTON);
@@ -97,11 +98,16 @@ public class GroupToggleButton extends MaterialWidget implements HasSelectionHan
      * Automatically set the active button with a given index
      */
     public void setActive(int index) {
+        this.index = index;
         SelectionEvent.fire(this, index);
         for (Widget w : getChildren()) {
             w.removeStyleName(CssName.ACTIVE);
         }
         getWidget(index).addStyleName(CssName.ACTIVE);
+    }
+
+    public int getActive() {
+        return index;
     }
 
     /**

@@ -55,9 +55,8 @@ public class AsyncButton extends MaterialButton implements HasActive {
         }
     }
 
-    private ActiveMixin<AsyncButton> activeMixin;
-
     private MaterialSpinner loader = new MaterialSpinner();
+    private ActiveMixin<AsyncButton> activeMixin;
 
     public AsyncButton() {
         super();
@@ -73,15 +72,12 @@ public class AsyncButton extends MaterialButton implements HasActive {
         add(loader);
     }
 
-    public void loading() {
-        setActive(true);
-    }
-
     public void loading(String message) {
-        loading();
+        setActive(true);
         setBackgroundColor(Color.WHITE);
         setTextColor(Color.BLACK);
         setText(message);
+        setIconType(IconType.DEFAULT);
     }
 
     public void error(String message) {

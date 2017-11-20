@@ -65,7 +65,7 @@ public class TimerProgressTest extends MaterialWidgetTest<TimerProgress> {
     public void testDuration() {
         TimerProgress timerProgress = getWidget();
 
-        final double DURATION = 3.0;
+        final int DURATION = 3000;
         timerProgress.setDuration(DURATION);
         assertEquals(timerProgress.getDuration(), DURATION);
     }
