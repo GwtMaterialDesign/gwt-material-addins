@@ -139,7 +139,9 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void setUrl(String url) {
-        image = new MaterialImage();
+        if (image == null) {
+            image = new MaterialImage();
+        }
         image.setUrl(url);
     }
 
@@ -150,9 +152,10 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void setResource(ImageResource resource) {
-        image = new MaterialImage();
+        if (image == null) {
+            image = new MaterialImage();
+        }
         image.setResource(resource);
-        add(image);
     }
 
     @Override
