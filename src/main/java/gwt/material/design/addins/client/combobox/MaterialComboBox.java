@@ -520,13 +520,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
-        if (values.size() > 0) {
+        if (values.size() > selectedIndex) {
             T value = values.get(selectedIndex);
             if (value != null) {
                 $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
-            } else {
-                GWT.log("Value index is not found.", new IndexOutOfBoundsException());
-            }
+            } 
+        } else {
+            GWT.log("Value index is not found.", new IndexOutOfBoundsException());
         }
     }
 
