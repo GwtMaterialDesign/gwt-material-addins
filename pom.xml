@@ -152,6 +152,7 @@
                     <skipModule>true</skipModule>
                     <classpathScope>compile+runtime</classpathScope>
                     <failOnError>true</failOnError>
+                    <skipModule>true</skipModule>
                 </configuration>
                 <executions>
                     <execution>
