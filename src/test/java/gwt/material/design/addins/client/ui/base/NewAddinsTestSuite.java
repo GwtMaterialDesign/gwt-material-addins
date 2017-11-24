@@ -25,7 +25,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({MaterialCircularProgressTest.class, MaterialCountUpTest.class, MaterialImageCropperTest.class,
-            MaterialInputMaskTest.class, MaterialLiveStampTest.class, MaterialSignaturePadTest.class})
+            MaterialInputMaskTest.class, MaterialLiveStampTest.class, MaterialSignaturePadTest.class, MaterialWebpImageTest.class})
 public class NewAddinsTestSuite {
 
 }
