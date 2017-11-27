@@ -20,29 +20,27 @@
 package gwt.material.design.addins.client.ui;
 
 import gwt.material.design.addins.client.MaterialWidgetTest;
-import gwt.material.design.addins.client.avatar.MaterialAvatar;
-import gwt.material.design.addins.client.avatar.js.JsAvatar;
-import gwt.material.design.addins.client.webp.MaterialWebpImage;
+import gwt.material.design.incubator.client.webp.WebpImage;
 
 /**
  * Test case for avatar component
  *
  * @author kevzlou7979
  */
-public class MaterialWebpImageTest extends MaterialWidgetTest<MaterialWebpImage> {
+public class WebpImageTest extends MaterialWidgetTest<WebpImage> {
 
     static final String URL = "sample.webp";
     static final String FALLBACK_URL = "sample.png";
     static final String FALLBACK_EXTENSION = "png";
 
     @Override
-    protected MaterialWebpImage createWidget() {
-        return new MaterialWebpImage();
+    protected WebpImage createWidget() {
+        return new WebpImage();
     }
 
     public void testFallbackUrl() {
         // given
-        MaterialWebpImage webpImage = getWidget(false);
+        WebpImage webpImage = getWidget(false);
 
         // when / then
        checkFallbackUrl(webpImage);
@@ -54,7 +52,7 @@ public class MaterialWebpImageTest extends MaterialWidgetTest<MaterialWebpImage>
        checkFallbackUrl(webpImage);
     }
 
-    protected void checkFallbackUrl(MaterialWebpImage webpImage) {
+    protected void checkFallbackUrl(WebpImage webpImage) {
         webpImage.setUrl(URL);
         assertEquals(URL, webpImage.getUrl());
 
@@ -71,7 +69,7 @@ public class MaterialWebpImageTest extends MaterialWidgetTest<MaterialWebpImage>
 
     public void testFallbackExtension() {
         // given
-        MaterialWebpImage webpImage = getWidget(false);
+        WebpImage webpImage = getWidget(false);
         webpImage.setUrl(URL);
         assertEquals(URL, webpImage.getUrl());
 

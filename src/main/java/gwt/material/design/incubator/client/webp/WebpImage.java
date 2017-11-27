@@ -17,11 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.webp;
+package gwt.material.design.incubator.client.webp;
 
 import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.base.mixin.AttributeMixin;
 import gwt.material.design.client.ui.MaterialImage;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 
 //@formatter:off
 
@@ -33,22 +34,29 @@ import gwt.material.design.client.ui.MaterialImage;
  * 25-34% smaller than comparable JPEG images at equivalent SSIM quality index.
  * <p>
  * <pre>
- * {@code <ma:webp.MaterialWebpImage url="/images/my-image.webp" fallbackUrl="/images/my-image.png"/>
+ * {@code <ma:webp.WebpImage url="/images/my-image.webp" fallbackUrl="/images/my-image.png"/>
  *
  *     or
  *
- *    <ma:webp.MaterialWebpImage url="/images/my-image.webp" fallbackExtension="png"/>
+ *    <ma:webp.WebpImage url="/images/my-image.webp" fallbackExtension="png"/>
  *     }
  * </pre>
  *
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialWebpImage extends MaterialImage {
+public class WebpImage extends MaterialImage {
 
     private String fallbackUrl;
     private String fallbackExtension;
-    private AttributeMixin<MaterialWebpImage> attributeMixin;
+    private AttributeMixin<WebpImage> attributeMixin;
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        IncubatorWidget.showWarning(this);
+    }
 
     /**
      * Will set the fallback support for other browser that does'nt support WEBP.
@@ -69,7 +77,7 @@ public class MaterialWebpImage extends MaterialImage {
     }
 
     /**
-     * Will set the fallback extension of the url provided by {@link MaterialWebpImage#setUrl(String)}.
+     * Will set the fallback extension of the url provided by {@link WebpImage#setUrl(String)}.
      *
      * @param extension - file extension to be replaced in .webp (i.e png)
      */
@@ -91,7 +99,7 @@ public class MaterialWebpImage extends MaterialImage {
         return fallbackExtension;
     }
 
-    public AttributeMixin<MaterialWebpImage> getAttributeMixin() {
+    public AttributeMixin<WebpImage> getAttributeMixin() {
         if (attributeMixin == null) {
             attributeMixin = new AttributeMixin<>(this, "onerror");
         }
