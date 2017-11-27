@@ -17,20 +17,25 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client;
+package gwt.material.design.addins.client.webp;
 
-import gwt.material.design.incubator.client.ui.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+public interface HasWebpFallback {
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-        AlertTest.class,
-        GroupToggleButtonTest.class,
-        LanguageSelectorTest.class,
-        LoadingStateTest.class,
-        ReCaptchaTest.class,
-        TimerProgressTest.class
-})
-public class AddinsIncubatorTestSuite {
+    /**
+     * Will set the fallback support for other browser that does'nt support WEBP.
+     *
+     * @param fallbackUrl - the fallback image url (i.e /images/sample.png)
+     */
+    void setFallbackUrl(String fallbackUrl);
+
+    String getFallbackUrl();
+
+    /**
+     * Will set the fallback extension of the url provided by {@link MaterialWebpImage#setUrl(String)}.
+     *
+     * @param extension - file extension to be replaced in .webp (i.e png)
+     */
+    void setFallbackExtension(String extension);
+
+    String getFallbackExtension();
 }

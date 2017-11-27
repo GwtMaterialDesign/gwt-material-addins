@@ -17,12 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.webp;
+package gwt.material.design.addins.client.webp;
 
 import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.base.mixin.AttributeMixin;
 import gwt.material.design.client.ui.MaterialImage;
-import gwt.material.design.incubator.client.base.IncubatorWidget;
 
 //@formatter:off
 
@@ -34,35 +33,29 @@ import gwt.material.design.incubator.client.base.IncubatorWidget;
  * 25-34% smaller than comparable JPEG images at equivalent SSIM quality index.
  * <p>
  * <pre>
- * {@code <ma:webp.WebpImage url="/images/my-image.webp" fallbackUrl="/images/my-image.png"/>
+ * {@code <ma:webp.MaterialWebpImage url="/images/my-image.webp" fallbackUrl="/images/my-image.png"/>
  *
  *     or
  *
- *    <ma:webp.WebpImage url="/images/my-image.webp" fallbackExtension="png"/>
+ *    <ma:webp.MaterialWebpImage url="/images/my-image.webp" fallbackExtension="png"/>
  *     }
  * </pre>
  *
  * @author kevzlou7979
  */
 //@formatter:on
-public class WebpImage extends MaterialImage {
+public class MaterialWebpImage extends MaterialImage implements HasWebpFallback {
 
     private String fallbackUrl;
     private String fallbackExtension;
-    private AttributeMixin<WebpImage> attributeMixin;
+    private AttributeMixin<MaterialWebpImage> attributeMixin;
 
     @Override
     protected void onLoad() {
         super.onLoad();
-
-        IncubatorWidget.showWarning(this);
     }
 
-    /**
-     * Will set the fallback support for other browser that does'nt support WEBP.
-     *
-     * @param fallbackUrl - the fallback image url (i.e /images/sample.png)
-     */
+    @Override
     public void setFallbackUrl(String fallbackUrl) {
         this.fallbackUrl = fallbackUrl;
         if (fallbackUrl != null) {
@@ -72,20 +65,16 @@ public class WebpImage extends MaterialImage {
         }
     }
 
+    @Override
     public String getFallbackUrl() {
         return fallbackUrl;
     }
 
-    /**
-     * Will set the fallback extension of the url provided by {@link WebpImage#setUrl(String)}.
-     *
-     * @param extension - file extension to be replaced in .webp (i.e png)
-     */
+    @Override
     public void setFallbackExtension(String extension) {
         this.fallbackExtension = extension;
         String url = getUrl();
         if (url.isEmpty()) {
-            GWT.log("The image url is empty.");
             return;
         }
 
@@ -95,11 +84,12 @@ public class WebpImage extends MaterialImage {
         }
     }
 
+    @Override
     public String getFallbackExtension() {
         return fallbackExtension;
     }
 
-    public AttributeMixin<WebpImage> getAttributeMixin() {
+    public AttributeMixin<MaterialWebpImage> getAttributeMixin() {
         if (attributeMixin == null) {
             attributeMixin = new AttributeMixin<>(this, "onerror");
         }
