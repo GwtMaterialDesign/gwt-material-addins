@@ -19,7 +19,7 @@
  */
 package gwt.material.design.incubator.client;
 
-import gwt.material.design.addins.client.ui.WebpImageTest;
+import gwt.material.design.incubator.client.ui.WebpImageTest;
 import gwt.material.design.incubator.client.ui.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

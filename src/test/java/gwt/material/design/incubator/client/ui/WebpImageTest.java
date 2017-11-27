@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.ui;
+package gwt.material.design.incubator.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.incubator.client.MaterialWidgetTest;
 import gwt.material.design.incubator.client.webp.WebpImage;
 
 /**
@@ -43,13 +43,13 @@ public class WebpImageTest extends MaterialWidgetTest<WebpImage> {
         WebpImage webpImage = getWidget(false);
 
         // when / then
-       checkFallbackUrl(webpImage);
+        checkFallbackUrl(webpImage);
 
-       // given
-       attachWidget();
+        // given
+        attachWidget();
 
-       // when / then
-       checkFallbackUrl(webpImage);
+        // when / then
+        checkFallbackUrl(webpImage);
     }
 
     protected void checkFallbackUrl(WebpImage webpImage) {
