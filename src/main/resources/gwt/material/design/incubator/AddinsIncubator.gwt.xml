@@ -24,6 +24,7 @@
 <module rename-to='AddinsIncubator'>
     <inherits name="gwt.material.design.addins.GwtMaterialAddinsBase"/>
     <inherits name='gwt.material.design.Resources'/>
+    <inherits name="com.google.gwt.json.JSON"/>
 
     <!-- Specify the app entry point class -->
     <entry-point class='gwt.material.design.incubator.client.AddinsIncubator'/>

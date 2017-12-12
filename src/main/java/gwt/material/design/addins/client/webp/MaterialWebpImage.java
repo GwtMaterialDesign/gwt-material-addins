@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.webp;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import gwt.material.design.client.base.mixin.AttributeMixin;
 import gwt.material.design.client.ui.MaterialImage;
 
@@ -53,13 +53,49 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
     @Override
     protected void onLoad() {
         super.onLoad();
+
+        Scheduler.get().scheduleDeferred(() -> load());
+    }
+
+    /**
+     * Will load and setup the webp fallback
+     */
+    protected void load() {
+        // Check whether the fallback url is not null and will
+        // be set the fallback attribute
+        if (fallbackUrl != null) {
+            setFallbackAttribute(fallbackUrl);
+            return;
+        } else {
+            if (fallbackExtension != null) {
+                fallbackUrl = getUrl();
+                if (fallbackUrl.isEmpty()) {
+                    return;
+                }
+
+                if (fallbackUrl.indexOf(".") > 0) {
+                    fallbackUrl = fallbackUrl.substring(0, fallbackUrl.lastIndexOf(".")) + "." + fallbackExtension;
+                    setFallbackAttribute(fallbackUrl);
+                }
+                return;
+            }
+            setFallbackAttribute(null);
+        }
+    }
+
+    protected void setFallbackAttribute(String fallbackUrl) {
+        if (fallbackUrl != null) {
+            getAttributeMixin().setAttribute("this.onerror=null; this.src='" + fallbackUrl + "'");
+        } else {
+            getAttributeMixin().setAttribute(null);
+        }
     }
 
     @Override
     public void setFallbackUrl(String fallbackUrl) {
         this.fallbackUrl = fallbackUrl;
         if (fallbackUrl != null) {
-            getAttributeMixin().setAttribute("this.onerror=null; this.src='" + fallbackUrl + "'");
+
         } else {
             getAttributeMixin().setAttribute(null);
         }
@@ -73,15 +109,6 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
     @Override
     public void setFallbackExtension(String extension) {
         this.fallbackExtension = extension;
-        String url = getUrl();
-        if (url.isEmpty()) {
-            return;
-        }
-
-        if (url.indexOf(".") > 0) {
-            url = url.substring(0, url.lastIndexOf(".")) + "." + extension;
-            setFallbackUrl(url);
-        }
     }
 
     @Override
