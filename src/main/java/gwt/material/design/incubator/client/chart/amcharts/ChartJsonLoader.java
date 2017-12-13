@@ -8,7 +8,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartPlugin;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartTheme;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
-import gwt.material.design.incubator.client.chart.amcharts.js.AmChartGenerator;
+import gwt.material.design.incubator.client.chart.amcharts.js.AmCharts;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 
@@ -26,7 +26,7 @@ public class ChartJsonLoader extends MaterialWidget {
 
     public void load(JSONValue jsonConfigs) {
         loadPlugin(ChartPlugin.DATA_LOADER);
-        AmChartGenerator.makeChart(getId(), jsonConfigs);
+        AmCharts.makeChart(getId(), jsonConfigs);
     }
 
     public void setType(ChartType type) {

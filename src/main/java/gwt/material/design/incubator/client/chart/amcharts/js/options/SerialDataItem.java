@@ -5,8 +5,20 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class ValueAxes {
+public class SerialDataItem {
 
     @JsProperty
-    public double axisAlpha;
+    public Object axes;
+
+    @JsProperty
+    public String category;
+
+    @JsProperty
+    public Object dataContext;
+
+    @JsProperty
+    public int time;
+
+    @JsProperty
+    public int x;
 }

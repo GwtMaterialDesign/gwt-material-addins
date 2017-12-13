@@ -4,7 +4,7 @@ import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
 import gwt.material.design.incubator.client.chart.amcharts.base.IsCoordinate;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.Graph;
+import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartThemeClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartTypeClientBundle;
 
@@ -26,8 +26,8 @@ public class SerialChart extends AbstractChart<AmSerialChart> implements IsCoord
     }
 
     @Override
-    public void addGraph(Graph graph) {
-        amSerialChart.addGraph(graph);
+    public void addGraph(AmGraph amGraph) {
+        amSerialChart.addGraph(amGraph);
     }
 
     @Override
