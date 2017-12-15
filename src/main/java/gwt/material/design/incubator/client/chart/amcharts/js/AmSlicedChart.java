@@ -5,6 +5,15 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+//@formatter:off
+
+/**
+ *
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="">Official Documentation</a>
+ */
+//@formatter:on
 @JsType(isNative = true, namespace = "AmCharts")
 public class AmSlicedChart extends AmChart {
 

@@ -8,6 +8,15 @@ import jsinterop.annotations.JsType;
 
 import java.util.Date;
 
+//@formatter:off
+
+/**
+ *
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="">Official Documentation</a>
+ */
+//@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class ValueAxis {
 

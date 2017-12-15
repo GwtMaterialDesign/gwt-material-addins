@@ -9,6 +9,15 @@ import jsinterop.annotations.JsType;
 
 import java.util.Date;
 
+//@formatter:off
+
+/**
+ *
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="">Official Documentation</a>
+ */
+//@formatter:on
 @JsType(isNative = true, namespace = "AmCharts")
 public class AmSerialChart extends AmRectangularChart {
 
@@ -21,13 +30,13 @@ public class AmSerialChart extends AmRectangularChart {
     }
 
     @JsProperty
-    public String balloonDateFormat;
+    protected String balloonDateFormat;
 
     @JsProperty
-    public int bezierX;
+    protected int bezierX;
 
     @JsProperty
-    public int bezierY;
+    protected int bezierY;
 
     @JsProperty
     public String categoryAxis;

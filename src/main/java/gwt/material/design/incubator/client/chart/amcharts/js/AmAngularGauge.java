@@ -7,12 +7,15 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+//@formatter:off
+
 /**
  * Extension for {@link AmChart} to create gauge charts.
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmAngularGauge">Official Documentation</a>
  */
+//@formatter:on
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class AmAngularGauge extends AmChart {
 

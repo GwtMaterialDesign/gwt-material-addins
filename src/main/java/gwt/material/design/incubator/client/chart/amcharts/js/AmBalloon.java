@@ -5,6 +5,8 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+//@formatter:off
+
 /**
  * Creates the balloons ( tooltips ) of the chart, It follows the mouse cursor when you roll-over the data items.
  * The framework generates the instances automatically you only need to adjust the appearance to your needs.
@@ -12,6 +14,7 @@ import jsinterop.annotations.JsType;
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmBalloon">Official Documentation</a>
  */
+//@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class AmBalloon {
 

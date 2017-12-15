@@ -3,6 +3,15 @@ package gwt.material.design.incubator.client.chart.amcharts.js;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+//@formatter:off
+
+/**
+ *
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="">Official Documentation</a>
+ */
+//@formatter:on
 @JsType(isNative = true, namespace = "AmCharts")
 public class AmRadarChart extends AmCoordinateChart {
 

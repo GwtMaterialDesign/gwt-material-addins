@@ -3,8 +3,8 @@ package gwt.material.design.incubator.client.chart.amcharts;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
 import gwt.material.design.incubator.client.chart.amcharts.base.IsCoordinate;
-import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
+import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartThemeClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartTypeClientBundle;
 
