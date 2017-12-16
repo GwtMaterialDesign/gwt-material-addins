@@ -1,9 +1,7 @@
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
@@ -20,14 +18,6 @@ import java.util.Date;
 //@formatter:on
 @JsType(isNative = true, namespace = "AmCharts")
 public class AmSerialChart extends AmRectangularChart {
-
-    @JsOverlay
-    public static final AmSerialChart create() {
-        AmSerialChart defaults = new AmSerialChart();
-        defaults.type = ChartType.SERIAL.getName();
-        defaults.fontFamily = "Roboto";
-        return defaults;
-    }
 
     @JsProperty
     protected String balloonDateFormat;
@@ -106,6 +96,4 @@ public class AmSerialChart extends AmRectangularChart {
 
     @JsMethod
     public native void zoomToIndexes(int start, int end);
-
-    // TODO Events
 }

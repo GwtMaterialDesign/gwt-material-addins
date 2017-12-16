@@ -95,7 +95,7 @@ public class AmCharts {
      * You can use chart instance's "prefixesOfSmallNumbers", "prefixesOfBigNumbers" as well as "precision", "decimalSeparator" and "thousandsSeparator" properties to form your request.
      */
     @JsMethod(name = "AmCharts")
-    public static native void addPrefix(Object value, long prefixesBig, int prefixesSmall, String numberFormatter);
+    public static native void addPrefix(Object value, int prefixesBig, int prefixesSmall, String numberFormatter);
 
     /**
      * Clears all the charts on page, removes listeners and intervals.

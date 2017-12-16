@@ -3,7 +3,6 @@ package gwt.material.design.incubator.client.chart.amcharts.js;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
@@ -16,7 +15,7 @@ import jsinterop.annotations.JsType;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmGraph">Official Documentation</a>
  */
 //@formatter:on
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+@JsType(isNative = true, namespace = "AmCharts")
 public class AmGraph {
 
     /**

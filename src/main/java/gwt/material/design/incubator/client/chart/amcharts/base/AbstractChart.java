@@ -12,7 +12,7 @@ import gwt.material.design.incubator.client.chart.amcharts.js.plugins.DataLoader
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 
-public abstract class AbstractChart<T extends AmChart> extends MaterialWidget implements IsAmChart {
+public abstract class AbstractChart extends MaterialWidget implements IsAmChart {
 
     static {
         MaterialDesign.injectDebugJs(ChartClientBundle.INSTANCE.amChartJs());
@@ -22,11 +22,16 @@ public abstract class AbstractChart<T extends AmChart> extends MaterialWidget im
         super(Document.get().createDivElement());
 
         setId(DOM.createUniqueId());
+        loadDefaults();
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
+    }
+
+    protected void loadDefaults() {
+        setFontFamily("Roboto");
     }
 
     @Override
@@ -67,5 +72,5 @@ public abstract class AbstractChart<T extends AmChart> extends MaterialWidget im
         getChart().write(getId());
     }
 
-    public abstract T getChart();
+    public abstract AmChart getChart();
 }

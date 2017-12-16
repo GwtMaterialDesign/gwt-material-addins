@@ -68,19 +68,19 @@ public class AmCoordinateChart extends AmChart {
      * will fade in from startAlpha. Value range is 0 - 1. Default to 1
      */
     @JsProperty
-    public double startDuration;
+    public String startAlpha;
 
     /**
      * Duration of the animation, in seconds. Default to 0
      */
     @JsProperty
-    public String startEffect;
+    public double startDuration;
 
     /**
      * Animation effect. Possible values are: easeOutSine, easeInSine, elastic, bounce. Default to "elastic"
      */
     @JsProperty
-    public String startAlpha;
+    public String startEffect;
 
     /**
      * Target of url. Default to _self
