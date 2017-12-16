@@ -11,24 +11,36 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- *
+ * Extension for {@link AmCoordinateChart} and base class of {@link AmSerialChart} and {@link AmXYChart}. It can not be instantiated explicitly.
  *
  * @author kevzlou7979@gmail.com
- * @see <a href="">Official Documentation</a>
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmRectangularChart">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class AmRectangularChart extends AmCoordinateChart {
 
+    /**
+     * The angle of the 3D part of plot area. This creates a 3D effect (if the "depth3D" is > 0). Default to 0
+     */
     @JsProperty
     public int angle;
 
+    /**
+     * Space left from axis labels/title to the chart's outside border, if autoMargins set to true. Default to 10
+     */
     @JsProperty
     public int autoMarginOffset;
 
+    /**
+     * Space left from axis labels/title to the chart's outside border, if autoMargins set to true. Default to true
+     */
     @JsProperty
     public boolean autoMargins;
 
+    /**
+     * Cursor of a chart.
+     */
     @JsProperty
     public ChartCursor chartCursor;
 

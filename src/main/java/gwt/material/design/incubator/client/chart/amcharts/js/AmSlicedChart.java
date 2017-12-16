@@ -1,6 +1,8 @@
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
+import gwt.material.design.incubator.client.chart.amcharts.js.options.Slice;
 import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.MouseEvent;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -8,8 +10,6 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- *
- *
  * @author kevzlou7979@gmail.com
  * @see <a href="">Official Documentation</a>
  */
@@ -176,6 +176,45 @@ public class AmSlicedChart extends AmChart {
     @JsMethod
     public native void rollOverSlice(Object slice);
 
+    /**
+     * 	Shows slice.
+     */
     @JsMethod
     public native void showSlice(Object slice);
+
+    /**
+     * Dispatched when user clicks on a slice. Event is an instance of original mouse event.
+     */
+    @JsProperty
+    public Functions.EventFunc3<String, Slice, MouseEvent> clickSlide;
+
+    /**
+     * Dispatched when user clicks on a slice and the slice is pulled-in. Event is an instance of original mouse event.
+     */
+    @JsProperty
+    public Functions.EventFunc3<String, Slice, MouseEvent> pullInSlice;
+
+    /**
+     * Dispatched when user clicks on a slice and the slice is pulled-out. Event is an instance of original mouse event.
+     */
+    @JsProperty
+    public Functions.EventFunc3<String, Slice, MouseEvent> pullOutSlice;
+
+    /**
+     * Dispatched when user right-clicks the slice. Event is an instance of original mouse event.
+     */
+    @JsProperty
+    public Functions.EventFunc3<String, Slice, MouseEvent> rightClickSlice;
+
+    /**
+     * Dispatched when user rolls-out of the slice. Event is an instance of original mouse event.
+     */
+    @JsProperty
+    public Functions.EventFunc3<String, Slice, MouseEvent> rollOutSlice;
+
+    /**
+     * Dispatched when user rolls-over the slice. Event is an instance of original mouse event.
+     */
+    @JsProperty
+    public Functions.EventFunc3<String, Slice, MouseEvent> rollOverSlice;
 }

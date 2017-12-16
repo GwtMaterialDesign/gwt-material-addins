@@ -10,10 +10,10 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- *
+ * Creates the visualization of the data in following types: line, column, step line, smoothed line, olhc and candlestick.
  *
  * @author kevzlou7979@gmail.com
- * @see <a href="">Official Documentation</a>
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmGraph">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
@@ -785,7 +785,7 @@ public class AmGraph {
     public String yField;
 
     /**
-     * 	Hides graph's bullets.
+     * Hides graph's bullets.
      */
     @JsMethod
     public native void hideBullets();
