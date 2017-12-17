@@ -1,183 +1,145 @@
-package gwt.material.design.incubator.client.chart.amcharts.js;
+package gwt.material.design.incubator.client.chart.amcharts.base;
 
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartCursor;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.TrendLine;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
 
-//@formatter:off
-
-/**
- * Extension for {@link AmCoordinateChart} and base class of {@link AmSerialChart} and {@link AmXYChart}. It can not be instantiated explicitly.
- *
- * @author kevzlou7979@gmail.com
- * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmRectangularChart">Official Documentation</a>
- */
-//@formatter:on
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
-public class AmRectangularChart extends AmCoordinateChart {
+public interface IRectangularChart {
 
     /**
      * The angle of the 3D part of plot area. This creates a 3D effect (if the "depth3D" is > 0). Default to 0
      */
-    @JsProperty
-    public int angle;
+    void setAngle(int angle);
 
     /**
      * Space left from axis labels/title to the chart's outside border, if autoMargins set to true. Default to 10
      */
-    @JsProperty
-    public int autoMarginOffset;
+    void setAutoMarginOffset(int autoMarginOffset);
 
     /**
      * Space left from axis labels/title to the chart's outside border, if autoMargins set to true. Default to true
      */
-    @JsProperty
-    public boolean autoMargins;
+    void setAutoMargins(boolean autoMargins);
 
     /**
      * Cursor of a chart.
      */
-    @JsProperty
-    public ChartCursor chartCursor;
+    void setChartCursor(ChartCursor chartCursor);
 
     /**
      * Chart's scrollbar.
      */
-    @JsProperty
-    public ChartScrollbar chartScrollbar;
+    void setChartScrollbar(ChartScrollbar chartScrollbar);
 
     /**
      * The depth of the 3D part of plot area. This creates a 3D effect (if the "angle" is > 0). Default to 0
      */
-    @JsProperty
-    public int depth3D;
+    void setDepth3D(int depth3D);
 
     /**
      * Number of pixels between the container's bottom border and plot area. This space can be used for bottom axis'
      * values. If autoMargin is true and bottom side has axis, this property is ignored. Default to 20
      */
-    @JsProperty
-    public int marginLeft;
+    void setMarginLeft(int marginLeft);
 
     /**
      * Number of pixels between the container's left border and plot area. This space can be used for left axis' values.
      * If autoMargin is true and left side has axis, this property is ignored. Default to 20
      */
-    @JsProperty
-    public int marginBottom;
+    void setMarginBottom(int marginBottom);
 
     /**
      * Number of pixels between the container's right border and plot area. This space can be used for Right axis'
      * values. If autoMargin is true and right side has axis, this property is ignored. Default to 20
      */
-    @JsProperty
-    public int marginRight;
+    void setMarginRight(int marginRight);
 
     /**
      * Flag which should be set to false if you need margins to be recalculated on next chart.validateNow() call.
      * Default to false
      */
-    @JsProperty
-    public boolean marginsUpdated;
+    void setMarginsUpdated(boolean marginsUpdated);
 
     /**
      * Number of pixels between the container's top border and plot area. This space can be used for top axis' values.
      * If autoMargin is true and top side has axis, this property is ignored. Default to 20
      */
-    @JsProperty
-    public int marginTop;
+    void setMarginTop(int marginTop);
 
     /**
      * Maximum zoom factor value axes. Default to 20
      */
-    @JsProperty
-    public int maxZoomFactor;
+    void setMaxZoomFactor(int maxZoomFactor);
 
     /**
      * If bottom side has a value axis and autoMargins is set to true (default), the margin of this side will be not
      * less than set on minMarginBottom property.
      */
-    @JsProperty
-    public int minMarginBottom;
+    void setMinMarginBottom(int minMarginBottom);
 
     /**
      * If left side has a value axis and autoMargins is set to true (default), the margin of this side will be not less
      * than set on minMarginLeft property.
      */
-    @JsProperty
-    public int minMarginLeft;
+    void setMinMarginLeft(int minMarginLeft);
 
     /**
      * If right side has a value axis and autoMargins is set to true (default), the margin of this side will be not less
      * than set on minMarginRight property.
      */
-    @JsProperty
-    public int minMarginRight;
+    void setMinMarginRight(int minMarginRight);
 
     /**
      * If top side has a value axis and autoMargins is set to true (default), the margin of this side will be not less
      * than set on minMarginTop property.
      */
-    @JsProperty
-    public int minMarginTop;
+    void setMinMarginTop(int minMarginTop);
 
     /**
      * The opacity of plot area's border. Value range is 0 - 1. Default to 0
      */
-    @JsProperty
-    public double plotAreaBorderAlpha;
+    void setPlotAreaBorderAlpha(double plotAreaBorderAlpha);
 
     /**
      * The color of the plot area's border. Note, the it is invisible by default, as plotAreaBorderAlpha default value
      * is 0. Set it to a value higher than 0 to make it visible. Default to #000000
      */
-    @JsProperty
-    public String plotAreaBorderColor;
+    void setPlotAreaBorderColor(String plotAreaBorderColor);
 
     /**
      * Opacity of plot area. Plural form is used to keep the same property names as our Flex charts'. Flex charts can
      * accept array of numbers to generate gradients. Although you can set array here, only first value of this array
      * will be used. Default to 0
      */
-    @JsProperty
-    public double plotAreaFillAlphas;
+    void setPlotAreaFillAlphas(double plotAreaFillAlphas);
 
     /**
      * You can set both one color if you need a solid color or array of colors to generate gradients, for example:
      * ["#000000", "#0000CC"]. Default to #FFFFFF
      */
-    @JsProperty
-    public String plotAreaFillColors;
+    void setPlotAreaFillColors(String plotAreaFillColors);
 
     /**
      * If you are using gradients to fill the plot area, you can use this property to set gradient angle. The only
      * allowed values are horizontal and vertical: 0, 90, 180, 270. Default to 0
      */
-    @JsProperty
-    public int plotAreaGradientAngle;
+    void setPlotAreaGradientAngle(int plotAreaGradientAngle);
 
     /**
      * Array of trend lines added to a chart. You can add trend lines to a chart using this array or access already
      * existing trend lines
      */
-    @JsProperty
-    public TrendLine[] trendLines;
+    void setTrendLines(TrendLine... trendLines);
 
     /**
      * Opacity of zoom-out button background. Default to 0
      */
-    @JsProperty
-    public double zoomOutButtonAlpha;
+    void setZoomOutButtonAlpha(double zoomOutButtonAlpha);
 
     /**
      * Zoom-out button background color. Default to #e5e5e5
      */
-    @JsProperty
-    public String zoomOutButtonColor;
+    void setZoomOutButtonColor(String zoomOutButtonColor);
 
     /**
      * Name of zoom-out button image. In the images folder there is another lens image, called lensWhite.png.
@@ -185,81 +147,68 @@ public class AmRectangularChart extends AmCoordinateChart {
      * you don't have to set image extension. If svgIcons is set to true (default) .svg will be added to the
      * file name if SVG is supported by the browser, otherwise – .png. Default to "lens"
      */
-    @JsProperty
-    public String zoomOutButtonImage;
+    void setZoomOutButtonImage(String zoomOutButtonImage);
 
     /**
      * Size of zoom-out button image. Default to 17
      */
-    @JsProperty
-    public int zoomOutButtonImageSize;
+    void setZoomOutButtonImageSize(int zoomOutButtonImageSize);
 
     /**
      * Padding around the text and image. Default to 8
      */
-    @JsProperty
-    public int zoomOutButtonPadding;
+    void setZoomOutButtonPadding(int zoomOutButtonPadding);
 
     /**
      * Opacity of zoom-out button background when mouse is over it. Default to 1
      */
-    @JsProperty
-    public double zoomOutButtonRollOverAlpha;
+    void setZoomOutButtonRollOverAlpha(double zoomOutButtonRollOverAlpha);
 
     /**
      * In case you set it to some number, the chart will set focus on zoom-out button when user clicks tab key. When a
      * focus is set, screen readers like NVDA Screen reader will read zoomOutText. If user clicks Enter when a focus is
      * set, the chart will zoom-out. Note, not all browsers and readers support this.
      */
-    @JsProperty
-    public int zoomOutButtonTabIndex;
+    void setZoomOutButtonTabIndex(int zoomOutButtonTabIndex);
 
     /**
      * Text in the zoom-out button. Default to "Show All"
      */
-    @JsProperty
-    public String zoomOutText;
+    void setZoomOutText(String zoomOutText);
 
     /**
      * Adds a {@link ChartCursor} object to a chart
      */
-    @JsMethod
-    public native void addChartCursor(ChartCursor chartCursor);
+    void addChartCursor(ChartCursor chartCursor);
 
     /**
      * Adds a {@link ChartScrollbar} to a chart
      */
-    @JsMethod
-    public native void addChartScrollbar(ChartScrollbar chartScrollBar);
+    void addChartScrollbar(ChartScrollbar chartScrollBar);
 
     /**
      * Adds a {@link TrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
      * line to be visible.
      */
-    @JsMethod
-    public native void addTrendLine(TrendLine trendLine);
+    void addTrendLine(TrendLine trendLine);
 
     /**
      * Removes cursor from the chart
      */
-    @JsMethod
-    public native void removeChartCursor();
+    void removeChartCursor();
 
     /**
      * Removes scrollbar from the chart
      */
-    @JsMethod
-    public native void removeChartScrollbar();
+    void removeChartScrollbar();
 
     /**
      * Removes a trend line from a chart. You should call chart.validateNow() in order the changes to be visible.
      */
-    @JsMethod
-    public native void removeTrendLine(TrendLine trendLine);
+    void removeTrendLine(TrendLine trendLine);
 
     /**
      * Zooms-out value axes.
      */
-    @JsMethod
-    public native void zoomOutValueAxes();
+    void zoomOutValueAxes();
 }

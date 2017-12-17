@@ -4,23 +4,23 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Guide;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
 
-public interface IsCoordinate {
+public interface ICoordinateChart {
 
     /**
      * Read-only. Array, holding processed chart's data.
      */
-    void setChartData(Object[] data);
+    void setChartData(Object... data);
 
     /**
      * Specifies the colors of the graphs if the lineColor of a graph is not set. If there are more graphs then colors
      * in this array, the chart picks a random color.
      */
-    void setColors(String[] colors);
+    void setColors(String... colors);
 
     /**
      * The array of graphs belonging to this chart.
      */
-    void setAmGraphs(AmGraph[] graphs);
+    void setAmGraphs(AmGraph... graphs);
 
     /**
      * Specifies if grid should be drawn above the graphs or below. Will not work properly with 3D charts. Default
@@ -33,17 +33,17 @@ public interface IsCoordinate {
      * defined, it will automatically will be assigned to the category axis. Otherwise to first value axis, unless you
      * specify a different valueAxis for the guide.
      */
-    void setGuides(Guide[] guides);
+    void setGuides(Guide... guides);
 
     /**
      * Specifies whether the animation should be sequenced or all objects should appear at once. Default to true
      */
-    void setSequencedAnimation(boolean value);
+    void setSequencedAnimation(boolean sequencedAnimation);
 
     /**
      * Duration of the animation, in seconds. Default to 0
      */
-    void setStartDuration(double value);
+    void setStartDuration(double startDuration);
 
     /**
      * Animation effect. Possible values are: easeOutSine, easeInSine, elastic, bounce. Default to "elastic"
@@ -54,12 +54,12 @@ public interface IsCoordinate {
      * The initial opacity of the column/line. If you set startDuration to a value higher than 0, the columns/lines
      * will fade in from startAlpha. Value range is 0 - 1. Default to 1
      */
-    void setStartAlpha(double value);
+    void setStartAlpha(double startAlpha);
 
     /**
      * Target of url. Default to _self
      */
-    void setUrlTarget(String target);
+    void setUrlTarget(String urlTarget);
 
     /**
      * The array of value axes. Chart creates one value axis automatically, so if you need only one value axis,

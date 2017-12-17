@@ -1,0 +1,38 @@
+package gwt.material.design.incubator.client.chart.amcharts.base.constants;
+
+public enum Language {
+
+    AZ,
+    BG,
+    CS,
+    DE,
+    ES,
+    FI,
+    FO,
+    FR,
+    HR,
+    HU,
+    ID,
+    IS,
+    IT,
+    JA,
+    KO,
+    LT,
+    LV,
+    MK,
+    MN,
+    MT,
+    NL,
+    NO,
+    PL,
+    PT,
+    RO,
+    RU,
+    RW,
+    SK,
+    SL,
+    SO,
+    TH,
+    TR,
+    ZH
+}

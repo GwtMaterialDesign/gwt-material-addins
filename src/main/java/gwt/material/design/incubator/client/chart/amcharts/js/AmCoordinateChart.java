@@ -68,7 +68,7 @@ public class AmCoordinateChart extends AmChart {
      * will fade in from startAlpha. Value range is 0 - 1. Default to 1
      */
     @JsProperty
-    public String startAlpha;
+    public double startAlpha;
 
     /**
      * Duration of the animation, in seconds. Default to 0
