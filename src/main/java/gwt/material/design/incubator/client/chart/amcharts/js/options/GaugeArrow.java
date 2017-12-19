@@ -1,64 +1,188 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import jsinterop.annotations.*;
 
 //@formatter:off
 
 /**
- *
+ * Creates an arrow for AmAngularGauge charts, multiple can be assigned.
  *
  * @author kevzlou7979@gmail.com
- * @see <a href="">Official Documentation</a>
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GaugeArrow">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class GaugeArrow {
 
     @JsProperty
-    public double alpha;
+    private double alpha;
 
     @JsProperty
-    public GaugeAxis axis;
+    private GaugeAxis axis;
 
     @JsProperty
-    public int borderAlpha;
+    private int borderAlpha;
 
     @JsProperty
-    public boolean clockWiseOnly;
+    private boolean clockWiseOnly;
 
     @JsProperty
-    public String color;
+    private String color;
 
     @JsProperty
-    public String id;
+    private String id;
 
     @JsProperty
-    public Object innerRadius;
+    private Object innerRadius;
 
     @JsProperty
-    public int nailAlpha;
+    private int nailAlpha;
 
     @JsProperty
-    public int nailBorderAlpha;
+    private int nailBorderAlpha;
 
     @JsProperty
-    public int nailBorderThickness;
+    private int nailBorderThickness;
 
     @JsProperty
-    public int nailRadius;
+    private int nailRadius;
 
     @JsProperty
-    public Object radius;
+    private Object radius;
 
     @JsProperty
-    public int startWidth;
+    private int startWidth;
 
     @JsProperty
-    public int value;
+    private int value;
 
+    /**
+     * Opacity of an arrow. Default to 1
+     */
+    @JsOverlay
+    public final void setAlpha(double alpha) {
+        this.alpha = alpha;
+    }
+
+    /**
+     * Axis of the arrow. You can use reference to the axis or id of the axis. If you don't set any axis, the first
+     * axis of a chart will be used.
+     */
+    @JsOverlay
+    public final void setAxis(GaugeAxis axis) {
+        this.axis = axis;
+    }
+
+    /**
+     * Opacity of arrow border. Default to 1
+     */
+    @JsOverlay
+    public final void setBorderAlpha(int borderAlpha) {
+        this.borderAlpha = borderAlpha;
+    }
+
+    /**
+     * In case you need the arrow to rotate only clock-wise, set this property to true. Default to false
+     */
+    @JsOverlay
+    public final void setClockWiseOnly(boolean clockWiseOnly) {
+        this.clockWiseOnly = clockWiseOnly;
+    }
+
+    /**
+     * Color of an arrow. Default to #000000
+     */
+    @JsOverlay
+    public final void setColor(String color) {
+        this.color = color;
+    }
+
+    /**
+     * Unique id of an arrow.
+     */
+    @JsOverlay
+    public final void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Inner radius of an arrow. Default to 0
+     */
+    @JsOverlay
+    public final void setInnerRadius(Object innerRadius) {
+        this.innerRadius = innerRadius;
+    }
+
+    /**
+     * Opacity of a nail, holding the arrow. Default to 1
+     */
+    @JsOverlay
+    public final void setNailAlpha(int nailAlpha) {
+        this.nailAlpha = nailAlpha;
+    }
+
+    /**
+     * Opacity of nail border. Default to 0
+     */
+    @JsOverlay
+    public final void setNailBorderAlpha(int nailBorderAlpha) {
+        this.nailBorderAlpha = nailBorderAlpha;
+    }
+
+    /**
+     * Thickness of nail border. Default to 1
+     */
+    @JsOverlay
+    public final void setNailBorderThickness(int nailBorderThickness) {
+        this.nailBorderThickness = nailBorderThickness;
+    }
+
+    /**
+     * Radius of a nail, holding the arrow. Default to 8
+     */
+    @JsOverlay
+    public final void setNailRadius(int nailRadius) {
+        this.nailRadius = nailRadius;
+    }
+
+    /**
+     * Radius of an arrow. Default to 90%
+     */
+    @JsOverlay
+    public final void setRadius(Object radius) {
+        this.radius = radius;
+    }
+
+    /**
+     * Default to 8
+     */
+    @JsOverlay
+    public final void setStartWidth(int startWidth) {
+        this.startWidth = startWidth;
+    }
+
+    /**
+     * Value to which the arrow should point at.
+     */
     @JsMethod
     public native void setValue(int value);
 }

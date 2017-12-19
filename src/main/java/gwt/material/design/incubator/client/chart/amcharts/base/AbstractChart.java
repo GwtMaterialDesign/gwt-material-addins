@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.incubator.client.chart.amcharts.base;
 
 import com.google.gwt.dom.client.Document;
@@ -25,10 +44,11 @@ public abstract class AbstractChart extends MaterialWidget implements ICoreChart
         MaterialDesign.injectDebugJs(ChartClientBundle.INSTANCE.amChartJs());
     }
 
-    public AbstractChart() {
+    public AbstractChart(ChartType chartType) {
         super(Document.get().createDivElement());
 
         setId(DOM.createUniqueId());
+        setType(chartType);
         loadDefaults();
     }
 
@@ -39,17 +59,19 @@ public abstract class AbstractChart extends MaterialWidget implements ICoreChart
 
     protected void loadDefaults() {
         setFontFamily("Roboto");
+        setTheme(ChartTheme.LIGHT);
     }
 
     @Override
     public void setType(ChartType type) {
+        ChartResourceLoader.loadChartTypeResource(type);
         getChart().type = type.getName();
     }
 
     @Override
     public void setTheme(ChartTheme theme) {
-        getChart().theme = theme.getName();
         ChartResourceLoader.loadTheme(theme);
+        getChart().theme = theme.getName();
     }
 
     @Override

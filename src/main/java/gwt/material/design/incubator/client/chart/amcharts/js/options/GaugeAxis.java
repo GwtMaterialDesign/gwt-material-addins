@@ -1,17 +1,31 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.jquery.client.api.Functions;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import jsinterop.annotations.*;
 
 //@formatter:off
 
 /**
- *
- *
  * @author kevzlou7979@gmail.com
  * @see <a href="">Official Documentation</a>
  */
@@ -20,151 +34,386 @@ import jsinterop.annotations.JsType;
 public class GaugeAxis {
 
     @JsProperty
-    public double axisAlpha;
+    private double axisAlpha;
 
     @JsProperty
-    public String axisColor;
+    private String axisColor;
 
     @JsProperty
-    public int axisThickness;
+    private int axisThickness;
 
     @JsProperty
-    public double bandAlpha;
+    private double bandAlpha;
 
     @JsProperty
-    public int[] bandGradientRatio;
+    private int[] bandGradientRatio;
 
     @JsProperty
-    public double bandOutlineAlpha;
+    private double bandOutlineAlpha;
 
     @JsProperty
-    public String bandOutlineColor;
+    private String bandOutlineColor;
 
     @JsProperty
-    public int bandOutlineThickness;
+    private int bandOutlineThickness;
 
     @JsProperty
-    public GaugeBand[] bands;
+    private GaugeBand[] bands;
 
     @JsProperty
-    public String bottomText;
+    private String bottomText;
 
     @JsProperty
-    public boolean bottomTextBold;
+    private boolean bottomTextBold;
 
     @JsProperty
-    public String bottomTextColor;
+    private String bottomTextColor;
 
     @JsProperty
-    public int bottomTextFontSize;
+    private int bottomTextFontSize;
 
     @JsProperty
-    public int bottomTextYOffset;
+    private int bottomTextYOffset;
 
     @JsProperty
-    public Object centerX;
+    private Object centerX;
 
     @JsProperty
-    public Object centerY;
+    private Object centerY;
 
     @JsProperty
-    public String color;
+    private String color;
 
     @JsProperty
-    public int endAngle;
+    private int endAngle;
 
     @JsProperty
-    public int endValue;
+    private int endValue;
 
     @JsProperty
-    public int fontSize;
+    private int fontSize;
 
     @JsProperty
-    public int gridCount;
+    private int gridCount;
 
     @JsProperty
-    public boolean gridInside;
+    private boolean gridInside;
 
     @JsProperty
-    public int id;
+    private int id;
 
     @JsProperty
-    public boolean inside;
+    private boolean inside;
 
     @JsProperty
-    public int labelFrequency;
+    private int labelFrequency;
 
     @JsProperty
-    public Functions.Func labelFunction;
+    private Functions.Func labelFunction;
 
     @JsProperty
-    public int labelOffset;
+    private int labelOffset;
 
     @JsProperty
-    public boolean labelsEnabled;
+    private boolean labelsEnabled;
 
     @JsProperty
-    public Object[] listeners;
+    private Object[] listeners;
 
     @JsProperty
-    public int minorTickInterval;
+    private int minorTickInterval;
 
     @JsProperty
-    public int minorTickLength;
+    private int minorTickLength;
 
     @JsProperty
-    public Object radius;
+    private Object radius;
 
     @JsProperty
-    public boolean showFirstLabel;
+    private boolean showFirstLabel;
 
     @JsProperty
-    public boolean showLastLabel;
+    private boolean showLastLabel;
 
     @JsProperty
-    public int startAngle;
+    private int startAngle;
 
     @JsProperty
-    public int startValue;
+    private int startValue;
 
     @JsProperty
-    public double tickAlpha;
+    private double tickAlpha;
 
     @JsProperty
-    public String tickColor;
+    private String tickColor;
 
     @JsProperty
-    public int tickLength;
+    private int tickLength;
 
     @JsProperty
-    public int tickThickness;
+    private int tickThickness;
 
     @JsProperty
-    public String topText;
+    private String topText;
 
     @JsProperty
-    public boolean topTextBold;
+    private boolean topTextBold;
 
     @JsProperty
-    public String topTextColor;
+    private String topTextColor;
 
     @JsProperty
-    public int topTextFontSize;
+    private int topTextFontSize;
 
     @JsProperty
-    public int topTextYOffset;
+    private int topTextYOffset;
 
     @JsProperty
-    public String unit;
+    private String unit;
 
     @JsProperty
-    public String unitPosition;
+    private String unitPosition;
 
     @JsProperty
-    public boolean usePrefixes;
+    private boolean usePrefixes;
 
     @JsProperty
-    public int valueInterval;
+    private int valueInterval;
+
+    @JsOverlay
+    public final void setAxisAlpha(double axisAlpha) {
+        this.axisAlpha = axisAlpha;
+    }
+
+    @JsOverlay
+    public final void setAxisColor(String axisColor) {
+        this.axisColor = axisColor;
+    }
+
+    @JsOverlay
+    public final void setAxisThickness(int axisThickness) {
+        this.axisThickness = axisThickness;
+    }
+
+    @JsOverlay
+    public final void setBandAlpha(double bandAlpha) {
+        this.bandAlpha = bandAlpha;
+    }
+
+    @JsOverlay
+    public final void setBandGradientRatio(int[] bandGradientRatio) {
+        this.bandGradientRatio = bandGradientRatio;
+    }
+
+    @JsOverlay
+    public final void setBandOutlineAlpha(double bandOutlineAlpha) {
+        this.bandOutlineAlpha = bandOutlineAlpha;
+    }
+
+    @JsOverlay
+    public final void setBandOutlineColor(String bandOutlineColor) {
+        this.bandOutlineColor = bandOutlineColor;
+    }
+
+    @JsOverlay
+    public final void setBandOutlineThickness(int bandOutlineThickness) {
+        this.bandOutlineThickness = bandOutlineThickness;
+    }
+
+    @JsOverlay
+    public final void setBands(GaugeBand[] bands) {
+        this.bands = bands;
+    }
+
+    @JsOverlay
+    public final void setBottomTextBold(boolean bottomTextBold) {
+        this.bottomTextBold = bottomTextBold;
+    }
+
+    @JsOverlay
+    public final void setBottomTextColor(String bottomTextColor) {
+        this.bottomTextColor = bottomTextColor;
+    }
+
+    @JsOverlay
+    public final void setBottomTextFontSize(int bottomTextFontSize) {
+        this.bottomTextFontSize = bottomTextFontSize;
+    }
+
+    @JsOverlay
+    public final void setBottomTextYOffset(int bottomTextYOffset) {
+        this.bottomTextYOffset = bottomTextYOffset;
+    }
+
+    @JsOverlay
+    public final void setCenterX(Object centerX) {
+        this.centerX = centerX;
+    }
+
+    @JsOverlay
+    public final void setCenterY(Object centerY) {
+        this.centerY = centerY;
+    }
+
+    @JsOverlay
+    public final void setColor(String color) {
+        this.color = color;
+    }
+
+    @JsOverlay
+    public final void setEndAngle(int endAngle) {
+        this.endAngle = endAngle;
+    }
+
+    @JsOverlay
+    public final void setEndValue(int endValue) {
+        this.endValue = endValue;
+    }
+
+    @JsOverlay
+    public final void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    @JsOverlay
+    public final void setGridCount(int gridCount) {
+        this.gridCount = gridCount;
+    }
+
+    @JsOverlay
+    public final void setGridInside(boolean gridInside) {
+        this.gridInside = gridInside;
+    }
+
+    @JsOverlay
+    public final void setId(int id) {
+        this.id = id;
+    }
+
+    @JsOverlay
+    public final void setInside(boolean inside) {
+        this.inside = inside;
+    }
+
+    @JsOverlay
+    public final void setLabelFrequency(int labelFrequency) {
+        this.labelFrequency = labelFrequency;
+    }
+
+    @JsOverlay
+    public final void setLabelFunction(Functions.Func labelFunction) {
+        this.labelFunction = labelFunction;
+    }
+
+    @JsOverlay
+    public final void setLabelOffset(int labelOffset) {
+        this.labelOffset = labelOffset;
+    }
+
+    @JsOverlay
+    public final void setLabelsEnabled(boolean labelsEnabled) {
+        this.labelsEnabled = labelsEnabled;
+    }
+
+    @JsOverlay
+    public final void setListeners(Object[] listeners) {
+        this.listeners = listeners;
+    }
+
+    @JsOverlay
+    public final void setMinorTickInterval(int minorTickInterval) {
+        this.minorTickInterval = minorTickInterval;
+    }
+
+    @JsOverlay
+    public final void setMinorTickLength(int minorTickLength) {
+        this.minorTickLength = minorTickLength;
+    }
+
+    @JsOverlay
+    public final void setRadius(Object radius) {
+        this.radius = radius;
+    }
+
+    @JsOverlay
+    public final void setShowFirstLabel(boolean showFirstLabel) {
+        this.showFirstLabel = showFirstLabel;
+    }
+
+    @JsOverlay
+    public final void setShowLastLabel(boolean showLastLabel) {
+        this.showLastLabel = showLastLabel;
+    }
+
+    @JsOverlay
+    public final void setStartAngle(int startAngle) {
+        this.startAngle = startAngle;
+    }
+
+    @JsOverlay
+    public final void setStartValue(int startValue) {
+        this.startValue = startValue;
+    }
+
+    @JsOverlay
+    public final void setTickAlpha(double tickAlpha) {
+        this.tickAlpha = tickAlpha;
+    }
+
+    @JsOverlay
+    public final void setTickColor(String tickColor) {
+        this.tickColor = tickColor;
+    }
+
+    @JsOverlay
+    public final void setTickLength(int tickLength) {
+        this.tickLength = tickLength;
+    }
+
+    @JsOverlay
+    public final void setTickThickness(int tickThickness) {
+        this.tickThickness = tickThickness;
+    }
+
+    @JsOverlay
+    public final void setTopTextBold(boolean topTextBold) {
+        this.topTextBold = topTextBold;
+    }
+
+    @JsOverlay
+    public final void setTopTextColor(String topTextColor) {
+        this.topTextColor = topTextColor;
+    }
+
+    @JsOverlay
+    public final void setTopTextFontSize(int topTextFontSize) {
+        this.topTextFontSize = topTextFontSize;
+    }
+
+    @JsOverlay
+    public final void setTopTextYOffset(int topTextYOffset) {
+        this.topTextYOffset = topTextYOffset;
+    }
+
+    @JsOverlay
+    public final void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @JsOverlay
+    public final void setUnitPosition(String unitPosition) {
+        this.unitPosition = unitPosition;
+    }
+
+    @JsOverlay
+    public final void setUsePrefixes(boolean usePrefixes) {
+        this.usePrefixes = usePrefixes;
+    }
+
+    @JsOverlay
+    public final void setValueInterval(int valueInterval) {
+        this.valueInterval = valueInterval;
+    }
 
     @JsMethod
     public native void addListener(String type, Functions.Func handler);

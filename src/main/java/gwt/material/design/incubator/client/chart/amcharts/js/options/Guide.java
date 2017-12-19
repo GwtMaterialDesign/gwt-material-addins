@@ -1,5 +1,25 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -9,96 +29,239 @@ import java.util.Date;
 //@formatter:off
 
 /**
- *
+ * Creates a horizontal/vertical guideline-/area for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart},
+ * {@link gwt.material.design.incubator.client.chart.amcharts.XyChart} and
+ * {@link gwt.material.design.incubator.client.chart.chartjs.RadarChart} charts, automatically
+ * adapts it's settings from the axes if none has been specified.
  *
  * @author kevzlou7979@gmail.com
- * @see <a href="">Official Documentation</a>
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/Guide">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class Guide {
 
     @JsProperty
-    public boolean above;
+    private boolean above;
 
     @JsProperty
-    public int angle;
+    private int angle;
 
     @JsProperty
-    public String balloonColor;
+    private String balloonColor;
 
     @JsProperty
-    public String balloonText;
+    private String balloonText;
 
     @JsProperty
-    public boolean boldLabel;
+    private boolean boldLabel;
 
     @JsProperty
-    public String category;
+    private String category;
 
     @JsProperty
-    public String color;
+    private String color;
 
     @JsProperty
-    public int dashLength;
+    private int dashLength;
 
     @JsProperty
-    public Date date;
+    private Date date;
 
     @JsProperty
-    public boolean expand;
+    private boolean expand;
 
     @JsProperty
-    public double fillAlpha;
+    private double fillAlpha;
 
     @JsProperty
-    public String fillColor;
+    private String fillColor;
 
     @JsProperty
-    public int fontSize;
+    private int fontSize;
 
     @JsProperty
-    public String id;
+    private String id;
 
     @JsProperty
-    public boolean inside;
+    private boolean inside;
 
     @JsProperty
-    public String label;
+    private String label;
 
     @JsProperty
-    public int labelRotation;
+    private int labelRotation;
 
     @JsProperty
-    public double lineAlpha;
+    private double lineAlpha;
 
     @JsProperty
-    public String lineColor;
+    private String lineColor;
 
     @JsProperty
-    public int lineThickness;
+    private int lineThickness;
 
     @JsProperty
-    public String position;
+    private String position;
 
     @JsProperty
-    public int tickLength;
+    private int tickLength;
 
     @JsProperty
-    public int toAngle;
+    private int toAngle;
 
     @JsProperty
-    public String toCategory;
+    private String toCategory;
 
     @JsProperty
-    public Date toDate;
+    private Date toDate;
 
     @JsProperty
-    public int toValue;
+    private int toValue;
 
     @JsProperty
-    public int value;
+    private int value;
 
     @JsProperty
-    public ValueAxis valueAxis;
+    private ValueAxis valueAxis;
+
+    @JsOverlay
+    public final void setAbove(boolean above) {
+        this.above = above;
+    }
+
+    @JsOverlay
+    public final void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    @JsOverlay
+    public final void setBalloonColor(String balloonColor) {
+        this.balloonColor = balloonColor;
+    }
+
+    @JsOverlay
+    public final void setBalloonText(String balloonText) {
+        this.balloonText = balloonText;
+    }
+
+    @JsOverlay
+    public final void setBoldLabel(boolean boldLabel) {
+        this.boldLabel = boldLabel;
+    }
+
+    @JsOverlay
+    public final void setCategory(String category) {
+        this.category = category;
+    }
+
+    @JsOverlay
+    public final void setColor(String color) {
+        this.color = color;
+    }
+
+    @JsOverlay
+    public final void setDashLength(int dashLength) {
+        this.dashLength = dashLength;
+    }
+
+    @JsOverlay
+    public final void setDate(Date date) {
+        this.date = date;
+    }
+
+    @JsOverlay
+    public final void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    @JsOverlay
+    public final void setFillAlpha(double fillAlpha) {
+        this.fillAlpha = fillAlpha;
+    }
+
+    @JsOverlay
+    public final void setFillColor(String fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    @JsOverlay
+    public final void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    @JsOverlay
+    public final void setId(String id) {
+        this.id = id;
+    }
+
+    @JsOverlay
+    public final void setInside(boolean inside) {
+        this.inside = inside;
+    }
+
+    @JsOverlay
+    public final void setLabel(String label) {
+        this.label = label;
+    }
+
+    @JsOverlay
+    public final void setLabelRotation(int labelRotation) {
+        this.labelRotation = labelRotation;
+    }
+
+    @JsOverlay
+    public final void setLineAlpha(double lineAlpha) {
+        this.lineAlpha = lineAlpha;
+    }
+
+    @JsOverlay
+    public final void setLineColor(String lineColor) {
+        this.lineColor = lineColor;
+    }
+
+    @JsOverlay
+    public final void setLineThickness(int lineThickness) {
+        this.lineThickness = lineThickness;
+    }
+
+    @JsOverlay
+    public final void setPosition(String position) {
+        this.position = position;
+    }
+
+    @JsOverlay
+    public final void setTickLength(int tickLength) {
+        this.tickLength = tickLength;
+    }
+
+    @JsOverlay
+    public final void setToAngle(int toAngle) {
+        this.toAngle = toAngle;
+    }
+
+    @JsOverlay
+    public final void setToCategory(String toCategory) {
+        this.toCategory = toCategory;
+    }
+
+    @JsOverlay
+    public final void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    @JsOverlay
+    public final void setToValue(int toValue) {
+        this.toValue = toValue;
+    }
+
+    @JsOverlay
+    public final void setValue(int value) {
+        this.value = value;
+    }
+
+    @JsOverlay
+    public final void setValueAxis(ValueAxis valueAxis) {
+        this.valueAxis = valueAxis;
+    }
 }

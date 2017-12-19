@@ -1,5 +1,25 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -7,45 +27,134 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- *
+ * Image is used to add images to the end/start of trend lines. Allows you to display image anywhere on chart's plot area.
  *
  * @author kevzlou7979@gmail.com
- * @see <a href="">Official Documentation</a>
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/Image">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class Image {
 
     @JsProperty
-    public String balloonColor;
+    private String balloonColor;
 
     @JsProperty
-    public String balloonText;
+    private String balloonText;
 
     @JsProperty
-    public String color;
+    private String color;
 
     @JsProperty
-    public int height;
+    private int height;
 
     @JsProperty
-    public int offsetX;
+    private int offsetX;
 
     @JsProperty
-    public int offsetY;
+    private int offsetY;
 
     @JsProperty
-    public String outlineColor;
+    private String outlineColor;
 
     @JsProperty
-    public int rotation;
+    private int rotation;
 
     @JsProperty
-    public String svgPath;
+    private String svgPath;
 
     @JsProperty
-    public String url;
+    private String url;
 
     @JsProperty
-    public int width;
+    private int width;
+
+    /**
+     * Roll-over balloon color. Default to #000000
+     */
+    @JsOverlay
+    public final void setBalloonColor(String balloonColor) {
+        this.balloonColor = balloonColor;
+    }
+
+    /**
+     * Roll-over text.
+     */
+    @JsOverlay
+    public final void setBalloonText(String balloonText) {
+        this.balloonText = balloonText;
+    }
+
+    /**
+     * Color of an image. Works only if an image is generated using SVG path (using svgPath property on an Image).
+     * Default to #000000
+     */
+    @JsOverlay
+    public final void setColor(String color) {
+        this.color = color;
+    }
+
+    /**
+     * Height of an image. Default to 20
+     */
+    @JsOverlay
+    public final void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
+     * Horizontal offset.Default to 0
+     */
+    @JsOverlay
+    public final void setOffsetX(int offsetX) {
+        this.offsetX = offsetX;
+    }
+
+    /**
+     * Vertical offset. Default to 0
+     */
+    @JsOverlay
+    public final void setOffsetY(int offsetY) {
+        this.offsetY = offsetY;
+    }
+
+    /**
+     * Color of image outline. Works only if an image is generated using SVG path (using svgPath property on an Image)
+     */
+    @JsOverlay
+    public final void setOutlineColor(String outlineColor) {
+        this.outlineColor = outlineColor;
+    }
+
+    /**
+     * Rotation of an image. Default to 0
+     */
+    @JsOverlay
+    public final void setRotation(int rotation) {
+        this.rotation = rotation;
+    }
+
+    /**
+     * Svg path of an image. Will not work with IE8.
+     */
+    @JsOverlay
+    public final void setSvgPath(String svgPath) {
+        this.svgPath = svgPath;
+    }
+
+    /**
+     * Url of an image.
+     */
+    @JsOverlay
+    public final void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * Width on an image. Default to 20
+     */
+    @JsOverlay
+    public final void setWidth(int width) {
+        this.width = width;
+    }
 }
