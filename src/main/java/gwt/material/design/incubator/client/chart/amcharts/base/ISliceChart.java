@@ -24,72 +24,40 @@ import gwt.material.design.jquery.client.api.Functions;
 
 public interface ISliceChart {
 
-    /**
-     * Text which screen readers will read if user rolls-over the slice or sets focus using tab key (this is possible
-     * only if tabIndex property of AmSlicedChart is set to some number). Text is added as aria-label tag. Note - not
-     * all screen readers and browsers support this. Default to [[title]]: [[percents]]% [[value]] [[description]]
-     */
+
     void setAccessibleLabel(String accessibleLabel);
 
-    /**
-     * Opacity of all slices. Default to 1
-     */
+
     void setAlpha(double alpha);
 
-    /**
-     * Name of the field in chart's dataProvider which holds slice's alpha.
-     */
+
     void setAlphaField(String alphaField);
 
-    /**
-     * Color of the first slice. All the other will be colored with darker or brighter colors. Use brightnessStep to
-     * set intensity of color change for each subsequent slice.
-     */
+
     void setBaseColor(String baseColor);
 
-    /**
-     * If you set baseColor to some color, the chart will not use colors array to color each slice but rather this
-     * setting to color the first slice with gradually increasing (or decreasing) brightness for each subsequent slice.
-     * This setting describes the intensity of each step. Set to positive number to make the color brighter with each
-     * slice. Set to negative to make the colors darker for subsequent slices. Default to 20
-     */
+
     void setBrightnessStep(int brightnessStep);
 
-    /**
-     * Read-only. Array of Slice objects.
-     */
+
     void setChartData(Object... data);
 
-    /**
-     * If this field is set and addClassNames is enabled, the slice element will have this class name set.
-     */
+
     void setClassNameField(String classNameField);
 
-    /**
-     * Name of the field in chart's dataProvider which holds slice's color.
-     */
+
     void setColorField(String colorField);
 
-    /**
-     * Specifies the colors of the slices, if the slice color is not set. If there are more slices than colors in this
-     * array, the chart picks random color.
-     */
+
     void setColors(String... colors);
 
-    /**
-     * Name of the field in chart's dataProvider which holds a string with description.
-     */
+
     void setDescriptionField(String descriptionField);
 
-    /**
-     * Example: [-0.2, 0, -0.2]. Will make slices to be filled with color gradients. Negative value means the color
-     * will be darker than the original, and positive number means the color will be lighter.
-     */
+
     void setGradientRatio(Double... gradientRatio);
 
-    /**
-     * Opacity of the group slice. Value range is 0 - 1. Default to 1
-     */
+
     void setGroupedAlpha(double groupedAlpha);
 
     /**

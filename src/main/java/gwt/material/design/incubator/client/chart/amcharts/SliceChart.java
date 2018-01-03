@@ -42,62 +42,94 @@ public abstract class SliceChart extends AbstractChart implements ISliceChart {
         super(chartType);
     }
 
-    @Override
+    /**
+     * Text which screen readers will read if user rolls-over the slice or sets focus using tab key (this is possible
+     * only if tabIndex property of AmSlicedChart is set to some number). Text is added as aria-label tag. Note - not
+     * all screen readers and browsers support this. Default to [[title]]: [[percents]]% [[value]] [[description]]
+     */
     public void setAccessibleLabel(String accessibleLabel) {
         getChart().accessibleLabel = accessibleLabel;
     }
 
-    @Override
+    /**
+     * Opacity of all slices. Default to 1
+     */
     public void setAlpha(double alpha) {
         getChart().alpha = alpha;
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds slice's alpha.
+     */
     public void setAlphaField(String alphaField) {
         getChart().alphaField = alphaField;
     }
 
-    @Override
+    /**
+     * Color of the first slice. All the other will be colored with darker or brighter colors. Use brightnessStep to
+     * set intensity of color change for each subsequent slice.
+     */
     public void setBaseColor(String baseColor) {
         getChart().baseColor = baseColor;
     }
 
-    @Override
+    /**
+     * If you set baseColor to some color, the chart will not use colors array to color each slice but rather this
+     * setting to color the first slice with gradually increasing (or decreasing) brightness for each subsequent slice.
+     * This setting describes the intensity of each step. Set to positive number to make the color brighter with each
+     * slice. Set to negative to make the colors darker for subsequent slices. Default to 20
+     */
     public void setBrightnessStep(int brightnessStep) {
         getChart().brightnessStep = brightnessStep;
     }
 
-    @Override
+    /**
+     * Read-only. Array of Slice objects.
+     */
     public void setChartData(Object... chartData) {
         getChart().chartData = chartData;
     }
 
-    @Override
+    /**
+     * If this field is set and addClassNames is enabled, the slice element will have this class name set.
+     */
     public void setClassNameField(String classNameField) {
         getChart().classNameField = classNameField;
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds slice's color.
+     */
     public void setColorField(String colorField) {
         getChart().colorField = colorField;
     }
 
-    @Override
+    /**
+     * Specifies the colors of the slices, if the slice color is not set. If there are more slices than colors in this
+     * array, the chart picks random color.
+     */
     public void setColors(String... colors) {
         getChart().colors = colors;
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds a string with description.
+     */
     public void setDescriptionField(String descriptionField) {
         getChart().descriptionField = descriptionField;
     }
 
-    @Override
+    /**
+     * Example: [-0.2, 0, -0.2]. Will make slices to be filled with color gradients. Negative value means the color
+     * will be darker than the original, and positive number means the color will be lighter.
+     */
     public void setGradientRatio(Double... gradientRatio) {
         getChart().gradientRatio = gradientRatio;
     }
 
-    @Override
+    /**
+     * Opacity of the group slice. Value range is 0 - 1. Default to 1
+     */
     public void setGroupedAlpha(double groupedAlpha) {
         getChart().groupedAlpha = groupedAlpha;
     }
