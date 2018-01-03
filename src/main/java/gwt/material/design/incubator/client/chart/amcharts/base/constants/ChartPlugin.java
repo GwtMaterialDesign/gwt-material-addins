@@ -19,6 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
+//@formatter:off
+
+/**
+ * Available plugins for {@link gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart#loadPlugin(ChartPlugin)}
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum ChartPlugin {
 
     DATA_LOADER,

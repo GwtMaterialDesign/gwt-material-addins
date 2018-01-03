@@ -38,6 +38,15 @@ import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClient
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 import gwt.material.design.jquery.client.api.Functions;
 
+//@formatter:off
+
+/**
+ * Base class of all core charts.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmChart">Official Documentation</a>
+ */
+//@formatter:on
 public abstract class AbstractChart extends MaterialWidget {
 
     static {
@@ -71,7 +80,9 @@ public abstract class AbstractChart extends MaterialWidget {
         getChart().type = type.getName();
     }
 
-    @Override
+    /**
+     * Set the theme of AmChart see {@link ChartTheme}
+     */
     public void setTheme(ChartTheme theme) {
         ChartResourceLoader.loadTheme(theme);
         getChart().theme = theme.getName();
@@ -530,37 +541,63 @@ public abstract class AbstractChart extends MaterialWidget {
         getChart().clearLabels();
     }
 
-    @Override
+    /**
+     * Use this method to force the chart to resize to it's current container size.
+     */
     public void invalidateSize() {
         getChart().invalidateSize();
     }
 
-    @Override
+    /**
+     * This method allows to create charts with a single config.
+     *
+     * @param containerId id of a DIV or reference of the container element
+     * @param config      contains the whole setup for the chart
+     * @param delay       delay the initiation of the chart
+     */
     public void makeChart(String containerId, JSONValue config, int delay) {
         getChart().makeChart(containerId, config, delay);
     }
 
-    @Override
+    /**
+     * Removes chart's legend.
+     */
     public void removeLegend() {
         getChart().removeLegend();
     }
 
-    @Override
+    /**
+     * Removes event listener from chart object.
+     *
+     * @param object  chart object
+     * @param type    event name
+     * @param handler method called when listener has been called.
+     */
     public void removeListener(AmChart object, String type, Functions.Func handler) {
         getChart().removeListener(object, type, handler);
     }
 
-    @Override
+    /**
+     * This method should be called after data in your data provider changed or a new array was set to dataProvider.
+     * After calling this method the chart will parse data and redraw.
+     */
     public void validateData() {
         getChart().validateData();
     }
 
-    @Override
+    /**
+     * This method should be called after you changed one or more properties of any class. The chart will redraw after
+     * this method is called.Both attributes, validateData and skipEvents are optional (false by default).
+     */
     public void validateNow(Object validateData, boolean skipEvents) {
         getChart().validateNow(validateData, skipEvents);
     }
 
-    @Override
+    /**
+     * Adds chart to the specified DIV.
+     *
+     * @param elementId id of a DIV or DIV object which will hold the chart
+     */
     public void write(String elementId) {
         getChart().write(elementId);
     }
@@ -572,7 +609,11 @@ public abstract class AbstractChart extends MaterialWidget {
         getChart().fontFamily = fontFamily;
     }
 
-    @Override
+    /**
+     * Load any plugins in amchart {@link ChartPlugin}
+     *
+     * @param plugin
+     */
     public void loadPlugin(ChartPlugin plugin) {
         ChartResourceLoader.loadPluginResource(plugin);
     }

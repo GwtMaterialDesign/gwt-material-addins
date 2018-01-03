@@ -19,6 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
+//@formatter:off
+
+/**
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis#setGridType(GridType)}
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum GridType {
 
     POLYGONS("polygons"),

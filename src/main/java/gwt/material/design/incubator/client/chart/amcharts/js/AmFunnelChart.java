@@ -25,6 +25,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
+ * Extension for {@link AmSlicedChart} to create funnel/pyramid charts.
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmFunnelChart">Official Documentation</a>
  */

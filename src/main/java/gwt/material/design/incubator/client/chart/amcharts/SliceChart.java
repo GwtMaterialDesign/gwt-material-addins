@@ -20,7 +20,6 @@
 package gwt.material.design.incubator.client.chart.amcharts;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
-import gwt.material.design.incubator.client.chart.amcharts.base.ISliceChart;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.AnimationEffect;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSlicedChart;
@@ -36,7 +35,7 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmSlicedChart">Official Documentation</a>
  */
 //@formatter:on
-public abstract class SliceChart extends AbstractChart implements ISliceChart {
+public abstract class SliceChart extends AbstractChart {
 
     public SliceChart(ChartType chartType) {
         super(chartType);
@@ -134,211 +133,311 @@ public abstract class SliceChart extends AbstractChart implements ISliceChart {
         getChart().groupedAlpha = groupedAlpha;
     }
 
-    @Override
+    /**
+     * Color of the group slice. The default value is not set - this means the next available color from "colors"
+     * array will be used.
+     */
     public void setGroupedColor(String groupedColor) {
         getChart().groupedColor = groupedColor;
     }
 
-    @Override
+    /**
+     * Description of the group slice.
+     */
     public void setGroupedDescription(String groupedDescription) {
         getChart().groupedDescription = groupedDescription;
     }
 
-    @Override
+    /**
+     * If this is set to true, the group slice will be pulled out when the chart loads. Default to false
+     */
     public void setGroupedPulled(boolean groupedPulled) {
         getChart().groupedPulled = groupedPulled;
     }
 
-    @Override
+    /**
+     * Title of the group slice.
+     */
     public void setGroupedTitle(String groupedTitle) {
         getChart().groupedTitle = groupedTitle;
     }
 
-    @Override
+    /**
+     * If there is more than one slice whose percentage of the pie is less than this number, those slices will be
+     * grouped together into one slice. This is the "other" slice. It will always be the last slice in a pie.
+     * Default to 0
+     */
     public void setGroupPercent(int groupPercent) {
         getChart().groupPercent = groupPercent;
     }
 
-    @Override
+    /**
+     * Slices with percent less then hideLabelsPercent won't display labels This is useful to avoid cluttering up
+     * the chart, if you have a lot of small slices. 0 means all labels will be shown. Default to 0
+     */
     public void setHideLabelsPercent(int hideLabelsPercent) {
         getChart().hideLabelsPercent = hideLabelsPercent;
     }
 
-    @Override
+    /**
+     * Opacity of a hovered slice. Value range is 0 - 1. Default to 1
+     */
     public void setHoverAlpha(double hoverAlpha) {
         getChart().hoverAlpha = hoverAlpha;
     }
 
-    @Override
+    /**
+     * A field in data which holds color value for the tick. Use it to set color of the label for each slice
+     * individually. Default to #000000
+     */
     public void setLabelColorField(String labelColorField) {
         getChart().labelColorField = labelColorField;
     }
 
-    @Override
+    /**
+     * You can use it to format data labels in any way you want. Chart will call this method and will pass Slice object
+     * and formatted text as attributes. This function should return string which will be displayed as label.
+     */
     public void setLabelFunction(Functions.Func labelFunction) {
         getChart().labelFunction = labelFunction;
     }
 
-    @Override
+    /**
+     * Specifies whether data labels are visible. Default to true
+     */
     public void setLabelsEnabled(boolean labelsEnabled) {
         getChart().labelsEnabled = labelsEnabled;
     }
 
-    @Override
+    /**
+     * Label tick opacity. Value range is 0 - 1. Default to 0.2
+     */
     public void setLabelTickAlpha(double labelTickAlpha) {
         getChart().labelTickAlpha = labelTickAlpha;
     }
 
-    @Override
+    /**
+     * Label tick color. Default to #000000
+     */
     public void setLabelTickColor(String labelTickColor) {
         getChart().labelTickColor = labelTickColor;
     }
 
-    @Override
+    /**
+     * Bottom margin of the chart. Default to 10
+     */
     public void setMarginBottom(int marginBottom) {
         getChart().marginBottom = marginBottom;
     }
 
-    @Override
+    /**
+     * Left margin of the chart. Default to 0
+     */
     public void setMarginLeft(int marginLeft) {
         getChart().marginLeft = marginLeft;
     }
 
-    @Override
+    /**
+     * Right margin of the chart. Default to 0
+     */
     public void setMarginRight(int marginRight) {
         getChart().marginRight = marginRight;
     }
 
-    @Override
+    /**
+     * Top margin of the chart. Default to 10
+     */
     public void setMarginTop(int marginTop) {
         getChart().marginTop = marginTop;
     }
 
-    @Override
+    /**
+     * If width of the label is bigger than maxLabelWidth, it will be wrapped. Default to 200
+     */
     public void setMaxLabelWidth(int maxLabelWidth) {
         getChart().maxLabelWidth = maxLabelWidth;
     }
 
-    @Override
+    /**
+     * Outline opacity. Value range is 0 - 1. Default to 0
+     */
     public void setOutlineAlpha(double outlineAlpha) {
         getChart().outlineAlpha = outlineAlpha;
     }
 
-    @Override
+    /**
+     * Outline color. Default to #FFFFFF
+     */
     public void setOutlineColor(String outlineColor) {
         getChart().outlineColor = outlineColor;
     }
 
-    @Override
+    /**
+     * Pie outline thickness. Default to 1
+     */
     public void setOutlineThickness(int outlineThickness) {
         getChart().outlineThickness = outlineThickness;
     }
 
-    @Override
+    /**
+     * Field name in your data provider which holds pattern information. Value of pattern should be object with url,
+     * width, height of an image, optionally it might have x, y, randomX and randomY values. For example:
+     * {"url":"../amcharts/patterns/black/pattern1.png", "width":4, "height":4}. Check amcharts/patterns folder for
+     * some patterns. You can create your own patterns and use them. Note, x, y, randomX and randomY properties won't
+     * work with IE8 and older. 3D bar/Pie charts won't work properly with patterns.
+     */
     public void setPatternField(String patternField) {
         getChart().patternField = patternField;
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds a boolean value telling the chart whether this slice must
+     * be pulled or not.
+     */
     public void setPulledField(String pulledField) {
         getChart().pulledField = pulledField;
     }
 
-    @Override
+    /**
+     * Pull out duration, in seconds. Default to 1
+     */
     public void setPullOutDuration(int pullOutDuration) {
         getChart().pullOutDuration = pullOutDuration;
     }
 
-    @Override
+    /**
+     * Pull out effect. Possible values are: easeOutSine, easeInSine, elastic, bounce. Default to "bounce"
+     */
     public void setPullOutEffect(String pullOutEffect) {
         getChart().pullOutEffect = pullOutEffect;
     }
 
-    @Override
+    /**
+     * If this is set to true, only one slice can be pulled out at a time. If the viewer clicks on a slice, any other
+     * pulled-out slice will be pulled in. Default to false
+     */
     public void setPullOutOnlyOne(boolean pullOutOnlyOne) {
         getChart().pullOutOnlyOne = pullOutOnlyOne;
     }
 
-    @Override
+    /**
+     * Specifies whether the animation should be sequenced or all slices should appear at once. Default to true
+     */
     public void setSequencedAnimation(boolean sequencedAnimation) {
         getChart().sequencedAnimation = sequencedAnimation;
     }
 
-    @Override
+    /**
+     * If you set this to true, the chart will display outlines (if visible) and labels for slices even if their value
+     * is 0. Default to false
+     */
     public void setShowZeroSlices(boolean showZeroSlices) {
         getChart().showZeroSlices = showZeroSlices;
     }
 
-    @Override
+    /**
+     * Initial opacity of all slices. Slices will fade in from startAlpha. Default to 0
+     */
     public void setStartAlpha(double startAlpha) {
         getChart().startAlpha = startAlpha;
     }
 
-    @Override
+    /**
+     * Duration of the animation, in seconds. Default to 1
+     */
     public void setStartDuration(int startDuration) {
         getChart().startDuration = startDuration;
     }
 
-    @Override
+    /**
+     * Animation effect. Possible values are: easeOutSine, easeInSine, elastic, bounce. Default to "bounce"
+     */
     public void setStartEffect(AnimationEffect startEffect) {
         getChart().startEffect = startEffect.getName();
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds slice's title.
+     */
     public void setTitleField(String titleField) {
         getChart().titleField = titleField;
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds url which would be accessed if the user clicks on a slice.
+     */
     public void setUrlField(String urlField) {
         getChart().urlField = urlField;
     }
 
-    @Override
+    /**
+     * If url is specified for a slice, it will be opened when user clicks on it. urlTarget specifies target of this url.
+     * Use _blank if you want url to be opened in a new window. Default to _self
+     */
     public void setUrlTarget(String urlTarget) {
         getChart().urlTarget = urlTarget;
     }
 
-    @Override
+    /**
+     * Name of the field in chart's dataProvider which holds slice's value.
+     */
     public void setValueField(String valueField) {
         getChart().valueField = valueField;
     }
 
-    @Override
+    /**
+     * Use this field to selectively specify which slice is shown in legend. It should be set to a boolean field in
+     * data (that holds either true or false). For example if you set visibleInLegendField to "showInLegend", all slices
+     * that have showInLegend: false in their data will not be shown in the legend.
+     */
     public void setVisibleInLegendField(String visibleInLegendField) {
         getChart().visibleInLegendField = visibleInLegendField;
     }
 
-    @Override
+    /**
+     * You can trigger the animation of the chart.
+     */
     public void animateAgain() {
         getChart().animateAgain();
     }
 
-    @Override
+    /**
+     * You can trigger the click on a slice from outside.
+     */
     public void clickSlice(Object slice) {
         getChart().clickSlice(slice);
     }
 
-    @Override
+    /**
+     * Hides slice.
+     */
     public void hideSlice(Object slice) {
         getChart().hideSlice(slice);
     }
 
-    @Override
+    /**
+     * You can simulate roll-out of a slice from outside.
+     */
     public void rollOutSlice(Object slice) {
         getChart().rollOutSlice(slice);
     }
 
-    @Override
+    /**
+     * You can simulate roll-over a slice from outside.
+     */
     public void rollOverSlice(Object slice) {
         getChart().rollOverSlice(slice);
     }
 
-    @Override
+    /**
+     * Shows slice.
+     */
     public void showSlice(Object slice) {
         getChart().showSlice(slice);
     }
 
     @Override
     public abstract AmSlicedChart getChart();
+
+    // TODO Events
 }

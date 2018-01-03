@@ -19,6 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
+//@formatter:off
+
+/**
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.js.options.AxisBase#setPosition(Position)}
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum Position {
 
     TOP("top"),

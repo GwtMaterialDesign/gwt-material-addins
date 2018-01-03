@@ -31,7 +31,13 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmCharts;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 
-
+/**
+ * Will build your AmChart using JSON Configs
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmFunnelChart">Official Documentation</a>
+ */
+//@formatter:on
 public class ChartJsonLoader extends MaterialWidget {
 
     static {

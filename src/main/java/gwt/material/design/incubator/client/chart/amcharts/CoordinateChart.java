@@ -26,6 +26,13 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Guide;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
 
+/**
+ * Base class of {@link RectangularChart} and {@link RadarChart}. It can not be instantiated explicitly.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmCoordinateChart">Official Documentation</a>
+ */
+//@formatter:on
 public abstract class CoordinateChart extends AbstractChart {
 
     public CoordinateChart(ChartType chartType) {

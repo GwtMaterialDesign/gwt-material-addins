@@ -19,7 +19,6 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts;
 
-import gwt.material.design.incubator.client.chart.amcharts.base.ISerialChart;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.CategoryAxis;
@@ -35,10 +34,10 @@ import java.util.Date;
  * / irregular intervals or on timeline basis.
  *
  * @author kevzlou7979@gmail.com
- * @see <a href="">Official Documentation</a>
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmSerialChart">Official Documentation</a>
  */
 //@formatter:on
-public class SerialChart extends RectangularChart implements ISerialChart {
+public class SerialChart extends RectangularChart {
 
 
     protected AmSerialChart chart;
@@ -59,132 +58,197 @@ public class SerialChart extends RectangularChart implements ISerialChart {
         return chart;
     }
 
-    @Override
+    /**
+     * Date format of the graph balloon (if chart parses dates and you don't use chartCursor). Default to MMM DD, YYYY
+     */
     public void setBalloonDateFormat(String balloonDateFormat) {
         getChart().balloonDateFormat = balloonDateFormat;
     }
 
-    @Override
+    /**
+     * Horizontal tension of bezier (used by smoothed line). If not defined, chart adjust tension by itself, taking in
+     * to account if chart is rotated or not. Allowed values 1 - Infinity
+     */
     public void setBezierX(int bezierX) {
         getChart().bezierX = bezierX;
     }
 
-    @Override
+    /**
+     * Vertical tension of bezier (used by smoothed line). If not defined, chart adjust tension by itself, taking in
+     * to account if chart is rotated or not. Allowed values 1 - Infinity
+     */
     public void setBezierY(int bezierY) {
         getChart().bezierY = bezierY;
     }
 
-    @Override
+    /**
+     * Read-only. Chart creates category axis itself. If you want to change some properties, you should get this axis
+     * from the chart and set properties to this object.
+     */
     public void setCategoryAxis(CategoryAxis categoryAxis) {
         getChart().categoryAxis = categoryAxis;
     }
 
+    /**
+     * Category field name tells the chart the name of the field in your dataProvider object which will be used for
+     * category axis values.
+     */
     public void setCategoryField(String categoryField) {
         getChart().categoryField = categoryField;
     }
 
-    @Override
+    /**
+     * The gap in pixels between two columns of the same category. Default to 5
+     */
     public void setColumnSpacing(int columnSpacing) {
         getChart().columnSpacing = columnSpacing;
     }
 
-    @Override
+    /**
+     * Space between 3D stacked columns. Default to 0
+     */
     public void setColumnSpacing3D(int columnSpacing3D) {
         getChart().columnSpacing3D = columnSpacing3D;
     }
 
-    @Override
+    /**
+     * Relative width of columns. Value range is 0 - 1. Default to 0.8
+     */
     public void setColumnWidth(double columnWidth) {
         getChart().columnWidth = columnWidth;
     }
 
-    @Override
+    /**
+     * Even if your chart parses dates, you can pass them as strings in your data – all you need to do is to set data
+     * date format and the chart will parse dates to date objects. Check this page for available formats.
+     * Please note that two-digit years (YY) as well as literal month names (MMM) are NOT supported in this setting.
+     */
     public void setDataDateFormat(String dataDateFormat) {
         getChart().dataDateFormat = dataDateFormat;
     }
 
-    @Override
+    /**
+     * Read-only. If category axis parses dates endDate indicates date to which the chart is currently displayed.
+     */
     public void setEndDate(Date endDate) {
         getChart().endDate = endDate;
     }
 
-    @Override
+    /**
+     * Read-only. Category index to which the chart is currently displayed.
+     */
     public void setEndIndex(int endIndex) {
         getChart().endIndex = endIndex;
     }
 
-    @Override
+    /**
+     * Maximum number of series allowed to select.
+     */
     public void setMaxSelectedSeries(int maxSelectedSeries) {
         getChart().maxSelectedSeries = maxSelectedSeries;
     }
 
-    @Override
+    /**
+     * The longest time span allowed to select (in milliseconds) for example, 259200000 will limit selection to 3 days.
+     * Works if equalSpacing is set to false (default).
+     */
     public void setMaxSelectedTime(int maxSelectedSeries) {
         getChart().maxSelectedTime = maxSelectedSeries;
     }
 
-    @Override
+    /**
+     * The shortest time span allowed to select (in milliseconds) for example, 1000 will limit selection to 1 second.
+     * Works if equalSpacing is set to false (default). Default to 0
+     */
     public void setMinSelectedTime(int minSelectedTime) {
         getChart().minSelectedTime = minSelectedTime;
     }
 
-    @Override
+    /**
+     * Specifies if scrolling of a chart with mouse wheel is enabled. If you press shift while rotating mouse wheel,
+     * the chart will zoom-in/out. Default to false
+     */
     public void setMouseWheelScrollEnabled(boolean mouseWheelScrollEnabled) {
         getChart().mouseWheelScrollEnabled = mouseWheelScrollEnabled;
     }
 
-    @Override
+    /**
+     * Specifies if zooming of a chart with mouse wheel is enabled. If you press shift while rotating mouse wheel,
+     * the chart will scroll. Default to false
+     */
     public void setMouseWheelZoomEnabled(boolean mouseWheelZoomEnabled) {
         getChart().mouseWheelZoomEnabled = mouseWheelZoomEnabled;
     }
 
-    @Override
+    /**
+     * If you set this to true, the chart will be rotated by 90 degrees (the columns will become bars). Default to false
+     */
     public void setRotate(boolean rotate) {
         getChart().rotate = rotate;
     }
 
-    @Override
+    /**
+     * Read-only. If category axis parses dates startDate indicates date from which the chart is currently displayed.
+     */
     public void setStartDate(Date startDate) {
         getChart().startDate = startDate;
     }
 
-    @Override
+    /**
+     * Read-only. Category index from which the chart is currently displayed.
+     */
     public void setStartIndex(int startIndex) {
         getChart().startIndex = startIndex;
     }
 
-    @Override
+    /**
+     * Value scrollbar, enables scrolling value axes.
+     */
     public void setValueScrollbar(ChartScrollbar valueScrollbar) {
         getChart().valueScrollbar = valueScrollbar;
     }
 
-    @Override
+    /**
+     * Specifies if chart should zoom-out when data is updated. Default to true
+     */
     public void setZoomOutOnDataUpdate(boolean zoomOutOnDataUpdate) {
         getChart().zoomOutOnDataUpdate = zoomOutOnDataUpdate;
     }
 
-    @Override
+    /**
+     * Returns index of the specified category value.
+     */
     public int getCategoryIndexByValue(Object value) {
         return getChart().getCategoryIndexByValue(value);
     }
 
-    @Override
+    /**
+     * Zooms out, charts shows all available data.
+     */
     public void zoomOut() {
         getChart().zoomOut();
     }
 
-    @Override
+    /**
+     * Zooms the chart by the value of the category axis.
+     */
     public void zoomToCategoryValues(String start, String end) {
         getChart().zoomToCategoryValues(start, end);
     }
 
-    @Override
+    /**
+     * Zooms the chart from one date to another.
+     */
     public void zoomToDates(Date start, Date end) {
         getChart().zoomToDates(start, end);
     }
 
-    @Override
+    /**
+     * Zooms the chart by the index of the category.
+     */
     public void zoomToIndexes(int start, int end) {
         getChart().zoomToIndexes(start, end);
     }
+
+    // TODO Events
 }

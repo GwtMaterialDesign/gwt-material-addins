@@ -22,6 +22,14 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 import gwt.material.design.client.base.helper.EnumHelper;
 import gwt.material.design.client.constants.CssType;
 
+//@formatter:off
+
+/**
+ * Available themes for {@link gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart#setTheme(ChartTheme)}
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum ChartTheme implements CssType {
 
     NONE("none"),

@@ -19,6 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
+//@formatter:off
+
+/**
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart#setLanguage(Language)}
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum Language {
 
     AZ,

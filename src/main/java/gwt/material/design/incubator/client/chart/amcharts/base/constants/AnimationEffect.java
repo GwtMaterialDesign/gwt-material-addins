@@ -19,6 +19,15 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
+//@formatter:off
+
+/**
+ * Property used by {@link gwt.material.design.incubator.client.chart.amcharts.AngularGauge#setStartEffect(AnimationEffect)}
+ * and {@link gwt.material.design.incubator.client.chart.amcharts.SliceChart#setStartEffect(AnimationEffect)}
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum AnimationEffect {
 
     EASE_OUT_SINE("easeOutSine"),

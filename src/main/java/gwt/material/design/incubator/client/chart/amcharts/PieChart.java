@@ -19,7 +19,6 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts;
 
-import gwt.material.design.incubator.client.chart.amcharts.base.IPieChart;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmPieChart;
 import gwt.material.design.jquery.client.api.Functions;
@@ -33,7 +32,7 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmPieChart">Official Documentation</a>
  */
 //@formatter:on
-public class PieChart extends SliceChart implements IPieChart {
+public class PieChart extends SliceChart {
 
     protected AmPieChart chart;
 
@@ -41,87 +40,130 @@ public class PieChart extends SliceChart implements IPieChart {
         super(ChartType.PIE);
     }
 
-    @Override
+    /**
+     * Sometimes, because of a rounding, percent of a sum of all slices is not equal to 100%. If you set this to true,
+     * when this case happens, number of decimals will be increased so that sum would become 100%. Default to false
+     */
     public void setAdjustPrecision(boolean adjustPrecision) {
         getChart().adjustPrecision = adjustPrecision;
     }
 
-    @Override
+    /**
+     * Pie lean angle (for 3D effect). Valid range is 0 - 90. Default to 0
+     */
     public void setAngle(int angle) {
         getChart().angle = angle;
     }
 
-    @Override
+    /**
+     * If you set some function, the graph will call it and pass
+     * {@link gwt.material.design.incubator.client.chart.amcharts.js.options.GraphDataItem} object to it. This function
+     * should return a string which will be displayed in a balloon.
+     */
     public void setBalloonFunction(Functions.Func balloonFunction) {
         getChart().balloonFunction = balloonFunction;
     }
 
-    @Override
+    /**
+     * Balloon text. The following tags can be used: [[value]], [[title]], [[percents]], [[description]] or any other
+     * field name from your data provider. HTML tags can also be used.
+     * Default to [[title]]: [[percents]]% ([[value]])\n[[description]]
+     */
     public void setBalloonText(String balloonText) {
         getChart().balloonText = balloonText;
     }
 
-    @Override
+    /**
+     * Depth of the pie (for 3D effect). Default to 0
+     */
     public void setDepth3D(int depth3D) {
         getChart().depth3D = depth3D;
     }
 
-    @Override
+    /**
+     * Type of gradient. Use gradientRatio to create gradients. Default to radial
+     */
     public void setGradientType(String gradientType) {
         getChart().gradientType = gradientType;
     }
 
-    @Override
+    /**
+     * Inner radius of the pie, in pixels or percents. Default to 0
+     */
     public void setInnerRadius(int innerRadius) {
         getChart().innerRadius = innerRadius;
     }
 
-    @Override
+    /**
+     * The distance between the label and the slice, in pixels. You can use negative values to put the label on
+     * the slice. Default to 20
+     */
     public void setLabelRadius(int labelRadius) {
         getChart().labelRadius = labelRadius;
     }
 
-    @Override
+    /**
+     * Name of the field in dataProvider which specifies the length of a tick. Note, the chart will not try to arrange
+     * labels automatically if this property is set.
+     */
     public void setLabelRadiusField(String labelRadiusField) {
         getChart().labelRadiusField = labelRadiusField;
     }
 
-    @Override
+    /**
+     * Label text. The following tags can be used: [[value]], [[title]], [[percents]], [[description]] or any other
+     * field name from your data provider. Default to [[title]]: [[percents]]%
+     */
     public void setLabelText(String labelText) {
         getChart().labelText = labelText;
     }
 
-    @Override
+    /**
+     * Minimum radius of the pie, in pixels. Default to 10
+     */
     public void setMinRadius(int minRadius) {
         getChart().minRadius = minRadius;
     }
 
-    @Override
+    /**
+     * You can set fixed position of a pie center, in pixels or in percents.
+     */
     public void setPieX(Object pieX) {
         getChart().pieX = pieX;
     }
 
-    @Override
+    /**
+     * You can set fixed position of a pie center, in pixels or in percents.
+     */
     public void setPieY(Object pieY) {
         getChart().pieY = pieY;
     }
 
-    @Override
+    /**
+     * Pull out radius, in pixels or percents. Default to 20%
+     */
     public void setPullOutRadius(Object pullOutRadius) {
         getChart().pullOutRadius = pullOutRadius;
     }
 
-    @Override
+    /**
+     * Radius of a pie, in pixels or percents. By default, radius is calculated automatically.
+     */
     public void setRadius(Object radius) {
         getChart().radius = radius;
     }
 
-    @Override
+    /**
+     * Angle of the first slice, in degrees. This will work properly only if "depth3D" is set to 0. If "depth3D" is
+     * greater than 0, then there can be two angles only: 90 and 270. Value range is 0-360. Default to 90
+     */
     public void setStartAngle(Object startAngle) {
         getChart().startAngle = startAngle;
     }
 
-    @Override
+    /**
+     * Radius of the positions from which the slices will fly in. Default to 500%
+     */
     public void setStartRadius(Object startRadius) {
         getChart().startRadius = startRadius;
     }

@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.webp;
 
-import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.base.mixin.AttributeMixin;
 import gwt.material.design.client.ui.MaterialImage;
 
@@ -50,40 +50,8 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
     private String fallbackExtension;
     private AttributeMixin<MaterialWebpImage> attributeMixin;
 
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        Scheduler.get().scheduleDeferred(() -> load());
-    }
-
-    /**
-     * Will load and setup the webp fallback
-     */
-    protected void load() {
-        // Check whether the fallback url is not null and will
-        // be set the fallback attribute
-        if (fallbackUrl != null) {
-            setFallbackAttribute(fallbackUrl);
-            return;
-        } else {
-            if (fallbackExtension != null) {
-                fallbackUrl = getUrl();
-                if (fallbackUrl.isEmpty()) {
-                    return;
-                }
-
-                if (fallbackUrl.indexOf(".") > 0) {
-                    fallbackUrl = fallbackUrl.substring(0, fallbackUrl.lastIndexOf(".")) + "." + fallbackExtension;
-                    setFallbackAttribute(fallbackUrl);
-                }
-                return;
-            }
-            setFallbackAttribute(null);
-        }
-    }
-
     protected void setFallbackAttribute(String fallbackUrl) {
+        this.fallbackUrl = fallbackUrl;
         if (fallbackUrl != null) {
             getAttributeMixin().setAttribute("this.onerror=null; this.src='" + fallbackUrl + "'");
         } else {
@@ -94,11 +62,7 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
     @Override
     public void setFallbackUrl(String fallbackUrl) {
         this.fallbackUrl = fallbackUrl;
-        if (fallbackUrl != null) {
-
-        } else {
-            getAttributeMixin().setAttribute(null);
-        }
+        setFallbackAttribute(fallbackUrl);
     }
 
     @Override
@@ -107,8 +71,30 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
     }
 
     @Override
-    public void setFallbackExtension(String extension) {
-        this.fallbackExtension = extension;
+    public void setFallbackExtension(String fallbackExtension) {
+        this.fallbackExtension = fallbackExtension;
+        if (fallbackExtension != null) {
+            if (isAttached()) {
+                extractFallbackExtension(fallbackExtension);
+            } else {
+                registerHandler(addAttachHandler(attachEvent -> extractFallbackExtension(fallbackExtension)));
+            }
+        } else {
+            GWT.log("Fallback Extension must not be null", new NullPointerException());
+        }
+    }
+
+    protected void extractFallbackExtension(String fallbackExtension) {
+        if (getUrl() != null && !getUrl().isEmpty()) {
+            String fallbackUrl = getUrl();
+            if (fallbackUrl.indexOf(".") > 0) {
+                fallbackUrl = fallbackUrl.substring(0, fallbackUrl.lastIndexOf(".")) + "." + fallbackExtension;
+                setFallbackUrl(fallbackUrl);
+            }
+            return;
+        } else {
+            GWT.log("Url must not be null or empty", new IllegalStateException());
+        }
     }
 
     @Override

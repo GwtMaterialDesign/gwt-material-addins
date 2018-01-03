@@ -19,6 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
+//@formatter:off
+
+/**
+ * Creates the visualization of the data in following types: line, column, step line, smoothed line, olhc and candlestick.
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
 public enum GraphType {
 
     LINE("line"),

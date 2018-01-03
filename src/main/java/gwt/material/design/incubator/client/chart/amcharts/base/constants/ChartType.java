@@ -22,12 +22,14 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 import gwt.material.design.client.base.helper.EnumHelper;
 import gwt.material.design.client.constants.CssType;
 
+//@formatter:off
 /**
  * Type of the graph. Possible values are: "line", "column", "step", "smoothedLine", "candlestick", "ohlc".
  * XY and Radar charts can only display "line" type graphs.
  *
  * @author kevzlou7979@gmail.com
  */
+//@formatter:on
 public enum ChartType implements CssType {
 
     SERIAL("serial"),
