@@ -157,4 +157,59 @@ public class Image {
     public final void setWidth(int width) {
         this.width = width;
     }
+
+    @JsOverlay
+    public final String getBalloonColor() {
+        return balloonColor;
+    }
+
+    @JsOverlay
+    public final String getBalloonText() {
+        return balloonText;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final int getHeight() {
+        return height;
+    }
+
+    @JsOverlay
+    public final int getOffsetX() {
+        return offsetX;
+    }
+
+    @JsOverlay
+    public final int getOffsetY() {
+        return offsetY;
+    }
+
+    @JsOverlay
+    public final String getOutlineColor() {
+        return outlineColor;
+    }
+
+    @JsOverlay
+    public final int getRotation() {
+        return rotation;
+    }
+
+    @JsOverlay
+    public final String getSvgPath() {
+        return svgPath;
+    }
+
+    @JsOverlay
+    public final String getUrl() {
+        return url;
+    }
+
+    @JsOverlay
+    public final int getWidth() {
+        return width;
+    }
 }

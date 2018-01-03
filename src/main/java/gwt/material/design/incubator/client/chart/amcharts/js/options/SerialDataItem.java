@@ -94,4 +94,29 @@ public class SerialDataItem {
     public final void setX(int x) {
         this.x = x;
     }
+
+    @JsOverlay
+    public final Object getAxes() {
+        return axes;
+    }
+
+    @JsOverlay
+    public final String getCategory() {
+        return category;
+    }
+
+    @JsOverlay
+    public final Object getDataContext() {
+        return dataContext;
+    }
+
+    @JsOverlay
+    public final int getTime() {
+        return time;
+    }
+
+    @JsOverlay
+    public final int getX() {
+        return x;
+    }
 }

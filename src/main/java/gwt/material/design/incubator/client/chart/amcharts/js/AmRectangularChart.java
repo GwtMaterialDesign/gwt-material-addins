@@ -23,7 +23,6 @@ import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartCurso
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.TrendLine;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
@@ -36,7 +35,7 @@ import jsinterop.annotations.JsType;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmRectangularChart">Official Documentation</a>
  */
 //@formatter:on
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+@JsType(isNative = true, namespace = "AmCharts")
 public class AmRectangularChart extends AmCoordinateChart {
 
     /**

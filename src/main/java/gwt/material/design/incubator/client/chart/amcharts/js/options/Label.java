@@ -168,4 +168,64 @@ public class Label {
     public final void setY(String y) {
         this.y = y;
     }
+
+    @JsOverlay
+    public final String getAlign() {
+        return align;
+    }
+
+    @JsOverlay
+    public final int getAlpha() {
+        return alpha;
+    }
+
+    @JsOverlay
+    public final boolean isBold() {
+        return bold;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final String getId() {
+        return id;
+    }
+
+    @JsOverlay
+    public final int getRotation() {
+        return rotation;
+    }
+
+    @JsOverlay
+    public final int getSize() {
+        return size;
+    }
+
+    @JsOverlay
+    public final int getTabIndex() {
+        return tabIndex;
+    }
+
+    @JsOverlay
+    public final String getText() {
+        return text;
+    }
+
+    @JsOverlay
+    public final String getUrl() {
+        return url;
+    }
+
+    @JsOverlay
+    public final String getX() {
+        return x;
+    }
+
+    @JsOverlay
+    public final String getY() {
+        return y;
+    }
 }

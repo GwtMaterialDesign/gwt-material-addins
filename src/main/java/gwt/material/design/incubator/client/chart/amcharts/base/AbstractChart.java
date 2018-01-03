@@ -23,17 +23,20 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.client.MaterialDesign;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartPlugin;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartTheme;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.Language;
+import gwt.material.design.incubator.client.chart.amcharts.events.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.CoreEventData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmLegend;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.DataLoader;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Label;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Title;
-import gwt.material.design.incubator.client.chart.amcharts.js.plugins.DataLoader;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 import gwt.material.design.jquery.client.api.Functions;
@@ -47,7 +50,7 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmChart">Official Documentation</a>
  */
 //@formatter:on
-public abstract class AbstractChart extends MaterialWidget {
+public abstract class AbstractChart extends MaterialWidget implements JsLoader, HasChartHandlers {
 
     static {
         MaterialDesign.injectDebugJs(ChartClientBundle.INSTANCE.amChartJs());
@@ -58,17 +61,55 @@ public abstract class AbstractChart extends MaterialWidget {
 
         setId(DOM.createUniqueId());
         setType(chartType);
-        loadDefaults();
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
+
+        load();
+    }
+
+    @Override
+    public void load() {
+        // Load the default configs
+        loadDefaults();
+
+        // Initialize the events
+        addListener(AmChartEvents.ANIMATION_FINISHED, object -> AnimationFinishedEvent.fire(this, (CoreEventData) object));
+        addListener(AmChartEvents.BUILD_STARTED, object -> BuildStartedEvent.fire(this, (CoreEventData) object));
+        addListener(AmChartEvents.DATA_UPDATED, object -> DataUpdatedEvent.fire(this, (CoreEventData) object));
+        addListener(AmChartEvents.DRAWN, object -> DrawnEvent.fire(AbstractChart.this, (CoreEventData) object));
+        addListener(AmChartEvents.INIT, object -> InitEvent.fire(this, (CoreEventData) object));
+        addListener(AmChartEvents.RENDERED, object -> RenderedEvent.fire(this, (CoreEventData) object));
+
+        // Build the graph with given container id
+        getChart().write(getId());
     }
 
     protected void loadDefaults() {
         setFontFamily("Roboto");
         setTheme(ChartTheme.LIGHT);
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    @Override
+    public void unload() {
+        getChart().clear();
+
+        // TODO Figure out how to destroy chart events
+    }
+
+    @Override
+    public void reload() {
+        unload();
+        load();
     }
 
     /**
@@ -514,7 +555,7 @@ public abstract class AbstractChart extends MaterialWidget {
     }
 
 
-    public void addListener(String type, Functions.Func handler) {
+    public void addListener(String type, Functions.Func1<Object> handler) {
         getChart().addListener(type, handler);
     }
 
@@ -622,12 +663,39 @@ public abstract class AbstractChart extends MaterialWidget {
      * A config object for Data Loader plugin. Please refer to the following page for more information.
      */
     public void setDataLoader(DataLoader loader) {
+        loadPlugin(ChartPlugin.DATA_LOADER);
         getChart().dataLoader = loader;
     }
 
-    public void load() {
-        getChart().write(getId());
+    public abstract AmChart getChart();
+
+    @Override
+    public void addAnimationFinishedHandler(AnimationFinishedEvent.AnimationFinishedHandler handler) {
+        addHandler(handler, AnimationFinishedEvent.getType());
     }
 
-    public abstract AmChart getChart();
+    @Override
+    public void addBuildStartedHandler(BuildStartedEvent.BuildStartedHandler handler) {
+        addHandler(handler, BuildStartedEvent.getType());
+    }
+
+    @Override
+    public void addDataUpdatedHandler(DataUpdatedEvent.DataUpdatedHandler handler) {
+        addHandler(handler, DataUpdatedEvent.getType());
+    }
+
+    @Override
+    public void addDrawnHandler(DrawnEvent.DrawnHandler handler) {
+        addHandler(handler, DrawnEvent.getType());
+    }
+
+    @Override
+    public void addInitHandler(InitEvent.InitHandler handler) {
+        addHandler(handler, InitEvent.getType());
+    }
+
+    @Override
+    public void addRenderedHandler(RenderedEvent.RenderedHandler handler) {
+        addHandler(handler, RenderedEvent.getType());
+    }
 }

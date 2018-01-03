@@ -470,6 +470,191 @@ public class ChartCursor {
         this.zooming = zooming;
     }
 
+    @JsOverlay
+    public final int getAdjustment() {
+        return adjustment;
+    }
+
+    @JsOverlay
+    public final double getAnimationDuration() {
+        return animationDuration;
+    }
+
+    @JsOverlay
+    public final boolean isAvoidBalloonOverlapping() {
+        return avoidBalloonOverlapping;
+    }
+
+    @JsOverlay
+    public final String getBalloonPointerOrientation() {
+        return balloonPointerOrientation;
+    }
+
+    @JsOverlay
+    public final boolean isBulletsEnabled() {
+        return bulletsEnabled;
+    }
+
+    @JsOverlay
+    public final int getBulletSize() {
+        return bulletSize;
+    }
+
+    @JsOverlay
+    public final double getCategoryBalloonAlpha() {
+        return categoryBalloonAlpha;
+    }
+
+    @JsOverlay
+    public final String getCategoryBalloonColor() {
+        return categoryBalloonColor;
+    }
+
+    @JsOverlay
+    public final String getCategoryBalloonDateFormat() {
+        return categoryBalloonDateFormat;
+    }
+
+    @JsOverlay
+    public final boolean isCategoryBalloonEnabled() {
+        return categoryBalloonEnabled;
+    }
+
+    @JsOverlay
+    public final Functions.Func getCategoryBalloonFunction() {
+        return categoryBalloonFunction;
+    }
+
+    @JsOverlay
+    public final String getCategoryBalloonText() {
+        return categoryBalloonText;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final int getCursorAlpha() {
+        return cursorAlpha;
+    }
+
+    @JsOverlay
+    public final String getCursorColor() {
+        return cursorColor;
+    }
+
+    @JsOverlay
+    public final String getCursorPosition() {
+        return cursorPosition;
+    }
+
+    @JsOverlay
+    public final boolean isEnabled() {
+        return enabled;
+    }
+
+    @JsOverlay
+    public final boolean isFullWidth() {
+        return fullWidth;
+    }
+
+    @JsOverlay
+    public final double getGraphBulletAlpha() {
+        return graphBulletAlpha;
+    }
+
+    @JsOverlay
+    public final int getGraphBulletSize() {
+        return graphBulletSize;
+    }
+
+    @JsOverlay
+    public final boolean isLeaveAfterTouch() {
+        return leaveAfterTouch;
+    }
+
+    @JsOverlay
+    public final boolean isLeaveCursor() {
+        return leaveCursor;
+    }
+
+    @JsOverlay
+    public final String getLimitToGraph() {
+        return limitToGraph;
+    }
+
+    @JsOverlay
+    public final Object[] getListeners() {
+        return listeners;
+    }
+
+    @JsOverlay
+    public final boolean isOneBalloonOnly() {
+        return oneBalloonOnly;
+    }
+
+    @JsOverlay
+    public final boolean isPan() {
+        return pan;
+    }
+
+    @JsOverlay
+    public final double getSelectionAlpha() {
+        return selectionAlpha;
+    }
+
+    @JsOverlay
+    public final boolean isSelectWithoutZooming() {
+        return selectWithoutZooming;
+    }
+
+    @JsOverlay
+    public final boolean isShowNextAvailable() {
+        return showNextAvailable;
+    }
+
+    @JsOverlay
+    public final int getTabIndex() {
+        return tabIndex;
+    }
+
+    @JsOverlay
+    public final boolean isValueBalloonsEnabled() {
+        return valueBalloonsEnabled;
+    }
+
+    @JsOverlay
+    public final double getValueLineAlpha() {
+        return valueLineAlpha;
+    }
+
+    @JsOverlay
+    public final boolean isValueLineBalloonEnabled() {
+        return valueLineBalloonEnabled;
+    }
+
+    @JsOverlay
+    public final boolean isValueLineEnabled() {
+        return valueLineEnabled;
+    }
+
+    @JsOverlay
+    public final boolean isValueZoomable() {
+        return valueZoomable;
+    }
+
+    @JsOverlay
+    public final boolean isZoomable() {
+        return zoomable;
+    }
+
+    @JsOverlay
+    public final boolean isZooming() {
+        return zooming;
+    }
+
     /**
      * Adds event listener to the object.
      */

@@ -26,6 +26,8 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmAngularGauge;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.GaugeArrow;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.GaugeAxis;
 
+//@formatter:off
+
 /**
  * Extension for {@link AbstractChart} to create gauge charts.
  *

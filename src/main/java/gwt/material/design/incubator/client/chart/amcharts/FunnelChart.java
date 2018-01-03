@@ -22,6 +22,8 @@ package gwt.material.design.incubator.client.chart.amcharts;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmFunnelChart;
 
+//@formatter:off
+
 /**
  * Extension for {@link SliceChart} to create funnel/pyramid charts.
  *

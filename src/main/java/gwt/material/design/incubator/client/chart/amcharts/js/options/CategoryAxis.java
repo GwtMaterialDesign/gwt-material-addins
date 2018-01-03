@@ -240,6 +240,76 @@ public class CategoryAxis extends AxisBase {
         this.widthField = widthField;
     }
 
+    @JsOverlay
+    public final String getAutoWrap() {
+        return autoWrap;
+    }
+
+    @JsOverlay
+    public final Functions.Func getCategoryFunction() {
+        return categoryFunction;
+    }
+
+    @JsOverlay
+    public final String getClassNameField() {
+        return classNameField;
+    }
+
+    @JsOverlay
+    public final boolean isEqualSpacing() {
+        return equalSpacing;
+    }
+
+    @JsOverlay
+    public final String getForceShowField() {
+        return forceShowField;
+    }
+
+    @JsOverlay
+    public final String getGridPosition() {
+        return gridPosition;
+    }
+
+    @JsOverlay
+    public final String getLabelColorField() {
+        return labelColorField;
+    }
+
+    @JsOverlay
+    public final Functions.Func getLabelFunction() {
+        return labelFunction;
+    }
+
+    @JsOverlay
+    public final String getMinPeriod() {
+        return minPeriod;
+    }
+
+    @JsOverlay
+    public final boolean isParseDates() {
+        return parseDates;
+    }
+
+    @JsOverlay
+    public final boolean isStartOnAxis() {
+        return startOnAxis;
+    }
+
+    @JsOverlay
+    public final String getTickPosition() {
+        return tickPosition;
+    }
+
+    @JsOverlay
+    public final boolean isTwoLineMode() {
+        return twoLineMode;
+    }
+
+    @JsOverlay
+    public final String getWidthField() {
+        return widthField;
+    }
+
     /**
      * Returns coordinate of a category. Works only if parseDates is false. If parseDates is true, use dateToCoordinate method.
      */

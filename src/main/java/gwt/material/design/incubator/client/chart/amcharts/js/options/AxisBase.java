@@ -597,6 +597,251 @@ public class AxisBase {
         this.titleRotation = titleRotation;
     }
 
+    @JsOverlay
+    public final boolean isAutoGridCount() {
+        return autoGridCount;
+    }
+
+    @JsOverlay
+    public final int getAutoRotateAngle() {
+        return autoRotateAngle;
+    }
+
+    @JsOverlay
+    public final int getAutoRotateCount() {
+        return autoRotateCount;
+    }
+
+    @JsOverlay
+    public final double getAxisAlpha() {
+        return axisAlpha;
+    }
+
+    @JsOverlay
+    public final String getAxisColor() {
+        return axisColor;
+    }
+
+    @JsOverlay
+    public final int getAxisThickness() {
+        return axisThickness;
+    }
+
+    @JsOverlay
+    public final int getAxisX() {
+        return axisX;
+    }
+
+    @JsOverlay
+    public final int getAxisY() {
+        return axisY;
+    }
+
+    @JsOverlay
+    public final AmBalloon getBalloon() {
+        return balloon;
+    }
+
+    @JsOverlay
+    public final boolean isBoldLabels() {
+        return boldLabels;
+    }
+
+    @JsOverlay
+    public final boolean isBoldPeriodBeginning() {
+        return boldPeriodBeginning;
+    }
+
+    @JsOverlay
+    public final boolean isCenterLabelOnFullPeriod() {
+        return centerLabelOnFullPeriod;
+    }
+
+    @JsOverlay
+    public final boolean isCenterLabels() {
+        return centerLabels;
+    }
+
+    @JsOverlay
+    public final boolean isCenterRotatedLabels() {
+        return centerRotatedLabels;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final int getDashLength() {
+        return dashLength;
+    }
+
+    @JsOverlay
+    public final Object[] getDateFormats() {
+        return dateFormats;
+    }
+
+    @JsOverlay
+    public final double getFillAlpha() {
+        return fillAlpha;
+    }
+
+    @JsOverlay
+    public final String getFillColor() {
+        return fillColor;
+    }
+
+    @JsOverlay
+    public final int getFirstDayOfWeek() {
+        return firstDayOfWeek;
+    }
+
+    @JsOverlay
+    public final int getFontSize() {
+        return fontSize;
+    }
+
+    @JsOverlay
+    public final double getGridAlpha() {
+        return gridAlpha;
+    }
+
+    @JsOverlay
+    public final String getGridColor() {
+        return gridColor;
+    }
+
+    @JsOverlay
+    public final int getGridCount() {
+        return gridCount;
+    }
+
+    @JsOverlay
+    public final int getGridThickness() {
+        return gridThickness;
+    }
+
+    @JsOverlay
+    public final Guide[] getGuides() {
+        return guides;
+    }
+
+    @JsOverlay
+    public final boolean isIgnoreAxisWidth() {
+        return ignoreAxisWidth;
+    }
+
+    @JsOverlay
+    public final boolean isInside() {
+        return inside;
+    }
+
+    @JsOverlay
+    public final int getLabelFrequency() {
+        return labelFrequency;
+    }
+
+    @JsOverlay
+    public final int getLabelOffset() {
+        return labelOffset;
+    }
+
+    @JsOverlay
+    public final int getLabelRotation() {
+        return labelRotation;
+    }
+
+    @JsOverlay
+    public final boolean isLabelsEnabled() {
+        return labelsEnabled;
+    }
+
+    @JsOverlay
+    public final Object[] getListeners() {
+        return listeners;
+    }
+
+    @JsOverlay
+    public final boolean isMarkPeriodChange() {
+        return markPeriodChange;
+    }
+
+    @JsOverlay
+    public final int getMinHorizontalGap() {
+        return minHorizontalGap;
+    }
+
+    @JsOverlay
+    public final double getMinorGridAlpha() {
+        return minorGridAlpha;
+    }
+
+    @JsOverlay
+    public final boolean isMinorGridEnabled() {
+        return minorGridEnabled;
+    }
+
+    @JsOverlay
+    public final int getMinorTickLength() {
+        return minorTickLength;
+    }
+
+    @JsOverlay
+    public final int getMinVerticalGap() {
+        return minVerticalGap;
+    }
+
+    @JsOverlay
+    public final int getOffset() {
+        return offset;
+    }
+
+    @JsOverlay
+    public final String getPosition() {
+        return position;
+    }
+
+    @JsOverlay
+    public final boolean isShowFirstLabel() {
+        return showFirstLabel;
+    }
+
+    @JsOverlay
+    public final boolean isShowLastLabel() {
+        return showLastLabel;
+    }
+
+    @JsOverlay
+    public final int getTickLength() {
+        return tickLength;
+    }
+
+    @JsOverlay
+    public final String getTitle() {
+        return title;
+    }
+
+    @JsOverlay
+    public final boolean isTitleBold() {
+        return titleBold;
+    }
+
+    @JsOverlay
+    public final String getTitleColor() {
+        return titleColor;
+    }
+
+    @JsOverlay
+    public final int getTitleFontSize() {
+        return titleFontSize;
+    }
+
+    @JsOverlay
+    public final int getTitleRotation() {
+        return titleRotation;
+    }
+
     /**
      * Adds guide to the axis.
      */

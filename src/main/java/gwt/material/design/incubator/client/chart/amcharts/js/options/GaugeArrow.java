@@ -185,4 +185,74 @@ public class GaugeArrow {
      */
     @JsMethod
     public native void setValue(int value);
+
+    @JsOverlay
+    public final double getAlpha() {
+        return alpha;
+    }
+
+    @JsOverlay
+    public final GaugeAxis getAxis() {
+        return axis;
+    }
+
+    @JsOverlay
+    public final int getBorderAlpha() {
+        return borderAlpha;
+    }
+
+    @JsOverlay
+    public final boolean isClockWiseOnly() {
+        return clockWiseOnly;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final String getId() {
+        return id;
+    }
+
+    @JsOverlay
+    public final Object getInnerRadius() {
+        return innerRadius;
+    }
+
+    @JsOverlay
+    public final int getNailAlpha() {
+        return nailAlpha;
+    }
+
+    @JsOverlay
+    public final int getNailBorderAlpha() {
+        return nailBorderAlpha;
+    }
+
+    @JsOverlay
+    public final int getNailBorderThickness() {
+        return nailBorderThickness;
+    }
+
+    @JsOverlay
+    public final int getNailRadius() {
+        return nailRadius;
+    }
+
+    @JsOverlay
+    public final Object getRadius() {
+        return radius;
+    }
+
+    @JsOverlay
+    public final int getStartWidth() {
+        return startWidth;
+    }
+
+    @JsOverlay
+    public final int getValue() {
+        return value;
+    }
 }

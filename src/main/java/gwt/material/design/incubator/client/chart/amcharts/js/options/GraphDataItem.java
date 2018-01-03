@@ -202,4 +202,79 @@ public class GraphDataItem {
     public final void setY(int y) {
         this.y = y;
     }
+
+    @JsOverlay
+    public final double getAlpha() {
+        return alpha;
+    }
+
+    @JsOverlay
+    public final String getBullet() {
+        return bullet;
+    }
+
+    @JsOverlay
+    public final int getBulletSize() {
+        return bulletSize;
+    }
+
+    @JsOverlay
+    public final String getCategory() {
+        return category;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final String getCustomBullet() {
+        return customBullet;
+    }
+
+    @JsOverlay
+    public final Object getDataContext() {
+        return dataContext;
+    }
+
+    @JsOverlay
+    public final String getDescription() {
+        return description;
+    }
+
+    @JsOverlay
+    public final String[] getFillColors() {
+        return fillColors;
+    }
+
+    @JsOverlay
+    public final Object getPercents() {
+        return percents;
+    }
+
+    @JsOverlay
+    public final SerialDataItem getSerialDataItem() {
+        return serialDataItem;
+    }
+
+    @JsOverlay
+    public final String getUrl() {
+        return url;
+    }
+
+    @JsOverlay
+    public final Object getValues() {
+        return values;
+    }
+
+    @JsOverlay
+    public final int getX() {
+        return x;
+    }
+
+    @JsOverlay
+    public final int getY() {
+        return y;
+    }
 }

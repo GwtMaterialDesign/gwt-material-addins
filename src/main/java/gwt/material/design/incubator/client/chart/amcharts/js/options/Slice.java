@@ -158,4 +158,59 @@ public class Slice {
     public final void setVisibleInLegend(boolean visibleInLegend) {
         this.visibleInLegend = visibleInLegend;
     }
+
+    @JsOverlay
+    public final double getAlpha() {
+        return alpha;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final Object getDataContext() {
+        return dataContext;
+    }
+
+    @JsOverlay
+    public final String getDescription() {
+        return description;
+    }
+
+    @JsOverlay
+    public final boolean isHidden() {
+        return hidden;
+    }
+
+    @JsOverlay
+    public final int getPercents() {
+        return percents;
+    }
+
+    @JsOverlay
+    public final boolean isPulled() {
+        return pulled;
+    }
+
+    @JsOverlay
+    public final String getTitle() {
+        return title;
+    }
+
+    @JsOverlay
+    public final String getUrl() {
+        return url;
+    }
+
+    @JsOverlay
+    public final int getValue() {
+        return value;
+    }
+
+    @JsOverlay
+    public final boolean isVisibleInLegend() {
+        return visibleInLegend;
+    }
 }

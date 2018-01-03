@@ -31,6 +31,8 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmCharts;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 
+//@formatter:off
+
 /**
  * Will build your AmChart using JSON Configs
  *

@@ -546,4 +546,224 @@ public class ChartScrollbar {
     public final void setvResizeCursorHover(String vResizeCursorHover) {
         this.vResizeCursorHover = vResizeCursorHover;
     }
+
+    @JsOverlay
+    public final String getAccessibleLabel() {
+        return accessibleLabel;
+    }
+
+    @JsOverlay
+    public final boolean isAutoGridCount() {
+        return autoGridCount;
+    }
+
+    @JsOverlay
+    public final double getBackgroundAlpha() {
+        return backgroundAlpha;
+    }
+
+    @JsOverlay
+    public final String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    @JsOverlay
+    public final CategoryAxis getCategoryAxis() {
+        return categoryAxis;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final String getDragCursorDown() {
+        return dragCursorDown;
+    }
+
+    @JsOverlay
+    public final String getDragCursorHover() {
+        return dragCursorHover;
+    }
+
+    @JsOverlay
+    public final String getDragIcon() {
+        return dragIcon;
+    }
+
+    @JsOverlay
+    public final int getDragIconHeight() {
+        return dragIconHeight;
+    }
+
+    @JsOverlay
+    public final int getDragIconWidth() {
+        return dragIconWidth;
+    }
+
+    @JsOverlay
+    public final boolean isEnabled() {
+        return enabled;
+    }
+
+    @JsOverlay
+    public final String getGraph() {
+        return graph;
+    }
+
+    @JsOverlay
+    public final double getGraphFillAlpha() {
+        return graphFillAlpha;
+    }
+
+    @JsOverlay
+    public final String getGraphFillColor() {
+        return graphFillColor;
+    }
+
+    @JsOverlay
+    public final double getGraphLineAlpha() {
+        return graphLineAlpha;
+    }
+
+    @JsOverlay
+    public final String getGraphLineColor() {
+        return graphLineColor;
+    }
+
+    @JsOverlay
+    public final String getGraphType() {
+        return graphType;
+    }
+
+    @JsOverlay
+    public final double getGridAlpha() {
+        return gridAlpha;
+    }
+
+    @JsOverlay
+    public final String getGridColor() {
+        return gridColor;
+    }
+
+    @JsOverlay
+    public final int getGridCount() {
+        return gridCount;
+    }
+
+    @JsOverlay
+    public final boolean isHideResizeGrips() {
+        return hideResizeGrips;
+    }
+
+    @JsOverlay
+    public final String gethResizeCursor() {
+        return hResizeCursor;
+    }
+
+    @JsOverlay
+    public final String gethResizeCursorDown() {
+        return hResizeCursorDown;
+    }
+
+    @JsOverlay
+    public final String gethResizeCursorHover() {
+        return hResizeCursorHover;
+    }
+
+    @JsOverlay
+    public final boolean isIgnoreCustomColors() {
+        return ignoreCustomColors;
+    }
+
+    @JsOverlay
+    public final int getMaximum() {
+        return maximum;
+    }
+
+    @JsOverlay
+    public final int getMinimum() {
+        return minimum;
+    }
+
+    @JsOverlay
+    public final int getOffset() {
+        return offset;
+    }
+
+    @JsOverlay
+    public final boolean isOppositeAxis() {
+        return oppositeAxis;
+    }
+
+    @JsOverlay
+    public final boolean isResizeEnabled() {
+        return resizeEnabled;
+    }
+
+    @JsOverlay
+    public final int getScrollbarHeight() {
+        return scrollbarHeight;
+    }
+
+    @JsOverlay
+    public final int getScrollDuration() {
+        return scrollDuration;
+    }
+
+    @JsOverlay
+    public final double getSelectedBackgroundAlpha() {
+        return selectedBackgroundAlpha;
+    }
+
+    @JsOverlay
+    public final String getSelectedBackgroundColor() {
+        return selectedBackgroundColor;
+    }
+
+    @JsOverlay
+    public final int getSelectedGraphFillAlpha() {
+        return selectedGraphFillAlpha;
+    }
+
+    @JsOverlay
+    public final String getSelectedGraphFillColor() {
+        return selectedGraphFillColor;
+    }
+
+    @JsOverlay
+    public final double getSelectedGraphLineAlpha() {
+        return selectedGraphLineAlpha;
+    }
+
+    @JsOverlay
+    public final String getSelectedGraphLineColor() {
+        return selectedGraphLineColor;
+    }
+
+    @JsOverlay
+    public final int getTabIndex() {
+        return tabIndex;
+    }
+
+    @JsOverlay
+    public final boolean isUpdateOnReleaseOnly() {
+        return updateOnReleaseOnly;
+    }
+
+    @JsOverlay
+    public final String getvResizeCursor() {
+        return vResizeCursor;
+    }
+
+    @JsOverlay
+    public final String getvResizeCursorDown() {
+        return vResizeCursorDown;
+    }
+
+    @JsOverlay
+    public final String getvResizeCursorHover() {
+        return vResizeCursorHover;
+    }
 }

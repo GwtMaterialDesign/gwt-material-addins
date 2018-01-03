@@ -20,11 +20,17 @@
 package gwt.material.design.incubator.client.chart.amcharts;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
+import gwt.material.design.incubator.client.chart.amcharts.base.HasCoordinateChartHandlers;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
+import gwt.material.design.incubator.client.chart.amcharts.events.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.CoordinateGraphData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.CoordinateGraphItemData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmCoordinateChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Guide;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
+
+//@formatter:off
 
 /**
  * Base class of {@link RectangularChart} and {@link RadarChart}. It can not be instantiated explicitly.
@@ -33,10 +39,30 @@ import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmCoordinateChart">Official Documentation</a>
  */
 //@formatter:on
-public abstract class CoordinateChart extends AbstractChart {
+public abstract class CoordinateChart extends AbstractChart implements HasCoordinateChartHandlers {
 
     public CoordinateChart(ChartType chartType) {
         super(chartType);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+
+        addListener(AmChartEvents.CLICK_GRAPH, object -> ClickGraphEvent.fire(this, (CoordinateGraphData) object));
+        addListener(AmChartEvents.CLICK_GRAPH_ITEM, object -> ClickGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
+        addListener(AmChartEvents.RIGHT_CLICK_GRAPH_ITEM, object -> RightClickGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
+        addListener(AmChartEvents.ROLL_OUT_GRAPH, object -> RollOutGraphEvent.fire(this, (CoordinateGraphData) object));
+        addListener(AmChartEvents.ROLL_OUT_GRAPH_ITEM, object -> RollOutGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
+        addListener(AmChartEvents.ROLL_OVER_GRAPH, object -> RollOverGraphEvent.fire(this, (CoordinateGraphData) object));
+        addListener(AmChartEvents.ROLL_OVER_GRAPH_ITEM, object -> RollOverGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
+    }
+
+    @Override
+    public void unload() {
+        super.unload();
+
+        // TODO Unload Events
     }
 
     /**
@@ -159,7 +185,7 @@ public abstract class CoordinateChart extends AbstractChart {
     }
 
     /**
-     * Hide the graph (if it is visible). Usually this method is called from the Legend, when you click on the legend
+     * Hide the graph (if it is visible). Usually this method is called from the ChartLegend, when you click on the legend
      * marker.
      */
     public void hideGraph(AmGraph amGraph) {
@@ -167,14 +193,14 @@ public abstract class CoordinateChart extends AbstractChart {
     }
 
     /**
-     * Hide value balloon of a graph. Usually this method is called from the Legend, when you click on the legend text.
+     * Hide value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
     public void hideGraphsBalloon(AmGraph amGraph) {
         getChart().hideGraphsBalloon(amGraph);
     }
 
     /**
-     * Highlight the graph. Usually this method is called from the Legend, when you roll-over the legend entry.
+     * Highlight the graph. Usually this method is called from the ChartLegend, when you roll-over the legend entry.
      */
     public void highlightGraph(AmGraph amGraph) {
         getChart().highlightGraph(amGraph);
@@ -195,7 +221,7 @@ public abstract class CoordinateChart extends AbstractChart {
     }
 
     /**
-     * Show the graph (if it is hidden). Usually this method is called from the Legend, when you click on the legend
+     * Show the graph (if it is hidden). Usually this method is called from the ChartLegend, when you click on the legend
      * marker.
      */
     public void showGraph(AmGraph amGraph) {
@@ -203,14 +229,14 @@ public abstract class CoordinateChart extends AbstractChart {
     }
 
     /**
-     * Show value balloon of a graph. Usually this method is called from the Legend, when you click on the legend text.
+     * Show value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
     public void showGraphsBalloon(AmGraph amGraph) {
         getChart().showGraphsBalloon(amGraph);
     }
 
     /**
-     * UnhighlightGraph the graph. Usually this method is called from the Legend, when you roll-out the legend entry.
+     * UnhighlightGraph the graph. Usually this method is called from the ChartLegend, when you roll-out the legend entry.
      */
     public void unhighlightGraph(AmGraph amGraph) {
         getChart().unhighlightGraph(amGraph);
@@ -219,46 +245,38 @@ public abstract class CoordinateChart extends AbstractChart {
     @Override
     public abstract AmCoordinateChart getChart();
 
-    // TODO Events
-    /**
-     * Dispatched when user clicks on a graph.
-     *//*
-    @JsProperty
-    public EventFunc4<String, AmGraph, AmChart, Event> clickGraph;
+    @Override
+    public void addClickGraphHandler(ClickGraphEvent.ClickGraphHandler handler) {
+        addHandler(handler, ClickGraphEvent.getType());
+    }
 
-    *//**
-     * Dispatched when user clicks on the data item (column/bullet)
-     *//*
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> clickGraphItem;
+    @Override
+    public void addClickGraphItemHandler(ClickGraphItemEvent.ClickGraphItemHandler handler) {
+        addHandler(handler, ClickGraphItemEvent.getType());
+    }
 
-    *//**
-     * chart:AmChart, event:MouseEvent}	Dispatched when user right-clicks on the data item (column/bullet)
-     *//*
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> rightClickGraphItem;
+    @Override
+    public void addRightClickGraphItemHandler(RightClickGraphItemEvent.RightClickGraphItemHandler handler) {
+        addHandler(handler, RightClickGraphItemEvent.getType());
+    }
 
-    *//**
-     * Dispatched when user rolls-out of a graph.
-     *//*
-    @JsProperty
-    public EventFunc4<String, AmGraph, AmChart, Event> rollOutGraph;
+    @Override
+    public void addRollOutGraphHandler(RollOutGraphEvent.RollOutGraphHandler handler) {
+        addHandler(handler, RollOutGraphEvent.getType());
+    }
 
-    *//**
-     * Dispatched when user rolls-out of the data item (column/bullet)
-     *//*
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> rollOutGraphItem;
+    @Override
+    public void addRollOutGraphItemHandler(RollOutGraphItemEvent.RollOutGraphItemHandler handler) {
+        addHandler(handler, RollOutGraphItemEvent.getType());
+    }
 
-    *//**
-     * Dispatched when user rolls-over a graph.
-     *//*
-    @JsProperty
-    public EventFunc4<String, AmGraph, AmChart, Event> rollOverGraph;
+    @Override
+    public void addRollOverGraphHandler(RollOverGraphEvent.RollOverGraphHandler handler) {
+        addHandler(handler, RollOverGraphEvent.getType());
+    }
 
-    *//**
-     * Dispatched when user rolls-over data item (column/bullet)
-     *//*
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> rollOverGraphItem;*/
+    @Override
+    public void addRollOverGraphItemHandler(RollOverGraphItemEvent.RollOverGraphItemHandler handler) {
+        addHandler(handler, RollOverGraphItemEvent.getType());
+    }
 }

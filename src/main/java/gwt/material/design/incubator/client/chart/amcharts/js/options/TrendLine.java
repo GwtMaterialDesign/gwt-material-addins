@@ -254,5 +254,100 @@ public class TrendLine {
         this.valueAxisX = valueAxisX;
     }
 
+    @JsOverlay
+    public final String getBalloonText() {
+        return balloonText;
+    }
+
+    @JsOverlay
+    public final int getDashLength() {
+        return dashLength;
+    }
+
+    @JsOverlay
+    public final String getFinalCategory() {
+        return finalCategory;
+    }
+
+    @JsOverlay
+    public final Date getFinalDate() {
+        return finalDate;
+    }
+
+    @JsOverlay
+    public final Image getFinalImage() {
+        return finalImage;
+    }
+
+    @JsOverlay
+    public final int getFinalValue() {
+        return finalValue;
+    }
+
+    @JsOverlay
+    public final int getFinalXValue() {
+        return finalXValue;
+    }
+
+    @JsOverlay
+    public final String getId() {
+        return id;
+    }
+
+    @JsOverlay
+    public final String getInitialCategory() {
+        return initialCategory;
+    }
+
+    @JsOverlay
+    public final Date getInitialDate() {
+        return initialDate;
+    }
+
+    @JsOverlay
+    public final Image getInitialImage() {
+        return initialImage;
+    }
+
+    @JsOverlay
+    public final int getInitialValue() {
+        return initialValue;
+    }
+
+    @JsOverlay
+    public final int getInitialXValue() {
+        return initialXValue;
+    }
+
+    @JsOverlay
+    public final boolean isProtected() {
+        return isProtected;
+    }
+
+    @JsOverlay
+    public final double getLineAlpha() {
+        return lineAlpha;
+    }
+
+    @JsOverlay
+    public final String getLineColor() {
+        return lineColor;
+    }
+
+    @JsOverlay
+    public final int getLineThickness() {
+        return lineThickness;
+    }
+
+    @JsOverlay
+    public final ValueAxis getValueAxis() {
+        return valueAxis;
+    }
+
+    @JsOverlay
+    public final ValueAxis getValueAxisX() {
+        return valueAxisX;
+    }
+
     // TODO Events
 }

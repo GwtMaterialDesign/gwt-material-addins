@@ -601,5 +601,225 @@ public class ValueAxis extends AxisBase {
     @JsMethod
     public native void zoomToValues(int startValue, int endValue);
 
+    @JsOverlay
+    public final boolean isAutoWrap() {
+        return autoWrap;
+    }
+
+    @JsOverlay
+    public final int getAxisFrequency() {
+        return axisFrequency;
+    }
+
+    @JsOverlay
+    public final int getAxisTitleOffset() {
+        return axisTitleOffset;
+    }
+
+    @JsOverlay
+    public final Object getBalloonTextFunction() {
+        return balloonTextFunction;
+    }
+
+    @JsOverlay
+    public final int getBaseCoord() {
+        return baseCoord;
+    }
+
+    @JsOverlay
+    public final int getBaseValue() {
+        return baseValue;
+    }
+
+    @JsOverlay
+    public final String getDuration() {
+        return duration;
+    }
+
+    @JsOverlay
+    public final Object getDurationUnits() {
+        return durationUnits;
+    }
+
+    @JsOverlay
+    public final String getGridType() {
+        return gridType;
+    }
+
+    @JsOverlay
+    public final String getId() {
+        return id;
+    }
+
+    @JsOverlay
+    public final boolean isIncludeAllValues() {
+        return includeAllValues;
+    }
+
+    @JsOverlay
+    public final boolean isIncludeGuidesInMinMax() {
+        return includeGuidesInMinMax;
+    }
+
+    @JsOverlay
+    public final boolean isIncludeHidden() {
+        return includeHidden;
+    }
+
+    @JsOverlay
+    public final boolean isIntegersOnly() {
+        return integersOnly;
+    }
+
+    @JsOverlay
+    public final Functions.Func getLabelFunction() {
+        return labelFunction;
+    }
+
+    @JsOverlay
+    public final boolean isLogarithmic() {
+        return logarithmic;
+    }
+
+    @JsOverlay
+    public final int getMax() {
+        return max;
+    }
+
+    @JsOverlay
+    public final int getMaximum() {
+        return maximum;
+    }
+
+    @JsOverlay
+    public final Date getMaximumDate() {
+        return maximumDate;
+    }
+
+    @JsOverlay
+    public final int getMin() {
+        return min;
+    }
+
+    @JsOverlay
+    public final int getMinimum() {
+        return minimum;
+    }
+
+    @JsOverlay
+    public final Date getMinimumDate() {
+        return minimumDate;
+    }
+
+    @JsOverlay
+    public final int getMinMaxMultiplier() {
+        return minMaxMultiplier;
+    }
+
+    @JsOverlay
+    public final String getMinPeriod() {
+        return minPeriod;
+    }
+
+    @JsOverlay
+    public final String getPointPosition() {
+        return pointPosition;
+    }
+
+    @JsOverlay
+    public final int getPrecision() {
+        return precision;
+    }
+
+    @JsOverlay
+    public final boolean isRadarCategoriesEnabled() {
+        return radarCategoriesEnabled;
+    }
+
+    @JsOverlay
+    public final boolean isRecalculateToPercents() {
+        return recalculateToPercents;
+    }
+
+    @JsOverlay
+    public final boolean isReversed() {
+        return reversed;
+    }
+
+    @JsOverlay
+    public final String getStackType() {
+        return stackType;
+    }
+
+    @JsOverlay
+    public final int getStep() {
+        return step;
+    }
+
+    @JsOverlay
+    public final boolean isStrictMinMax() {
+        return strictMinMax;
+    }
+
+    @JsOverlay
+    public final int getSynchronizationMultiplier() {
+        return synchronizationMultiplier;
+    }
+
+    @JsOverlay
+    public final ValueAxis getSynchronizeWith() {
+        return synchronizeWith;
+    }
+
+    @JsOverlay
+    public final String getTotalText() {
+        return totalText;
+    }
+
+    @JsOverlay
+    public final String getTotalTextColor() {
+        return totalTextColor;
+    }
+
+    @JsOverlay
+    public final int getTotalTextOffset() {
+        return totalTextOffset;
+    }
+
+    @JsOverlay
+    public final int getTreatZeroAs() {
+        return treatZeroAs;
+    }
+
+    @JsOverlay
+    public final String getType() {
+        return type;
+    }
+
+    @JsOverlay
+    public final String getUnit() {
+        return unit;
+    }
+
+    @JsOverlay
+    public final String getUnitPosition() {
+        return unitPosition;
+    }
+
+    @JsOverlay
+    public final boolean isUsePrefixes() {
+        return usePrefixes;
+    }
+
+    @JsOverlay
+    public final boolean isUseScientificNotation() {
+        return useScientificNotation;
+    }
+
+    @JsOverlay
+    public final double getZeroGridAlpha() {
+        return zeroGridAlpha;
+    }
+
     //TODO Events
 }

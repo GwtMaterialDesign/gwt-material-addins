@@ -26,7 +26,6 @@ import gwt.material.design.incubator.client.chart.amcharts.js.options.Guide;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
 import gwt.material.design.jquery.client.api.Event;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
@@ -39,7 +38,7 @@ import jsinterop.annotations.JsType;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmCoordinateChart">Official Documentation</a>
  */
 //@formatter:on
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+@JsType(isNative = true, namespace = "AmCharts")
 public class AmCoordinateChart extends AmChart {
 
     /**
@@ -146,20 +145,20 @@ public class AmCoordinateChart extends AmChart {
     public native ValueAxis getValueAxisById(String id);
 
     /**
-     * Hide the graph (if it is visible). Usually this method is called from the Legend, when you click on the legend
+     * Hide the graph (if it is visible). Usually this method is called from the ChartLegend, when you click on the legend
      * marker.
      */
     @JsMethod
     public native void hideGraph(AmGraph amGraph);
 
     /**
-     * Hide value balloon of a graph. Usually this method is called from the Legend, when you click on the legend text.
+     * Hide value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
     @JsMethod
     public native void hideGraphsBalloon(AmGraph amGraph);
 
     /**
-     * Highlight the graph. Usually this method is called from the Legend, when you roll-over the legend entry.
+     * Highlight the graph. Usually this method is called from the ChartLegend, when you roll-over the legend entry.
      */
     @JsMethod
     public native void highlightGraph(AmGraph amGraph);
@@ -177,20 +176,20 @@ public class AmCoordinateChart extends AmChart {
     public native void removeValueAxis(ValueAxis valueAxis);
 
     /**
-     * Show the graph (if it is hidden). Usually this method is called from the Legend, when you click on the legend
+     * Show the graph (if it is hidden). Usually this method is called from the ChartLegend, when you click on the legend
      * marker.
      */
     @JsMethod
     public native void showGraph(AmGraph amGraph);
 
     /**
-     * Show value balloon of a graph. Usually this method is called from the Legend, when you click on the legend text.
+     * Show value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
     @JsMethod
     public native void showGraphsBalloon(AmGraph amGraph);
 
     /**
-     * UnhighlightGraph the graph. Usually this method is called from the Legend, when you roll-out the legend entry.
+     * UnhighlightGraph the graph. Usually this method is called from the ChartLegend, when you roll-out the legend entry.
      */
     @JsMethod
     public native void unhighlightGraph(AmGraph amGraph);

@@ -113,4 +113,39 @@ public class Title {
     public final void setText(String text) {
         this.text = text;
     }
+
+    @JsOverlay
+    public final double getAlpha() {
+        return alpha;
+    }
+
+    @JsOverlay
+    public final boolean isBold() {
+        return bold;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final String getId() {
+        return id;
+    }
+
+    @JsOverlay
+    public final int getSize() {
+        return size;
+    }
+
+    @JsOverlay
+    public final int getTabIndex() {
+        return tabIndex;
+    }
+
+    @JsOverlay
+    public final String getText() {
+        return text;
+    }
 }

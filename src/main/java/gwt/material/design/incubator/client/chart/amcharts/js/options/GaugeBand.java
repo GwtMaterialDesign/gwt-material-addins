@@ -138,4 +138,54 @@ public class GaugeBand {
      */
     @JsMethod
     public native void setEndValue(int value);
+
+    @JsOverlay
+    public final double getAlpha() {
+        return alpha;
+    }
+
+    @JsOverlay
+    public final String getBalloonText() {
+        return balloonText;
+    }
+
+    @JsOverlay
+    public final String getColor() {
+        return color;
+    }
+
+    @JsOverlay
+    public final int getEndValue() {
+        return endValue;
+    }
+
+    @JsOverlay
+    public final int[] getGradientRatio() {
+        return gradientRatio;
+    }
+
+    @JsOverlay
+    public final String getId() {
+        return id;
+    }
+
+    @JsOverlay
+    public final Object getInnerRadius() {
+        return innerRadius;
+    }
+
+    @JsOverlay
+    public final Object getRadius() {
+        return radius;
+    }
+
+    @JsOverlay
+    public final int getStartValue() {
+        return startValue;
+    }
+
+    @JsOverlay
+    public final String getUrl() {
+        return url;
+    }
 }

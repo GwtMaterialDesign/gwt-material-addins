@@ -20,9 +20,9 @@
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
 import com.google.gwt.json.client.JSONValue;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.DataLoader;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Label;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Title;
-import gwt.material.design.incubator.client.chart.amcharts.js.plugins.DataLoader;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
@@ -457,7 +457,7 @@ public class AmChart {
      * @param handler function which is called when event happens
      */
     @JsMethod
-    public native void addListener(String type, Functions.Func handler);
+    public native void addListener(String type, Functions.Func1<Object> handler);
 
     /**
      * Adds title to the top of the chart. Pie, Radar positions are updated so that they won't overlap. Plot area of
@@ -539,23 +539,4 @@ public class AmChart {
      */
     @JsMethod
     public native void write(String elementId);
-
-    /**
-     * Dispatched when initial chart animations are finished.
-     */
-    @JsProperty
-    public Functions.EventFunc2<String, AmChart> animationFinished;
-
-    /**
-     * Fired just before the chart starts to build itself for the first time. Note: you might need to set processTimeout
-     * to > 0 value in order to register this event properly.
-     */
-    @JsProperty
-    public Functions.EventFunc2<String, AmChart> buildStarted;
-
-    /**
-     * Dispatched when chart is build for the first time or after validateData() method was called.
-     */
-    @JsProperty
-    public Functions.EventFunc2<String, AmChart> dataUpdated;
 }
