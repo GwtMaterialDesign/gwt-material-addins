@@ -50,7 +50,7 @@ public class AmPieChart extends AmSlicedChart {
 
     /**
      * If you set some function, the graph will call it and pass
-     * {@link gwt.material.design.incubator.client.chart.amcharts.js.options.GraphDataItem} object to it. This function
+     * {@link gwt.material.design.incubator.client.chart.amcharts.js.options.AmGraphDataItem} object to it. This function
      * should return a string which will be displayed in a balloon.
      */
     @JsProperty

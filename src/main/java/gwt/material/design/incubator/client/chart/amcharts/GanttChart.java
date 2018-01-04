@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.chart.amcharts;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGanttChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 
 //@formatter:off
 
@@ -121,7 +121,7 @@ public class GanttChart extends SerialChart {
     /**
      * Value axis of Gantt chart. Set it's type to "date" if your data is date or time based.
      */
-    public void setValueAxis(ValueAxis valueAxis) {
+    public void setValueAxis(AmValueAxis valueAxis) {
         getChart().valueAxis = valueAxis;
     }
 

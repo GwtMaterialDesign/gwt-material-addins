@@ -20,7 +20,7 @@
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
 import com.google.gwt.json.client.JSONValue;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.DataLoader;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmDataLoader;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Label;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Title;
 import gwt.material.design.jquery.client.api.Functions;
@@ -159,7 +159,7 @@ public class AmChart {
      * A config object for Data Loader plugin. Please refer to the following page for more information.
      */
     @JsProperty
-    public DataLoader dataLoader;
+    public AmDataLoader dataLoader;
 
     /**
      * Array of data objects, for example: [{country:"US", value:524},{country:"UK", value:624},{country:"Lithuania",

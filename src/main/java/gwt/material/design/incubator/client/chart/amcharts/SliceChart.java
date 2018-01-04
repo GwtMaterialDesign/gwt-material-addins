@@ -20,8 +20,11 @@
 package gwt.material.design.incubator.client.chart.amcharts;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
+import gwt.material.design.incubator.client.chart.amcharts.base.HasSliceChartHandlers;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.AnimationEffect;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
+import gwt.material.design.incubator.client.chart.amcharts.events.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SliceEventData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSlicedChart;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -35,10 +38,29 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmSlicedChart">Official Documentation</a>
  */
 //@formatter:on
-public abstract class SliceChart extends AbstractChart {
+public abstract class SliceChart extends AbstractChart implements HasSliceChartHandlers {
 
     public SliceChart(ChartType chartType) {
         super(chartType);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+
+        addListener(AmChartEvents.CLICK_SLICE, object -> ClickSliceEvent.fire(this, (SliceEventData) object));
+        addListener(AmChartEvents.PULL_IN_SLICE, object -> PullInSliceEvent.fire(this, (SliceEventData) object));
+        addListener(AmChartEvents.PULL_OUT_SLICE, object -> PullOutSliceEvent.fire(this, (SliceEventData) object));
+        addListener(AmChartEvents.RIGHT_CLICK_SLICE, object -> RightClickSliceEvent.fire(this, (SliceEventData) object));
+        addListener(AmChartEvents.ROLL_OUT_SLICE, object -> RollOutSliceEvent.fire(this, (SliceEventData) object));
+        addListener(AmChartEvents.ROLL_OVER_SLICE, object -> RollOverSliceEvent.fire(this, (SliceEventData) object));
+    }
+
+    @Override
+    public void unload() {
+        super.unload();
+
+        // TODO Unload Events
     }
 
     /**
@@ -83,7 +105,7 @@ public abstract class SliceChart extends AbstractChart {
     }
 
     /**
-     * Read-only. Array of Slice objects.
+     * Read-only. Array of AmSlice objects.
      */
     public void setChartData(Object... chartData) {
         getChart().chartData = chartData;
@@ -195,7 +217,7 @@ public abstract class SliceChart extends AbstractChart {
     }
 
     /**
-     * You can use it to format data labels in any way you want. Chart will call this method and will pass Slice object
+     * You can use it to format data labels in any way you want. Chart will call this method and will pass AmSlice object
      * and formatted text as attributes. This function should return string which will be displayed as label.
      */
     public void setLabelFunction(Functions.Func labelFunction) {
@@ -439,5 +461,33 @@ public abstract class SliceChart extends AbstractChart {
     @Override
     public abstract AmSlicedChart getChart();
 
-    // TODO Events
+    @Override
+    public void addClickSliceHandler(ClickSliceEvent.ClickSliceHandler handler) {
+        addHandler(handler, ClickSliceEvent.getType());
+    }
+
+    @Override
+    public void addPullInSliceHandler(PullInSliceEvent.PullInSliceHandler handler) {
+        addHandler(handler, PullInSliceEvent.getType());
+    }
+
+    @Override
+    public void addPullOutSliceHandler(PullOutSliceEvent.PullOutSliceHandler handler) {
+        addHandler(handler, PullOutSliceEvent.getType());
+    }
+
+    @Override
+    public void addRightClickSliceHandler(RightClickSliceEvent.RightClickSliceHandler handler) {
+        addHandler(handler, RightClickSliceEvent.getType());
+    }
+
+    @Override
+    public void addRollOutSliceHandler(RollOutSliceEvent.RollOutSliceHandler handler) {
+        addHandler(handler, RollOutSliceEvent.getType());
+    }
+
+    @Override
+    public void addRollOverSliceHandler(RollOverSliceEvent.RollOverSliceHandler handler) {
+        addHandler(handler, RollOverSliceEvent.getType());
+    }
 }

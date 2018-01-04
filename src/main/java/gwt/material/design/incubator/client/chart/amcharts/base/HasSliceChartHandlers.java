@@ -21,7 +21,15 @@ package gwt.material.design.incubator.client.chart.amcharts.base;
 
 import gwt.material.design.incubator.client.chart.amcharts.events.*;
 
-public interface HasPieChartHandlers {
+//@formatter:off
+
+/**
+ * {@link gwt.material.design.incubator.client.chart.amcharts.SliceChart} event handlers
+ *
+ * @author kevzlou7979@gmail.com
+ */
+//@formatter:on
+public interface HasSliceChartHandlers {
 
     /**
      * Dispatched when user clicks on a slice. Event is an instance of original mouse event.

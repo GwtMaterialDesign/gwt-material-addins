@@ -21,7 +21,7 @@ package gwt.material.design.incubator.client.chart.amcharts.events.object;
 
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.GraphDataItem;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGraphDataItem;
 import gwt.material.design.jquery.client.api.MouseEvent;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -35,7 +35,7 @@ public class CoordinateGraphItemData {
     private AmGraph graph;
 
     @JsProperty
-    private GraphDataItem item;
+    private AmGraphDataItem item;
 
     @JsProperty
     private int index;
@@ -52,7 +52,7 @@ public class CoordinateGraphItemData {
     }
 
     @JsOverlay
-    public final GraphDataItem getItem() {
+    public final AmGraphDataItem getItem() {
         return item;
     }
 

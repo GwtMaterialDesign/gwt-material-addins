@@ -19,12 +19,8 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.js.ext.EventFunc4;
-import gwt.material.design.incubator.client.chart.amcharts.js.ext.EventFunc6;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.GraphDataItem;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.Guide;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
-import gwt.material.design.jquery.client.api.Event;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGuide;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -73,7 +69,7 @@ public class AmCoordinateChart extends AmChart {
      * specify a different valueAxis for the guide.
      */
     @JsProperty
-    public Guide[] guides;
+    public AmGuide[] guides;
 
     /**
      * Specifies whether the animation should be sequenced or all objects should appear at once. Default to true
@@ -111,7 +107,7 @@ public class AmCoordinateChart extends AmChart {
      * you don't need to create it.
      */
     @JsProperty
-    public ValueAxis valueAxes;
+    public AmValueAxis valueAxes;
 
     /**
      * Adds a graph to the chart.
@@ -124,7 +120,7 @@ public class AmCoordinateChart extends AmChart {
      * or add more value axes, you don't need to add it.
      */
     @JsMethod
-    public native void addValueAxis(ValueAxis valueAxis);
+    public native void addValueAxis(AmValueAxis valueAxis);
 
     /**
      * You can trigger the animation of the chart.
@@ -142,7 +138,7 @@ public class AmCoordinateChart extends AmChart {
      * Returns value axis by id.
      */
     @JsMethod
-    public native ValueAxis getValueAxisById(String id);
+    public native AmValueAxis getValueAxisById(String id);
 
     /**
      * Hide the graph (if it is visible). Usually this method is called from the ChartLegend, when you click on the legend
@@ -173,7 +169,7 @@ public class AmCoordinateChart extends AmChart {
      * Removes value axis from the chart. When you remove value axis, all graphs assigned to this axis are also removed.
      */
     @JsMethod
-    public native void removeValueAxis(ValueAxis valueAxis);
+    public native void removeValueAxis(AmValueAxis valueAxis);
 
     /**
      * Show the graph (if it is hidden). Usually this method is called from the ChartLegend, when you click on the legend
@@ -193,46 +189,4 @@ public class AmCoordinateChart extends AmChart {
      */
     @JsMethod
     public native void unhighlightGraph(AmGraph amGraph);
-
-    /**
-     * Dispatched when user clicks on a graph.
-     */
-    @JsProperty
-    public EventFunc4<String, AmGraph, AmChart, Event> clickGraph;
-
-    /**
-     * Dispatched when user clicks on the data item (column/bullet)
-     */
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> clickGraphItem;
-
-    /**
-     * chart:AmChart, event:MouseEvent}	Dispatched when user right-clicks on the data item (column/bullet)
-     */
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> rightClickGraphItem;
-
-    /**
-     * Dispatched when user rolls-out of a graph.
-     */
-    @JsProperty
-    public EventFunc4<String, AmGraph, AmChart, Event> rollOutGraph;
-
-    /**
-     * Dispatched when user rolls-out of the data item (column/bullet)
-     */
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> rollOutGraphItem;
-
-    /**
-     * Dispatched when user rolls-over a graph.
-     */
-    @JsProperty
-    public EventFunc4<String, AmGraph, AmChart, Event> rollOverGraph;
-
-    /**
-     * Dispatched when user rolls-over data item (column/bullet)
-     */
-    @JsProperty
-    public EventFunc6<String, AmGraph, GraphDataItem, Integer, AmChart, Event> rollOverGraphItem;
 }

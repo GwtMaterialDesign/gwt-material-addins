@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.chart.amcharts.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.PieEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SliceEventData;
 //@formatter:off
 
 /**
@@ -33,9 +33,9 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.PieEven
 public class RollOverSliceEvent extends GwtEvent<RollOverSliceEvent.RollOverSliceHandler> {
 
     public static final Type<RollOverSliceHandler> TYPE = new Type<>();
-    private PieEventData data;
+    private SliceEventData data;
 
-    public RollOverSliceEvent(PieEventData data) {
+    public RollOverSliceEvent(SliceEventData data) {
         this.data = data;
     }
 
@@ -43,7 +43,7 @@ public class RollOverSliceEvent extends GwtEvent<RollOverSliceEvent.RollOverSlic
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, PieEventData data) {
+    public static void fire(HasHandlers source, SliceEventData data) {
         source.fireEvent(new RollOverSliceEvent(data));
     }
 
@@ -57,7 +57,7 @@ public class RollOverSliceEvent extends GwtEvent<RollOverSliceEvent.RollOverSlic
         handler.onRollOverSliceEvent(this);
     }
 
-    public PieEventData getData() {
+    public SliceEventData getData() {
         return data;
     }
 

@@ -27,17 +27,17 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * SerialDataItem holds all the information about each series. When working with a chart, you do not create SerialDataItem
- * objects or change it's properties directly. Consider properties of a SerialDataItem read-only - change values in chart's
+ * AmSerialDataItem holds all the information about each series. When working with a chart, you do not create AmSerialDataItem
+ * objects or change it's properties directly. Consider properties of a AmSerialDataItem read-only - change values in chart's
  * data provider if you need to. When serial chart parses dataProvider, it generates "chartData" array. Objects of this array
- * are SerialDataItem objects.
+ * are AmSerialDataItem objects.
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/SerialDataItem">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class SerialDataItem {
+public class AmSerialDataItem {
 
     @JsProperty
     private Object axes;
@@ -55,7 +55,7 @@ public class SerialDataItem {
     private int x;
 
     /**
-     * You can access each {@link GraphDataItem} using this object. The data structure is: graphDataItem =
+     * You can access each {@link AmGraphDataItem} using this object. The data structure is: graphDataItem =
      * serialDataItem.axes[axisId].graphs[graphId].
      */
     @JsOverlay
@@ -80,7 +80,7 @@ public class SerialDataItem {
     }
 
     /**
-     * Time stamp of a series date. Available only if parseDates property of {@link CategoryAxis} is set to true.
+     * Time stamp of a series date. Available only if parseDates property of {@link AmCategoryAxis} is set to true.
      */
     @JsOverlay
     public final void setTime(int time) {

@@ -27,8 +27,8 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * GraphDataItem holds all the information about the graph's data item. When working with a chart, you do not create
- * GraphDataItem objects or change it's properties directly. GraphDataItem is passed to you by events when user interacts
+ * AmGraphDataItem holds all the information about the graph's data item. When working with a chart, you do not create
+ * AmGraphDataItem objects or change it's properties directly. AmGraphDataItem is passed to you by events when user interacts
  * with data item on the chart. The list of properties below will help you to extract data item's value/coordinate/etc.
  *
  * @author kevzlou7979@gmail.com
@@ -36,7 +36,7 @@ import jsinterop.annotations.JsType;
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class GraphDataItem {
+public class AmGraphDataItem {
 
     @JsProperty
     private double alpha;
@@ -69,7 +69,7 @@ public class GraphDataItem {
     private Object percents;
 
     @JsProperty
-    private SerialDataItem serialDataItem;
+    private AmSerialDataItem serialDataItem;
 
     @JsProperty
     private String url;
@@ -163,12 +163,9 @@ public class GraphDataItem {
         this.percents = percents;
     }
 
-    /**
-     * {@link SerialDataItem} of this graphDataItem
-     */
     @JsOverlay
-    public final void setSerialDataItem(SerialDataItem serialDataItem) {
-        this.serialDataItem = serialDataItem;
+    public final AmSerialDataItem getSerialDataItem() {
+        return serialDataItem;
     }
 
     /**
@@ -253,9 +250,12 @@ public class GraphDataItem {
         return percents;
     }
 
+    /**
+     * {@link AmSerialDataItem} of this graphDataItem
+     */
     @JsOverlay
-    public final SerialDataItem getSerialDataItem() {
-        return serialDataItem;
+    public final void setSerialDataItem(AmSerialDataItem serialDataItem) {
+        this.serialDataItem = serialDataItem;
     }
 
     @JsOverlay

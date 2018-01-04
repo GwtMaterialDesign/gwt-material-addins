@@ -21,8 +21,10 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
 //@formatter:off
 
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmAxisBase;
+
 /**
- * Used by {@link gwt.material.design.incubator.client.chart.amcharts.js.options.AxisBase#setPosition(Position)}
+ * Used by {@link AmAxisBase#setPosition(Position)}
  *
  * @author kevzlou7979@gmail.com
  */

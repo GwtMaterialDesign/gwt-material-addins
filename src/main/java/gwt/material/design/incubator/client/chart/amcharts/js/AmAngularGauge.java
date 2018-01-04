@@ -19,8 +19,8 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.js.options.GaugeArrow;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.GaugeAxis;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeArrow;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeAxis;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -47,13 +47,13 @@ public class AmAngularGauge extends AmChart {
      * Array of arrows.
      */
     @JsProperty
-    public GaugeArrow[] arrows;
+    public AmGaugeArrow[] arrows;
 
     /**
      * Array of axes.
      */
     @JsProperty
-    public GaugeAxis axes;
+    public AmGaugeAxis axes;
 
     /**
      * In case you use gauge to create a clock, set this to true. Default to false
@@ -156,23 +156,23 @@ public class AmAngularGauge extends AmChart {
      * Adds arrow to the chart.
      */
     @JsMethod
-    public native void addArrow(GaugeArrow gaugeArrow);
+    public native void addArrow(AmGaugeArrow gaugeArrow);
 
     /**
      * Adds arrow to the chart.
      */
     @JsMethod
-    public native void addAxis(GaugeAxis gaugeAxis);
+    public native void addAxis(AmGaugeAxis gaugeAxis);
 
     /**
      * Removes arrow from the chart.
      */
     @JsMethod
-    public native void removeArrow(GaugeArrow gaugeArrow);
+    public native void removeArrow(AmGaugeArrow gaugeArrow);
 
     /**
      * Removes axis from the chart.
      */
     @JsMethod
-    public native void removeAxis(GaugeAxis gaugeAxis);
+    public native void removeAxis(AmGaugeAxis gaugeAxis);
 }

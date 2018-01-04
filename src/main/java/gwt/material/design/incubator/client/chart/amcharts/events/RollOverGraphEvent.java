@@ -26,7 +26,7 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.Coordin
 //@formatter:off
 
 /**
- * Dispatched when user rolls-out of a graph.
+ * Dispatched when user rolls-over a graph.
  *
  * @author kevzlou7979
  */

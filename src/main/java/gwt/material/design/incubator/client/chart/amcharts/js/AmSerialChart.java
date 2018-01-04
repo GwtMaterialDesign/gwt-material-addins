@@ -19,10 +19,8 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.js.ext.EventFunc4;
-import gwt.material.design.incubator.client.chart.amcharts.js.ext.EventFunc7;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.CategoryAxis;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmCategoryAxis;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmChartScrollbar;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -67,7 +65,7 @@ public class AmSerialChart extends AmRectangularChart {
      * from the chart and set properties to this object.
      */
     @JsProperty
-    public CategoryAxis categoryAxis;
+    public AmCategoryAxis categoryAxis;
 
     /**
      * Category field name tells the chart the name of the field in your dataProvider object which will be used for
@@ -170,24 +168,13 @@ public class AmSerialChart extends AmRectangularChart {
      * Value scrollbar, enables scrolling value axes.
      */
     @JsProperty
-    public ChartScrollbar valueScrollbar;
+    public AmChartScrollbar valueScrollbar;
 
     /**
      * Specifies if chart should zoom-out when data is updated. Default to true
      */
     @JsProperty
     public boolean zoomOutOnDataUpdate;
-    /**
-     * Dispatched when cursor position is changed. "index" is a series index over which chart cursors currently is.
-     * "zooming" specifies if user is currently zooming (is selecting) the chart.
-     */
-    @JsProperty
-    public EventFunc4<String, Integer, Boolean, AmChart> changed;
-    /**
-     * Dispatched when the chart is zoomed (even for the first time, when chart is initialized)
-     */
-    @JsProperty
-    public EventFunc7<Date, Integer, String, Date, Integer, String, AmChart> zoomed;
 
     /**
      * Returns index of the specified category value.

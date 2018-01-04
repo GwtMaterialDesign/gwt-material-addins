@@ -34,9 +34,10 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.CoreEve
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmLegend;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.DataLoader;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Label;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Title;
+import gwt.material.design.incubator.client.chart.amcharts.options.DataLoader;
+import gwt.material.design.incubator.client.chart.amcharts.options.Legend;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartClientBundle;
 import gwt.material.design.incubator.client.chart.amcharts.resources.ChartResourceLoader;
 import gwt.material.design.jquery.client.api.Functions;
@@ -351,8 +352,9 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      * folder and then use variable name used in this file, like chart.language = "de"; Note, for maps this works
      * differently - you use language only for country names, as there are no other strings in the maps application.
      */
-    public void setLegend(AmLegend legend) {
-        getChart().legend = legend;
+    public void setLegend(Legend legend) {
+        getChart().legend = legend.getLegend();
+        legend.load();
     }
 
     /**
@@ -550,8 +552,9 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      * @param legend          {@link AmLegend}
      * @param targetElementId id or reference to legend div
      */
-    public void addLegend(AmLegend legend, String targetElementId) {
-        getChart().addLegend(legend, targetElementId);
+    public void addLegend(Legend legend, String targetElementId) {
+        getChart().addLegend(legend.getLegend(), targetElementId);
+        legend.load();
     }
 
 
@@ -664,7 +667,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      */
     public void setDataLoader(DataLoader loader) {
         loadPlugin(ChartPlugin.DATA_LOADER);
-        getChart().dataLoader = loader;
+        getChart().dataLoader = loader.getDataLoader();
     }
 
     public abstract AmChart getChart();

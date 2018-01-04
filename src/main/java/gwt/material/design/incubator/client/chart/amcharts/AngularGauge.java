@@ -23,8 +23,8 @@ import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.AnimationEffect;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmAngularGauge;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.GaugeArrow;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.GaugeAxis;
+import gwt.material.design.incubator.client.chart.amcharts.options.GaugeArrow;
+import gwt.material.design.incubator.client.chart.amcharts.options.GaugeAxis;
 
 //@formatter:off
 
@@ -54,14 +54,16 @@ public class AngularGauge extends AbstractChart {
      * Array of arrows.
      */
     public void setArrows(GaugeArrow... arrows) {
-        getChart().arrows = arrows;
+        for (int i = 0; i > arrows.length; i++) {
+            getChart().arrows[i] = arrows[i].getGaugeArrow();
+        }
     }
 
     /**
      * Array of axes.
      */
     public void setAxes(GaugeAxis axes) {
-        getChart().axes = axes;
+        getChart().axes = axes.getGaugeAxis();
     }
 
     /**
@@ -181,28 +183,28 @@ public class AngularGauge extends AbstractChart {
      * Adds arrow to the chart.
      */
     public void addArrow(GaugeArrow gaugeArrow) {
-        getChart().addArrow(gaugeArrow);
+        getChart().addArrow(gaugeArrow.getGaugeArrow());
     }
 
     /**
      * Adds arrow to the chart.
      */
     public void addAxis(GaugeAxis gaugeAxis) {
-        getChart().addAxis(gaugeAxis);
+        getChart().addAxis(gaugeAxis.getGaugeAxis());
     }
 
     /**
      * Removes arrow from the chart.
      */
     public void removeArrow(GaugeArrow gaugeArrow) {
-        getChart().removeArrow(gaugeArrow);
+        getChart().removeArrow(gaugeArrow.getGaugeArrow());
     }
 
     /**
      * Removes axis from the chart.
      */
     public void removeAxis(GaugeAxis gaugeAxis) {
-        getChart().removeAxis(gaugeAxis);
+        getChart().removeAxis(gaugeAxis.getGaugeAxis());
     }
 
     @Override

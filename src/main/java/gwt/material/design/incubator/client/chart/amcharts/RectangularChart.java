@@ -21,9 +21,9 @@ package gwt.material.design.incubator.client.chart.amcharts;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmRectangularChart;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartCursor;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.TrendLine;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmTrendLine;
+import gwt.material.design.incubator.client.chart.amcharts.options.ChartCursor;
+import gwt.material.design.incubator.client.chart.amcharts.options.ChartScrollbar;
 
 //@formatter:off
 
@@ -66,14 +66,14 @@ public abstract class RectangularChart extends CoordinateChart {
      * Cursor of a chart.
      */
     public void setChartCursor(ChartCursor chartCursor) {
-        getChart().chartCursor = chartCursor;
+        getChart().chartCursor = chartCursor.getChartCursor();
     }
 
     /**
      * Chart's scrollbar.
      */
     public void setChartScrollbar(ChartScrollbar chartScrollbar) {
-        getChart().chartScrollbar = chartScrollbar;
+        getChart().chartScrollbar = chartScrollbar.getChartScrollbar();
     }
 
     /**
@@ -206,7 +206,7 @@ public abstract class RectangularChart extends CoordinateChart {
      * Array of trend lines added to a chart. You can add trend lines to a chart using this array or access already
      * existing trend lines
      */
-    public void setTrendLines(TrendLine... trendLines) {
+    public void setTrendLines(AmTrendLine... trendLines) {
         getChart().trendLines = trendLines;
     }
 
@@ -275,21 +275,21 @@ public abstract class RectangularChart extends CoordinateChart {
      * Adds a {@link ChartCursor} object to a chart
      */
     public void addChartCursor(ChartCursor chartCursor) {
-        getChart().addChartCursor(chartCursor);
+        getChart().addChartCursor(chartCursor.getChartCursor());
     }
 
     /**
      * Adds a {@link ChartScrollbar} to a chart
      */
     public void addChartScrollbar(ChartScrollbar chartScrollBar) {
-        getChart().addChartScrollbar(chartScrollBar);
+        getChart().addChartScrollbar(chartScrollBar.getChartScrollbar());
     }
 
     /**
-     * Adds a {@link TrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
+     * Adds a {@link AmTrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
      * line to be visible.
      */
-    public void addTrendLine(TrendLine trendLine) {
+    public void addTrendLine(AmTrendLine trendLine) {
         getChart().addTrendLine(trendLine);
     }
 
@@ -310,7 +310,7 @@ public abstract class RectangularChart extends CoordinateChart {
     /**
      * Removes a trend line from a chart. You should call chart.validateNow() in order the changes to be visible.
      */
-    public void removeTrendLine(TrendLine trendLine) {
+    public void removeTrendLine(AmTrendLine trendLine) {
         getChart().removeTrendLine(trendLine);
     }
 

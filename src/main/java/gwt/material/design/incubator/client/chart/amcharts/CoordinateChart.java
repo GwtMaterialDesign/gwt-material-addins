@@ -27,8 +27,9 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.Coordin
 import gwt.material.design.incubator.client.chart.amcharts.events.object.CoordinateGraphItemData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmCoordinateChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.Guide;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGuide;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
+import gwt.material.design.incubator.client.chart.amcharts.options.Graph;
 
 //@formatter:off
 
@@ -100,7 +101,7 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * defined, it will automatically will be assigned to the category axis. Otherwise to first value axis, unless you
      * specify a different valueAxis for the guide.
      */
-    public void setGuides(Guide... guides) {
+    public void setGuides(AmGuide... guides) {
         getChart().guides = guides;
     }
 
@@ -144,22 +145,22 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * The array of value axes. Chart creates one value axis automatically, so if you need only one value axis,
      * you don't need to create it.
      */
-    public void setValueAxes(ValueAxis valueAxes) {
+    public void setValueAxes(AmValueAxis valueAxes) {
         getChart().valueAxes = valueAxes;
     }
 
     /**
      * Adds a graph to the chart.
      */
-    public void addGraph(AmGraph amGraph) {
-        getChart().addGraph(amGraph);
+    public void addGraph(Graph graph) {
+        getChart().addGraph(graph.getGraph());
     }
 
     /**
      * Adds value axis to the chart. One value axis is created automatically, so if you don't want to change anything
      * or add more value axes, you don't need to add it.
      */
-    public void addValueAxis(ValueAxis valueAxis) {
+    public void addValueAxis(AmValueAxis valueAxis) {
         getChart().addValueAxis(valueAxis);
     }
 
@@ -180,7 +181,7 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
     /**
      * Returns value axis by id.
      */
-    public ValueAxis getValueAxisById(String id) {
+    public AmValueAxis getValueAxisById(String id) {
         return getChart().getValueAxisById(id);
     }
 
@@ -188,35 +189,35 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * Hide the graph (if it is visible). Usually this method is called from the ChartLegend, when you click on the legend
      * marker.
      */
-    public void hideGraph(AmGraph amGraph) {
-        getChart().hideGraph(amGraph);
+    public void hideGraph(Graph graph) {
+        getChart().hideGraph(graph.getGraph());
     }
 
     /**
      * Hide value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
-    public void hideGraphsBalloon(AmGraph amGraph) {
-        getChart().hideGraphsBalloon(amGraph);
+    public void hideGraphsBalloon(Graph graph) {
+        getChart().hideGraphsBalloon(graph.getGraph());
     }
 
     /**
      * Highlight the graph. Usually this method is called from the ChartLegend, when you roll-over the legend entry.
      */
-    public void highlightGraph(AmGraph amGraph) {
-        getChart().highlightGraph(amGraph);
+    public void highlightGraph(Graph graph) {
+        getChart().highlightGraph(graph.getGraph());
     }
 
     /**
      * Removes graph from the chart.
      */
-    public void removeGraph(AmGraph amGraph) {
-        getChart().removeGraph(amGraph);
+    public void removeGraph(Graph graph) {
+        getChart().removeGraph(graph.getGraph());
     }
 
     /**
      * Removes value axis from the chart. When you remove value axis, all graphs assigned to this axis are also removed.
      */
-    public void removeValueAxis(ValueAxis valueAxis) {
+    public void removeValueAxis(AmValueAxis valueAxis) {
         getChart().removeValueAxis(valueAxis);
     }
 
@@ -224,22 +225,22 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * Show the graph (if it is hidden). Usually this method is called from the ChartLegend, when you click on the legend
      * marker.
      */
-    public void showGraph(AmGraph amGraph) {
-        getChart().showGraph(amGraph);
+    public void showGraph(Graph graph) {
+        getChart().showGraph(graph.getGraph());
     }
 
     /**
      * Show value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
-    public void showGraphsBalloon(AmGraph amGraph) {
-        getChart().showGraphsBalloon(amGraph);
+    public void showGraphsBalloon(Graph graph) {
+        getChart().showGraphsBalloon(graph.getGraph());
     }
 
     /**
      * UnhighlightGraph the graph. Usually this method is called from the ChartLegend, when you roll-out the legend entry.
      */
-    public void unhighlightGraph(AmGraph amGraph) {
-        getChart().unhighlightGraph(amGraph);
+    public void unhighlightGraph(Graph graph) {
+        getChart().unhighlightGraph(graph.getGraph());
     }
 
     @Override

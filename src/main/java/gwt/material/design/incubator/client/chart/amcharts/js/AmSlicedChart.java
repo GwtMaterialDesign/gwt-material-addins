@@ -19,7 +19,7 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.js.options.Slice;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmSlice;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.MouseEvent;
 import jsinterop.annotations.JsMethod;
@@ -76,7 +76,7 @@ public class AmSlicedChart extends AmChart {
     public int brightnessStep;
 
     /**
-     * Read-only. Array of Slice objects.
+     * Read-only. Array of AmSlice objects.
      */
     @JsProperty
     public Object[] chartData;
@@ -173,7 +173,7 @@ public class AmSlicedChart extends AmChart {
     public String labelColorField;
 
     /**
-     * You can use it to format data labels in any way you want. Chart will call this method and will pass Slice object
+     * You can use it to format data labels in any way you want. Chart will call this method and will pass AmSlice object
      * and formatted text as attributes. This function should return string which will be displayed as label.
      */
     @JsProperty
@@ -393,35 +393,35 @@ public class AmSlicedChart extends AmChart {
      * Dispatched when user clicks on a slice. Event is an instance of original mouse event.
      */
     @JsProperty
-    public Functions.EventFunc3<String, Slice, MouseEvent> clickSlide;
+    public Functions.EventFunc3<String, AmSlice, MouseEvent> clickSlide;
 
     /**
      * Dispatched when user clicks on a slice and the slice is pulled-in. Event is an instance of original mouse event.
      */
     @JsProperty
-    public Functions.EventFunc3<String, Slice, MouseEvent> pullInSlice;
+    public Functions.EventFunc3<String, AmSlice, MouseEvent> pullInSlice;
 
     /**
      * Dispatched when user clicks on a slice and the slice is pulled-out. Event is an instance of original mouse event.
      */
     @JsProperty
-    public Functions.EventFunc3<String, Slice, MouseEvent> pullOutSlice;
+    public Functions.EventFunc3<String, AmSlice, MouseEvent> pullOutSlice;
 
     /**
      * Dispatched when user right-clicks the slice. Event is an instance of original mouse event.
      */
     @JsProperty
-    public Functions.EventFunc3<String, Slice, MouseEvent> rightClickSlice;
+    public Functions.EventFunc3<String, AmSlice, MouseEvent> rightClickSlice;
 
     /**
      * Dispatched when user rolls-out of the slice. Event is an instance of original mouse event.
      */
     @JsProperty
-    public Functions.EventFunc3<String, Slice, MouseEvent> rollOutSlice;
+    public Functions.EventFunc3<String, AmSlice, MouseEvent> rollOutSlice;
 
     /**
      * Dispatched when user rolls-over the slice. Event is an instance of original mouse event.
      */
     @JsProperty
-    public Functions.EventFunc3<String, Slice, MouseEvent> rollOverSlice;
+    public Functions.EventFunc3<String, AmSlice, MouseEvent> rollOverSlice;
 }

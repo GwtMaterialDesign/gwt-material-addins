@@ -39,7 +39,7 @@ import java.util.Date;
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class Guide {
+public class AmGuide {
 
     @JsProperty
     private boolean above;
@@ -123,7 +123,7 @@ public class Guide {
     private int value;
 
     @JsProperty
-    private ValueAxis valueAxis;
+    private AmValueAxis valueAxis;
 
     @JsOverlay
     public final boolean isAbove() {
@@ -302,7 +302,7 @@ public class Guide {
     }
 
     /**
-     * Unique id of a Guide. You don't need to set it, unless you want to.
+     * Unique id of a AmGuide. You don't need to set it, unless you want to.
      */
     @JsOverlay
     public final void setId(String id) {
@@ -480,7 +480,7 @@ public class Guide {
     }
 
     @JsOverlay
-    public final ValueAxis getValueAxis() {
+    public final AmValueAxis getValueAxis() {
         return valueAxis;
     }
 
@@ -489,7 +489,7 @@ public class Guide {
      * axis should be used.
      */
     @JsOverlay
-    public final void setValueAxis(ValueAxis valueAxis) {
+    public final void setValueAxis(AmValueAxis valueAxis) {
         this.valueAxis = valueAxis;
     }
 }

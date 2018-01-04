@@ -19,9 +19,9 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartCursor;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.TrendLine;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmChartCursor;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmChartScrollbar;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmTrendLine;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -60,13 +60,13 @@ public class AmRectangularChart extends AmCoordinateChart {
      * Cursor of a chart.
      */
     @JsProperty
-    public ChartCursor chartCursor;
+    public AmChartCursor chartCursor;
 
     /**
      * Chart's scrollbar.
      */
     @JsProperty
-    public ChartScrollbar chartScrollbar;
+    public AmChartScrollbar chartScrollbar;
 
     /**
      * The depth of the 3D part of plot area. This creates a 3D effect (if the "angle" is > 0). Default to 0
@@ -183,7 +183,7 @@ public class AmRectangularChart extends AmCoordinateChart {
      * existing trend lines
      */
     @JsProperty
-    public TrendLine[] trendLines;
+    public AmTrendLine[] trendLines;
 
     /**
      * Opacity of zoom-out button background. Default to 0
@@ -239,23 +239,23 @@ public class AmRectangularChart extends AmCoordinateChart {
     public String zoomOutText;
 
     /**
-     * Adds a {@link ChartCursor} object to a chart
+     * Adds a {@link AmChartCursor} object to a chart
      */
     @JsMethod
-    public native void addChartCursor(ChartCursor chartCursor);
+    public native void addChartCursor(AmChartCursor chartCursor);
 
     /**
-     * Adds a {@link ChartScrollbar} to a chart
+     * Adds a {@link AmChartScrollbar} to a chart
      */
     @JsMethod
-    public native void addChartScrollbar(ChartScrollbar chartScrollBar);
+    public native void addChartScrollbar(AmChartScrollbar chartScrollBar);
 
     /**
-     * Adds a {@link TrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
+     * Adds a {@link AmTrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
      * line to be visible.
      */
     @JsMethod
-    public native void addTrendLine(TrendLine trendLine);
+    public native void addTrendLine(AmTrendLine trendLine);
 
     /**
      * Removes cursor from the chart
@@ -273,7 +273,7 @@ public class AmRectangularChart extends AmCoordinateChart {
      * Removes a trend line from a chart. You should call chart.validateNow() in order the changes to be visible.
      */
     @JsMethod
-    public native void removeTrendLine(TrendLine trendLine);
+    public native void removeTrendLine(AmTrendLine trendLine);
 
     /**
      * Zooms-out value axes.

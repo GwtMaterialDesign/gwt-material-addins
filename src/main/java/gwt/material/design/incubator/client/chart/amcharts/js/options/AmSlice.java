@@ -27,16 +27,16 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Slice is an item of AmPieChart's chartData Array and holds all the information about the slice. When working with a
+ * AmSlice is an item of AmPieChart's chartData Array and holds all the information about the slice. When working with a
  * pie chart, you do not create slices or change it's properties directly, instead you set array of data using dataProvider
- * property. Consider properties of a Slice read-only - change values in chart's data provider if you need to.
+ * property. Consider properties of a AmSlice read-only - change values in chart's data provider if you need to.
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/Slice">Official Documentation</a>
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class Slice {
+public class AmSlice {
 
     @JsProperty
     private double alpha;
@@ -96,7 +96,7 @@ public class Slice {
     }
 
     /**
-     * Slice description.
+     * AmSlice description.
      */
     @JsOverlay
     public final void setDescription(String description) {
@@ -128,7 +128,7 @@ public class Slice {
     }
 
     /**
-     * Slice title
+     * AmSlice title
      */
     @JsOverlay
     public final void setTitle(String title) {

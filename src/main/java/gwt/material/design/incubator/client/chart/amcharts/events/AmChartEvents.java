@@ -45,4 +45,12 @@ public interface AmChartEvents {
     String RIGHT_CLICK_SLICE = "rightClickSlice";
     String ROLL_OUT_SLICE = "rollOutSlice";
     String ROLL_OVER_SLICE = "rollOverSlice";
+
+    // Serial Chart
+    String CHANGED = "changed";
+    String ZOOMED = "zoomed";
+
+    // Legend
+    String CLICK_LABEL = "clickLabel";
+    String CLICK_MARKER = "clickMarker";
 }

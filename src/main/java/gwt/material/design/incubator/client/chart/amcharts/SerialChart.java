@@ -19,10 +19,16 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts;
 
+import gwt.material.design.incubator.client.chart.amcharts.base.HasSerialChartHandlers;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.ChangedEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.ZoomedEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SerialChangedEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SerialZoomedEventData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.CategoryAxis;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ChartScrollbar;
+import gwt.material.design.incubator.client.chart.amcharts.options.CategoryAxis;
+import gwt.material.design.incubator.client.chart.amcharts.options.ChartScrollbar;
 
 import java.util.Date;
 
@@ -37,7 +43,7 @@ import java.util.Date;
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmSerialChart">Official Documentation</a>
  */
 //@formatter:on
-public class SerialChart extends RectangularChart {
+public class SerialChart extends RectangularChart implements HasSerialChartHandlers {
 
 
     protected AmSerialChart chart;
@@ -48,6 +54,21 @@ public class SerialChart extends RectangularChart {
 
     public SerialChart(ChartType chartType) {
         super(chartType);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+
+        addListener(AmChartEvents.CHANGED, object -> ChangedEvent.fire(this, (SerialChangedEventData) object));
+        addListener(AmChartEvents.ZOOMED, object -> ZoomedEvent.fire(this, (SerialZoomedEventData) object));
+    }
+
+    @Override
+    public void unload() {
+        super.unload();
+
+        // TODO Unload Events
     }
 
     @Override
@@ -86,7 +107,7 @@ public class SerialChart extends RectangularChart {
      * from the chart and set properties to this object.
      */
     public void setCategoryAxis(CategoryAxis categoryAxis) {
-        getChart().categoryAxis = categoryAxis;
+        getChart().categoryAxis = categoryAxis.getCategoryAxis();
     }
 
     /**
@@ -205,7 +226,7 @@ public class SerialChart extends RectangularChart {
      * Value scrollbar, enables scrolling value axes.
      */
     public void setValueScrollbar(ChartScrollbar valueScrollbar) {
-        getChart().valueScrollbar = valueScrollbar;
+        getChart().valueScrollbar = valueScrollbar.getChartScrollbar();
     }
 
     /**
@@ -250,5 +271,13 @@ public class SerialChart extends RectangularChart {
         getChart().zoomToIndexes(start, end);
     }
 
-    // TODO Events
+    @Override
+    public void addChangedHandler(ChangedEvent.ChangedHandler handler) {
+        addHandler(handler, ChangedEvent.getType());
+    }
+
+    @Override
+    public void addZoomedHandler(ZoomedEvent.ZoomedHandler handler) {
+        addHandler(handler, ZoomedEvent.getType());
+    }
 }

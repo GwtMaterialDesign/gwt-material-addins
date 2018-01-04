@@ -19,7 +19,7 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
-import gwt.material.design.incubator.client.chart.amcharts.js.options.ValueAxis;
+import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
@@ -116,5 +116,5 @@ public class AmGanttChart extends AmSerialChart {
      * Value axis of Gantt chart. Set it's type to "date" if your data is date or time based.
      */
     @JsProperty
-    public ValueAxis valueAxis;
+    public AmValueAxis valueAxis;
 }

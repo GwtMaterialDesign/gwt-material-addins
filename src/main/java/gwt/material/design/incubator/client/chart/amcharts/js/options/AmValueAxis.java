@@ -28,7 +28,7 @@ import java.util.Date;
 //@formatter:off
 
 /**
- * Extension for ValueAxis to create an axis for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart},
+ * Extension for AmValueAxis to create an axis for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart},
  * {@link gwt.material.design.incubator.client.chart.chartjs.RadarChart}, {@link gwt.material.design.incubator.client.chart.amcharts.XyChart}
  * charts, multiple can be assigned. Gets automatically populated, one for AmSerialChart and two for AmXYChart charts,
  * if none has been specified.
@@ -38,7 +38,7 @@ import java.util.Date;
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class ValueAxis extends AxisBase {
+public class AmValueAxis extends AmAxisBase {
 
     @JsProperty
     private boolean autoWrap;
@@ -140,7 +140,7 @@ public class ValueAxis extends AxisBase {
     private int synchronizationMultiplier;
 
     @JsProperty
-    private ValueAxis synchronizeWith;
+    private AmValueAxis synchronizeWith;
 
     @JsProperty
     private String totalText;
@@ -430,7 +430,7 @@ public class ValueAxis extends AxisBase {
 
     /**
      * Stacking mode of the axis. Possible values are: "none", "regular", "100%", "3d".
-     * Note, only graphs of one type will be stacked. Default to {@link StackType.NONE}
+     * Note, only graphs of one type will be stacked. Default to {@link StackType#NONE}
      */
     @JsOverlay
     public final void setStackType(StackType stackType) {
@@ -465,13 +465,11 @@ public class ValueAxis extends AxisBase {
     }
 
     /**
-     * One value axis can be synchronized with another value axis. You can use both reference to your axis or id of the
-     * axis here. You should set synchronizationMultiplyer in order for this to work.
+     * One value axis can be synchronized with another value axis. You should set synchronizationMultiplyer in order
+     * for this to work.
      */
-    @JsOverlay
-    public final void setSynchronizeWith(ValueAxis synchronizeWith) {
-        this.synchronizeWith = synchronizeWith;
-    }
+    @JsMethod
+    public native void synchronizeWithAxis(AmValueAxis axis);
 
     /**
      * If this value axis is stacked and has columns, setting valueAxis.totalText = "[[total]]" will make it to display
@@ -582,12 +580,10 @@ public class ValueAxis extends AxisBase {
     @JsMethod
     public native void removeListener(Object object, String type, Functions.Func handler);
 
-    /**
-     * One value axis can be synchronized with another value axis. You should set synchronizationMultiplyer in order
-     * for this to work.
-     */
-    @JsMethod
-    public native void synchronizeWithAxis(ValueAxis axis);
+    @JsOverlay
+    public final AmValueAxis getSynchronizeWith() {
+        return synchronizeWith;
+    }
 
     /**
      * Zooms out the value axis to full scale.
@@ -766,9 +762,13 @@ public class ValueAxis extends AxisBase {
         return synchronizationMultiplier;
     }
 
+    /**
+     * One value axis can be synchronized with another value axis. You can use both reference to your axis or id of the
+     * axis here. You should set synchronizationMultiplyer in order for this to work.
+     */
     @JsOverlay
-    public final ValueAxis getSynchronizeWith() {
-        return synchronizeWith;
+    public final void setSynchronizeWith(AmValueAxis synchronizeWith) {
+        this.synchronizeWith = synchronizeWith;
     }
 
     @JsOverlay
