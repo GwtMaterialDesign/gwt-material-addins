@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import gwt.material.design.incubator.client.chart.amcharts.events.object.Listener;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
@@ -134,7 +135,7 @@ public class AmAxisBase {
     public boolean labelsEnabled;
 
     @JsProperty
-    public Object[] listeners;
+    public Listener[] listeners;
 
     @JsProperty
     public boolean markPeriodChange;

@@ -53,4 +53,15 @@ public interface AmChartEvents {
     // Legend
     String CLICK_LABEL = "clickLabel";
     String CLICK_MARKER = "clickMarker";
+    String HIDE_ITEM = "hideItem";
+    String ROLL_OUT_ITEM = "rollOutItem";
+    String ROLL_OVER_ITEM = "rollOverItem";
+    String ROLL_OVER_MARKER = "rollOverMarker";
+    String SHOW_ITEM = "showItem";
+
+    // Guide
+    String CLICK_GUIDE = "clickGuide";
+    String CLICK_ITEM = "clickItem";
+    String ROLL_OUT_GUIDE = "rollOutGuide";
+    String ROLL_OVER_GUIDE = "rollOverGuide";
 }

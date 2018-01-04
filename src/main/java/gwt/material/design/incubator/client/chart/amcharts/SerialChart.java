@@ -108,6 +108,7 @@ public class SerialChart extends RectangularChart implements HasSerialChartHandl
      */
     public void setCategoryAxis(CategoryAxis categoryAxis) {
         getChart().categoryAxis = categoryAxis.getCategoryAxis();
+        categoryAxis.load();
     }
 
     /**

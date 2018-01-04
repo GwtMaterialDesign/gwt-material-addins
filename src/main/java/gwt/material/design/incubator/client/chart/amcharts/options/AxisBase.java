@@ -1,19 +1,38 @@
 package gwt.material.design.incubator.client.chart.amcharts.options;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
+import gwt.material.design.incubator.client.chart.amcharts.base.HasAxisHandler;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.Position;
+import gwt.material.design.incubator.client.chart.amcharts.events.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.AxisItemEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.Listener;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmAxisBase;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGuide;
 
-public abstract class AxisBase extends ChartOptions {
-
-    private AmAxisBase axisBase = new AmAxisBase();
+public abstract class AxisBase extends ChartOptions implements HasAxisHandler {
 
     protected abstract AmAxisBase getAxis();
 
+    @Override
+    public void load() {
+        super.load();
+
+        Listener clickItem = new Listener();
+        clickItem.setEvent("clickItem");
+        clickItem.setMethod(object -> ClickItemEvent.fire(this, (AxisItemEventData) object));
+        setListeners(clickItem);
+    }
+
+    @Override
+    public void unload() {
+        super.unload();
+
+        // TODO Unload events
+    }
+
     public boolean isAutoGridCount() {
-        return axisBase.autoGridCount;
+        return getAxis().autoGridCount;
     }
 
     /**
@@ -21,11 +40,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAutoGridCount(boolean autoGridCount) {
-        axisBase.autoGridCount = autoGridCount;
+        getAxis().autoGridCount = autoGridCount;
     }
 
     public int getAutoRotateAngle() {
-        return axisBase.autoRotateAngle;
+        return getAxis().autoRotateAngle;
     }
 
     /**
@@ -35,11 +54,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAutoRotateAngle(int autoRotateAngle) {
-        axisBase.autoRotateAngle = autoRotateAngle;
+        getAxis().autoRotateAngle = autoRotateAngle;
     }
 
     public int getAutoRotateCount() {
-        return axisBase.autoRotateCount;
+        return getAxis().autoRotateCount;
     }
 
     /**
@@ -48,11 +67,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAutoRotateCount(int autoRotateCount) {
-        axisBase.autoRotateCount = autoRotateCount;
+        getAxis().autoRotateCount = autoRotateCount;
     }
 
     public double getAxisAlpha() {
-        return axisBase.axisAlpha;
+        return getAxis().axisAlpha;
     }
 
     /**
@@ -60,11 +79,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAxisAlpha(double axisAlpha) {
-        axisBase.axisAlpha = axisAlpha;
+        getAxis().axisAlpha = axisAlpha;
     }
 
     public String getAxisColor() {
-        return axisBase.axisColor;
+        return getAxis().axisColor;
     }
 
     /**
@@ -72,11 +91,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAxisColor(String axisColor) {
-        axisBase.axisColor = axisColor;
+        getAxis().axisColor = axisColor;
     }
 
     public int getAxisThickness() {
-        return axisBase.axisThickness;
+        return getAxis().axisThickness;
     }
 
     /**
@@ -84,11 +103,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAxisThickness(int axisThickness) {
-        axisBase.axisThickness = axisThickness;
+        getAxis().axisThickness = axisThickness;
     }
 
     public int getAxisX() {
-        return axisBase.axisX;
+        return getAxis().axisX;
     }
 
     /**
@@ -96,11 +115,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAxisX(int axisX) {
-        axisBase.axisX = axisX;
+        getAxis().axisX = axisX;
     }
 
     public int getAxisY() {
-        return axisBase.axisY;
+        return getAxis().axisY;
     }
 
     /**
@@ -108,11 +127,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setAxisY(int axisY) {
-        axisBase.axisY = axisY;
+        getAxis().axisY = axisY;
     }
 
     public AmBalloon getBalloon() {
-        return axisBase.balloon;
+        return getAxis().balloon;
     }
 
     /**
@@ -120,11 +139,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setBalloon(AmBalloon balloon) {
-        axisBase.balloon = balloon;
+        getAxis().balloon = balloon;
     }
 
     public boolean isBoldLabels() {
-        return axisBase.boldLabels;
+        return getAxis().boldLabels;
     }
 
     /**
@@ -132,11 +151,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setBoldLabels(boolean boldLabels) {
-        axisBase.boldLabels = boldLabels;
+        getAxis().boldLabels = boldLabels;
     }
 
     public boolean isBoldPeriodBeginning() {
-        return axisBase.boldPeriodBeginning;
+        return getAxis().boldPeriodBeginning;
     }
 
     /**
@@ -145,11 +164,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setBoldPeriodBeginning(boolean boldPeriodBeginning) {
-        axisBase.boldPeriodBeginning = boldPeriodBeginning;
+        getAxis().boldPeriodBeginning = boldPeriodBeginning;
     }
 
     public boolean isCenterLabelOnFullPeriod() {
-        return axisBase.centerLabelOnFullPeriod;
+        return getAxis().centerLabelOnFullPeriod;
     }
 
     /**
@@ -158,11 +177,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setCenterLabelOnFullPeriod(boolean centerLabelOnFullPeriod) {
-        axisBase.centerLabelOnFullPeriod = centerLabelOnFullPeriod;
+        getAxis().centerLabelOnFullPeriod = centerLabelOnFullPeriod;
     }
 
     public boolean isCenterLabels() {
-        return axisBase.centerLabels;
+        return getAxis().centerLabels;
     }
 
     /**
@@ -170,11 +189,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setCenterLabels(boolean centerLabels) {
-        axisBase.centerLabels = centerLabels;
+        getAxis().centerLabels = centerLabels;
     }
 
     public boolean isCenterRotatedLabels() {
-        return axisBase.centerRotatedLabels;
+        return getAxis().centerRotatedLabels;
     }
 
     /**
@@ -182,11 +201,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setCenterRotatedLabels(boolean centerRotatedLabels) {
-        axisBase.centerRotatedLabels = centerRotatedLabels;
+        getAxis().centerRotatedLabels = centerRotatedLabels;
     }
 
     public String getColor() {
-        return axisBase.color;
+        return getAxis().color;
     }
 
     /**
@@ -194,11 +213,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setColor(String color) {
-        axisBase.color = color;
+        getAxis().color = color;
     }
 
     public int getDashLength() {
-        return axisBase.dashLength;
+        return getAxis().dashLength;
     }
 
     /**
@@ -206,11 +225,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setDashLength(int dashLength) {
-        axisBase.dashLength = dashLength;
+        getAxis().dashLength = dashLength;
     }
 
     public Object[] getDateFormats() {
-        return axisBase.dateFormats;
+        return getAxis().dateFormats;
     }
 
     /**
@@ -219,11 +238,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setDateFormats(Object[] dateFormats) {
-        axisBase.dateFormats = dateFormats;
+        getAxis().dateFormats = dateFormats;
     }
 
     public double getFillAlpha() {
-        return axisBase.fillAlpha;
+        return getAxis().fillAlpha;
     }
 
     /**
@@ -232,11 +251,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setFillAlpha(double fillAlpha) {
-        axisBase.fillAlpha = fillAlpha;
+        getAxis().fillAlpha = fillAlpha;
     }
 
     public String getFillColor() {
-        return axisBase.fillColor;
+        return getAxis().fillColor;
     }
 
     /**
@@ -245,11 +264,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setFillColor(String fillColor) {
-        axisBase.fillColor = fillColor;
+        getAxis().fillColor = fillColor;
     }
 
     public int getFirstDayOfWeek() {
-        return axisBase.firstDayOfWeek;
+        return getAxis().firstDayOfWeek;
     }
 
     /**
@@ -257,11 +276,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setFirstDayOfWeek(int firstDayOfWeek) {
-        axisBase.firstDayOfWeek = firstDayOfWeek;
+        getAxis().firstDayOfWeek = firstDayOfWeek;
     }
 
     public int getFontSize() {
-        return axisBase.fontSize;
+        return getAxis().fontSize;
     }
 
     /**
@@ -269,11 +288,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setFontSize(int fontSize) {
-        axisBase.fontSize = fontSize;
+        getAxis().fontSize = fontSize;
     }
 
     public double getGridAlpha() {
-        return axisBase.gridAlpha;
+        return getAxis().gridAlpha;
     }
 
     /**
@@ -281,11 +300,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setGridAlpha(double gridAlpha) {
-        axisBase.gridAlpha = gridAlpha;
+        getAxis().gridAlpha = gridAlpha;
     }
 
     public String getGridColor() {
-        return axisBase.gridColor;
+        return getAxis().gridColor;
     }
 
     /**
@@ -293,11 +312,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setGridColor(String gridColor) {
-        axisBase.gridColor = gridColor;
+        getAxis().gridColor = gridColor;
     }
 
     public int getGridCount() {
-        return axisBase.gridCount;
+        return getAxis().gridCount;
     }
 
     /**
@@ -306,11 +325,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setGridCount(int gridCount) {
-        axisBase.gridCount = gridCount;
+        getAxis().gridCount = gridCount;
     }
 
     public int getGridThickness() {
-        return axisBase.gridThickness;
+        return getAxis().gridThickness;
     }
 
     /**
@@ -318,11 +337,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setGridThickness(int gridThickness) {
-        axisBase.gridThickness = gridThickness;
+        getAxis().gridThickness = gridThickness;
     }
 
     public AmGuide[] getGuides() {
-        return axisBase.guides;
+        return getAxis().guides;
     }
 
     /**
@@ -330,11 +349,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setGuides(AmGuide[] guides) {
-        axisBase.guides = guides;
+        getAxis().guides = guides;
     }
 
     public boolean isIgnoreAxisWidth() {
-        return axisBase.ignoreAxisWidth;
+        return getAxis().ignoreAxisWidth;
     }
 
     /**
@@ -343,11 +362,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setIgnoreAxisWidth(boolean ignoreAxisWidth) {
-        axisBase.ignoreAxisWidth = ignoreAxisWidth;
+        getAxis().ignoreAxisWidth = ignoreAxisWidth;
     }
 
     public boolean isInside() {
-        return axisBase.inside;
+        return getAxis().inside;
     }
 
     /**
@@ -355,11 +374,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setInside(boolean inside) {
-        axisBase.inside = inside;
+        getAxis().inside = inside;
     }
 
     public int getLabelFrequency() {
-        return axisBase.labelFrequency;
+        return getAxis().labelFrequency;
     }
 
     /**
@@ -368,11 +387,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setLabelFrequency(int labelFrequency) {
-        axisBase.labelFrequency = labelFrequency;
+        getAxis().labelFrequency = labelFrequency;
     }
 
     public int getLabelOffset() {
-        return axisBase.labelOffset;
+        return getAxis().labelOffset;
     }
 
     /**
@@ -380,11 +399,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setLabelOffset(int labelOffset) {
-        axisBase.labelOffset = labelOffset;
+        getAxis().labelOffset = labelOffset;
     }
 
     public int getLabelRotation() {
-        return axisBase.labelRotation;
+        return getAxis().labelRotation;
     }
 
     /**
@@ -393,11 +412,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setLabelRotation(int labelRotation) {
-        axisBase.labelRotation = labelRotation;
+        getAxis().labelRotation = labelRotation;
     }
 
     public boolean isLabelsEnabled() {
-        return axisBase.labelsEnabled;
+        return getAxis().labelsEnabled;
     }
 
     /**
@@ -405,11 +424,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setLabelsEnabled(boolean labelsEnabled) {
-        axisBase.labelsEnabled = labelsEnabled;
+        getAxis().labelsEnabled = labelsEnabled;
     }
 
     public Object[] getListeners() {
-        return axisBase.listeners;
+        return getAxis().listeners;
     }
 
     /**
@@ -417,12 +436,12 @@ public abstract class AxisBase extends ChartOptions {
      * "method":handleEvent}];
      */
 
-    public void setListeners(Object[] listeners) {
-        axisBase.listeners = listeners;
+    public void setListeners(Listener... listeners) {
+        getAxis().listeners = listeners;
     }
 
     public boolean isMarkPeriodChange() {
-        return axisBase.markPeriodChange;
+        return getAxis().markPeriodChange;
     }
 
     /**
@@ -431,11 +450,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setMarkPeriodChange(boolean markPeriodChange) {
-        axisBase.markPeriodChange = markPeriodChange;
+        getAxis().markPeriodChange = markPeriodChange;
     }
 
     public int getMinHorizontalGap() {
-        return axisBase.minHorizontalGap;
+        return getAxis().minHorizontalGap;
     }
 
     /**
@@ -444,11 +463,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setMinHorizontalGap(int minHorizontalGap) {
-        axisBase.minHorizontalGap = minHorizontalGap;
+        getAxis().minHorizontalGap = minHorizontalGap;
     }
 
     public double getMinorGridAlpha() {
-        return axisBase.minorGridAlpha;
+        return getAxis().minorGridAlpha;
     }
 
     /**
@@ -456,11 +475,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setMinorGridAlpha(double minorGridAlpha) {
-        axisBase.minorGridAlpha = minorGridAlpha;
+        getAxis().minorGridAlpha = minorGridAlpha;
     }
 
     public boolean isMinorGridEnabled() {
-        return axisBase.minorGridEnabled;
+        return getAxis().minorGridEnabled;
     }
 
     /**
@@ -470,11 +489,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setMinorGridEnabled(boolean minorGridEnabled) {
-        axisBase.minorGridEnabled = minorGridEnabled;
+        getAxis().minorGridEnabled = minorGridEnabled;
     }
 
     public int getMinorTickLength() {
-        return axisBase.minorTickLength;
+        return getAxis().minorTickLength;
     }
 
     /**
@@ -482,11 +501,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setMinorTickLength(int minorTickLength) {
-        axisBase.minorTickLength = minorTickLength;
+        getAxis().minorTickLength = minorTickLength;
     }
 
     public int getMinVerticalGap() {
-        return axisBase.minVerticalGap;
+        return getAxis().minVerticalGap;
     }
 
     /**
@@ -495,11 +514,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setMinVerticalGap(int minVerticalGap) {
-        axisBase.minVerticalGap = minVerticalGap;
+        getAxis().minVerticalGap = minVerticalGap;
     }
 
     public int getOffset() {
-        return axisBase.offset;
+        return getAxis().offset;
     }
 
     /**
@@ -507,11 +526,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setOffset(int offset) {
-        axisBase.offset = offset;
+        getAxis().offset = offset;
     }
 
     public String getPosition() {
-        return axisBase.position;
+        return getAxis().position;
     }
 
     /**
@@ -520,11 +539,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setPosition(Position position) {
-        axisBase.position = position.getName();
+        getAxis().position = position.getName();
     }
 
     public boolean isShowFirstLabel() {
-        return axisBase.showFirstLabel;
+        return getAxis().showFirstLabel;
     }
 
     /**
@@ -534,11 +553,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setShowFirstLabel(boolean showFirstLabel) {
-        axisBase.showFirstLabel = showFirstLabel;
+        getAxis().showFirstLabel = showFirstLabel;
     }
 
     public boolean isShowLastLabel() {
-        return axisBase.showLastLabel;
+        return getAxis().showLastLabel;
     }
 
     /**
@@ -548,11 +567,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setShowLastLabel(boolean showLastLabel) {
-        axisBase.showLastLabel = showLastLabel;
+        getAxis().showLastLabel = showLastLabel;
     }
 
     public int getTickLength() {
-        return axisBase.tickLength;
+        return getAxis().tickLength;
     }
 
     /**
@@ -560,11 +579,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setTickLength(int tickLength) {
-        axisBase.tickLength = tickLength;
+        getAxis().tickLength = tickLength;
     }
 
     public String getTitle() {
-        return axisBase.title;
+        return getAxis().title;
     }
 
     /**
@@ -572,11 +591,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setTitle(String title) {
-        axisBase.title = title;
+        getAxis().title = title;
     }
 
     public boolean isTitleBold() {
-        return axisBase.titleBold;
+        return getAxis().titleBold;
     }
 
     /**
@@ -584,11 +603,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setTitleBold(boolean titleBold) {
-        axisBase.titleBold = titleBold;
+        getAxis().titleBold = titleBold;
     }
 
     public String getTitleColor() {
-        return axisBase.titleColor;
+        return getAxis().titleColor;
     }
 
     /**
@@ -596,11 +615,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setTitleColor(String titleColor) {
-        axisBase.titleColor = titleColor;
+        getAxis().titleColor = titleColor;
     }
 
     public int getTitleFontSize() {
-        return axisBase.titleFontSize;
+        return getAxis().titleFontSize;
     }
 
     /**
@@ -608,11 +627,11 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setTitleFontSize(int titleFontSize) {
-        axisBase.titleFontSize = titleFontSize;
+        getAxis().titleFontSize = titleFontSize;
     }
 
     public int getTitleRotation() {
-        return axisBase.titleRotation;
+        return getAxis().titleRotation;
     }
 
     /**
@@ -620,6 +639,36 @@ public abstract class AxisBase extends ChartOptions {
      */
 
     public void setTitleRotation(int titleRotation) {
-        axisBase.titleRotation = titleRotation;
+        getAxis().titleRotation = titleRotation;
+    }
+
+    @Override
+    public void addClickGuideHandler(ClickGuideEvent.ClickGuideHandler handler) {
+        addHandler(ClickGuideEvent.getType(), handler);
+    }
+
+    @Override
+    public void addClickItemHandler(ClickItemEvent.ClickItemHandler handler) {
+        addHandler(ClickItemEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOutGuideHandler(RollOutGuideEvent.RollOutGuideHandler handler) {
+        addHandler(RollOutGuideEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOutItemHandler(RollOutGuideItemEvent.RollOutGuideItemHandler handler) {
+        addHandler(RollOutGuideItemEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOverGuideHandler(RollOverGuideEvent.RollOverGuideHandler handler) {
+        addHandler(RollOverGuideEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOverItemHandler(RollOverGuideItemEvent.RollOverGuideItemHandler handler) {
+        addHandler(RollOverGuideItemEvent.getType(), handler);
     }
 }

@@ -3,9 +3,7 @@ package gwt.material.design.incubator.client.chart.amcharts.options;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.base.HasLegendHandlers;
-import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
-import gwt.material.design.incubator.client.chart.amcharts.events.ClickLabelEvent;
-import gwt.material.design.incubator.client.chart.amcharts.events.ClickMarkerEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.*;
 import gwt.material.design.incubator.client.chart.amcharts.events.object.LegendEventData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmLegend;
 import gwt.material.design.jquery.client.api.Functions;
@@ -18,10 +16,17 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
     public void load() {
         legend.addListener(AmChartEvents.CLICK_LABEL, object -> ClickLabelEvent.fire(this, (LegendEventData) object));
         legend.addListener(AmChartEvents.CLICK_MARKER, object -> ClickMarkerEvent.fire(this, (LegendEventData) object));
+        legend.addListener(AmChartEvents.HIDE_ITEM, object -> HideItemEvent.fire(this, (LegendEventData) object));
+        legend.addListener(AmChartEvents.ROLL_OUT_ITEM, object -> RollOutItemEvent.fire(this, (LegendEventData) object));
+        legend.addListener(AmChartEvents.ROLL_OVER_ITEM, object -> RollOverItemEvent.fire(this, (LegendEventData) object));
+        legend.addListener(AmChartEvents.ROLL_OVER_MARKER, object -> RollOverMarkerEvent.fire(this, (LegendEventData) object));
+        legend.addListener(AmChartEvents.SHOW_ITEM, object -> ShowItemEvent.fire(this, (LegendEventData) object));
     }
 
     @Override
-    public void unload() {}
+    public void unload() {
+        // TODO Unload Events
+    }
 
     public String getAccessibleLabel() {
         return legend.accessibleLabel;
@@ -808,5 +813,30 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
     @Override
     public void addClickMarkerHandler(ClickMarkerEvent.ClickMarkerHandler handler) {
         addHandler(ClickMarkerEvent.getType(), handler);
+    }
+
+    @Override
+    public void addHideItemHandler(HideItemEvent.HideItemHandler handler) {
+        addHandler(HideItemEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOutItemHandler(RollOutItemEvent.RollOutItemHandler handler) {
+        addHandler(RollOutItemEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOverItemHandler(RollOverItemEvent.RollOverItemHandler handler) {
+        addHandler(RollOverItemEvent.getType(), handler);
+    }
+
+    @Override
+    public void addRollOverMarkerHandler(RollOverMarkerEvent.RollOverMarkerHandler handler) {
+        addHandler(RollOverMarkerEvent.getType(), handler);
+    }
+
+    @Override
+    public void addShowItemHandler(ShowItemEvent.ShowItemHandler handler) {
+        addHandler(ShowItemEvent.getType(), handler);
     }
 }

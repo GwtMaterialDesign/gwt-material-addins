@@ -18,7 +18,7 @@ public class CategoryAxis extends AxisBase {
 
     @Override
     public void load() {
-
+        super.load();
     }
 
     @Override
