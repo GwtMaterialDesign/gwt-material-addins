@@ -1,16 +1,19 @@
 package gwt.material.design.incubator.client.chart.amcharts.options;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
-import gwt.material.design.incubator.client.chart.amcharts.base.HasAxisHandler;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.Position;
-import gwt.material.design.incubator.client.chart.amcharts.events.*;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.AxisItemEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasAxisHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.axis.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.AxisGuideData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.AxisItemData;
 import gwt.material.design.incubator.client.chart.amcharts.events.object.Listener;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmAxisBase;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGuide;
 
-public abstract class AxisBase extends ChartOptions implements HasAxisHandler {
+public abstract class AxisBase extends ChartOptions implements HasAxisHandlers {
 
     protected abstract AmAxisBase getAxis();
 
@@ -19,9 +22,30 @@ public abstract class AxisBase extends ChartOptions implements HasAxisHandler {
         super.load();
 
         Listener clickItem = new Listener();
-        clickItem.setEvent("clickItem");
-        clickItem.setMethod(object -> ClickItemEvent.fire(this, (AxisItemEventData) object));
-        setListeners(clickItem);
+        clickItem.setEvent(AmChartEvents.CLICK_ITEM);
+        clickItem.setMethod(object -> ClickItemEvent.fire(this, (AxisItemData) object));
+
+        Listener clickGuide = new Listener();
+        clickGuide.setEvent(AmChartEvents.CLICK_GUIDE);
+        clickGuide.setMethod(object -> ClickGuideEvent.fire(this, (AxisGuideData) object));
+
+        Listener rollOutGuide = new Listener();
+        rollOutGuide.setEvent(AmChartEvents.ROLL_OUT_GUIDE);
+        rollOutGuide.setMethod(object -> RollOutGuideEvent.fire(this, (AxisGuideData) object));
+
+        Listener rollOverGuide = new Listener();
+        rollOverGuide.setEvent(AmChartEvents.ROLL_OVER_GUIDE);
+        rollOutGuide.setMethod(object -> RollOverGuideEvent.fire(this, (AxisGuideData) object));
+
+        Listener rollOutGuideItem = new Listener();
+        rollOutGuideItem.setEvent(AmChartEvents.ROLL_OUT_ITEM);
+        rollOutGuideItem.setMethod(object -> RollOutGuideItemEvent.fire(this, (AxisItemData) object));
+
+        Listener rollOverGuideItem = new Listener();
+        rollOverGuideItem.setEvent(AmChartEvents.ROLL_OVER_ITEM);
+        rollOverGuideItem.setMethod(object -> RollOverGuideItemEvent.fire(this, (AxisItemData) object));
+
+        setListeners(clickItem, clickGuide, rollOutGuide, rollOverGuide, rollOutGuideItem, rollOverGuideItem);
     }
 
     @Override
@@ -643,32 +667,32 @@ public abstract class AxisBase extends ChartOptions implements HasAxisHandler {
     }
 
     @Override
-    public void addClickGuideHandler(ClickGuideEvent.ClickGuideHandler handler) {
-        addHandler(ClickGuideEvent.getType(), handler);
+    public HandlerRegistration addClickGuideHandler(ClickGuideEvent.ClickGuideHandler handler) {
+        return addHandler(ClickGuideEvent.getType(), handler);
     }
 
     @Override
-    public void addClickItemHandler(ClickItemEvent.ClickItemHandler handler) {
-        addHandler(ClickItemEvent.getType(), handler);
+    public HandlerRegistration addClickItemHandler(ClickItemEvent.ClickItemHandler handler) {
+        return addHandler(ClickItemEvent.getType(), handler);
     }
 
     @Override
-    public void addRollOutGuideHandler(RollOutGuideEvent.RollOutGuideHandler handler) {
-        addHandler(RollOutGuideEvent.getType(), handler);
+    public HandlerRegistration addRollOutGuideHandler(RollOutGuideEvent.RollOutGuideHandler handler) {
+        return addHandler(RollOutGuideEvent.getType(), handler);
     }
 
     @Override
-    public void addRollOutItemHandler(RollOutGuideItemEvent.RollOutGuideItemHandler handler) {
-        addHandler(RollOutGuideItemEvent.getType(), handler);
+    public HandlerRegistration addRollOutItemHandler(RollOutGuideItemEvent.RollOutGuideItemHandler handler) {
+        return addHandler(RollOutGuideItemEvent.getType(), handler);
     }
 
     @Override
-    public void addRollOverGuideHandler(RollOverGuideEvent.RollOverGuideHandler handler) {
-        addHandler(RollOverGuideEvent.getType(), handler);
+    public HandlerRegistration addRollOverGuideHandler(RollOverGuideEvent.RollOverGuideHandler handler) {
+        return addHandler(RollOverGuideEvent.getType(), handler);
     }
 
     @Override
-    public void addRollOverItemHandler(RollOverGuideItemEvent.RollOverGuideItemHandler handler) {
-        addHandler(RollOverGuideItemEvent.getType(), handler);
+    public HandlerRegistration addRollOverItemHandler(RollOverGuideItemEvent.RollOverGuideItemHandler handler) {
+        return addHandler(RollOverGuideItemEvent.getType(), handler);
     }
 }

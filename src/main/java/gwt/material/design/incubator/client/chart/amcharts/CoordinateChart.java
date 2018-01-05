@@ -19,10 +19,12 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
-import gwt.material.design.incubator.client.chart.amcharts.base.HasCoordinateChartHandlers;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
-import gwt.material.design.incubator.client.chart.amcharts.events.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasCoordinateChartHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.coordinate.*;
 import gwt.material.design.incubator.client.chart.amcharts.events.object.CoordinateGraphData;
 import gwt.material.design.incubator.client.chart.amcharts.events.object.CoordinateGraphItemData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmCoordinateChart;
@@ -247,37 +249,37 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
     public abstract AmCoordinateChart getChart();
 
     @Override
-    public void addClickGraphHandler(ClickGraphEvent.ClickGraphHandler handler) {
-        addHandler(handler, ClickGraphEvent.getType());
+    public HandlerRegistration addClickGraphHandler(ClickGraphEvent.ClickGraphHandler handler) {
+        return addHandler(handler, ClickGraphEvent.getType());
     }
 
     @Override
-    public void addClickGraphItemHandler(ClickGraphItemEvent.ClickGraphItemHandler handler) {
-        addHandler(handler, ClickGraphItemEvent.getType());
+    public HandlerRegistration addClickGraphItemHandler(ClickGraphItemEvent.ClickGraphItemHandler handler) {
+        return addHandler(handler, ClickGraphItemEvent.getType());
     }
 
     @Override
-    public void addRightClickGraphItemHandler(RightClickGraphItemEvent.RightClickGraphItemHandler handler) {
-        addHandler(handler, RightClickGraphItemEvent.getType());
+    public HandlerRegistration addRightClickGraphItemHandler(RightClickGraphItemEvent.RightClickGraphItemHandler handler) {
+        return addHandler(handler, RightClickGraphItemEvent.getType());
     }
 
     @Override
-    public void addRollOutGraphHandler(RollOutGraphEvent.RollOutGraphHandler handler) {
-        addHandler(handler, RollOutGraphEvent.getType());
+    public HandlerRegistration addRollOutGraphHandler(RollOutGraphEvent.RollOutGraphHandler handler) {
+        return addHandler(handler, RollOutGraphEvent.getType());
     }
 
     @Override
-    public void addRollOutGraphItemHandler(RollOutGraphItemEvent.RollOutGraphItemHandler handler) {
-        addHandler(handler, RollOutGraphItemEvent.getType());
+    public HandlerRegistration addRollOutGraphItemHandler(RollOutGraphItemEvent.RollOutGraphItemHandler handler) {
+        return addHandler(handler, RollOutGraphItemEvent.getType());
     }
 
     @Override
-    public void addRollOverGraphHandler(RollOverGraphEvent.RollOverGraphHandler handler) {
-        addHandler(handler, RollOverGraphEvent.getType());
+    public HandlerRegistration addRollOverGraphHandler(RollOverGraphEvent.RollOverGraphHandler handler) {
+        return addHandler(handler, RollOverGraphEvent.getType());
     }
 
     @Override
-    public void addRollOverGraphItemHandler(RollOverGraphItemEvent.RollOverGraphItemHandler handler) {
-        addHandler(handler, RollOverGraphItemEvent.getType());
+    public HandlerRegistration addRollOverGraphItemHandler(RollOverGraphItemEvent.RollOverGraphItemHandler handler) {
+        return addHandler(handler, RollOverGraphItemEvent.getType());
     }
 }

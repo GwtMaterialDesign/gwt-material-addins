@@ -19,7 +19,9 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.jquery.client.api.Functions;
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -32,7 +34,7 @@ import jsinterop.annotations.JsType;
  */
 //@formatter:on
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class AmGaugeAxis {
+public class AmGaugeAxis extends AmAxisBase {
 
     @JsProperty
     public double axisAlpha;
@@ -181,5 +183,18 @@ public class AmGaugeAxis {
     @JsProperty
     public int valueInterval;
 
-    // TODO Events
+    @JsMethod
+    public native void setTopText(String text);
+
+    @JsMethod
+    public native void setBottomText(String text);
+
+    @JsMethod
+    public native void addListener(String type, Functions.Func1<Object> handler);
+
+    @JsMethod
+    public native void removeListener(AmChart chart, String type, Functions.Func1<Object> handler);
+
+    @JsMethod
+    public native int value2angle(int value);
 }

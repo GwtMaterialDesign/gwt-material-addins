@@ -19,13 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts;
 
-import gwt.material.design.incubator.client.chart.amcharts.base.HasSerialChartHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
-import gwt.material.design.incubator.client.chart.amcharts.events.ChangedEvent;
-import gwt.material.design.incubator.client.chart.amcharts.events.ZoomedEvent;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.SerialChangedEventData;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.SerialZoomedEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasSerialChartHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SerialChangedData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SerialZoomedData;
+import gwt.material.design.incubator.client.chart.amcharts.events.serial.SerialChangedEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.serial.SerialZoomedEvent;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
 import gwt.material.design.incubator.client.chart.amcharts.options.CategoryAxis;
 import gwt.material.design.incubator.client.chart.amcharts.options.ChartScrollbar;
@@ -60,8 +61,8 @@ public class SerialChart extends RectangularChart implements HasSerialChartHandl
     public void load() {
         super.load();
 
-        addListener(AmChartEvents.CHANGED, object -> ChangedEvent.fire(this, (SerialChangedEventData) object));
-        addListener(AmChartEvents.ZOOMED, object -> ZoomedEvent.fire(this, (SerialZoomedEventData) object));
+        addListener(AmChartEvents.CHANGED, object -> SerialChangedEvent.fire(this, (SerialChangedData) object));
+        addListener(AmChartEvents.ZOOMED, object -> SerialZoomedEvent.fire(this, (SerialZoomedData) object));
     }
 
     @Override
@@ -273,12 +274,12 @@ public class SerialChart extends RectangularChart implements HasSerialChartHandl
     }
 
     @Override
-    public void addChangedHandler(ChangedEvent.ChangedHandler handler) {
-        addHandler(handler, ChangedEvent.getType());
+    public HandlerRegistration addChangedHandler(SerialChangedEvent.SerialChangedHandler handler) {
+        return addHandler(handler, SerialChangedEvent.getType());
     }
 
     @Override
-    public void addZoomedHandler(ZoomedEvent.ZoomedHandler handler) {
-        addHandler(handler, ZoomedEvent.getType());
+    public HandlerRegistration addZoomedHandler(SerialZoomedEvent.SerialZoomedHandler handler) {
+        return addHandler(handler, SerialZoomedEvent.getType());
     }
 }

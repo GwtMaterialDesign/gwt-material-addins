@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import gwt.material.design.incubator.client.chart.amcharts.events.object.Listener;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
@@ -109,7 +110,7 @@ public class AmChartCursor {
     public String limitToGraph;
 
     @JsProperty
-    public Object[] listeners;
+    public Listener[] listeners;
 
     @JsProperty
     public boolean oneBalloonOnly;

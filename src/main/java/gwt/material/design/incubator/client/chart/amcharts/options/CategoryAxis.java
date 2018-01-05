@@ -16,16 +16,6 @@ public class CategoryAxis extends AxisBase {
         return categoryAxis;
     }
 
-    @Override
-    public void load() {
-        super.load();
-    }
-
-    @Override
-    public void unload() {
-
-    }
-
     public String getAutoWrap() {
         return categoryAxis.autoWrap;
     }

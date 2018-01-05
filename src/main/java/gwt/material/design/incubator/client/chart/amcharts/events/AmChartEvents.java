@@ -38,7 +38,7 @@ public interface AmChartEvents {
     String ROLL_OVER_GRAPH = "rollOverGraph";
     String ROLL_OVER_GRAPH_ITEM = "rollOverGraphItem";
 
-    // Pie Chart
+    // Slice Chart
     String CLICK_SLICE = "clickSlice";
     String PULL_IN_SLICE = "pullInSlice";
     String PULL_OUT_SLICE = "pullOutSlice";
@@ -64,4 +64,18 @@ public interface AmChartEvents {
     String CLICK_ITEM = "clickItem";
     String ROLL_OUT_GUIDE = "rollOutGuide";
     String ROLL_OVER_GUIDE = "rollOverGuide";
+
+    // Chart Cursor
+    String DRAW = "draw";
+    String MOVED = "moved";
+    String ON_HIDE_CURSOR = "onHideCursor";
+    String ON_SHOW_CURSOR = "onShowCursor";
+    String PANNING = "panning";
+    String SELECTED = "selected";
+    String ZOOM_STARTED = "zoomStarted";
+
+    // Gauge Axis
+    String CLICK_BAND = "clickBand";
+    String ROLL_OUT_BAND = "rollOutBand";
+    String ROLL_OVER_BAND = "rollOverBand";
 }

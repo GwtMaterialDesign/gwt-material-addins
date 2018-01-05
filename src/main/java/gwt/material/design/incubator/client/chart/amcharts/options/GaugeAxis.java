@@ -1,25 +1,33 @@
 package gwt.material.design.incubator.client.chart.amcharts.options;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.Position;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasGaugeAxisHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.gauge.ClickBandEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.gauge.RollOutBandEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.gauge.RollOverBandEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.GaugeAxisData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeAxis;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeBand;
 import gwt.material.design.jquery.client.api.Functions;
-import jsinterop.annotations.JsMethod;
 
-public class GaugeAxis extends ChartOptions {
+public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
 
     private AmGaugeAxis gaugeAxis = new AmGaugeAxis();
 
     @Override
     public void load() {
-
+        addListener(AmChartEvents.CLICK_BAND, object -> ClickBandEvent.fire(this, (GaugeAxisData) object));
+        addListener(AmChartEvents.ROLL_OUT_BAND, object -> RollOutBandEvent.fire(this, (GaugeAxisData) object));
+        addListener(AmChartEvents.ROLL_OVER_BAND, object -> RollOverBandEvent.fire(this, (GaugeAxisData) object));
     }
 
     @Override
     public void unload() {
-
+        // unload event
     }
 
     public double getAxisAlpha() {
@@ -144,8 +152,12 @@ public class GaugeAxis extends ChartOptions {
         return gaugeAxis.bottomText;
     }
 
-    @JsMethod
-    public native void setBottomText(String text);
+    /**
+     * Sets bottom text.
+     */
+    public void setBottomText(String text) {
+        gaugeAxis.setBottomText(text);
+    }
 
     public boolean isBottomTextBold() {
         return gaugeAxis.bottomTextBold;
@@ -316,14 +328,26 @@ public class GaugeAxis extends ChartOptions {
         gaugeAxis.inside = inside;
     }
 
-    @JsMethod
-    public native void addListener(String type, Functions.Func handler);
+    /**
+     * Adds event listener to the object.
+     */
+    public void addListener(String type, Functions.Func1<Object> handler) {
+        gaugeAxis.addListener(type, handler);
+    }
 
-    @JsMethod
-    public native void removeListener(AmChart chart, String type, Functions.Func handler);
+    /**
+     * Removes event listener from chart object.
+     */
+    public void removeListener(AmChart chart, String type, Functions.Func1<Object> handler) {
+        gaugeAxis.removeListener(chart, type, handler);
+    }
 
-    @JsMethod
-    public native int value2angle(int value);
+    /**
+     * Returns angle of the value.
+     */
+    public int getValue2angle(int value) {
+        return gaugeAxis.value2angle(value);
+    }
 
     public int getLabelFrequency() {
         return gaugeAxis.labelFrequency;
@@ -524,8 +548,12 @@ public class GaugeAxis extends ChartOptions {
         return gaugeAxis.topText;
     }
 
-    @JsMethod
-    public native void setTopText(String text);
+    /**
+     * Sets top text.
+     */
+    public void setTopText(String text) {
+        gaugeAxis.setTopText(text);
+    }
 
     public boolean isTopTextBold() {
         return gaugeAxis.topTextBold;
@@ -632,5 +660,20 @@ public class GaugeAxis extends ChartOptions {
 
     public AmGaugeAxis getGaugeAxis() {
         return gaugeAxis;
+    }
+
+    @Override
+    public HandlerRegistration addClickBandHandler(ClickBandEvent.ClickBandHandler handler) {
+        return addHandler(ClickBandEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addRollOutBandHandler(RollOutBandEvent.ClickLabelHandler handler) {
+        return addHandler(RollOutBandEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addRollOverBandHandler(RollOverBandEvent.ClickLabelHandler handler) {
+        return addHandler(RollOverBandEvent.getType(), handler);
     }
 }

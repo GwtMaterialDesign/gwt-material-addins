@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.chart.amcharts.base;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.client.MaterialDesign;
@@ -29,8 +30,10 @@ import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartP
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartTheme;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.Language;
-import gwt.material.design.incubator.client.chart.amcharts.events.*;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.CoreEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasChartHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.core.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.CoreData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmLegend;
@@ -77,12 +80,12 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
         loadDefaults();
 
         // Initialize the events
-        addListener(AmChartEvents.ANIMATION_FINISHED, object -> AnimationFinishedEvent.fire(this, (CoreEventData) object));
-        addListener(AmChartEvents.BUILD_STARTED, object -> BuildStartedEvent.fire(this, (CoreEventData) object));
-        addListener(AmChartEvents.DATA_UPDATED, object -> DataUpdatedEvent.fire(this, (CoreEventData) object));
-        addListener(AmChartEvents.DRAWN, object -> DrawnEvent.fire(AbstractChart.this, (CoreEventData) object));
-        addListener(AmChartEvents.INIT, object -> InitEvent.fire(this, (CoreEventData) object));
-        addListener(AmChartEvents.RENDERED, object -> RenderedEvent.fire(this, (CoreEventData) object));
+        addListener(AmChartEvents.ANIMATION_FINISHED, object -> AnimationFinishedEvent.fire(this, (CoreData) object));
+        addListener(AmChartEvents.BUILD_STARTED, object -> BuildStartedEvent.fire(this, (CoreData) object));
+        addListener(AmChartEvents.DATA_UPDATED, object -> DataUpdatedEvent.fire(this, (CoreData) object));
+        addListener(AmChartEvents.DRAWN, object -> DrawnEvent.fire(AbstractChart.this, (CoreData) object));
+        addListener(AmChartEvents.INIT, object -> InitEvent.fire(this, (CoreData) object));
+        addListener(AmChartEvents.RENDERED, object -> RenderedEvent.fire(this, (CoreData) object));
 
         // Build the graph with given container id
         getChart().write(getId());
@@ -673,32 +676,32 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
     public abstract AmChart getChart();
 
     @Override
-    public void addAnimationFinishedHandler(AnimationFinishedEvent.AnimationFinishedHandler handler) {
-        addHandler(handler, AnimationFinishedEvent.getType());
+    public HandlerRegistration addAnimationFinishedHandler(AnimationFinishedEvent.AnimationFinishedHandler handler) {
+        return addHandler(handler, AnimationFinishedEvent.getType());
     }
 
     @Override
-    public void addBuildStartedHandler(BuildStartedEvent.BuildStartedHandler handler) {
-        addHandler(handler, BuildStartedEvent.getType());
+    public HandlerRegistration addBuildStartedHandler(BuildStartedEvent.BuildStartedHandler handler) {
+        return addHandler(handler, BuildStartedEvent.getType());
     }
 
     @Override
-    public void addDataUpdatedHandler(DataUpdatedEvent.DataUpdatedHandler handler) {
-        addHandler(handler, DataUpdatedEvent.getType());
+    public HandlerRegistration addDataUpdatedHandler(DataUpdatedEvent.DataUpdatedHandler handler) {
+        return addHandler(handler, DataUpdatedEvent.getType());
     }
 
     @Override
-    public void addDrawnHandler(DrawnEvent.DrawnHandler handler) {
-        addHandler(handler, DrawnEvent.getType());
+    public HandlerRegistration addDrawnHandler(DrawnEvent.DrawnHandler handler) {
+        return addHandler(handler, DrawnEvent.getType());
     }
 
     @Override
-    public void addInitHandler(InitEvent.InitHandler handler) {
-        addHandler(handler, InitEvent.getType());
+    public HandlerRegistration addInitHandler(InitEvent.InitHandler handler) {
+        return addHandler(handler, InitEvent.getType());
     }
 
     @Override
-    public void addRenderedHandler(RenderedEvent.RenderedHandler handler) {
-        addHandler(handler, RenderedEvent.getType());
+    public HandlerRegistration addRenderedHandler(RenderedEvent.RenderedHandler handler) {
+        return addHandler(handler, RenderedEvent.getType());
     }
 }

@@ -1,23 +1,65 @@
 package gwt.material.design.incubator.client.chart.amcharts.options;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.CursorPosition;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.Orientation;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasCursorHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.cursor.*;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.*;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmChartCursor;
 import gwt.material.design.jquery.client.api.Functions;
 
-public class ChartCursor extends ChartOptions {
+public class ChartCursor extends ChartOptions implements HasCursorHandlers {
 
     private AmChartCursor chartCursor = new AmChartCursor();
 
     @Override
     public void load() {
 
+        Listener changedEvent = new Listener();
+        changedEvent.setEvent(AmChartEvents.CHANGED);
+        changedEvent.setMethod(object -> CursorChangedEvent.fire(this, (CursorChangedData) object));
+
+        Listener drawEvent = new Listener();
+        drawEvent.setEvent(AmChartEvents.DRAW);
+        drawEvent.setMethod(object -> CursorDrawEvent.fire(this, (DrawData) object));
+
+        Listener movedEvent = new Listener();
+        movedEvent.setEvent(AmChartEvents.MOVED);
+        movedEvent.setMethod(object -> CursorMovedEvent.fire(this, (MovedData) object));
+
+        Listener onHideCursorEvent = new Listener();
+        onHideCursorEvent.setEvent(AmChartEvents.ON_HIDE_CURSOR);
+        onHideCursorEvent.setMethod(object -> OnHideCursorEvent.fire(this, (CursorDisplayData) object));
+
+        Listener onShowCursorEvent = new Listener();
+        onShowCursorEvent.setEvent(AmChartEvents.ON_SHOW_CURSOR);
+        onShowCursorEvent.setMethod(object -> OnShowCursorEvent.fire(this, (CursorDisplayData) object));
+
+        Listener panningEvent = new Listener();
+        panningEvent.setEvent(AmChartEvents.PANNING);
+        panningEvent.setMethod(object -> CursorPanningEvent.fire(this, (CursorPanningData) object));
+
+        Listener selectedEvent = new Listener();
+        selectedEvent.setEvent(AmChartEvents.SELECTED);
+        selectedEvent.setMethod(object -> CursorSelectedEvent.fire(this, (CursorSelectedData) object));
+
+        Listener zoomedEvent = new Listener();
+        zoomedEvent.setEvent(AmChartEvents.ZOOMED);
+        zoomedEvent.setMethod(object -> CursorZoomedEvent.fire(this, (CursorZoomedData) object));
+
+        Listener zoomStartedEvent = new Listener();
+        zoomStartedEvent.setEvent(AmChartEvents.ZOOM_STARTED);
+        zoomStartedEvent.setMethod(object -> CursorZoomStartedEvent.fire(this, (CursorZoomStartedData) object));
+
+        setListeners(changedEvent, drawEvent, movedEvent, onHideCursorEvent, onShowCursorEvent, panningEvent, selectedEvent, zoomedEvent, zoomStartedEvent);
     }
 
     @Override
     public void unload() {
-
+        // TODO Unload Events
     }
 
     public int getAdjustment() {
@@ -320,7 +362,7 @@ public class ChartCursor extends ChartOptions {
      * [{"event":"changed", "method":handleEvent}];
      */
 
-    public void setListeners(Object[] listeners) {
+    public void setListeners(Listener... listeners) {
         chartCursor.listeners = listeners;
     }
 
@@ -491,5 +533,50 @@ public class ChartCursor extends ChartOptions {
 
     public AmChartCursor getChartCursor() {
         return chartCursor;
+    }
+
+    @Override
+    public HandlerRegistration addChangedHandler(CursorChangedEvent.CursorChangedHandler handler) {
+        return addHandler(CursorChangedEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addDrawHandler(CursorDrawEvent.CursorDrawHandler handler) {
+        return addHandler(CursorDrawEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addMovedHandler(CursorMovedEvent.CursorMovedHandler handler) {
+        return addHandler(CursorMovedEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addOnHideCursorHandler(OnHideCursorEvent.OnHideCursorHandler handler) {
+        return addHandler(OnHideCursorEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addOnShowCursorHandler(OnShowCursorEvent.OnShowCursorHandler handler) {
+        return addHandler(OnShowCursorEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addPanningHandler(CursorPanningEvent.CursorPanningHandler handler) {
+        return addHandler(CursorPanningEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addSelectedHandler(CursorSelectedEvent.CursorSelectedHandler handler) {
+        return addHandler(CursorSelectedEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addZoomedHandler(CursorZoomedEvent.CursorZoomedHandler handler) {
+        return addHandler(CursorZoomedEvent.getType(), handler);
+    }
+
+    @Override
+    public HandlerRegistration addZoomStartedHandler(CursorZoomStartedEvent.CursorZoomStartedHandler handler) {
+        return addHandler(CursorZoomStartedEvent.getType(), handler);
     }
 }

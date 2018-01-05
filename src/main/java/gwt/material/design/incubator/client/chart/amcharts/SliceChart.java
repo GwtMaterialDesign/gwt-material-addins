@@ -19,12 +19,14 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.incubator.client.chart.amcharts.base.AbstractChart;
-import gwt.material.design.incubator.client.chart.amcharts.base.HasSliceChartHandlers;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.AnimationEffect;
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
-import gwt.material.design.incubator.client.chart.amcharts.events.*;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.SliceEventData;
+import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasSliceChartHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.SliceData;
+import gwt.material.design.incubator.client.chart.amcharts.events.slice.*;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSlicedChart;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -48,12 +50,12 @@ public abstract class SliceChart extends AbstractChart implements HasSliceChartH
     public void load() {
         super.load();
 
-        addListener(AmChartEvents.CLICK_SLICE, object -> ClickSliceEvent.fire(this, (SliceEventData) object));
-        addListener(AmChartEvents.PULL_IN_SLICE, object -> PullInSliceEvent.fire(this, (SliceEventData) object));
-        addListener(AmChartEvents.PULL_OUT_SLICE, object -> PullOutSliceEvent.fire(this, (SliceEventData) object));
-        addListener(AmChartEvents.RIGHT_CLICK_SLICE, object -> RightClickSliceEvent.fire(this, (SliceEventData) object));
-        addListener(AmChartEvents.ROLL_OUT_SLICE, object -> RollOutSliceEvent.fire(this, (SliceEventData) object));
-        addListener(AmChartEvents.ROLL_OVER_SLICE, object -> RollOverSliceEvent.fire(this, (SliceEventData) object));
+        addListener(AmChartEvents.CLICK_SLICE, object -> ClickSliceEvent.fire(this, (SliceData) object));
+        addListener(AmChartEvents.PULL_IN_SLICE, object -> PullInSliceEvent.fire(this, (SliceData) object));
+        addListener(AmChartEvents.PULL_OUT_SLICE, object -> PullOutSliceEvent.fire(this, (SliceData) object));
+        addListener(AmChartEvents.RIGHT_CLICK_SLICE, object -> RightClickSliceEvent.fire(this, (SliceData) object));
+        addListener(AmChartEvents.ROLL_OUT_SLICE, object -> RollOutSliceEvent.fire(this, (SliceData) object));
+        addListener(AmChartEvents.ROLL_OVER_SLICE, object -> RollOverSliceEvent.fire(this, (SliceData) object));
     }
 
     @Override
@@ -462,32 +464,32 @@ public abstract class SliceChart extends AbstractChart implements HasSliceChartH
     public abstract AmSlicedChart getChart();
 
     @Override
-    public void addClickSliceHandler(ClickSliceEvent.ClickSliceHandler handler) {
-        addHandler(handler, ClickSliceEvent.getType());
+    public HandlerRegistration addClickSliceHandler(ClickSliceEvent.ClickSliceHandler handler) {
+        return addHandler(handler, ClickSliceEvent.getType());
     }
 
     @Override
-    public void addPullInSliceHandler(PullInSliceEvent.PullInSliceHandler handler) {
-        addHandler(handler, PullInSliceEvent.getType());
+    public HandlerRegistration addPullInSliceHandler(PullInSliceEvent.PullInSliceHandler handler) {
+        return addHandler(handler, PullInSliceEvent.getType());
     }
 
     @Override
-    public void addPullOutSliceHandler(PullOutSliceEvent.PullOutSliceHandler handler) {
-        addHandler(handler, PullOutSliceEvent.getType());
+    public HandlerRegistration addPullOutSliceHandler(PullOutSliceEvent.PullOutSliceHandler handler) {
+        return addHandler(handler, PullOutSliceEvent.getType());
     }
 
     @Override
-    public void addRightClickSliceHandler(RightClickSliceEvent.RightClickSliceHandler handler) {
-        addHandler(handler, RightClickSliceEvent.getType());
+    public HandlerRegistration addRightClickSliceHandler(RightClickSliceEvent.RightClickSliceHandler handler) {
+        return addHandler(handler, RightClickSliceEvent.getType());
     }
 
     @Override
-    public void addRollOutSliceHandler(RollOutSliceEvent.RollOutSliceHandler handler) {
-        addHandler(handler, RollOutSliceEvent.getType());
+    public HandlerRegistration addRollOutSliceHandler(RollOutSliceEvent.RollOutSliceHandler handler) {
+        return addHandler(handler, RollOutSliceEvent.getType());
     }
 
     @Override
-    public void addRollOverSliceHandler(RollOverSliceEvent.RollOverSliceHandler handler) {
-        addHandler(handler, RollOverSliceEvent.getType());
+    public HandlerRegistration addRollOverSliceHandler(RollOverSliceEvent.RollOverSliceHandler handler) {
+        return addHandler(handler, RollOverSliceEvent.getType());
     }
 }
