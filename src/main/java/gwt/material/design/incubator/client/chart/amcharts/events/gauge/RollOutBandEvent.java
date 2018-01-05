@@ -30,16 +30,16 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.GaugeAx
  *
  * @author kevzlou7979
  */
-public class RollOutBandEvent extends GwtEvent<RollOutBandEvent.ClickLabelHandler> {
+public class RollOutBandEvent extends GwtEvent<RollOutBandEvent.RollOutBandHandler> {
 
-    public static final Type<ClickLabelHandler> TYPE = new Type<>();
+    public static final Type<RollOutBandHandler> TYPE = new Type<>();
     private GaugeAxisData data;
 
     public RollOutBandEvent(GaugeAxisData data) {
         this.data = data;
     }
 
-    public static Type<ClickLabelHandler> getType() {
+    public static Type<RollOutBandHandler> getType() {
         return TYPE;
     }
 
@@ -48,12 +48,12 @@ public class RollOutBandEvent extends GwtEvent<RollOutBandEvent.ClickLabelHandle
     }
 
     @Override
-    public Type<ClickLabelHandler> getAssociatedType() {
+    public Type<RollOutBandHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(RollOutBandEvent.ClickLabelHandler handler) {
+    protected void dispatch(RollOutBandHandler handler) {
         handler.onClickLabel(this);
     }
 
@@ -61,7 +61,7 @@ public class RollOutBandEvent extends GwtEvent<RollOutBandEvent.ClickLabelHandle
         return data;
     }
 
-    public interface ClickLabelHandler extends EventHandler {
+    public interface RollOutBandHandler extends EventHandler {
         void onClickLabel(RollOutBandEvent event);
     }
 }

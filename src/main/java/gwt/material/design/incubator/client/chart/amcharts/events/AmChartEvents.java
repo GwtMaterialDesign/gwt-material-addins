@@ -78,4 +78,9 @@ public interface AmChartEvents {
     String CLICK_BAND = "clickBand";
     String ROLL_OUT_BAND = "rollOutBand";
     String ROLL_OVER_BAND = "rollOverBand";
+
+    // Value Axis
+    String AXIS_CHANGED = "axisChanged";
+    String AXIS_ZOOMED = "axisZoomed";
+    String LOGARITHMIC_AXIS_FAILED = "logarithmicAxisFailed";
 }

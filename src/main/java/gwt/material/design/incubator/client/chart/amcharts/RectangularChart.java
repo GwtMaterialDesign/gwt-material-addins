@@ -21,9 +21,9 @@ package gwt.material.design.incubator.client.chart.amcharts;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.constants.ChartType;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmRectangularChart;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.AmTrendLine;
 import gwt.material.design.incubator.client.chart.amcharts.options.ChartCursor;
 import gwt.material.design.incubator.client.chart.amcharts.options.ChartScrollbar;
+import gwt.material.design.incubator.client.chart.amcharts.options.TrendLine;
 
 //@formatter:off
 
@@ -206,8 +206,10 @@ public abstract class RectangularChart extends CoordinateChart {
      * Array of trend lines added to a chart. You can add trend lines to a chart using this array or access already
      * existing trend lines
      */
-    public void setTrendLines(AmTrendLine... trendLines) {
-        getChart().trendLines = trendLines;
+    public void setTrendLines(TrendLine... trendLines) {
+        for (int i = 0; i < trendLines.length; i++) {
+            getChart().trendLines[i] = trendLines[i].getTrendLine();
+        }
     }
 
     /**
@@ -286,11 +288,11 @@ public abstract class RectangularChart extends CoordinateChart {
     }
 
     /**
-     * Adds a {@link AmTrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
+     * Adds a {@link TrendLine} to a chart. You should call chart.validateNow() after this method is called in order the trend
      * line to be visible.
      */
-    public void addTrendLine(AmTrendLine trendLine) {
-        getChart().addTrendLine(trendLine);
+    public void addTrendLine(TrendLine trendLine) {
+        getChart().addTrendLine(trendLine.getTrendLine());
     }
 
     /**
@@ -310,8 +312,8 @@ public abstract class RectangularChart extends CoordinateChart {
     /**
      * Removes a trend line from a chart. You should call chart.validateNow() in order the changes to be visible.
      */
-    public void removeTrendLine(AmTrendLine trendLine) {
-        getChart().removeTrendLine(trendLine);
+    public void removeTrendLine(TrendLine trendLine) {
+        getChart().removeTrendLine(trendLine.getTrendLine());
     }
 
     /**

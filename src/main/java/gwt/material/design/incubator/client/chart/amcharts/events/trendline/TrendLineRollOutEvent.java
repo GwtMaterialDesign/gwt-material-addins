@@ -17,51 +17,51 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.amcharts.events.gauge;
+package gwt.material.design.incubator.client.chart.amcharts.events.trendline;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.GaugeAxisData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.TrendLineData;
 //@formatter:off
 
 /**
- * Event which is fired when user rolls-over gauge band.
+ * Dispatched when user rolls out of a trend line.
  *
  * @author kevzlou7979
  */
-public class RollOverBandEvent extends GwtEvent<RollOverBandEvent.RollOverBandHandler> {
+public class TrendLineRollOutEvent extends GwtEvent<TrendLineRollOutEvent.TrendLineRollOutHandler> {
 
-    public static final Type<RollOverBandHandler> TYPE = new Type<>();
-    private GaugeAxisData data;
+    public static final Type<TrendLineRollOutHandler> TYPE = new Type<>();
+    private TrendLineData data;
 
-    public RollOverBandEvent(GaugeAxisData data) {
+    public TrendLineRollOutEvent(TrendLineData data) {
         this.data = data;
     }
 
-    public static Type<RollOverBandHandler> getType() {
+    public static Type<TrendLineRollOutHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, GaugeAxisData data) {
-        source.fireEvent(new RollOverBandEvent(data));
+    public static void fire(HasHandlers source, TrendLineData data) {
+        source.fireEvent(new TrendLineRollOutEvent(data));
     }
 
     @Override
-    public Type<RollOverBandHandler> getAssociatedType() {
+    public Type<TrendLineRollOutHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(RollOverBandHandler handler) {
-        handler.onClickLabel(this);
+    protected void dispatch(TrendLineRollOutHandler handler) {
+        handler.onTrendLineRollOut(this);
     }
 
-    public GaugeAxisData getData() {
+    public TrendLineData getData() {
         return data;
     }
 
-    public interface RollOverBandHandler extends EventHandler {
-        void onClickLabel(RollOverBandEvent event);
+    public interface TrendLineRollOutHandler extends EventHandler {
+        void onTrendLineRollOut(TrendLineRollOutEvent event);
     }
 }

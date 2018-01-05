@@ -668,12 +668,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
     }
 
     @Override
-    public HandlerRegistration addRollOutBandHandler(RollOutBandEvent.ClickLabelHandler handler) {
+    public HandlerRegistration addRollOutBandHandler(RollOutBandEvent.RollOutBandHandler handler) {
         return addHandler(RollOutBandEvent.getType(), handler);
     }
 
     @Override
-    public HandlerRegistration addRollOverBandHandler(RollOverBandEvent.ClickLabelHandler handler) {
+    public HandlerRegistration addRollOverBandHandler(RollOverBandEvent.RollOverBandHandler handler) {
         return addHandler(RollOverBandEvent.getType(), handler);
     }
 }

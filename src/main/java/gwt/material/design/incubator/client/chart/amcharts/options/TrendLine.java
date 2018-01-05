@@ -1,15 +1,24 @@
 package gwt.material.design.incubator.client.chart.amcharts.options;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
+import gwt.material.design.incubator.client.chart.amcharts.events.HasTrendLineHandlers;
+import gwt.material.design.incubator.client.chart.amcharts.events.trendline.TrendLineClickEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.trendline.TrendLineRollOutEvent;
+import gwt.material.design.incubator.client.chart.amcharts.events.trendline.TrendLineRollOverEvent;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmTrendLine;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Image;
 
 import java.util.Date;
 
-public class TrendLine extends ChartOptions {
+public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
 
     private AmTrendLine trendLine = new AmTrendLine();
+
+    @Override
+    public void load() {
+        //trendLine.li
+    }
 
     public String getBalloonText() {
         return trendLine.balloonText;
@@ -246,5 +255,20 @@ public class TrendLine extends ChartOptions {
 
     public AmTrendLine getTrendLine() {
         return trendLine;
+    }
+
+    @Override
+    public void addTrendLineClickHandler(TrendLineClickEvent.TrendLineClickHandler handler) {
+        addHandler(TrendLineClickEvent.getType(), handler);
+    }
+
+    @Override
+    public void addTrendLineRollOutHandler(TrendLineRollOutEvent.TrendLineRollOutHandler handler) {
+        addHandler(TrendLineRollOutEvent.getType(), handler);
+    }
+
+    @Override
+    public void addTrendLineRollOverHandler(TrendLineRollOverEvent.TrendLineRollOverHandler handler) {
+        addHandler(TrendLineRollOverEvent.getType(), handler);
     }
 }

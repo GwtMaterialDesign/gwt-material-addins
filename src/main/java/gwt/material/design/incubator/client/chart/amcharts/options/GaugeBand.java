@@ -8,16 +8,6 @@ public class GaugeBand extends ChartOptions {
 
     private AmGaugeBand gaugeBand = new AmGaugeBand();
 
-    @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void unload() {
-
-    }
-
     public double getAlpha() {
         return gaugeBand.alpha;
     }

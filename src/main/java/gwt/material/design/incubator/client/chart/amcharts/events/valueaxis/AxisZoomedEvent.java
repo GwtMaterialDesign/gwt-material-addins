@@ -17,51 +17,51 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.amcharts.events.gauge;
+package gwt.material.design.incubator.client.chart.amcharts.events.valueaxis;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.GaugeAxisData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.ValueAxisZoomedData;
 //@formatter:off
 
 /**
- * Event which is fired when user rolls-over gauge band.
+ * Dispatched when axis is zoomed.
  *
  * @author kevzlou7979
  */
-public class RollOverBandEvent extends GwtEvent<RollOverBandEvent.RollOverBandHandler> {
+public class AxisZoomedEvent extends GwtEvent<AxisZoomedEvent.AxisZoomedHandler> {
 
-    public static final Type<RollOverBandHandler> TYPE = new Type<>();
-    private GaugeAxisData data;
+    public static final Type<AxisZoomedHandler> TYPE = new Type<>();
+    private ValueAxisZoomedData data;
 
-    public RollOverBandEvent(GaugeAxisData data) {
+    public AxisZoomedEvent(ValueAxisZoomedData data) {
         this.data = data;
     }
 
-    public static Type<RollOverBandHandler> getType() {
+    public static Type<AxisZoomedHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, GaugeAxisData data) {
-        source.fireEvent(new RollOverBandEvent(data));
+    public static void fire(HasHandlers source, ValueAxisZoomedData data) {
+        source.fireEvent(new AxisZoomedEvent(data));
     }
 
     @Override
-    public Type<RollOverBandHandler> getAssociatedType() {
+    public Type<AxisZoomedHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(RollOverBandHandler handler) {
-        handler.onClickLabel(this);
+    protected void dispatch(AxisZoomedHandler handler) {
+        handler.onAxisZoomed(this);
     }
 
-    public GaugeAxisData getData() {
+    public ValueAxisZoomedData getData() {
         return data;
     }
 
-    public interface RollOverBandHandler extends EventHandler {
-        void onClickLabel(RollOverBandEvent event);
+    public interface AxisZoomedHandler extends EventHandler {
+        void onAxisZoomed(AxisZoomedEvent event);
     }
 }

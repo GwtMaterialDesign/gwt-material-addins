@@ -17,51 +17,51 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.amcharts.events.gauge;
+package gwt.material.design.incubator.client.chart.amcharts.events.valueaxis;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.chart.amcharts.events.object.GaugeAxisData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.ValueAxisChangedData;
 //@formatter:off
 
 /**
- * Event which is fired when user rolls-over gauge band.
+ * Dispatched when value axis min/max values are changed.
  *
  * @author kevzlou7979
  */
-public class RollOverBandEvent extends GwtEvent<RollOverBandEvent.RollOverBandHandler> {
+public class AxisChangedEvent extends GwtEvent<AxisChangedEvent.AxisChangedHandler> {
 
-    public static final Type<RollOverBandHandler> TYPE = new Type<>();
-    private GaugeAxisData data;
+    public static final Type<AxisChangedHandler> TYPE = new Type<>();
+    private ValueAxisChangedData data;
 
-    public RollOverBandEvent(GaugeAxisData data) {
+    public AxisChangedEvent(ValueAxisChangedData data) {
         this.data = data;
     }
 
-    public static Type<RollOverBandHandler> getType() {
+    public static Type<AxisChangedHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, GaugeAxisData data) {
-        source.fireEvent(new RollOverBandEvent(data));
+    public static void fire(HasHandlers source, ValueAxisChangedData data) {
+        source.fireEvent(new AxisChangedEvent(data));
     }
 
     @Override
-    public Type<RollOverBandHandler> getAssociatedType() {
+    public Type<AxisChangedHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(RollOverBandHandler handler) {
-        handler.onClickLabel(this);
+    protected void dispatch(AxisChangedHandler handler) {
+        handler.onAxisChanged(this);
     }
 
-    public GaugeAxisData getData() {
+    public ValueAxisChangedData getData() {
         return data;
     }
 
-    public interface RollOverBandHandler extends EventHandler {
-        void onClickLabel(RollOverBandEvent event);
+    public interface AxisChangedHandler extends EventHandler {
+        void onAxisChanged(AxisChangedEvent event);
     }
 }
