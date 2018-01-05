@@ -14,9 +14,19 @@ import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeAxi
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeBand;
 import gwt.material.design.jquery.client.api.Functions;
 
+//@formatter:off
+
+/**
+ * Creates an axis for {@link gwt.material.design.incubator.client.chart.amcharts.AngularGauge} charts, multiple can be
+ * assigned.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GaugeAxis">Official Documentation</a>
+ */
+//@formatter:on
 public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
 
-    private AmGaugeAxis gaugeAxis = new AmGaugeAxis();
+    private AmGaugeAxis gaugeAxis;
 
     @Override
     public void load() {
@@ -31,7 +41,7 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
     }
 
     public double getAxisAlpha() {
-        return gaugeAxis.axisAlpha;
+        return getAmGaugeAxis().axisAlpha;
     }
 
     /**
@@ -39,12 +49,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setAxisAlpha(double axisAlpha) {
-        gaugeAxis.axisAlpha = axisAlpha;
+        getAmGaugeAxis().axisAlpha = axisAlpha;
     }
 
 
     public String getAxisColor() {
-        return gaugeAxis.axisColor;
+        return getAmGaugeAxis().axisColor;
     }
 
     /**
@@ -52,12 +62,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setAxisColor(String axisColor) {
-        gaugeAxis.axisColor = axisColor;
+        getAmGaugeAxis().axisColor = axisColor;
     }
 
 
     public int getAxisThickness() {
-        return gaugeAxis.axisThickness;
+        return getAmGaugeAxis().axisThickness;
     }
 
     /**
@@ -65,12 +75,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setAxisThickness(int axisThickness) {
-        gaugeAxis.axisThickness = axisThickness;
+        getAmGaugeAxis().axisThickness = axisThickness;
     }
 
 
     public double getBandAlpha() {
-        return gaugeAxis.bandAlpha;
+        return getAmGaugeAxis().bandAlpha;
     }
 
     /**
@@ -78,12 +88,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBandAlpha(double bandAlpha) {
-        gaugeAxis.bandAlpha = bandAlpha;
+        getAmGaugeAxis().bandAlpha = bandAlpha;
     }
 
 
     public int[] getBandGradientRatio() {
-        return gaugeAxis.bandGradientRatio;
+        return getAmGaugeAxis().bandGradientRatio;
     }
 
     /**
@@ -92,12 +102,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBandGradientRatio(int[] bandGradientRatio) {
-        gaugeAxis.bandGradientRatio = bandGradientRatio;
+        getAmGaugeAxis().bandGradientRatio = bandGradientRatio;
     }
 
 
     public double getBandOutlineAlpha() {
-        return gaugeAxis.bandOutlineAlpha;
+        return getAmGaugeAxis().bandOutlineAlpha;
     }
 
     /**
@@ -105,12 +115,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBandOutlineAlpha(double bandOutlineAlpha) {
-        gaugeAxis.bandOutlineAlpha = bandOutlineAlpha;
+        getAmGaugeAxis().bandOutlineAlpha = bandOutlineAlpha;
     }
 
 
     public String getBandOutlineColor() {
-        return gaugeAxis.bandOutlineColor;
+        return getAmGaugeAxis().bandOutlineColor;
     }
 
     /**
@@ -118,12 +128,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBandOutlineColor(String bandOutlineColor) {
-        gaugeAxis.bandOutlineColor = bandOutlineColor;
+        getAmGaugeAxis().bandOutlineColor = bandOutlineColor;
     }
 
 
     public int getBandOutlineThickness() {
-        return gaugeAxis.bandOutlineThickness;
+        return getAmGaugeAxis().bandOutlineThickness;
     }
 
     /**
@@ -131,36 +141,38 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBandOutlineThickness(int bandOutlineThickness) {
-        gaugeAxis.bandOutlineThickness = bandOutlineThickness;
+        getAmGaugeAxis().bandOutlineThickness = bandOutlineThickness;
     }
 
 
     public AmGaugeBand[] getBands() {
-        return gaugeAxis.bands;
+        return getAmGaugeAxis().bands;
     }
 
     /**
      * Array of bands - AmGaugeBand objects. Bands are used to draw color fills between specified values.
      */
 
-    public void setBands(AmGaugeBand[] bands) {
-        gaugeAxis.bands = bands;
+    public void setBands(GaugeBand[] bands) {
+        for (int i = 0; i < bands.length; i++) {
+            getAmGaugeAxis().bands[i] = bands[i].getAmGaugeBand();
+        }
     }
 
 
     public String getBottomText() {
-        return gaugeAxis.bottomText;
+        return getAmGaugeAxis().bottomText;
     }
 
     /**
      * Sets bottom text.
      */
     public void setBottomText(String text) {
-        gaugeAxis.setBottomText(text);
+        getAmGaugeAxis().setBottomText(text);
     }
 
     public boolean isBottomTextBold() {
-        return gaugeAxis.bottomTextBold;
+        return getAmGaugeAxis().bottomTextBold;
     }
 
     /**
@@ -168,11 +180,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBottomTextBold(boolean bottomTextBold) {
-        gaugeAxis.bottomTextBold = bottomTextBold;
+        getAmGaugeAxis().bottomTextBold = bottomTextBold;
     }
 
     public String getBottomTextColor() {
-        return gaugeAxis.bottomTextColor;
+        return getAmGaugeAxis().bottomTextColor;
     }
 
     /**
@@ -180,11 +192,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBottomTextColor(String bottomTextColor) {
-        gaugeAxis.bottomTextColor = bottomTextColor;
+        getAmGaugeAxis().bottomTextColor = bottomTextColor;
     }
 
     public int getBottomTextFontSize() {
-        return gaugeAxis.bottomTextFontSize;
+        return getAmGaugeAxis().bottomTextFontSize;
     }
 
     /**
@@ -192,11 +204,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBottomTextFontSize(int bottomTextFontSize) {
-        gaugeAxis.bottomTextFontSize = bottomTextFontSize;
+        getAmGaugeAxis().bottomTextFontSize = bottomTextFontSize;
     }
 
     public int getBottomTextYOffset() {
-        return gaugeAxis.bottomTextYOffset;
+        return getAmGaugeAxis().bottomTextYOffset;
     }
 
     /**
@@ -204,11 +216,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setBottomTextYOffset(int bottomTextYOffset) {
-        gaugeAxis.bottomTextYOffset = bottomTextYOffset;
+        getAmGaugeAxis().bottomTextYOffset = bottomTextYOffset;
     }
 
     public Object getCenterX() {
-        return gaugeAxis.centerX;
+        return getAmGaugeAxis().centerX;
     }
 
     /**
@@ -216,11 +228,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setCenterX(Object centerX) {
-        gaugeAxis.centerX = centerX;
+        getAmGaugeAxis().centerX = centerX;
     }
 
     public Object getCenterY() {
-        return gaugeAxis.centerY;
+        return getAmGaugeAxis().centerY;
     }
 
     /**
@@ -228,11 +240,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setCenterY(Object centerY) {
-        gaugeAxis.centerY = centerY;
+        getAmGaugeAxis().centerY = centerY;
     }
 
     public String getColor() {
-        return gaugeAxis.color;
+        return getAmGaugeAxis().color;
     }
 
     /**
@@ -240,11 +252,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setColor(String color) {
-        gaugeAxis.color = color;
+        getAmGaugeAxis().color = color;
     }
 
     public int getEndAngle() {
-        return gaugeAxis.endAngle;
+        return getAmGaugeAxis().endAngle;
     }
 
     /**
@@ -252,11 +264,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setEndAngle(int endAngle) {
-        gaugeAxis.endAngle = endAngle;
+        getAmGaugeAxis().endAngle = endAngle;
     }
 
     public int getEndValue() {
-        return gaugeAxis.endValue;
+        return getAmGaugeAxis().endValue;
     }
 
     /**
@@ -264,11 +276,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setEndValue(int endValue) {
-        gaugeAxis.endValue = endValue;
+        getAmGaugeAxis().endValue = endValue;
     }
 
     public int getFontSize() {
-        return gaugeAxis.fontSize;
+        return getAmGaugeAxis().fontSize;
     }
 
     /**
@@ -276,11 +288,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setFontSize(int fontSize) {
-        gaugeAxis.fontSize = fontSize;
+        getAmGaugeAxis().fontSize = fontSize;
     }
 
     public int getGridCount() {
-        return gaugeAxis.gridCount;
+        return getAmGaugeAxis().gridCount;
     }
 
     /**
@@ -289,11 +301,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setGridCount(int gridCount) {
-        gaugeAxis.gridCount = gridCount;
+        getAmGaugeAxis().gridCount = gridCount;
     }
 
     public boolean isGridInside() {
-        return gaugeAxis.gridInside;
+        return getAmGaugeAxis().gridInside;
     }
 
     /**
@@ -301,11 +313,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setGridInside(boolean gridInside) {
-        gaugeAxis.gridInside = gridInside;
+        getAmGaugeAxis().gridInside = gridInside;
     }
 
     public int getId() {
-        return gaugeAxis.id;
+        return getAmGaugeAxis().id;
     }
 
     /**
@@ -313,11 +325,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setId(int id) {
-        gaugeAxis.id = id;
+        getAmGaugeAxis().id = id;
     }
 
     public boolean isInside() {
-        return gaugeAxis.inside;
+        return getAmGaugeAxis().inside;
     }
 
     /**
@@ -325,32 +337,32 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setInside(boolean inside) {
-        gaugeAxis.inside = inside;
+        getAmGaugeAxis().inside = inside;
     }
 
     /**
      * Adds event listener to the object.
      */
     public void addListener(String type, Functions.Func1<Object> handler) {
-        gaugeAxis.addListener(type, handler);
+        getAmGaugeAxis().addListener(type, handler);
     }
 
     /**
      * Removes event listener from chart object.
      */
     public void removeListener(AmChart chart, String type, Functions.Func1<Object> handler) {
-        gaugeAxis.removeListener(chart, type, handler);
+        getAmGaugeAxis().removeListener(chart, type, handler);
     }
 
     /**
      * Returns angle of the value.
      */
     public int getValue2angle(int value) {
-        return gaugeAxis.value2angle(value);
+        return getAmGaugeAxis().value2angle(value);
     }
 
     public int getLabelFrequency() {
-        return gaugeAxis.labelFrequency;
+        return getAmGaugeAxis().labelFrequency;
     }
 
     /**
@@ -358,11 +370,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setLabelFrequency(int labelFrequency) {
-        gaugeAxis.labelFrequency = labelFrequency;
+        getAmGaugeAxis().labelFrequency = labelFrequency;
     }
 
     public Functions.Func getLabelFunction() {
-        return gaugeAxis.labelFunction;
+        return getAmGaugeAxis().labelFunction;
     }
 
     /**
@@ -371,11 +383,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setLabelFunction(Functions.Func labelFunction) {
-        gaugeAxis.labelFunction = labelFunction;
+        getAmGaugeAxis().labelFunction = labelFunction;
     }
 
     public int getLabelOffset() {
-        return gaugeAxis.labelOffset;
+        return getAmGaugeAxis().labelOffset;
     }
 
     /**
@@ -383,11 +395,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setLabelOffset(int labelOffset) {
-        gaugeAxis.labelOffset = labelOffset;
+        getAmGaugeAxis().labelOffset = labelOffset;
     }
 
     public boolean isLabelsEnabled() {
-        return gaugeAxis.labelsEnabled;
+        return getAmGaugeAxis().labelsEnabled;
     }
 
     /**
@@ -395,11 +407,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setLabelsEnabled(boolean labelsEnabled) {
-        gaugeAxis.labelsEnabled = labelsEnabled;
+        getAmGaugeAxis().labelsEnabled = labelsEnabled;
     }
 
     public Object[] getListeners() {
-        return gaugeAxis.listeners;
+        return getAmGaugeAxis().listeners;
     }
 
     /**
@@ -407,11 +419,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setListeners(Object[] listeners) {
-        gaugeAxis.listeners = listeners;
+        getAmGaugeAxis().listeners = listeners;
     }
 
     public int getMinorTickInterval() {
-        return gaugeAxis.minorTickInterval;
+        return getAmGaugeAxis().minorTickInterval;
     }
 
     /**
@@ -419,11 +431,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setMinorTickInterval(int minorTickInterval) {
-        gaugeAxis.minorTickInterval = minorTickInterval;
+        getAmGaugeAxis().minorTickInterval = minorTickInterval;
     }
 
     public int getMinorTickLength() {
-        return gaugeAxis.minorTickLength;
+        return getAmGaugeAxis().minorTickLength;
     }
 
     /**
@@ -431,11 +443,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setMinorTickLength(int minorTickLength) {
-        gaugeAxis.minorTickLength = minorTickLength;
+        getAmGaugeAxis().minorTickLength = minorTickLength;
     }
 
     public Object getRadius() {
-        return gaugeAxis.radius;
+        return getAmGaugeAxis().radius;
     }
 
     /**
@@ -443,11 +455,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setRadius(Object radius) {
-        gaugeAxis.radius = radius;
+        getAmGaugeAxis().radius = radius;
     }
 
     public boolean isShowFirstLabel() {
-        return gaugeAxis.showFirstLabel;
+        return getAmGaugeAxis().showFirstLabel;
     }
 
     /**
@@ -455,11 +467,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setShowFirstLabel(boolean showFirstLabel) {
-        gaugeAxis.showFirstLabel = showFirstLabel;
+        getAmGaugeAxis().showFirstLabel = showFirstLabel;
     }
 
     public boolean isShowLastLabel() {
-        return gaugeAxis.showLastLabel;
+        return getAmGaugeAxis().showLastLabel;
     }
 
     /**
@@ -467,11 +479,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setShowLastLabel(boolean showLastLabel) {
-        gaugeAxis.showLastLabel = showLastLabel;
+        getAmGaugeAxis().showLastLabel = showLastLabel;
     }
 
     public int getStartAngle() {
-        return gaugeAxis.startAngle;
+        return getAmGaugeAxis().startAngle;
     }
 
     /**
@@ -479,11 +491,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setStartAngle(int startAngle) {
-        gaugeAxis.startAngle = startAngle;
+        getAmGaugeAxis().startAngle = startAngle;
     }
 
     public int getStartValue() {
-        return gaugeAxis.startValue;
+        return getAmGaugeAxis().startValue;
     }
 
     /**
@@ -491,11 +503,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setStartValue(int startValue) {
-        gaugeAxis.startValue = startValue;
+        getAmGaugeAxis().startValue = startValue;
     }
 
     public double getTickAlpha() {
-        return gaugeAxis.tickAlpha;
+        return getAmGaugeAxis().tickAlpha;
     }
 
     /**
@@ -503,11 +515,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTickAlpha(double tickAlpha) {
-        gaugeAxis.tickAlpha = tickAlpha;
+        getAmGaugeAxis().tickAlpha = tickAlpha;
     }
 
     public String getTickColor() {
-        return gaugeAxis.tickColor;
+        return getAmGaugeAxis().tickColor;
     }
 
     /**
@@ -515,11 +527,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTickColor(String tickColor) {
-        gaugeAxis.tickColor = tickColor;
+        getAmGaugeAxis().tickColor = tickColor;
     }
 
     public int getTickLength() {
-        return gaugeAxis.tickLength;
+        return getAmGaugeAxis().tickLength;
     }
 
     /**
@@ -527,11 +539,11 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTickLength(int tickLength) {
-        gaugeAxis.tickLength = tickLength;
+        getAmGaugeAxis().tickLength = tickLength;
     }
 
     public int getTickThickness() {
-        return gaugeAxis.tickThickness;
+        return getAmGaugeAxis().tickThickness;
     }
 
     /**
@@ -541,22 +553,22 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTickThickness(int tickThickness) {
-        gaugeAxis.tickThickness = tickThickness;
+        getAmGaugeAxis().tickThickness = tickThickness;
     }
 
     public String getTopText() {
-        return gaugeAxis.topText;
+        return getAmGaugeAxis().topText;
     }
 
     /**
      * Sets top text.
      */
     public void setTopText(String text) {
-        gaugeAxis.setTopText(text);
+        getAmGaugeAxis().setTopText(text);
     }
 
     public boolean isTopTextBold() {
-        return gaugeAxis.topTextBold;
+        return getAmGaugeAxis().topTextBold;
     }
 
     /**
@@ -564,12 +576,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTopTextBold(boolean topTextBold) {
-        gaugeAxis.topTextBold = topTextBold;
+        getAmGaugeAxis().topTextBold = topTextBold;
     }
 
 
     public String getTopTextColor() {
-        return gaugeAxis.topTextColor;
+        return getAmGaugeAxis().topTextColor;
     }
 
     /**
@@ -577,12 +589,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTopTextColor(String topTextColor) {
-        gaugeAxis.topTextColor = topTextColor;
+        getAmGaugeAxis().topTextColor = topTextColor;
     }
 
 
     public int getTopTextFontSize() {
-        return gaugeAxis.topTextFontSize;
+        return getAmGaugeAxis().topTextFontSize;
     }
 
     /**
@@ -590,12 +602,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTopTextFontSize(int topTextFontSize) {
-        gaugeAxis.topTextFontSize = topTextFontSize;
+        getAmGaugeAxis().topTextFontSize = topTextFontSize;
     }
 
 
     public int getTopTextYOffset() {
-        return gaugeAxis.topTextYOffset;
+        return getAmGaugeAxis().topTextYOffset;
     }
 
     /**
@@ -603,12 +615,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setTopTextYOffset(int topTextYOffset) {
-        gaugeAxis.topTextYOffset = topTextYOffset;
+        getAmGaugeAxis().topTextYOffset = topTextYOffset;
     }
 
 
     public String getUnit() {
-        return gaugeAxis.unit;
+        return getAmGaugeAxis().unit;
     }
 
     /**
@@ -616,12 +628,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setUnit(String unit) {
-        gaugeAxis.unit = unit;
+        getAmGaugeAxis().unit = unit;
     }
 
 
     public String getUnitPosition() {
-        return gaugeAxis.unitPosition;
+        return getAmGaugeAxis().unitPosition;
     }
 
     /**
@@ -629,12 +641,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setUnitPosition(Position unitPosition) {
-        gaugeAxis.unitPosition = unitPosition.getName();
+        getAmGaugeAxis().unitPosition = unitPosition.getName();
     }
 
 
     public boolean isUsePrefixes() {
-        return gaugeAxis.usePrefixes;
+        return getAmGaugeAxis().usePrefixes;
     }
 
     /**
@@ -642,12 +654,12 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setUsePrefixes(boolean usePrefixes) {
-        gaugeAxis.usePrefixes = usePrefixes;
+        getAmGaugeAxis().usePrefixes = usePrefixes;
     }
 
 
     public int getValueInterval() {
-        return gaugeAxis.valueInterval;
+        return getAmGaugeAxis().valueInterval;
     }
 
     /**
@@ -655,10 +667,13 @@ public class GaugeAxis extends ChartOptions implements HasGaugeAxisHandlers {
      */
 
     public void setValueInterval(int valueInterval) {
-        gaugeAxis.valueInterval = valueInterval;
+        getAmGaugeAxis().valueInterval = valueInterval;
     }
 
-    public AmGaugeAxis getGaugeAxis() {
+    public AmGaugeAxis getAmGaugeAxis() {
+        if (gaugeAxis == null) {
+            gaugeAxis = new AmGaugeAxis();
+        }
         return gaugeAxis;
     }
 

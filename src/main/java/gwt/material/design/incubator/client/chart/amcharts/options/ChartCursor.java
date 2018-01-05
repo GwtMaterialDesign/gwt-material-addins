@@ -11,9 +11,20 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.*;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmChartCursor;
 import gwt.material.design.jquery.client.api.Functions;
 
+//@formatter:off
+
+/**
+ * Creates a cursor for the chart which follows the mouse movements. In case of
+ * {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart} charts it shows the
+ * balloons of hovered data points.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/ChartCursor">Official Documentation</a>
+ */
+//@formatter:on
 public class ChartCursor extends ChartOptions implements HasCursorHandlers {
 
-    private AmChartCursor chartCursor = new AmChartCursor();
+    private AmChartCursor chartCursor;
 
     @Override
     public void load() {
@@ -63,7 +74,7 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
     }
 
     public int getAdjustment() {
-        return chartCursor.adjustment;
+        return getAmChartCursor().adjustment;
     }
 
     /**
@@ -72,11 +83,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setAdjustment(int adjustment) {
-        chartCursor.adjustment = adjustment;
+        getAmChartCursor().adjustment = adjustment;
     }
 
     public double getAnimationDuration() {
-        return chartCursor.animationDuration;
+        return getAmChartCursor().animationDuration;
     }
 
     /**
@@ -84,11 +95,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setAnimationDuration(double animationDuration) {
-        chartCursor.animationDuration = animationDuration;
+        getAmChartCursor().animationDuration = animationDuration;
     }
 
     public boolean isAvoidBalloonOverlapping() {
-        return chartCursor.avoidBalloonOverlapping;
+        return getAmChartCursor().avoidBalloonOverlapping;
     }
 
     /**
@@ -97,11 +108,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setAvoidBalloonOverlapping(boolean avoidBalloonOverlapping) {
-        chartCursor.avoidBalloonOverlapping = avoidBalloonOverlapping;
+        getAmChartCursor().avoidBalloonOverlapping = avoidBalloonOverlapping;
     }
 
     public String getBalloonPointerOrientation() {
-        return chartCursor.balloonPointerOrientation;
+        return getAmChartCursor().balloonPointerOrientation;
     }
 
     /**
@@ -110,11 +121,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setBalloonPointerOrientation(Orientation balloonPointerOrientation) {
-        chartCursor.balloonPointerOrientation = balloonPointerOrientation.getName();
+        getAmChartCursor().balloonPointerOrientation = balloonPointerOrientation.getName();
     }
 
     public boolean isBulletsEnabled() {
-        return chartCursor.bulletsEnabled;
+        return getAmChartCursor().bulletsEnabled;
     }
 
     /**
@@ -122,11 +133,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setBulletsEnabled(boolean bulletsEnabled) {
-        chartCursor.bulletsEnabled = bulletsEnabled;
+        getAmChartCursor().bulletsEnabled = bulletsEnabled;
     }
 
     public int getBulletSize() {
-        return chartCursor.bulletSize;
+        return getAmChartCursor().bulletSize;
     }
 
     /**
@@ -134,11 +145,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setBulletSize(int bulletSize) {
-        chartCursor.bulletSize = bulletSize;
+        getAmChartCursor().bulletSize = bulletSize;
     }
 
     public double getCategoryBalloonAlpha() {
-        return chartCursor.categoryBalloonAlpha;
+        return getAmChartCursor().categoryBalloonAlpha;
     }
 
     /**
@@ -146,11 +157,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCategoryBalloonAlpha(double categoryBalloonAlpha) {
-        chartCursor.categoryBalloonAlpha = categoryBalloonAlpha;
+        getAmChartCursor().categoryBalloonAlpha = categoryBalloonAlpha;
     }
 
     public String getCategoryBalloonColor() {
-        return chartCursor.categoryBalloonColor;
+        return getAmChartCursor().categoryBalloonColor;
     }
 
     /**
@@ -158,11 +169,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCategoryBalloonColor(String categoryBalloonColor) {
-        chartCursor.categoryBalloonColor = categoryBalloonColor;
+        getAmChartCursor().categoryBalloonColor = categoryBalloonColor;
     }
 
     public String getCategoryBalloonDateFormat() {
-        return chartCursor.categoryBalloonDateFormat;
+        return getAmChartCursor().categoryBalloonDateFormat;
     }
 
     /**
@@ -171,11 +182,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCategoryBalloonDateFormat(String categoryBalloonDateFormat) {
-        chartCursor.categoryBalloonDateFormat = categoryBalloonDateFormat;
+        getAmChartCursor().categoryBalloonDateFormat = categoryBalloonDateFormat;
     }
 
     public boolean isCategoryBalloonEnabled() {
-        return chartCursor.categoryBalloonEnabled;
+        return getAmChartCursor().categoryBalloonEnabled;
     }
 
     /**
@@ -183,24 +194,24 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCategoryBalloonEnabled(boolean categoryBalloonEnabled) {
-        chartCursor.categoryBalloonEnabled = categoryBalloonEnabled;
+        getAmChartCursor().categoryBalloonEnabled = categoryBalloonEnabled;
     }
 
     public Functions.Func getCategoryBalloonFunction() {
-        return chartCursor.categoryBalloonFunction;
+        return getAmChartCursor().categoryBalloonFunction;
     }
 
     /**
-     * Allows formatting any category balloon text you want. categoryBalloonFunction should return chartCursor. a string which will
+     * Allows formatting any category balloon text you want. categoryBalloonFunction should return getAmChartCursor(). a string which will
      * be displayed in a balloon. When categoryBalloonFunction is called, category value (or date) is passed as an argument.
      */
 
     public void setCategoryBalloonFunction(Functions.Func categoryBalloonFunction) {
-        chartCursor.categoryBalloonFunction = categoryBalloonFunction;
+        getAmChartCursor().categoryBalloonFunction = categoryBalloonFunction;
     }
 
     public String getCategoryBalloonText() {
-        return chartCursor.categoryBalloonText;
+        return getAmChartCursor().categoryBalloonText;
     }
 
     /**
@@ -208,11 +219,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCategoryBalloonText(String categoryBalloonText) {
-        chartCursor.categoryBalloonText = categoryBalloonText;
+        getAmChartCursor().categoryBalloonText = categoryBalloonText;
     }
 
     public String getColor() {
-        return chartCursor.color;
+        return getAmChartCursor().color;
     }
 
     /**
@@ -220,11 +231,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setColor(String color) {
-        chartCursor.color = color;
+        getAmChartCursor().color = color;
     }
 
     public int getCursorAlpha() {
-        return chartCursor.cursorAlpha;
+        return getAmChartCursor().cursorAlpha;
     }
 
     /**
@@ -232,11 +243,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCursorAlpha(int cursorAlpha) {
-        chartCursor.cursorAlpha = cursorAlpha;
+        getAmChartCursor().cursorAlpha = cursorAlpha;
     }
 
     public String getCursorColor() {
-        return chartCursor.cursorColor;
+        return getAmChartCursor().cursorColor;
     }
 
     /**
@@ -244,11 +255,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCursorColor(String cursorColor) {
-        chartCursor.cursorColor = cursorColor;
+        getAmChartCursor().cursorColor = cursorColor;
     }
 
     public String getCursorPosition() {
-        return chartCursor.cursorPosition;
+        return getAmChartCursor().cursorPosition;
     }
 
     /**
@@ -259,11 +270,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setCursorPosition(CursorPosition cursorPosition) {
-        chartCursor.cursorPosition = cursorPosition.getName();
+        getAmChartCursor().cursorPosition = cursorPosition.getName();
     }
 
     public boolean isEnabled() {
-        return chartCursor.enabled;
+        return getAmChartCursor().enabled;
     }
 
     /**
@@ -271,11 +282,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setEnabled(boolean enabled) {
-        chartCursor.enabled = enabled;
+        getAmChartCursor().enabled = enabled;
     }
 
     public boolean isFullWidth() {
-        return chartCursor.fullWidth;
+        return getAmChartCursor().fullWidth;
     }
 
     /**
@@ -285,11 +296,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setFullWidth(boolean fullWidth) {
-        chartCursor.fullWidth = fullWidth;
+        getAmChartCursor().fullWidth = fullWidth;
     }
 
     public double getGraphBulletAlpha() {
-        return chartCursor.graphBulletAlpha;
+        return getAmChartCursor().graphBulletAlpha;
     }
 
     /**
@@ -298,11 +309,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setGraphBulletAlpha(double graphBulletAlpha) {
-        chartCursor.graphBulletAlpha = graphBulletAlpha;
+        getAmChartCursor().graphBulletAlpha = graphBulletAlpha;
     }
 
     public int getGraphBulletSize() {
-        return chartCursor.graphBulletSize;
+        return getAmChartCursor().graphBulletSize;
     }
 
     /**
@@ -311,11 +322,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setGraphBulletSize(int graphBulletSize) {
-        chartCursor.graphBulletSize = graphBulletSize;
+        getAmChartCursor().graphBulletSize = graphBulletSize;
     }
 
     public boolean isLeaveAfterTouch() {
-        return chartCursor.leaveAfterTouch;
+        return getAmChartCursor().leaveAfterTouch;
     }
 
     /**
@@ -323,11 +334,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setLeaveAfterTouch(boolean leaveAfterTouch) {
-        chartCursor.leaveAfterTouch = leaveAfterTouch;
+        getAmChartCursor().leaveAfterTouch = leaveAfterTouch;
     }
 
     public boolean isLeaveCursor() {
-        return chartCursor.leaveCursor;
+        return getAmChartCursor().leaveCursor;
     }
 
     /**
@@ -336,11 +347,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setLeaveCursor(boolean leaveCursor) {
-        chartCursor.leaveCursor = leaveCursor;
+        getAmChartCursor().leaveCursor = leaveCursor;
     }
 
     public String getLimitToGraph() {
-        return chartCursor.limitToGraph;
+        return getAmChartCursor().limitToGraph;
     }
 
     /**
@@ -350,11 +361,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setLimitToGraph(String limitToGraph) {
-        chartCursor.limitToGraph = limitToGraph;
+        getAmChartCursor().limitToGraph = limitToGraph;
     }
 
     public Object[] getListeners() {
-        return chartCursor.listeners;
+        return getAmChartCursor().listeners;
     }
 
     /**
@@ -363,11 +374,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setListeners(Listener... listeners) {
-        chartCursor.listeners = listeners;
+        getAmChartCursor().listeners = listeners;
     }
 
     public boolean isOneBalloonOnly() {
-        return chartCursor.oneBalloonOnly;
+        return getAmChartCursor().oneBalloonOnly;
     }
 
     /**
@@ -376,11 +387,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setOneBalloonOnly(boolean oneBalloonOnly) {
-        chartCursor.oneBalloonOnly = oneBalloonOnly;
+        getAmChartCursor().oneBalloonOnly = oneBalloonOnly;
     }
 
     public boolean isPan() {
-        return chartCursor.pan;
+        return getAmChartCursor().pan;
     }
 
     /**
@@ -388,11 +399,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setPan(boolean pan) {
-        chartCursor.pan = pan;
+        getAmChartCursor().pan = pan;
     }
 
     public double getSelectionAlpha() {
-        return chartCursor.selectionAlpha;
+        return getAmChartCursor().selectionAlpha;
     }
 
     /**
@@ -400,11 +411,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setSelectionAlpha(double selectionAlpha) {
-        chartCursor.selectionAlpha = selectionAlpha;
+        getAmChartCursor().selectionAlpha = selectionAlpha;
     }
 
     public boolean isSelectWithoutZooming() {
-        return chartCursor.selectWithoutZooming;
+        return getAmChartCursor().selectWithoutZooming;
     }
 
     /**
@@ -413,11 +424,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setSelectWithoutZooming(boolean selectWithoutZooming) {
-        chartCursor.selectWithoutZooming = selectWithoutZooming;
+        getAmChartCursor().selectWithoutZooming = selectWithoutZooming;
     }
 
     public boolean isShowNextAvailable() {
-        return chartCursor.showNextAvailable;
+        return getAmChartCursor().showNextAvailable;
     }
 
     /**
@@ -426,25 +437,25 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setShowNextAvailable(boolean showNextAvailable) {
-        chartCursor.showNextAvailable = showNextAvailable;
+        getAmChartCursor().showNextAvailable = showNextAvailable;
     }
 
     public int getTabIndex() {
-        return chartCursor.tabIndex;
+        return getAmChartCursor().tabIndex;
     }
 
     /**
      * In case you set it to some number, the chart will set focus on chart cursor (works only with serial chart) when
      * user clicks tab key. When a focus is set user can move cursor using cursor keys. Note, not all browsers and
-     * readers support chartCursor.
+     * readers support getAmChartCursor().
      */
 
     public void setTabIndex(int tabIndex) {
-        chartCursor.tabIndex = tabIndex;
+        getAmChartCursor().tabIndex = tabIndex;
     }
 
     public boolean isValueBalloonsEnabled() {
-        return chartCursor.valueBalloonsEnabled;
+        return getAmChartCursor().valueBalloonsEnabled;
     }
 
     /**
@@ -453,11 +464,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setValueBalloonsEnabled(boolean valueBalloonsEnabled) {
-        chartCursor.valueBalloonsEnabled = valueBalloonsEnabled;
+        getAmChartCursor().valueBalloonsEnabled = valueBalloonsEnabled;
     }
 
     public double getValueLineAlpha() {
-        return chartCursor.valueLineAlpha;
+        return getAmChartCursor().valueLineAlpha;
     }
 
     /**
@@ -465,11 +476,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setValueLineAlpha(double valueLineAlpha) {
-        chartCursor.valueLineAlpha = valueLineAlpha;
+        getAmChartCursor().valueLineAlpha = valueLineAlpha;
     }
 
     public boolean isValueLineBalloonEnabled() {
-        return chartCursor.valueLineBalloonEnabled;
+        return getAmChartCursor().valueLineBalloonEnabled;
     }
 
     /**
@@ -477,11 +488,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setValueLineBalloonEnabled(boolean valueLineBalloonEnabled) {
-        chartCursor.valueLineBalloonEnabled = valueLineBalloonEnabled;
+        getAmChartCursor().valueLineBalloonEnabled = valueLineBalloonEnabled;
     }
 
     public boolean isValueLineEnabled() {
-        return chartCursor.valueLineEnabled;
+        return getAmChartCursor().valueLineEnabled;
     }
 
     /**
@@ -491,11 +502,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setValueLineEnabled(boolean valueLineEnabled) {
-        chartCursor.valueLineEnabled = valueLineEnabled;
+        getAmChartCursor().valueLineEnabled = valueLineEnabled;
     }
 
     public boolean isValueZoomable() {
-        return chartCursor.valueZoomable;
+        return getAmChartCursor().valueZoomable;
     }
 
     /**
@@ -503,11 +514,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setValueZoomable(boolean valueZoomable) {
-        chartCursor.valueZoomable = valueZoomable;
+        getAmChartCursor().valueZoomable = valueZoomable;
     }
 
     public boolean isZoomable() {
-        return chartCursor.zoomable;
+        return getAmChartCursor().zoomable;
     }
 
     /**
@@ -516,11 +527,11 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setZoomable(boolean zoomable) {
-        chartCursor.zoomable = zoomable;
+        getAmChartCursor().zoomable = zoomable;
     }
 
     public boolean isZooming() {
-        return chartCursor.zooming;
+        return getAmChartCursor().zooming;
     }
 
     /**
@@ -528,10 +539,13 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
      */
 
     public void setZooming(boolean zooming) {
-        chartCursor.zooming = zooming;
+        getAmChartCursor().zooming = zooming;
     }
 
-    public AmChartCursor getChartCursor() {
+    public AmChartCursor getAmChartCursor() {
+        if (chartCursor == null) {
+            chartCursor = new AmChartCursor();
+        }
         return chartCursor;
     }
 

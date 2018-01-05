@@ -356,7 +356,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      * differently - you use language only for country names, as there are no other strings in the maps application.
      */
     public void setLegend(Legend legend) {
-        getChart().legend = legend.getLegend();
+        getChart().legend = legend.getAmLegend();
         legend.load();
     }
 
@@ -556,7 +556,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      * @param targetElementId id or reference to legend div
      */
     public void addLegend(Legend legend, String targetElementId) {
-        getChart().addLegend(legend.getLegend(), targetElementId);
+        getChart().addLegend(legend.getAmLegend(), targetElementId);
         legend.load();
     }
 
@@ -670,7 +670,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      */
     public void setDataLoader(DataLoader loader) {
         loadPlugin(ChartPlugin.DATA_LOADER);
-        getChart().dataLoader = loader.getDataLoader();
+        getChart().dataLoader = loader.getAmDataLoader();
     }
 
     public abstract AmChart getChart();

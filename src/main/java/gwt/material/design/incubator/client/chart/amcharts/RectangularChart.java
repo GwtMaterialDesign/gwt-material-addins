@@ -66,14 +66,15 @@ public abstract class RectangularChart extends CoordinateChart {
      * Cursor of a chart.
      */
     public void setChartCursor(ChartCursor chartCursor) {
-        getChart().chartCursor = chartCursor.getChartCursor();
+        getChart().chartCursor = chartCursor.getAmChartCursor();
+        chartCursor.load();
     }
 
     /**
      * Chart's scrollbar.
      */
     public void setChartScrollbar(ChartScrollbar chartScrollbar) {
-        getChart().chartScrollbar = chartScrollbar.getChartScrollbar();
+        getChart().chartScrollbar = chartScrollbar.getAmChartScrollbar();
     }
 
     /**
@@ -208,7 +209,7 @@ public abstract class RectangularChart extends CoordinateChart {
      */
     public void setTrendLines(TrendLine... trendLines) {
         for (int i = 0; i < trendLines.length; i++) {
-            getChart().trendLines[i] = trendLines[i].getTrendLine();
+            getChart().trendLines[i] = trendLines[i].getAmTrendLine();
         }
     }
 
@@ -277,14 +278,15 @@ public abstract class RectangularChart extends CoordinateChart {
      * Adds a {@link ChartCursor} object to a chart
      */
     public void addChartCursor(ChartCursor chartCursor) {
-        getChart().addChartCursor(chartCursor.getChartCursor());
+        getChart().addChartCursor(chartCursor.getAmChartCursor());
+        chartCursor.load();
     }
 
     /**
      * Adds a {@link ChartScrollbar} to a chart
      */
     public void addChartScrollbar(ChartScrollbar chartScrollBar) {
-        getChart().addChartScrollbar(chartScrollBar.getChartScrollbar());
+        getChart().addChartScrollbar(chartScrollBar.getAmChartScrollbar());
     }
 
     /**
@@ -292,7 +294,7 @@ public abstract class RectangularChart extends CoordinateChart {
      * line to be visible.
      */
     public void addTrendLine(TrendLine trendLine) {
-        getChart().addTrendLine(trendLine.getTrendLine());
+        getChart().addTrendLine(trendLine.getAmTrendLine());
     }
 
     /**
@@ -313,7 +315,7 @@ public abstract class RectangularChart extends CoordinateChart {
      * Removes a trend line from a chart. You should call chart.validateNow() in order the changes to be visible.
      */
     public void removeTrendLine(TrendLine trendLine) {
-        getChart().removeTrendLine(trendLine.getTrendLine());
+        getChart().removeTrendLine(trendLine.getAmTrendLine());
     }
 
     /**

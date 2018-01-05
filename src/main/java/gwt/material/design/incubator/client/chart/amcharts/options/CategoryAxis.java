@@ -7,17 +7,21 @@ import gwt.material.design.incubator.client.chart.amcharts.js.options.AmAxisBase
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmCategoryAxis;
 import gwt.material.design.jquery.client.api.Functions;
 
+//@formatter:off
+
+/**
+ * Extension for {@link AmAxisBase}, gets automatically populated if none has been specified.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/CategoryAxis">Official Documentation</a>
+ */
+//@formatter:on
 public class CategoryAxis extends AxisBase {
 
-    private AmCategoryAxis categoryAxis = new AmCategoryAxis();
-
-    @Override
-    protected AmAxisBase getAxis() {
-        return categoryAxis;
-    }
+    private AmCategoryAxis categoryAxis;
 
     public String getAutoWrap() {
-        return categoryAxis.autoWrap;
+        return getAmCategoryAxis().autoWrap;
     }
 
     /**
@@ -25,28 +29,28 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setAutoWrap(String autoWrap) {
-        categoryAxis.autoWrap = autoWrap;
+        getAmCategoryAxis().autoWrap = autoWrap;
     }
 
     public Functions.Func getCategoryFunction() {
-        return categoryAxis.categoryFunction;
+        return getAmCategoryAxis().categoryFunction;
     }
 
     /**
      * Specifies a method that returns the value that should be used as categoryValue for current item. If this property
-     * is set, the return categoryAxis.value of the custom data function takes precedence over categoryField. When a chart calls this
+     * is set, the return getAmCategoryAxis().value of the custom data function takes precedence over categoryField. When a chart calls this
      * method, it passes category value, data item from chart's data provider and reference to categoryAxis:
      * categoryFunction(category, dataItem, categoryAxis); This method can be used both when category axis parses dates
-     * and when it doesn't. If axis parses dates, your categoryFunction should return categoryAxis.Date object. For example, if you
+     * and when it doesn't. If axis parses dates, your categoryFunction should return getAmCategoryAxis().Date object. For example, if you
      * have date strings in your data, you can use this method to convert these strings into Date objects.
      */
 
     public void setCategoryFunction(Functions.Func categoryFunction) {
-        categoryAxis.categoryFunction = categoryFunction;
+        getAmCategoryAxis().categoryFunction = categoryFunction;
     }
 
     public String getClassNameField() {
-        return categoryAxis.classNameField;
+        return getAmCategoryAxis().classNameField;
     }
 
     /**
@@ -57,11 +61,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setClassNameField(String classNameField) {
-        categoryAxis.classNameField = classNameField;
+        getAmCategoryAxis().classNameField = classNameField;
     }
 
     public boolean isEqualSpacing() {
-        return categoryAxis.equalSpacing;
+        return getAmCategoryAxis().equalSpacing;
     }
 
     /**
@@ -72,16 +76,16 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setEqualSpacing(boolean equalSpacing) {
-        categoryAxis.equalSpacing = equalSpacing;
+        getAmCategoryAxis().equalSpacing = equalSpacing;
     }
 
     public String getForceShowField() {
-        return categoryAxis.forceShowField;
+        return getAmCategoryAxis().forceShowField;
     }
 
     /**
      * Field in data provider which specifies if the category value should always be shown. For example:
-     * categoryAxis.forceShowField = "forceShow";
+     * getAmCategoryAxis().forceShowField = "forceShow";
      * <p>
      * And in data:
      * <p>
@@ -91,11 +95,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setForceShowField(String forceShowField) {
-        categoryAxis.forceShowField = forceShowField;
+        getAmCategoryAxis().forceShowField = forceShowField;
     }
 
     public String getGridPosition() {
-        return categoryAxis.gridPosition;
+        return getAmCategoryAxis().gridPosition;
     }
 
     /**
@@ -104,11 +108,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setGridPosition(GridPosition gridPosition) {
-        categoryAxis.gridPosition = gridPosition.getName();
+        getAmCategoryAxis().gridPosition = gridPosition.getName();
     }
 
     public String getLabelColorField() {
-        return categoryAxis.labelColorField;
+        return getAmCategoryAxis().labelColorField;
     }
 
     /**
@@ -116,11 +120,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setLabelColorField(String labelColorField) {
-        categoryAxis.labelColorField = labelColorField;
+        getAmCategoryAxis().labelColorField = labelColorField;
     }
 
     public Functions.Func getLabelFunction() {
-        return categoryAxis.labelFunction;
+        return getAmCategoryAxis().labelFunction;
     }
 
     /**
@@ -133,15 +137,15 @@ public class CategoryAxis extends AxisBase {
      * if dates are parsed:
      * labelFunction(valueText, date, categoryAxis)
      * <p>
-     * Your function should return categoryAxis.string which will be displayed on the axis.
+     * Your function should return getAmCategoryAxis().string which will be displayed on the axis.
      */
 
     public void setLabelFunction(Functions.Func labelFunction) {
-        categoryAxis.labelFunction = labelFunction;
+        getAmCategoryAxis().labelFunction = labelFunction;
     }
 
     public String getMinPeriod() {
-        return categoryAxis.minPeriod;
+        return getAmCategoryAxis().minPeriod;
     }
 
     /**
@@ -155,11 +159,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setMinPeriod(Period minPeriod) {
-        categoryAxis.minPeriod = minPeriod.getValue();
+        getAmCategoryAxis().minPeriod = minPeriod.getValue();
     }
 
     public boolean isParseDates() {
-        return categoryAxis.parseDates;
+        return getAmCategoryAxis().parseDates;
     }
 
     /**
@@ -175,11 +179,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setParseDates(boolean parseDates) {
-        categoryAxis.parseDates = parseDates;
+        getAmCategoryAxis().parseDates = parseDates;
     }
 
     public boolean isStartOnAxis() {
-        return categoryAxis.startOnAxis;
+        return getAmCategoryAxis().startOnAxis;
     }
 
     /**
@@ -189,11 +193,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setStartOnAxis(boolean startOnAxis) {
-        categoryAxis.startOnAxis = startOnAxis;
+        getAmCategoryAxis().startOnAxis = startOnAxis;
     }
 
     public String getTickPosition() {
-        return categoryAxis.tickPosition;
+        return getAmCategoryAxis().tickPosition;
     }
 
     /**
@@ -202,11 +206,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setTickPosition(TickPosition tickPosition) {
-        categoryAxis.tickPosition = tickPosition.getName();
+        getAmCategoryAxis().tickPosition = tickPosition.getName();
     }
 
     public boolean isTwoLineMode() {
-        return categoryAxis.twoLineMode;
+        return getAmCategoryAxis().twoLineMode;
     }
 
     /**
@@ -216,11 +220,11 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setTwoLineMode(boolean twoLineMode) {
-        categoryAxis.twoLineMode = twoLineMode;
+        getAmCategoryAxis().twoLineMode = twoLineMode;
     }
 
     public String getWidthField() {
-        return categoryAxis.widthField;
+        return getAmCategoryAxis().widthField;
     }
 
     /**
@@ -228,10 +232,18 @@ public class CategoryAxis extends AxisBase {
      */
 
     public void setWidthField(String widthField) {
-        categoryAxis.widthField = widthField;
+        getAmCategoryAxis().widthField = widthField;
     }
 
-    public AmCategoryAxis getCategoryAxis() {
+    public AmCategoryAxis getAmCategoryAxis() {
+        if (categoryAxis == null) {
+            categoryAxis = new AmCategoryAxis();
+        }
         return categoryAxis;
+    }
+
+    @Override
+    protected AmAxisBase getAmAxis() {
+        return getAmCategoryAxis();
     }
 }

@@ -21,10 +21,8 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 
 //@formatter:off
 
-import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
-
 /**
- * Used by {@link AmValueAxis#setStackType(StackType)}
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.options.ValueAxis#setStackType(StackType)}
  *
  * @author kevzlou7979@gmail.com
  */

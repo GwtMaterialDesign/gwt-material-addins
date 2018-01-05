@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 //@formatter:off
 
 /**
- * Used by {@link gwt.material.design.incubator.client.chart.amcharts.js.options.CategoryAxis#setGridPosition(GridPosition)}
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.options.CategoryAxis#setGridPosition(GridPosition)}
  *
  * @author kevzlou7979@gmail.com
  */

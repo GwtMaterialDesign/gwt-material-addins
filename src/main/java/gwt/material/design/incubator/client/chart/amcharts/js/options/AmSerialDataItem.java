@@ -19,7 +19,6 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -27,10 +26,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * AmSerialDataItem holds all the information about each series. When working with a chart, you do not create AmSerialDataItem
- * objects or change it's properties directly. Consider properties of a AmSerialDataItem read-only - change values in chart's
- * data provider if you need to. When serial chart parses dataProvider, it generates "chartData" array. Objects of this array
- * are AmSerialDataItem objects.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.SerialDataItem}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/SerialDataItem">Official Documentation</a>
@@ -40,83 +36,17 @@ import jsinterop.annotations.JsType;
 public class AmSerialDataItem {
 
     @JsProperty
-    private Object axes;
+    public Object axes;
 
     @JsProperty
-    private String category;
+    public String category;
 
     @JsProperty
-    private Object dataContext;
+    public Object dataContext;
 
     @JsProperty
-    private int time;
+    public int time;
 
     @JsProperty
-    private int x;
-
-    /**
-     * You can access each {@link AmGraphDataItem} using this object. The data structure is: graphDataItem =
-     * serialDataItem.axes[axisId].graphs[graphId].
-     */
-    @JsOverlay
-    public final void setAxes(Object axes) {
-        this.axes = axes;
-    }
-
-    /**
-     * Category value. String if parseDates is false, Date if true.
-     */
-    @JsOverlay
-    public final void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
-     * Reference to original data object, from dataProvider.
-     */
-    @JsOverlay
-    public final void setDataContext(Object dataContext) {
-        this.dataContext = dataContext;
-    }
-
-    /**
-     * Time stamp of a series date. Available only if parseDates property of {@link AmCategoryAxis} is set to true.
-     */
-    @JsOverlay
-    public final void setTime(int time) {
-        this.time = time;
-    }
-
-    /**
-     * Coordinate (horizontal or vertical, depends on chart's rotate property) of the series.
-     */
-    @JsOverlay
-    public final void setX(int x) {
-        this.x = x;
-    }
-
-    @JsOverlay
-    public final Object getAxes() {
-        return axes;
-    }
-
-    @JsOverlay
-    public final String getCategory() {
-        return category;
-    }
-
-    @JsOverlay
-    public final Object getDataContext() {
-        return dataContext;
-    }
-
-    @JsOverlay
-    public final int getTime() {
-        return time;
-    }
-
-    @JsOverlay
-    public final int getX() {
-        return x;
-    }
+    public int x;
 }

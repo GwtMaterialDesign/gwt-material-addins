@@ -21,15 +21,12 @@ package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
 //@formatter:off
 
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * AmGraphDataItem holds all the information about the graph's data item. When working with a chart, you do not create
- * AmGraphDataItem objects or change it's properties directly. AmGraphDataItem is passed to you by events when user interacts
- * with data item on the chart. The list of properties below will help you to extract data item's value/coordinate/etc.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.GraphDataItem}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GraphDataItem">Official Documentation</a>
@@ -39,242 +36,47 @@ import jsinterop.annotations.JsType;
 public class AmGraphDataItem {
 
     @JsProperty
-    private double alpha;
+    public double alpha;
 
     @JsProperty
-    private String bullet;
+    public String bullet;
 
     @JsProperty
-    private int bulletSize;
+    public int bulletSize;
 
     @JsProperty
-    private String category;
+    public String category;
 
     @JsProperty
-    private String color;
+    public String color;
 
     @JsProperty
-    private String customBullet;
+    public String customBullet;
 
     @JsProperty
-    private Object dataContext;
+    public Object dataContext;
 
     @JsProperty
-    private String description;
+    public String description;
 
     @JsProperty
-    private String[] fillColors;
+    public String[] fillColors;
 
     @JsProperty
-    private Object percents;
+    public Object percents;
 
     @JsProperty
-    private AmSerialDataItem serialDataItem;
+    public AmSerialDataItem serialDataItem;
 
     @JsProperty
-    private String url;
+    public String url;
 
     @JsProperty
-    private Object values;
+    public Object values;
 
     @JsProperty
-    private int x;
+    public int x;
 
     @JsProperty
-    private int y;
-
-    /**
-     * Opacity of the data item.
-     */
-    @JsOverlay
-    public final void setAlpha(double alpha) {
-        this.alpha = alpha;
-    }
-
-    /**
-     * Bullet type.
-     */
-    @JsOverlay
-    public final void setBullet(String bullet) {
-        this.bullet = bullet;
-    }
-
-    /**
-     * Bullet size.
-     */
-    @JsOverlay
-    public final void setBulletSize(int bulletSize) {
-        this.bulletSize = bulletSize;
-    }
-
-    /**
-     * Category value.
-     */
-    @JsOverlay
-    public final void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
-     * Color of the data item.
-     */
-    @JsOverlay
-    public final void setColor(String color) {
-        this.color = color;
-    }
-
-    /**
-     * Custom bullet (path to file name).
-     */
-    @JsOverlay
-    public final void setCustomBullet(String customBullet) {
-        this.customBullet = customBullet;
-    }
-
-    /**
-     * Original object from data provider.
-     */
-    @JsOverlay
-    public final void setDataContext(Object dataContext) {
-        this.dataContext = dataContext;
-    }
-
-    /**
-     * Description.
-     */
-    @JsOverlay
-    public final void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Array of colors of the data item, used by column and candlestick chart only.
-     */
-    @JsOverlay
-    public final void setFillColors(String[] fillColors) {
-        this.fillColors = fillColors;
-    }
-
-    /**
-     * Object which holds percents when recalculateToPercents is set to true.
-     */
-    @JsOverlay
-    public final void setPercents(Object percents) {
-        this.percents = percents;
-    }
-
-    @JsOverlay
-    public final AmSerialDataItem getSerialDataItem() {
-        return serialDataItem;
-    }
-
-    /**
-     * url
-     */
-    @JsOverlay
-    public final void setUrl(String url) {
-        this.url = url;
-    }
-
-    /**
-     * Object which holds values of the data item (value, open, close, low, high).
-     */
-    @JsOverlay
-    public final void setValues(Object values) {
-        this.values = values;
-    }
-
-    /**
-     * x coordinate of the data item.
-     */
-    @JsOverlay
-    public final void setX(int x) {
-        this.x = x;
-    }
-
-    /**
-     * y coordinate of the data item.
-     */
-    @JsOverlay
-    public final void setY(int y) {
-        this.y = y;
-    }
-
-    @JsOverlay
-    public final double getAlpha() {
-        return alpha;
-    }
-
-    @JsOverlay
-    public final String getBullet() {
-        return bullet;
-    }
-
-    @JsOverlay
-    public final int getBulletSize() {
-        return bulletSize;
-    }
-
-    @JsOverlay
-    public final String getCategory() {
-        return category;
-    }
-
-    @JsOverlay
-    public final String getColor() {
-        return color;
-    }
-
-    @JsOverlay
-    public final String getCustomBullet() {
-        return customBullet;
-    }
-
-    @JsOverlay
-    public final Object getDataContext() {
-        return dataContext;
-    }
-
-    @JsOverlay
-    public final String getDescription() {
-        return description;
-    }
-
-    @JsOverlay
-    public final String[] getFillColors() {
-        return fillColors;
-    }
-
-    @JsOverlay
-    public final Object getPercents() {
-        return percents;
-    }
-
-    /**
-     * {@link AmSerialDataItem} of this graphDataItem
-     */
-    @JsOverlay
-    public final void setSerialDataItem(AmSerialDataItem serialDataItem) {
-        this.serialDataItem = serialDataItem;
-    }
-
-    @JsOverlay
-    public final String getUrl() {
-        return url;
-    }
-
-    @JsOverlay
-    public final Object getValues() {
-        return values;
-    }
-
-    @JsOverlay
-    public final int getX() {
-        return x;
-    }
-
-    @JsOverlay
-    public final int getY() {
-        return y;
-    }
+    public int y;
 }

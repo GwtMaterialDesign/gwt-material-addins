@@ -26,8 +26,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Create a scrollbar for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart} and
- * {@link gwt.material.design.incubator.client.chart.amcharts.XyChart} charts.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.ChartScrollbar}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/ChartScrollbar">Official Documentation</a>

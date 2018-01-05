@@ -28,9 +28,7 @@ import java.util.Date;
 //@formatter:off
 
 /**
- * Creates a trendline for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart} and
- * {@link gwt.material.design.incubator.client.chart.amcharts.XyChart} charts which indicates the trend of your data
- * or covers some different purposes. Multiple can be assigned.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.TrendLine}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/TrendLine">Official Documentation</a>

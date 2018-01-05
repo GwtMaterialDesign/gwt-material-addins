@@ -28,7 +28,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Creates the visualization of the data in following types: line, column, step line, smoothed line, olhc and candlestick.
+ * JSInterop Util for {@link gwt.material.design.incubator.client.chart.amcharts.options.Graph}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmGraph">Official Documentation</a>

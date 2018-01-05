@@ -11,17 +11,23 @@ import gwt.material.design.incubator.client.chart.amcharts.js.options.Image;
 
 import java.util.Date;
 
+//@formatter:off
+
+/**
+ * Creates a trendline for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart} and
+ * {@link gwt.material.design.incubator.client.chart.amcharts.XyChart} charts which indicates the trend of your data
+ * or covers some different purposes. Multiple can be assigned.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/TrendLine">Official Documentation</a>
+ */
+//@formatter:on
 public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
 
-    private AmTrendLine trendLine = new AmTrendLine();
-
-    @Override
-    public void load() {
-        //trendLine.li
-    }
+    private AmTrendLine trendLine;
 
     public String getBalloonText() {
-        return trendLine.balloonText;
+        return getAmTrendLine().balloonText;
     }
 
     /**
@@ -29,11 +35,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setBalloonText(String balloonText) {
-        trendLine.balloonText = balloonText;
+        getAmTrendLine().balloonText = balloonText;
     }
 
     public int getDashLength() {
-        return trendLine.dashLength;
+        return getAmTrendLine().dashLength;
     }
 
     /**
@@ -41,11 +47,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setDashLength(int dashLength) {
-        trendLine.dashLength = dashLength;
+        getAmTrendLine().dashLength = dashLength;
     }
 
     public String getFinalCategory() {
-        return trendLine.finalCategory;
+        return getAmTrendLine().finalCategory;
     }
 
     /**
@@ -53,11 +59,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setFinalCategory(String finalCategory) {
-        trendLine.finalCategory = finalCategory;
+        getAmTrendLine().finalCategory = finalCategory;
     }
 
     public Date getFinalDate() {
-        return trendLine.finalDate;
+        return getAmTrendLine().finalDate;
     }
 
     /**
@@ -66,11 +72,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setFinalDate(Date finalDate) {
-        trendLine.finalDate = finalDate;
+        getAmTrendLine().finalDate = finalDate;
     }
 
     public Image getFinalImage() {
-        return trendLine.finalImage;
+        return getAmTrendLine().finalImage;
     }
 
     /**
@@ -78,11 +84,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setFinalImage(Image finalImage) {
-        trendLine.finalImage = finalImage;
+        getAmTrendLine().finalImage = finalImage;
     }
 
     public int getFinalValue() {
-        return trendLine.finalValue;
+        return getAmTrendLine().finalValue;
     }
 
     /**
@@ -90,11 +96,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setFinalValue(int finalValue) {
-        trendLine.finalValue = finalValue;
+        getAmTrendLine().finalValue = finalValue;
     }
 
     public int getFinalXValue() {
-        return trendLine.finalXValue;
+        return getAmTrendLine().finalXValue;
     }
 
     /**
@@ -102,11 +108,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setFinalXValue(int finalXValue) {
-        trendLine.finalXValue = finalXValue;
+        getAmTrendLine().finalXValue = finalXValue;
     }
 
     public String getId() {
-        return trendLine.id;
+        return getAmTrendLine().id;
     }
 
     /**
@@ -114,11 +120,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setId(String id) {
-        trendLine.id = id;
+        getAmTrendLine().id = id;
     }
 
     public String getInitialCategory() {
-        return trendLine.initialCategory;
+        return getAmTrendLine().initialCategory;
     }
 
     /**
@@ -126,11 +132,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setInitialCategory(String initialCategory) {
-        trendLine.initialCategory = initialCategory;
+        getAmTrendLine().initialCategory = initialCategory;
     }
 
     public Date getInitialDate() {
-        return trendLine.initialDate;
+        return getAmTrendLine().initialDate;
     }
 
     /**
@@ -139,11 +145,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setInitialDate(Date initialDate) {
-        trendLine.initialDate = initialDate;
+        getAmTrendLine().initialDate = initialDate;
     }
 
     public Image getInitialImage() {
-        return trendLine.initialImage;
+        return getAmTrendLine().initialImage;
     }
 
     /**
@@ -151,11 +157,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setInitialImage(Image initialImage) {
-        trendLine.initialImage = initialImage;
+        getAmTrendLine().initialImage = initialImage;
     }
 
     public int getInitialValue() {
-        return trendLine.initialValue;
+        return getAmTrendLine().initialValue;
     }
 
     /**
@@ -163,11 +169,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setInitialValue(int initialValue) {
-        trendLine.initialValue = initialValue;
+        getAmTrendLine().initialValue = initialValue;
     }
 
     public int getInitialXValue() {
-        return trendLine.initialXValue;
+        return getAmTrendLine().initialXValue;
     }
 
     /**
@@ -175,11 +181,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setInitialXValue(int initialXValue) {
-        trendLine.initialXValue = initialXValue;
+        getAmTrendLine().initialXValue = initialXValue;
     }
 
     public boolean isProtected() {
-        return trendLine.isProtected;
+        return getAmTrendLine().isProtected;
     }
 
     /**
@@ -188,11 +194,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setProtected(boolean aProtected) {
-        trendLine.isProtected = isProtected();
+        getAmTrendLine().isProtected = isProtected();
     }
 
     public double getLineAlpha() {
-        return trendLine.lineAlpha;
+        return getAmTrendLine().lineAlpha;
     }
 
     /**
@@ -200,11 +206,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setLineAlpha(double lineAlpha) {
-        trendLine.lineAlpha = lineAlpha;
+        getAmTrendLine().lineAlpha = lineAlpha;
     }
 
     public String getLineColor() {
-        return trendLine.lineColor;
+        return getAmTrendLine().lineColor;
     }
 
     /**
@@ -212,11 +218,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setLineColor(String lineColor) {
-        trendLine.lineColor = lineColor;
+        getAmTrendLine().lineColor = lineColor;
     }
 
     public int getLineThickness() {
-        return trendLine.lineThickness;
+        return getAmTrendLine().lineThickness;
     }
 
     /**
@@ -224,11 +230,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setLineThickness(int lineThickness) {
-        trendLine.lineThickness = lineThickness;
+        getAmTrendLine().lineThickness = lineThickness;
     }
 
     public AmValueAxis getValueAxis() {
-        return trendLine.valueAxis;
+        return getAmTrendLine().valueAxis;
     }
 
     /**
@@ -237,11 +243,11 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setValueAxis(AmValueAxis valueAxis) {
-        trendLine.valueAxis = valueAxis;
+        getAmTrendLine().valueAxis = valueAxis;
     }
 
     public AmValueAxis getValueAxisX() {
-        return trendLine.valueAxisX;
+        return getAmTrendLine().valueAxisX;
     }
 
     /**
@@ -250,10 +256,13 @@ public class TrendLine extends ChartOptions implements HasTrendLineHandlers {
      */
 
     public void setValueAxisX(AmValueAxis valueAxisX) {
-        trendLine.valueAxisX = valueAxisX;
+        getAmTrendLine().valueAxisX = valueAxisX;
     }
 
-    public AmTrendLine getTrendLine() {
+    public AmTrendLine getAmTrendLine() {
+        if (trendLine == null) {
+            trendLine = new AmTrendLine();
+        }
         return trendLine;
     }
 

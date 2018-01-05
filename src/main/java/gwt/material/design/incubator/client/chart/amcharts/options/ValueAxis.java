@@ -14,9 +14,19 @@ import gwt.material.design.jquery.client.api.Functions;
 
 import java.util.Date;
 
+/**
+ * Extension for AmValueAxis to create an axis for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart},
+ * {@link gwt.material.design.incubator.client.chart.chartjs.RadarChart}, {@link gwt.material.design.incubator.client.chart.amcharts.XyChart}
+ * charts, multiple can be assigned. Gets automatically populated, one for AmSerialChart and two for AmXYChart charts,
+ * if none has been specified.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/ValueAxis">Official Documentation</a>
+ */
+//@formatter:on
 public class ValueAxis extends AxisBase {
 
-    private AmValueAxis axis = new AmValueAxis();
+    private AmValueAxis axis;
 
     @Override
     public void load() {
@@ -35,20 +45,20 @@ public class ValueAxis extends AxisBase {
     }
 
     public AmValueAxis getSynchronizeWith() {
-        return axis.synchronizeWith;
+        return getAmValueAxis().synchronizeWith;
     }
 
     /**
-     * One value axis can be synchronized with another value axis. You can use both reference to your axis or id of the
+     * One value axis can be synchronized with another value getAmValueAxis(). You can use both reference to your axis or id of the
      * axis here. You should set synchronizationMultiplyer in order for this to work.
      */
 
     public void setSynchronizeWith(AmValueAxis synchronizeWith) {
-        axis.synchronizeWith = synchronizeWith;
+        getAmValueAxis().synchronizeWith = synchronizeWith;
     }
 
     public boolean isAutoWrap() {
-        return axis.autoWrap;
+        return getAmValueAxis().autoWrap;
     }
 
     /**
@@ -57,11 +67,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setAutoWrap(boolean autoWrap) {
-        axis.autoWrap = autoWrap;
+        getAmValueAxis().autoWrap = autoWrap;
     }
 
     public int getAxisFrequency() {
-        return axis.axisFrequency;
+        return getAmValueAxis().axisFrequency;
     }
 
     /**
@@ -70,11 +80,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setAxisFrequency(int axisFrequency) {
-        axis.axisFrequency = axisFrequency;
+        getAmValueAxis().axisFrequency = axisFrequency;
     }
 
     public int getAxisTitleOffset() {
-        return axis.axisTitleOffset;
+        return getAmValueAxis().axisTitleOffset;
     }
 
     /**
@@ -82,24 +92,24 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setAxisTitleOffset(int axisTitleOffset) {
-        axis.axisTitleOffset = axisTitleOffset;
+        getAmValueAxis().axisTitleOffset = axisTitleOffset;
     }
 
     public Object getBalloonTextFunction() {
-        return axis.balloonTextFunction;
+        return getAmValueAxis().balloonTextFunction;
     }
 
     /**
-     * You can use this function to format balloon text of the axis. This function is called and balloon text or date
+     * You can use this function to format balloon text of the getAmValueAxis(). This function is called and balloon text or date
      * (if axis is date-based) is passed as an argument. It should return string which will be displayed in the balloon.
      */
 
     public void setBalloonTextFunction(Object balloonTextFunction) {
-        axis.balloonTextFunction = balloonTextFunction;
+        getAmValueAxis().balloonTextFunction = balloonTextFunction;
     }
 
     public int getBaseCoord() {
-        return axis.baseCoord;
+        return getAmValueAxis().baseCoord;
     }
 
     /**
@@ -107,23 +117,23 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setBaseCoord(int baseCoord) {
-        axis.baseCoord = baseCoord;
+        getAmValueAxis().baseCoord = baseCoord;
     }
 
     public int getBaseValue() {
-        return axis.baseValue;
+        return getAmValueAxis().baseValue;
     }
 
     /**
-     * Specifies base value of the axis. Default to 0
+     * Specifies base value of the getAmValueAxis(). Default to 0
      */
 
     public void setBaseValue(int baseValue) {
-        axis.baseValue = baseValue;
+        getAmValueAxis().baseValue = baseValue;
     }
 
     public String getDuration() {
-        return axis.duration;
+        return getAmValueAxis().duration;
     }
 
     /**
@@ -132,11 +142,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setDuration(String duration) {
-        axis.duration = duration;
+        getAmValueAxis().duration = duration;
     }
 
     public Object getDurationUnits() {
-        return axis.durationUnits;
+        return getAmValueAxis().durationUnits;
     }
 
     /**
@@ -144,11 +154,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setDurationUnits(Object durationUnits) {
-        axis.durationUnits = durationUnits;
+        getAmValueAxis().durationUnits = durationUnits;
     }
 
     public String getGridType() {
-        return axis.gridType;
+        return getAmValueAxis().gridType;
     }
 
     /**
@@ -157,24 +167,24 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setGridType(GridType gridType) {
-        axis.gridType = gridType.getName();
+        getAmValueAxis().gridType = gridType.getName();
     }
 
     public String getId() {
-        return axis.id;
+        return getAmValueAxis().id;
     }
 
     /**
-     * Unique id of value axis. It is not required to set it, unless you need to tell the graph which exact value axis
+     * Unique id of value getAmValueAxis(). It is not required to set it, unless you need to tell the graph which exact value axis
      * it should use.
      */
 
     public void setId(String id) {
-        axis.id = id;
+        getAmValueAxis().id = id;
     }
 
     public boolean isIncludeAllValues() {
-        return axis.includeAllValues;
+        return getAmValueAxis().includeAllValues;
     }
 
     /**
@@ -182,23 +192,23 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setIncludeAllValues(boolean includeAllValues) {
-        axis.includeAllValues = includeAllValues;
+        getAmValueAxis().includeAllValues = includeAllValues;
     }
 
     public boolean isIncludeGuidesInMinMax() {
-        return axis.includeGuidesInMinMax;
+        return getAmValueAxis().includeGuidesInMinMax;
     }
 
     /**
-     * Specifies whether guide values should be included when calculating min and max of the axis. Default to false
+     * Specifies whether guide values should be included when calculating min and max of the getAmValueAxis(). Default to false
      */
 
     public void setIncludeGuidesInMinMax(boolean includeGuidesInMinMax) {
-        axis.includeGuidesInMinMax = includeGuidesInMinMax;
+        getAmValueAxis().includeGuidesInMinMax = includeGuidesInMinMax;
     }
 
     public boolean isIncludeHidden() {
-        return axis.includeHidden;
+        return getAmValueAxis().includeHidden;
     }
 
     /**
@@ -206,11 +216,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setIncludeHidden(boolean includeHidden) {
-        axis.includeHidden = includeHidden;
+        getAmValueAxis().includeHidden = includeHidden;
     }
 
     public boolean isIntegersOnly() {
-        return axis.integersOnly;
+        return getAmValueAxis().integersOnly;
     }
 
     /**
@@ -218,11 +228,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setIntegersOnly(boolean integersOnly) {
-        axis.integersOnly = integersOnly;
+        getAmValueAxis().integersOnly = integersOnly;
     }
 
     public Functions.Func getLabelFunction() {
-        return axis.labelFunction;
+        return getAmValueAxis().labelFunction;
     }
 
     /**
@@ -233,15 +243,15 @@ public class ValueAxis extends AxisBase {
      * If axis type is "date", labelFucntion will pass different arguments:
      * labelFunction(valueText, date, valueAxis)
      * <p>
-     * Your function should return axis. string.
+     * Your function should return getAmValueAxis(). string.
      */
 
     public void setLabelFunction(Functions.Func labelFunction) {
-        axis.labelFunction = labelFunction;
+        getAmValueAxis().labelFunction = labelFunction;
     }
 
     public boolean isLogarithmic() {
-        return axis.logarithmic;
+        return getAmValueAxis().logarithmic;
     }
 
     /**
@@ -249,23 +259,23 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setLogarithmic(boolean logarithmic) {
-        axis.logarithmic = logarithmic;
+        getAmValueAxis().logarithmic = logarithmic;
     }
 
     public int getMax() {
-        return axis.max;
+        return getAmValueAxis().max;
     }
 
     /**
-     * Read-only. Maximum value of the axis.
+     * Read-only. Maximum value of the getAmValueAxis().
      */
 
     public void setMax(int max) {
-        axis.max = max;
+        getAmValueAxis().max = max;
     }
 
     public int getMaximum() {
-        return axis.maximum;
+        return getAmValueAxis().maximum;
     }
 
     /**
@@ -274,36 +284,36 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setMaximum(int maximum) {
-        axis.maximum = maximum;
+        getAmValueAxis().maximum = maximum;
     }
 
     public Date getMaximumDate() {
-        return axis.maximumDate;
+        return getAmValueAxis().maximumDate;
     }
 
     /**
-     * If your value axis is date-based, you can specify maximum date of the axis. Can be set as date object, timestamp
+     * If your value axis is date-based, you can specify maximum date of the getAmValueAxis(). Can be set as date object, timestamp
      * number or string if dataDateFormat is set.
      */
 
     public void setMaximumDate(Date maximumDate) {
-        axis.maximumDate = maximumDate;
+        getAmValueAxis().maximumDate = maximumDate;
     }
 
     public int getMin() {
-        return axis.min;
+        return getAmValueAxis().min;
     }
 
     /**
-     * Read-only. Minimum value of the axis.
+     * Read-only. Minimum value of the getAmValueAxis().
      */
 
     public void setMin(int min) {
-        axis.min = min;
+        getAmValueAxis().min = min;
     }
 
     public int getMinimum() {
-        return axis.minimum;
+        return getAmValueAxis().minimum;
     }
 
     /**
@@ -312,24 +322,24 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setMinimum(int minimum) {
-        axis.minimum = minimum;
+        getAmValueAxis().minimum = minimum;
     }
 
     public Date getMinimumDate() {
-        return axis.minimumDate;
+        return getAmValueAxis().minimumDate;
     }
 
     /**
-     * If your value axis is date-based, you can specify minimum date of the axis. Can be set as date object, timestamp
+     * If your value axis is date-based, you can specify minimum date of the getAmValueAxis(). Can be set as date object, timestamp
      * number or string if dataDateFormat is set.
      */
 
     public void setMinimumDate(Date minimumDate) {
-        axis.minimumDate = minimumDate;
+        getAmValueAxis().minimumDate = minimumDate;
     }
 
     public int getMinMaxMultiplier() {
-        return axis.minMaxMultiplier;
+        return getAmValueAxis().minMaxMultiplier;
     }
 
     /**
@@ -338,11 +348,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setMinMaxMultiplier(int minMaxMultiplier) {
-        axis.minMaxMultiplier = minMaxMultiplier;
+        getAmValueAxis().minMaxMultiplier = minMaxMultiplier;
     }
 
     public String getMinPeriod() {
-        return axis.minPeriod;
+        return getAmValueAxis().minPeriod;
     }
 
     /**
@@ -355,11 +365,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setMinPeriod(Period minPeriod) {
-        axis.minPeriod = minPeriod.getValue();
+        getAmValueAxis().minPeriod = minPeriod.getValue();
     }
 
     public String getPointPosition() {
-        return axis.pointPosition;
+        return getAmValueAxis().pointPosition;
     }
 
     /**
@@ -368,11 +378,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setPointPosition(String pointPosition) {
-        axis.pointPosition = pointPosition;
+        getAmValueAxis().pointPosition = pointPosition;
     }
 
     public int getPrecision() {
-        return axis.precision;
+        return getAmValueAxis().precision;
     }
 
     /**
@@ -380,11 +390,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setPrecision(int precision) {
-        axis.precision = precision;
+        getAmValueAxis().precision = precision;
     }
 
     public boolean isRadarCategoriesEnabled() {
-        return axis.radarCategoriesEnabled;
+        return getAmValueAxis().radarCategoriesEnabled;
     }
 
     /**
@@ -392,11 +402,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setRadarCategoriesEnabled(boolean radarCategoriesEnabled) {
-        axis.radarCategoriesEnabled = radarCategoriesEnabled;
+        getAmValueAxis().radarCategoriesEnabled = radarCategoriesEnabled;
     }
 
     public boolean isRecalculateToPercents() {
-        return axis.recalculateToPercents;
+        return getAmValueAxis().recalculateToPercents;
     }
 
     /**
@@ -404,11 +414,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setRecalculateToPercents(boolean recalculateToPercents) {
-        axis.recalculateToPercents = recalculateToPercents;
+        getAmValueAxis().recalculateToPercents = recalculateToPercents;
     }
 
     public boolean isReversed() {
-        return axis.reversed;
+        return getAmValueAxis().reversed;
     }
 
     /**
@@ -416,24 +426,24 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setReversed(boolean reversed) {
-        axis.reversed = reversed;
+        getAmValueAxis().reversed = reversed;
     }
 
     public String getStackType() {
-        return axis.stackType;
+        return getAmValueAxis().stackType;
     }
 
     /**
-     * Stacking mode of the axis. Possible values are: "none", "regular", "100%", "3d".
+     * Stacking mode of the getAmValueAxis(). Possible values are: "none", "regular", "100%", "3d".
      * Note, only graphs of one type will be stacked. Default to {@link StackType#NONE}
      */
 
     public void setStackType(StackType stackType) {
-        axis.stackType = stackType.getName();
+        getAmValueAxis().stackType = stackType.getName();
     }
 
     public int getStep() {
-        return axis.step;
+        return getAmValueAxis().step;
     }
 
     /**
@@ -441,25 +451,25 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setStep(int step) {
-        axis.step = step;
+        getAmValueAxis().step = step;
     }
 
     public boolean isStrictMinMax() {
-        return axis.strictMinMax;
+        return getAmValueAxis().strictMinMax;
     }
 
     /**
      * If you set minimum and maximum for your axis, chart adjusts them so that grid would start and end on the
      * beginning and end of plot area and grid would be at equal intervals. If you set strictMinMax to true, the chart
-     * will not adjust minimum and maximum of value axis. Default to false
+     * will not adjust minimum and maximum of value getAmValueAxis(). Default to false
      */
 
     public void setStrictMinMax(boolean strictMinMax) {
-        axis.strictMinMax = strictMinMax;
+        getAmValueAxis().strictMinMax = strictMinMax;
     }
 
     public int getSynchronizationMultiplier() {
-        return axis.synchronizationMultiplier;
+        return getAmValueAxis().synchronizationMultiplier;
     }
 
     /**
@@ -468,24 +478,24 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setSynchronizationMultiplier(int synchronizationMultiplier) {
-        axis.synchronizationMultiplier = synchronizationMultiplier;
+        getAmValueAxis().synchronizationMultiplier = synchronizationMultiplier;
     }
 
     public String getTotalText() {
-        return axis.totalText;
+        return getAmValueAxis().totalText;
     }
 
     /**
-     * If this value axis is stacked and has columns, setting valueAxis.totalText = "[[total]]" will make it to display
+     * If this value axis is stacked and has columns, setting valuegetAmValueAxis().totalText = "[[total]]" will make it to display
      * total value above the most-top column.
      */
 
     public void setTotalText(String totalText) {
-        axis.totalText = totalText;
+        getAmValueAxis().totalText = totalText;
     }
 
     public String getTotalTextColor() {
-        return axis.totalTextColor;
+        return getAmValueAxis().totalTextColor;
     }
 
     /**
@@ -493,11 +503,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setTotalTextColor(String totalTextColor) {
-        axis.totalTextColor = totalTextColor;
+        getAmValueAxis().totalTextColor = totalTextColor;
     }
 
     public int getTotalTextOffset() {
-        return axis.totalTextOffset;
+        return getAmValueAxis().totalTextOffset;
     }
 
     /**
@@ -505,11 +515,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setTotalTextOffset(int totalTextOffset) {
-        axis.totalTextOffset = totalTextOffset;
+        getAmValueAxis().totalTextOffset = totalTextOffset;
     }
 
     public int getTreatZeroAs() {
-        return axis.treatZeroAs;
+        return getAmValueAxis().treatZeroAs;
     }
 
     /**
@@ -518,24 +528,24 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setTreatZeroAs(int treatZeroAs) {
-        axis.treatZeroAs = treatZeroAs;
+        getAmValueAxis().treatZeroAs = treatZeroAs;
     }
 
     public String getType() {
-        return axis.type;
+        return getAmValueAxis().type;
     }
 
     /**
-     * Type of value axis. If your values in data provider are dates and you want this axis to show dates instead of
+     * Type of value getAmValueAxis(). If your values in data provider are dates and you want this axis to show dates instead of
      * numbers, set it to "date".
      */
 
     public void setType(ValueAxisType type) {
-        axis.type = type.getName();
+        getAmValueAxis().type = type.getName();
     }
 
     public String getUnit() {
-        return axis.unit;
+        return getAmValueAxis().unit;
     }
 
     /**
@@ -543,11 +553,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setUnit(String unit) {
-        axis.unit = unit;
+        getAmValueAxis().unit = unit;
     }
 
     public String getUnitPosition() {
-        return axis.unitPosition;
+        return getAmValueAxis().unitPosition;
     }
 
     /**
@@ -555,11 +565,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setUnitPosition(UnitPosition unitPosition) {
-        axis.unitPosition = unitPosition.getName();
+        getAmValueAxis().unitPosition = unitPosition.getName();
     }
 
     public boolean isUsePrefixes() {
-        return axis.usePrefixes;
+        return getAmValueAxis().usePrefixes;
     }
 
     /**
@@ -568,11 +578,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setUsePrefixes(boolean usePrefixes) {
-        axis.usePrefixes = usePrefixes;
+        getAmValueAxis().usePrefixes = usePrefixes;
     }
 
     public boolean isUseScientificNotation() {
-        return axis.useScientificNotation;
+        return getAmValueAxis().useScientificNotation;
     }
 
     /**
@@ -581,11 +591,11 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setUseScientificNotation(boolean useScientificNotation) {
-        axis.useScientificNotation = useScientificNotation;
+        getAmValueAxis().useScientificNotation = useScientificNotation;
     }
 
     public double getZeroGridAlpha() {
-        return axis.zeroGridAlpha;
+        return getAmValueAxis().zeroGridAlpha;
     }
 
     /**
@@ -593,16 +603,16 @@ public class ValueAxis extends AxisBase {
      */
 
     public void setZeroGridAlpha(double zeroGridAlpha) {
-        axis.zeroGridAlpha = zeroGridAlpha;
+        getAmValueAxis().zeroGridAlpha = zeroGridAlpha;
     }
 
     /**
-     * One value axis can be synchronized with another value axis. You should set synchronizationMultiplyer in order
+     * One value axis can be synchronized with another value getAmValueAxis(). You should set synchronizationMultiplyer in order
      * for this to work.
      */
 
     public void synchronizeWithAxis(AmValueAxis axis) {
-        this.axis.synchronizeWithAxis(axis);
+        this.getAmValueAxis().synchronizeWithAxis(axis);
     }
 
     /**
@@ -610,7 +620,7 @@ public class ValueAxis extends AxisBase {
      */
 
     public void addListener(String type, Functions.Func1<Object> handler) {
-        axis.addListener(type, handler);
+        getAmValueAxis().addListener(type, handler);
     }
 
     /**
@@ -618,7 +628,7 @@ public class ValueAxis extends AxisBase {
      */
 
     public void coordinateToValue(int x, int y) {
-        axis.coordinateToValue(x, y);
+        getAmValueAxis().coordinateToValue(x, y);
     }
 
     /**
@@ -626,7 +636,7 @@ public class ValueAxis extends AxisBase {
      */
 
     public int[] getCoordinate(int value) {
-        return axis.getCoordinate(value);
+        return getAmValueAxis().getCoordinate(value);
     }
 
     /**
@@ -634,7 +644,7 @@ public class ValueAxis extends AxisBase {
      */
 
     public void removeListener(Object object, String type, Functions.Func1<Object> handler) {
-        axis.removeListener(object, type, handler);
+        getAmValueAxis().removeListener(object, type, handler);
     }
 
     /**
@@ -642,7 +652,7 @@ public class ValueAxis extends AxisBase {
      */
 
     public void zoomOut() {
-        axis.zoomOut();
+        getAmValueAxis().zoomOut();
     }
 
     /**
@@ -650,11 +660,18 @@ public class ValueAxis extends AxisBase {
      */
 
     public void zoomToValues(int startValue, int endValue) {
-        axis.zoomToValues(startValue, endValue);
+        getAmValueAxis().zoomToValues(startValue, endValue);
     }
 
     @Override
-    protected AmAxisBase getAxis() {
+    protected AmAxisBase getAmAxis() {
+        return getAmValueAxis();
+    }
+
+    protected AmValueAxis getAmValueAxis() {
+        if (axis == null) {
+            axis = new AmValueAxis();
+        }
         return axis;
     }
 }

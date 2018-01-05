@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -26,7 +27,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Creates an arrow for AmAngularGauge charts, multiple can be assigned.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.GaugeArrow}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GaugeArrow">Official Documentation</a>
@@ -76,4 +77,7 @@ public class AmGaugeArrow {
 
     @JsProperty
     public int value;
+
+    @JsMethod
+    public native void setValue(int value);
 }

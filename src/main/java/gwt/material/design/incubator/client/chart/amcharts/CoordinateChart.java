@@ -29,9 +29,9 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.Coordin
 import gwt.material.design.incubator.client.chart.amcharts.events.object.CoordinateGraphItemData;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmCoordinateChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
-import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGuide;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 import gwt.material.design.incubator.client.chart.amcharts.options.Graph;
+import gwt.material.design.incubator.client.chart.amcharts.options.Guide;
 
 //@formatter:off
 
@@ -103,8 +103,10 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * defined, it will automatically will be assigned to the category axis. Otherwise to first value axis, unless you
      * specify a different valueAxis for the guide.
      */
-    public void setGuides(AmGuide... guides) {
-        getChart().guides = guides;
+    public void setGuides(Guide... guides) {
+        for (int i = 0; i < guides.length; i++) {
+            getChart().guides[i] = guides[i].getAmGuide();
+        }
     }
 
     /**
@@ -155,7 +157,7 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * Adds a graph to the chart.
      */
     public void addGraph(Graph graph) {
-        getChart().addGraph(graph.getGraph());
+        getChart().addGraph(graph.getAmGraph());
     }
 
     /**
@@ -192,28 +194,28 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * marker.
      */
     public void hideGraph(Graph graph) {
-        getChart().hideGraph(graph.getGraph());
+        getChart().hideGraph(graph.getAmGraph());
     }
 
     /**
      * Hide value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
     public void hideGraphsBalloon(Graph graph) {
-        getChart().hideGraphsBalloon(graph.getGraph());
+        getChart().hideGraphsBalloon(graph.getAmGraph());
     }
 
     /**
      * Highlight the graph. Usually this method is called from the ChartLegend, when you roll-over the legend entry.
      */
     public void highlightGraph(Graph graph) {
-        getChart().highlightGraph(graph.getGraph());
+        getChart().highlightGraph(graph.getAmGraph());
     }
 
     /**
      * Removes graph from the chart.
      */
     public void removeGraph(Graph graph) {
-        getChart().removeGraph(graph.getGraph());
+        getChart().removeGraph(graph.getAmGraph());
     }
 
     /**
@@ -228,21 +230,21 @@ public abstract class CoordinateChart extends AbstractChart implements HasCoordi
      * marker.
      */
     public void showGraph(Graph graph) {
-        getChart().showGraph(graph.getGraph());
+        getChart().showGraph(graph.getAmGraph());
     }
 
     /**
      * Show value balloon of a graph. Usually this method is called from the ChartLegend, when you click on the legend text.
      */
     public void showGraphsBalloon(Graph graph) {
-        getChart().showGraphsBalloon(graph.getGraph());
+        getChart().showGraphsBalloon(graph.getAmGraph());
     }
 
     /**
      * UnhighlightGraph the graph. Usually this method is called from the ChartLegend, when you roll-out the legend entry.
      */
     public void unhighlightGraph(Graph graph) {
-        getChart().unhighlightGraph(graph.getGraph());
+        getChart().unhighlightGraph(graph.getAmGraph());
     }
 
     @Override

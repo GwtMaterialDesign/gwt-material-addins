@@ -53,7 +53,7 @@ public class AmAngularGauge extends AmChart {
      * Array of axes.
      */
     @JsProperty
-    public AmGaugeAxis axes;
+    public AmGaugeAxis[] axes;
 
     /**
      * In case you use gauge to create a clock, set this to true. Default to false

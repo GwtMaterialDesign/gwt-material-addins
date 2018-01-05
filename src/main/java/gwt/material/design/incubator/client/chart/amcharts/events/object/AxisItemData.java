@@ -34,16 +34,22 @@ public class AxisItemData {
 
     @JsProperty
     public AmAxisBase axisBase;
+
     @JsProperty
     public Label target;
+
     @JsProperty
     public AmRectangularChart chart;
+
     @JsProperty
     public MouseEvent event;
+
     @JsProperty
     private String type;
+
     @JsProperty
     private Object value;
+
     @JsProperty
     private AmSerialDataItem serialDataItem;
 

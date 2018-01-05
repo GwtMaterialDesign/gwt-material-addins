@@ -27,14 +27,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * By default all amCharts libraries accept data in JSON format. It needs to be there when the web page loads, defined
- * in-line or loaded via custom code.
- * <p>
- * This plugin introduces a native wrapper that enables automatic loading of data from external data data sources in
- * CSV and JSON formats.
- * <p>
- * Most of the times you will just need to provide a URL of the external data source – static file or dynamically
- * generated – and it will do the rest.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.DataLoader}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="http://www.amcharts.com/kbase/using-data-loader-plugin/">Official Documentation</a>

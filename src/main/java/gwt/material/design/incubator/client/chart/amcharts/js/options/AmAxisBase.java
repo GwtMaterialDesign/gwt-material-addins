@@ -185,17 +185,9 @@ public class AmAxisBase {
     @JsProperty
     public int titleRotation;
 
-    /**
-     * Adds guide to the axis.
-     */
     @JsMethod
     public native void addGuide(AmGuide guide);
 
-    /**
-     * Removes guide from the axis.
-     */
     @JsMethod
     public native void removeGuide(AmGuide guide);
-
-    // TODO Events
 }

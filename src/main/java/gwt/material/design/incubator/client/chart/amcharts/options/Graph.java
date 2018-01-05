@@ -6,27 +6,34 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 import gwt.material.design.jquery.client.api.Functions;
 
+/**
+ * Creates the visualization of the data in following types: line, column, step line, smoothed line, olhc and candlestick.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmGraph">Official Documentation</a>
+ */
+//@formatter:on
 public class Graph extends ChartOptions {
 
-    private AmGraph graph = new AmGraph();
+    private AmGraph graph;
 
     public String getAccessibleLabel() {
-        return graph.accessibleLabel;
+        return getAmGraph().accessibleLabel;
     }
 
     /**
      * Text which screen readers will read if user rolls-over the bullet/column or sets focus using tab key (this is
      * possible only if tabIndex property of AmGraph is set to some number). Text is added as aria-label tag. Note -
-     * not all screen readers and browsers support graph.
+     * not all screen readers and browsers support getAmGraph().
      */
 
     public void setAccessibleLabel(String accessibleLabel) {
-        graph.accessibleLabel = accessibleLabel;
+        getAmGraph().accessibleLabel = accessibleLabel;
     }
 
 
     public String getAlphaField() {
-        return graph.alphaField;
+        return getAmGraph().alphaField;
     }
 
     /**
@@ -34,12 +41,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setAlphaField(String alphaField) {
-        graph.alphaField = alphaField;
+        getAmGraph().alphaField = alphaField;
     }
 
 
     public boolean isAnimationPlayed() {
-        return graph.animationPlayed;
+        return getAmGraph().animationPlayed;
     }
 
     /**
@@ -47,12 +54,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setAnimationPlayed(boolean animationPlayed) {
-        graph.animationPlayed = animationPlayed;
+        getAmGraph().animationPlayed = animationPlayed;
     }
 
 
     public AmBalloon getBalloon() {
-        return graph.balloon;
+        return getAmGraph().balloon;
     }
 
     /**
@@ -61,12 +68,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBalloon(Balloon balloon) {
-        graph.balloon = balloon.getBalloon();
+        getAmGraph().balloon = balloon.getAmBalloon();
     }
 
 
     public String getBallonColor() {
-        return graph.ballonColor;
+        return getAmGraph().ballonColor;
     }
 
     /**
@@ -74,26 +81,26 @@ public class Graph extends ChartOptions {
      */
 
     public void setBallonColor(String ballonColor) {
-        graph.ballonColor = ballonColor;
+        getAmGraph().ballonColor = ballonColor;
     }
 
 
     public Functions.Func getBalloonFunction() {
-        return graph.balloonFunction;
+        return getAmGraph().balloonFunction;
     }
 
     /**
      * If you set some function, the graph will call it and pass GraphDataItem and AmGraph objects to it. This function
-     * should return graph. a string which will be displayed in a balloon.
+     * should return getAmGraph(). a string which will be displayed in a balloon.
      */
 
     public void setBalloonFunction(Functions.Func balloonFunction) {
-        graph.balloonFunction = balloonFunction;
+        getAmGraph().balloonFunction = balloonFunction;
     }
 
 
     public String getBalloonText() {
-        return graph.balloonText;
+        return getAmGraph().balloonText;
     }
 
     /**
@@ -102,12 +109,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBalloonText(String balloonText) {
-        graph.balloonText = balloonText;
+        getAmGraph().balloonText = balloonText;
     }
 
 
     public boolean isBehindColumns() {
-        return graph.behindColumns;
+        return getAmGraph().behindColumns;
     }
 
     /**
@@ -115,12 +122,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBehindColumns(boolean behindColumns) {
-        graph.behindColumns = behindColumns;
+        getAmGraph().behindColumns = behindColumns;
     }
 
 
     public String getBullet() {
-        return graph.bullet;
+        return getAmGraph().bullet;
     }
 
     /**
@@ -129,12 +136,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBullet(String bullet) {
-        graph.bullet = bullet;
+        getAmGraph().bullet = bullet;
     }
 
 
     public int getBulletAlpha() {
-        return graph.bulletAlpha;
+        return getAmGraph().bulletAlpha;
     }
 
     /**
@@ -142,29 +149,29 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletAlpha(int bulletAlpha) {
-        graph.bulletAlpha = bulletAlpha;
+        getAmGraph().bulletAlpha = bulletAlpha;
     }
 
 
     public AmValueAxis getBulletAxis() {
-        return graph.bulletAxis;
+        return getAmGraph().bulletAxis;
     }
 
     /**
      * BulletAxis value is used when you are building error chart. Error chart is a regular serial or XY chart with
      * bullet type set to "xError" or "yError". The graph should know which axis should be used to determine the size
-     * of this bullet - that's when bulletAxis should be set. Besides that, you should also set graph.errorField.
+     * of this bullet - that's when bulletAxis should be set. Besides that, you should also set getAmGraph().errorField.
      * You can also use other bullet types with this feature too. For example, if you set bulletAxis for XY chart,
      * the size of a bullet will change as you zoom the chart.
      */
 
     public void setBulletAxis(AmValueAxis bulletAxis) {
-        graph.bulletAxis = bulletAxis;
+        getAmGraph().bulletAxis = bulletAxis;
     }
 
 
     public int getBulletBorderAlpha() {
-        return graph.bulletBorderAlpha;
+        return getAmGraph().bulletBorderAlpha;
     }
 
     /**
@@ -172,12 +179,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletBorderAlpha(int bulletBorderAlpha) {
-        graph.bulletBorderAlpha = bulletBorderAlpha;
+        getAmGraph().bulletBorderAlpha = bulletBorderAlpha;
     }
 
 
     public String getBulletBorderColor() {
-        return graph.bulletBorderColor;
+        return getAmGraph().bulletBorderColor;
     }
 
     /**
@@ -185,12 +192,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletBorderColor(String bulletBorderColor) {
-        graph.bulletBorderColor = bulletBorderColor;
+        getAmGraph().bulletBorderColor = bulletBorderColor;
     }
 
 
     public String getBulletBorderThickness() {
-        return graph.bulletBorderThickness;
+        return getAmGraph().bulletBorderThickness;
     }
 
     /**
@@ -198,12 +205,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletBorderThickness(String bulletBorderThickness) {
-        graph.bulletBorderThickness = bulletBorderThickness;
+        getAmGraph().bulletBorderThickness = bulletBorderThickness;
     }
 
 
     public String getBulletColor() {
-        return graph.bulletColor;
+        return getAmGraph().bulletColor;
     }
 
     /**
@@ -211,12 +218,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletColor(String bulletColor) {
-        graph.bulletColor = bulletColor;
+        getAmGraph().bulletColor = bulletColor;
     }
 
 
     public String getBulletField() {
-        return graph.bulletField;
+        return getAmGraph().bulletField;
     }
 
     /**
@@ -224,12 +231,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletField(String bulletField) {
-        graph.bulletField = bulletField;
+        getAmGraph().bulletField = bulletField;
     }
 
 
     public int getBulletHitAreaSize() {
-        return graph.bulletHitAreaSize;
+        return getAmGraph().bulletHitAreaSize;
     }
 
     /**
@@ -239,12 +246,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletHitAreaSize(int bulletHitAreaSize) {
-        graph.bulletHitAreaSize = bulletHitAreaSize;
+        getAmGraph().bulletHitAreaSize = bulletHitAreaSize;
     }
 
 
     public int getBulletOffset() {
-        return graph.bulletOffset;
+        return getAmGraph().bulletOffset;
     }
 
     /**
@@ -253,12 +260,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletOffset(int bulletOffset) {
-        graph.bulletOffset = bulletOffset;
+        getAmGraph().bulletOffset = bulletOffset;
     }
 
 
     public int getBulletSize() {
-        return graph.bulletSize;
+        return getAmGraph().bulletSize;
     }
 
     /**
@@ -266,12 +273,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletSize(int bulletSize) {
-        graph.bulletSize = bulletSize;
+        getAmGraph().bulletSize = bulletSize;
     }
 
 
     public String getBulletSizeField() {
-        return graph.bulletSizeField;
+        return getAmGraph().bulletSizeField;
     }
 
     /**
@@ -279,12 +286,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setBulletSizeField(String bulletSizeField) {
-        graph.bulletSizeField = bulletSizeField;
+        getAmGraph().bulletSizeField = bulletSizeField;
     }
 
 
     public String getClassNameField() {
-        return graph.classNameField;
+        return getAmGraph().classNameField;
     }
 
     /**
@@ -293,12 +300,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setClassNameField(String classNameField) {
-        graph.classNameField = classNameField;
+        getAmGraph().classNameField = classNameField;
     }
 
 
     public String getCloseField() {
-        return graph.closeField;
+        return getAmGraph().closeField;
     }
 
     /**
@@ -306,12 +313,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setCloseField(String closeField) {
-        graph.closeField = closeField;
+        getAmGraph().closeField = closeField;
     }
 
 
     public String getClustered() {
-        return graph.clustered;
+        return getAmGraph().clustered;
     }
 
     /**
@@ -321,12 +328,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setClustered(String clustered) {
-        graph.clustered = clustered;
+        getAmGraph().clustered = clustered;
     }
 
 
     public String getColor() {
-        return graph.color;
+        return getAmGraph().color;
     }
 
     /**
@@ -334,12 +341,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setColor(String color) {
-        graph.color = color;
+        getAmGraph().color = color;
     }
 
 
     public String getColorField() {
-        return graph.colorField;
+        return getAmGraph().colorField;
     }
 
     /**
@@ -347,12 +354,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setColorField(String colorField) {
-        graph.colorField = colorField;
+        getAmGraph().colorField = colorField;
     }
 
 
     public String getColumnIndexField() {
-        return graph.columnIndexField;
+        return getAmGraph().columnIndexField;
     }
 
     /**
@@ -362,12 +369,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setColumnIndexField(String columnIndexField) {
-        graph.columnIndexField = columnIndexField;
+        getAmGraph().columnIndexField = columnIndexField;
     }
 
 
     public String getColumnWidth() {
-        return graph.columnWidth;
+        return getAmGraph().columnWidth;
     }
 
     /**
@@ -376,12 +383,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setColumnWidth(String columnWidth) {
-        graph.columnWidth = columnWidth;
+        getAmGraph().columnWidth = columnWidth;
     }
 
 
     public boolean isConnect() {
-        return graph.connect;
+        return getAmGraph().connect;
     }
 
     /**
@@ -390,12 +397,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setConnect(boolean connect) {
-        graph.connect = connect;
+        getAmGraph().connect = connect;
     }
 
 
     public int getCornerRadiusTop() {
-        return graph.cornerRadiusTop;
+        return getAmGraph().cornerRadiusTop;
     }
 
     /**
@@ -406,12 +413,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setCornerRadiusTop(int cornerRadiusTop) {
-        graph.cornerRadiusTop = cornerRadiusTop;
+        getAmGraph().cornerRadiusTop = cornerRadiusTop;
     }
 
 
     public int getCursorBulletAlpha() {
-        return graph.cursorBulletAlpha;
+        return getAmGraph().cursorBulletAlpha;
     }
 
     /**
@@ -420,12 +427,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setCursorBulletAlpha(int cursorBulletAlpha) {
-        graph.cursorBulletAlpha = cursorBulletAlpha;
+        getAmGraph().cursorBulletAlpha = cursorBulletAlpha;
     }
 
 
     public String getCustomBullet() {
-        return graph.customBullet;
+        return getAmGraph().customBullet;
     }
 
     /**
@@ -433,12 +440,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setCustomBullet(String customBullet) {
-        graph.customBullet = customBullet;
+        getAmGraph().customBullet = customBullet;
     }
 
 
     public String getCustomBulletField() {
-        return graph.customBulletField;
+        return getAmGraph().customBulletField;
     }
 
     /**
@@ -446,12 +453,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setCustomBulletField(String customBulletField) {
-        graph.customBulletField = customBulletField;
+        getAmGraph().customBulletField = customBulletField;
     }
 
 
     public String getCustomMarker() {
-        return graph.customMarker;
+        return getAmGraph().customMarker;
     }
 
     /**
@@ -459,12 +466,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setCustomMarker(String customMarker) {
-        graph.customMarker = customMarker;
+        getAmGraph().customMarker = customMarker;
     }
 
 
     public int getDashLength() {
-        return graph.dashLength;
+        return getAmGraph().dashLength;
     }
 
     /**
@@ -472,27 +479,27 @@ public class Graph extends ChartOptions {
      */
 
     public void setDashLength(int dashLength) {
-        graph.dashLength = dashLength;
+        getAmGraph().dashLength = dashLength;
     }
 
 
     public String getDashLengthField() {
-        return graph.dashLengthField;
+        return getAmGraph().dashLengthField;
     }
 
     /**
      * Name of the dash length field in your dataProvider. This property adds a possibility to change graphs’ line
      * from solid to dashed on any data point. You can also make columns border dashed using this setting. Note,
-     * this won't work with smoothedLineGraph.
+     * this won't work with smoothedLinegetAmGraph().
      */
 
     public void setDashLengthField(String dashLengthField) {
-        graph.dashLengthField = dashLengthField;
+        getAmGraph().dashLengthField = dashLengthField;
     }
 
 
     public String getDateFormat() {
-        return graph.dateFormat;
+        return getAmGraph().dateFormat;
     }
 
     /**
@@ -500,12 +507,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setDateFormat(String dateFormat) {
-        graph.dateFormat = dateFormat;
+        getAmGraph().dateFormat = dateFormat;
     }
 
 
     public String getDescriptionField() {
-        return graph.descriptionField;
+        return getAmGraph().descriptionField;
     }
 
     /**
@@ -513,12 +520,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setDescriptionField(String descriptionField) {
-        graph.descriptionField = descriptionField;
+        getAmGraph().descriptionField = descriptionField;
     }
 
 
     public String getErrorField() {
-        return graph.errorField;
+        return getAmGraph().errorField;
     }
 
     /**
@@ -526,12 +533,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setErrorField(String errorField) {
-        graph.errorField = errorField;
+        getAmGraph().errorField = errorField;
     }
 
 
     public int getFillAlphas() {
-        return graph.fillAlphas;
+        return getAmGraph().fillAlphas;
     }
 
     /**
@@ -541,12 +548,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setFillAlphas(int fillAlphas) {
-        graph.fillAlphas = fillAlphas;
+        getAmGraph().fillAlphas = fillAlphas;
     }
 
 
     public String getFillColors() {
-        return graph.fillColors;
+        return getAmGraph().fillColors;
     }
 
     /**
@@ -554,26 +561,26 @@ public class Graph extends ChartOptions {
      */
 
     public void setFillColors(String fillColors) {
-        graph.fillColors = fillColors;
+        getAmGraph().fillColors = fillColors;
     }
 
 
     public String getFillColorsField() {
-        return graph.fillColorsField;
+        return getAmGraph().fillColorsField;
     }
 
     /**
      * Name of the fill colors field in your dataProvider. This property adds a possibility to change line graphs’
-     * fill color on any data point to create highlighted sections of the graph. Works only with AmSerialChart.
+     * fill color on any data point to create highlighted sections of the getAmGraph(). Works only with AmSerialChart.
      */
 
     public void setFillColorsField(String fillColorsField) {
-        graph.fillColorsField = fillColorsField;
+        getAmGraph().fillColorsField = fillColorsField;
     }
 
 
     public AmValueAxis getFillToAxis() {
-        return graph.fillToAxis;
+        return getAmGraph().fillToAxis;
     }
 
     /**
@@ -582,12 +589,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setFillToAxis(AmValueAxis fillToAxis) {
-        graph.fillToAxis = fillToAxis;
+        getAmGraph().fillToAxis = fillToAxis;
     }
 
 
     public AmGraph getFillToAmGraph() {
-        return graph.fillToAmGraph;
+        return getAmGraph().fillToAmGraph;
     }
 
     /**
@@ -596,12 +603,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setFillToAmGraph(AmGraph fillToAmGraph) {
-        graph.fillToAmGraph = fillToAmGraph;
+        getAmGraph().fillToAmGraph = fillToAmGraph;
     }
 
 
     public int getFixedColumnWidth() {
-        return graph.fixedColumnWidth;
+        return getAmGraph().fixedColumnWidth;
     }
 
     /**
@@ -610,12 +617,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setFixedColumnWidth(int fixedColumnWidth) {
-        graph.fixedColumnWidth = fixedColumnWidth;
+        getAmGraph().fixedColumnWidth = fixedColumnWidth;
     }
 
 
     public int getFontSize() {
-        return graph.fontSize;
+        return getAmGraph().fontSize;
     }
 
     /**
@@ -623,12 +630,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setFontSize(int fontSize) {
-        graph.fontSize = fontSize;
+        getAmGraph().fontSize = fontSize;
     }
 
 
     public boolean isForceGap() {
-        return graph.forceGap;
+        return getAmGraph().forceGap;
     }
 
     /**
@@ -637,12 +644,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setForceGap(boolean forceGap) {
-        graph.forceGap = forceGap;
+        getAmGraph().forceGap = forceGap;
     }
 
 
     public String getGapField() {
-        return graph.gapField;
+        return getAmGraph().gapField;
     }
 
     /**
@@ -651,12 +658,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setGapField(String gapField) {
-        graph.gapField = gapField;
+        getAmGraph().gapField = gapField;
     }
 
 
     public double getGapPeriod() {
-        return graph.gapPeriod;
+        return getAmGraph().gapPeriod;
     }
 
     /**
@@ -666,12 +673,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setGapPeriod(double gapPeriod) {
-        graph.gapPeriod = gapPeriod;
+        getAmGraph().gapPeriod = gapPeriod;
     }
 
 
     public String getGradientOrientation() {
-        return graph.gradientOrientation;
+        return getAmGraph().gradientOrientation;
     }
 
     /**
@@ -679,12 +686,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setGradientOrientation(String gradientOrientation) {
-        graph.gradientOrientation = gradientOrientation;
+        getAmGraph().gradientOrientation = gradientOrientation;
     }
 
 
     public boolean isHidden() {
-        return graph.hidden;
+        return getAmGraph().hidden;
     }
 
     /**
@@ -693,12 +700,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setHidden(boolean hidden) {
-        graph.hidden = hidden;
+        getAmGraph().hidden = hidden;
     }
 
 
     public int getHideBulletsCount() {
-        return graph.hideBulletsCount;
+        return getAmGraph().hideBulletsCount;
     }
 
     /**
@@ -707,12 +714,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setHideBulletsCount(int hideBulletsCount) {
-        graph.hideBulletsCount = hideBulletsCount;
+        getAmGraph().hideBulletsCount = hideBulletsCount;
     }
 
 
     public String getHighField() {
-        return graph.highField;
+        return getAmGraph().highField;
     }
 
     /**
@@ -720,26 +727,26 @@ public class Graph extends ChartOptions {
      */
 
     public void setHighField(String highField) {
-        graph.highField = highField;
+        getAmGraph().highField = highField;
     }
 
 
     public String getId() {
-        return graph.id;
+        return getAmGraph().id;
     }
 
     /**
-     * Unique id of a graph. It is not required to set one, unless you want to use this graph for as your scrollbar's
+     * Unique id of a getAmGraph(). It is not required to set one, unless you want to use this graph for as your scrollbar's
      * graph and need to indicate which graph should be used.
      */
 
     public void setId(String id) {
-        graph.id = id;
+        getAmGraph().id = id;
     }
 
 
     public boolean isIncludeInMinMax() {
-        return graph.includeInMinMax;
+        return getAmGraph().includeInMinMax;
     }
 
     /**
@@ -747,12 +754,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setIncludeInMinMax(boolean includeInMinMax) {
-        graph.includeInMinMax = includeInMinMax;
+        getAmGraph().includeInMinMax = includeInMinMax;
     }
 
 
     public String getLabelAnchor() {
-        return graph.labelAnchor;
+        return getAmGraph().labelAnchor;
     }
 
     /**
@@ -760,12 +767,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLabelAnchor(String labelAnchor) {
-        graph.labelAnchor = labelAnchor;
+        getAmGraph().labelAnchor = labelAnchor;
     }
 
 
     public String getLabelColorField() {
-        return graph.labelColorField;
+        return getAmGraph().labelColorField;
     }
 
     /**
@@ -773,27 +780,27 @@ public class Graph extends ChartOptions {
      */
 
     public void setLabelColorField(String labelColorField) {
-        graph.labelColorField = labelColorField;
+        getAmGraph().labelColorField = labelColorField;
     }
 
 
     public Functions.Func getLabelFunction() {
-        return graph.labelFunction;
+        return getAmGraph().labelFunction;
     }
 
     /**
      * You can use it to format labels of data items in any way you want. Graph will call this function and pass
-     * reference to GraphDataItem and formatted text as attributes. This function should return graph. string which will
+     * reference to GraphDataItem and formatted text as attributes. This function should return getAmGraph(). string which will
      * be displayed as label.
      */
 
     public void setLabelFunction(Functions.Func labelFunction) {
-        graph.labelFunction = labelFunction;
+        getAmGraph().labelFunction = labelFunction;
     }
 
 
     public int getLabelOffset() {
-        return graph.labelOffset;
+        return getAmGraph().labelOffset;
     }
 
     /**
@@ -801,12 +808,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLabelOffset(int labelOffset) {
-        graph.labelOffset = labelOffset;
+        getAmGraph().labelOffset = labelOffset;
     }
 
 
     public String getLabelPosition() {
-        return graph.labelPosition;
+        return getAmGraph().labelPosition;
     }
 
     /**
@@ -815,12 +822,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLabelPosition(String labelPosition) {
-        graph.labelPosition = labelPosition;
+        getAmGraph().labelPosition = labelPosition;
     }
 
 
     public int getLabelRotation() {
-        return graph.labelRotation;
+        return getAmGraph().labelRotation;
     }
 
     /**
@@ -828,12 +835,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLabelRotation(int labelRotation) {
-        graph.labelRotation = labelRotation;
+        getAmGraph().labelRotation = labelRotation;
     }
 
 
     public String getLabelText() {
-        return graph.labelText;
+        return getAmGraph().labelText;
     }
 
     /**
@@ -841,12 +848,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLabelText(String labelText) {
-        graph.labelText = labelText;
+        getAmGraph().labelText = labelText;
     }
 
 
     public double getLegendAlpha() {
-        return graph.legendAlpha;
+        return getAmGraph().legendAlpha;
     }
 
     /**
@@ -854,12 +861,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLegendAlpha(double legendAlpha) {
-        graph.legendAlpha = legendAlpha;
+        getAmGraph().legendAlpha = legendAlpha;
     }
 
 
     public String getLegendColor() {
-        return graph.legendColor;
+        return getAmGraph().legendColor;
     }
 
     /**
@@ -867,26 +874,26 @@ public class Graph extends ChartOptions {
      */
 
     public void setLegendColor(String legendColor) {
-        graph.legendColor = legendColor;
+        getAmGraph().legendColor = legendColor;
     }
 
 
     public Object getLegendColorFunction() {
-        return graph.legendColorFunction;
+        return getAmGraph().legendColorFunction;
     }
 
     /**
      * It is called and the following attributes are passed: dataItem, formattedText, periodValues, periodPercentValues.
-     * It should return graph. hex color code which will be used for legend marker.
+     * It should return getAmGraph(). hex color code which will be used for legend marker.
      */
 
     public void setLegendColorFunction(Object legendColorFunction) {
-        graph.legendColorFunction = legendColorFunction;
+        getAmGraph().legendColorFunction = legendColorFunction;
     }
 
 
     public String getLegendPeriodValueText() {
-        return graph.legendPeriodValueText;
+        return getAmGraph().legendPeriodValueText;
     }
 
     /**
@@ -897,12 +904,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLegendPeriodValueText(String legendPeriodValueText) {
-        graph.legendPeriodValueText = legendPeriodValueText;
+        getAmGraph().legendPeriodValueText = legendPeriodValueText;
     }
 
 
     public String getLegendValueText() {
-        return graph.legendValueText;
+        return getAmGraph().legendValueText;
     }
 
     /**
@@ -911,12 +918,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLegendValueText(String legendValueText) {
-        graph.legendValueText = legendValueText;
+        getAmGraph().legendValueText = legendValueText;
     }
 
 
     public double getLineAlpha() {
-        return graph.lineAlpha;
+        return getAmGraph().lineAlpha;
     }
 
     /**
@@ -924,40 +931,40 @@ public class Graph extends ChartOptions {
      */
 
     public void setLineAlpha(double lineAlpha) {
-        graph.lineAlpha = lineAlpha;
+        getAmGraph().lineAlpha = lineAlpha;
     }
 
 
     public String getLineColor() {
-        return graph.lineColor;
+        return getAmGraph().lineColor;
     }
 
     /**
      * Color of the line (or column border). If you do not set any, the color from AmCoordinateChart.colors array will
-     * be used for each subsequent graph.
+     * be used for each subsequent getAmGraph().
      */
 
     public void setLineColor(String lineColor) {
-        graph.lineColor = lineColor;
+        getAmGraph().lineColor = lineColor;
     }
 
 
     public String getLineColorField() {
-        return graph.lineColorField;
+        return getAmGraph().lineColorField;
     }
 
     /**
      * Name of the line color field in your dataProvider. This property adds a possibility to change graphs’ line color
-     * on any data point to create highlighted sections of the graph. Works only with AmSerialChart.
+     * on any data point to create highlighted sections of the getAmGraph(). Works only with AmSerialChart.
      */
 
     public void setLineColorField(String lineColorField) {
-        graph.lineColorField = lineColorField;
+        getAmGraph().lineColorField = lineColorField;
     }
 
 
     public int getLineThickness() {
-        return graph.lineThickness;
+        return getAmGraph().lineThickness;
     }
 
     /**
@@ -965,12 +972,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLineThickness(int lineThickness) {
-        graph.lineThickness = lineThickness;
+        getAmGraph().lineThickness = lineThickness;
     }
 
 
     public String getLowField() {
-        return graph.lowField;
+        return getAmGraph().lowField;
     }
 
     /**
@@ -978,12 +985,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setLowField(String lowField) {
-        graph.lowField = lowField;
+        getAmGraph().lowField = lowField;
     }
 
 
     public String getMarkerType() {
-        return graph.markerType;
+        return getAmGraph().markerType;
     }
 
     /**
@@ -992,12 +999,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setMarkerType(String markerType) {
-        graph.markerType = markerType;
+        getAmGraph().markerType = markerType;
     }
 
 
     public int getMaxBulletSize() {
-        return graph.maxBulletSize;
+        return getAmGraph().maxBulletSize;
     }
 
     /**
@@ -1005,12 +1012,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setMaxBulletSize(int maxBulletSize) {
-        graph.maxBulletSize = maxBulletSize;
+        getAmGraph().maxBulletSize = maxBulletSize;
     }
 
 
     public int getMinDistance() {
-        return graph.minDistance;
+        return getAmGraph().minDistance;
     }
 
     /**
@@ -1022,12 +1029,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setMinDistance(int minDistance) {
-        graph.minDistance = minDistance;
+        getAmGraph().minDistance = minDistance;
     }
 
 
     public int getNegativeBase() {
-        return graph.negativeBase;
+        return getAmGraph().negativeBase;
     }
 
     /**
@@ -1036,38 +1043,38 @@ public class Graph extends ChartOptions {
      */
 
     public void setNegativeBase(int negativeBase) {
-        graph.negativeBase = negativeBase;
+        getAmGraph().negativeBase = negativeBase;
     }
 
 
     public double getNegativeFillAlphas() {
-        return graph.negativeFillAlphas;
+        return getAmGraph().negativeFillAlphas;
     }
 
     /**
-     * Fill opacity of negative part of the graph. Will use fillAlphas if not set.
+     * Fill opacity of negative part of the getAmGraph(). Will use fillAlphas if not set.
      */
 
     public void setNegativeFillAlphas(double negativeFillAlphas) {
-        graph.negativeFillAlphas = negativeFillAlphas;
+        getAmGraph().negativeFillAlphas = negativeFillAlphas;
     }
 
 
     public String getNegativeFillColors() {
-        return graph.negativeFillColors;
+        return getAmGraph().negativeFillColors;
     }
 
     /**
-     * Fill color of negative part of the graph. Will use fillColors if not set.
+     * Fill color of negative part of the getAmGraph(). Will use fillColors if not set.
      */
 
     public void setNegativeFillColors(String negativeFillColors) {
-        graph.negativeFillColors = negativeFillColors;
+        getAmGraph().negativeFillColors = negativeFillColors;
     }
 
 
     public double getNegativeLineAlpha() {
-        return graph.negativeLineAlpha;
+        return getAmGraph().negativeLineAlpha;
     }
 
     /**
@@ -1075,12 +1082,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setNegativeLineAlpha(double negativeLineAlpha) {
-        graph.negativeLineAlpha = negativeLineAlpha;
+        getAmGraph().negativeLineAlpha = negativeLineAlpha;
     }
 
 
     public String getNegativeLineColor() {
-        return graph.negativeLineColor;
+        return getAmGraph().negativeLineColor;
     }
 
     /**
@@ -1089,12 +1096,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setNegativeLineColor(String negativeLineColor) {
-        graph.negativeLineColor = negativeLineColor;
+        getAmGraph().negativeLineColor = negativeLineColor;
     }
 
 
     public boolean isNewStack() {
-        return graph.newStack;
+        return getAmGraph().newStack;
     }
 
     /**
@@ -1103,12 +1110,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setNewStack(boolean newStack) {
-        graph.newStack = newStack;
+        getAmGraph().newStack = newStack;
     }
 
 
     public boolean isNoStepRisers() {
-        return graph.noStepRisers;
+        return getAmGraph().noStepRisers;
     }
 
     /**
@@ -1116,12 +1123,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setNoStepRisers(boolean noStepRisers) {
-        graph.noStepRisers = noStepRisers;
+        getAmGraph().noStepRisers = noStepRisers;
     }
 
 
     public String getOpenField() {
-        return graph.openField;
+        return getAmGraph().openField;
     }
 
     /**
@@ -1129,30 +1136,30 @@ public class Graph extends ChartOptions {
      */
 
     public void setOpenField(String openField) {
-        graph.openField = openField;
+        getAmGraph().openField = openField;
     }
 
 
     public Object getPattern() {
-        return graph.pattern;
+        return getAmGraph().pattern;
     }
 
     /**
      * Value of pattern should be object with url, width, height of an image, optionally it might have x, y, randomX
      * and randomY values. For example: {"url":"../amcharts/patterns/black/pattern1.png", "width":4, "height":4}.
      * If you want to have individual patterns for each column, define patterns in data provider and set
-     * graph.patternField property. Check amcharts/patterns folder for some patterns. You can create your own
+     * getAmGraph().patternField property. Check amcharts/patterns folder for some patterns. You can create your own
      * patterns and use them. Note, x, y, randomX and randomY properties won't work with IE8 and older. 3D bar/Pie
      * charts won't work properly with patterns.
      */
 
     public void setPattern(Object pattern) {
-        graph.pattern = pattern;
+        getAmGraph().pattern = pattern;
     }
 
 
     public String getPatternField() {
-        return graph.patternField;
+        return getAmGraph().patternField;
     }
 
     /**
@@ -1164,12 +1171,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setPatternField(String patternField) {
-        graph.patternField = patternField;
+        getAmGraph().patternField = patternField;
     }
 
 
     public int getPeriodSpan() {
-        return graph.periodSpan;
+        return getAmGraph().periodSpan;
     }
 
     /**
@@ -1177,12 +1184,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setPeriodSpan(int periodSpan) {
-        graph.periodSpan = periodSpan;
+        getAmGraph().periodSpan = periodSpan;
     }
 
 
     public String getPointPosition() {
-        return graph.pointPosition;
+        return getAmGraph().pointPosition;
     }
 
     /**
@@ -1192,12 +1199,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setPointPosition(String pointPosition) {
-        graph.pointPosition = pointPosition;
+        getAmGraph().pointPosition = pointPosition;
     }
 
 
     public int getPrecision() {
-        return graph.precision;
+        return getAmGraph().precision;
     }
 
     /**
@@ -1205,12 +1212,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setPrecision(int precision) {
-        graph.precision = precision;
+        getAmGraph().precision = precision;
     }
 
 
     public boolean isProCandlesticks() {
-        return graph.proCandlesticks;
+        return getAmGraph().proCandlesticks;
     }
 
     /**
@@ -1220,12 +1227,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setProCandlesticks(boolean proCandlesticks) {
-        graph.proCandlesticks = proCandlesticks;
+        getAmGraph().proCandlesticks = proCandlesticks;
     }
 
 
     public Object getSegmentData() {
-        return graph.segmentData;
+        return getAmGraph().segmentData;
     }
 
     /**
@@ -1233,12 +1240,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setSegmentData(Object segmentData) {
-        graph.segmentData = segmentData;
+        getAmGraph().segmentData = segmentData;
     }
 
 
     public boolean isShowAllValueLabels() {
-        return graph.showAllValueLabels;
+        return getAmGraph().showAllValueLabels;
     }
 
     /**
@@ -1247,12 +1254,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setShowAllValueLabels(boolean showAllValueLabels) {
-        graph.showAllValueLabels = showAllValueLabels;
+        getAmGraph().showAllValueLabels = showAllValueLabels;
     }
 
 
     public boolean isShowBalloon() {
-        return graph.showBalloon;
+        return getAmGraph().showBalloon;
     }
 
     /**
@@ -1261,12 +1268,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setShowBalloon(boolean showBalloon) {
-        graph.showBalloon = showBalloon;
+        getAmGraph().showBalloon = showBalloon;
     }
 
 
     public String getShowBalloonAt() {
-        return graph.showBalloonAt;
+        return getAmGraph().showBalloonAt;
     }
 
     /**
@@ -1276,12 +1283,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setShowBalloonAt(String showBalloonAt) {
-        graph.showBalloonAt = showBalloonAt;
+        getAmGraph().showBalloonAt = showBalloonAt;
     }
 
 
     public String getShowBulletsAt() {
-        return graph.showBulletsAt;
+        return getAmGraph().showBulletsAt;
     }
 
     /**
@@ -1290,12 +1297,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setShowBulletsAt(String showBulletsAt) {
-        graph.showBulletsAt = showBulletsAt;
+        getAmGraph().showBulletsAt = showBulletsAt;
     }
 
 
     public boolean isShowHandOnHover() {
-        return graph.showHandOnHover;
+        return getAmGraph().showHandOnHover;
     }
 
     /**
@@ -1303,12 +1310,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setShowHandOnHover(boolean showHandOnHover) {
-        graph.showHandOnHover = showHandOnHover;
+        getAmGraph().showHandOnHover = showHandOnHover;
     }
 
 
     public boolean isShowOnAxis() {
-        return graph.showOnAxis;
+        return getAmGraph().showOnAxis;
     }
 
     /**
@@ -1317,12 +1324,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setShowOnAxis(boolean showOnAxis) {
-        graph.showOnAxis = showOnAxis;
+        getAmGraph().showOnAxis = showOnAxis;
     }
 
 
     public boolean isStackable() {
-        return graph.stackable;
+        return getAmGraph().stackable;
     }
 
     /**
@@ -1330,12 +1337,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setStackable(boolean stackable) {
-        graph.stackable = stackable;
+        getAmGraph().stackable = stackable;
     }
 
 
     public String getStepDirection() {
-        return graph.stepDirection;
+        return getAmGraph().stepDirection;
     }
 
     /**
@@ -1343,12 +1350,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setStepDirection(String stepDirection) {
-        graph.stepDirection = stepDirection;
+        getAmGraph().stepDirection = stepDirection;
     }
 
 
     public boolean isSwitchable() {
-        return graph.switchable;
+        return getAmGraph().switchable;
     }
 
     /**
@@ -1356,27 +1363,27 @@ public class Graph extends ChartOptions {
      */
 
     public void setSwitchable(boolean switchable) {
-        graph.switchable = switchable;
+        getAmGraph().switchable = switchable;
     }
 
 
     public int getTabIndex() {
-        return graph.tabIndex;
+        return getAmGraph().tabIndex;
     }
 
     /**
      * In case you set it to some number, the chart will set focus on bullet/column (starting from first) when user
      * clicks tab key. When a focus is set, screen readers like NVDA Screen reader will read label which is set using
-     * accessibleLabel property of AmGraph. Note, not all browsers and readers support graph.
+     * accessibleLabel property of AmgetAmGraph(). Note, not all browsers and readers support getAmGraph().
      */
 
     public void setTabIndex(int tabIndex) {
-        graph.tabIndex = tabIndex;
+        getAmGraph().tabIndex = tabIndex;
     }
 
 
     public String getTitle() {
-        return graph.title;
+        return getAmGraph().title;
     }
 
     /**
@@ -1384,12 +1391,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setTitle(String title) {
-        graph.title = title;
+        getAmGraph().title = title;
     }
 
 
     public int getTopRadius() {
-        return graph.topRadius;
+        return getAmGraph().topRadius;
     }
 
     /**
@@ -1399,26 +1406,26 @@ public class Graph extends ChartOptions {
      */
 
     public void setTopRadius(int topRadius) {
-        graph.topRadius = topRadius;
+        getAmGraph().topRadius = topRadius;
     }
 
 
     public String getType() {
-        return graph.type;
+        return getAmGraph().type;
     }
 
     /**
-     * Type of the graph. Possible values are: "line", "column", "step", "smoothedLine", "candlestick", "ohlc". XY and
+     * Type of the getAmGraph(). Possible values are: "line", "column", "step", "smoothedLine", "candlestick", "ohlc". XY and
      * Radar charts can only display "line" type graphs.
      */
 
     public void setType(String type) {
-        graph.type = type;
+        getAmGraph().type = type;
     }
 
 
     public String getUrlField() {
-        return graph.urlField;
+        return getAmGraph().urlField;
     }
 
     /**
@@ -1426,12 +1433,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setUrlField(String urlField) {
-        graph.urlField = urlField;
+        getAmGraph().urlField = urlField;
     }
 
 
     public String getUrlTarget() {
-        return graph.urlTarget;
+        return getAmGraph().urlTarget;
     }
 
     /**
@@ -1439,12 +1446,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setUrlTarget(String urlTarget) {
-        graph.urlTarget = urlTarget;
+        getAmGraph().urlTarget = urlTarget;
     }
 
 
     public boolean isUseLineColorForBulletBorder() {
-        return graph.useLineColorForBulletBorder;
+        return getAmGraph().useLineColorForBulletBorder;
     }
 
     /**
@@ -1452,12 +1459,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setUseLineColorForBulletBorder(boolean useLineColorForBulletBorder) {
-        graph.useLineColorForBulletBorder = useLineColorForBulletBorder;
+        getAmGraph().useLineColorForBulletBorder = useLineColorForBulletBorder;
     }
 
 
     public boolean isUseNegativeColorIfDown() {
-        return graph.useNegativeColorIfDown;
+        return getAmGraph().useNegativeColorIfDown;
     }
 
     /**
@@ -1468,12 +1475,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setUseNegativeColorIfDown(boolean useNegativeColorIfDown) {
-        graph.useNegativeColorIfDown = useNegativeColorIfDown;
+        getAmGraph().useNegativeColorIfDown = useNegativeColorIfDown;
     }
 
 
     public AmValueAxis getValueAxis() {
-        return graph.valueAxis;
+        return getAmGraph().valueAxis;
     }
 
     /**
@@ -1482,12 +1489,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setValueAxis(AmValueAxis valueAxis) {
-        graph.valueAxis = valueAxis;
+        getAmGraph().valueAxis = valueAxis;
     }
 
 
     public String getValueField() {
-        return graph.valueField;
+        return getAmGraph().valueField;
     }
 
     /**
@@ -1495,12 +1502,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setValueField(String valueField) {
-        graph.valueField = valueField;
+        getAmGraph().valueField = valueField;
     }
 
 
     public boolean isVisibleInLegend() {
-        return graph.visibleInLegend;
+        return getAmGraph().visibleInLegend;
     }
 
     /**
@@ -1508,12 +1515,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setVisibleInLegend(boolean visibleInLegend) {
-        graph.visibleInLegend = visibleInLegend;
+        getAmGraph().visibleInLegend = visibleInLegend;
     }
 
 
     public AmValueAxis getxAxis() {
-        return graph.xAxis;
+        return getAmGraph().xAxis;
     }
 
     /**
@@ -1521,12 +1528,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setxAxis(AmValueAxis xAxis) {
-        graph.xAxis = xAxis;
+        getAmGraph().xAxis = xAxis;
     }
 
 
     public String getxField() {
-        return graph.xField;
+        return getAmGraph().xField;
     }
 
     /**
@@ -1534,12 +1541,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setxField(String xField) {
-        graph.xField = xField;
+        getAmGraph().xField = xField;
     }
 
 
     public AmValueAxis getyAxis() {
-        return graph.yAxis;
+        return getAmGraph().yAxis;
     }
 
     /**
@@ -1547,12 +1554,12 @@ public class Graph extends ChartOptions {
      */
 
     public void setyAxis(AmValueAxis yAxis) {
-        graph.yAxis = yAxis;
+        getAmGraph().yAxis = yAxis;
     }
 
 
     public String getyField() {
-        return graph.yField;
+        return getAmGraph().yField;
     }
 
     /**
@@ -1560,10 +1567,27 @@ public class Graph extends ChartOptions {
      */
 
     public void setyField(String yField) {
-        graph.yField = yField;
+        getAmGraph().yField = yField;
     }
 
-    public AmGraph getGraph() {
+    /**
+     * Hides graph's bullets.
+     */
+    public void hideBullets() {
+        getAmGraph().hideBullets();
+    }
+
+    /**
+     * Shows graph's bullets
+     */
+    public void showBullets() {
+        getAmGraph().showBullets();
+    }
+
+    public AmGraph getAmGraph() {
+        if (graph == null) {
+            graph = new AmGraph();
+        }
         return graph;
     }
 }

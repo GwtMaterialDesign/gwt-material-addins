@@ -3,24 +3,22 @@ package gwt.material.design.incubator.client.chart.amcharts.options;
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeArrow;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeAxis;
-import jsinterop.annotations.JsMethod;
 
+//@formatter:off
+
+/**
+ * Creates an arrow for AmAngularGauge charts, multiple can be assigned.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GaugeArrow">Official Documentation</a>
+ */
+//@formatter:on
 public class GaugeArrow extends ChartOptions {
 
-    private AmGaugeArrow gaugeArrow = new AmGaugeArrow();
-
-    @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void unload() {
-
-    }
+    private AmGaugeArrow gaugeArrow;
 
     public double getAlpha() {
-        return gaugeArrow.alpha;
+        return getAmGaugeArrow().alpha;
     }
 
     /**
@@ -28,11 +26,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setAlpha(double alpha) {
-        gaugeArrow.alpha = alpha;
+        getAmGaugeArrow().alpha = alpha;
     }
 
     public AmGaugeAxis getAxis() {
-        return gaugeArrow.axis;
+        return getAmGaugeArrow().axis;
     }
 
     /**
@@ -40,12 +38,12 @@ public class GaugeArrow extends ChartOptions {
      * axis of a chart will be used.
      */
 
-    public void setAxis(AmGaugeAxis axis) {
-        gaugeArrow.axis = axis;
+    public void setAxis(GaugeAxis axis) {
+        getAmGaugeArrow().axis = axis.getAmGaugeAxis();
     }
 
     public int getBorderAlpha() {
-        return gaugeArrow.borderAlpha;
+        return getAmGaugeArrow().borderAlpha;
     }
 
     /**
@@ -53,11 +51,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setBorderAlpha(int borderAlpha) {
-        gaugeArrow.borderAlpha = borderAlpha;
+        getAmGaugeArrow().borderAlpha = borderAlpha;
     }
 
     public boolean isClockWiseOnly() {
-        return gaugeArrow.clockWiseOnly;
+        return getAmGaugeArrow().clockWiseOnly;
     }
 
     /**
@@ -65,11 +63,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setClockWiseOnly(boolean clockWiseOnly) {
-        gaugeArrow.clockWiseOnly = clockWiseOnly;
+        getAmGaugeArrow().clockWiseOnly = clockWiseOnly;
     }
 
     public String getColor() {
-        return gaugeArrow.color;
+        return getAmGaugeArrow().color;
     }
 
     /**
@@ -77,11 +75,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setColor(String color) {
-        gaugeArrow.color = color;
+        getAmGaugeArrow().color = color;
     }
 
     public String getId() {
-        return gaugeArrow.id;
+        return getAmGaugeArrow().id;
     }
 
     /**
@@ -89,11 +87,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setId(String id) {
-        gaugeArrow.id = id;
+        getAmGaugeArrow().id = id;
     }
 
     public Object getInnerRadius() {
-        return gaugeArrow.innerRadius;
+        return getAmGaugeArrow().innerRadius;
     }
 
     /**
@@ -101,11 +99,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setInnerRadius(Object innerRadius) {
-        gaugeArrow.innerRadius = innerRadius;
+        getAmGaugeArrow().innerRadius = innerRadius;
     }
 
     public int getNailAlpha() {
-        return gaugeArrow.nailAlpha;
+        return getAmGaugeArrow().nailAlpha;
     }
 
     /**
@@ -113,11 +111,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setNailAlpha(int nailAlpha) {
-        gaugeArrow.nailAlpha = nailAlpha;
+        getAmGaugeArrow().nailAlpha = nailAlpha;
     }
 
     public int getNailBorderAlpha() {
-        return gaugeArrow.nailBorderAlpha;
+        return getAmGaugeArrow().nailBorderAlpha;
     }
 
     /**
@@ -125,11 +123,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setNailBorderAlpha(int nailBorderAlpha) {
-        gaugeArrow.nailBorderAlpha = nailBorderAlpha;
+        getAmGaugeArrow().nailBorderAlpha = nailBorderAlpha;
     }
 
     public int getNailBorderThickness() {
-        return gaugeArrow.nailBorderThickness;
+        return getAmGaugeArrow().nailBorderThickness;
     }
 
     /**
@@ -137,11 +135,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setNailBorderThickness(int nailBorderThickness) {
-        gaugeArrow.nailBorderThickness = nailBorderThickness;
+        getAmGaugeArrow().nailBorderThickness = nailBorderThickness;
     }
 
     public int getNailRadius() {
-        return gaugeArrow.nailRadius;
+        return getAmGaugeArrow().nailRadius;
     }
 
     /**
@@ -149,11 +147,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setNailRadius(int nailRadius) {
-        gaugeArrow.nailRadius = nailRadius;
+        getAmGaugeArrow().nailRadius = nailRadius;
     }
 
     public Object getRadius() {
-        return gaugeArrow.radius;
+        return getAmGaugeArrow().radius;
     }
 
     /**
@@ -161,11 +159,11 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setRadius(Object radius) {
-        gaugeArrow.radius = radius;
+        getAmGaugeArrow().radius = radius;
     }
 
     public int getStartWidth() {
-        return gaugeArrow.startWidth;
+        return getAmGaugeArrow().startWidth;
     }
 
     /**
@@ -173,20 +171,24 @@ public class GaugeArrow extends ChartOptions {
      */
 
     public void setStartWidth(int startWidth) {
-        gaugeArrow.startWidth = startWidth;
+        getAmGaugeArrow().startWidth = startWidth;
     }
 
     public int getValue() {
-        return gaugeArrow.value;
+        return getAmGaugeArrow().value;
     }
 
     /**
      * Value to which the arrow should point at.
      */
-    @JsMethod
-    public native void setValue(int value);
+    public void setValue(int value) {
+        getAmGaugeArrow().setValue(value);
+    }
 
-    public AmGaugeArrow getGaugeArrow() {
+    public AmGaugeArrow getAmGaugeArrow() {
+        if (gaugeArrow == null) {
+            gaugeArrow = new AmGaugeArrow();
+        }
         return gaugeArrow;
     }
 }

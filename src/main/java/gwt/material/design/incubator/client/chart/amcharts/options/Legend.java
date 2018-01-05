@@ -10,19 +10,28 @@ import gwt.material.design.incubator.client.chart.amcharts.events.object.LegendD
 import gwt.material.design.incubator.client.chart.amcharts.js.AmLegend;
 import gwt.material.design.jquery.client.api.Functions;
 
+//@formatter:off
+
+/**
+ * Creates the legend for the chart, automatically adapts the color settings of the graphs.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmLegend">Official Documentation</a>
+ */
+//@formatter:on
 public class Legend extends ChartOptions implements HasLegendHandlers {
 
-    private AmLegend legend = new AmLegend();
+    private AmLegend legend;
 
     @Override
     public void load() {
-        legend.addListener(AmChartEvents.CLICK_LABEL, object -> ClickLabelEvent.fire(this, (LegendData) object));
-        legend.addListener(AmChartEvents.CLICK_MARKER, object -> ClickMarkerEvent.fire(this, (LegendData) object));
-        legend.addListener(AmChartEvents.HIDE_ITEM, object -> HideItemEvent.fire(this, (LegendData) object));
-        legend.addListener(AmChartEvents.ROLL_OUT_ITEM, object -> RollOutItemEvent.fire(this, (LegendData) object));
-        legend.addListener(AmChartEvents.ROLL_OVER_ITEM, object -> RollOverItemEvent.fire(this, (LegendData) object));
-        legend.addListener(AmChartEvents.ROLL_OVER_MARKER, object -> RollOverMarkerEvent.fire(this, (LegendData) object));
-        legend.addListener(AmChartEvents.SHOW_ITEM, object -> ShowItemEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.CLICK_LABEL, object -> ClickLabelEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.CLICK_MARKER, object -> ClickMarkerEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.HIDE_ITEM, object -> HideItemEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.ROLL_OUT_ITEM, object -> RollOutItemEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.ROLL_OVER_ITEM, object -> RollOverItemEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.ROLL_OVER_MARKER, object -> RollOverMarkerEvent.fire(this, (LegendData) object));
+        addListener(AmChartEvents.SHOW_ITEM, object -> ShowItemEvent.fire(this, (LegendData) object));
     }
 
     @Override
@@ -31,22 +40,22 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
     }
 
     public String getAccessibleLabel() {
-        return legend.accessibleLabel;
+        return getAmLegend().accessibleLabel;
     }
 
     /**
      * Text which screen readers will read if user rolls-over the element or sets focus on it using tab key
      * (this is possible only if tabIndex property of AmLegend is set to some number). Text is added as aria-label
-     * tag. Note - not all screen readers and browsers support legend. Default to [[title]]
+     * tag. Note - not all screen readers and browsers support getAmLegend(). Default to [[title]]
      */
 
     public void setAccessibleLabel(String accessibleLabel) {
-        legend.accessibleLabel = accessibleLabel;
+        getAmLegend().accessibleLabel = accessibleLabel;
     }
 
 
     public String getAlign() {
-        return legend.align;
+        return getAmLegend().align;
     }
 
     /**
@@ -54,12 +63,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setAlign(String align) {
-        legend.align = align;
+        getAmLegend().align = align;
     }
 
 
     public boolean isAutoMargins() {
-        return legend.autoMargins;
+        return getAmLegend().autoMargins;
     }
 
     /**
@@ -68,12 +77,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setAutoMargins(boolean autoMargins) {
-        legend.autoMargins = autoMargins;
+        getAmLegend().autoMargins = autoMargins;
     }
 
 
     public double getBackgroundAlpha() {
-        return legend.backgroundAlpha;
+        return getAmLegend().backgroundAlpha;
     }
 
     /**
@@ -81,12 +90,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setBackgroundAlpha(double backgroundAlpha) {
-        legend.backgroundAlpha = backgroundAlpha;
+        getAmLegend().backgroundAlpha = backgroundAlpha;
     }
 
 
     public String getLegendBackgroundColor() {
-        return legend.backgroundColor;
+        return getAmLegend().backgroundColor;
     }
 
     /**
@@ -95,12 +104,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setLegendBackgroundColor(String backgroundColor) {
-        legend.backgroundColor = backgroundColor;
+        getAmLegend().backgroundColor = backgroundColor;
     }
 
 
     public int getBorderAlpha() {
-        return legend.borderAlpha;
+        return getAmLegend().borderAlpha;
     }
 
     /**
@@ -108,12 +117,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setBorderAlpha(int borderAlpha) {
-        legend.borderAlpha = borderAlpha;
+        getAmLegend().borderAlpha = borderAlpha;
     }
 
 
     public String getBorderColor() {
-        return legend.borderColor;
+        return getAmLegend().borderColor;
     }
 
     /**
@@ -121,12 +130,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setBorderColor(String borderColor) {
-        legend.borderColor = borderColor;
+        getAmLegend().borderColor = borderColor;
     }
 
 
     public int getBottom() {
-        return legend.bottom;
+        return getAmLegend().bottom;
     }
 
     /**
@@ -134,12 +143,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setBottom(int bottom) {
-        legend.bottom = bottom;
+        getAmLegend().bottom = bottom;
     }
 
 
     public String getColor() {
-        return legend.color;
+        return getAmLegend().color;
     }
 
     /**
@@ -147,26 +156,26 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setColor(String color) {
-        legend.color = color;
+        getAmLegend().color = color;
     }
 
 
     public boolean isCombineLegend() {
-        return legend.combineLegend;
+        return getAmLegend().combineLegend;
     }
 
     /**
-     * If you set it to true, and you have some legend items set using legend.data property, both graph’s entries and
+     * If you set it to true, and you have some legend items set using getAmLegend().data property, both graph’s entries and
      * those added using data property will be displayed. Default to false
      */
 
     public void setCombineLegend(boolean combineLegend) {
-        legend.combineLegend = combineLegend;
+        getAmLegend().combineLegend = combineLegend;
     }
 
 
     public Object[] getData() {
-        return legend.data;
+        return getAmLegend().data;
     }
 
     /**
@@ -175,12 +184,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setData(Object[] data) {
-        legend.data = data;
+        getAmLegend().data = data;
     }
 
 
     public String getDivId() {
-        return legend.divId;
+        return getAmLegend().divId;
     }
 
     /**
@@ -189,12 +198,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setDivId(String divId) {
-        legend.divId = divId;
+        getAmLegend().divId = divId;
     }
 
 
     public boolean isEnabled() {
-        return legend.enabled;
+        return getAmLegend().enabled;
     }
 
     /**
@@ -202,12 +211,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setEnabled(boolean enabled) {
-        legend.enabled = enabled;
+        getAmLegend().enabled = enabled;
     }
 
 
     public boolean isEqualWidths() {
-        return legend.equalWidths;
+        return getAmLegend().equalWidths;
     }
 
     /**
@@ -216,12 +225,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setEqualWidths(boolean equalWidths) {
-        legend.equalWidths = equalWidths;
+        getAmLegend().equalWidths = equalWidths;
     }
 
 
     public int getLegendFontSize() {
-        return legend.fontSize;
+        return getAmLegend().fontSize;
     }
 
     /**
@@ -229,12 +238,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setLegendFontSize(int fontSize) {
-        legend.fontSize = fontSize;
+        getAmLegend().fontSize = fontSize;
     }
 
 
     public boolean isForceWidth() {
-        return legend.forceWidth;
+        return getAmLegend().forceWidth;
     }
 
     /**
@@ -243,12 +252,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setForceWidth(boolean forceWidth) {
-        legend.forceWidth = forceWidth;
+        getAmLegend().forceWidth = forceWidth;
     }
 
 
     public int getGradientRotation() {
-        return legend.gradientRotation;
+        return getAmLegend().gradientRotation;
     }
 
     /**
@@ -256,12 +265,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setGradientRotation(int gradientRotation) {
-        legend.gradientRotation = gradientRotation;
+        getAmLegend().gradientRotation = gradientRotation;
     }
 
 
     public int getHorizontalGap() {
-        return legend.horizontalGap;
+        return getAmLegend().horizontalGap;
     }
 
     /**
@@ -269,26 +278,26 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setHorizontalGap(int horizontalGap) {
-        legend.horizontalGap = horizontalGap;
+        getAmLegend().horizontalGap = horizontalGap;
     }
 
 
     public String getLabelText() {
-        return legend.labelText;
+        return getAmLegend().labelText;
     }
 
     /**
-     * The text which will be displayed in the legend. Tag [[title]] will be replaced with the title of the graph.
+     * The text which will be displayed in the getAmLegend(). Tag [[title]] will be replaced with the title of the graph.
      * Default to [[title]]
      */
 
     public void setLabelText(String labelText) {
-        legend.labelText = labelText;
+        getAmLegend().labelText = labelText;
     }
 
 
     public int getLabelWidth() {
-        return legend.labelWidth;
+        return getAmLegend().labelWidth;
     }
 
     /**
@@ -296,12 +305,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setLabelWidth(int labelWidth) {
-        legend.labelWidth = labelWidth;
+        getAmLegend().labelWidth = labelWidth;
     }
 
 
     public int getLeft() {
-        return legend.left;
+        return getAmLegend().left;
     }
 
     /**
@@ -309,12 +318,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setLeft(int left) {
-        legend.left = left;
+        getAmLegend().left = left;
     }
 
 
     public Object[] getListeners() {
-        return legend.listeners;
+        return getAmLegend().listeners;
     }
 
     /**
@@ -323,12 +332,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setListeners(Object[] listeners) {
-        legend.listeners = listeners;
+        getAmLegend().listeners = listeners;
     }
 
 
     public int getMarginBottom() {
-        return legend.marginBottom;
+        return getAmLegend().marginBottom;
     }
 
     /**
@@ -336,12 +345,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarginBottom(int marginBottom) {
-        legend.marginBottom = marginBottom;
+        getAmLegend().marginBottom = marginBottom;
     }
 
 
     public int getMarginLeft() {
-        return legend.marginLeft;
+        return getAmLegend().marginLeft;
     }
 
     /**
@@ -350,12 +359,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarginLeft(int marginLeft) {
-        legend.marginLeft = marginLeft;
+        getAmLegend().marginLeft = marginLeft;
     }
 
 
     public int getMarginRight() {
-        return legend.marginRight;
+        return getAmLegend().marginRight;
     }
 
     /**
@@ -364,12 +373,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarginRight(int marginRight) {
-        legend.marginRight = marginRight;
+        getAmLegend().marginRight = marginRight;
     }
 
 
     public int getMarginTop() {
-        return legend.marginTop;
+        return getAmLegend().marginTop;
     }
 
     /**
@@ -377,12 +386,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarginTop(int marginTop) {
-        legend.marginTop = marginTop;
+        getAmLegend().marginTop = marginTop;
     }
 
 
     public int getMarkerBorderAlpha() {
-        return legend.markerBorderAlpha;
+        return getAmLegend().markerBorderAlpha;
     }
 
     /**
@@ -390,12 +399,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerBorderAlpha(int markerBorderAlpha) {
-        legend.markerBorderAlpha = markerBorderAlpha;
+        getAmLegend().markerBorderAlpha = markerBorderAlpha;
     }
 
 
     public String getMarkerBorderColor() {
-        return legend.markerBorderColor;
+        return getAmLegend().markerBorderColor;
     }
 
     /**
@@ -403,12 +412,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerBorderColor(String markerBorderColor) {
-        legend.markerBorderColor = markerBorderColor;
+        getAmLegend().markerBorderColor = markerBorderColor;
     }
 
 
     public int getMarkerBorderThickness() {
-        return legend.markerBorderThickness;
+        return getAmLegend().markerBorderThickness;
     }
 
     /**
@@ -417,12 +426,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerBorderThickness(int markerBorderThickness) {
-        legend.markerBorderThickness = markerBorderThickness;
+        getAmLegend().markerBorderThickness = markerBorderThickness;
     }
 
 
     public String getMarkerDisabledColor() {
-        return legend.markerDisabledColor;
+        return getAmLegend().markerDisabledColor;
     }
 
     /**
@@ -430,12 +439,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerDisabledColor(String markerDisabledColor) {
-        legend.markerDisabledColor = markerDisabledColor;
+        getAmLegend().markerDisabledColor = markerDisabledColor;
     }
 
 
     public int getMarkerLabelGap() {
-        return legend.markerLabelGap;
+        return getAmLegend().markerLabelGap;
     }
 
     /**
@@ -443,12 +452,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerLabelGap(int markerLabelGap) {
-        legend.markerLabelGap = markerLabelGap;
+        getAmLegend().markerLabelGap = markerLabelGap;
     }
 
 
     public int getMarkerSize() {
-        return legend.markerSize;
+        return getAmLegend().markerSize;
     }
 
     /**
@@ -456,12 +465,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerSize(int markerSize) {
-        legend.markerSize = markerSize;
+        getAmLegend().markerSize = markerSize;
     }
 
 
     public String getMarkerType() {
-        return legend.markerType;
+        return getAmLegend().markerType;
     }
 
     /**
@@ -470,26 +479,26 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setMarkerType(String markerType) {
-        legend.markerType = markerType;
+        getAmLegend().markerType = markerType;
     }
 
 
     public int getMaxColumns() {
-        return legend.maxColumns;
+        return getAmLegend().maxColumns;
     }
 
     /**
-     * Maximum number of columns in the legend. If ChartLegend's position is set to "right" or "left", maxColumns is
+     * Maximum number of columns in the getAmLegend(). If ChartLegend's position is set to "right" or "left", maxColumns is
      * automatically set to 1.
      */
 
     public void setMaxColumns(int maxColumns) {
-        legend.maxColumns = maxColumns;
+        getAmLegend().maxColumns = maxColumns;
     }
 
 
     public String getPeriodValueText() {
-        return legend.periodValueText;
+        return getAmLegend().periodValueText;
     }
 
     /**
@@ -500,27 +509,27 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setPeriodValueText(String periodValueText) {
-        legend.periodValueText = periodValueText;
+        getAmLegend().periodValueText = periodValueText;
     }
 
 
     public String getPosition() {
-        return legend.position;
+        return getAmLegend().position;
     }
 
     /**
-     * Position of a legend. Possible values are: "bottom", "top", "left", "right" and "absolute". In case "absolute",
+     * Position of a getAmLegend(). Possible values are: "bottom", "top", "left", "right" and "absolute". In case "absolute",
      * you should set left and top properties too. (this setting is ignored in Stock charts). In case legend is used
      * with AmMap, position is set to "absolute" automatically. Default to bottom
      */
 
     public void setPosition(String position) {
-        legend.position = position;
+        getAmLegend().position = position;
     }
 
 
     public boolean isReversedOrder() {
-        return legend.reversedOrder;
+        return getAmLegend().reversedOrder;
     }
 
     /**
@@ -528,12 +537,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setReversedOrder(boolean reversedOrder) {
-        legend.reversedOrder = reversedOrder;
+        getAmLegend().reversedOrder = reversedOrder;
     }
 
 
     public int getRight() {
-        return legend.right;
+        return getAmLegend().right;
     }
 
     /**
@@ -541,12 +550,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setRight(int right) {
-        legend.right = right;
+        getAmLegend().right = right;
     }
 
 
     public String getRollOverColor() {
-        return legend.rollOverColor;
+        return getAmLegend().rollOverColor;
     }
 
     /**
@@ -554,12 +563,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setRollOverColor(String rollOverColor) {
-        legend.rollOverColor = rollOverColor;
+        getAmLegend().rollOverColor = rollOverColor;
     }
 
 
     public double getRollOverGraphAlpha() {
-        return legend.rollOverGraphAlpha;
+        return getAmLegend().rollOverGraphAlpha;
     }
 
     /**
@@ -568,12 +577,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setRollOverGraphAlpha(double rollOverGraphAlpha) {
-        legend.rollOverGraphAlpha = rollOverGraphAlpha;
+        getAmLegend().rollOverGraphAlpha = rollOverGraphAlpha;
     }
 
 
     public boolean isShowEntries() {
-        return legend.showEntries;
+        return getAmLegend().showEntries;
     }
 
     /**
@@ -581,12 +590,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setShowEntries(boolean showEntries) {
-        legend.showEntries = showEntries;
+        getAmLegend().showEntries = showEntries;
     }
 
 
     public int getSpacing() {
-        return legend.spacing;
+        return getAmLegend().spacing;
     }
 
     /**
@@ -594,12 +603,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setSpacing(int spacing) {
-        legend.spacing = spacing;
+        getAmLegend().spacing = spacing;
     }
 
 
     public boolean isSwitchable() {
-        return legend.switchable;
+        return getAmLegend().switchable;
     }
 
     /**
@@ -608,12 +617,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setSwitchable(boolean switchable) {
-        legend.switchable = switchable;
+        getAmLegend().switchable = switchable;
     }
 
 
     public String getSwitchColor() {
-        return legend.switchColor;
+        return getAmLegend().switchColor;
     }
 
     /**
@@ -621,12 +630,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setSwitchColor(String switchColor) {
-        legend.switchColor = switchColor;
+        getAmLegend().switchColor = switchColor;
     }
 
 
     public String getSwitchType() {
-        return legend.switchType;
+        return getAmLegend().switchType;
     }
 
     /**
@@ -634,28 +643,28 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setSwitchType(String switchType) {
-        legend.switchType = switchType;
+        getAmLegend().switchType = switchType;
     }
 
 
     public int getTabIndex() {
-        return legend.tabIndex;
+        return getAmLegend().tabIndex;
     }
 
     /**
      * In case you set it to some number, the chart will set focus on legend entry when user clicks tab key. When a
      * focus is set, screen readers like NVDA Screen reader will read label which is set using accessibleLabel property
-     * of AmLegend. If legend has switchable set to true, pressing Enter (Return) key will show/hide the graph. Note,
-     * not all browsers and readers support legend.
+     * of AmgetAmLegend(). If legend has switchable set to true, pressing Enter (Return) key will show/hide the graph. Note,
+     * not all browsers and readers support getAmLegend().
      */
 
     public void setTabIndex(int tabIndex) {
-        legend.tabIndex = tabIndex;
+        getAmLegend().tabIndex = tabIndex;
     }
 
 
     public boolean isTextClickEnabled() {
-        return legend.textClickEnabled;
+        return getAmLegend().textClickEnabled;
     }
 
     /**
@@ -664,12 +673,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setTextClickEnabled(boolean textClickEnabled) {
-        legend.textClickEnabled = textClickEnabled;
+        getAmLegend().textClickEnabled = textClickEnabled;
     }
 
 
     public int getTop() {
-        return legend.top;
+        return getAmLegend().top;
     }
 
     /**
@@ -678,12 +687,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setTop(int top) {
-        legend.top = top;
+        getAmLegend().top = top;
     }
 
 
     public boolean isUseGraphSettings() {
-        return legend.useGraphSettings;
+        return getAmLegend().useGraphSettings;
     }
 
     /**
@@ -693,12 +702,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setUseGraphSettings(boolean useGraphSettings) {
-        legend.useGraphSettings = useGraphSettings;
+        getAmLegend().useGraphSettings = useGraphSettings;
     }
 
 
     public boolean isUseMarkerColorForLabels() {
-        return legend.useMarkerColorForLabels;
+        return getAmLegend().useMarkerColorForLabels;
     }
 
     /**
@@ -706,12 +715,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setUseMarkerColorForLabels(boolean useMarkerColorForLabels) {
-        legend.useMarkerColorForLabels = useMarkerColorForLabels;
+        getAmLegend().useMarkerColorForLabels = useMarkerColorForLabels;
     }
 
 
     public boolean isUseMarkerColorForValues() {
-        return legend.useMarkerColorForValues;
+        return getAmLegend().useMarkerColorForValues;
     }
 
     /**
@@ -719,12 +728,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setUseMarkerColorForValues(boolean useMarkerColorForValues) {
-        legend.useMarkerColorForValues = useMarkerColorForValues;
+        getAmLegend().useMarkerColorForValues = useMarkerColorForValues;
     }
 
 
     public String getValueAlign() {
-        return legend.valueAlign;
+        return getAmLegend().valueAlign;
     }
 
     /**
@@ -732,41 +741,41 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setValueAlign(String valueAlign) {
-        legend.valueAlign = valueAlign;
+        getAmLegend().valueAlign = valueAlign;
     }
 
 
     public Functions.Func getValueFunction() {
-        return legend.valueFunction;
+        return getAmLegend().valueFunction;
     }
 
     /**
      * You can use it to format value labels in any way you want. ChartLegend will call this method and will pass
      * GraphDataItem and formatted text of currently hovered item (works only with ChartCursor added to the chart).
-     * This method should return legend. string which will be displayed as value in the legend.
+     * This method should return getAmLegend(). string which will be displayed as value in the getAmLegend().
      */
 
     public void setValueFunction(Functions.Func valueFunction) {
-        legend.valueFunction = valueFunction;
+        getAmLegend().valueFunction = valueFunction;
     }
 
 
     public String getValueText() {
-        return legend.valueText;
+        return getAmLegend().valueText;
     }
 
     /**
-     * The text which will be displayed in the value portion of the legend. You can use tags like [[value]], [[open]],
+     * The text which will be displayed in the value portion of the getAmLegend(). You can use tags like [[value]], [[open]],
      * [[high]], [[low]], [[close]], [[percents]], [[description]]. Default to [[value]]
      */
 
     public void setValueText(String valueText) {
-        legend.valueText = valueText;
+        getAmLegend().valueText = valueText;
     }
 
 
     public int getValueWidth() {
-        return legend.valueWidth;
+        return getAmLegend().valueWidth;
     }
 
     /**
@@ -774,12 +783,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setValueWidth(int valueWidth) {
-        legend.valueWidth = valueWidth;
+        getAmLegend().valueWidth = valueWidth;
     }
 
 
     public int getVerticalGap() {
-        return legend.verticalGap;
+        return getAmLegend().verticalGap;
     }
 
     /**
@@ -787,12 +796,12 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setVerticalGap(int verticalGap) {
-        legend.verticalGap = verticalGap;
+        getAmLegend().verticalGap = verticalGap;
     }
 
 
     public int getWidth() {
-        return legend.width;
+        return getAmLegend().width;
     }
 
     /**
@@ -800,11 +809,28 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
      */
 
     public void setWidth(int width) {
-        legend.width = width;
+        getAmLegend().width = width;
     }
 
-    public AmLegend getLegend() {
+    public AmLegend getAmLegend() {
+        if (legend == null) {
+            legend = new AmLegend();
+        }
         return legend;
+    }
+
+    /**
+     * Adds event listener to the object.
+     */
+    public void addListener(String type, Functions.Func1<Object> handler) {
+        getAmLegend().addListener(type, handler);
+    }
+
+    /**
+     * Removes event listener from the legend object.
+     */
+    public void removeListener(AmLegend legend, String type, Functions.EventFunc handler) {
+        getAmLegend().removeListener(legend, type, handler);
     }
 
     @Override

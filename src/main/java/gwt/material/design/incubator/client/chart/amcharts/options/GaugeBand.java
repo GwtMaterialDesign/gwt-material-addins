@@ -2,14 +2,23 @@ package gwt.material.design.incubator.client.chart.amcharts.options;
 
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmGaugeBand;
-import jsinterop.annotations.JsMethod;
 
+//@formatter:off
+
+/**
+ * Creates a band for a specified value range on the {@link GaugeAxis}. Multiple bands can be assigned to a single
+ * {@link GaugeAxis}.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GaugeBand">Official Documentation</a>
+ */
+//@formatter:on
 public class GaugeBand extends ChartOptions {
 
-    private AmGaugeBand gaugeBand = new AmGaugeBand();
+    private AmGaugeBand gaugeBand;
 
     public double getAlpha() {
-        return gaugeBand.alpha;
+        return getAmGaugeBand().alpha;
     }
 
     /**
@@ -17,11 +26,11 @@ public class GaugeBand extends ChartOptions {
      */
 
     public void setAlpha(double alpha) {
-        gaugeBand.alpha = alpha;
+        getAmGaugeBand().alpha = alpha;
     }
 
     public String getBalloonText() {
-        return gaugeBand.balloonText;
+        return getAmGaugeBand().balloonText;
     }
 
     /**
@@ -29,11 +38,11 @@ public class GaugeBand extends ChartOptions {
      */
 
     public void setBalloonText(String balloonText) {
-        gaugeBand.balloonText = balloonText;
+        getAmGaugeBand().balloonText = balloonText;
     }
 
     public String getColor() {
-        return gaugeBand.color;
+        return getAmGaugeBand().color;
     }
 
     /**
@@ -41,21 +50,22 @@ public class GaugeBand extends ChartOptions {
      */
 
     public void setColor(String color) {
-        gaugeBand.color = color;
+        getAmGaugeBand().color = color;
     }
 
     public int getEndValue() {
-        return gaugeBand.endValue;
+        return getAmGaugeBand().endValue;
     }
 
     /**
      * End value of a fill.
      */
-    @JsMethod
-    public native void setEndValue(int value);
+    public void setEndValue(int value) {
+        getAmGaugeBand().setEndValue(value);
+    }
 
     public int[] getGradientRatio() {
-        return gaugeBand.gradientRatio;
+        return getAmGaugeBand().gradientRatio;
     }
 
     /**
@@ -64,11 +74,11 @@ public class GaugeBand extends ChartOptions {
      */
 
     public void setGradientRatio(int[] gradientRatio) {
-        gaugeBand.gradientRatio = gradientRatio;
+        getAmGaugeBand().gradientRatio = gradientRatio;
     }
 
     public String getId() {
-        return gaugeBand.id;
+        return getAmGaugeBand().id;
     }
 
     /**
@@ -76,11 +86,11 @@ public class GaugeBand extends ChartOptions {
      */
 
     public void setId(String id) {
-        gaugeBand.id = id;
+        getAmGaugeBand().id = id;
     }
 
     public Object getInnerRadius() {
-        return gaugeBand.innerRadius;
+        return getAmGaugeBand().innerRadius;
     }
 
     /**
@@ -89,40 +99,43 @@ public class GaugeBand extends ChartOptions {
      */
 
     public void setInnerRadius(Object innerRadius) {
-        gaugeBand.innerRadius = innerRadius;
+        getAmGaugeBand().innerRadius = innerRadius;
     }
 
     public Object getRadius() {
-        return gaugeBand.radius;
+        return getAmGaugeBand().radius;
     }
 
     /**
      * Band radius. If not set any, the band will start with the axis outline.
      */
-
     public void setRadius(Object radius) {
-        gaugeBand.radius = radius;
+        getAmGaugeBand().radius = radius;
     }
 
     public int getStartValue() {
-        return gaugeBand.startValue;
+        return getAmGaugeBand().startValue;
     }
 
     /**
      * Start value of a fill.
      */
-    @JsMethod
-    public native void setStartValue(int value);
+    public void setStartValue(int value) {
+        getAmGaugeBand().setStartValue(value);
+    }
 
     public String getUrl() {
-        return gaugeBand.url;
+        return getAmGaugeBand().url;
     }
 
     public void setUrl(String url) {
-        gaugeBand.url = url;
+        getAmGaugeBand().url = url;
     }
 
-    public AmGaugeBand getGaugeBand() {
+    public AmGaugeBand getAmGaugeBand() {
+        if (gaugeBand == null) {
+            gaugeBand = new AmGaugeBand();
+        }
         return gaugeBand;
     }
 }

@@ -30,7 +30,7 @@ import java.util.Date;
 //@formatter:off
 
 /**
- * Extension for {@link AmAxisBase}, gets automatically populated if none has been specified.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.CategoryAxis}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/CategoryAxis">Official Documentation</a>

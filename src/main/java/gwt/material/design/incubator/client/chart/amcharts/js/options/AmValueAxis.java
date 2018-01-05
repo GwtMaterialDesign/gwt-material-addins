@@ -30,10 +30,7 @@ import java.util.Date;
 //@formatter:off
 
 /**
- * Extension for AmValueAxis to create an axis for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart},
- * {@link gwt.material.design.incubator.client.chart.chartjs.RadarChart}, {@link gwt.material.design.incubator.client.chart.amcharts.XyChart}
- * charts, multiple can be assigned. Gets automatically populated, one for AmSerialChart and two for AmXYChart charts,
- * if none has been specified.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.ValueAxis}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/ValueAxis">Official Documentation</a>

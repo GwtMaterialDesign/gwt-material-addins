@@ -23,6 +23,7 @@ import gwt.material.design.client.base.helper.EnumHelper;
 import gwt.material.design.client.constants.CssType;
 
 //@formatter:off
+
 /**
  * Type of the graph. Possible values are: "line", "column", "step", "smoothedLine", "candlestick", "ohlc".
  * XY and Radar charts can only display "line" type graphs.

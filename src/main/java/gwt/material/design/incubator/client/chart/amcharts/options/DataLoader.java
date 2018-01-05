@@ -4,22 +4,28 @@ import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmDataLoader;
 import gwt.material.design.jquery.client.api.Functions;
 
+//@formatter:off
+
+/**
+ * By default all amCharts libraries accept data in JSON format. It needs to be there when the web page loads, defined
+ * in-line or loaded via custom code.
+ * <p>
+ * This plugin introduces a native wrapper that enables automatic loading of data from external data data sources in
+ * CSV and JSON formats.
+ * <p>
+ * Most of the times you will just need to provide a URL of the external data source – static file or dynamically
+ * generated – and it will do the rest.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="http://www.amcharts.com/kbase/using-data-loader-plugin/">Official Documentation</a>
+ */
+//@formatter:on
 public class DataLoader extends ChartOptions {
 
-    private AmDataLoader dataLoader = new AmDataLoader();
-
-    @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void unload() {
-
-    }
+    private AmDataLoader dataLoader;
 
     public boolean isAsync() {
-        return dataLoader.async;
+        return getAmDataLoader().async;
     }
 
     /**
@@ -27,12 +33,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setAsync(boolean async) {
-        dataLoader.async = async;
+        getAmDataLoader().async = async;
     }
 
 
     public Functions.Func getComplete() {
-        return dataLoader.complete;
+        return getAmDataLoader().complete;
     }
 
     /**
@@ -40,12 +46,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setComplete(Functions.Func complete) {
-        dataLoader.complete = complete;
+        getAmDataLoader().complete = complete;
     }
 
 
     public String getDelimiter() {
-        return dataLoader.delimiter;
+        return getAmDataLoader().delimiter;
     }
 
     /**
@@ -53,12 +59,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setDelimiter(String delimiter) {
-        dataLoader.delimiter = delimiter;
+        getAmDataLoader().delimiter = delimiter;
     }
 
 
     public Functions.Func getError() {
-        return dataLoader.error;
+        return getAmDataLoader().error;
     }
 
     /**
@@ -66,12 +72,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setError(Functions.Func error) {
-        dataLoader.error = error;
+        getAmDataLoader().error = error;
     }
 
 
     public String getFormat() {
-        return dataLoader.format;
+        return getAmDataLoader().format;
     }
 
     /**
@@ -79,12 +85,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setFormat(String format) {
-        dataLoader.format = format;
+        getAmDataLoader().format = format;
     }
 
 
     public Functions.Func getLoad() {
-        return dataLoader.load;
+        return getAmDataLoader().load;
     }
 
     /**
@@ -92,12 +98,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setLoad(Functions.Func load) {
-        dataLoader.load = load;
+        getAmDataLoader().load = load;
     }
 
 
     public boolean isNoStyles() {
-        return dataLoader.noStyles;
+        return getAmDataLoader().noStyles;
     }
 
     /**
@@ -105,12 +111,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setNoStyles(boolean noStyles) {
-        dataLoader.noStyles = noStyles;
+        getAmDataLoader().noStyles = noStyles;
     }
 
 
     public Functions.Func getPostProcess() {
-        return dataLoader.postProcess;
+        return getAmDataLoader().postProcess;
     }
 
     /**
@@ -119,12 +125,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setPostProcess(Functions.Func postProcess) {
-        dataLoader.postProcess = postProcess;
+        getAmDataLoader().postProcess = postProcess;
     }
 
 
     public boolean isShowErrors() {
-        return dataLoader.showErrors;
+        return getAmDataLoader().showErrors;
     }
 
     /**
@@ -132,12 +138,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setShowErrors(boolean showErrors) {
-        dataLoader.showErrors = showErrors;
+        getAmDataLoader().showErrors = showErrors;
     }
 
 
     public boolean isShowCurtain() {
-        return dataLoader.showCurtain;
+        return getAmDataLoader().showCurtain;
     }
 
     /**
@@ -145,12 +151,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setShowCurtain(boolean showCurtain) {
-        dataLoader.showCurtain = showCurtain;
+        getAmDataLoader().showCurtain = showCurtain;
     }
 
 
     public int getReload() {
-        return dataLoader.reload;
+        return getAmDataLoader().reload;
     }
 
     /**
@@ -158,12 +164,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setReload(int reload) {
-        dataLoader.reload = reload;
+        getAmDataLoader().reload = reload;
     }
 
 
     public String getUrl() {
-        return dataLoader.url;
+        return getAmDataLoader().url;
     }
 
     /**
@@ -171,12 +177,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setUrl(String url) {
-        dataLoader.url = url;
+        getAmDataLoader().url = url;
     }
 
 
     public boolean isReverse() {
-        return dataLoader.reverse;
+        return getAmDataLoader().reverse;
     }
 
     /**
@@ -184,12 +190,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setReverse(boolean reverse) {
-        dataLoader.reverse = reverse;
+        getAmDataLoader().reverse = reverse;
     }
 
 
     public int getSkip() {
-        return dataLoader.skip;
+        return getAmDataLoader().skip;
     }
 
     /**
@@ -197,12 +203,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setSkip(int skip) {
-        dataLoader.skip = skip;
+        getAmDataLoader().skip = skip;
     }
 
 
     public boolean isTimestamp() {
-        return dataLoader.timestamp;
+        return getAmDataLoader().timestamp;
     }
 
     /**
@@ -210,12 +216,12 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setTimestamp(boolean timestamp) {
-        dataLoader.timestamp = timestamp;
+        getAmDataLoader().timestamp = timestamp;
     }
 
 
     public boolean isUseColumnNames() {
-        return dataLoader.useColumnNames;
+        return getAmDataLoader().useColumnNames;
     }
 
     /**
@@ -223,10 +229,13 @@ public class DataLoader extends ChartOptions {
      */
 
     public void setUseColumnNames(boolean useColumnNames) {
-        dataLoader.useColumnNames = useColumnNames;
+        getAmDataLoader().useColumnNames = useColumnNames;
     }
 
-    public AmDataLoader getDataLoader() {
+    public AmDataLoader getAmDataLoader() {
+        if (dataLoader == null) {
+            dataLoader = new AmDataLoader();
+        }
         return dataLoader;
     }
 }

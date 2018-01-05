@@ -27,7 +27,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Creates the legend for the chart, automatically adapts the color settings of the graphs.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.Legend}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmLegend">Official Documentation</a>
@@ -207,15 +207,9 @@ public class AmLegend {
     @JsProperty
     public int width;
 
-    /**
-     * Adds event listener to the object.
-     */
     @JsMethod
     public native void addListener(String type, Functions.Func1<Object> handler);
 
-    /**
-     * Removes event listener from the legend object.
-     */
     @JsMethod
     public native void removeListener(AmLegend legend, String type, Functions.EventFunc handler);
 }

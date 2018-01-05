@@ -5,38 +5,38 @@ import gwt.material.design.incubator.client.chart.amcharts.base.constants.DragIc
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmCategoryAxis;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmChartScrollbar;
 
+//@formatter:off
+
+/**
+ * Create a scrollbar for {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart} and
+ * {@link gwt.material.design.incubator.client.chart.amcharts.XyChart} charts.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/ChartScrollbar">Official Documentation</a>
+ */
+//@formatter:on
 public class ChartScrollbar extends ChartOptions {
 
-    private AmChartScrollbar chartScrollbar = new AmChartScrollbar();
-
-    @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void unload() {
-
-    }
+    private AmChartScrollbar chartScrollbar;
 
     public String getAccessibleLabel() {
-        return chartScrollbar.accessibleLabel;
+        return getAmChartScrollbar().accessibleLabel;
     }
 
     /**
      * Text which screen readers will read if user rolls-over or sets focus using tab key (this is possible only if
      * tabIndex property of AmGraph is set to some number) on the grips or draggable part of a scrollbar. Text is
-     * added as aria-label tag. Note - not all screen readers and browsers support chartScrollbar. Note, you should set tabIndex
+     * added as aria-label tag. Note - not all screen readers and browsers support getAmChartScrollbar(). Note, you should set tabIndex
      * to some number in order it would be possible to zoom chart using cursor keys. Default to "Zoom chart using cursor
      * arrows"
      */
 
     public void setAccessibleLabel(String accessibleLabel) {
-        chartScrollbar.accessibleLabel = accessibleLabel;
+        getAmChartScrollbar().accessibleLabel = accessibleLabel;
     }
 
     public boolean isAutoGridCount() {
-        return chartScrollbar.autoGridCount;
+        return getAmChartScrollbar().autoGridCount;
     }
 
     /**
@@ -44,11 +44,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setAutoGridCount(boolean autoGridCount) {
-        chartScrollbar.autoGridCount = autoGridCount;
+        getAmChartScrollbar().autoGridCount = autoGridCount;
     }
 
     public double getBackgroundAlpha() {
-        return chartScrollbar.backgroundAlpha;
+        return getAmChartScrollbar().backgroundAlpha;
     }
 
     /**
@@ -56,11 +56,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setBackgroundAlpha(double backgroundAlpha) {
-        chartScrollbar.backgroundAlpha = backgroundAlpha;
+        getAmChartScrollbar().backgroundAlpha = backgroundAlpha;
     }
 
     public String getBackgroundColor() {
-        return chartScrollbar.backgroundColor;
+        return getAmChartScrollbar().backgroundColor;
     }
 
     /**
@@ -68,11 +68,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setBackgroundColor(String backgroundColor) {
-        chartScrollbar.backgroundColor = backgroundColor;
+        getAmChartScrollbar().backgroundColor = backgroundColor;
     }
 
     public AmCategoryAxis getCategoryAxis() {
-        return chartScrollbar.categoryAxis;
+        return getAmChartScrollbar().categoryAxis;
     }
 
     /**
@@ -80,11 +80,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setCategoryAxis(AmCategoryAxis categoryAxis) {
-        chartScrollbar.categoryAxis = categoryAxis;
+        getAmChartScrollbar().categoryAxis = categoryAxis;
     }
 
     public String getColor() {
-        return chartScrollbar.color;
+        return getAmChartScrollbar().color;
     }
 
     /**
@@ -92,11 +92,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setColor(String color) {
-        chartScrollbar.color = color;
+        getAmChartScrollbar().color = color;
     }
 
     public String getDragCursorDown() {
-        return chartScrollbar.dragCursorDown;
+        return getAmChartScrollbar().dragCursorDown;
     }
 
     /**
@@ -104,11 +104,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setDragCursorDown(String dragCursorDown) {
-        chartScrollbar.dragCursorDown = dragCursorDown;
+        getAmChartScrollbar().dragCursorDown = dragCursorDown;
     }
 
     public String getDragCursorHover() {
-        return chartScrollbar.dragCursorHover;
+        return getAmChartScrollbar().dragCursorHover;
     }
 
     /**
@@ -116,11 +116,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setDragCursorHover(String dragCursorHover) {
-        chartScrollbar.dragCursorHover = dragCursorHover;
+        getAmChartScrollbar().dragCursorHover = dragCursorHover;
     }
 
     public String getDragIcon() {
-        return chartScrollbar.dragIcon;
+        return getAmChartScrollbar().dragIcon;
     }
 
     /**
@@ -132,11 +132,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setDragIcon(DragIcon dragIcon) {
-        chartScrollbar.dragIcon = dragIcon.getName();
+        getAmChartScrollbar().dragIcon = dragIcon.getName();
     }
 
     public int getDragIconHeight() {
-        return chartScrollbar.dragIconHeight;
+        return getAmChartScrollbar().dragIconHeight;
     }
 
     /**
@@ -145,11 +145,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setDragIconHeight(int dragIconHeight) {
-        chartScrollbar.dragIconHeight = dragIconHeight;
+        getAmChartScrollbar().dragIconHeight = dragIconHeight;
     }
 
     public int getDragIconWidth() {
-        return chartScrollbar.dragIconWidth;
+        return getAmChartScrollbar().dragIconWidth;
     }
 
     /**
@@ -158,11 +158,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setDragIconWidth(int dragIconWidth) {
-        chartScrollbar.dragIconWidth = dragIconWidth;
+        getAmChartScrollbar().dragIconWidth = dragIconWidth;
     }
 
     public boolean isEnabled() {
-        return chartScrollbar.enabled;
+        return getAmChartScrollbar().enabled;
     }
 
     /**
@@ -171,11 +171,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setEnabled(boolean enabled) {
-        chartScrollbar.enabled = enabled;
+        getAmChartScrollbar().enabled = enabled;
     }
 
     public String getGraph() {
-        return chartScrollbar.graph;
+        return getAmChartScrollbar().graph;
     }
 
     /**
@@ -184,11 +184,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGraph(String graph) {
-        chartScrollbar.graph = graph;
+        getAmChartScrollbar().graph = graph;
     }
 
     public double getGraphFillAlpha() {
-        return chartScrollbar.graphFillAlpha;
+        return getAmChartScrollbar().graphFillAlpha;
     }
 
     /**
@@ -196,11 +196,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGraphFillAlpha(double graphFillAlpha) {
-        chartScrollbar.graphFillAlpha = graphFillAlpha;
+        getAmChartScrollbar().graphFillAlpha = graphFillAlpha;
     }
 
     public String getGraphFillColor() {
-        return chartScrollbar.graphFillColor;
+        return getAmChartScrollbar().graphFillColor;
     }
 
     /**
@@ -208,11 +208,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGraphFillColor(String graphFillColor) {
-        chartScrollbar.graphFillColor = graphFillColor;
+        getAmChartScrollbar().graphFillColor = graphFillColor;
     }
 
     public double getGraphLineAlpha() {
-        return chartScrollbar.graphLineAlpha;
+        return getAmChartScrollbar().graphLineAlpha;
     }
 
     /**
@@ -220,11 +220,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGraphLineAlpha(double graphLineAlpha) {
-        chartScrollbar.graphLineAlpha = graphLineAlpha;
+        getAmChartScrollbar().graphLineAlpha = graphLineAlpha;
     }
 
     public String getGraphLineColor() {
-        return chartScrollbar.graphLineColor;
+        return getAmChartScrollbar().graphLineColor;
     }
 
     /**
@@ -232,11 +232,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGraphLineColor(String graphLineColor) {
-        chartScrollbar.graphLineColor = graphLineColor;
+        getAmChartScrollbar().graphLineColor = graphLineColor;
     }
 
     public String getGraphType() {
-        return chartScrollbar.graphType;
+        return getAmChartScrollbar().graphType;
     }
 
     /**
@@ -246,11 +246,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGraphType(String graphType) {
-        chartScrollbar.graphType = graphType;
+        getAmChartScrollbar().graphType = graphType;
     }
 
     public double getGridAlpha() {
-        return chartScrollbar.gridAlpha;
+        return getAmChartScrollbar().gridAlpha;
     }
 
     /**
@@ -258,11 +258,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGridAlpha(double gridAlpha) {
-        chartScrollbar.gridAlpha = gridAlpha;
+        getAmChartScrollbar().gridAlpha = gridAlpha;
     }
 
     public String getGridColor() {
-        return chartScrollbar.gridColor;
+        return getAmChartScrollbar().gridColor;
     }
 
     /**
@@ -270,11 +270,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGridColor(String gridColor) {
-        chartScrollbar.gridColor = gridColor;
+        getAmChartScrollbar().gridColor = gridColor;
     }
 
     public int getGridCount() {
-        return chartScrollbar.gridCount;
+        return getAmChartScrollbar().gridCount;
     }
 
     /**
@@ -282,11 +282,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setGridCount(int gridCount) {
-        chartScrollbar.gridCount = gridCount;
+        getAmChartScrollbar().gridCount = gridCount;
     }
 
     public boolean isHideResizeGrips() {
-        return chartScrollbar.hideResizeGrips;
+        return getAmChartScrollbar().hideResizeGrips;
     }
 
     /**
@@ -294,11 +294,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setHideResizeGrips(boolean hideResizeGrips) {
-        chartScrollbar.hideResizeGrips = hideResizeGrips;
+        getAmChartScrollbar().hideResizeGrips = hideResizeGrips;
     }
 
     public String gethResizeCursor() {
-        return chartScrollbar.hResizeCursor;
+        return getAmChartScrollbar().hResizeCursor;
     }
 
     /**
@@ -306,11 +306,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void sethResizeCursor(String hResizeCursor) {
-        chartScrollbar.hResizeCursor = hResizeCursor;
+        getAmChartScrollbar().hResizeCursor = hResizeCursor;
     }
 
     public String gethResizeCursorDown() {
-        return chartScrollbar.hResizeCursorDown;
+        return getAmChartScrollbar().hResizeCursorDown;
     }
 
     /**
@@ -318,11 +318,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void sethResizeCursorDown(String hResizeCursorDown) {
-        chartScrollbar.hResizeCursorDown = hResizeCursorDown;
+        getAmChartScrollbar().hResizeCursorDown = hResizeCursorDown;
     }
 
     public String gethResizeCursorHover() {
-        return chartScrollbar.hResizeCursorHover;
+        return getAmChartScrollbar().hResizeCursorHover;
     }
 
     /**
@@ -330,11 +330,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void sethResizeCursorHover(String hResizeCursorHover) {
-        chartScrollbar.hResizeCursorHover = hResizeCursorHover;
+        getAmChartScrollbar().hResizeCursorHover = hResizeCursorHover;
     }
 
     public boolean isIgnoreCustomColors() {
-        return chartScrollbar.ignoreCustomColors;
+        return getAmChartScrollbar().ignoreCustomColors;
     }
 
     /**
@@ -344,35 +344,35 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setIgnoreCustomColors(boolean ignoreCustomColors) {
-        chartScrollbar.ignoreCustomColors = ignoreCustomColors;
+        getAmChartScrollbar().ignoreCustomColors = ignoreCustomColors;
     }
 
     public int getMaximum() {
-        return chartScrollbar.maximum;
+        return getAmChartScrollbar().maximum;
     }
 
     /**
-     * Maximum value of AmValueAxis of AmChartScrollbar. Calculated automatically, if not set.
+     * Maximum value of AmValueAxis of AmgetAmChartScrollbar(). Calculated automatically, if not set.
      */
 
     public void setMaximum(int maximum) {
-        chartScrollbar.maximum = maximum;
+        getAmChartScrollbar().maximum = maximum;
     }
 
     public int getMinimum() {
-        return chartScrollbar.minimum;
+        return getAmChartScrollbar().minimum;
     }
 
     /**
-     * Minimum value of AmValueAxis of AmChartScrollbar. Calculated automatically, if not set.
+     * Minimum value of AmValueAxis of AmgetAmChartScrollbar(). Calculated automatically, if not set.
      */
 
     public void setMinimum(int minimum) {
-        chartScrollbar.minimum = minimum;
+        getAmChartScrollbar().minimum = minimum;
     }
 
     public int getOffset() {
-        return chartScrollbar.offset;
+        return getAmChartScrollbar().offset;
     }
 
     /**
@@ -380,11 +380,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setOffset(int offset) {
-        chartScrollbar.offset = offset;
+        getAmChartScrollbar().offset = offset;
     }
 
     public boolean isOppositeAxis() {
-        return chartScrollbar.oppositeAxis;
+        return getAmChartScrollbar().oppositeAxis;
     }
 
     /**
@@ -395,11 +395,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setOppositeAxis(boolean oppositeAxis) {
-        chartScrollbar.oppositeAxis = oppositeAxis;
+        getAmChartScrollbar().oppositeAxis = oppositeAxis;
     }
 
     public boolean isResizeEnabled() {
-        return chartScrollbar.resizeEnabled;
+        return getAmChartScrollbar().resizeEnabled;
     }
 
     /**
@@ -408,11 +408,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setResizeEnabled(boolean resizeEnabled) {
-        chartScrollbar.resizeEnabled = resizeEnabled;
+        getAmChartScrollbar().resizeEnabled = resizeEnabled;
     }
 
     public int getScrollbarHeight() {
-        return chartScrollbar.scrollbarHeight;
+        return getAmChartScrollbar().scrollbarHeight;
     }
 
     /**
@@ -420,11 +420,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setScrollbarHeight(int scrollbarHeight) {
-        chartScrollbar.scrollbarHeight = scrollbarHeight;
+        getAmChartScrollbar().scrollbarHeight = scrollbarHeight;
     }
 
     public int getScrollDuration() {
-        return chartScrollbar.scrollDuration;
+        return getAmChartScrollbar().scrollDuration;
     }
 
     /**
@@ -433,11 +433,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setScrollDuration(int scrollDuration) {
-        chartScrollbar.scrollDuration = scrollDuration;
+        getAmChartScrollbar().scrollDuration = scrollDuration;
     }
 
     public double getSelectedBackgroundAlpha() {
-        return chartScrollbar.selectedBackgroundAlpha;
+        return getAmChartScrollbar().selectedBackgroundAlpha;
     }
 
     /**
@@ -445,11 +445,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setSelectedBackgroundAlpha(double selectedBackgroundAlpha) {
-        chartScrollbar.selectedBackgroundAlpha = selectedBackgroundAlpha;
+        getAmChartScrollbar().selectedBackgroundAlpha = selectedBackgroundAlpha;
     }
 
     public String getSelectedBackgroundColor() {
-        return chartScrollbar.selectedBackgroundColor;
+        return getAmChartScrollbar().selectedBackgroundColor;
     }
 
     /**
@@ -457,11 +457,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setSelectedBackgroundColor(String selectedBackgroundColor) {
-        chartScrollbar.selectedBackgroundColor = selectedBackgroundColor;
+        getAmChartScrollbar().selectedBackgroundColor = selectedBackgroundColor;
     }
 
     public int getSelectedGraphFillAlpha() {
-        return chartScrollbar.selectedGraphFillAlpha;
+        return getAmChartScrollbar().selectedGraphFillAlpha;
     }
 
     /**
@@ -469,11 +469,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setSelectedGraphFillAlpha(int selectedGraphFillAlpha) {
-        chartScrollbar.selectedGraphFillAlpha = selectedGraphFillAlpha;
+        getAmChartScrollbar().selectedGraphFillAlpha = selectedGraphFillAlpha;
     }
 
     public String getSelectedGraphFillColor() {
-        return chartScrollbar.selectedGraphFillColor;
+        return getAmChartScrollbar().selectedGraphFillColor;
     }
 
     /**
@@ -481,11 +481,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setSelectedGraphFillColor(String selectedGraphFillColor) {
-        chartScrollbar.selectedGraphFillColor = selectedGraphFillColor;
+        getAmChartScrollbar().selectedGraphFillColor = selectedGraphFillColor;
     }
 
     public double getSelectedGraphLineAlpha() {
-        return chartScrollbar.selectedGraphLineAlpha;
+        return getAmChartScrollbar().selectedGraphLineAlpha;
     }
 
     /**
@@ -493,11 +493,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setSelectedGraphLineAlpha(double selectedGraphLineAlpha) {
-        chartScrollbar.selectedGraphLineAlpha = selectedGraphLineAlpha;
+        getAmChartScrollbar().selectedGraphLineAlpha = selectedGraphLineAlpha;
     }
 
     public String getSelectedGraphLineColor() {
-        return chartScrollbar.selectedGraphLineColor;
+        return getAmChartScrollbar().selectedGraphLineColor;
     }
 
     /**
@@ -505,26 +505,26 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setSelectedGraphLineColor(String selectedGraphLineColor) {
-        chartScrollbar.selectedGraphLineColor = selectedGraphLineColor;
+        getAmChartScrollbar().selectedGraphLineColor = selectedGraphLineColor;
     }
 
     public int getTabIndex() {
-        return chartScrollbar.tabIndex;
+        return getAmChartScrollbar().tabIndex;
     }
 
     /**
      * In case you set it to some number, the chart will set focus on grips and draggable area of the scrollbar when
      * user clicks tab key. When a focus is set, screen readers like NVDA Screen reader will read label which is set
-     * using accessibleLabel property of AmChartScrollbar. When a focus is set user can zoom-in, zoom-out or pan the
-     * scrollbar using cursor keys. Note, not all browsers and readers support chartScrollbar.
+     * using accessibleLabel property of AmgetAmChartScrollbar(). When a focus is set user can zoom-in, zoom-out or pan the
+     * scrollbar using cursor keys. Note, not all browsers and readers support getAmChartScrollbar().
      */
 
     public void setTabIndex(int tabIndex) {
-        chartScrollbar.tabIndex = tabIndex;
+        getAmChartScrollbar().tabIndex = tabIndex;
     }
 
     public boolean isUpdateOnReleaseOnly() {
-        return chartScrollbar.updateOnReleaseOnly;
+        return getAmChartScrollbar().updateOnReleaseOnly;
     }
 
     /**
@@ -533,11 +533,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setUpdateOnReleaseOnly(boolean updateOnReleaseOnly) {
-        chartScrollbar.updateOnReleaseOnly = updateOnReleaseOnly;
+        getAmChartScrollbar().updateOnReleaseOnly = updateOnReleaseOnly;
     }
 
     public String getvResizeCursor() {
-        return chartScrollbar.vResizeCursor;
+        return getAmChartScrollbar().vResizeCursor;
     }
 
     /**
@@ -545,11 +545,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setvResizeCursor(String vResizeCursor) {
-        chartScrollbar.vResizeCursor = vResizeCursor;
+        getAmChartScrollbar().vResizeCursor = vResizeCursor;
     }
 
     public String getvResizeCursorDown() {
-        return chartScrollbar.vResizeCursorDown;
+        return getAmChartScrollbar().vResizeCursorDown;
     }
 
     /**
@@ -557,11 +557,11 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setvResizeCursorDown(String vResizeCursorDown) {
-        chartScrollbar.vResizeCursorDown = vResizeCursorDown;
+        getAmChartScrollbar().vResizeCursorDown = vResizeCursorDown;
     }
 
     public String getvResizeCursorHover() {
-        return chartScrollbar.vResizeCursorHover;
+        return getAmChartScrollbar().vResizeCursorHover;
     }
 
     /**
@@ -569,10 +569,13 @@ public class ChartScrollbar extends ChartOptions {
      */
 
     public void setvResizeCursorHover(String vResizeCursorHover) {
-        chartScrollbar.vResizeCursorHover = vResizeCursorHover;
+        getAmChartScrollbar().vResizeCursorHover = vResizeCursorHover;
     }
 
-    public AmChartScrollbar getChartScrollbar() {
+    public AmChartScrollbar getAmChartScrollbar() {
+        if (chartScrollbar == null) {
+            chartScrollbar = new AmChartScrollbar();
+        }
         return chartScrollbar;
     }
 }

@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 //@formatter:off
 
 /**
- * Used by {@link gwt.material.design.incubator.client.chart.amcharts.js.options.CategoryAxis#setMinPeriod(Period)}
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.options.CategoryAxis#setMinPeriod(Period)}
  *
  * @author kevzlou7979@gmail.com
  */

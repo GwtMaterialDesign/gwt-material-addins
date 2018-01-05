@@ -108,7 +108,7 @@ public class SerialChart extends RectangularChart implements HasSerialChartHandl
      * from the chart and set properties to this object.
      */
     public void setCategoryAxis(CategoryAxis categoryAxis) {
-        getChart().categoryAxis = categoryAxis.getCategoryAxis();
+        getChart().categoryAxis = categoryAxis.getAmCategoryAxis();
         categoryAxis.load();
     }
 
@@ -228,7 +228,7 @@ public class SerialChart extends RectangularChart implements HasSerialChartHandl
      * Value scrollbar, enables scrolling value axes.
      */
     public void setValueScrollbar(ChartScrollbar valueScrollbar) {
-        getChart().valueScrollbar = valueScrollbar.getChartScrollbar();
+        getChart().valueScrollbar = valueScrollbar.getAmChartScrollbar();
     }
 
     /**

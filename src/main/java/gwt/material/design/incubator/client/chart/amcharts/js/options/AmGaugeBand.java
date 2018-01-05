@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.chart.amcharts.js.options;
 
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -26,8 +27,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Creates a band for a specified value range on the {@link AmGaugeAxis}. Multiple bands can be assigned to a single
- * {@link AmGaugeAxis}.
+ * JS
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/GaugeBand">Official Documentation</a>
@@ -65,4 +65,10 @@ public class AmGaugeBand {
 
     @JsProperty
     public String url;
+
+    @JsMethod
+    public native void setEndValue(int value);
+
+    @JsMethod
+    public native void setStartValue(int value);
 }

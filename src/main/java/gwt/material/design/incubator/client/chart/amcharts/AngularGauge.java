@@ -55,15 +55,19 @@ public class AngularGauge extends AbstractChart {
      */
     public void setArrows(GaugeArrow... arrows) {
         for (int i = 0; i > arrows.length; i++) {
-            getChart().arrows[i] = arrows[i].getGaugeArrow();
+            getChart().arrows[i] = arrows[i].getAmGaugeArrow();
         }
     }
 
     /**
      * Array of axes.
      */
-    public void setAxes(GaugeAxis axes) {
-        getChart().axes = axes.getGaugeAxis();
+    public void setAxes(GaugeAxis... axes) {
+        for (int i = 0; i < axes.length; i++) {
+            GaugeAxis axis = axes[i];
+            getChart().axes[i] = axis.getAmGaugeAxis();
+            axis.load();
+        }
     }
 
     /**
@@ -183,28 +187,30 @@ public class AngularGauge extends AbstractChart {
      * Adds arrow to the chart.
      */
     public void addArrow(GaugeArrow gaugeArrow) {
-        getChart().addArrow(gaugeArrow.getGaugeArrow());
+        getChart().addArrow(gaugeArrow.getAmGaugeArrow());
     }
 
     /**
      * Adds arrow to the chart.
      */
     public void addAxis(GaugeAxis gaugeAxis) {
-        getChart().addAxis(gaugeAxis.getGaugeAxis());
+        getChart().addAxis(gaugeAxis.getAmGaugeAxis());
+        gaugeAxis.load();
     }
 
     /**
      * Removes arrow from the chart.
      */
     public void removeArrow(GaugeArrow gaugeArrow) {
-        getChart().removeArrow(gaugeArrow.getGaugeArrow());
+        getChart().removeArrow(gaugeArrow.getAmGaugeArrow());
     }
 
     /**
      * Removes axis from the chart.
      */
     public void removeAxis(GaugeAxis gaugeAxis) {
-        getChart().removeAxis(gaugeAxis.getGaugeAxis());
+        getChart().removeAxis(gaugeAxis.getAmGaugeAxis());
+        gaugeAxis.unload();
     }
 
     @Override

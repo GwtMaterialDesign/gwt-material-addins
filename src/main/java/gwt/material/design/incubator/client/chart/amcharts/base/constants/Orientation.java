@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.chart.amcharts.base.constants;
 //@formatter:off
 
 /**
- * Used by {@link gwt.material.design.incubator.client.chart.amcharts.js.options.ChartCursor#setBalloonPointerOrientation(Orientation)}
+ * Used by {@link gwt.material.design.incubator.client.chart.amcharts.options.ChartCursor#setBalloonPointerOrientation(Orientation)}
  *
  * @author kevzlou7979@gmail.com
  */

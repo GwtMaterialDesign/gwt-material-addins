@@ -29,9 +29,7 @@ import jsinterop.annotations.JsType;
 //@formatter:off
 
 /**
- * Creates a cursor for the chart which follows the mouse movements. In case of
- * {@link gwt.material.design.incubator.client.chart.amcharts.SerialChart} charts it shows the
- * balloons of hovered data points.
+ * JSInterop util for {@link gwt.material.design.incubator.client.chart.amcharts.options.ChartCursor}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="https://docs.amcharts.com/3/javascriptcharts/ChartCursor">Official Documentation</a>

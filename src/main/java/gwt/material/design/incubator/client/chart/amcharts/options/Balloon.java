@@ -3,12 +3,22 @@ package gwt.material.design.incubator.client.chart.amcharts.options;
 import gwt.material.design.incubator.client.chart.amcharts.base.ChartOptions;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 
+//@formatter:off
+
+/**
+ * Creates the balloons ( tooltips ) of the chart, It follows the mouse cursor when you roll-over the data items.
+ * The framework generates the instances automatically you only need to adjust the appearance to your needs.
+ *
+ * @author kevzlou7979@gmail.com
+ * @see <a href="https://docs.amcharts.com/3/javascriptcharts/AmBalloon">Official Documentation</a>
+ */
+//@formatter:on
 public class Balloon extends ChartOptions {
 
-    private AmBalloon balloon = new AmBalloon();
+    private AmBalloon balloon;
 
     public boolean isAdjustBorderColor() {
-        return balloon.adjustBorderColor;
+        return getAmBalloon().adjustBorderColor;
     }
 
     /**
@@ -16,12 +26,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setAdjustBorderColor(boolean adjustBorderColor) {
-        balloon.adjustBorderColor = adjustBorderColor;
+        getAmBalloon().adjustBorderColor = adjustBorderColor;
     }
 
 
     public double getAnimationDuration() {
-        return balloon.animationDuration;
+        return getAmBalloon().animationDuration;
     }
 
     /**
@@ -29,12 +39,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setAnimationDuration(double animationDuration) {
-        balloon.animationDuration = animationDuration;
+        getAmBalloon().animationDuration = animationDuration;
     }
 
 
     public double getBorderAlpha() {
-        return balloon.borderAlpha;
+        return getAmBalloon().borderAlpha;
     }
 
     /**
@@ -42,12 +52,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setBorderAlpha(double borderAlpha) {
-        balloon.borderAlpha = borderAlpha;
+        getAmBalloon().borderAlpha = borderAlpha;
     }
 
 
     public String getBorderColor() {
-        return balloon.borderColor;
+        return getAmBalloon().borderColor;
     }
 
     /**
@@ -55,12 +65,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setBorderColor(String borderColor) {
-        balloon.borderColor = borderColor;
+        getAmBalloon().borderColor = borderColor;
     }
 
 
     public int getBorderThickness() {
-        return balloon.borderThickness;
+        return getAmBalloon().borderThickness;
     }
 
     /**
@@ -68,25 +78,25 @@ public class Balloon extends ChartOptions {
      */
 
     public void setBorderThickness(int borderThickness) {
-        balloon.borderThickness = borderThickness;
+        getAmBalloon().borderThickness = borderThickness;
     }
 
 
     public String getColor() {
-        return balloon.color;
+        return getAmBalloon().color;
     }
 
     /**
-     * Color of text in the balloon. Default to #000000
+     * Color of text in the getAmBalloon(). Default to #000000
      */
 
     public void setColor(String color) {
-        balloon.color = color;
+        getAmBalloon().color = color;
     }
 
 
     public int getCornerRadius() {
-        return balloon.cornerRadius;
+        return getAmBalloon().cornerRadius;
     }
 
     /**
@@ -94,12 +104,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setCornerRadius(int cornerRadius) {
-        balloon.cornerRadius = cornerRadius;
+        getAmBalloon().cornerRadius = cornerRadius;
     }
 
 
     public boolean isDisableMouseEvents() {
-        return balloon.disableMouseEvents;
+        return getAmBalloon().disableMouseEvents;
     }
 
     /**
@@ -107,12 +117,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setDisableMouseEvents(boolean disableMouseEvents) {
-        balloon.disableMouseEvents = disableMouseEvents;
+        getAmBalloon().disableMouseEvents = disableMouseEvents;
     }
 
 
     public boolean isDrop() {
-        return balloon.drop;
+        return getAmBalloon().drop;
     }
 
     /**
@@ -123,12 +133,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setDrop(boolean drop) {
-        balloon.drop = drop;
+        getAmBalloon().drop = drop;
     }
 
 
     public boolean isEnabled() {
-        return balloon.enabled;
+        return getAmBalloon().enabled;
     }
 
     /**
@@ -136,12 +146,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setEnabled(boolean enabled) {
-        balloon.enabled = enabled;
+        getAmBalloon().enabled = enabled;
     }
 
 
     public double getFadeOutDuration() {
-        return balloon.fadeOutDuration;
+        return getAmBalloon().fadeOutDuration;
     }
 
     /**
@@ -149,12 +159,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setFadeOutDuration(double fadeOutDuration) {
-        balloon.fadeOutDuration = fadeOutDuration;
+        getAmBalloon().fadeOutDuration = fadeOutDuration;
     }
 
 
     public double getFillAlpha() {
-        return balloon.fillAlpha;
+        return getAmBalloon().fillAlpha;
     }
 
     /**
@@ -162,12 +172,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setFillAlpha(double fillAlpha) {
-        balloon.fillAlpha = fillAlpha;
+        getAmBalloon().fillAlpha = fillAlpha;
     }
 
 
     public String getFillColor() {
-        return balloon.fillColor;
+        return getAmBalloon().fillColor;
     }
 
     /**
@@ -176,12 +186,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setFillColor(String fillColor) {
-        balloon.fillColor = fillColor;
+        getAmBalloon().fillColor = fillColor;
     }
 
 
     public boolean isFixedPosition() {
-        return balloon.fixedPosition;
+        return getAmBalloon().fixedPosition;
     }
 
     /**
@@ -191,51 +201,51 @@ public class Balloon extends ChartOptions {
      */
 
     public void setFixedPosition(boolean fixedPosition) {
-        balloon.fixedPosition = fixedPosition;
+        getAmBalloon().fixedPosition = fixedPosition;
     }
 
 
     public int getFontSize() {
-        return balloon.fontSize;
+        return getAmBalloon().fontSize;
     }
 
     /**
-     * Size of text in the balloon. Chart's fontSize is used by default.
+     * Size of text in the getAmBalloon(). Chart's fontSize is used by default.
      */
 
     public void setFontSize(int fontSize) {
-        balloon.fontSize = fontSize;
+        getAmBalloon().fontSize = fontSize;
     }
 
 
     public int getHorizontalPadding() {
-        return balloon.horizontalPadding;
+        return getAmBalloon().horizontalPadding;
     }
 
     /**
-     * Horizontal padding of the balloon. Default to 8
+     * Horizontal padding of the getAmBalloon(). Default to 8
      */
 
     public void setHorizontalPadding(int horizontalPadding) {
-        balloon.horizontalPadding = horizontalPadding;
+        getAmBalloon().horizontalPadding = horizontalPadding;
     }
 
 
     public int getMaxWidth() {
-        return balloon.maxWidth;
+        return getAmBalloon().maxWidth;
     }
 
     /**
-     * Maximum width of a balloon.
+     * Maximum width of a getAmBalloon().
      */
 
     public void setMaxWidth(int maxWidth) {
-        balloon.maxWidth = maxWidth;
+        getAmBalloon().maxWidth = maxWidth;
     }
 
 
     public int getOffsetX() {
-        return balloon.offsetX;
+        return getAmBalloon().offsetX;
     }
 
     /**
@@ -247,12 +257,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setOffsetX(int offsetX) {
-        balloon.offsetX = offsetX;
+        getAmBalloon().offsetX = offsetX;
     }
 
 
     public int getOffsetY() {
-        return balloon.offsetY;
+        return getAmBalloon().offsetY;
     }
 
     /**
@@ -264,25 +274,25 @@ public class Balloon extends ChartOptions {
      */
 
     public void setOffsetY(int offsetY) {
-        balloon.offsetY = offsetY;
+        getAmBalloon().offsetY = offsetY;
     }
 
 
     public String getPointerOrientation() {
-        return balloon.pointerOrientation;
+        return getAmBalloon().pointerOrientation;
     }
 
     /**
-     * Works only if balloon.drop set to true, specifies direction of a pointer. Default to down
+     * Works only if getAmBalloon().drop set to true, specifies direction of a pointer. Default to down
      */
 
     public void setPointerOrientation(String pointerOrientation) {
-        balloon.pointerOrientation = pointerOrientation;
+        getAmBalloon().pointerOrientation = pointerOrientation;
     }
 
 
     public int getPointerWidth() {
-        return balloon.pointerWidth;
+        return getAmBalloon().pointerWidth;
     }
 
     /**
@@ -290,12 +300,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setPointerWidth(int pointerWidth) {
-        balloon.pointerWidth = pointerWidth;
+        getAmBalloon().pointerWidth = pointerWidth;
     }
 
 
     public double getShadowAlpha() {
-        return balloon.shadowAlpha;
+        return getAmBalloon().shadowAlpha;
     }
 
     /**
@@ -303,12 +313,12 @@ public class Balloon extends ChartOptions {
      */
 
     public void setShadowAlpha(double shadowAlpha) {
-        balloon.shadowAlpha = shadowAlpha;
+        getAmBalloon().shadowAlpha = shadowAlpha;
     }
 
 
     public String getShadowColor() {
-        return balloon.shadowColor;
+        return getAmBalloon().shadowColor;
     }
 
     /**
@@ -316,27 +326,27 @@ public class Balloon extends ChartOptions {
      */
 
     public void setShadowColor(String shadowColor) {
-        balloon.shadowColor = shadowColor;
+        getAmBalloon().shadowColor = shadowColor;
     }
 
 
     public boolean isShowBullet() {
-        return balloon.showBullet;
+        return getAmBalloon().showBullet;
     }
 
     /**
      * If cornerRadius of a balloon is >0, showBullet is set to true for value balloons when ChartCursor is used.
-     * If you don't want the bullet near the balloon, set it to false: chart.balloon.showBullet = false.
+     * If you don't want the bullet near the balloon, set it to false: chart.getAmBalloon().showBullet = false.
      * Default to false
      */
 
     public void setShowBullet(boolean showBullet) {
-        balloon.showBullet = showBullet;
+        getAmBalloon().showBullet = showBullet;
     }
 
 
     public String getTextAlign() {
-        return balloon.textAlign;
+        return getAmBalloon().textAlign;
     }
 
     /**
@@ -344,23 +354,48 @@ public class Balloon extends ChartOptions {
      */
 
     public void setTextAlign(String textAlign) {
-        balloon.textAlign = textAlign;
+        getAmBalloon().textAlign = textAlign;
     }
 
 
     public int getVerticalPadding() {
-        return balloon.verticalPadding;
+        return getAmBalloon().verticalPadding;
     }
 
     /**
-     * Vertical padding of the balloon. Default to 4
+     * Vertical padding of the getAmBalloon(). Default to 4
      */
 
     public void setVerticalPadding(int verticalPadding) {
-        balloon.verticalPadding = verticalPadding;
+        getAmBalloon().verticalPadding = verticalPadding;
     }
 
-    public AmBalloon getBalloon() {
+    /**
+     * Hides getAmBalloon().
+     */
+    public void hide() {
+        getAmBalloon().hide();
+    }
+
+    /**
+     * Defines a square within which the balloon should appear. Bounds are set by chart class, you don't need to
+     * call this method yourself.
+     */
+    public void setBounds(int left, int top, int right, int bottom) {
+        getAmBalloon().setBounds(left, top, right, bottom);
+    }
+
+    /**
+     * Sets coordinates the balloon should point to.
+     */
+    public void setPosition(int x, int y) {
+        getAmBalloon().setPosition(x, y);
+    }
+
+    public AmBalloon getAmBalloon() {
+        if (balloon == null) {
+            balloon = new AmBalloon();
+        }
         return balloon;
     }
 }
