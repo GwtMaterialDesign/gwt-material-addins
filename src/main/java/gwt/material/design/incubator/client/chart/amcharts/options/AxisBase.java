@@ -46,13 +46,6 @@ public abstract class AxisBase extends ChartOptions implements HasAxisHandlers {
         setListeners(clickItem, clickGuide, rollOutGuide, rollOverGuide, rollOutGuideItem, rollOverGuideItem);
     }
 
-    @Override
-    public void unload() {
-        super.unload();
-
-        // TODO Unload events
-    }
-
     public boolean isAutoGridCount() {
         return getAmAxis().autoGridCount;
     }

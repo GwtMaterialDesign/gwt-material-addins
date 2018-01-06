@@ -22,21 +22,37 @@ import gwt.material.design.jquery.client.api.Functions;
 public class Legend extends ChartOptions implements HasLegendHandlers {
 
     private AmLegend legend;
+    private Functions.Func1<Object> clickLabelEvent, clickMarkerEvent, hideItemEvent, rollOutItemEvent, rollOverItemEvent, rollOverMarkerEvent, showItemEvent;
 
     @Override
     public void load() {
-        addListener(AmChartEvents.CLICK_LABEL, object -> ClickLabelEvent.fire(this, (LegendData) object));
-        addListener(AmChartEvents.CLICK_MARKER, object -> ClickMarkerEvent.fire(this, (LegendData) object));
-        addListener(AmChartEvents.HIDE_ITEM, object -> HideItemEvent.fire(this, (LegendData) object));
-        addListener(AmChartEvents.ROLL_OUT_ITEM, object -> RollOutItemEvent.fire(this, (LegendData) object));
-        addListener(AmChartEvents.ROLL_OVER_ITEM, object -> RollOverItemEvent.fire(this, (LegendData) object));
-        addListener(AmChartEvents.ROLL_OVER_MARKER, object -> RollOverMarkerEvent.fire(this, (LegendData) object));
-        addListener(AmChartEvents.SHOW_ITEM, object -> ShowItemEvent.fire(this, (LegendData) object));
+
+        clickLabelEvent = object -> ClickLabelEvent.fire(this, (LegendData) object);
+        clickMarkerEvent = object -> ClickMarkerEvent.fire(this, (LegendData) object);
+        hideItemEvent = object -> HideItemEvent.fire(this, (LegendData) object);
+        rollOutItemEvent = object -> RollOutItemEvent.fire(this, (LegendData) object);
+        rollOverItemEvent = object -> RollOverItemEvent.fire(this, (LegendData) object);
+        rollOverMarkerEvent = object -> RollOverMarkerEvent.fire(this, (LegendData) object);
+        showItemEvent = object -> ShowItemEvent.fire(this, (LegendData) object);
+
+        addListener(AmChartEvents.CLICK_LABEL, clickLabelEvent);
+        addListener(AmChartEvents.CLICK_MARKER, clickMarkerEvent);
+        addListener(AmChartEvents.HIDE_ITEM, hideItemEvent);
+        addListener(AmChartEvents.ROLL_OUT_ITEM, rollOutItemEvent);
+        addListener(AmChartEvents.ROLL_OVER_ITEM, rollOverItemEvent);
+        addListener(AmChartEvents.ROLL_OVER_MARKER, rollOverMarkerEvent);
+        addListener(AmChartEvents.SHOW_ITEM, showItemEvent);
     }
 
     @Override
     public void unload() {
-        // TODO Unload Events
+        removeListener(getAmLegend(), AmChartEvents.CLICK_LABEL, clickLabelEvent);
+        removeListener(getAmLegend(), AmChartEvents.CLICK_MARKER, clickMarkerEvent);
+        removeListener(getAmLegend(), AmChartEvents.HIDE_ITEM, hideItemEvent);
+        removeListener(getAmLegend(), AmChartEvents.ROLL_OUT_ITEM, rollOutItemEvent);
+        removeListener(getAmLegend(), AmChartEvents.ROLL_OVER_ITEM, rollOverMarkerEvent);
+        removeListener(getAmLegend(), AmChartEvents.ROLL_OVER_MARKER, rollOverMarkerEvent);
+        removeListener(getAmLegend(), AmChartEvents.SHOW_ITEM, showItemEvent);
     }
 
     public String getAccessibleLabel() {
@@ -829,7 +845,7 @@ public class Legend extends ChartOptions implements HasLegendHandlers {
     /**
      * Removes event listener from the legend object.
      */
-    public void removeListener(AmLegend legend, String type, Functions.EventFunc handler) {
+    public void removeListener(AmLegend legend, String type, Functions.Func1<Object> handler) {
         getAmLegend().removeListener(legend, type, handler);
     }
 

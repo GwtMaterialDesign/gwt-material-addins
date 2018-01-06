@@ -68,11 +68,6 @@ public class ChartCursor extends ChartOptions implements HasCursorHandlers {
         setListeners(changedEvent, drawEvent, movedEvent, onHideCursorEvent, onShowCursorEvent, panningEvent, selectedEvent, zoomedEvent, zoomStartedEvent);
     }
 
-    @Override
-    public void unload() {
-        // TODO Unload Events
-    }
-
     public int getAdjustment() {
         return getAmChartCursor().adjustment;
     }

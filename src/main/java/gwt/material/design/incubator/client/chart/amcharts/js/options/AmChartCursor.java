@@ -186,6 +186,4 @@ public class AmChartCursor {
      */
     @JsMethod
     public native void syncWithCursor(AmChartCursor chartCursor);
-
-    // TODO Events
 }

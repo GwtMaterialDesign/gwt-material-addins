@@ -32,6 +32,7 @@ import gwt.material.design.incubator.client.chart.amcharts.js.AmGraph;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmValueAxis;
 import gwt.material.design.incubator.client.chart.amcharts.options.Graph;
 import gwt.material.design.incubator.client.chart.amcharts.options.Guide;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
 
@@ -44,28 +45,44 @@ import gwt.material.design.incubator.client.chart.amcharts.options.Guide;
 //@formatter:on
 public abstract class CoordinateChart extends AbstractChart implements HasCoordinateChartHandlers {
 
+    private Functions.Func1<Object> clickGraphEvent, clickGraphItemEvent, rightClickGraphItemEvent, rollOutGraphEvent, rollOutGraphItemEvent, rollOverGraphEvent, rollOverGraphItemEvent;
+
     public CoordinateChart(ChartType chartType) {
         super(chartType);
-    }
-
-    @Override
-    public void load() {
-        super.load();
-
-        addListener(AmChartEvents.CLICK_GRAPH, object -> ClickGraphEvent.fire(this, (CoordinateGraphData) object));
-        addListener(AmChartEvents.CLICK_GRAPH_ITEM, object -> ClickGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
-        addListener(AmChartEvents.RIGHT_CLICK_GRAPH_ITEM, object -> RightClickGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
-        addListener(AmChartEvents.ROLL_OUT_GRAPH, object -> RollOutGraphEvent.fire(this, (CoordinateGraphData) object));
-        addListener(AmChartEvents.ROLL_OUT_GRAPH_ITEM, object -> RollOutGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
-        addListener(AmChartEvents.ROLL_OVER_GRAPH, object -> RollOverGraphEvent.fire(this, (CoordinateGraphData) object));
-        addListener(AmChartEvents.ROLL_OVER_GRAPH_ITEM, object -> RollOverGraphItemEvent.fire(this, (CoordinateGraphItemData) object));
     }
 
     @Override
     public void unload() {
         super.unload();
 
-        // TODO Unload Events
+        removeListener(getChart(), AmChartEvents.CLICK_GRAPH, clickGraphEvent);
+        removeListener(getChart(), AmChartEvents.CLICK_GRAPH_ITEM, clickGraphItemEvent);
+        removeListener(getChart(), AmChartEvents.RIGHT_CLICK_GRAPH_ITEM, rightClickGraphItemEvent);
+        removeListener(getChart(), AmChartEvents.ROLL_OUT_GRAPH, rollOutGraphEvent);
+        removeListener(getChart(), AmChartEvents.ROLL_OUT_GRAPH_ITEM, rollOutGraphItemEvent);
+        removeListener(getChart(), AmChartEvents.ROLL_OVER_GRAPH, rollOverGraphEvent);
+        removeListener(getChart(), AmChartEvents.ROLL_OVER_GRAPH_ITEM, rollOverGraphItemEvent);
+    }
+
+    @Override
+    protected void loadEvents() {
+        super.loadEvents();
+
+        clickGraphEvent = object -> ClickGraphEvent.fire(this, (CoordinateGraphData) object);
+        clickGraphItemEvent = object -> ClickGraphItemEvent.fire(this, (CoordinateGraphItemData) object);
+        rightClickGraphItemEvent = object -> RightClickGraphItemEvent.fire(this, (CoordinateGraphItemData) object);
+        rollOutGraphEvent = object -> RollOutGraphEvent.fire(this, (CoordinateGraphData) object);
+        rollOutGraphItemEvent = object -> RollOutGraphItemEvent.fire(this, (CoordinateGraphItemData) object);
+        rollOverGraphEvent = object -> RollOverGraphEvent.fire(this, (CoordinateGraphData) object);
+        rollOverGraphItemEvent = object -> RollOverGraphItemEvent.fire(this, (CoordinateGraphItemData) object);
+
+        addListener(AmChartEvents.CLICK_GRAPH, clickGraphEvent);
+        addListener(AmChartEvents.CLICK_GRAPH_ITEM, clickGraphItemEvent);
+        addListener(AmChartEvents.RIGHT_CLICK_GRAPH_ITEM, rightClickGraphItemEvent);
+        addListener(AmChartEvents.ROLL_OUT_GRAPH, rollOutGraphEvent);
+        addListener(AmChartEvents.ROLL_OUT_GRAPH_ITEM, rollOutGraphItemEvent);
+        addListener(AmChartEvents.ROLL_OVER_GRAPH, rollOverGraphEvent);
+        addListener(AmChartEvents.ROLL_OVER_GRAPH_ITEM, rollOverGraphItemEvent);
     }
 
     /**

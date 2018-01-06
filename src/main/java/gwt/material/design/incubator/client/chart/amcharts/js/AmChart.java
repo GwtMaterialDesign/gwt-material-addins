@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.chart.amcharts.js;
 
 import com.google.gwt.json.client.JSONValue;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.Listener;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.AmDataLoader;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Label;
 import gwt.material.design.incubator.client.chart.amcharts.js.options.Title;
@@ -264,7 +265,7 @@ public class AmChart {
      * "method":handleEvent}];
      */
     @JsProperty
-    public Object[] listeners;
+    public Listener[] listeners;
 
     /**
      * This setting affects touch-screen devices only. If a chart is on a page, and panEventsEnabled are set to true,
@@ -516,7 +517,7 @@ public class AmChart {
      * @param handler method called when listener has been called.
      */
     @JsMethod
-    public native void removeListener(AmChart object, String type, Functions.Func handler);
+    public native void removeListener(AmChart object, String type, Functions.Func1<Object> handler);
 
     /**
      * This method should be called after data in your data provider changed or a new array was set to dataProvider.

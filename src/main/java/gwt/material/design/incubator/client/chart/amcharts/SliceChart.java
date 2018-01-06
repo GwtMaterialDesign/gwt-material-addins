@@ -42,27 +42,41 @@ import gwt.material.design.jquery.client.api.Functions;
 //@formatter:on
 public abstract class SliceChart extends AbstractChart implements HasSliceChartHandlers {
 
+    private Functions.Func1<Object> clickSliceEvent, pullInSliceEvent, pullOutSliceEvent, rightClickSliceEvent, rollOutSliceEvent, rollOverSliceEvent;
+
     public SliceChart(ChartType chartType) {
         super(chartType);
     }
 
     @Override
-    public void load() {
-        super.load();
+    protected void loadEvents() {
+        super.loadEvents();
 
-        addListener(AmChartEvents.CLICK_SLICE, object -> ClickSliceEvent.fire(this, (SliceData) object));
-        addListener(AmChartEvents.PULL_IN_SLICE, object -> PullInSliceEvent.fire(this, (SliceData) object));
-        addListener(AmChartEvents.PULL_OUT_SLICE, object -> PullOutSliceEvent.fire(this, (SliceData) object));
-        addListener(AmChartEvents.RIGHT_CLICK_SLICE, object -> RightClickSliceEvent.fire(this, (SliceData) object));
-        addListener(AmChartEvents.ROLL_OUT_SLICE, object -> RollOutSliceEvent.fire(this, (SliceData) object));
-        addListener(AmChartEvents.ROLL_OVER_SLICE, object -> RollOverSliceEvent.fire(this, (SliceData) object));
+        clickSliceEvent = object -> ClickSliceEvent.fire(this, (SliceData) object);
+        pullInSliceEvent = object -> PullInSliceEvent.fire(this, (SliceData) object);
+        pullOutSliceEvent = object -> PullOutSliceEvent.fire(this, (SliceData) object);
+        rightClickSliceEvent = object -> RightClickSliceEvent.fire(this, (SliceData) object);
+        rollOutSliceEvent = object -> RollOutSliceEvent.fire(this, (SliceData) object);
+        rollOverSliceEvent = object -> RollOverSliceEvent.fire(this, (SliceData) object);
+
+        addListener(AmChartEvents.CLICK_SLICE, clickSliceEvent);
+        addListener(AmChartEvents.PULL_IN_SLICE, pullInSliceEvent);
+        addListener(AmChartEvents.PULL_OUT_SLICE, pullOutSliceEvent);
+        addListener(AmChartEvents.RIGHT_CLICK_SLICE, rightClickSliceEvent);
+        addListener(AmChartEvents.ROLL_OUT_SLICE, rollOutSliceEvent);
+        addListener(AmChartEvents.ROLL_OVER_SLICE, rollOverSliceEvent);
     }
 
     @Override
     public void unload() {
         super.unload();
 
-        // TODO Unload Events
+        removeListener(getChart(), AmChartEvents.CLICK_SLICE, clickSliceEvent);
+        removeListener(getChart(), AmChartEvents.PULL_IN_SLICE, pullInSliceEvent);
+        removeListener(getChart(), AmChartEvents.PULL_OUT_SLICE, pullOutSliceEvent);
+        removeListener(getChart(), AmChartEvents.RIGHT_CLICK_SLICE, rightClickSliceEvent);
+        removeListener(getChart(), AmChartEvents.ROLL_OUT_SLICE, rollOutSliceEvent);
+        removeListener(getChart(), AmChartEvents.ROLL_OVER_SLICE, rollOverSliceEvent);
     }
 
     /**

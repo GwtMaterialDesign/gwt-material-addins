@@ -34,6 +34,7 @@ import gwt.material.design.incubator.client.chart.amcharts.events.AmChartEvents;
 import gwt.material.design.incubator.client.chart.amcharts.events.HasChartHandlers;
 import gwt.material.design.incubator.client.chart.amcharts.events.core.*;
 import gwt.material.design.incubator.client.chart.amcharts.events.object.CoreData;
+import gwt.material.design.incubator.client.chart.amcharts.events.object.Listener;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmBalloon;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmChart;
 import gwt.material.design.incubator.client.chart.amcharts.js.AmLegend;
@@ -60,6 +61,8 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
         MaterialDesign.injectDebugJs(ChartClientBundle.INSTANCE.amChartJs());
     }
 
+    private Functions.Func1<Object> drawnEvent, animationFinishedEvent, buildStartedEvent, dataUpdatedEvent, initEvent, renderedEvent;
+
     public AbstractChart(ChartType chartType) {
         super(Document.get().createDivElement());
 
@@ -79,13 +82,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
         // Load the default configs
         loadDefaults();
 
-        // Initialize the events
-        addListener(AmChartEvents.ANIMATION_FINISHED, object -> AnimationFinishedEvent.fire(this, (CoreData) object));
-        addListener(AmChartEvents.BUILD_STARTED, object -> BuildStartedEvent.fire(this, (CoreData) object));
-        addListener(AmChartEvents.DATA_UPDATED, object -> DataUpdatedEvent.fire(this, (CoreData) object));
-        addListener(AmChartEvents.DRAWN, object -> DrawnEvent.fire(AbstractChart.this, (CoreData) object));
-        addListener(AmChartEvents.INIT, object -> InitEvent.fire(this, (CoreData) object));
-        addListener(AmChartEvents.RENDERED, object -> RenderedEvent.fire(this, (CoreData) object));
+        loadEvents();
 
         // Build the graph with given container id
         getChart().write(getId());
@@ -94,6 +91,23 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
     protected void loadDefaults() {
         setFontFamily("Roboto");
         setTheme(ChartTheme.LIGHT);
+    }
+
+    protected void loadEvents() {
+        drawnEvent = object -> DrawnEvent.fire(AbstractChart.this, (CoreData) object);
+        animationFinishedEvent = object -> AnimationFinishedEvent.fire(this, (CoreData) object);
+        buildStartedEvent = object -> BuildStartedEvent.fire(this, (CoreData) object);
+        dataUpdatedEvent = object -> DataUpdatedEvent.fire(this, (CoreData) object);
+        initEvent = object -> InitEvent.fire(this, (CoreData) object);
+        renderedEvent = object -> RenderedEvent.fire(this, (CoreData) object);
+
+        // Initialize the events
+        addListener(AmChartEvents.DRAWN, drawnEvent);
+        addListener(AmChartEvents.ANIMATION_FINISHED, animationFinishedEvent);
+        addListener(AmChartEvents.BUILD_STARTED, buildStartedEvent);
+        addListener(AmChartEvents.DATA_UPDATED, dataUpdatedEvent);
+        addListener(AmChartEvents.INIT, initEvent);
+        addListener(AmChartEvents.RENDERED, renderedEvent);
     }
 
     @Override
@@ -107,7 +121,12 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
     public void unload() {
         getChart().clear();
 
-        // TODO Figure out how to destroy chart events
+        getChart().removeListener(getChart(), AmChartEvents.DRAWN, drawnEvent);
+        getChart().removeListener(getChart(), AmChartEvents.ANIMATION_FINISHED, animationFinishedEvent);
+        getChart().removeListener(getChart(), AmChartEvents.BUILD_STARTED, buildStartedEvent);
+        getChart().removeListener(getChart(), AmChartEvents.DATA_UPDATED, dataUpdatedEvent);
+        getChart().removeListener(getChart(), AmChartEvents.INIT, initEvent);
+        getChart().removeListener(getChart(), AmChartEvents.RENDERED, renderedEvent);
     }
 
     @Override
@@ -371,7 +390,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      * You can add listeners of events using this property. Example: listeners = [{"event":"dataUpdated",
      * "method":handleEvent}];
      */
-    public void setListeners(Object... listeners) {
+    public void setListeners(Listener... listeners) {
         getChart().listeners = listeners;
     }
 
@@ -620,7 +639,7 @@ public abstract class AbstractChart extends MaterialWidget implements JsLoader, 
      * @param type    event name
      * @param handler method called when listener has been called.
      */
-    public void removeListener(AmChart object, String type, Functions.Func handler) {
+    public void removeListener(AmChart object, String type, Functions.Func1<Object> handler) {
         getChart().removeListener(object, type, handler);
     }
 

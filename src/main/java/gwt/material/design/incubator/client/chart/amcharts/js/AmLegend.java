@@ -211,5 +211,5 @@ public class AmLegend {
     public native void addListener(String type, Functions.Func1<Object> handler);
 
     @JsMethod
-    public native void removeListener(AmLegend legend, String type, Functions.EventFunc handler);
+    public native void removeListener(AmLegend legend, String type, Functions.Func1<Object> handler);
 }

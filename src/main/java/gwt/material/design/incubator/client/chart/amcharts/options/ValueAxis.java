@@ -27,21 +27,28 @@ import java.util.Date;
 public class ValueAxis extends AxisBase {
 
     private AmValueAxis axis;
+    private Functions.Func1<Object> axisChangedEvent, axisZoomedEvent, logarithmicAxisFailedEvent;
 
     @Override
     public void load() {
         super.load();
 
-        addListener(AmChartEvents.AXIS_CHANGED, object -> AxisChangedEvent.fire(this, (ValueAxisChangedData) object));
-        addListener(AmChartEvents.AXIS_ZOOMED, object -> AxisZoomedEvent.fire(this, (ValueAxisZoomedData) object));
-        addListener(AmChartEvents.LOGARITHMIC_AXIS_FAILED, object -> LogarithmicAxisFailedEvent.fire(this, (LogarithmicAxisFailedData) object));
+        axisChangedEvent = object -> AxisChangedEvent.fire(this, (ValueAxisChangedData) object);
+        axisZoomedEvent = object -> AxisZoomedEvent.fire(this, (ValueAxisZoomedData) object);
+        logarithmicAxisFailedEvent = object -> LogarithmicAxisFailedEvent.fire(this, (LogarithmicAxisFailedData) object);
+
+        addListener(AmChartEvents.AXIS_CHANGED, axisChangedEvent);
+        addListener(AmChartEvents.AXIS_ZOOMED, axisZoomedEvent);
+        addListener(AmChartEvents.LOGARITHMIC_AXIS_FAILED, logarithmicAxisFailedEvent);
     }
 
     @Override
     public void unload() {
         super.unload();
 
-        // TODO Unload Events
+        removeListener(getAmValueAxis(), AmChartEvents.AXIS_CHANGED, axisChangedEvent);
+        removeListener(getAmValueAxis(), AmChartEvents.AXIS_ZOOMED, axisZoomedEvent);
+        removeListener(getAmValueAxis(), AmChartEvents.LOGARITHMIC_AXIS_FAILED, logarithmicAxisFailedEvent);
     }
 
     public AmValueAxis getSynchronizeWith() {

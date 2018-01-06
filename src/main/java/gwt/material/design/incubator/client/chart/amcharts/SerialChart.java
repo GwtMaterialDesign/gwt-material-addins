@@ -30,6 +30,7 @@ import gwt.material.design.incubator.client.chart.amcharts.events.serial.SerialZ
 import gwt.material.design.incubator.client.chart.amcharts.js.AmSerialChart;
 import gwt.material.design.incubator.client.chart.amcharts.options.CategoryAxis;
 import gwt.material.design.incubator.client.chart.amcharts.options.ChartScrollbar;
+import gwt.material.design.jquery.client.api.Functions;
 
 import java.util.Date;
 
@@ -47,7 +48,8 @@ import java.util.Date;
 public class SerialChart extends RectangularChart implements HasSerialChartHandlers {
 
 
-    protected AmSerialChart chart;
+    private AmSerialChart chart;
+    private Functions.Func1<Object> changedEvent, zoomedEvent;
 
     public SerialChart() {
         super(ChartType.SERIAL);
@@ -58,18 +60,22 @@ public class SerialChart extends RectangularChart implements HasSerialChartHandl
     }
 
     @Override
-    public void load() {
-        super.load();
+    protected void loadEvents() {
+        super.loadEvents();
 
-        addListener(AmChartEvents.CHANGED, object -> SerialChangedEvent.fire(this, (SerialChangedData) object));
-        addListener(AmChartEvents.ZOOMED, object -> SerialZoomedEvent.fire(this, (SerialZoomedData) object));
+        changedEvent = object -> SerialChangedEvent.fire(this, (SerialChangedData) object);
+        zoomedEvent = object -> SerialZoomedEvent.fire(this, (SerialZoomedData) object);
+
+        addListener(AmChartEvents.CHANGED, changedEvent);
+        addListener(AmChartEvents.ZOOMED, zoomedEvent);
     }
 
     @Override
     public void unload() {
         super.unload();
 
-        // TODO Unload Events
+        removeListener(getChart(), AmChartEvents.CHANGED, changedEvent);
+        removeListener(getChart(), AmChartEvents.ZOOMED, zoomedEvent);
     }
 
     @Override
