@@ -17,20 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.base.constants;
+package gwt.material.design.incubator.client.infinitescroll;
 
-public interface IncubatorCssName {
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-    String ALERT_CONTAINER = "alert-container";
-    String ASYNC_BUTTON = "async-button";
-    String TIMER_PROGRESS = "timer-progress";
-    String LOADING_STATE = "loading-state";
-    String BOUNCING = "bouncing";
-    String FILL = "fill";
-    String GROUP_TOGGLE_BUTTON = "group-toggle-button";
-    String LANGUAGE_SELECTOR = "language-selector";
-    String LANGUAGE_ACTIVATOR = "language-activator";
-    String LANGUAGE_SELECTOR_ITEM = "language-selector-item";
-    String PROGRESS_ITEM = "progress-item";
-    String INFINITE_SCROLL = "infinite-scroll";
+public interface InfiniteScrollDebugClientBundle extends ClientBundle {
+    InfiniteScrollDebugClientBundle INSTANCE = GWT.create(InfiniteScrollDebugClientBundle.class);
+
+    @Source("resources/js/ScrollMagic.min.js")
+    TextResource scrollMagicDebugJs();
+
+    @Source("resources/js/debug.addIndicators.js")
+    TextResource addIndicatorsPluginDebugJs();
 }
