@@ -32,5 +32,6 @@ public interface IncubatorCssName {
     String LANGUAGE_ACTIVATOR = "language-activator";
     String LANGUAGE_SELECTOR_ITEM = "language-selector-item";
     String PROGRESS_ITEM = "progress-item";
-    String INFINITE_SCROLL = "infinite-scroll";
+    String INFINITE_SCROLL_CONTAINER = "infinite-scroll-container";
+    String INFINITE_SCROLL_LOADER = "infinite-scroll-loader";
 }

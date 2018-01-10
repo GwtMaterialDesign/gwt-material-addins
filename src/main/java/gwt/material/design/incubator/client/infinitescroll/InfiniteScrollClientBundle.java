@@ -31,4 +31,7 @@ public interface InfiniteScrollClientBundle extends ClientBundle {
 
     @Source("resources/js/debug.addIndicators.min.js")
     TextResource addIndicatorsPluginJs();
+
+    @Source("resources/css/infinite-scroll.min.css")
+    TextResource infiniteScrollCss();
 }
