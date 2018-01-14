@@ -24,14 +24,19 @@ import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.HasError;
+import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.incubator.client.AddinsIncubator;
-import gwt.material.design.incubator.client.base.IncubatorWidget;
+import gwt.material.design.client.ui.html.Div;
+import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //@formatter:off
 
@@ -56,95 +61,211 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
  * @author kevzlou7979
  */
 //@formatter:on
-public class GroupToggleButton extends MaterialWidget implements HasSelectionHandlers<Integer> {
+public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<Integer>, HasError {
 
     static {
-        if (AddinsIncubator.isDebug()) {
+        if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(GroupToggleButtonDebugClientBundle.INSTANCE.groupToggleDebugCss());
         } else {
             MaterialDesignBase.injectCss(GroupToggleButtonClientBundle.INSTANCE.groupToggleButtonCss());
         }
     }
 
-    private MaterialLabel firstToggle = new MaterialLabel("1");
-    private MaterialLabel secondToggle = new MaterialLabel("2");
-    private MaterialLabel thirdToggle = new MaterialLabel("3");
-    private int index = -1;
+    private boolean multiple;
+    private Div wrapper = new Div();
+    private List<ToggleButton> items = new ArrayList<>();
+    private List<T> values = new ArrayList<>();
+    private Label label = new Label();
+    private MaterialLabel errorLabel = new MaterialLabel();
+    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
 
     public GroupToggleButton() {
-        super(Document.get().createDivElement(), IncubatorCssName.GROUP_TOGGLE_BUTTON);
+        super(Document.get().createDivElement(), IncubatorCssName.GROUP_TOGGLE_BUTTON, CssName.INPUT_FIELD);
+        wrapper.setStyleName(IncubatorCssName.WRAPPER);
     }
-
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
-        registerHandler(firstToggle.addClickHandler(clickEvent -> setActive(0)));
-        firstToggle.setGrid("s4");
-        add(firstToggle);
-
-        registerHandler(secondToggle.addClickHandler(clickEvent -> setActive(1)));
-        secondToggle.setGrid("s4");
-        add(secondToggle);
-
-        registerHandler(thirdToggle.addClickHandler(clickEvent -> setActive(2)));
-        thirdToggle.setGrid("s4");
-        add(thirdToggle);
+        add(label);
+        add(wrapper);
+        add(errorLabel);
     }
 
-    /**
-     * Automatically set the active button with a given index
-     */
+    public ToggleButton addItem(String text) {
+        return addItem(text, null);
+    }
+
+    public ToggleButton addItem(String text, T value) {
+        ToggleButton button = new ToggleButton(text);
+        button.setGroupParent(this);
+        button.addClickHandler(clickEvent -> {
+            if (!isMultiple()) {
+                clearAll();
+            }
+            button.toggle();
+            fireSelectionEvent(button);
+        });
+        wrapper.add(button);
+        items.add(button);
+        values.add(value);
+        return button;
+    }
+
+    public void addItem(T value) {
+        addItem(String.valueOf(value), value);
+    }
+
+    public T getValue(int index) {
+        return values.get(index);
+    }
+
+    public void setLabel(String text) {
+        label.setText(text);
+    }
+
+    public void toggle(int index) {
+        items.get(index).toggle();
+    }
+
     public void setActive(int index) {
-        this.index = index;
-        SelectionEvent.fire(this, index);
-        for (Widget w : getChildren()) {
-            w.removeStyleName(CssName.ACTIVE);
+        setActive(index, true);
+    }
+
+
+    public void setActive(int index, boolean active) {
+        items.get(index).setToggle(active);
+    }
+
+    public void setActiveIndexes(boolean active, Integer... indexes) {
+        for (Integer index : indexes) {
+            setActive(index, active);
         }
-        getWidget(index).addStyleName(CssName.ACTIVE);
     }
 
-    public int getActive() {
-        return index;
+    public List<Integer> getSelectedIndexes() {
+        List<Integer> indexes = new ArrayList<>();
+        for (ToggleButton mButton : items) {
+            if (mButton.isToggle()) {
+                indexes.add(items.indexOf(mButton));
+            }
+        }
+        return indexes;
     }
 
-    /**
-     * Set the text for the first / left button
-     */
-    public void setFirstToggleText(String firstToggleText) {
-        firstToggle.setText(firstToggleText);
+    public List<T> getValue() {
+        List<T> items = new ArrayList<>();
+        for (Integer i : getSelectedIndexes()) {
+            items.add(values.get(i));
+        }
+        return items;
     }
 
-    /**
-     * Set the text for the second / center button
-     */
-    public void setSecondToggleText(String secondToggleText) {
-        secondToggle.setText(secondToggleText);
+    public T getSingleValue() {
+
+        if (getSelectedIndexes().size() == 0) {
+            return null;
+        }
+
+        return values.get(getSelectedIndexes().get(0));
     }
 
-    /**
-     * Set the text for the thirf / right button
-     */
-    public void setThirdToggleText(String thirdToggleText) {
-        thirdToggle.setText(thirdToggleText);
+    public void selectAll() {
+        for (ToggleButton mButton : items) {
+            mButton.setToggle(true);
+        }
     }
 
-    public MaterialLabel getFirstToggle() {
-        return firstToggle;
+    public void clearAll() {
+        for (ToggleButton mButton : items) {
+            mButton.setToggle(false);
+        }
     }
 
-    public MaterialLabel getSecondToggle() {
-        return secondToggle;
+    public boolean isMultiple() {
+        return multiple;
     }
 
-    public MaterialLabel getThirdToggle() {
-        return thirdToggle;
+    public void setMultiple(boolean multiple) {
+        this.multiple = multiple;
+    }
+
+    public void fireSelectionEvent(ToggleButton toggleButton) {
+        SelectionEvent.fire(this, items.indexOf(toggleButton));
+    }
+
+    public ToggleButton get(int index) {
+        return items.get(index);
+    }
+
+    @Override
+    public void setError(String error) {
+        getErrorMixin().setError(error);
+    }
+
+    @Override
+    public void setSuccess(String success) {
+        getErrorMixin().setSuccess(success);
+    }
+
+    @Override
+    public void setHelperText(String helperText) {
+        getErrorMixin().setHelperText(helperText);
+    }
+
+    @Override
+    public void clearErrorOrSuccess() {
+        getErrorMixin().clearErrorOrSuccess();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        items.forEach(widgets -> widgets.setEnabled(enabled));
+    }
+
+    public List<T> getOptions() {
+        return values;
+    }
+
+    public List<ToggleButton> getItems() {
+        return items;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+
+        clearAll();
+    }
+
+    public Div getWrapper() {
+        return wrapper;
+    }
+
+    public List<T> getValues() {
+        return values;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
     }
 
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
+    }
+
+    @Override
+    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
+        if (errorMixin == null) {
+            errorMixin = new ErrorMixin(this, errorLabel, wrapper);
+        }
+        return errorMixin;
     }
 }

@@ -34,4 +34,12 @@ public interface IncubatorCssName {
     String PROGRESS_ITEM = "progress-item";
     String INFINITE_SCROLL_CONTAINER = "infinite-scroll-container";
     String INFINITE_SCROLL_LOADER = "infinite-scroll-loader";
+    String WRAPPER = "wrapper";
+    String QUESTION_WRAPPER = "question-wrapper";
+    String QUESTION_LABEL = "question-label";
+    String QUESTION_ITEM = "question-item";
+    String CATEGORY_QUESTION = "category-question";
+    String QUESTION_PROGRESS = "question-progress";
+    String ESSAY_QUESTION = "essay-question";
+    String QUESTION_FIELD_GROUP = "question-field-group";
 }

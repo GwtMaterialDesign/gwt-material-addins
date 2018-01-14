@@ -17,19 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
+package gwt.material.design.incubator.client.question.base;
 
-public interface SceneEvents {
+import gwt.material.design.client.ui.MaterialLabel;
 
-    String ADD = "add";
-    String CHANGE = "change";
-    String DESTROY = "destroy";
-    String END = "end";
-    String ENTER = "enter";
-    String LEAVE = "leave";
-    String PROGRESS = "progress";
-    String REMOVE = "remove";
-    String SHIFT = "shift";
-    String START = "start";
-    String UPDATE = "update";
+public class CategoryQuestion extends MaterialLabel {
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        addStyleName("category-question");
+    }
 }

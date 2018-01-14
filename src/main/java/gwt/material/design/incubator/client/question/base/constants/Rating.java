@@ -17,19 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
+package gwt.material.design.incubator.client.question.base.constants;
 
-public interface SceneEvents {
+public enum  Rating {
 
-    String ADD = "add";
-    String CHANGE = "change";
-    String DESTROY = "destroy";
-    String END = "end";
-    String ENTER = "enter";
-    String LEAVE = "leave";
-    String PROGRESS = "progress";
-    String REMOVE = "remove";
-    String SHIFT = "shift";
-    String START = "start";
-    String UPDATE = "update";
+    POOR(1, "Poor"),
+    FAIR(2, "Fair"),
+    NEUTRAL(3, "Neutral"),
+    GOOD(4, "Good"),
+    EXCELLENT(5, "Excellent");
+
+    private int type;
+    private String name;
+
+    Rating(int type, String name) {
+        this.type = type;
+        this.name = name;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -38,7 +38,11 @@ public class AppLoadingState extends LoadingStatePanel {
     }
 
     public void reset(Widget target) {
-        new MaterialAnimation().transition(Transition.BOUNCEOUTDOWN).delay(3000).animate(this, () -> {
+        reset(target, 3000);
+    }
+
+    public void reset(Widget target, int delay) {
+        new MaterialAnimation().transition(Transition.BOUNCEOUTDOWN).delay(delay).animate(this, () -> {
             target.setVisible(true);
             new MaterialAnimation().transition(Transition.BOUNCEINUP).animate(target, () -> {
                 RootPanel.get().getElement().getStyle().clearOverflow();

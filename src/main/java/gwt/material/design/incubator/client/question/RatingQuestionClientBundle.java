@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2018 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
+package gwt.material.design.incubator.client.question;
 
-public interface SceneEvents {
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-    String ADD = "add";
-    String CHANGE = "change";
-    String DESTROY = "destroy";
-    String END = "end";
-    String ENTER = "enter";
-    String LEAVE = "leave";
-    String PROGRESS = "progress";
-    String REMOVE = "remove";
-    String SHIFT = "shift";
-    String START = "start";
-    String UPDATE = "update";
+public interface RatingQuestionClientBundle extends ClientBundle {
+    RatingQuestionClientBundle INSTANCE = GWT.create(RatingQuestionClientBundle.class);
+
+    @Source("resources/css/question-item.css")
+    TextResource questionItemCss();
 }
