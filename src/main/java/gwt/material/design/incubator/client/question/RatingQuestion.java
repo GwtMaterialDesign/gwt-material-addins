@@ -19,9 +19,11 @@
  */
 package gwt.material.design.incubator.client.question;
 
+import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.question.base.AbstractQuestion;
 import gwt.material.design.incubator.client.question.base.constants.Rating;
 import gwt.material.design.incubator.client.toggle.GroupToggleButton;
@@ -39,18 +41,21 @@ public class RatingQuestion extends AbstractQuestion<Rating> {
     private GroupToggleButton<Rating> groupToggleButton = new GroupToggleButton<>();
 
     static {
-        MaterialDesign.injectCss(RatingQuestionClientBundle.INSTANCE.questionItemCss());
+        if (MaterialAddins.isDebug()) {
+            MaterialDesign.injectCss(RatingQuestionDebugClientBundle.INSTANCE.questionItemDebugCss());
+        } else {
+            MaterialDesign.injectCss(RatingQuestionClientBundle.INSTANCE.questionItemCss());
+        }
     }
 
     @Override
     protected void load() {
-        labelPanel.setInitialClasses("label-panel");
+        labelPanel.setInitialClasses(IncubatorCssName.LABEL_PANEL);
 
         labelPanel.add(lowLabel);
         labelPanel.add(highLabel);
         getWrapper().add(labelPanel);
         groupToggleButton.setMarginTop(0);
-
 
         for (Rating rating : getRatingOptions()) {
             ToggleButton button = groupToggleButton.addItem(String.valueOf(rating.getType()), rating);
@@ -97,6 +102,8 @@ public class RatingQuestion extends AbstractQuestion<Rating> {
 
     @Override
     public void reset() {
+        super.reset();
+
         groupToggleButton.reset();
     }
 }

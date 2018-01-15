@@ -24,6 +24,7 @@ import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 public abstract class AbstractQuestion<T extends Object> extends AbstractValueWidget<T> {
 
@@ -35,15 +36,15 @@ public abstract class AbstractQuestion<T extends Object> extends AbstractValueWi
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
 
     public AbstractQuestion() {
-        super(Document.get().createDivElement(), "question-item");
+        super(Document.get().createDivElement(), IncubatorCssName.QUESTION_ITEM);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        wrapper.setInitialClasses("question-wrapper");
-        questionLabel.setInitialClasses("question-label");
+        wrapper.setInitialClasses(IncubatorCssName.QUESTION_WRAPPER);
+        questionLabel.setInitialClasses(IncubatorCssName.QUESTION_LABEL);
 
         add(questionLabel);
         add(wrapper);

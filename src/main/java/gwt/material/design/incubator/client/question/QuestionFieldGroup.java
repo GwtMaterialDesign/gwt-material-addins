@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ScrollHelper;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.question.base.AbstractQuestion;
 import gwt.material.design.incubator.client.question.base.QuestionProgress;
 
@@ -36,7 +37,7 @@ public class QuestionFieldGroup extends MaterialWidget {
     private QuestionProgress questionProgress;
 
     public QuestionFieldGroup() {
-        super(Document.get().createFormElement(), "field-group");
+        super(Document.get().createFormElement(), IncubatorCssName.QUESTION_FIELD_GROUP);
     }
 
     @Override
@@ -57,7 +58,6 @@ public class QuestionFieldGroup extends MaterialWidget {
                     ScrollHelper.scrollTo(target);
                 }
 
-                // Update the progress
                 updateProgress(question);
             });
         }
@@ -103,5 +103,6 @@ public class QuestionFieldGroup extends MaterialWidget {
         }
 
         questionProgress.reset();
+        answeredQuestions.clear();
     }
 }

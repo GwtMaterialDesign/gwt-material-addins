@@ -22,6 +22,7 @@ package gwt.material.design.incubator.client.question;
 import gwt.material.design.addins.client.signature.MaterialSignaturePad;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.question.base.AbstractQuestion;
 
 public class SignatureValidation extends AbstractQuestion {
@@ -36,7 +37,7 @@ public class SignatureValidation extends AbstractQuestion {
         btnClear.setText("Clear");
         btnClear.addClickHandler(clickEvent -> getSignaturePad().clear());
         getWrapper().setMargin(0);
-        addStyleName("signature-validation");
+        addStyleName(IncubatorCssName.SIGNATURE_VALIDATION);
         getWrapper().add(signaturePad);
         add(btnClear);
     }

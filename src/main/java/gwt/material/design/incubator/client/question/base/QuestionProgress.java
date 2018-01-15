@@ -25,7 +25,7 @@ import gwt.material.design.client.constants.HideOn;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialProgress;
-import gwt.material.design.incubator.client.question.base.AbstractQuestion;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class QuestionProgress extends MaterialWidget {
     private MaterialProgress progress = new MaterialProgress();
 
     public QuestionProgress(List<AbstractQuestion> questions) {
-        super(Document.get().createDivElement(), "question-progress");
+        super(Document.get().createDivElement(), IncubatorCssName.QUESTION_PROGRESS);
 
         this.questions = questions;
     }

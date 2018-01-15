@@ -26,6 +26,6 @@ import com.google.gwt.resources.client.TextResource;
 public interface RatingQuestionClientBundle extends ClientBundle {
     RatingQuestionClientBundle INSTANCE = GWT.create(RatingQuestionClientBundle.class);
 
-    @Source("resources/css/question-item.css")
+    @Source("resources/css/question-item.min.css")
     TextResource questionItemCss();
 }

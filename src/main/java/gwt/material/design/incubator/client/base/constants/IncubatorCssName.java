@@ -42,4 +42,6 @@ public interface IncubatorCssName {
     String QUESTION_PROGRESS = "question-progress";
     String ESSAY_QUESTION = "essay-question";
     String QUESTION_FIELD_GROUP = "question-field-group";
+    String SIGNATURE_VALIDATION = "signature-validation";
+    String LABEL_PANEL = "label-panel";
 }

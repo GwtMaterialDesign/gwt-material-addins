@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.question;
 
 import gwt.material.design.client.ui.MaterialTextArea;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.question.base.AbstractQuestion;
 
 public class EssayQuestion extends AbstractQuestion<String> {
@@ -28,7 +29,7 @@ public class EssayQuestion extends AbstractQuestion<String> {
 
     @Override
     protected void load() {
-        addStyleName("essay-question");
+        addStyleName(IncubatorCssName.ESSAY_QUESTION);
         getWrapper().setMargin(0);
         textArea.setMargin(0);
         getWrapper().add(textArea);
