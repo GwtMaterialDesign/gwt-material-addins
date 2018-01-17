@@ -55,7 +55,7 @@ public class QuestionFieldGroup extends MaterialWidget {
                 int index = questions.indexOf(question);
                 if (index + 1 < questions.size()) {
                     Widget target = questions.get(index + 1);
-                    ScrollHelper.scrollTo(target);
+                    new ScrollHelper().scrollTo(target);
                 }
 
                 updateProgress(question);
@@ -104,5 +104,19 @@ public class QuestionFieldGroup extends MaterialWidget {
 
         questionProgress.reset();
         answeredQuestions.clear();
+    }
+
+    @Override
+    public boolean validate() {
+        boolean valid = super.validate();
+
+        for (AbstractQuestion question : questions) {
+            if (!question.isValid()) {
+                new ScrollHelper().scrollTo(question);
+                break;
+            }
+        }
+
+        return valid;
     }
 }

@@ -34,6 +34,7 @@ public abstract class AbstractQuestion<T extends Object> extends AbstractValueWi
     private MaterialLabel errorLabel = new MaterialLabel();
 
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private boolean valid;
 
     public AbstractQuestion() {
         super(Document.get().createDivElement(), IncubatorCssName.QUESTION_ITEM);
@@ -48,6 +49,8 @@ public abstract class AbstractQuestion<T extends Object> extends AbstractValueWi
 
         add(questionLabel);
         add(wrapper);
+
+        registerHandler(addValidationChangedHandler(event -> AbstractQuestion.this.valid = event.isValid()));
 
         load();
 
@@ -81,6 +84,10 @@ public abstract class AbstractQuestion<T extends Object> extends AbstractValueWi
             errorMixin = new ErrorMixin<>(this, errorLabel, this.asWidget());
         }
         return errorMixin;
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 
     public void reset() {

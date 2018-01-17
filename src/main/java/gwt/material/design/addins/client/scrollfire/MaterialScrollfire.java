@@ -44,7 +44,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * // INSTANTIATE THE PUSHPIN COMPONENT
  * MaterialScrollfire scrollfire = new MaterialScrollfire();
  * scrollfire.setElement(element);
- * scrollfire.setCallback(callback);
+ * scrollfire.setCompleteCallback(callback);
  * scrollfire.setOffset(offset);
  * scrollfire.apply();
  * }

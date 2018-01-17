@@ -54,7 +54,7 @@ public class EssayQuestion extends AbstractQuestion<String> {
 
     @Override
     public void reset() {
-        textArea.reset();
+        textArea.clear();
     }
 
     @Override
