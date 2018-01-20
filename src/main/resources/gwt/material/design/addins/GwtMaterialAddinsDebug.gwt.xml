@@ -27,7 +27,6 @@
     </replace-with>
 
     <inherits name="gwt.material.design.addins.GwtMaterialAddinsBase"/>
-    <inherits name='gwt.material.design.Resources'/>
 
     <!-- Specify the app entry point class -->
     <entry-point class='gwt.material.design.addins.client.MaterialAddins'/>

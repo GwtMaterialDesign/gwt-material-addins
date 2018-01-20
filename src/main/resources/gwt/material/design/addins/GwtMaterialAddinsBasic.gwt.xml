@@ -23,7 +23,6 @@
         "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module rename-to='GwtMaterialAddins'>
     <inherits name="gwt.material.design.addins.GwtMaterialAddinsBase"/>
-    <inherits name='gwt.material.design.ResourcesBasic'/>
 
     <!-- Specify the app entry point class -->
     <entry-point class='gwt.material.design.addins.client.MaterialAddins'/>
