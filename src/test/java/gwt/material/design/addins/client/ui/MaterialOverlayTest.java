@@ -79,7 +79,7 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
         // when / then
         overlay.open(source);
         assertEquals("hidden", overlay.body().asElement().getStyle().getOverflow());
-        assertEquals(source, overlay.getSource());
+        assertEquals(source.getElement(), overlay.getSourceElement());
         assertTrue(isOpenFired[0]);
 
         // given

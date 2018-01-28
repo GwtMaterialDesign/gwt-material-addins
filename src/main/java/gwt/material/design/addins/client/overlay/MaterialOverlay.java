@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.overlay;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -69,7 +70,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         }
     }
 
-    private MaterialWidget source;
+    private Element sourceElement;
     private MaterialPathAnimator animator = new MaterialPathAnimator();
 
     public MaterialOverlay() {
@@ -87,13 +88,17 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         setOpacity(opacity);
     }
 
+    public void open(MaterialWidget source) {
+        open(source.getElement());
+    }
+
     /**
      * Open the Overlay Panel with Path Animator applied
      */
-    public void open(MaterialWidget source) {
-        this.source = source;
+    public void open(Element sourceElement) {
+        this.sourceElement = sourceElement;
         $("body").attr("style", "overflow: hidden !important");
-        animator.setSourceElement(source.getElement());
+        animator.setSourceElement(sourceElement);
         animator.setTargetElement(getElement());
         animator.animate();
         OpenEvent.fire(this, this);
@@ -113,24 +118,24 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      */
     public void close() {
         body().attr("style", "overflow: auto !important");
-        if (source != null) {
+        if (sourceElement != null) {
             animator.reverseAnimate();
         }
         CloseEvent.fire(this, this);
     }
 
     /**
-     * Get source widget for path animator
+     * Get source element for path animator
      */
-    public MaterialWidget getSource() {
-        return source;
+    public Element getSourceElement() {
+        return sourceElement;
     }
 
     /**
-     * Set source widget for path animator
+     * Set source element for path animator
      */
-    public void setSource(MaterialWidget source) {
-        this.source = source;
+    public void setSourceElement(Element sourceElement) {
+        this.sourceElement = sourceElement;
     }
 
     @Override
