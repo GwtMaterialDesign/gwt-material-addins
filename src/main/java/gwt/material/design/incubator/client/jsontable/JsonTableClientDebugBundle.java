@@ -24,16 +24,16 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client bundle for {@link JsonTable}
+ * Client Debug bundle for {@link JsonTable}
  *
  * @author kevzlou7979@gmail.com
  */
-public interface JsonTableClientBundle extends ClientBundle {
-    JsonTableClientBundle INSTANCE = GWT.create(JsonTableClientBundle.class);
+public interface JsonTableClientDebugBundle extends ClientBundle {
+    JsonTableClientDebugBundle INSTANCE = GWT.create(JsonTableClientDebugBundle.class);
 
-    @Source("resources/js/jquery.jsontotable.min.js")
-    TextResource jsonTableJs();
+    @Source("resources/js/jquery.jsontotable.js")
+    TextResource jsonTableDebugJs();
 
-    @Source("resources/css/jquery.jsontotable.min.css")
-    TextResource jsonTableCss();
+    @Source("resources/css/jquery.jsontotable.css")
+    TextResource jsonTableDebugCss();
 }

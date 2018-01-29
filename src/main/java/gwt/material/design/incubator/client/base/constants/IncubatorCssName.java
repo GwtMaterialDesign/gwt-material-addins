@@ -44,4 +44,5 @@ public interface IncubatorCssName {
     String QUESTION_FIELD_GROUP = "question-field-group";
     String SIGNATURE_VALIDATION = "signature-validation";
     String LABEL_PANEL = "label-panel";
+    String JSON_TABLE = "json-table";
 }

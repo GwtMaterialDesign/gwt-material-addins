@@ -27,7 +27,7 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * JSInterop utils for combobox component
+ * JSInterop utils for {@link gwt.material.design.incubator.client.jsontable.JsonTable} component
  *
  * @author kevzlou7979
  */

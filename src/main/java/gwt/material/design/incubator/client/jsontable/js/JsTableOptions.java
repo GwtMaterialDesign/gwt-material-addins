@@ -19,17 +19,27 @@
  */
 package gwt.material.design.incubator.client.jsontable.js;
 
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Options for combobox component
+ * Options for {@link gwt.material.design.incubator.client.jsontable.JsonTable} component
  *
  * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsTableOptions {
+
+    private JsTableOptions() {}
+
+    @JsOverlay
+    public static final JsTableOptions create() {
+        JsTableOptions options = new JsTableOptions();
+        options.header = true;
+        return options;
+    }
 
     @JsProperty
     public String id;
