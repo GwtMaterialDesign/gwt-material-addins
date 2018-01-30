@@ -117,7 +117,11 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
      * Close the Overlay Panel with Path Animator applied
      */
     public void close() {
-        body().attr("style", "overflow: auto !important");
+        if ($(getElement()).parents(AddinsCssName.OVERLAY_PANEL).length() == 1) {
+            body().attr("style", "overflow: hidden !important");
+        } else {
+            body().attr("style", "overflow: auto !important");
+        }
         if (sourceElement != null) {
             animator.reverseAnimate();
         }
