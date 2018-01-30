@@ -174,6 +174,14 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         animator.setExtraTransitionDuration(extraTransitionDuration);
     }
 
+    public void setRelativeToWindow(boolean relativeToWindow) {
+        animator.setRelativeToWindow(relativeToWindow);
+    }
+
+    public boolean isRelativeToWindow() {
+        return animator.isRelativeToWindow();
+    }
+
     @Override
     public HandlerRegistration addCloseHandler(CloseHandler<MaterialOverlay> closeHandler) {
         return addHandler(new CloseHandler<MaterialOverlay>() {

@@ -130,7 +130,5 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
         child.addCloseHandler(closeEvent -> assertEquals("hidden", RootPanel.get().getElement().getStyle().getOverflow()));
         assertEquals(RootPanel.get(), overlay.getParent());
         assertEquals(overlay, child.getParent());
-
-
     }
 }
