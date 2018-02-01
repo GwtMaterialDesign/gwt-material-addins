@@ -468,7 +468,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             setSelectedIndex(index);
 
             if (fireEvents) {
-                ValueChangeEvent.fireIfNotEqual(this, before, values);
+                ValueChangeEvent.fireIfNotEqual(this, before, Collections.singletonList(value));
             }
         }
     }
