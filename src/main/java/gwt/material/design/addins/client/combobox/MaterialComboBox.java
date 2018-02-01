@@ -34,6 +34,7 @@ import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
+import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.EnabledMixin;
@@ -674,6 +675,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public void setTags(boolean tags) {
         if (tags) GWT.log("Note: Tags will only support String as generic params.");
         options.tags = tags;
+    }
+
+    /**
+     * Will provide a set of text objecs that can be used for i18n language support.
+     */
+    public void setLanguage(LanguageOptions language) {
+        options.language = language;
+    }
+
+    public LanguageOptions getLanguage() {
+        return options.language;
     }
 
     public void scrollTop(int offset) {
