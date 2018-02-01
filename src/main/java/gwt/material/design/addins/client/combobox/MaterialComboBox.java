@@ -35,8 +35,10 @@ import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.mixin.EnabledMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.base.mixin.WavesMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
@@ -102,6 +104,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
+    private EnabledMixin<MaterialWidget> enabledMixin;
+    private WavesMixin<MaterialWidget> wavesMixin;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
@@ -313,16 +317,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void setPlaceholder(String placeholder) {
         options.placeholder = placeholder;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        listbox.setEnabled(enabled);
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return listbox.isEnabled();
     }
 
     /**
@@ -656,6 +650,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         options.tags = tags;
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        getEnabledMixin().updateWaves(enabled, this);
+    }
+
     public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectItemEvent.getType());
     }
@@ -673,6 +674,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler) {
         return addHandler(handler, UnselectItemEvent.getType());
+    }
+
+    @Override
+    protected EnabledMixin<MaterialWidget> getEnabledMixin() {
+        if (enabledMixin == null) {
+            enabledMixin = new EnabledMixin<>(listbox);
+        }
+        return enabledMixin;
     }
 
     @Override

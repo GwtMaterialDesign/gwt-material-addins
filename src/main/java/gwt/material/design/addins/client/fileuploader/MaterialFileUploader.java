@@ -38,6 +38,7 @@ import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.mixin.WavesMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.events.*;
@@ -324,6 +325,8 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             if (uploader != null) uploader.removeEventListeners();
             addStyleName(CssName.DISABLED);
         }
+
+        getEnabledMixin().updateWaves(enabled, this);
     }
 
     @Override

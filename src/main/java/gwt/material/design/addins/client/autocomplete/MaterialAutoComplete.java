@@ -355,7 +355,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         if (getType() == AutocompleteType.TEXT) {
             suggestionMap.clear();
-            itemBox.setText(suggestion.getDisplayString());
+            itemBox.setText(suggestion.getReplacementString());
         } else {
             final MaterialChip chip = chipProvider.getChip(suggestion);
             if (chip == null) {

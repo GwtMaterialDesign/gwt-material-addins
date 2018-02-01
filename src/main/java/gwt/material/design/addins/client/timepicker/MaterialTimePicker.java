@@ -34,9 +34,7 @@ import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.ErrorMixin;
-import gwt.material.design.client.base.mixin.ReadOnlyMixin;
-import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Label;
@@ -94,6 +92,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     private ToggleStyleMixin<MaterialInput> validMixin;
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
+    private EnabledMixin<MaterialWidget> enabledMixin;
 
 
     public MaterialTimePicker() {
@@ -281,11 +280,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        this.timeInput.setEnabled(enabled);
-    }
-
-    @Override
     public Date getValue() {
         return time;
     }
@@ -356,6 +350,21 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public boolean isIconPrefix() {
         return icon.isIconPrefix();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        getEnabledMixin().updateWaves(enabled, this);
+    }
+
+    @Override
+    protected EnabledMixin<MaterialWidget> getEnabledMixin() {
+        if (enabledMixin == null) {
+            enabledMixin = new EnabledMixin<>(timeInput);
+        }
+        return enabledMixin;
     }
 
     @Override
