@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.combobox;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
@@ -300,6 +301,31 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public JQueryElement getDropdownParent() {
         return options.dropdownParent;
+    }
+
+    /**
+     * Will get the Selection Results ul element containing all the combobox items.
+     */
+    public JQueryElement getDropdownResultElement() {
+        String dropdownId = getDropdownContainerElement().attr("id").toString();
+        if (dropdownId != null && !(dropdownId.isEmpty())) {
+            dropdownId = dropdownId.replace("container", "results");
+            return $("#" + dropdownId);
+        } else {
+            GWT.log("The element dropdown-result ul element is undefined.", new NullPointerException());
+        }
+        return null;
+    }
+
+    /**
+     * Will get the Selection dropdown container rendered
+     */
+    public JQueryElement getDropdownContainerElement() {
+        JQueryElement element = $(getElement()).find(".select2 .selection .select2-selection__rendered");
+        if (element == null) {
+            GWT.log("The element dropdown-container element is undefined.", new NullPointerException());
+        }
+        return element;
     }
 
     /**
@@ -648,6 +674,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public void setTags(boolean tags) {
         if (tags) GWT.log("Note: Tags will only support String as generic params.");
         options.tags = tags;
+    }
+
+    public void scrollTop(int offset) {
+        Scheduler.get().scheduleDeferred(() -> getDropdownResultElement().scrollTop(offset));
     }
 
     @Override
