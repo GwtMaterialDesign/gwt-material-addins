@@ -304,6 +304,36 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         options.uniqueId = uniqueId;
     }
 
+    public String getCancelText() {
+        return options.cancelText;
+    }
+
+    /**
+     * Set the "Cancel" text located on TimePicker's action buttons
+     */
+    public void setCancelText(String cancelText) {
+        options.cancelText = cancelText;
+
+        if (isAttached()) {
+            reload();
+        }
+    }
+
+    public String getOkText() {
+        return options.okText;
+    }
+
+    /**
+     * Set the "Ok" text located on TimePicker's action buttons
+     */
+    public void setOkText(String okText) {
+        options.okText = okText;
+
+        if (isAttached()) {
+            reload();
+        }
+    }
+
     @Override
     public MaterialIcon getIcon() {
         return icon;

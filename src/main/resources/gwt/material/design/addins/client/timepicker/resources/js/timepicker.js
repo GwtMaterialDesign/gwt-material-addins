@@ -14,7 +14,9 @@
         autoclose: false,    	// show Cancel/OK buttons
         vibrate: true,        // vibrate the device when dragging clock hand
         hour24:false,
-        orientation:"portrait"
+        orientation:"portrait",
+        cancelText: "CANCEL",
+        okText: "OK"
     };
 
     // Listen touch events in touch screen device, instead of mouse events in desktop.
@@ -137,10 +139,10 @@
         if (!options.autoclose) {
             this.popover.css('height', '380px');
             var $closeButtons = $('<div class="lolliclock-buttons"></div>').appendTo(main);
-            $('<div class="lolliclock-button">Cancel</div>')
+            $('<div class="lolliclock-button">' + options.cancelText + '</div>')
                 .click($.proxy(this.hide, this))
                 .appendTo($closeButtons);
-            $('<div class="lolliclock-button">OK</div>')
+            $('<div class="lolliclock-button">' + options.okText + '</div>')
                 .click($.proxy(this.done, this))
                 .appendTo($closeButtons);
             this.closeButtons = popover.find('.lolliclock-button');
