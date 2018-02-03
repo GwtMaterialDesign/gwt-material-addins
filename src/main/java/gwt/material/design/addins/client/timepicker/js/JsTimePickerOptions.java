@@ -52,4 +52,10 @@ public class JsTimePickerOptions {
 
     @JsProperty
     public Functions.Func afterHide;
+
+    @JsProperty
+    public String cancelText;
+
+    @JsProperty
+    public String okText;
 }

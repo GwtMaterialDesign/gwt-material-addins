@@ -506,4 +506,41 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(btnClear.getElement().hasAttribute("data-dz-remove"));
         assertTrue(btnClear.getElement().hasClassName(AddinsCssName.PH));
     }
+
+    public void testLanguage() {
+        // Given
+        final String DEFAULT_MESSAGE = "Mag-drop ng mga file dito upang mag-upload";
+        final String FALLBACK_MESSAGE = "Hindi sinusuportahan ng iyong browser ang drag'n'drop upload file.";
+        final String FALLBACK_TEXT = "Mangyaring gamitin ang form ng fallback sa ibaba upang i-upload ang iyong mga file tulad ng sa mga lumang araw.";
+        final String FILE_TOO_BIG = "Ang file ay masyadong malaki ({{filesize}} MiB). Max filesize: {{maxFilesize}} MiB.";
+        final String INVALID_FILE_TYPE = "Hindi ka maaaring mag-upload ng mga file ng ganitong uri.";
+        final String RESPONSE_ERROR = "Tumugon ang server sa code na {{statusCode}}.";
+        final String CANCEL_UPLOAD = "Kanselahin ang pag-upload";
+        final String CANCEL_UPLOAD_CONFIRMATION = "Sigurado ka bang gusto mong kanselahin ang pag-upload na ito?";
+        final String REMOVE_FILE = "Alisin ang file";
+        final String MAX_FILES_EXCEEDED = "Hindi ka maaaring mag-upload ng higit pang mga file.";
+        MaterialFileUploader uploader = getWidget();
+
+        // when / then
+        uploader.setDictDefaultMessage(DEFAULT_MESSAGE);
+        assertEquals(DEFAULT_MESSAGE, uploader.getDictDefaultMessage());
+        uploader.setDictFallbackMessage(FALLBACK_MESSAGE);
+        assertEquals(FALLBACK_MESSAGE, uploader.getDictFallbackMessage());
+        uploader.setDictFallbackText(FALLBACK_TEXT);
+        assertEquals(FALLBACK_TEXT, uploader.getDictFallbackText());
+        uploader.setDictFileTooBig(FILE_TOO_BIG);
+        assertEquals(FILE_TOO_BIG, uploader.getDictFileTooBig());
+        uploader.setDictInvalidFileType(INVALID_FILE_TYPE);
+        assertEquals(INVALID_FILE_TYPE, uploader.getDictInvalidFileType());
+        uploader.setDictResponseError(RESPONSE_ERROR);
+        assertEquals(RESPONSE_ERROR, uploader.getDictResponseError());
+        uploader.setDictCancelUpload(CANCEL_UPLOAD);
+        assertEquals(CANCEL_UPLOAD, uploader.getDictCancelUpload());
+        uploader.setDictCancelUploadConfirmation(CANCEL_UPLOAD_CONFIRMATION);
+        assertEquals(CANCEL_UPLOAD_CONFIRMATION, uploader.getDictCancelUploadConfirmation());
+        uploader.setDictRemoveFile(REMOVE_FILE);
+        assertEquals(REMOVE_FILE, uploader.getDictRemoveFile());
+        uploader.setDictMaxFilesExceeded(MAX_FILES_EXCEEDED);
+        assertEquals(MAX_FILES_EXCEEDED, uploader.getDictMaxFilesExceeded());
+    }
 }

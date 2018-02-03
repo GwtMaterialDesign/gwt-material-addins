@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.ui;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -200,5 +202,30 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
             }
         }
         assertEquals(NUMBER_OF_ITEM, tree.getChildren().size());
+    }
+
+    public void testImageItems() {
+        // given
+        final String URL_OPEN = "open.png";
+        final String URL_CLOSE = "close.png";
+        MaterialTree tree = getWidget();
+
+        // when / then
+        tree.clear();
+        assertEquals(0, tree.getWidgetCount());
+
+        MaterialTreeItem item = new MaterialTreeItem();
+        tree.add(item);
+        assertEquals(1, tree.getWidgetCount());
+
+        // Check Open
+        tree.addOpenHandler(openEvent -> openEvent.getTarget().setUrl(URL_OPEN));
+        OpenEvent.fire(tree, item);
+        assertEquals(URL_OPEN, item.getImage().getUrl());
+
+        // Check Close
+        tree.addCloseHandler(closeEvent -> closeEvent.getTarget().setUrl(URL_CLOSE));
+        CloseEvent.fire(tree, item);
+        assertEquals(URL_CLOSE, item.getImage().getUrl());
     }
 }
