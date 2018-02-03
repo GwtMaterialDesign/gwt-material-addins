@@ -27,6 +27,8 @@ import gwt.material.design.addins.client.overlay.MaterialOverlayTab;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialButton;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
 /**
  * Test case for overlay component
  *
@@ -113,5 +115,21 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
         if (checkElement) {
             assertTrue(overlay.getElement().hasClassName(AddinsCssName.OVERLAY_PANEL));
         }
+    }
+
+    public void testNestedOverlay() {
+        // given
+        MaterialOverlay overlay = getWidget();
+        MaterialOverlay child = new MaterialOverlay();
+        overlay.add(child);
+
+        // when / then
+        overlay.open();
+        child.open();
+        child.close();
+
+        child.addCloseHandler(closeEvent -> assertEquals("hidden", RootPanel.get().getElement().getStyle().getOverflow()));
+        assertEquals(RootPanel.get(), overlay.getParent());
+        assertEquals(overlay, child.getParent());
     }
 }

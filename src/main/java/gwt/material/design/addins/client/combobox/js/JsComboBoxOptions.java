@@ -65,4 +65,7 @@ public class JsComboBoxOptions {
 
     @JsProperty
     public boolean tags;
+
+    @JsProperty
+    public LanguageOptions language;
 }

@@ -19,9 +19,10 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SuggestBox;
 import gwt.material.design.addins.client.autocomplete.MaterialAutoComplete;
+import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.ui.base.dto.User;
 import gwt.material.design.addins.client.ui.base.dto.UserOracle;
@@ -45,21 +46,23 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
 
     public static MaterialAutoComplete constructAndAttach() {
         MaterialAutoComplete autocomplete = new MaterialAutoComplete();
+        setupUserAsValues(autocomplete);
+        return autocomplete;
+    }
 
+    protected static void setupUserAsValues(MaterialAutoComplete autoComplete) {
         // given
         UserOracle oracle = new UserOracle();
         oracle.addContacts(getAllUsers());
-        autocomplete.setSuggestions(oracle);
+        autoComplete.setSuggestions(oracle);
         List<String> itemValues = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
             itemValues.add("Item " + i);
         }
 
         // when / then
-        autocomplete.setItemValues(itemValues);
-        assertEquals(autocomplete.getItemValues().size(), 3);
-
-        return autocomplete;
+        autoComplete.setItemValues(itemValues);
+        assertEquals(autoComplete.getItemValues().size(), 3);
     }
 
     public void testLimit() {
@@ -119,6 +122,33 @@ public class MaterialAutocompleteTest extends AbstractValueWidgetTest<MaterialAu
         assertEquals(0, autocomplete.getItemValues().size());
         autocomplete.setLimit(2);
         assertEquals(2, autocomplete.getLimit());
+    }
+
+    public void testTypeText() {
+        MaterialAutoComplete autoComplete = new MaterialAutoComplete();
+        setupUserAsValues(autoComplete);
+
+        checkTypeText(autoComplete);
+    }
+
+    protected void checkTypeText(MaterialAutoComplete autoComplete) {
+        final String SELECTED = autoComplete.getItemValues().get(0);
+        autoComplete.setType(AutocompleteType.TEXT);
+        assertEquals(AutocompleteType.TEXT, autoComplete.getType());
+        assertTrue(autoComplete.getElement().hasClassName("autocomplete-text"));
+
+        final boolean[] firedValueChangeEvent = {false};
+        autoComplete.addValueChangeHandler(valueChangeEvent -> {
+            firedValueChangeEvent[0] = true;
+
+            assertEquals(SELECTED, autoComplete.getItemBox().getText());
+        });
+
+        List<String> selectedValue = new ArrayList<>();
+        selectedValue.add(autoComplete.getItemValues().get(0));
+        autoComplete.setItemValues(selectedValue, true);
+
+        assertTrue(firedValueChangeEvent[0]);
     }
 
     public void testPlaceholder() {

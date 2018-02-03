@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.combobox;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
@@ -33,10 +34,13 @@ import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
+import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.mixin.EnabledMixin;
 import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.base.mixin.WavesMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
@@ -102,6 +106,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
+    private EnabledMixin<MaterialWidget> enabledMixin;
+    private WavesMixin<MaterialWidget> wavesMixin;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
@@ -299,6 +305,31 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
+     * Will get the Selection Results ul element containing all the combobox items.
+     */
+    public JQueryElement getDropdownResultElement() {
+        String dropdownId = getDropdownContainerElement().attr("id").toString();
+        if (dropdownId != null && !(dropdownId.isEmpty())) {
+            dropdownId = dropdownId.replace("container", "results");
+            return $("#" + dropdownId);
+        } else {
+            GWT.log("The element dropdown-result ul element is undefined.", new NullPointerException());
+        }
+        return null;
+    }
+
+    /**
+     * Will get the Selection dropdown container rendered
+     */
+    public JQueryElement getDropdownContainerElement() {
+        JQueryElement element = $(getElement()).find(".select2 .selection .select2-selection__rendered");
+        if (element == null) {
+            GWT.log("The element dropdown-container element is undefined.", new NullPointerException());
+        }
+        return element;
+    }
+
+    /**
      * Set the upper label above the combobox
      */
     public void setLabel(String text) {
@@ -313,16 +344,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void setPlaceholder(String placeholder) {
         options.placeholder = placeholder;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        listbox.setEnabled(enabled);
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return listbox.isEnabled();
     }
 
     /**
@@ -474,7 +495,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             setSelectedIndex(index);
 
             if (fireEvents) {
-                ValueChangeEvent.fireIfNotEqual(this, before, values);
+                ValueChangeEvent.fireIfNotEqual(this, before, Collections.singletonList(value));
             }
         }
     }
@@ -656,6 +677,28 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         options.tags = tags;
     }
 
+    /**
+     * Will provide a set of text objecs that can be used for i18n language support.
+     */
+    public void setLanguage(LanguageOptions language) {
+        options.language = language;
+    }
+
+    public LanguageOptions getLanguage() {
+        return options.language;
+    }
+
+    public void scrollTop(int offset) {
+        Scheduler.get().scheduleDeferred(() -> getDropdownResultElement().scrollTop(offset));
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        getEnabledMixin().updateWaves(enabled, this);
+    }
+
     public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectItemEvent.getType());
     }
@@ -673,6 +716,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public HandlerRegistration addRemoveItemHandler(UnselectItemEvent.UnselectComboHandler<T> handler) {
         return addHandler(handler, UnselectItemEvent.getType());
+    }
+
+    @Override
+    protected EnabledMixin<MaterialWidget> getEnabledMixin() {
+        if (enabledMixin == null) {
+            enabledMixin = new EnabledMixin<>(listbox);
+        }
+        return enabledMixin;
     }
 
     @Override
