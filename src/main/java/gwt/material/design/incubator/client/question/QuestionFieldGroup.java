@@ -19,12 +19,15 @@
  */
 package gwt.material.design.incubator.client.question;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.question.base.AbstractQuestion;
+import gwt.material.design.incubator.client.question.base.QuestionItem;
 import gwt.material.design.incubator.client.question.base.QuestionProgress;
 
 import java.util.ArrayList;
@@ -32,8 +35,8 @@ import java.util.List;
 
 public class QuestionFieldGroup extends MaterialWidget {
 
-    private List<AbstractQuestion> questions = new ArrayList<>();
-    private List<AbstractQuestion> answeredQuestions = new ArrayList<>();
+    private List<QuestionItem> questions = new ArrayList<>();
+    private List<QuestionItem> answeredQuestions = new ArrayList<>();
     private QuestionProgress questionProgress;
 
     public QuestionFieldGroup() {
@@ -45,12 +48,17 @@ public class QuestionFieldGroup extends MaterialWidget {
         super.onLoad();
 
         questionProgress = new QuestionProgress(questions);
+        add(questionProgress);
 
+        load();
+    }
+
+    protected void load() {
         for (Widget widget : getChildren()) {
             lookForChildren(widget);
         }
 
-        for (AbstractQuestion question : questions) {
+        for (QuestionItem question : questions) {
             question.addValueChangeHandler(valueChangeEvent -> {
                 int index = questions.indexOf(question);
                 if (index + 1 < questions.size()) {
@@ -62,15 +70,30 @@ public class QuestionFieldGroup extends MaterialWidget {
             });
         }
 
-        add(questionProgress);
+    }
+
+    @Override
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
+    }
+
+    protected void unload() {
+        //reset();
+    }
+
+    public void reload() {
+        unload();
+        load();
     }
 
     protected void lookForChildren(Widget parent) {
-        if (parent instanceof MaterialWidget) {
-            for (Widget widget : ((MaterialWidget) parent).getChildren()) {
-                if (widget instanceof AbstractQuestion) {
-                    ((AbstractQuestion) widget).setAllowBlank(false);
-                    questions.add((AbstractQuestion) widget);
+        if (parent instanceof HasWidgets) {
+            for (Widget widget : ((HasWidgets) parent)) {
+                if (widget instanceof QuestionItem) {
+                    ((QuestionItem) widget).setAllowBlank(false);
+                    questions.add((QuestionItem) widget);
                 } else {
                     lookForChildren(widget);
                 }
@@ -78,18 +101,18 @@ public class QuestionFieldGroup extends MaterialWidget {
         }
     }
 
-    protected void updateProgress(AbstractQuestion question) {
+    protected void updateProgress(QuestionItem question) {
         if (!answeredQuestions.contains(question)) {
             answeredQuestions.add(question);
             questionProgress.updateProgress(answeredQuestions);
         }
     }
 
-    public List<AbstractQuestion> getQuestions() {
+    public List<QuestionItem> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<AbstractQuestion> questions) {
+    public void setQuestions(List<QuestionItem> questions) {
         this.questions = questions;
     }
 
@@ -98,7 +121,7 @@ public class QuestionFieldGroup extends MaterialWidget {
     }
 
     public void reset() {
-        for (AbstractQuestion question : questions) {
+        for (QuestionItem question : questions) {
             question.reset();
         }
 
@@ -110,7 +133,7 @@ public class QuestionFieldGroup extends MaterialWidget {
     public boolean validate() {
         boolean valid = super.validate();
 
-        for (AbstractQuestion question : questions) {
+        for (QuestionItem question : questions) {
             if (!question.isValid()) {
                 new ScrollHelper().scrollTo(question);
                 break;

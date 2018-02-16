@@ -19,24 +19,44 @@
  */
 package gwt.material.design.incubator.client.question.base.constants;
 
-public enum  Rating {
+import gwt.material.design.client.base.helper.EnumHelper;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.CssType;
 
+import java.util.Arrays;
+
+public enum  Rating implements CssType {
+
+    NONE(0, "none"),
     POOR(1, "Poor"),
     FAIR(2, "Fair"),
     NEUTRAL(3, "Neutral"),
     GOOD(4, "Good"),
     EXCELLENT(5, "Excellent");
 
-    private int type;
+    private int value;
     private String name;
 
     Rating(int type, String name) {
-        this.type = type;
+        this.value = type;
         this.name = name;
     }
 
-    public int getType() {
-        return type;
+    @Override
+    public String getCssName() {
+        return name;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public static Rating fromName(final String styleName) {
+        return EnumHelper.fromStyleName(styleName, Rating.class, Rating.NONE);
+    }
+
+    public static Rating fromValue(int value) {
+        return Arrays.stream(values()).filter(rating -> rating.getValue() == value).findAny().orElse(NONE);
     }
 
     public String getName() {

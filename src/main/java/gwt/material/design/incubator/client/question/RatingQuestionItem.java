@@ -24,7 +24,7 @@ import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.question.base.AbstractQuestion;
+import gwt.material.design.incubator.client.question.base.QuestionItem;
 import gwt.material.design.incubator.client.question.base.constants.Rating;
 import gwt.material.design.incubator.client.toggle.GroupToggleButton;
 import gwt.material.design.incubator.client.toggle.ToggleButton;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RatingQuestion extends AbstractQuestion<Rating> {
+public class RatingQuestionItem extends QuestionItem<Rating> {
 
     private MaterialPanel labelPanel = new MaterialPanel();
     private MaterialLabel lowLabel = new MaterialLabel();
@@ -58,7 +58,7 @@ public class RatingQuestion extends AbstractQuestion<Rating> {
         groupToggleButton.setMarginTop(0);
 
         for (Rating rating : getRatingOptions()) {
-            ToggleButton button = groupToggleButton.addItem(String.valueOf(rating.getType()), rating);
+            ToggleButton button = groupToggleButton.addItem(String.valueOf(rating.getValue()), rating);
             button.setTooltip(rating.getName());
             button.setWidth(100 / getRatingOptions().size() + "%");
         }

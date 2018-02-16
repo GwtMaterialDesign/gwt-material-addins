@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.question.base;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-public class CategoryQuestion extends MaterialLabel {
+public class QuestionCategoryItem extends MaterialLabel {
 
     @Override
     protected void onLoad() {

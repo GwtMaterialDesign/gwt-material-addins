@@ -23,9 +23,9 @@ import gwt.material.design.addins.client.signature.MaterialSignaturePad;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.question.base.AbstractQuestion;
+import gwt.material.design.incubator.client.question.base.QuestionItem;
 
-public class SignatureValidation extends AbstractQuestion {
+public class SignatureValidation extends QuestionItem {
 
     private MaterialButton btnClear = new MaterialButton();
     private MaterialSignaturePad signaturePad = new MaterialSignaturePad();

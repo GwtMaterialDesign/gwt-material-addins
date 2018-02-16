@@ -1,5 +1,8 @@
 .question-item {
-    padding: 40px 60px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    padding-left: 60px;
+    padding-right: 60px;
     border-bottom: 1.2px solid #e9e9e9;
 }
 
@@ -78,6 +81,7 @@
     font-size: 0.8em;
     padding: 12px;
     text-align: center;
+    z-index: 999;
 }
 
 .question-progress .progress {

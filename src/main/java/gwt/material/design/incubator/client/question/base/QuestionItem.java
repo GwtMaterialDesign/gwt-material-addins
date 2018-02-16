@@ -26,7 +26,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-public abstract class AbstractQuestion<T extends Object> extends AbstractValueWidget<T> {
+public class QuestionItem<T extends Object> extends AbstractValueWidget<T> {
 
     private T value;
     private MaterialPanel wrapper = new MaterialPanel();
@@ -36,7 +36,7 @@ public abstract class AbstractQuestion<T extends Object> extends AbstractValueWi
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private boolean valid;
 
-    public AbstractQuestion() {
+    public QuestionItem() {
         super(Document.get().createDivElement(), IncubatorCssName.QUESTION_ITEM);
     }
 
@@ -50,14 +50,14 @@ public abstract class AbstractQuestion<T extends Object> extends AbstractValueWi
         add(questionLabel);
         add(wrapper);
 
-        registerHandler(addValidationChangedHandler(event -> AbstractQuestion.this.valid = event.isValid()));
-
         load();
 
         wrapper.add(errorLabel);
     }
 
-    protected abstract void load();
+    protected void load() {
+        registerHandler(addValidationChangedHandler(event -> QuestionItem.this.valid = event.isValid()));
+    }
 
     public void setQuestion(String question) {
         questionLabel.setText(question);

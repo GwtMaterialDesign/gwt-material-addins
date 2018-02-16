@@ -21,9 +21,9 @@ package gwt.material.design.incubator.client.question;
 
 import gwt.material.design.client.ui.MaterialTextArea;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.question.base.AbstractQuestion;
+import gwt.material.design.incubator.client.question.base.QuestionItem;
 
-public class EssayQuestion extends AbstractQuestion<String> {
+public class EssayQuestionItem extends QuestionItem<String> {
 
     private MaterialTextArea textArea = new MaterialTextArea();
 
@@ -37,6 +37,10 @@ public class EssayQuestion extends AbstractQuestion<String> {
 
     public MaterialTextArea getTextArea() {
         return textArea;
+    }
+
+    public void setLabel(String label) {
+        textArea.setLabel(label);
     }
 
     public void setPlaceholder(String placeholder) {
