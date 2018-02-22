@@ -19,9 +19,9 @@
  */
 package gwt.material.design.addins.client.signature;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -32,8 +32,8 @@ import gwt.material.design.addins.client.signature.events.SignatureStartEvent;
 import gwt.material.design.addins.client.signature.js.JsSignaturePadOptions;
 import gwt.material.design.addins.client.signature.js.SignaturePad;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
 
@@ -55,7 +55,7 @@ import gwt.material.design.client.base.viewport.WidthBoundary;
  * @see <a href="https://github.com/szimek/signature_pad">LiveStamp SignaturePad 2.3.0</a>
  */
 //@formatter:on
-public class MaterialSignaturePad extends MaterialWidget implements JsLoader, HasSignaturePadOptions, HasSignatureHandlers {
+public class MaterialSignaturePad extends AbstractValueWidget<String> implements JsLoader, HasSignaturePadOptions, HasSignatureHandlers {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -93,10 +93,7 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
 
     @Override
     public void load() {
-        options.onBegin = () -> SignatureStartEvent.fire(this);
-        options.onEnd = () -> SignatureEndEvent.fire(this);
-
-        signaturePad = new SignaturePad(getElement(), options);
+        getSignaturePad();
     }
 
     @Override
@@ -145,7 +142,12 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
 
     public SignaturePad getSignaturePad() {
         if (signaturePad == null) {
-            GWT.log("Please initialize the signature pad component");
+            options.onBegin = () -> SignatureStartEvent.fire(this);
+            options.onEnd = () -> {
+                SignatureEndEvent.fire(this);
+                ValueChangeEvent.fire(this, getSignaturePad().toDataURL());
+            };
+            signaturePad = new SignaturePad(getElement(), options);
         }
         return signaturePad;
     }
@@ -255,5 +257,18 @@ public class MaterialSignaturePad extends MaterialWidget implements JsLoader, Ha
     @Override
     public HandlerRegistration addSignatureEndHandler(SignatureEndEvent.SignatureEndHandler handler) {
         return addHandler(handler, SignatureEndEvent.TYPE);
+    }
+
+    @Override
+    public String getValue() {
+        return getSignaturePad().toDataURL();
+    }
+
+    @Override
+    public void setValue(String value, boolean fireEvents) {
+        super.setValue(value, fireEvents);
+
+        // Will set the value internally from signaturepad component
+        fromDataUrl(value);
     }
 }

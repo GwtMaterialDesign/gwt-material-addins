@@ -35,17 +35,23 @@ import java.util.List;
 
 public class RatingQuestionItem extends QuestionItem<Rating> {
 
-    private MaterialPanel labelPanel = new MaterialPanel();
-    private MaterialLabel lowLabel = new MaterialLabel();
-    private MaterialLabel highLabel = new MaterialLabel();
-    private GroupToggleButton<Rating> groupToggleButton = new GroupToggleButton<>();
-
     static {
         if (MaterialAddins.isDebug()) {
             MaterialDesign.injectCss(RatingQuestionDebugClientBundle.INSTANCE.questionItemDebugCss());
         } else {
             MaterialDesign.injectCss(RatingQuestionClientBundle.INSTANCE.questionItemCss());
         }
+    }
+
+    private boolean required;
+    private MaterialPanel labelPanel = new MaterialPanel();
+    private MaterialLabel lowLabel = new MaterialLabel();
+    private MaterialLabel highLabel = new MaterialLabel();
+    private GroupToggleButton<Rating> groupToggleButton = new GroupToggleButton<>();
+
+    public RatingQuestionItem() {
+        super();
+        setRequired(true);
     }
 
     @Override
@@ -105,5 +111,22 @@ public class RatingQuestionItem extends QuestionItem<Rating> {
         super.reset();
 
         groupToggleButton.reset();
+    }
+
+    @Override
+    public boolean validate() {
+        if (getValue() == Rating.NONE && isRequired()) {
+            setError("Please select at least one option.");
+            return false;
+        }
+        return super.validate();
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 }

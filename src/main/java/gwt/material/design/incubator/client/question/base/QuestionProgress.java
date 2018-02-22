@@ -32,14 +32,12 @@ import java.util.List;
 
 public class QuestionProgress extends MaterialWidget {
 
-    private List<QuestionItem> questions;
+    private List<QuestionItem> questions = new ArrayList<>();
     private MaterialLabel totalLabel = new MaterialLabel();
     private MaterialProgress progress = new MaterialProgress();
 
-    public QuestionProgress(List<QuestionItem> questions) {
+    public QuestionProgress() {
         super(Document.get().createDivElement(), IncubatorCssName.QUESTION_PROGRESS);
-
-        this.questions = questions;
     }
 
     @Override
@@ -48,11 +46,16 @@ public class QuestionProgress extends MaterialWidget {
 
         totalLabel.setHideOn(HideOn.HIDE_ON_SMALL_DOWN);
         add(totalLabel);
+
         progress.setPercent(50);
         progress.setType(ProgressType.DETERMINATE);
         add(progress);
 
         reset();
+    }
+
+    public void setQuestions(List<QuestionItem> questions) {
+        this.questions = questions;
     }
 
     public void updateProgress(List<QuestionItem> answeredQuestions) {

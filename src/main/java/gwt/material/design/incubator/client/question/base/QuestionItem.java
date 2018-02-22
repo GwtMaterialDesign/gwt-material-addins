@@ -38,6 +38,7 @@ public class QuestionItem<T extends Object> extends AbstractValueWidget<T> {
 
     public QuestionItem() {
         super(Document.get().createDivElement(), IncubatorCssName.QUESTION_ITEM);
+        setAllowBlank(false);
     }
 
     @Override

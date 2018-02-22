@@ -22,10 +22,12 @@ package gwt.material.design.incubator.client.question;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ScrollHelper;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.question.base.QuestionItem;
 import gwt.material.design.incubator.client.question.base.QuestionProgress;
@@ -37,7 +39,8 @@ public class QuestionFieldGroup extends MaterialWidget {
 
     private List<QuestionItem> questions = new ArrayList<>();
     private List<QuestionItem> answeredQuestions = new ArrayList<>();
-    private QuestionProgress questionProgress;
+
+    private QuestionProgress questionProgress = new QuestionProgress();
 
     public QuestionFieldGroup() {
         super(Document.get().createFormElement(), IncubatorCssName.QUESTION_FIELD_GROUP);
@@ -47,7 +50,6 @@ public class QuestionFieldGroup extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        questionProgress = new QuestionProgress(questions);
         add(questionProgress);
 
         load();
@@ -66,8 +68,16 @@ public class QuestionFieldGroup extends MaterialWidget {
                     new ScrollHelper().scrollTo(target);
                 }
 
-                updateProgress(question);
+                if (!answeredQuestions.contains(question)) {
+                    answeredQuestions.add(question);
+                    questionProgress.updateProgress(answeredQuestions);
+                }
             });
+        }
+
+        if (questions != null) {
+            questionProgress.setQuestions(questions);
+            questionProgress.updateProgress(new ArrayList<>());
         }
 
     }
@@ -80,7 +90,7 @@ public class QuestionFieldGroup extends MaterialWidget {
     }
 
     protected void unload() {
-        //reset();
+        reset();
     }
 
     public void reload() {
@@ -89,8 +99,14 @@ public class QuestionFieldGroup extends MaterialWidget {
     }
 
     protected void lookForChildren(Widget parent) {
-        if (parent instanceof HasWidgets) {
-            for (Widget widget : ((HasWidgets) parent)) {
+        Widget result = parent;
+        if (parent instanceof Composite) {
+            Composite composite = (Composite) parent;
+            result = composite.asWidget();
+        }
+
+        if (result instanceof HasWidgets) {
+            for (Widget widget : ((HasWidgets) result)) {
                 if (widget instanceof QuestionItem) {
                     ((QuestionItem) widget).setAllowBlank(false);
                     questions.add((QuestionItem) widget);
@@ -98,13 +114,6 @@ public class QuestionFieldGroup extends MaterialWidget {
                     lookForChildren(widget);
                 }
             }
-        }
-    }
-
-    protected void updateProgress(QuestionItem question) {
-        if (!answeredQuestions.contains(question)) {
-            answeredQuestions.add(question);
-            questionProgress.updateProgress(answeredQuestions);
         }
     }
 
@@ -131,11 +140,17 @@ public class QuestionFieldGroup extends MaterialWidget {
 
     @Override
     public boolean validate() {
-        boolean valid = super.validate();
+        boolean valid = true;
 
         for (QuestionItem question : questions) {
-            if (!question.isValid()) {
-                new ScrollHelper().scrollTo(question);
+            if (!question.validate()) {
+                valid = false;
+            }
+        }
+
+        for (QuestionItem question1 : questions) {
+            if (!question1.validate()) {
+                new ScrollHelper().scrollTo(question1);
                 break;
             }
         }
