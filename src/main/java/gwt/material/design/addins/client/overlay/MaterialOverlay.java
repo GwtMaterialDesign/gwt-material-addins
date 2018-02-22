@@ -136,6 +136,10 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         CloseEvent.fire(this, this);
     }
 
+    public boolean isOpen() {
+        return !getVisibility().equals(Style.Visibility.HIDDEN);
+    }
+
     /**
      * Get source element for path animator
      */
