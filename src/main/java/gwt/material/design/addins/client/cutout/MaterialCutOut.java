@@ -247,7 +247,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     @Override
-    public double getOpacity() {
+    public Double getOpacity() {
         return opacity;
     }
 
