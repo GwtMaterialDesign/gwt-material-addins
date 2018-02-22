@@ -137,7 +137,8 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     }
 
     public boolean isOpen() {
-        return !getVisibility().equals(Style.Visibility.HIDDEN);
+        Style.Visibility visibility = getVisibility();
+        return visibility == null || !visibility.equals(Style.Visibility.HIDDEN);
     }
 
     /**
