@@ -69,8 +69,7 @@ public class MaterialPathAnimator implements HasDurationTransition {
 
     private Element sourceElement;
     private Element targetElement;
-    private Functions.Func animateCallback;
-    private Functions.Func reverseCallback;
+    private Functions.Func animateCallback, reverseCallback, completedCallback;
     private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
 
     public MaterialPathAnimator() {
@@ -92,6 +91,10 @@ public class MaterialPathAnimator implements HasDurationTransition {
                 // For default animateCallback when animateCallback is null
                 targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
                 targetElement.getStyle().setOpacity(1);
+            }
+
+            if(completedCallback != null) {
+                completedCallback.call();
             }
         }));
     }
@@ -257,6 +260,13 @@ public class MaterialPathAnimator implements HasDurationTransition {
      */
     public void setReverseCallback(Functions.Func reverseCallback) {
         this.reverseCallback = reverseCallback;
+    }
+
+    /**
+     * Set a callback for when the animation has completed.
+     */
+    public void setCompletedCallback(Functions.Func completedCallback) {
+        this.completedCallback = completedCallback;
     }
 
     @Override

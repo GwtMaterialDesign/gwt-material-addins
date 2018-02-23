@@ -105,8 +105,8 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         $("body").attr("style", "overflow: hidden !important");
         animator.setSourceElement(sourceElement);
         animator.setTargetElement(getElement());
+        animator.setCompletedCallback(() -> OpenEvent.fire(MaterialOverlay.this, MaterialOverlay.this));
         animator.animate();
-        OpenEvent.fire(this, this);
     }
 
     /**
@@ -128,12 +128,13 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
             body().attr("style", "overflow: auto !important");
         }
         if (sourceElement != null) {
+            animator.setCompletedCallback(() -> CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this));
             animator.reverseAnimate();
         } else {
             setOpacity(0);
             setVisibility(Style.Visibility.HIDDEN);
+            CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this)
         }
-        CloseEvent.fire(this, this);
     }
 
     public boolean isOpen() {

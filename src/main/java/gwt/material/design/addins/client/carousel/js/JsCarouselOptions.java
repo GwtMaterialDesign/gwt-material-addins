@@ -35,7 +35,7 @@ public class JsCarouselOptions {
     private JsCarouselOptions() {}
 
     @JsOverlay
-    public final static JsCarouselOptions create() {
+    public static JsCarouselOptions create() {
         JsCarouselOptions options = new JsCarouselOptions();
         options.infinite = false;
         options.centerMode = false;
@@ -55,25 +55,21 @@ public class JsCarouselOptions {
         options.centerPadding = "100px";
 
         // Responsive options
-        JsResponsiveOptions[] responsiveOptions = new JsResponsiveOptions[]{};
+        JsResponsiveOptions[] responsiveOptions = new JsResponsiveOptions[2];
         JsCarouselOptions tabletSettings = new JsCarouselOptions();
         JsCarouselOptions mobileSettings = new JsCarouselOptions();
 
         // Tablet Settings
-        if (tabletSettings != null) {
-            JsResponsiveOptions tabletOpt = new JsResponsiveOptions();
-            tabletOpt.breakpoint = 992;
-            tabletOpt.settings = tabletSettings;
-            responsiveOptions[0] = tabletOpt;
-        }
+        JsResponsiveOptions tabletOpt = new JsResponsiveOptions();
+        tabletOpt.breakpoint = 992;
+        tabletOpt.settings = tabletSettings;
+        responsiveOptions[0] = tabletOpt;
 
         // Mobile Settings
-        if (mobileSettings != null) {
-            JsResponsiveOptions mobileOpt = new JsResponsiveOptions();
-            mobileOpt.breakpoint = 600;
-            mobileOpt.settings = mobileSettings;
-            responsiveOptions[1] = mobileOpt;
-        }
+        JsResponsiveOptions mobileOpt = new JsResponsiveOptions();
+        mobileOpt.breakpoint = 600;
+        mobileOpt.settings = mobileSettings;
+        responsiveOptions[1] = mobileOpt;
 
         options.responsive = responsiveOptions;
 

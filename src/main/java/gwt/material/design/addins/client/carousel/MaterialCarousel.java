@@ -263,7 +263,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     protected Object command(String action, Object... params) {
-        if (container == null && container.isAttached()) {
+        if (container == null || !container.isAttached()) {
             GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
         } else {
             return $("#" + container.getId()).slick(action, params);
