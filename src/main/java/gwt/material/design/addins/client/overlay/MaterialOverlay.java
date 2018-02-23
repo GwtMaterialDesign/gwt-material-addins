@@ -133,7 +133,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         } else {
             setOpacity(0);
             setVisibility(Style.Visibility.HIDDEN);
-            CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this)
+            CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this);
         }
     }
 
