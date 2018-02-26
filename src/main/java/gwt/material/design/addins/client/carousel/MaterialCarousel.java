@@ -22,8 +22,11 @@ package gwt.material.design.addins.client.carousel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -39,9 +42,9 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.MaterialButton;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialTab;
+import gwt.material.design.client.ui.*;
+
+import java.util.List;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
 
@@ -78,7 +81,7 @@ import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
  * @see <a href="https://github.com/kenwheeler/slick">SlickJs 1.6.0</a>
  */
 //@formatter:on
-public class MaterialCarousel extends MaterialWidget implements JsLoader, HasType<CarouselType>, HasCarouselEvents {
+public class MaterialCarousel extends MaterialWidget implements JsLoader, HasType<CarouselType>, HasCarouselEvents, HasValue<List<String>> {
 
     static int TABLET_SETTINGS = 0;
     static int MOBILE_SETTINGS = 1;
@@ -104,10 +107,10 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     private JsCarouselOptions options = JsCarouselOptions.create();
 
     private CssTypeMixin<CarouselType, MaterialCarousel> typeMixin;
+    private List<String> values;
 
     public MaterialCarousel() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
-        container.setId(DOM.createUniqueId());
     }
 
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
@@ -116,6 +119,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     protected void onLoad() {
         super.onLoad();
 
+        container.setId(DOM.createUniqueId());
         wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         wrapper.add(container);
 
@@ -154,8 +158,14 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
 
     @Override
     public void load() {
-        options.nextArrow = "#" + getBtnNextArrow().getId();
-        options.prevArrow = "#" + getBtnPrevArrow().getId();
+        if (nextArrow != null) {
+            options.nextArrow = "#" + nextArrow.getId();
+        }
+
+        if (previousArrow != null) {
+            options.prevArrow = "#" + previousArrow.getId();
+        }
+        
         $(container.getElement()).slick(options);
     }
 
@@ -184,9 +194,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     public void destroy() {
-        if (container != null) {
-            command("destroy");
-        }
+        command("unslick");
     }
 
     @Override
@@ -531,5 +539,39 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
             typeMixin = new CssTypeMixin<>(this);
         }
         return typeMixin;
+    }
+
+    @Override
+    public List<String> getValue() {
+        return values;
+    }
+
+    @Override
+    public void setValue(List<String> values) {
+        setValue(values, false);
+    }
+
+    @Override
+    public void setValue(List<String> values, boolean fireEvent) {
+        this.values = values;
+
+        container.clear();
+        for (String value : values) {
+            MaterialImage image = new MaterialImage(value);
+            container.add(image);
+
+            if (isAttached()) {
+                reload();
+            }
+        }
+
+        if (fireEvent) {
+            ValueChangeEvent.fire(this, values);
+        }
+    }
+
+    @Override
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<String>> valueChangeHandler) {
+        return addHandler(valueChangeHandler, ValueChangeEvent.getType());
     }
 }

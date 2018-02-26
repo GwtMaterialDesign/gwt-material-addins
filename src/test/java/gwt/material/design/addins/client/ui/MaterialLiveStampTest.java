@@ -54,6 +54,5 @@ public class MaterialLiveStampTest extends AbstractValueWidgetTest<MaterialLiveS
         // when / then
         liveStamp.setValue(VALUE);
         assertSame(VALUE.toString(), liveStamp.getValue().toString());
-        assertSame(VALUE.toString(), liveStamp.getDate().toString());
     }
 }

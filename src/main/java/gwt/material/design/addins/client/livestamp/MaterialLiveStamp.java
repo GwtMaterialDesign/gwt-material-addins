@@ -82,7 +82,7 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
     @Override
     public void load() {
         if (date != null) {
-            setDate(date);
+            setValue(date);
         } else {
             GWT.log("You must specify the date value.", new IllegalStateException());
         }
@@ -99,24 +99,17 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
         load();
     }
 
-    /**
-     * Get the date for the livestamp (Default : Today)
-     */
-    public Date getDate() {
-        return date;
-    }
-
-    /**
-     * Set the date for the livestamp (Default : Today)
-     */
-    public void setDate(Date date) {
+    @Override
+    public void setValue(Date date, boolean fireEvents) {
         this.date = date;
+
         getElement().setAttribute("data-livestamp", date.toString());
-        setValue(date);
+
+        super.setValue(date, fireEvents);
     }
 
     @Override
     public Date getValue() {
-        return getDate();
+        return date;
     }
 }
