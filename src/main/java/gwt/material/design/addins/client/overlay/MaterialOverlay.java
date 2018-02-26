@@ -119,16 +119,29 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     }
 
     /**
-     * Close the Overlay Panel with Path Animator applied
+     * Close the Overlay Panel with Path Animator applied.
      */
     public void close() {
+        close(true);
+    }
+
+    /**
+     * Close the Overlay Panel with Path Animator applied.
+     *
+     * @param fireEventImmediately should we fire the close event immediately or wait for the animation.
+     */
+    public void close(boolean fireEventImmediately) {
         if ($(getElement()).parents(AddinsCssName.OVERLAY_PANEL).length() == 1) {
             body().attr("style", "overflow: hidden !important");
         } else {
             body().attr("style", "overflow: auto !important");
         }
         if (sourceElement != null) {
-            animator.setCompletedCallback(() -> CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this));
+            if(!fireEventImmediately) {
+                animator.setCompletedCallback(() -> CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this));
+            } else {
+                CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this);
+            }
             animator.reverseAnimate();
         } else {
             setOpacity(0);

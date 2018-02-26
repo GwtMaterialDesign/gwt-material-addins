@@ -156,7 +156,11 @@ public class MaterialPathAnimator implements HasDurationTransition {
                 targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
                 targetElement.getStyle().setOpacity(0);
             }
-            JsPathAnimator.cta(targetElement, sourceElement, options);
+            JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
+                if(completedCallback != null) {
+                    completedCallback.call();
+                }
+            });
         });
     }
 
