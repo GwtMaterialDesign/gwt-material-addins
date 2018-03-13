@@ -139,6 +139,13 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     }
 
     @Override
+    public void reset() {
+        super.reset();
+
+        reload();
+    }
+
+    @Override
     public Double getValue() {
         return options.value;
     }

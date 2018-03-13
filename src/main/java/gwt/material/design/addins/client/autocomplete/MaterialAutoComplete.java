@@ -229,7 +229,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     protected void loadHandlers() {
-        listHandler = list.addDomHandler(event -> suggestBox.showSuggestionList(), ClickEvent.getType());
 
         itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
             if (getValue().size() > 0) {
@@ -415,6 +414,13 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             list.insert(displayItem, list.getWidgetCount() - 1);
         }
         return true;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+
+        clear();
     }
 
     /**

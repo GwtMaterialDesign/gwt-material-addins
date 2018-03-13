@@ -88,14 +88,20 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
      * Toggle pause/resume
      */
     public void pauseResume() {
-        countUp.pauseResume();
+        if (countUp != null) {
+            countUp.pauseResume();
+        }
     }
 
     /**
      * Reset an animation
      */
     public void reset() {
-        countUp.reset();
+        super.reset();
+
+        if (countUp != null) {
+            countUp.reset();
+        }
     }
 
     public double getStartValue() {

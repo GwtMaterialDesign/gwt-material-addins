@@ -96,6 +96,13 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
         load();
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+
+        reload();
+    }
+
     /**
      * Replaced by {@link MaterialAvatar#getValue()}
      */

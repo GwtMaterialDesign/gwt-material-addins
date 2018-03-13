@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.stepper;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -214,6 +215,17 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         conCircle.insert(icon, 0);
         if (description != null) {
             divDescription.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(description));
+        }
+    }
+
+    /**
+     * Will set the distance width of the step line from another step.
+     */
+    public void setLineDistanceWidth(int lineDistanceWidth) {
+        if (divLine.isAttached()) {
+            divLine.setWidth(lineDistanceWidth + "px");
+        } else {
+            divLine.addAttachHandler(event -> divLine.setWidth(lineDistanceWidth + "px"));
         }
     }
 

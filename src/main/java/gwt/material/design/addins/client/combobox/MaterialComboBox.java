@@ -107,7 +107,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
     private EnabledMixin<MaterialWidget> enabledMixin;
-    private WavesMixin<MaterialWidget> wavesMixin;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
@@ -188,6 +187,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public void reload() {
         unload();
         load();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+
+        setSelectedIndex(0);
     }
 
     @Override
