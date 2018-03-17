@@ -251,18 +251,18 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
                 code = file.xhr.status;
             }
 
-            if (response.indexOf("401") >= 0) {
+            if (code.equals("401")) {
                 response = "Unauthorized. Your session may have expired. Log in and try again.";
                 globalResponse = response;
                 UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
             }
 
-            if (response.indexOf("404") >= 0) {
+            if (code.equals("404")) {
                 response = "There is a problem uploading your file.";
                 globalResponse = response;
             }
 
-            if (response.indexOf("500") >= 0) {
+            if (code.equals("500")) {
                 response = "There is a problem uploading your file.";
                 globalResponse = response;
             }
