@@ -93,7 +93,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
 
     private int currentStepIndex = 0;
     private boolean stepSkippingAllowed = true;
-    private boolean detectOrientation = false;
+    private boolean detectOrientation = true;
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
