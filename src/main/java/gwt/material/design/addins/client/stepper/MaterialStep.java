@@ -20,7 +20,6 @@
 package gwt.material.design.addins.client.stepper;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -83,7 +82,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private MaterialIcon iconError = new MaterialIcon(IconType.REPORT_PROBLEM);
     private MaterialIcon iconSuccess = new MaterialIcon(IconType.CHECK_CIRCLE);
     private ActiveMixin<MaterialStep> activeMixin;
-    private Axis axis = Axis.VERTICAL;
+    private Axis axis = Axis.HORIZONTAL;
     private State state;
 
     public MaterialStep() {
@@ -260,7 +259,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     @Override
     public void setAxis(Axis axis) {
         if (axis == null) {
-            axis = Axis.VERTICAL;
+            axis = Axis.HORIZONTAL;
         }
         this.axis = axis;
         switch (axis) {

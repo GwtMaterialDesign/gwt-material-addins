@@ -27,6 +27,8 @@ import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
+import gwt.material.design.client.base.helper.ScrollHelper;
+import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -67,15 +69,18 @@ public class MaterialPathAnimator implements HasDurationTransition {
         }
     }
 
+    private ScrollHelper scrollHelper;
     private Element sourceElement;
     private Element targetElement;
     private Functions.Func animateCallback, reverseCallback, completedCallback;
     private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
 
     public MaterialPathAnimator() {
+        this.scrollHelper = new ScrollHelper();
     }
 
     public MaterialPathAnimator(Element sourceElement, Element targetElement) {
+        this();
         this.sourceElement = sourceElement;
         this.targetElement = targetElement;
     }
@@ -156,11 +161,23 @@ public class MaterialPathAnimator implements HasDurationTransition {
                 targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
                 targetElement.getStyle().setOpacity(0);
             }
-            JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
-                if(completedCallback != null) {
-                    completedCallback.call();
-                }
-            });
+            if (scrollHelper.isInViewPort(sourceElement)) {
+                JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
+                    if (completedCallback != null) {
+                        completedCallback.call();
+                    }
+                });
+            } else {
+                scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
+                scrollHelper.setCompleteCallback(() -> {
+                    JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
+                        if (completedCallback != null) {
+                            completedCallback.call();
+                        }
+                    });
+                });
+                scrollHelper.scrollTo(sourceElement);
+            }
         });
     }
 
@@ -314,5 +331,9 @@ public class MaterialPathAnimator implements HasDurationTransition {
      */
     public void setRelativeToWindow(boolean relativeToWindow) {
         options.relativeToWindow = relativeToWindow;
+    }
+
+    public ScrollHelper getScrollHelper() {
+        return scrollHelper;
     }
 }

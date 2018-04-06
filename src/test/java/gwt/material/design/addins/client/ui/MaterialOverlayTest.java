@@ -23,11 +23,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
-import gwt.material.design.addins.client.overlay.MaterialOverlayTab;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialButton;
-
-import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
  * Test case for overlay component
@@ -80,10 +77,16 @@ public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
         overlay.addOpenHandler(openEvent -> isOpenFired[0] = true);
 
         // when / then
+        overlay.open();
+        assertTrue(isOpenFired[0]);
+
+        // given
+        overlay.close();
         overlay.open(source);
+
+        // when / then
         assertEquals("hidden", overlay.body().asElement().getStyle().getOverflow());
         assertEquals(source.getElement(), overlay.getSourceElement());
-        assertTrue(isOpenFired[0]);
 
         // given
         final boolean[] isCloseFired = {false};

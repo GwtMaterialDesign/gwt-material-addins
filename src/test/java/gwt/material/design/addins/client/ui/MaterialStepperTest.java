@@ -19,12 +19,9 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.splitpanel.MaterialSplitPanel;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
 import gwt.material.design.addins.client.stepper.constants.State;
@@ -32,7 +29,7 @@ import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Span;
 
 import java.util.ArrayList;
@@ -71,37 +68,25 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
         // when / then
         steps.forEach(step -> {
             int i = steps.indexOf(step) + 1;
-            assertEquals(2, step.getWidgetCount());
-            assertTrue(step.getWidget(0) instanceof MaterialWidget);
-            MaterialWidget cle = (MaterialWidget) step.getWidget(0);
-            MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
-            assertEquals(2, cle.getWidgetCount());
-            assertEquals(3, conBody.getWidgetCount());
 
-            MaterialWidget divCircle = (MaterialWidget) cle.getWidget(0);
-            MaterialWidget divLine = (MaterialWidget) cle.getWidget(1);
+            assertEquals(i, step.getStep());
+            assertEquals(step.getWidget(0), step.getConCircle());
+            Div conCircle = step.getConCircle();
 
-            assertEquals(step.getStep(), i);
-            assertTrue(divCircle.getElement().hasClassName(CssName.CIRCLE));
-            assertTrue(divLine.getElement().hasClassName(AddinsCssName.LINE));
-            assertEquals(String.valueOf(i), divCircle.getElement().getInnerHTML());
+            assertEquals(step.getWidget(1), step.getConBody());
+            Div conBody = step.getConBody();
 
-            MaterialWidget divTitle = (MaterialWidget) conBody.getWidget(0);
-            MaterialWidget divDescription = (MaterialWidget) conBody.getWidget(1);
-            MaterialWidget divBody = (MaterialWidget) conBody.getWidget(2);
+            assertEquals(step.getAxis(), Axis.HORIZONTAL);
+            assertEquals(step.getDivCircle(), conCircle.getWidget(0));
+            assertEquals(step.getDivTitle(), conCircle.getWidget(1));
+            assertEquals(step.getDivLine(), conCircle.getWidget(2));
+            assertEquals(step.getDivDescription(), conCircle.getWidget(3));
 
-            assertTrue(divTitle.getElement().hasClassName(CssName.TITLE));
-            assertEquals("step" + i, divTitle.getElement().getInnerHTML());
-            assertTrue(divDescription.getElement().hasClassName(AddinsCssName.DESCRIPTION));
-            assertEquals("description" + i, divDescription.getElement().getInnerHTML());
-            assertTrue(divBody.getElement().hasClassName(AddinsCssName.BODY));
-
-            MaterialPanel panel = new MaterialPanel();
-            step.add(panel);
-            assertEquals(1, step.getDivBody().getWidgetCount());
-            assertEquals(panel, step.getDivBody().getWidget(0));
-            assertEquals("step" + i, step.getTitle());
-            assertEquals("description" + i, step.getDescription());
+            step.setAxis(Axis.VERTICAL);
+            assertEquals(step.getDivTitle(), conBody.getWidget(0));
+            assertEquals(step.getDivDescription(), conBody.getWidget(1));
+            assertEquals(step.getDivCircle(), conCircle.getWidget(0));
+            assertEquals(step.getDivLine(), conCircle.getWidget(1));
         });
 
         assertEquals(stepper.getWidgetCount(), 5);
