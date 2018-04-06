@@ -19,6 +19,9 @@
  */
 package gwt.material.design.addins.client.inputmask.js;
 
+import gwt.material.design.jquery.client.api.Event;
+import gwt.material.design.jquery.client.api.Functions;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -39,4 +42,22 @@ public class JsInputMaskOptions {
 
     @JsProperty
     public boolean selectOnFocus;
+
+    @JsProperty
+    public Functions.Func1<Object> onComplete;
+
+    @JsProperty
+    public Functions.Func1<Object> onKeyPress;
+
+    @JsProperty
+    public Functions.Func1<Object> onChange;
+
+    @JsProperty
+    public Func4<Object, Event, Functions.Func, String[]> onInvalid;
+
+    @FunctionalInterface
+    @JsFunction
+    public interface Func4<A, B, C, D> {
+        void call(A param1, B param2, C param3, D param4);
+    }
 }

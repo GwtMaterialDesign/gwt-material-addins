@@ -1,1 +1,187 @@
-.stepper .step{position:relative;min-height:32px;padding:12px;cursor:pointer}.stepper .step:hover{background:#F6F6F6}.stepper .step>div:first-child{position:static;height:0}.stepper .step>div:last-child{margin-left:32px;padding-left:16px;min-height:24px}.stepper .step>div:first-child .circle{background:#4285f4;width:32px;height:32px;line-height:32px;border-radius:16px;position:relative;color:#fff;text-align:center}.stepper .line{position:absolute;border-left:1px solid #dcdcdc;left:28px;bottom:0;top:56px;z-index:1}.stepper .step:last-child .line{display:none!important}.stepper .title{line-height:32px;font-weight:500;margin-left:0}.stepper .body{padding-bottom:28px;padding-top:8px;opacity:1}.stepper .description{line-height:1.2;font-size:1em;padding-bottom:24px;color:#989898}.stepper.horizontal{line-height:0;position:relative}.stepper.horizontal .step{display:inline-block;height:72px;padding-top:20px;position:initial}.stepper.horizontal .step .line,.stepper.horizontal .step .title,.stepper.horizontal .step>div:first-child .circle{display:inline-block}.stepper.horizontal .step .line{border-left:0;position:inherit;border-top:1px solid #dcdcdc;width:100px;margin-bottom:5px;margin-left:8px;margin-right:-36px}.stepper.horizontal .step .title{margin-left:8px}.stepper.horizontal .step .description{margin-left:40px;font-size:.8em;margin-top:-12px}.stepper.horizontal .step .body{line-height:initial}.stepper.horizontal .step>div:last-child{position:absolute;width:100%;top:93px;padding-left:0;margin:auto;left:0}.stepper .step.inactive .title{color:#C9C9C9;font-weight:400}.stepper.horizontal .step.inactive>:nth-child(2){visibility:hidden}.stepper .step.inactive .body{opacity:0;transition:.6s all;-webkit-transition:.6s all;max-height:0;z-index:-1;position:relative}.stepper .step.active .body{opacity:1;transition-delay:.3s;-webkit-transition-delay:.3s;max-height:1400px;padding-bottom:28px;padding-top:8px;z-index:1!important}.stepper .step.inactive>div:first-child .circle{background-color:#9e9e9e!important}.stepper .step>div:first-child i{font-size:36px;vertical-align:middle}.stepper .step.success .description,.stepper .step.success .title,.stepper .step.success>div:first-child i{color:#2196f3}.stepper .step.error .description,.stepper .step.error .title,.stepper .step.error>div:first-child i{color:#f44336}.stepper .step.error>div:first-child .description,.stepper .step.success>div:first-child .description{margin-left:44px}.stepper .step.error .title,.stepper .step.success .title{font-weight:600}.feedback{position:absolute;left:0;font-size:1.1em;top:0;background:#fff;width:100%;height:100%;padding:36px}
+.stepper .step {
+    position: relative;
+    min-height: 32px;
+    padding: 12px;
+    cursor: pointer
+}
+
+.stepper .step:hover {
+    background: #F6F6F6
+}
+
+.stepper .step > div:first-child {
+    position: static;
+    height: 0
+}
+
+.stepper .step > div:last-child {
+    margin-left: 32px;
+    padding-left: 16px;
+    min-height: 24px
+}
+
+.stepper .step > div:first-child .circle {
+    background: #4285f4;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+    position: relative;
+    color: #fff;
+    text-align: center
+}
+
+.stepper .line {
+    position: absolute;
+    border-left: 1px solid #dcdcdc;
+    left: 28px;
+    bottom: 0;
+    top: 56px;
+    z-index: 1
+}
+
+.stepper .step:last-child .line {
+    display: none !important
+}
+
+.stepper .title {
+    line-height: 32px;
+    font-weight: 500;
+    margin-left: 0
+}
+
+.stepper .body {
+    padding-bottom: 28px;
+    padding-top: 8px;
+    opacity: 1;
+    padding: 20px;
+}
+
+.stepper .description {
+    line-height: 1.2;
+    font-size: 1em;
+    padding-bottom: 24px;
+    color: #989898
+}
+
+.stepper.horizontal {
+    line-height: 0;
+    position: relative;
+    min-height: 600px;
+}
+
+.stepper.horizontal .step {
+    display: inline-block;
+    height: 72px;
+    padding-top: 20px;
+    position: initial
+}
+
+.stepper.horizontal .step .line, .stepper.horizontal .step .title, .stepper.horizontal .step > div:first-child .circle {
+    display: inline-block
+}
+
+.stepper.horizontal .step .line {
+    border-left: 0;
+    position: inherit;
+    border-top: 1px solid #dcdcdc;
+    width: 100px;
+    margin-bottom: 5px;
+    margin-left: 8px;
+    margin-right: -36px
+}
+
+.stepper.horizontal .step .title {
+    margin-left: 8px
+}
+
+.stepper.horizontal .step .description {
+    margin-left: 40px;
+    font-size: .8em;
+    margin-top: -12px
+}
+
+.stepper.horizontal .step .body {
+    line-height: initial
+}
+
+.stepper.horizontal .step > div:last-child {
+    position: absolute;
+    width: 100%;
+    top: 93px;
+    padding-left: 0;
+    margin: auto;
+    left: 0
+}
+
+.stepper .step.inactive .title {
+    color: #C9C9C9;
+    font-weight: 400
+}
+
+.stepper.horizontal .step.inactive > :nth-child(2) {
+    visibility: hidden
+}
+
+.stepper .step.inactive .body {
+    opacity: 0;
+    transition: .6s all;
+    -webkit-transition: .6s all;
+    max-height: 0;
+    z-index: -1;
+    position: relative;
+    display: none;
+}
+
+.stepper .step.active .body {
+    opacity: 1;
+    transition-delay: .3s;
+    -webkit-transition-delay: .3s;
+    max-height: 1400px;
+    padding-bottom: 28px;
+    padding-top: 8px;
+    z-index: 1 !important;
+    display: block !important;
+}
+
+.stepper .step.inactive > div:first-child .circle {
+    background-color: #9e9e9e !important;
+}
+
+.stepper .step > div:first-child i {
+    font-size: 36px;
+    vertical-align: middle
+}
+
+.stepper .step.success .description, .stepper .step.success .title, .stepper .step.success > div:first-child i {
+    color: #2196f3
+}
+
+.stepper .step.error .description, .stepper .step.error .title, .stepper .step.error > div:first-child i {
+    color: #f44336
+}
+
+.stepper .step.error > div:first-child .description, .stepper .step.success > div:first-child .description {
+    margin-left: 44px
+}
+
+.stepper .step.error .title, .stepper .step.success .title {
+    font-weight: 600
+}
+
+.feedback {
+    position: absolute;
+    left: 0;
+    font-size: 1.1em;
+    top: 0;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    padding: 36px
+}
+
+/** Vertical steppers **/
+.stepper.vertical .step.active .body {
+    padding-bottom: 0px;
+    padding-right: 20px;
+}

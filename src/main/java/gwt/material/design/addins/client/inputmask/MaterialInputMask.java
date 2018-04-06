@@ -20,11 +20,16 @@
 package gwt.material.design.addins.client.inputmask;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ValueBoxBase;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.inputmask.events.*;
 import gwt.material.design.addins.client.inputmask.js.JsInputMaskOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.ui.MaterialTextBox;
+import gwt.material.design.client.constants.InputType;
+import gwt.material.design.client.ui.MaterialValueBox;
 
 import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
 
@@ -53,10 +58,11 @@ import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
  *
  * @author kevzlou7979
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/snapshot/#inputFields">Material Input Fields</a>
- * @see <a href="https://github.com/Foliotek/Croppie">jQuery-Mask-Plugin 1.14.10</a>
+ * @see <a href="https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html">jQuery-Mask-Plugin 1.14.10</a>
  */
 //@formatter:on
-public class MaterialInputMask extends MaterialTextBox implements JsLoader {
+public class MaterialInputMask<T> extends MaterialValueBox<T>
+        implements JsLoader, HasInputMaskHandlers {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -68,6 +74,16 @@ public class MaterialInputMask extends MaterialTextBox implements JsLoader {
 
     private String mask;
     private JsInputMaskOptions options = new JsInputMaskOptions();
+
+    public MaterialInputMask() {
+        setup((ValueBoxBase<T>) new TextBox());
+    }
+
+    public void setup(ValueBoxBase<T> tValueBox) {
+        valueBoxBase = tValueBox;
+        add(valueBoxBase);
+        setType(InputType.TEXT);
+    }
 
     @Override
     protected void onLoad() {
@@ -89,7 +105,11 @@ public class MaterialInputMask extends MaterialTextBox implements JsLoader {
      * Mask the input field with given mask value.
      */
     public void load(String mask) {
-        $(asTextBox().getElement()).mask(mask, options);
+        options.onComplete = object -> CompleteEvent.fire(this, object);
+        options.onKeyPress = object -> KeyPressEvent.fire(this, object);
+        options.onChange = object -> ChangeEvent.fire(this, object);
+        options.onInvalid = (object, event, function, error) -> InvalidEvent.fire(this, object, error[0]);
+        $(valueBoxBase.getElement()).mask(mask, options);
     }
 
     @Override
@@ -101,7 +121,7 @@ public class MaterialInputMask extends MaterialTextBox implements JsLoader {
 
     @Override
     public void unload() {
-        $(asTextBox().getElement()).unmask();
+        $(valueBoxBase.getElement()).unmask();
     }
 
     @Override
@@ -157,7 +177,27 @@ public class MaterialInputMask extends MaterialTextBox implements JsLoader {
     /**
      * Gets the value of the field without the mask.
      */
-    public String getCleanValue() {
-        return $(asTextBox().getElement()).cleanVal();
+    protected String getCleanValue() {
+        return $(valueBoxBase.getElement()).cleanVal();
+    }
+
+    @Override
+    public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler) {
+        return addHandler(handler, CompleteEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addChangeHandler(ChangeEvent.ChangeHandler handler) {
+        return addHandler(handler, ChangeEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addInvalidHandler(InvalidEvent.InvalidHandler handler) {
+        return addHandler(handler, InvalidEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addKeyPressHandler(KeyPressEvent.KeyPressHandler handler) {
+        return addHandler(handler, KeyPressEvent.TYPE);
     }
 }
