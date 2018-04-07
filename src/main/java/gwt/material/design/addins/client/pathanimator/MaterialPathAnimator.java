@@ -86,25 +86,6 @@ public class MaterialPathAnimator implements HasDurationTransition {
     }
 
     /**
-     * Animate the path animator
-     */
-    public void animate() {
-        $("document").ready(() -> JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-            if (animateCallback != null) {
-                animateCallback.call();
-            } else {
-                // For default animateCallback when animateCallback is null
-                targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                targetElement.getStyle().setOpacity(1);
-            }
-
-            if(completedCallback != null) {
-                completedCallback.call();
-            }
-        }));
-    }
-
-    /**
      * Helper method to apply the path animator.
      *
      * @param source Source element to apply the Path Animator
@@ -151,6 +132,27 @@ public class MaterialPathAnimator implements HasDurationTransition {
     }
 
     /**
+     * Animate the path animator
+     */
+    public void animate() {
+        detectOutOfScopeElement(targetElement, () -> {
+            $("document").ready(() -> JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+                if (animateCallback != null) {
+                    animateCallback.call();
+                } else {
+                    // For default animateCallback when animateCallback is null
+                    targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                    targetElement.getStyle().setOpacity(1);
+                }
+
+                if(completedCallback != null) {
+                    completedCallback.call();
+                }
+            }));
+        });
+    }
+
+    /**
      * Reverse the Animation
      */
     public void reverseAnimate() {
@@ -161,24 +163,26 @@ public class MaterialPathAnimator implements HasDurationTransition {
                 targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
                 targetElement.getStyle().setOpacity(0);
             }
-            if (scrollHelper.isInViewPort(sourceElement)) {
+            detectOutOfScopeElement(sourceElement, () -> {
                 JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
                     if (completedCallback != null) {
                         completedCallback.call();
                     }
                 });
-            } else {
-                scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
-                scrollHelper.setCompleteCallback(() -> {
-                    JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
-                        if (completedCallback != null) {
-                            completedCallback.call();
-                        }
-                    });
-                });
-                scrollHelper.scrollTo(sourceElement);
-            }
+            });
         });
+    }
+
+    protected void detectOutOfScopeElement(Element element, Functions.Func callback) {
+        if (scrollHelper.isInViewPort(element)) {
+            callback.call();
+        } else {
+            scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
+            scrollHelper.setCompleteCallback(() -> {
+                callback.call();
+            });
+            scrollHelper.scrollTo(element);
+        }
     }
 
     /**
