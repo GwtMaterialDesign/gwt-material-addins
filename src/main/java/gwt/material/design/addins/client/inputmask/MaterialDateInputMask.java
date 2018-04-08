@@ -19,13 +19,14 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+import gwt.material.design.addins.client.inputmask.base.DateInputParser;
 
 import java.util.Date;
 
 public class MaterialDateInputMask extends MaterialInputMask<Date> {
 
-    private String format = "mm/dd/yyyy";
+    private String format = "MM/dd/yyyy";
+    private DateInputParser dateInputParser = new DateInputParser(this);
 
     public MaterialDateInputMask() {
         super();
@@ -35,23 +36,7 @@ public class MaterialDateInputMask extends MaterialInputMask<Date> {
 
     @Override
     public Date getValue() {
-        if (getText() != null && !getText().isEmpty()) {
-            if (getMask() != null && !getMask().isEmpty()) {
-                if (validate()) {
-                    return DateTimeFormat.getFormat(getFormat()).parse(getText());
-                }
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public boolean validate() {
-        boolean valid = true;
-
-        //TODO Validation of dates / months/ year
-
-        return valid;
+        return dateInputParser.parseDate(format);
     }
 
     protected void parseFormatToMask(String format) {

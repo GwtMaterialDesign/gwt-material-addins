@@ -173,6 +173,11 @@ public class MaterialPathAnimator implements HasDurationTransition {
         });
     }
 
+    /**
+     * Will detect if the target / source element is out of scope in the viewport.
+     * If it is then we will call {@link ScrollHelper#scrollTo(double)} with default offset position
+     * of {@link OffsetPosition#MIDDLE}.
+     */
     protected void detectOutOfScopeElement(Element element, Functions.Func callback) {
         if (scrollHelper.isInViewPort(element)) {
             callback.call();
