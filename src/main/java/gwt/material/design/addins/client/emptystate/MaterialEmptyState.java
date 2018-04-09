@@ -99,6 +99,11 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     }
 
     @Override
+    public String getDescription() {
+        return title.getDescription();
+    }
+
+    @Override
     public void setTitle(String titleText) {
         title.setTitle(titleText);
     }
