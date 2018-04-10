@@ -20,9 +20,7 @@
 package gwt.material.design.incubator.client.toggle;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.HasSelectionHandlers;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
@@ -36,6 +34,7 @@ import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //@formatter:off
@@ -61,7 +60,8 @@ import java.util.List;
  * @author kevzlou7979
  */
 //@formatter:on
-public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<Integer>, HasError {
+public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
+        implements HasSelectionHandlers<Integer>, HasError {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -88,6 +88,9 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     protected void onLoad() {
         super.onLoad();
 
+        registerHandler(addSelectionHandler(selectionEvent -> {
+            ValueChangeEvent.fire(GroupToggleButton.this, getValue());
+        }));
         add(label);
         add(wrapper);
         add(errorLabel);
