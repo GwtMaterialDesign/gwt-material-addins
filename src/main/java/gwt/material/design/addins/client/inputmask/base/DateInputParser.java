@@ -48,10 +48,15 @@ public class DateInputParser<T extends MaterialInputMask> {
             String day = dateString.substring(format.indexOf("d"), format.indexOf("d/") + 1);
             String year = dateString.substring(format.indexOf("y"), format.lastIndexOf("y") + 1);
 
+            boolean validLeapYear = validateLeapYear(day, month, Integer.parseInt(year));
+            if(!validLeapYear) {
+                valuebox.setError("Not a valid date");
+            }
+
             return validate(month, getMonthRegex(), getMothDoesNotMatchError())
                     && validate(day, getDayRegex(), getDayDoesNotMatchError())
                     && validate(year, getYearRegex(), getYearDoesNotMatchError())
-                    && validateLeapYear(day, month, Integer.parseInt(year));
+                    && validLeapYear;
         }
         valuebox.setError("Text input must not be empty or null");
         return false;
