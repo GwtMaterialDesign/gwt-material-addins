@@ -23,11 +23,16 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
+import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
+import gwt.material.design.addins.client.pathanimator.base.PathStylerMixin;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.helper.ScrollHelper;
+import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -59,7 +64,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/chinchang/cta.js">CTAJs 0.3.2</a>
  */
 //@formatter:on
-public class MaterialPathAnimator implements HasDurationTransition {
+public class MaterialPathAnimator implements HasDurationTransition, HasPathStyles {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -72,8 +77,9 @@ public class MaterialPathAnimator implements HasDurationTransition {
     private ScrollHelper scrollHelper;
     private Element sourceElement;
     private Element targetElement;
-    private Functions.Func animateCallback, reverseCallback, completedCallback;
+    private Functions.Func animateCallback, startAnimateCallback, reverseCallback, completedCallback;
     private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
+    private PathStylerMixin<MaterialPathAnimator> stylerMixin;
 
     public MaterialPathAnimator() {
         this.scrollHelper = new ScrollHelper();
@@ -136,19 +142,22 @@ public class MaterialPathAnimator implements HasDurationTransition {
      */
     public void animate() {
         detectOutOfScopeElement(targetElement, () -> {
-            $("document").ready(() -> JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-                if (animateCallback != null) {
-                    animateCallback.call();
-                } else {
-                    // For default animateCallback when animateCallback is null
-                    targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                    targetElement.getStyle().setOpacity(1);
-                }
+            $("document").ready(() -> {
+                onStartAnimateCallback();
+                JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+                    if (animateCallback != null) {
+                        animateCallback.call();
+                    } else {
+                        // For default animateCallback when animateCallback is null
+                        targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                        targetElement.getStyle().setOpacity(1);
+                    }
 
-                if(completedCallback != null) {
-                    completedCallback.call();
-                }
-            }));
+                    if (completedCallback != null) {
+                        completedCallback.call();
+                    }
+                });
+            });
         });
     }
 
@@ -156,6 +165,7 @@ public class MaterialPathAnimator implements HasDurationTransition {
      * Reverse the Animation
      */
     public void reverseAnimate() {
+        onStartAnimateCallback();
         $("document").ready(() -> {
             if (reverseCallback != null) {
                 reverseCallback.call();
@@ -163,13 +173,7 @@ public class MaterialPathAnimator implements HasDurationTransition {
                 targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
                 targetElement.getStyle().setOpacity(0);
             }
-            detectOutOfScopeElement(sourceElement, () -> {
-                JsPathAnimator.cta(targetElement, sourceElement, options, () -> {
-                    if (completedCallback != null) {
-                        completedCallback.call();
-                    }
-                });
-            });
+            detectOutOfScopeElement(sourceElement, () -> JsPathAnimator.cta(targetElement, sourceElement, options, () -> onCompleteCallback()));
         });
     }
 
@@ -183,10 +187,20 @@ public class MaterialPathAnimator implements HasDurationTransition {
             callback.call();
         } else {
             scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
-            scrollHelper.setCompleteCallback(() -> {
-                callback.call();
-            });
+            scrollHelper.setCompleteCallback(() -> callback.call());
             scrollHelper.scrollTo(element);
+        }
+    }
+
+    protected void onStartAnimateCallback() {
+        if (startAnimateCallback != null) {
+            startAnimateCallback.call();
+        }
+    }
+
+    protected void onCompleteCallback() {
+        if (completedCallback != null) {
+            completedCallback.call();
         }
     }
 
@@ -278,6 +292,10 @@ public class MaterialPathAnimator implements HasDurationTransition {
         this.animateCallback = animateCallback;
     }
 
+    public void setAnimateOnStartCallback(Functions.Func startAnimateCallback) {
+        this.startAnimateCallback = startAnimateCallback;
+    }
+
     /**
      * Get the reverse callback method when the path animator is applied
      */
@@ -344,5 +362,47 @@ public class MaterialPathAnimator implements HasDurationTransition {
 
     public ScrollHelper getScrollHelper() {
         return scrollHelper;
+    }
+
+    @Override
+    public void setBackgroundColor(Color backgroundColor) {
+        getStylerMixin().setBackgroundColor(backgroundColor);
+    }
+
+    @Override
+    public void setStyleProperty(PathStyleProperty property) {
+        getStylerMixin().setStyleProperty(property);
+    }
+
+    @Override
+    public void setStyleProperty(String property, String value) {
+        getStylerMixin().setStyleProperty(property, value);
+    }
+
+    @Override
+    public void clearStyleProperty(String property) {
+        getStylerMixin().clearStyleProperty(property);
+    }
+
+    @Override
+    public void clearStyles() {
+        getStylerMixin().clearStyles();
+    }
+
+    @Override
+    public Element getBridgeElement() {
+        return getStylerMixin().getBridgeElement();
+    }
+
+    @Override
+    public void setShadow(Integer shadowDepth) {
+        getStylerMixin().setShadow(shadowDepth);
+    }
+
+    protected PathStylerMixin<MaterialPathAnimator> getStylerMixin() {
+        if (stylerMixin == null) {
+            stylerMixin = new PathStylerMixin<>(this);
+        }
+        return stylerMixin;
     }
 }

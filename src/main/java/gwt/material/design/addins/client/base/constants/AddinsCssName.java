@@ -118,4 +118,5 @@ public interface AddinsCssName {
     String EXPANDABLE_SEARCH = "expandable-search";
     String INLINE_SEARCH = "inline-search";
     String WIDE = "wide";
+    String BRIDGE_PATH = "bridge-path";
 }
