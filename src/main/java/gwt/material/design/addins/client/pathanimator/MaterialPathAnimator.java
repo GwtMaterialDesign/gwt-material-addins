@@ -389,7 +389,6 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
         getStylerMixin().clearStyles();
     }
 
-    @Override
     public Element getBridgeElement() {
         return getStylerMixin().getBridgeElement();
     }
