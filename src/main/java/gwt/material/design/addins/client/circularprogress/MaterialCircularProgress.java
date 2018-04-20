@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.circularprogress;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
@@ -145,6 +146,10 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
         reload();
     }
 
+    public void redraw() {
+        $(getElement()).circleProgress("redraw");
+    }
+
     @Override
     public Double getValue() {
         return options.value;
@@ -154,6 +159,20 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     public void setValue(Double value) {
         setValue(value, false);
         options.value = value;
+    }
+
+    public void update(Double value) {
+        setValue(value, false);
+        $(getElement()).circleProgress("value", value);
+    }
+
+    public void setAsyncValue(double value) {
+       //9 setValue(value, false);
+        if (options.value == 0) {
+            setValue(value);
+        } else {
+            $(getElement()).circleProgress("value", value);
+        }
     }
 
     /**
