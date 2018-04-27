@@ -119,4 +119,5 @@ public interface AddinsCssName {
     String INLINE_SEARCH = "inline-search";
     String WIDE = "wide";
     String BRIDGE_PATH = "bridge-path";
+    String INTERACT_IGNORED_CONTENT = "interact-ignored-content";
 }
