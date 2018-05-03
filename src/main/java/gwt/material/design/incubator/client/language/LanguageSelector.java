@@ -24,12 +24,18 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasActivates;
+import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.base.mixin.CssTypeMixin;
+import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialImage;
+import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
@@ -46,7 +52,8 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class LanguageSelector extends MaterialWidget implements HasValue<Language> {
+public class LanguageSelector extends MaterialWidget
+        implements HasValue<Language>, HasType<LanguageSelectorType> {
 
     static {
         if (AddinsIncubator.isDebug()) {
@@ -56,14 +63,16 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
         }
     }
 
-    private MaterialImage image = new MaterialImage();
+    private MaterialImage imageActivator = new MaterialImage();
+    private MaterialLink textActivator = new MaterialLink();
     private MaterialDropDown dropdown = new MaterialDropDown();
     private List<Language> languages = new ArrayList<>();
     private Language language;
+    private CssTypeMixin<LanguageSelectorType, LanguageSelector> typeMixin;
 
     public LanguageSelector() {
         super(Document.get().createDivElement(), IncubatorCssName.LANGUAGE_SELECTOR);
-        image.addStyleName(IncubatorCssName.LANGUAGE_ACTIVATOR);
+        setType(LanguageSelectorType.TEXT);
     }
 
     @Override
@@ -74,7 +83,7 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
         dropdown.clear();
         languages.forEach(language -> dropdown.add(new LanguageSelectorItem(language)));
         dropdown.setConstrainWidth(false);
-
+        add(dropdown);
         registerHandler(dropdown.addSelectionHandler(selectionEvent -> {
             if (selectionEvent.getSelectedItem() instanceof LanguageSelectorItem) {
                 Language language = ((LanguageSelectorItem) selectionEvent.getSelectedItem()).getLanguage();
@@ -89,14 +98,11 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
             }
         }));
 
-        image.add(dropdown);
-        add(image);
-
         // Get the current locale inside the browser url
         String currentLocale = Window.Location.getParameter("locale");
         if (languages.size() != 0) {
             Language currentLanguage = languages.stream().filter(language -> language.getValue().equals(currentLocale)).findFirst().orElse(languages.get(0));
-            setValue(currentLanguage);
+            setValue(currentLanguage, true);
         } else {
             GWT.log("Please add at least one language for this selector.");
         }
@@ -104,7 +110,7 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
 
     /**
      * Ability to add language item {@link Language}
-     * contains name, value and image url
+     * contains name, value and imageActivator url
      */
     public void addLanguage(Language language) {
         languages.add(language);
@@ -137,7 +143,12 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
     @Override
     public void setValue(Language language, boolean fireEvents) {
         this.language = language;
-        image.setUrl(language.getImage());
+
+        if (getType() == LanguageSelectorType.TEXT) {
+            textActivator.setText(language.getName());
+        } else {
+            imageActivator.setUrl(language.getImage());
+        }
 
         if (fireEvents) {
             ValueChangeEvent.fire(this, language);
@@ -145,7 +156,48 @@ public class LanguageSelector extends MaterialWidget implements HasValue<Languag
     }
 
     @Override
+    public void setType(LanguageSelectorType type) {
+        getTypeMixin().setType(type);
+
+        if (isAttached()) {
+            applyType(type);
+        } else {
+            registerHandler(addAttachHandler(attachEvent -> applyType(type)));
+        }
+    }
+
+    protected void applyType(LanguageSelectorType type) {
+        if (type == LanguageSelectorType.TEXT) {
+            textActivator.setIconPosition(IconPosition.RIGHT);
+            setActivator(textActivator);
+        } else {
+            setActivator(imageActivator);
+        }
+    }
+
+    protected <T extends MaterialWidget & HasActivates> void setActivator(T widget) {
+        String activator = DOM.createUniqueId();
+        widget.setActivates(activator);
+        widget.addStyleName(IncubatorCssName.LANGUAGE_ACTIVATOR);
+        add(widget);
+        dropdown.setActivator(activator);
+        dropdown.reload();
+    }
+
+    @Override
+    public LanguageSelectorType getType() {
+        return getTypeMixin().getType();
+    }
+
+    @Override
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Language> valueChangeHandler) {
         return addHandler(valueChangeHandler, ValueChangeEvent.getType());
+    }
+
+    public CssTypeMixin<LanguageSelectorType, LanguageSelector> getTypeMixin() {
+        if (typeMixin == null) {
+            typeMixin = new CssTypeMixin<>(this);
+        }
+        return typeMixin;
     }
 }

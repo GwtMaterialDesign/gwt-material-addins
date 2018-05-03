@@ -177,7 +177,7 @@ public class MaterialInputMask<T> extends MaterialValueBox<T>
     /**
      * Gets the value of the field without the mask.
      */
-    protected String getCleanValue() {
+    public String getCleanValue() {
         return $(valueBoxBase.getElement()).cleanVal();
     }
 

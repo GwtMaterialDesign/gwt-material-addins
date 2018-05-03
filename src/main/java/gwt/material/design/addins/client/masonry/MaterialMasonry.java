@@ -136,7 +136,6 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
 
     @Override
     public void reload() {
-        // reload items and layout specific to masonry plugin
         if (masonryElement != null) {
             layout();
             reloadItems();
@@ -150,15 +149,12 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
 
     @Override
     public boolean remove(int index) {
-        remove(getWidget(index));
-        return true;
+        return remove(getWidget(index));
     }
 
     @Override
     public boolean remove(IsWidget child) {
-        Widget widget = (Widget) child;
-        masonryRemove(widget);
-        reload();
+        masonryRemove((Widget) child);
         return true;
     }
 
@@ -167,14 +163,20 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
      */
     protected void masonryRemove(Widget target) {
         this.target = target;
-        $(getElement()).masonry(options).masonry("remove", target.getElement());
+        if (target != sizerDiv) {
+            super.remove(target);
+            reload();
+        }
     }
 
     @Override
     public void clear() {
-        for (Widget widget : getChildren()) {
-            remove(widget);
+        for (Widget w : getChildrenList()) {
+            if (w != sizerDiv) {
+                masonryRemove(w);
+            }
         }
+        reload();
     }
 
     @Override

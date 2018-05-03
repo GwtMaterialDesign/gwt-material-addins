@@ -7,7 +7,15 @@
 
 .language-selector img {
     width: 2rem;
-    hreight: 2rem;
+    height: 2rem;
+}
+
+nav .language-selector .language-activator  span {
+    line-height: 64px;
+}
+
+nav .language-selector .dropdown-content {
+    margin-top: 16px;
 }
 
 .language-selector img.language-activator {
@@ -22,6 +30,10 @@
 
 .language-selector .dropdown-content li {
     min-height: 40px;
+}
+
+.language-selector .dropdown-content li img {
+    height: auto;
 }
 
 .language-selector .language-selector-item {

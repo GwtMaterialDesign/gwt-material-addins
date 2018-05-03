@@ -23,6 +23,6 @@ public class MaterialTextInputMask extends MaterialInputMask<String> {
 
     @Override
     public String getValue() {
-        return getCleanValue();
+        return super.getValue();
     }
 }
