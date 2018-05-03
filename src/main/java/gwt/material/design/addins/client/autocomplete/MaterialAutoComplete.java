@@ -270,6 +270,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                             }
                         }
                     }
+                    break;
                 case KeyCodes.KEY_DELETE:
                     if (itemBox.getValue().trim().isEmpty()) {
                         for (ListItem li : itemsHighlighted) {
