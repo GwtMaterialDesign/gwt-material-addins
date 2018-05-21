@@ -613,3 +613,10 @@
 .timepicker input {
     position: relative;
 }
+
+/** Field Types - Outlined **/
+.input-field.outlined.timepicker input:focus,
+.input-field.outlined.timepicker input.valid{
+    border: 2px solid #42a5f5;
+    box-shadow: none;
+}

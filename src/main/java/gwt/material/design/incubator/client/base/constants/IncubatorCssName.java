@@ -45,4 +45,5 @@ public interface IncubatorCssName {
     String SIGNATURE_VALIDATION = "signature-validation";
     String LABEL_PANEL = "label-panel";
     String JSON_TABLE = "json-table";
+    String SINGLE_LANGUAGE = "single-language";
 }

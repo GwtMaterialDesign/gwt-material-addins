@@ -21,6 +21,7 @@ package gwt.material.design.incubator.client.language;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -32,10 +33,12 @@ import gwt.material.design.client.base.HasActivates;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
+import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
@@ -45,9 +48,9 @@ import java.util.List;
 
 /**
  * A widget that provides a selection of {@link LanguageSelectorItem} for the site Internationalization (i18n)
- *
+ * <p>
  * <p><i>
- *     Note: This component is under the incubation process and subject to change.
+ * Note: This component is under the incubation process and subject to change.
  * </i></p>
  *
  * @author kevzlou7979
@@ -103,6 +106,11 @@ public class LanguageSelector extends MaterialWidget
         if (languages.size() != 0) {
             Language currentLanguage = languages.stream().filter(language -> language.getValue().equals(currentLocale)).findFirst().orElse(languages.get(0));
             setValue(currentLanguage, true);
+            if (languages.size() == 1) {
+                addStyleName(IncubatorCssName.SINGLE_LANGUAGE);
+            } else {
+                removeStyleName(IncubatorCssName.SINGLE_LANGUAGE);
+            }
         } else {
             GWT.log("Please add at least one language for this selector.");
         }

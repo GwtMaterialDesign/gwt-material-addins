@@ -1,46 +1,59 @@
 .language-selector {
-    padding: 0px 15px;
+    padding: 0 15px;
     display: flex;
     align-items: center;
-    height: 64px;
+    height: 64px
+}
+
+.language-selector.single-language ul.dropdown-content {
+    visibility: hidden;
+}
+
+.language-selector.single-language .language-activator {
+    cursor: default !important;
+    margin-top: -12px;
+}
+
+.language-selector.single-language .language-activator span:before {
+    display: none;
 }
 
 .language-selector img {
     width: 2rem;
-    height: 2rem;
+    height: 2rem
 }
 
-nav .language-selector .language-activator  span {
-    line-height: 64px;
+nav .language-selector .language-activator span {
+    line-height: 64px
 }
 
 nav .language-selector .dropdown-content {
-    margin-top: 16px;
+    margin-top: 16px
 }
 
 .language-selector img.language-activator {
-    border: 2px solid white;
+    border: 2px solid #fff;
     border-radius: 100%;
-    cursor: pointer;
+    cursor: pointer
 }
 
 .language-selector .dropdown-content {
-    min-width: 160px;
+    min-width: 160px
 }
 
 .language-selector .dropdown-content li {
-    min-height: 40px;
+    min-height: 40px
 }
 
 .language-selector .dropdown-content li img {
-    height: auto;
+    height: auto
 }
 
 .language-selector .language-selector-item {
-    margin: 0px;
-    padding: 8px 8px 4px;
+    margin: 0;
+    padding: 8px 8px 4px
 }
 
 .language-selector .language-selector-item a:hover {
-    background: none;
+    background: 0 0
 }

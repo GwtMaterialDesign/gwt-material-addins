@@ -69,8 +69,13 @@ public class LanguageSelectorItem extends MaterialWidget {
         nameColumn.setTextAlign(TextAlign.LEFT);
         nameColumn.add(name);
 
-        add(imageColumn);
-        add(nameColumn);
+        if (language.getImage() != null) {
+            add(imageColumn);
+        }
+
+        if (language.getName() != null) {
+            add(nameColumn);
+        }
     }
 
     /**
