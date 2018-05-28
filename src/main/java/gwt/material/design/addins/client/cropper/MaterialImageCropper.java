@@ -161,7 +161,7 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
      * @param degrees - Valid values 90, 180, 270, -90, -180, -270
      */
     public void rotate(int degrees) {
-        cropper.rotate(degrees);
+        cropper.croppie("rotate", degrees);
     }
 
     /**

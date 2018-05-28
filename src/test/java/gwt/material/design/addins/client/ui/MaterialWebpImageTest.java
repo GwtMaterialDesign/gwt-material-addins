@@ -58,7 +58,6 @@ public class MaterialWebpImageTest extends MaterialWidgetTest<MaterialWebpImage>
 
         materialWebpImage.setFallbackUrl(FALLBACK_URL);
         assertEquals(FALLBACK_URL, materialWebpImage.getFallbackUrl());
-        assertEquals(generateFallbackAttribute(), materialWebpImage.getAttributeMixin().getAttribute());
         materialWebpImage.setFallbackUrl(null);
         assertNull(materialWebpImage.getFallbackUrl());
     }

@@ -116,8 +116,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
         super.add(listbox);
         super.add(label);
+        super.add(errorLabel);
         errorLabel.setMarginTop(15);
-        $(errorLabel.getElement()).insertAfter($(getElement()));
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
         super.onLoad();

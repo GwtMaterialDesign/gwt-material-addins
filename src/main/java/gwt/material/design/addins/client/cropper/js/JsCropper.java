@@ -51,7 +51,4 @@ public class JsCropper extends JQueryElement {
 
     @JsMethod
     public native Promise croppie(String method, Object... args);
-
-    @JsMethod
-    public native JsCropper rotate(int degrees);
 }

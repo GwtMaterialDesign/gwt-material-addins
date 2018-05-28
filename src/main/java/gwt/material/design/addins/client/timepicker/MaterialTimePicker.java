@@ -190,7 +190,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
      * </ul>
      */
     public void reset() {
-        setValue(new Date());
+        clear();
         clearErrorOrSuccess();
     }
 

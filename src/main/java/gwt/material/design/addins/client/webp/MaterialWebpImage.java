@@ -20,8 +20,11 @@
 package gwt.material.design.addins.client.webp;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Image;
 import gwt.material.design.client.base.mixin.AttributeMixin;
 import gwt.material.design.client.ui.MaterialImage;
+import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
 
@@ -48,15 +51,16 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
 
     private String fallbackUrl;
     private String fallbackExtension;
-    private AttributeMixin<MaterialWebpImage> attributeMixin;
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        checkWebpSupport();
+    }
 
     protected void setFallbackAttribute(String fallbackUrl) {
         this.fallbackUrl = fallbackUrl;
-        if (fallbackUrl != null) {
-            getAttributeMixin().setAttribute("this.onerror=null; this.src='" + fallbackUrl + "'");
-        } else {
-            getAttributeMixin().setAttribute(null);
-        }
     }
 
     @Override
@@ -102,10 +106,15 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
         return fallbackExtension;
     }
 
-    public AttributeMixin<MaterialWebpImage> getAttributeMixin() {
-        if (attributeMixin == null) {
-            attributeMixin = new AttributeMixin<>(this, "onerror");
-        }
-        return attributeMixin;
+    public void checkWebpSupport() {
+        Image image = new Image();
+        image.setUrl("data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA");
+        image.addLoadHandler(loadEvent -> {
+            setUrl(getUrl());
+        });
+        image.addErrorHandler(errorEvent -> {
+            setUrl(getFallbackUrl());
+        });
+        add(image);
     }
 }

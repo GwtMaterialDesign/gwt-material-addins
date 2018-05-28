@@ -62,16 +62,14 @@ public class LanguageSelectorTest extends MaterialWidgetTest<LanguageSelector> {
         selector.getElement().hasClassName(IncubatorCssName.LANGUAGE_SELECTOR);
 
         // Check image activator structure
-        assertEquals(selector.getWidgetCount(), 1);
-        assertTrue(selector.getWidget(0) instanceof MaterialImage);
-        MaterialImage image = (MaterialImage) selector.getWidget(0);
+        assertEquals(selector.getWidgetCount(), 2);
+        assertTrue(selector.getWidget(0) instanceof MaterialDropDown);
+        MaterialDropDown dropDown = (MaterialDropDown) selector.getWidget(0);
+
+        assertTrue(selector.getWidget(1) instanceof MaterialImage);
+        MaterialImage image = (MaterialImage) selector.getWidget(1);
         assertEquals(image.getUrl(), getLanguages().get(0).getImage());
         assertTrue(image.getElement().hasClassName(IncubatorCssName.LANGUAGE_ACTIVATOR));
-
-        // Check dropdown structure
-        assertTrue(image.getWidget(0) instanceof MaterialDropDown);
-        MaterialDropDown dropDown = (MaterialDropDown) image.getWidget(0);
-        assertFalse(dropDown.isConstrainWidth());
 
         // Check Language Item's structure
         assertEquals(dropDown.getWidgetCount(), getLanguages().size());

@@ -32,7 +32,7 @@ import jsinterop.annotations.JsType;
  * @author kevzlou7979
  */
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
-public class SignaturePad extends JQueryElement {
+public class SignaturePad {
 
     public SignaturePad(Element element) {
     }
@@ -75,4 +75,10 @@ public class SignaturePad extends JQueryElement {
 
     @JsMethod
     public native boolean isEmpty();
+
+    @JsMethod
+    public native void off();
+
+    @JsMethod
+    public native void on();
 }

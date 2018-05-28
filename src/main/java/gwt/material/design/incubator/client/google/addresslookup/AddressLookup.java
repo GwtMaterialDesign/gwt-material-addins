@@ -30,11 +30,9 @@ import gwt.material.design.incubator.client.google.addresslookup.events.AddressL
 import gwt.material.design.incubator.client.google.addresslookup.events.HasAddressLookupHandlers;
 import gwt.material.design.incubator.client.google.addresslookup.events.PlaceChangedEvent;
 import gwt.material.design.incubator.client.google.addresslookup.js.JsAddressLookup;
-import gwt.material.design.incubator.client.google.addresslookup.js.options.AddressLookupOptions;
-import gwt.material.design.incubator.client.google.addresslookup.js.options.ComponentRestrictions;
-import gwt.material.design.incubator.client.google.addresslookup.js.options.LatLngBounds;
-import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
+import gwt.material.design.incubator.client.google.addresslookup.js.options.*;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.result.GeocoderAddressComponent;
+import gwt.material.design.jscore.client.api.Navigator;
 
 /**
  * A service to provide Place predictions based on a user's text input. It attaches to an input element of type text,

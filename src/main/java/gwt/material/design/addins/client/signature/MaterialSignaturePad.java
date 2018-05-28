@@ -36,6 +36,7 @@ import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
+import gwt.material.design.client.js.Window;
 
 //@formatter:off
 
@@ -77,23 +78,35 @@ public class MaterialSignaturePad extends AbstractValueWidget<String> implements
     protected void onLoad() {
         super.onLoad();
 
-        setupViewPort();
+        resizeCanvas();
         load();
     }
 
-    protected void setupViewPort() {
-        ViewPort.when(new WidthBoundary(0, 5120)).then(param1 -> {
-            CanvasElement element = getElement().cast();
-            double ratio = getRatio();
-            element.setWidth((int) (getOffsetWidth() * ratio));
-            element.setHeight((int) (getOffsetHeight() * ratio));
-            element.getContext2d().scale(ratio, ratio);
-        });
+    /**
+     * <b>Handling high DPI screens</b>
+     * <p>
+     * To correctly handle canvas on low and high DPI screens one has to take devicePixelRatio into account and scale
+     * the canvas accordingly. </p>
+     *
+     * @see <a href="https://github.com/szimek/signature_pad#handling-high-dpi-screens">More info</a>
+     */
+    protected void resizeCanvas() {
+        applyResize();
+        ViewPort.when(new WidthBoundary(0, 5120)).then(param1 -> applyResize());
+    }
+
+    protected void applyResize() {
+        CanvasElement element = getElement().cast();
+        double ratio = getRatio();
+        element.setWidth((int) (getOffsetWidth() * ratio));
+        element.setHeight((int) (getOffsetHeight() * ratio));
+        element.getContext2d().scale(ratio, ratio);
+        getSignaturePad().clear();
     }
 
     @Override
     public void load() {
-        getSignaturePad();
+        getSignaturePad().on();
     }
 
     @Override
@@ -121,7 +134,7 @@ public class MaterialSignaturePad extends AbstractValueWidget<String> implements
     }
 
     public void reset() {
-        getSignaturePad().clear();
+        resizeCanvas();
         SignatureClearEvent.fire(this);
     }
 
