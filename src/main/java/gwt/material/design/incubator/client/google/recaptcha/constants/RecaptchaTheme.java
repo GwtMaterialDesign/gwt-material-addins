@@ -17,20 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.recaptcha;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+package gwt.material.design.incubator.client.google.recaptcha.constants;
 
 /**
- * Client Bundle resources for ReCaptcha component<br>
+ * Types for ReCaptcha component
  *
  * @author kevzlou7979
  */
-public interface ReCaptchaClientBundle extends ClientBundle {
-    ReCaptchaClientBundle INSTANCE = GWT.create(ReCaptchaClientBundle.class);
+public enum RecaptchaTheme {
 
-    @Source("resources/js/recaptcha.js")
-    TextResource recaptchaJs();
+    LIGHT("light"),
+    DARK("dark");
+
+    private String theme;
+
+    RecaptchaTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }

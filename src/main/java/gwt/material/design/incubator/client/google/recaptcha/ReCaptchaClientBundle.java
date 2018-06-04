@@ -17,29 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.recaptcha.constants;
+package gwt.material.design.incubator.client.google.recaptcha;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
- * Types for ReCaptcha component
+ * Client Bundle resources for ReCaptcha component<br>
  *
  * @author kevzlou7979
  */
-public enum CaptchaType {
+public interface ReCaptchaClientBundle extends ClientBundle {
+    ReCaptchaClientBundle INSTANCE = GWT.create(ReCaptchaClientBundle.class);
 
-    IMAGE("image"),
-    AUDIO("audio");
-
-    private String type;
-
-    CaptchaType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+    @Source("resources/js/recaptcha.js")
+    TextResource recaptchaJs();
 }

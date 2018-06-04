@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2018 GwtMaterialDesign
+ * Copyright (C) 2015 - 2017 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.google.addresslookup.js;
+package gwt.material.design.incubator.client.google.recaptcha;
 
-public class Circle {
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
+
+/**
+ * Client Bundle resources for ReCaptcha component<br>
+ *
+ * @author kevzlou7979
+ */
+public interface ReCaptchaDebugClientBundle extends ClientBundle {
+    ReCaptchaDebugClientBundle INSTANCE = GWT.create(ReCaptchaDebugClientBundle.class);
+
+    @Source("resources/js/recaptcha.min.js")
+    TextResource recaptchaDebugJs();
 }

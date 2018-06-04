@@ -17,29 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.recaptcha.constants;
+package gwt.material.design.incubator.client.google.recaptcha.constants;
 
 /**
  * Types for ReCaptcha component
  *
  * @author kevzlou7979
  */
-public enum CaptchaTheme {
+public enum RecaptchaType {
 
-    LIGHT("light"),
-    DARK("dark");
+    IMAGE("image"),
+    AUDIO("audio");
 
-    private String theme;
+    private String type;
 
-    CaptchaTheme(String theme) {
-        this.theme = theme;
+    RecaptchaType(String type) {
+        this.type = type;
     }
 
-    public String getTheme() {
-        return theme;
+    public String getType() {
+        return type;
     }
 
-    public void setTheme(String theme) {
-        this.theme = theme;
+    public void setType(String type) {
+        this.type = type;
     }
 }
