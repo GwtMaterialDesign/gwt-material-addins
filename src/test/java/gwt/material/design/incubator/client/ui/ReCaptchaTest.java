@@ -38,17 +38,6 @@ public class ReCaptchaTest extends MaterialWidgetTest<ReCaptcha> {
         return new ReCaptcha();
     }
 
-    public void testReCaptchaScriptElement() {
-        ReCaptcha reCaptcha = getWidget();
-
-        assertNotNull(reCaptcha.getReCaptchaScriptElement());
-        ScriptElement element = reCaptcha.getReCaptchaScriptElement();
-        assertEquals(element.getAttribute("async"), "");
-        assertEquals(element.getAttribute("defer"), "");
-        reCaptcha.removeFromParent();
-        assertFalse(reCaptcha.isAttached());
-    }
-
     public void testProperties() {
         ReCaptcha reCaptcha = getWidget();
 
@@ -57,11 +46,6 @@ public class ReCaptchaTest extends MaterialWidgetTest<ReCaptcha> {
         assertEquals(reCaptcha.getTheme(), RecaptchaTheme.LIGHT);
         reCaptcha.setTheme(RecaptchaTheme.DARK);
         assertEquals(reCaptcha.getTheme(), RecaptchaTheme.DARK);
-
-        // Check Site Key
-        final String SITE_KEY = "sampleSitekKey";
-        reCaptcha.setSiteKey(SITE_KEY);
-        assertEquals(reCaptcha.getSiteKey(), SITE_KEY);
 
         // Check Callback
         final Functions.Func callback = () -> {};
