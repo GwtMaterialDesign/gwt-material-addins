@@ -64,4 +64,33 @@ public class JsFileUploaderOptions {
 
     @JsProperty
     public boolean withCredentials;
+
+    @JsProperty
+    public String dictDefaultMessage;
+
+    @JsProperty
+    public String dictFallbackMessage;
+
+    @JsProperty
+    public String dictFallbackText;
+
+    @JsProperty
+    public String dictFileTooBig;
+
+    @JsProperty
+    public String dictInvalidFileType;
+    @JsProperty
+    public String dictResponseError;
+
+    @JsProperty
+    public String dictCancelUpload;
+
+    @JsProperty
+    public String dictCancelUploadConfirmation;
+
+    @JsProperty
+    public String dictRemoveFile;
+
+    @JsProperty
+    public String dictMaxFilesExceeded;
 }

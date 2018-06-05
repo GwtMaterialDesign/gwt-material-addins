@@ -28,6 +28,8 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
+import gwt.material.design.addins.client.combobox.js.JsComboBox;
+import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.ui.base.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
@@ -238,5 +240,44 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
         assertTrue(comboBox.getWidget(1) instanceof Label);
         Label lblTitle = (Label) comboBox.getWidget(1);
         assertTrue(lblTitle.getElement().hasClassName(AddinsCssName.SELECT2LABEL));
+    }
+
+    public void testElements() {
+        MaterialComboBox<User> comboBox = getWidget();
+
+        assertNotNull(comboBox.getDropdownContainerElement());
+        assertEquals(JsComboBox.$(comboBox.getElement()).find(".select2 .selection .select2-selection__rendered").html(), comboBox.getDropdownContainerElement().html());
+
+        final boolean[] firedOpenHandler = {false};
+        comboBox.addOpenHandler(openEvent -> {
+            firedOpenHandler[0] = true;
+            assertNotNull(comboBox.getDropdownResultElement());
+        });
+        comboBox.open();
+
+        assertTrue(firedOpenHandler[0]);
+    }
+
+    public void testLanguage() {
+        final String NO_RESULTS = "Walang Resulta...";
+        final String ERROR_LOADING = "May problema...";
+        final String INPUT_TOO_LONG = "Ang inyong inilagay ay sobrang haba...";
+        final String INPUT_TOO_SHORT = "Ang inyong inilagay ay sobrang liit...";
+        final String LOADING_MORE = "Nagloload pa...";
+        final String MAXIMUM_SELECTED = "Maximum na ang inyong iniligay...";
+        final String SEARCHING = "Kasalukyang hinahanap...";
+        MaterialComboBox<User> comboBox = getWidget();
+
+        LanguageOptions languageOptions = new LanguageOptions();
+        languageOptions.setNoResults(param1 -> NO_RESULTS);
+        languageOptions.setErrorLoading(param1 -> ERROR_LOADING);
+        languageOptions.setInputTooLong(param1 -> INPUT_TOO_LONG);
+        languageOptions.setInputTooShort(param1 -> INPUT_TOO_SHORT);
+        languageOptions.setLoadingMore(param1 -> LOADING_MORE);
+        languageOptions.setMaximumSelected(param1 -> MAXIMUM_SELECTED);
+        languageOptions.setSearching(param1 -> SEARCHING);
+
+        comboBox.setLanguage(languageOptions);
+        assertEquals(languageOptions, comboBox.getLanguage());
     }
 }

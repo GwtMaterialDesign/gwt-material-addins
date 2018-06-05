@@ -324,6 +324,8 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             if (uploader != null) uploader.removeEventListeners();
             addStyleName(CssName.DISABLED);
         }
+
+        getEnabledMixin().updateWaves(enabled, this);
     }
 
     @Override
@@ -498,6 +500,116 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
     public MaterialUploadPreview getUploadPreview() {
         return uploadPreview;
+    }
+
+    public String getDictDefaultMessage() {
+        return options.dictDefaultMessage;
+    }
+
+    /**
+     * Defaults to "Drop files here to upload"
+     */
+    public void setDictDefaultMessage(String dictDefaultMessage) {
+        options.dictDefaultMessage = dictDefaultMessage;
+    }
+
+    public String getDictFallbackMessage() {
+        return options.dictFallbackMessage;
+    }
+
+    /**
+     * Defaults to "Your browser does not support drag'n'drop file uploads."\
+     */
+    public void setDictFallbackMessage(String dictFallbackMessage) {
+        options.dictFallbackMessage = dictFallbackMessage;
+    }
+
+    public String getDictFallbackText() {
+        return options.dictFallbackText;
+    }
+
+    /**
+     * Defaults to "Please use the fallback form below to upload your files like in the olden days."
+     */
+    public void setDictFallbackText(String dictFallbackText) {
+        options.dictFallbackText = dictFallbackText;
+    }
+
+    public String getDictFileTooBig() {
+        return options.dictFileTooBig;
+    }
+
+    /**
+     * Defaults to "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB."
+     */
+    public void setDictFileTooBig(String dictFileTooBig) {
+        options.dictFileTooBig = dictFileTooBig;
+    }
+
+    public String getDictInvalidFileType() {
+        return options.dictInvalidFileType;
+    }
+
+    /**
+     * Defaults to "You can't upload files of this type."
+     */
+    public void setDictInvalidFileType(String dictInvalidFileType) {
+        options.dictInvalidFileType = dictInvalidFileType;
+    }
+
+    public String getDictResponseError() {
+        return options.dictResponseError;
+    }
+
+    /**
+     * Defaults to "Server responded with {{statusCode}} code."
+     */
+    public void setDictResponseError(String dictResponseError) {
+        options.dictResponseError = dictResponseError;
+    }
+
+    public String getDictCancelUpload() {
+        return options.dictCancelUpload;
+    }
+
+    /**
+     * Defaults to "Cancel upload"
+     */
+    public void setDictCancelUpload(String dictCancelUpload) {
+        options.dictCancelUpload = dictCancelUpload;
+    }
+
+    public String getDictCancelUploadConfirmation() {
+        return options.dictCancelUploadConfirmation;
+    }
+
+    /**
+     * Defaults to "Are you sure you want to cancel this upload?"
+     */
+    public void setDictCancelUploadConfirmation(String dictCancelUploadConfirmation) {
+        options.dictCancelUploadConfirmation = dictCancelUploadConfirmation;
+    }
+
+    public String getDictRemoveFile() {
+        return options.dictRemoveFile;
+    }
+
+    /**
+     * Defaults to "Remove file"
+     */
+    public void setDictRemoveFile(String dictRemoveFile) {
+        options.dictRemoveFile = dictRemoveFile;
+    }
+
+    public String getDictMaxFilesExceeded() {
+        return options.dictMaxFilesExceeded;
+    }
+
+    /**
+     * Defaults to "You can not upload any more files."
+     */
+    public void setDictMaxFilesExceeded(String dictMaxFilesExceeded) {
+        options.dictMaxFilesExceeded = dictMaxFilesExceeded;
     }
 
     @Override

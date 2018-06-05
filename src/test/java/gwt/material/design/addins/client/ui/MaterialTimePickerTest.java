@@ -20,12 +20,17 @@
 package gwt.material.design.addins.client.ui;
 
 import gwt.material.design.addins.client.timepicker.MaterialTimePicker;
+import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
-import gwt.material.design.client.constants.*;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconSize;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.Orientation;
 import gwt.material.design.client.ui.MaterialInput;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.html.Label;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Date;
 
@@ -183,5 +188,39 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest<MaterialTime
         assertEquals(VALUE, timePicker.getValue());
         timePicker.reset();
         checkValueChangeEvent(timePicker, VALUE, SECOND_VALUE);
+    }
+
+    public void testLanguage() {
+        // Given
+        MaterialTimePicker timePicker = getWidget();
+
+        // when / then
+        checkOkCancelTextConfigs(timePicker);
+    }
+
+    protected void checkOkCancelTextConfigs(MaterialTimePicker timePicker) {
+        final String OK_TEXT = "Tapos Na";
+        final String CANCEL_TEXT = "Kanselahin";
+
+        timePicker.setOkText(OK_TEXT);
+        assertEquals(OK_TEXT, timePicker.getOkText());
+
+        timePicker.setCancelText(CANCEL_TEXT);
+        assertEquals(CANCEL_TEXT, timePicker.getCancelText());
+
+        final boolean[] firedOpenHandler = {false};
+        timePicker.addOpenHandler(openEvent -> {
+            firedOpenHandler[0] = true;
+            JQueryElement cancelButton = $(".lolliclock-buttons .lolliclock-button:nth-child(1)");
+            assertNotNull(cancelButton);
+            assertEquals(CANCEL_TEXT, cancelButton.text());
+
+            JQueryElement okButton = $(".lolliclock-buttons .lolliclock-button:nth-child(2)");
+            assertNotNull(okButton);
+            assertEquals(OK_TEXT, okButton.text());
+        });
+
+        JsTimePicker.$(timePicker.getTimeInput().getElement()).lolliclock("show");
+        assertTrue(firedOpenHandler[0]);
     }
 }
