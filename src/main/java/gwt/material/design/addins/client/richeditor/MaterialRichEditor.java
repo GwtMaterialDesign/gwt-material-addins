@@ -43,8 +43,8 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.ui.MaterialModal;
-import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.client.ui.MaterialDialog;
+import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
@@ -246,24 +246,24 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     }
 
     protected void checkContainer() {
-        if (getParent() instanceof MaterialModal) {
-            MaterialModal modal = (MaterialModal) getParent();
-            adjustFullScreen(modal);
-            adjustNestedModals(modal);
-        } else if (getParent() instanceof MaterialModalContent) {
-            MaterialModal modal = (MaterialModal) getParent().getParent();
-            adjustFullScreen(modal);
-            adjustNestedModals(modal);
+        if (getParent() instanceof MaterialDialog) {
+            MaterialDialog dialog = (MaterialDialog) getParent();
+            adjustFullScreen(dialog);
+            adjustNestedDialog(dialog);
+        } else if (getParent() instanceof MaterialDialogContent) {
+            MaterialDialog dialog = (MaterialDialog) getParent().getParent();
+            adjustFullScreen(dialog);
+            adjustNestedDialog(dialog);
         }
     }
 
-    protected void adjustNestedModals(MaterialModal modal) {
-        registerHandler(modal.addOpenHandler(openEvent -> modal.setDepth(9999)));
+    protected void adjustNestedDialog(MaterialDialog dialog) {
+        registerHandler(dialog.addOpenHandler(openEvent -> dialog.setDepth(9999)));
     }
 
-    protected void adjustFullScreen(MaterialModal modal) {
+    protected void adjustFullScreen(MaterialDialog dialog) {
         getEditor().find("div[data-event='fullscreen']").off("click").on("click", (e, param1) -> {
-            modal.setFullscreen(toggleFullScreen);
+            dialog.setFullscreen(toggleFullScreen);
             if (toggleFullScreen) {
                 toggleFullScreen = false;
             } else {

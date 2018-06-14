@@ -44,7 +44,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 //@formatter:off
 
 /**
- * MaterialCutOut is a fullscreen modal-like component to show users about new
+ * MaterialCutOut is a fullscreen dialog-like component to show users about new
  * features or important elements of the document.
  * <p>
  * You can use {@link CloseHandler}s to be notified when the cut out is closed.
@@ -70,7 +70,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * {@code
  * MaterialCutOut cutOut = ... //create using new or using UiBinder
  * cutOut.setTarget(myTargetWidget); //the widget or element you want to focus
- * cutOut.open(); //shows the modal over the page
+ * cutOut.open(); //shows the dialog over the page
  * }
  * <p>
  * <h3>Custom styling:</h3> You use change the cut out style by using the
@@ -121,7 +121,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * Opens the modal cut out taking all the screen. The target element should
+     * Opens the dialog cut out taking all the screen. The target element should
      * be set before calling this method.
      *
      * @throws IllegalStateException if the target element is <code>null</code>
@@ -208,7 +208,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Closes the cut out.
      *
-     * @param autoClosed Notifies with the modal was auto closed or closed by user action
+     * @param autoClosed Notifies with the dialog was auto closed or closed by user action
      */
     public void close(boolean autoClosed) {
         //restore the old overflow of the page
