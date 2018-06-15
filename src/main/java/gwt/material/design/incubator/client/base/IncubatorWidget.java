@@ -19,13 +19,14 @@
  */
 package gwt.material.design.incubator.client.base;
 
-import gwt.material.design.client.base.MaterialWidget;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.logging.Logger;
 
 public class IncubatorWidget {
-    public static <T extends Object> void showWarning(T object) {
+
+    public static <T extends Widget> void showWarning(Class<T> object) {
         Logger logger = Logger.getLogger(IncubatorWidget.class.getSimpleName());
-        logger.warning("This [" + object.getClass().getSimpleName() + "] component is under the incubation process and subject to change.");
+        logger.warning("This [" + object.getSimpleName() + "] component is under the incubation process and subject to change.");
     }
 }

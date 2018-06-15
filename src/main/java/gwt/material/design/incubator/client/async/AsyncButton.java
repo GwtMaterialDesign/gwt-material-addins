@@ -48,6 +48,7 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 public class AsyncButton extends MaterialButton implements HasActive {
 
     static {
+        IncubatorWidget.showWarning(AsyncButton.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(AsyncDebugClientBundle.INSTANCE.asyncButtonDebugCss());
         } else {
@@ -67,7 +68,6 @@ public class AsyncButton extends MaterialButton implements HasActive {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         loader.setColor(SpinnerColor.BLUE_ONLY);
         add(loader);
     }

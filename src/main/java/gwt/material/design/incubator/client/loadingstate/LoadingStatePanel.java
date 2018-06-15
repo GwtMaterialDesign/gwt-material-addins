@@ -51,7 +51,9 @@ import gwt.material.design.incubator.client.loadingstate.events.SuccessEvent;
  * @author kevzlou7979
  */
 public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateHandler {
+
     static {
+        IncubatorWidget.showWarning(LoadingStatePanel.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(LoadingStatePanelDebugClientBundle.INSTANCE.loadingStateDebugCss());
         } else {
@@ -72,7 +74,6 @@ public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateH
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         setVisible(false);
         addStyleName(IncubatorCssName.LOADING_STATE);
         lblTitle.addStyleName(CssName.TITLE);

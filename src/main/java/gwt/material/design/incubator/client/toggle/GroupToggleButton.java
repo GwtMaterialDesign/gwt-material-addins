@@ -31,7 +31,9 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import gwt.material.design.incubator.client.timer.CircularSVGTimer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +66,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
         implements HasSelectionHandlers<Integer>, HasError {
 
     static {
+        IncubatorWidget.showWarning(GroupToggleButton.class);
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(GroupToggleButtonDebugClientBundle.INSTANCE.groupToggleDebugCss());
         } else {
@@ -267,7 +270,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
     @Override
     public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
         if (errorMixin == null) {
-            errorMixin = new ErrorMixin(this, errorLabel, wrapper);
+            errorMixin = new ErrorMixin(this, errorLabel);
         }
         return errorMixin;
     }

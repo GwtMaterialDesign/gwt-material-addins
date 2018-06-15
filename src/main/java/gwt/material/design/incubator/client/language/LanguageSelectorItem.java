@@ -59,7 +59,6 @@ public class LanguageSelectorItem extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         MaterialColumn imageColumn = new MaterialColumn(4,4,4);
         imageColumn.add(image);
 

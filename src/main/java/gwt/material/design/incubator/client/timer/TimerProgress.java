@@ -62,6 +62,7 @@ public class TimerProgress extends MaterialWidget implements HasDurationTransiti
     private ColorsMixin<MaterialPanel> fillColorMixin;
 
     static {
+        IncubatorWidget.showWarning(TimerProgress.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(TimerProgressDebugClientBundle.INSTANCE.timerDebugCss());
         } else {
@@ -83,8 +84,6 @@ public class TimerProgress extends MaterialWidget implements HasDurationTransiti
         add(fill);
         $(fill.getElement()).css("animation-duration", duration + "ms");
         $(fill.getElement()).css("-webkit-animation-duration", duration + "ms");
-
-        IncubatorWidget.showWarning(this);
     }
 
     public MaterialPanel getFill() {

@@ -39,7 +39,6 @@ public class ProgressLineBarItem extends Div {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         setStyleName(IncubatorCssName.PROGRESS_ITEM);
     }
 

@@ -4,13 +4,10 @@
     font-size: 0.8em;
 }
 
-.group-toggle-button span.field-error-label {
-    margin-top: 16px;
-}
-
 .group-toggle-button {
     margin-bottom: 16px;
 }
+
 .group-toggle-button .wrapper {
     margin-top: 20px;
     background: white;
@@ -18,10 +15,6 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
     -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
     -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
-}
-
-.group-toggle-button .field-success-label, .group-toggle-button  .field-error-label {
-    margin-top: 16px;
 }
 
 .group-toggle-button .wrapper button {
@@ -38,4 +31,20 @@
 .group-toggle-button button.active {
     background: #2196F3;
     color: #fff;
+}
+
+/** Error / Success styles **/
+.group-toggle-button.field-error,
+.group-toggle-button.field-success {
+    border: none;
+}
+
+.group-toggle-button span.field-error-label,
+.group-toggle-button span.field-success-label {
+    margin-top: 16px;
+}
+
+.group-toggle-button .field-error-label,
+.group-toggle-button .field-success-label {
+    margin-top: 16px;
 }

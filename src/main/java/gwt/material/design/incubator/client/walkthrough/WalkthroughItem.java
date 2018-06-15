@@ -49,7 +49,6 @@ public class WalkthroughItem extends MaterialRow {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         image.setUrl(getImageUrl());
         add(image);
 

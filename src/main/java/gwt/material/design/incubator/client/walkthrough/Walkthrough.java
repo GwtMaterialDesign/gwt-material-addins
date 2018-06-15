@@ -47,6 +47,10 @@ import gwt.material.design.incubator.client.walkthrough.events.CompleteEvent;
 //@formatter:on
 public class Walkthrough extends MaterialCarousel {
 
+    static {
+        IncubatorWidget.showWarning(Walkthrough.class);
+    }
+
     private MaterialCarouselFixedItem item = new MaterialCarouselFixedItem();
     private MaterialButton submit = new MaterialButton("Get Started");
 
@@ -54,7 +58,6 @@ public class Walkthrough extends MaterialCarousel {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         item.add(submit);
         submit.setFontSize("0.8em");
         submit.setBackgroundColor(Color.WHITE);

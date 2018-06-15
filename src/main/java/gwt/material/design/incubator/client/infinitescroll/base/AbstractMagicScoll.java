@@ -57,7 +57,6 @@ public abstract class AbstractMagicScoll extends MaterialWidget implements JsLoa
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         load();
     }
 

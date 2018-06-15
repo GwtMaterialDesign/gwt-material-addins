@@ -47,6 +47,7 @@ public class InlineSearch extends MaterialSearch {
     private CssNameMixin<InlineSearch, Theme> cssNameMixin;
 
     static {
+        IncubatorWidget.showWarning(InlineSearch.class);
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectCss(InlineSearchDebugClientBundle.INSTANCE.inlineSearchDebugCss());
         } else {
@@ -63,7 +64,6 @@ public class InlineSearch extends MaterialSearch {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         ViewPort.when(Resolution.ALL_MOBILE).then(portChange -> {
             focusHandler = registerHandler(addFocusHandler(focusEvent -> addStyleName(AddinsCssName.WIDE)));
             blurHandler = registerHandler(addBlurHandler(blurEvent -> removeStyleName(AddinsCssName.WIDE)));

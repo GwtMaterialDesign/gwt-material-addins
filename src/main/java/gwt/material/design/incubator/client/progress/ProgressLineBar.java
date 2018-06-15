@@ -44,6 +44,7 @@ import java.util.Map;
 public class ProgressLineBar<T> extends MaterialWidget {
 
     static {
+        IncubatorWidget.showWarning(ProgressLineBar.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(ProgressLineBarDebugClientBundle.INSTANCE.progressLineBarDebugCss());
         } else {
@@ -62,7 +63,6 @@ public class ProgressLineBar<T> extends MaterialWidget {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         double width = 100.00 / options.keySet().size();
 
         for (T value : options.keySet()) {

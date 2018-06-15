@@ -59,6 +59,7 @@ public class LanguageSelector extends MaterialWidget
         implements HasValue<Language>, HasType<LanguageSelectorType> {
 
     static {
+        IncubatorWidget.showWarning(LanguageSelector.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(LanguageSelectorDebugClientBundle.INSTANCE.languageSelectorDebugCss());
         } else {
@@ -82,7 +83,6 @@ public class LanguageSelector extends MaterialWidget
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         dropdown.clear();
         languages.forEach(language -> dropdown.add(new LanguageSelectorItem(language)));
         dropdown.setConstrainWidth(false);

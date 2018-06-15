@@ -41,6 +41,7 @@ import gwt.material.design.incubator.client.base.IncubatorWidget;
 public class CircularSVGTimer extends ComplexPanel {
 
     static {
+        IncubatorWidget.showWarning(CircularSVGTimer.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(TimerProgressDebugClientBundle.INSTANCE.circularTimerDebugCss());
         } else {
@@ -74,7 +75,6 @@ public class CircularSVGTimer extends ComplexPanel {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         getElement().setAttribute("class", "spinner");
     }
 

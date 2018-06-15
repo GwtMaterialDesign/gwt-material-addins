@@ -77,6 +77,7 @@ import gwt.material.design.jquery.client.api.Functions;
 public class ReCaptcha extends MaterialWidget {
 
     static {
+        IncubatorWidget.showWarning(ReCaptcha.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectDebugJs(ReCaptchaDebugClientBundle.INSTANCE.recaptchaDebugJs());
         } else {
@@ -92,13 +93,6 @@ public class ReCaptcha extends MaterialWidget {
     private RecaptchaType type = RecaptchaType.IMAGE;
     private Functions.Func callback;
     private JsReCaptcha reCaptcha;
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        IncubatorWidget.showWarning(this);
-    }
 
     public void load(RecaptchaApi recaptchaApi) {
         String uid = DOM.createUniqueId();

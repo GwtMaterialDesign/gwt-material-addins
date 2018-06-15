@@ -22,6 +22,7 @@ package gwt.material.design.incubator.client.infinitescroll;
 import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.infinitescroll.base.AbstractMagicScoll;
 import gwt.material.design.incubator.client.infinitescroll.base.ScrollLoader;
@@ -42,6 +43,7 @@ import gwt.material.design.jquery.client.api.Functions;
 public class InfiniteScrollPanel extends AbstractMagicScoll {
 
     static {
+        IncubatorWidget.showWarning(InfiniteScrollPanel.class);
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectCss(InfiniteScrollDebugClientBundle.INSTANCE.infiniteScrollDebugCss());
         } else {

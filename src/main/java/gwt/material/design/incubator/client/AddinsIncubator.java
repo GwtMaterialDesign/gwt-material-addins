@@ -19,7 +19,6 @@
  */
 package gwt.material.design.incubator.client;
 
-import com.google.gwt.core.client.GWT;
 import gwt.material.design.addins.client.MaterialAddins;
 
 import java.util.logging.Logger;

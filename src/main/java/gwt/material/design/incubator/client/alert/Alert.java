@@ -63,6 +63,7 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
     private static boolean resourcesLoaded = false;
 
     static {
+        IncubatorWidget.showWarning(Alert.class);
         loadResources();
     }
 
@@ -94,7 +95,6 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         setLayoutPosition(Style.Position.ABSOLUTE);
         setTransition(new TransitionConfig(getElement(), inDuration, "all"));
     }

@@ -50,7 +50,6 @@ public class ExpandableInlineSearch extends InlineSearch {
     protected void onLoad() {
         super.onLoad();
 
-        IncubatorWidget.showWarning(this);
         registerHandler(addCloseHandler(closeEvent -> close()));
         registerHandler(addBlurHandler(blurEvent -> addStyleName(CssName.INACTIVE)));
         registerHandler(addFocusHandler(focusEvent -> removeStyleName(CssName.INACTIVE)));
