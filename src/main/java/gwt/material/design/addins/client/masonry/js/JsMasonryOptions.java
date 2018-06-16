@@ -60,6 +60,9 @@ public class JsMasonryOptions {
     public boolean originTop;
 
     @JsProperty
+    public int gutter;
+
+    @JsProperty
     public String transitionDuration;
 
     @JsProperty

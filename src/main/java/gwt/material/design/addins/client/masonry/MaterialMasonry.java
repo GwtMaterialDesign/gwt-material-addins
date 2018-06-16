@@ -277,6 +277,24 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
         options.originTop = originTop;
     }
 
+    /**
+     * Adds horizontal space between item elements.
+     * Note: To set vertical space between elements, use margin-bottom CSS.
+     * i.e
+     * <pre>
+     * .grid-item {
+     *   margin-bottom: 10px;
+     * }
+     * </pre>
+     */
+    public void setGutter(int gutter) {
+        options.gutter = gutter;
+    }
+
+    public int getGutter() {
+        return options.gutter;
+    }
+
     public MaterialWidget getSizerDiv() {
         return sizerDiv;
     }
