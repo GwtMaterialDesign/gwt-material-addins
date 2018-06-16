@@ -20,9 +20,7 @@
 package gwt.material.design.incubator.client.alert;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.note.MaterialNote;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 //@formatter:off
@@ -53,12 +51,5 @@ public class AlertContainer extends MaterialWidget {
 
     public AlertContainer() {
         super(Document.get().createDivElement(), IncubatorCssName.ALERT_CONTAINER);
-    }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        IncubatorWidget.showWarning(this);
     }
 }
