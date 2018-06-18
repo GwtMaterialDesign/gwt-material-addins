@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.combobox.js;
 
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;

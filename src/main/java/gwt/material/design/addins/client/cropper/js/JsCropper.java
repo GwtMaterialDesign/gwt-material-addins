@@ -20,8 +20,8 @@
 package gwt.material.design.addins.client.cropper.js;
 
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.jquery.client.api.JQueryElement;
-import gwt.material.design.jquery.client.api.Promise;
+import elemental2.promise.Promise;
+import gwt.material.design.jquery.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -50,5 +50,5 @@ public class JsCropper extends JQueryElement {
     public native JsCropper croppie(JsCropperOptions options);
 
     @JsMethod
-    public native Promise croppie(String method, Object... args);
+    public native <T> Promise<T> croppie(String method, Object... args);
 }

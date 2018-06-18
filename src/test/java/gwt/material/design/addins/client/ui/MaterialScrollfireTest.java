@@ -24,7 +24,7 @@ import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.scrollfire.MaterialScrollfire;
 import gwt.material.design.client.ui.MaterialPanel;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 /**
  * Test case for scrollfire component

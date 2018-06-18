@@ -30,9 +30,9 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.UnorderedList;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 /**
  * Popup Menu.

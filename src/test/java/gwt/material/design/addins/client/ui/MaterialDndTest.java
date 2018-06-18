@@ -32,7 +32,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 /**
  * Test case for dnd component

@@ -25,7 +25,7 @@ import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.infinitescroll.base.AbstractMagicScoll;
 import gwt.material.design.incubator.client.infinitescroll.base.ScrollLoader;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 //@formatter:off
 

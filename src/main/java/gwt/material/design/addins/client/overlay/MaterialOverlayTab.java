@@ -35,7 +35,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 public class MaterialOverlayTab extends MaterialWidget {
 

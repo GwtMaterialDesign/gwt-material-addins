@@ -23,15 +23,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import elemental2.dom.File;
+import elemental2.dom.FileReader;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.jscore.client.api.file.File;
-import gwt.material.design.jscore.client.api.file.FileReader;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 public class Html5Camera extends AbstractValueWidget<String> {
-
 
     private String imageUrl;
     private MaterialWidget imageFileInput = new MaterialWidget(Document.get().createFileInputElement());
@@ -68,7 +67,7 @@ public class Html5Camera extends AbstractValueWidget<String> {
 
         FileReader reader = new FileReader();
         $(reader).on("load", e -> {
-            imageUrl = reader.result;
+            imageUrl = reader.result.asString();
             ValueChangeEvent.fire(this, imageUrl);
             return true;
         });

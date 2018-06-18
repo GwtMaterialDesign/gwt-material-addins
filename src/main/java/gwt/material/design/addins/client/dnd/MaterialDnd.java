@@ -31,7 +31,7 @@ import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.events.*;
-import gwt.material.design.jquery.client.api.Event;
+import gwt.material.design.jquery.Event;
 
 //@formatter:off
 

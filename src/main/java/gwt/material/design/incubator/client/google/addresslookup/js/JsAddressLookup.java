@@ -25,7 +25,7 @@ import gwt.material.design.incubator.client.google.addresslookup.js.options.Addr
 import gwt.material.design.incubator.client.google.addresslookup.js.options.ComponentRestrictions;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.LatLngBounds;
 import gwt.material.design.incubator.client.google.addresslookup.js.options.PlaceResult;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsType;

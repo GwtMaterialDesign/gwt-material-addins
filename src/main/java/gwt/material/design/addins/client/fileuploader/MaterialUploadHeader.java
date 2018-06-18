@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialProgress;
 import gwt.material.design.client.ui.html.Span;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 public class MaterialUploadHeader extends MaterialWidget {
 

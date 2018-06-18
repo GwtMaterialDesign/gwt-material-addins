@@ -25,6 +25,11 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.MediaStream;
+import elemental2.dom.MediaStreamConstraints;
+import elemental2.dom.MediaStreamTrack;
+import elemental2.dom.MediaTrackConstraints;
 import gwt.material.design.addins.client.camera.base.HasCameraActions;
 import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
 import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
@@ -33,8 +38,6 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.Captur
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.jscore.client.api.Navigator;
-import gwt.material.design.jscore.client.api.media.*;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 
@@ -213,34 +216,34 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
      */
     protected void nativePlay(Element video) {
         MediaStream stream = null;
-        if (Navigator.getUserMedia != null) {
-            stream = Navigator.getUserMedia;
+        if (DomGlobal.navigator.getUserMedia != null) {
+            stream = DomGlobal.navigator.getUserMedia;
             GWT.log("Uses Default user Media");
-        } else if (Navigator.webkitGetUserMedia != null) {
-            stream = Navigator.webkitGetUserMedia;
+        } else if (DomGlobal.navigator.webkitGetUserMedia != null) {
+            stream = DomGlobal.navigator.webkitGetUserMedia;
             GWT.log("Uses Webkit User Media");
-        } else if (Navigator.mozGetUserMedia != null) {
-            stream = Navigator.mozGetUserMedia;
+        } else if (DomGlobal.navigator.mozGetUserMedia != null) {
+            stream = DomGlobal.navigator.mozGetUserMedia;
             GWT.log("Uses Moz User Media");
-        } else if (Navigator.msGetUserMedia != null) {
-            stream = Navigator.msGetUserMedia;
+        } else if (DomGlobal.navigator.msGetUserMedia != null) {
+            stream = DomGlobal.navigator.msGetUserMedia;
             GWT.log("Uses Microsoft user Media");
         } else {
             GWT.log("No supported media found in your browser");
         }
 
         if (stream != null) {
-            Navigator.getMedia = stream;
-            Constraints constraints = new Constraints();
-            constraints.audio = false;
+            DomGlobal.navigator.getMedia = stream;
+            MediaStreamConstraints constraints = MediaStreamConstraints.create();
+            constraints.setAudio(false);
 
-            MediaTrackConstraints mediaTrackConstraints = new MediaTrackConstraints();
-            mediaTrackConstraints.width = width;
-            mediaTrackConstraints.height = height;
-            mediaTrackConstraints.facingMode = facingMode.getName();
-            constraints.video = mediaTrackConstraints;
+            MediaTrackConstraints mediaTrackConstraints = MediaTrackConstraints.create();
+            mediaTrackConstraints.setWidth(width);
+            mediaTrackConstraints.setHeight(height);
+            mediaTrackConstraints.setFacingMode(facingMode.getName());
+            constraints.setVideo(mediaTrackConstraints);
 
-            Navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
+            DomGlobal.navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
                 mediaStream = (MediaStream) streamObj;
                 if (URL.createObjectURL(mediaStream) != null) {
                     $(video).attr("src", URL.createObjectURL(mediaStream));
@@ -285,10 +288,10 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
      * @return <code>true</code> if the browser supports this widget, <code>false</code> otherwise
      */
     public static boolean isSupported() {
-        return Navigator.webkitGetUserMedia != null
-                || Navigator.getUserMedia != null
-                || Navigator.mozGetUserMedia != null
-                || Navigator.msGetUserMedia != null;
+        return DomGlobal.navigator.webkitGetUserMedia != null
+                || DomGlobal.navigator.getUserMedia != null
+                || DomGlobal.navigator.mozGetUserMedia != null
+                || DomGlobal.navigator.msGetUserMedia != null;
     }
 
     public void addOverlay(MaterialWidget overlay) {

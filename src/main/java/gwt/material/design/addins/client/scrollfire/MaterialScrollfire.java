@@ -25,9 +25,9 @@ import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.scrollfire.js.JsScrollfire;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 //@formatter:off
 

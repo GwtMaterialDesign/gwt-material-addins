@@ -33,7 +33,7 @@ import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 
 import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
 

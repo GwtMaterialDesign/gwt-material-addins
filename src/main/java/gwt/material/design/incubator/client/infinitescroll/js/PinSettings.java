@@ -19,11 +19,10 @@
  */
 package gwt.material.design.incubator.client.infinitescroll.js;
 
-import gwt.material.design.jscore.client.api.core.Element;
 import jsinterop.annotations.JsProperty;
 
 /**
- * Pin Settings set in {@link Scene#setPin(Element, PinSettings)}
+ * Pin Settings set in {@link Scene#setPin(elemental2.dom.Element, PinSettings)}
  *
  * @author kevzlou7979@gmail.com
  * @see <a href="http://scrollmagic.io/docs/ScrollMagic.Scene.html#setPin">Official Documentation</a>

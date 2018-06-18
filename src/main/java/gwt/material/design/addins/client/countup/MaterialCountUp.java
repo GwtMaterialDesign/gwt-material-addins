@@ -25,7 +25,7 @@ import gwt.material.design.addins.client.countup.js.CountUp;
 import gwt.material.design.addins.client.countup.js.JsCountUpOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 //@formatter:off
 

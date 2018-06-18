@@ -32,7 +32,7 @@ import gwt.material.design.addins.client.cropper.js.JsCropperOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialImage;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 import static gwt.material.design.addins.client.cropper.js.JsCropper.$;
 
@@ -149,9 +149,9 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
      * @param callback - Callback when the Promise has been resolved.
      */
     public void bind(String url, Functions.Func callback) {
-        cropper.croppie("bind", url).then((result, object) -> {
+        cropper.croppie("bind", url).then(object -> {
             callback.call();
-            return true;
+            return null;
         });
     }
 
@@ -186,9 +186,9 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
      * the Result Cropped Data.
      */
     public void crop(Type type) {
-        cropper.croppie("result", type.getName()).then((result) -> {
+        cropper.croppie("result", type.getName()).then(result -> {
             CropEvent.fire(this, result.toString());
-            return true;
+            return null;
         });
     }
 

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Image;
 import gwt.material.design.client.base.mixin.AttributeMixin;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 //@formatter:off
 

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 /**
  * Test case for path animator component

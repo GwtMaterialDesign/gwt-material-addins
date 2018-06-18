@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.countup.js;
 
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 

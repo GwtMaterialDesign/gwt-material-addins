@@ -24,10 +24,12 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
+import elemental2.dom.DomGlobal;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
@@ -42,7 +44,6 @@ import gwt.material.design.client.base.HasError;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
-import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
@@ -134,7 +135,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     }
 
     protected void detectAndApplyOrientation() {
-        if (Window.matchMedia("(orientation: portrait)")) {
+        if (DomGlobal.window.matchMedia("(orientation: portrait)").matches) {
             setAxis(Axis.VERTICAL);
         } else {
             setAxis(Axis.HORIZONTAL);

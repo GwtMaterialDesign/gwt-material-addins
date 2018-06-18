@@ -34,9 +34,9 @@ import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.OffsetPosition;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 //@formatter:off
 

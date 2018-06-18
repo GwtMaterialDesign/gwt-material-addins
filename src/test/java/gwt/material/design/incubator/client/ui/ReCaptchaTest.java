@@ -24,7 +24,7 @@ import gwt.material.design.incubator.client.MaterialWidgetTest;
 import gwt.material.design.incubator.client.google.recaptcha.ReCaptcha;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaTheme;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaType;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 /**
  * Test case for ReCaptcha Component

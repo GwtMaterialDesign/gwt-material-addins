@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.timepicker.js;
 
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;

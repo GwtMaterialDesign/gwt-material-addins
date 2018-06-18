@@ -36,7 +36,6 @@ import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
-import gwt.material.design.client.js.Window;
 
 //@formatter:off
 

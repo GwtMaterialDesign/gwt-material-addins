@@ -19,7 +19,7 @@
  */
 package gwt.material.design.incubator.client.infinitescroll.js;
 
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;

@@ -29,7 +29,7 @@ import gwt.material.design.client.constants.Color;
 import java.util.HashSet;
 import java.util.Set;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 /**
  * A mixin to stylize the Path Animation Bridge element

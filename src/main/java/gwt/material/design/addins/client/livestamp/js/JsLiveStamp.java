@@ -21,7 +21,7 @@ package gwt.material.design.addins.client.livestamp.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.masonry.js.JsMasonry;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;

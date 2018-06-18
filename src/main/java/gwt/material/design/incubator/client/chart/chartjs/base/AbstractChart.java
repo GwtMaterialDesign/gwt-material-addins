@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.chart.chartjs.base;
 
 import com.google.gwt.dom.client.Document;
+import elemental2.dom.Element;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.JsLoader;
@@ -31,8 +32,7 @@ import gwt.material.design.incubator.client.chart.chartjs.js.Chart;
 import gwt.material.design.incubator.client.chart.chartjs.js.datasets.ChartDataSets;
 import gwt.material.design.incubator.client.chart.chartjs.js.options.GlobalOptions;
 import gwt.material.design.incubator.client.chart.chartjs.js.options.global.*;
-import gwt.material.design.jquery.client.api.Event;
-import gwt.material.design.jscore.client.api.core.Element;
+import gwt.material.design.jquery.Event;
 
 import java.util.List;
 

@@ -21,8 +21,8 @@ package gwt.material.design.addins.client.gesture.hammer.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.gesture.hammer.js.events.EventObject;
-import gwt.material.design.jquery.client.api.Functions;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.Functions;
+import gwt.material.design.jquery.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;

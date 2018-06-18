@@ -35,7 +35,7 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.incubator.client.alert.constants.AlertType;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 //@formatter:off
 

@@ -20,9 +20,9 @@
 package gwt.material.design.incubator.client.chart.chartjs.js;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import elemental2.dom.Element;
 import gwt.material.design.incubator.client.chart.chartjs.js.options.GlobalOptions;
-import gwt.material.design.jquery.client.api.Event;
-import gwt.material.design.jscore.client.api.core.Element;
+import gwt.material.design.jquery.Event;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;

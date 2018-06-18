@@ -19,10 +19,10 @@
  */
 package gwt.material.design.incubator.client.chart.chartjs.base;
 
+import elemental2.dom.Element;
 import gwt.material.design.incubator.client.chart.chartjs.js.datasets.ChartDataSets;
 import gwt.material.design.incubator.client.chart.chartjs.js.options.GlobalOptions;
-import gwt.material.design.jquery.client.api.Event;
-import gwt.material.design.jscore.client.api.core.Element;
+import gwt.material.design.jquery.Event;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public interface HasChartFeatures<T extends ChartDataSets> extends HasGlobalOpti
 
     /**
      * Triggers a redraw of all chart elements. Note, this does not update elements for new data. Use .update() in that case.
-     * See {@link #update(GlobalOptions)} for more details on the config object.
+     * See {@link #update()} for more details on the config object.
      */
     void render(GlobalOptions options);
 

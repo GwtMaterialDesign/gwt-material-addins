@@ -28,7 +28,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Functions;
 
 //@formatter:off
 

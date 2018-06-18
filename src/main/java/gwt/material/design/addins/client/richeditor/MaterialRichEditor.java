@@ -45,7 +45,7 @@ import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 
 import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 

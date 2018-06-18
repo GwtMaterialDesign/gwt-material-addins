@@ -25,7 +25,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 //@formatter:off
 

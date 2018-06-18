@@ -44,7 +44,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 
 import java.util.*;
 

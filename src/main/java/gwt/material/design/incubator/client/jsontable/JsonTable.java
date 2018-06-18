@@ -37,9 +37,9 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.jsontable.constants.JsonTableType;
 import gwt.material.design.incubator.client.jsontable.js.JsTable;
 import gwt.material.design.incubator.client.jsontable.js.JsTableOptions;
-import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.JQueryElement;
 
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import static gwt.material.design.jquery.JQuery.$;
 
 /**
  * A widget that provides an easy way to load JSON values and display in a Table component.
@@ -86,7 +86,7 @@ public class JsonTable extends MaterialWidget implements HasSelectionHandlers<El
             JsTable.jsontotable(value, options);
 
             $("tr").mousedown((e, handler) -> {
-                SelectionEvent.fire(JsonTable.this, $(e.target).parent().asElement());
+                SelectionEvent.fire(JsonTable.this, $(e.currentTarget).parent().asElement());
                 return true;
             });
         }

@@ -19,8 +19,8 @@
  */
 package gwt.material.design.addins.client.inputmask.js;
 
-import gwt.material.design.jquery.client.api.Event;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.Event;
+import gwt.material.design.jquery.Functions;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
