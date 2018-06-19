@@ -243,6 +243,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
     public void reset() {
         super.reset();
 
+        clearErrorOrSuccess();
         clearAll();
     }
 

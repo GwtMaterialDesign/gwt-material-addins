@@ -22,6 +22,7 @@ package gwt.material.design.incubator.client.language;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -84,22 +85,19 @@ public class LanguageSelector extends MaterialWidget
         super.onLoad();
 
         dropdown.clear();
-        languages.forEach(language -> dropdown.add(new LanguageSelectorItem(language)));
         dropdown.setConstrainWidth(false);
         add(dropdown);
-        registerHandler(dropdown.addSelectionHandler(selectionEvent -> {
-            if (selectionEvent.getSelectedItem() instanceof LanguageSelectorItem) {
-                Language language = ((LanguageSelectorItem) selectionEvent.getSelectedItem()).getLanguage();
+        addValueChangeHandler(event -> {
+            Language language = event.getValue();
 
-                if (this.language != language) {
-                    setValue(language, true);
+            if (this.language != language) {
+                setValue(language, true);
 
-                    // Navigate to selected language value / locale and reload the browser
-                    String param = Window.Location.createUrlBuilder().setParameter("locale", language.getValue()).buildString();
-                    Window.Location.replace(param);
-                }
+                // Navigate to selected language value / locale and reload the browser
+                String param = Window.Location.createUrlBuilder().setParameter("locale", language.getValue()).buildString();
+                Window.Location.replace(param);
             }
-        }));
+        });
 
         // Get the current locale inside the browser url
         String currentLocale = Window.Location.getParameter("locale");
@@ -122,13 +120,18 @@ public class LanguageSelector extends MaterialWidget
      */
     public void addLanguage(Language language) {
         languages.add(language);
-    }
 
-    /**
-     * Set lists of languages and repopulate inside the Language Selector Dropdown component
-     */
-    public void setLanguages(List<Language> languages) {
-        this.languages = languages;
+        if (dropdown.isAttached()) {
+            LanguageSelectorItem ls = new LanguageSelectorItem(language);
+            ls.addClickHandler(event -> ValueChangeEvent.fire(LanguageSelector.this, language));
+            dropdown.add(ls);
+        } else {
+            dropdown.addAttachHandler(event -> {
+                LanguageSelectorItem ls = new LanguageSelectorItem(language);
+                ls.addClickHandler(event2 -> ValueChangeEvent.fire(LanguageSelector.this, language));
+                dropdown.add(ls);
+            });
+        }
     }
 
     /**
