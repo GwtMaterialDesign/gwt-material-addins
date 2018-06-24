@@ -21,6 +21,7 @@
 
 .input-field.inline-search input {
     width: calc(100% - 4rem) !important;
+    color: rgba(0,0,0,0.8);
 }
 
 .input-field.inline-search input[type="search"]::-webkit-input-placeholder,

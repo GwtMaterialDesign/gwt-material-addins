@@ -117,7 +117,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         super.add(listbox);
         super.add(label);
         super.add(errorLabel);
-        errorLabel.setMarginTop(15);
+        errorLabel.setMarginTop(8);
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
         super.onLoad();

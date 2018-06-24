@@ -9,7 +9,7 @@ ul.multiValueSuggestBox-list {
     cursor: text;
     min-height: 1px;
     z-index: 999;
-    margin: 0 0 15px;
+    margin: 0 0 8px;
     padding: 0;
     border: none;
     width: 100%;
@@ -49,7 +49,6 @@ ul.multiValueSuggestBox-list {
 
 .gwt-SuggestBoxPopup {
     z-index: 9999;
-    position: fixed !important;
     min-width: 300px !important;
     background: #fff;
     border-radius: 2px;
@@ -102,24 +101,22 @@ li.multiValueSuggestBox-input-token {
     left: .75rem !important
 }
 
-/** Success/Error Styles **/
 .input-field.autocomplete .multiValueSuggestBox-list.field-error input::placeholder {
-    color: #f44336 !important;
+    color: #f44336 !important
 }
 
 .input-field.autocomplete .multiValueSuggestBox-list.field-success input::placeholder {
-    color: #4caf50 !important;
+    color: #4caf50 !important
 }
 
-/** Filled **/
 .input-field.autocomplete.filled input {
     background: inherit;
     border-radius: inherit;
-    padding-top: inherit;
+    padding-top: inherit
 }
 
 .input-field.autocomplete.filled .multiValueSuggestBox-list {
-    background: rgba(0, 0, 0, 0.04);
-    border-radius: 4px 4px 0px 0px;
-    padding-top: 18px;
+    background: rgba(0, 0, 0, .04);
+    border-radius: 4px 4px 0 0;
+    padding-top: 18px
 }

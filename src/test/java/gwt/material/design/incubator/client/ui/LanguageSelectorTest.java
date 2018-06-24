@@ -45,7 +45,9 @@ public class LanguageSelectorTest extends MaterialWidgetTest<LanguageSelector> {
     @Override
     protected LanguageSelector createWidget() {
         LanguageSelector selector = new LanguageSelector();
-        selector.setLanguages(getLanguages());
+        for (Language language : getLanguages()) {
+            selector.addLanguage(language);
+        }
         return selector;
     }
 
@@ -65,24 +67,6 @@ public class LanguageSelectorTest extends MaterialWidgetTest<LanguageSelector> {
         // Check image activator structure
         assertEquals(selector.getWidgetCount(), 2);
         assertTrue(selector.getWidget(1) instanceof MaterialDropDown);
-        MaterialDropDown dropDown = (MaterialDropDown) selector.getWidget(1);
-
-        //TODO Apply the recent changes on activator widgets
-        /*selector.setType(LanguageSelectorType.IMAGE);
-        assertTrue(selector.getWidget(0) instanceof MaterialImage);
-        MaterialImage image = (MaterialImage) selector.getWidget(0);
-        assertEquals(image.getUrl(), getLanguages().get(0).getImage());
-        assertTrue(image.getElement().hasClassName(IncubatorCssName.LANGUAGE_ACTIVATOR));*/
-
-        // Check Language Item's structure
-        assertEquals(dropDown.getWidgetCount(), getLanguages().size());
-        for (Widget widget : dropDown) {
-            assertTrue(widget instanceof ListItem);
-            ListItem item = (ListItem) widget;
-            LanguageSelectorItem selectorItem = (LanguageSelectorItem) item.getWidget(0);
-            assertTrue(selectorItem.getElement().hasClassName(IncubatorCssName.LANGUAGE_SELECTOR_ITEM));
-            assertEquals(selectorItem.getLanguage().getName(), getLanguages().get(dropDown.getWidgetIndex(widget)).getName());
-        }
     }
 
     public void testSelection() {

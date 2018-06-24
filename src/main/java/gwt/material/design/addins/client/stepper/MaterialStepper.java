@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -359,7 +360,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      * Get feedback message.
      */
     public String getFeedback() {
-        return feedbackSpan.getElement().getInnerHTML();
+        return SafeHtmlUtils.fromString(feedbackSpan.getElement().getInnerHTML()).asString();
     }
 
     /**
