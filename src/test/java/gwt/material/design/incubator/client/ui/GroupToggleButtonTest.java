@@ -20,7 +20,6 @@
 package gwt.material.design.incubator.client.ui;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
-import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.incubator.client.MaterialWidgetTest;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;

@@ -43,6 +43,7 @@ import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import org.apache.commons.codec.language.bm.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +135,12 @@ public class LanguageSelector extends MaterialWidget
         }
     }
 
+    public void setLanguages(List<Language> languages) {
+        for (Language language : languages) {
+            addLanguage(language);
+        }
+    }
+
     /**
      * Get the lists of registered languages of this selector component
      */
@@ -166,6 +173,10 @@ public class LanguageSelector extends MaterialWidget
         }
     }
 
+    public MaterialDropDown getDropdown() {
+        return dropdown;
+    }
+
     @Override
     public void setType(LanguageSelectorType type) {
         getTypeMixin().setType(type);
@@ -175,6 +186,11 @@ public class LanguageSelector extends MaterialWidget
         } else {
             registerHandler(addAttachHandler(attachEvent -> applyType(type)));
         }
+    }
+
+    @Override
+    public LanguageSelectorType getType() {
+        return getTypeMixin().getType();
     }
 
     protected void applyType(LanguageSelectorType type) {
@@ -193,11 +209,6 @@ public class LanguageSelector extends MaterialWidget
         add(widget);
         dropdown.setActivator(activator);
         dropdown.reload();
-    }
-
-    @Override
-    public LanguageSelectorType getType() {
-        return getTypeMixin().getType();
     }
 
     @Override

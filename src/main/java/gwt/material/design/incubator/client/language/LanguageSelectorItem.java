@@ -42,7 +42,7 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 public class LanguageSelectorItem extends MaterialWidget {
 
     protected MaterialImage image = new MaterialImage();
-    protected MaterialLink name = new MaterialLink();
+    protected MaterialLink label = new MaterialLink();
     private Language language;
 
     public LanguageSelectorItem() {
@@ -62,10 +62,10 @@ public class LanguageSelectorItem extends MaterialWidget {
         imageColumn.add(image);
 
         MaterialColumn nameColumn = new MaterialColumn(8,8,8);
-        name.setTextColor(Color.BLACK);
+        label.setTextColor(Color.BLACK);
         nameColumn.setPadding(0);
         nameColumn.setTextAlign(TextAlign.LEFT);
-        nameColumn.add(name);
+        nameColumn.add(label);
 
         if (language.getImage() != null) {
             add(imageColumn);
@@ -76,12 +76,20 @@ public class LanguageSelectorItem extends MaterialWidget {
         }
     }
 
+    public MaterialImage getImage() {
+        return image;
+    }
+
+    public MaterialLink getLabel() {
+        return label;
+    }
+
     /**
      * Update the ui for the name and image components.
      */
     public void setLanguage(Language language) {
         this.language = language;
-        this.name.setText(language.getName());
+        this.label.setText(language.getName());
         this.image.setUrl(language.getImage());
     }
 

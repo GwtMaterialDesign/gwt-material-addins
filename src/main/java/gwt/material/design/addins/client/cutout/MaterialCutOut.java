@@ -364,7 +364,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
-        float top = relativeTo.getAbsoluteTop() - body().scrollTop();
+        float top = relativeTo.getOffsetTop() - $("html, body").scrollTop();
         float left = relativeTo.getAbsoluteLeft();
 
         float width = relativeTo.getOffsetWidth();

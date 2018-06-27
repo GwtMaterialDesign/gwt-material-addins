@@ -27,7 +27,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         AlertTest.class,
         GroupToggleButtonTest.class,
-        LanguageSelectorTest.class,
         LoadingStateTest.class,
         ReCaptchaTest.class,
         TimerProgressTest.class
