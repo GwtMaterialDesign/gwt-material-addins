@@ -36,9 +36,9 @@ public class Dropzone extends JQueryElement {
 
     public native Dropzone on(String events, Functions.Func1<File> callback);
 
-    public native Dropzone on(String events, Functions.Func3<Double, File, String> callback);
+    public native Dropzone on(String events, Functions.Func3<Double, File, Object> callback);
 
-    public native Dropzone on(String events, Functions.Func2<File, String> callback);
+    public native Dropzone on(String events, Functions.Func2<File, Object> callback);
 
     public native void removeEventListeners();
 

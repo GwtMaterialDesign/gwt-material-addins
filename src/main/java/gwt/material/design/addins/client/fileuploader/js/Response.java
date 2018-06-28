@@ -23,15 +23,24 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
-@JsType(isNative = true, name = "XMLHttpRequest", namespace = JsPackage.GLOBAL)
-public class XHR {
+@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+public class Response {
+
+    @JsProperty
+    public String error;
+
+    @JsProperty
+    public String exception;
+
+    @JsProperty
+    public String message;
+
+    @JsProperty
+    public String path;
 
     @JsProperty
     public int status;
 
     @JsProperty
-    public String statusText;
-
-    @JsProperty
-    public String responseText;
+    public float timestamp;
 }
