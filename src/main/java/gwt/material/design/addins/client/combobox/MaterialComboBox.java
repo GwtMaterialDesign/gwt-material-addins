@@ -37,7 +37,10 @@ import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.*;
+import gwt.material.design.client.base.mixin.EnabledMixin;
+import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.FieldTypeMixin;
+import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -141,11 +144,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         jsComboBox.on(ComboBoxEvents.SELECT, event -> {
             SelectItemEvent.fire(this, getValue());
+            displayArrowForAllowClearOption(false);
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.UNSELECT, event -> {
             UnselectItemEvent.fire(this, getValue());
+            displayArrowForAllowClearOption(true);
             return true;
         });
 
@@ -191,7 +196,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void reset() {
         super.reset();
-
+        displayArrowForAllowClearOption(true);
         setSelectedIndex(0);
     }
 
@@ -324,6 +329,34 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     /**
+     * Will get the Clear Icon element
+     */
+    public JQueryElement getClearIconElement() {
+        return $(getElement()).find(".select2-selection__clear");
+    }
+
+    public JQueryElement getArrowIconElement() {
+        return $(getElement()).find(".select2-selection__arrow");
+    }
+
+    /**
+     * Will automatically check for allowClear option to display / hide the
+     * arrow caret.
+     */
+    protected void displayArrowForAllowClearOption(boolean displayArrow) {
+        if (displayArrow) {
+            if (isAllowClear() && getArrowIconElement() != null) {
+                getArrowIconElement().css("display", "block");
+            }
+        } else {
+            if (isAllowClear() && getClearIconElement() != null && getArrowIconElement() != null) {
+                getArrowIconElement().css("display", "none");
+                getClearIconElement().css("marginRight", "-12px");
+            }
+        }
+    }
+
+    /**
      * Will get the Selection dropdown container rendered
      */
     public JQueryElement getDropdownContainerElement() {
@@ -416,7 +449,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             $(listbox.getElement()).removeAttr("multiple");
         }
     }
-
 
     public void setAcceptableValues(Collection<T> values) {
         setItems(values);
