@@ -35,6 +35,8 @@ import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.addins.client.combobox.js.LanguageOptions;
+import gwt.material.design.addins.client.combobox.js.options.Data;
+import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.EnabledMixin;
@@ -47,6 +49,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.*;
@@ -448,6 +451,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         } else {
             $(listbox.getElement()).removeAttr("multiple");
         }
+    }
+
+    public void setMatcher(Functions.FuncRet2<Params, Data> matcher) {
+        options.matcher = matcher;
     }
 
     public void setAcceptableValues(Collection<T> values) {
