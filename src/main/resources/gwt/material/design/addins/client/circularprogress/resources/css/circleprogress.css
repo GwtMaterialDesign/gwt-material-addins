@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.circular-progress span:nth-child(2) {
+.circular-progress .circular-label {
     position: absolute;
     top: 0;
     text-align: center;
@@ -10,15 +10,26 @@
     width: 100%;
 }
 
-.circular-progress.responsive canvas {
-    max-width: 100%;
-    min-width: 100%;
-}
-
-.col.circular-progress span:nth-child(2) {
+.col.circular-progress .circular-label {
     left: 12px;
 }
 
-.col.circular-progress {
-    padding: 0px;
+/** Responsive **/
+.circular-progress.responsive canvas {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    height: auto !important;
+}
+
+.circular-progress.responsive .circular-label {
+    width: 100%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: table;
+    font-size: 30px;
 }

@@ -19,19 +19,35 @@
  */
 package gwt.material.design.addins.client.circularprogress.ui;
 
-import com.google.gwt.dom.client.Style;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.ui.html.Span;
 
 public class CircularProgressLabel extends Span {
+
+    public CircularProgressLabel() {
+        setInitialClasses(AddinsCssName.CIRCULAR_LABEL);
+    }
 
     @Override
     protected void onLoad() {
         super.onLoad();
     }
 
-    public void setSize(double size) {
-        setWidth(size + "px");
-        setHeight(size + "px");
-        getElement().getStyle().setLineHeight(size, Style.Unit.PX);
+    public void setSize(double size, boolean responsive) {
+        String width = "";
+        String height = "";
+        String lineHeight = "";
+        if (responsive) {
+            width = "100%";
+            height = "100%";
+            lineHeight = "calc(50% - " + getElement().getStyle().getFontSize() + "px";
+        } else {
+            width = size + "px";
+            height = size + "px";
+            lineHeight = size + "px";
+        }
+        setWidth(width);
+        setHeight(height);
+        getElement().getStyle().setProperty("lineHeight", lineHeight);
     }
 }

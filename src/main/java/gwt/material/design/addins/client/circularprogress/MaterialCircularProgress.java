@@ -92,7 +92,8 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     protected void onLoad() {
         super.onLoad();
 
-        label.setSize(getSize());
+
+        label.setSize(getSize(), isResponsive());
         add(label);
 
 
