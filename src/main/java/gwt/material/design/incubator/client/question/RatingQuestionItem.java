@@ -116,7 +116,7 @@ public class RatingQuestionItem extends QuestionItem<Rating> {
     @Override
     public boolean validate() {
         if (getValue() == Rating.NONE && isRequired()) {
-            setError("Please select at least one option.");
+            setErrorText("Please select at least one option.");
             return false;
         }
         return super.validate();

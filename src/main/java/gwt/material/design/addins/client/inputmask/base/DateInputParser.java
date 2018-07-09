@@ -34,7 +34,7 @@ public class DateInputParser<T extends MaterialInputMask> {
 
     public Date parseDate(String format) {
         if (isValid(format)) {
-            valuebox.clearErrorOrSuccess();
+            valuebox.clearStatusText();
             return DateTimeFormat.getFormat(format).parse(valuebox.getText());
         }
         return null;
@@ -50,7 +50,7 @@ public class DateInputParser<T extends MaterialInputMask> {
 
             boolean validLeapYear = validateLeapYear(day, month, Integer.parseInt(year));
             if(!validLeapYear) {
-                valuebox.setError("Not a valid date");
+                valuebox.setErrorText("Not a valid date");
             }
 
             return validate(month, getMonthRegex(), getMothDoesNotMatchError())
@@ -58,12 +58,12 @@ public class DateInputParser<T extends MaterialInputMask> {
                     && validate(year, getYearRegex(), getYearDoesNotMatchError())
                     && validLeapYear;
         }
-        valuebox.setError("Text input must not be empty or null");
+        valuebox.setErrorText("Text input must not be empty or null");
         return false;
     }
 
     protected boolean validate(String type, String regex, String message) {
-        valuebox.setError(message);
+        valuebox.setErrorText(message);
         return type.matches(regex);
     }
 
@@ -75,17 +75,9 @@ public class DateInputParser<T extends MaterialInputMask> {
             return false;
         } else if (month.equals("2") || month.equals("02")) {
             if (year % 4 == 0) {
-                if (day.equals("30") || day.equals("31")) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !day.equals("30") && !day.equals("31");
             } else {
-                if (day.equals("29") || day.equals("30") || day.equals("31")) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !day.equals("29") && !day.equals("30") && !day.equals("31");
             }
         } else {
             return true;

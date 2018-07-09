@@ -66,7 +66,7 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="https://material.io/guidelines/components/steppers.html">Material Design Specification</a>
  */
 // @formatter:on
-public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasError, HasAxis,
+public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasStatusText, HasAxis,
         HasSelectionHandlers<MaterialStep> {
 
     private int step;
@@ -174,18 +174,18 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     }
 
     @Override
-    public void setError(String error) {
+    public void setErrorText(String errorText) {
         removeStyleName(AddinsCssName.SUCCESS);
         addStyleName(AddinsCssName.ERROR);
-        applyIconStatus(iconError, error);
+        applyIconStatus(iconError, errorText);
         state = State.ERROR;
     }
 
     @Override
-    public void setSuccess(String success) {
+    public void setSuccessText(String successText) {
         removeStyleName(AddinsCssName.ERROR);
         addStyleName(AddinsCssName.SUCCESS);
-        applyIconStatus(iconSuccess, success);
+        applyIconStatus(iconSuccess, successText);
         state = State.SUCCESS;
     }
 
@@ -199,11 +199,41 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     }
 
     @Override
-    public void clearErrorOrSuccess() {
-        iconError.removeFromParent();
-        iconSuccess.removeFromParent();
+    public void clearStatusText() {
+        clearErrorText();
+        clearSuccessText();
         conCircle.insert(divCircle, 0);
+    }
+
+    @Override
+    public boolean isErrorTextVisible() {
+        return iconError != null && iconError.isAttached();
+    }
+
+    @Override
+    public void clearErrorText() {
+        iconError.removeFromParent();
         removeStyleName(AddinsCssName.ERROR);
+    }
+
+    @Override
+    public boolean isHelperTextVisible() {
+        return !getDescription().isEmpty();
+    }
+
+    @Override
+    public void clearHelperText() {
+        setDescription("");
+    }
+
+    @Override
+    public boolean isSuccessTextVisible() {
+        return iconSuccess != null && iconSuccess.isAttached();
+    }
+
+    @Override
+    public void clearSuccessText() {
+        iconSuccess.removeFromParent();
         removeStyleName(AddinsCssName.SUCCESS);
     }
 

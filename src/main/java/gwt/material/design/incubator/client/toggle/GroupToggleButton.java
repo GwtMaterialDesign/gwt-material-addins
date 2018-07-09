@@ -25,18 +25,16 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.HasError;
-import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.HasStatusText;
+import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.timer.CircularSVGTimer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //@formatter:off
@@ -62,8 +60,8 @@ import java.util.List;
  * @author kevzlou7979
  */
 //@formatter:on
-public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
-        implements HasSelectionHandlers<Integer>, HasError {
+public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<Integer>,
+        HasStatusText {
 
     static {
         IncubatorWidget.showWarning(GroupToggleButton.class);
@@ -80,7 +78,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
     private List<T> values = new ArrayList<>();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
 
     public GroupToggleButton() {
         super(Document.get().createDivElement(), IncubatorCssName.GROUP_TOGGLE_BUTTON, CssName.INPUT_FIELD);
@@ -206,26 +204,6 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
     }
 
     @Override
-    public void setError(String error) {
-        getErrorMixin().setError(error);
-    }
-
-    @Override
-    public void setSuccess(String success) {
-        getErrorMixin().setSuccess(success);
-    }
-
-    @Override
-    public void setHelperText(String helperText) {
-        getErrorMixin().setHelperText(helperText);
-    }
-
-    @Override
-    public void clearErrorOrSuccess() {
-        getErrorMixin().clearErrorOrSuccess();
-    }
-
-    @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         items.forEach(widgets -> widgets.setEnabled(enabled));
@@ -243,7 +221,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
     public void reset() {
         super.reset();
 
-        clearErrorOrSuccess();
+        clearStatusText();
         clearAll();
     }
 
@@ -269,10 +247,10 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>>
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin(this, errorLabel);
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel);
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 }
