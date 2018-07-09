@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.fileuploader;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
@@ -230,9 +231,9 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             totalFiles++;
 
             if (isPreview()) {
-                $(uploadPreview).css("visibility", "visible");
                 $(uploadedFiles).html("Uploaded files " + totalFiles);
                 getUploadPreview().getUploadHeader().getProgress().setPercent(0);
+                getUploadPreview().setVisibility(Style.Visibility.VISIBLE);
             }
         });
 
@@ -240,6 +241,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
+
+            if (totalFiles == 0 && isPreview()) {
+                getUploadPreview().setVisibility(Style.Visibility.HIDDEN);
+            }
         });
 
         uploader.on("error", (file, response) -> {
@@ -275,7 +280,6 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
                 globalResponse = response;
             }
 
-            //$(file.previewElement).find("#error-message").html(body);
 
             ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(code, statusText, body));
         });
