@@ -21,8 +21,6 @@ package gwt.material.design.incubator.client.language;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -34,16 +32,13 @@ import gwt.material.design.client.base.HasActivates;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
-import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import org.apache.commons.codec.language.bm.Lang;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +69,7 @@ public class LanguageSelector extends MaterialWidget
     private MaterialDropDown dropdown = new MaterialDropDown();
     private List<Language> languages = new ArrayList<>();
     private Language language;
+    private boolean lazyLoaded;
     private CssTypeMixin<LanguageSelectorType, LanguageSelector> typeMixin;
 
     public LanguageSelector() {
@@ -88,17 +84,21 @@ public class LanguageSelector extends MaterialWidget
         dropdown.clear();
         dropdown.setConstrainWidth(false);
         add(dropdown);
-        addValueChangeHandler(event -> {
+
+        if (lazyLoaded) {
+            languages.forEach(language -> addLanguageItem(language));
+        }
+
+        // Register Value Change Handler
+        registerHandler(addValueChangeHandler(event -> {
             Language language = event.getValue();
 
             if (this.language != language) {
-                setValue(language, true);
-
                 // Navigate to selected language value / locale and reload the browser
                 String param = Window.Location.createUrlBuilder().setParameter("locale", language.getValue()).buildString();
                 Window.Location.replace(param);
             }
-        });
+        }));
 
         // Get the current locale inside the browser url
         String currentLocale = Window.Location.getParameter("locale");
@@ -123,16 +123,16 @@ public class LanguageSelector extends MaterialWidget
         languages.add(language);
 
         if (dropdown.isAttached()) {
-            LanguageSelectorItem ls = new LanguageSelectorItem(language);
-            ls.addClickHandler(event -> ValueChangeEvent.fire(LanguageSelector.this, language));
-            dropdown.add(ls);
+            addLanguageItem(language);
         } else {
-            dropdown.addAttachHandler(event -> {
-                LanguageSelectorItem ls = new LanguageSelectorItem(language);
-                ls.addClickHandler(event2 -> ValueChangeEvent.fire(LanguageSelector.this, language));
-                dropdown.add(ls);
-            });
+            lazyLoaded = true;
         }
+    }
+
+    public void addLanguageItem(Language language) {
+        LanguageSelectorItem item = new LanguageSelectorItem(language);
+        item.addClickHandler(event -> ValueChangeEvent.fire(LanguageSelector.this, language));
+        dropdown.add(item);
     }
 
     public void setLanguages(List<Language> languages) {
