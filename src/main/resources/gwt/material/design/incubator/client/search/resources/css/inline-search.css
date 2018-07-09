@@ -21,7 +21,7 @@
 
 .input-field.inline-search input {
     width: calc(100% - 4rem) !important;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
     line-height: 40px;
 }
 
@@ -31,7 +31,6 @@
 .input-field.inline-search input[type="search"]:focus::-moz-placeholder {
     color: white;
 }
-
 
 .input-field.inline-search.expandable-search {
     width: 0px;
@@ -55,21 +54,19 @@
     color: grey !important;
 }
 
-/** Mobile Usecase **/
-@media screen and (max-width: 600px) {
+/** Mobile & Tablet Usecase **/
+@media screen and (max-width: 768px) {
     .input-field.inline-search {
         margin-top: 8px;
-    }
-    .input-field.inline-search.wide {
-        right: 0;
-        left: 0;
-        width: 100%;
-        margin-top: 0;
-        height: 100%;
-        border-radius: 0px;
+        width: 90%;
+        right: 5% !important;
     }
 
-    .input-field.inline-search.wide i {
-        line-height: 56px;
+    .input-field.inline-search.fixed-inline-search {
+        width: 90% !important;
+    }
+
+    .input-field.inline-search input {
+        padding-left: 4rem !important;
     }
 }

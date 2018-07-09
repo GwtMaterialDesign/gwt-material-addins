@@ -56,8 +56,13 @@ public class InlineSearch extends MaterialSearch {
     }
 
     public InlineSearch() {
+        this(AddinsCssName.FIXED_INLINE_SEARCH);
+    }
+
+    public InlineSearch(String className) {
         super();
         addStyleName(AddinsCssName.INLINE_SEARCH);
+        addStyleName(className);
     }
 
     @Override

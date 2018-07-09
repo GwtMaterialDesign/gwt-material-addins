@@ -21,6 +21,8 @@ package gwt.material.design.incubator.client.search;
 
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.base.viewport.Resolution;
+import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.progress.ProgressLineBar;
@@ -42,8 +44,7 @@ public class ExpandableInlineSearch extends InlineSearch {
     private ToggleStyleMixin<ExpandableInlineSearch> toggleStyleMixin;
 
     public ExpandableInlineSearch() {
-        super();
-        addStyleName(AddinsCssName.EXPANDABLE_SEARCH);
+        super(AddinsCssName.EXPANDABLE_SEARCH);
     }
 
     @Override
@@ -65,7 +66,17 @@ public class ExpandableInlineSearch extends InlineSearch {
         super.open();
 
         getToggleStyleMixin().setOn(true);
-        super.setWidth(width);
+
+        ViewPort.when(Resolution.ALL_MOBILE, Resolution.TABLET).then(param1 -> {
+            if (isOpen()) {
+                super.setWidth("90%");
+            }
+        }, viewPort -> {
+            if (isOpen()) {
+                super.setWidth(width);
+            }
+            return false;
+        });
     }
 
     public boolean isOpen() {

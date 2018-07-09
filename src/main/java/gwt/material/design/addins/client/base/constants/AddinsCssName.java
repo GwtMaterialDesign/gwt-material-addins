@@ -116,8 +116,9 @@ public interface AddinsCssName {
     String TIMELINE_ITEM = "timeline-item";
     String SIGNATURE_PAD = "signature-pad";
     String RESPONSIVE = "responsive";
-    String EXPANDABLE_SEARCH = "expandable-search";
     String INLINE_SEARCH = "inline-search";
+    String FIXED_INLINE_SEARCH = "fixed-inline-search";
+    String EXPANDABLE_SEARCH = "expandable-search";
     String WIDE = "wide";
     String BRIDGE_PATH = "bridge-path";
     String INTERACT_IGNORED_CONTENT = "interact-ignored-content";
