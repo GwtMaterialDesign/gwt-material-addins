@@ -159,13 +159,18 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         } else {
             focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
-
+        
         if (circle) {
             focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
             focusElement.getStyle().setProperty("borderRadius", "50%");
+            // Temporary fixed for the IOS Issue on recalculation of the border radius
+            focusElement.getStyle().setProperty("webkitBorderTopLeftRadius", "49.9%");
+            focusElement.getStyle().setProperty("borderTopLeftRadius", "49.9%");
         } else {
             focusElement.getStyle().clearProperty("WebkitBorderRadius");
             focusElement.getStyle().clearProperty("borderRadius");
+            focusElement.getStyle().clearProperty("webkitBorderTopLeftRadius");
+            focusElement.getStyle().clearProperty("borderTopLeftRadius");
         }
         setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
 
