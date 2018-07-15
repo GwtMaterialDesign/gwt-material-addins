@@ -93,7 +93,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     private JsTimePickerOptions options = new JsTimePickerOptions();
 
     private ToggleStyleMixin<MaterialInput> validMixin;
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
     private EnabledMixin<MaterialWidget> enabledMixin;
     private FieldTypeMixin<MaterialTimePicker> fieldTypeMixin;
@@ -176,7 +176,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public void clear() {
         time = null;
-        clearErrorOrSuccess();
+        clearStatusText();
         label.removeStyleName(CssName.ACTIVE);
         timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
@@ -191,7 +191,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
      */
     public void reset() {
         clear();
-        clearErrorOrSuccess();
     }
 
     public boolean isAutoClose() {
@@ -401,11 +400,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, timeInput, label);
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, timeInput, label);
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 
     protected ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {

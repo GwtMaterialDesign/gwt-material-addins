@@ -40,9 +40,9 @@ import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.EnabledMixin;
-import gwt.material.design.client.base.mixin.ErrorMixin;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -98,7 +98,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         }
     }
 
-
     private int selectedIndex;
     private boolean suppressChangeEvent;
     protected List<T> values = new ArrayList<>();
@@ -108,7 +107,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private KeyFactory<T, String> keyFactory = Object::toString;
     private JsComboBoxOptions options = JsComboBoxOptions.create();
 
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
     private EnabledMixin<MaterialWidget> enabledMixin;
     private FieldTypeMixin<MaterialComboBox> fieldTypeMixin;
@@ -791,11 +790,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, this.asWidget());
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, this.asWidget());
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 
     public ReadOnlyMixin<MaterialComboBox, MaterialWidget> getReadOnlyMixin() {

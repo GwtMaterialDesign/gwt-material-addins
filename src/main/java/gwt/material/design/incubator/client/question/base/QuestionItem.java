@@ -21,19 +21,19 @@ package gwt.material.design.incubator.client.question.base;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.mixin.ErrorMixin;
+import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-public class QuestionItem<T extends Object> extends AbstractValueWidget<T> {
+public class QuestionItem<T> extends AbstractValueWidget<T> {
 
     private T value;
     private MaterialPanel wrapper = new MaterialPanel();
     private MaterialLabel questionLabel = new MaterialLabel();
     private MaterialLabel errorLabel = new MaterialLabel();
 
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private boolean valid;
 
     public QuestionItem() {
@@ -80,11 +80,11 @@ public class QuestionItem<T extends Object> extends AbstractValueWidget<T> {
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, this.asWidget());
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, this.asWidget());
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 
     public boolean isValid() {

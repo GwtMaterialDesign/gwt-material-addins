@@ -184,7 +184,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private ProgressMixin<MaterialAutoComplete> progressMixin;
     private FocusableMixin<MaterialWidget> focusableMixin;
     private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
@@ -221,7 +221,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         setup(suggestions);
     }
 
-    private HandlerRegistration listHandler, itemBoxKeyDownHandler, itemBoxBlurHandler, itemBoxClickHandler;
+    private HandlerRegistration itemBoxKeyDownHandler, itemBoxBlurHandler, itemBoxClickHandler;
 
     @Override
     protected void onLoad() {
@@ -239,8 +239,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         });
 
         itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
-            boolean changed = false;
-
             switch (event.getNativeKeyCode()) {
                 case KeyCodes.KEY_ENTER:
                     if (directInputAllowed) {
@@ -249,7 +247,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                             gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
                             directInput.setDisplay(value);
                             directInput.setSuggestion(value);
-                            changed = addItem(directInput);
+                            addItem(directInput);
                             if (getType() == AutocompleteType.TEXT) {
                                 itemBox.setText(value);
                             } else {
@@ -267,7 +265,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
                                 if (tryRemoveSuggestion(li.getWidget(0))) {
                                     li.removeFromParent();
-                                    changed = true;
                                 }
                             }
                         }
@@ -278,7 +275,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
                         for (ListItem li : itemsHighlighted) {
                             if (tryRemoveSuggestion(li.getWidget(0))) {
                                 li.removeFromParent();
-                                changed = true;
                             }
                         }
                         itemsHighlighted.clear();
@@ -299,7 +295,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     protected void unloadHandlers() {
-        removeHandler(listHandler);
         removeHandler(itemBoxBlurHandler);
         removeHandler(itemBoxKeyDownHandler);
         removeHandler(itemBoxClickHandler);
@@ -442,7 +437,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
         suggestionMap.clear();
 
-        clearErrorOrSuccess();
+        clearStatusText();
     }
 
     @Override
@@ -895,11 +890,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, list, label);
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, list, label);
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 
     protected ReadOnlyMixin<MaterialAutoComplete, TextBox> getReadOnlyMixin() {
@@ -919,7 +914,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     protected FieldTypeMixin<MaterialAutoComplete> getFieldTypeMixin() {
         if (fieldTypeMixin == null) {
-            fieldTypeMixin = new FieldTypeMixin<MaterialAutoComplete>(this);
+            fieldTypeMixin = new FieldTypeMixin<>(this);
         }
         return fieldTypeMixin;
     }
