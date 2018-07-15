@@ -25,11 +25,11 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        AlertTest.class,
-        GroupToggleButtonTest.class,
-        LoadingStateTest.class,
-        ReCaptchaTest.class,
-        TimerProgressTest.class
+    AlertTest.class,
+    GroupToggleButtonTest.class,
+    LoadingStateTest.class,
+    ReCaptchaTest.class,
+    TimerProgressTest.class
 })
 public class AddinsIncubatorTestSuite {
 }

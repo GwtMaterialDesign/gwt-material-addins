@@ -59,9 +59,33 @@ public class AsyncButton extends MaterialButton implements HasActive {
     private MaterialSpinner loader = new MaterialSpinner();
     private ActiveMixin<AsyncButton> activeMixin;
 
+    private IconType loadingIcon = IconType.DEFAULT;
+    private IconType errorIcon = IconType.WARNING;
+    private IconType successIcon = IconType.CHECK;
+
     public AsyncButton() {
         super();
         addStyleName(IncubatorCssName.ASYNC_BUTTON);
+    }
+
+    public AsyncButton(String text) {
+        super(text);
+        addStyleName(IncubatorCssName.ASYNC_BUTTON);
+    }
+
+    public AsyncButton(String text, IconType loadingIcon, IconType errorIcon, IconType successIcon) {
+        super(text);
+        addStyleName(IncubatorCssName.ASYNC_BUTTON);
+        this.loadingIcon = loadingIcon;
+        this.errorIcon = errorIcon;
+        this.successIcon = successIcon;
+    }
+
+    public AsyncButton(IconType loadingIcon, IconType errorIcon, IconType successIcon) {
+        addStyleName(IncubatorCssName.ASYNC_BUTTON);
+        this.loadingIcon = loadingIcon;
+        this.errorIcon = errorIcon;
+        this.successIcon = successIcon;
     }
 
     @Override
@@ -77,14 +101,14 @@ public class AsyncButton extends MaterialButton implements HasActive {
         setBackgroundColor(Color.WHITE);
         setTextColor(Color.BLACK);
         setText(message);
-        setIconType(IconType.DEFAULT);
+        setIconType(loadingIcon);
     }
 
     public void error(String message) {
         setActive(false);
         setBackgroundColor(Color.WHITE);
         setTextColor(Color.RED);
-        setIconType(IconType.WARNING);
+        setIconType(errorIcon);
         setText(message);
     }
 
@@ -92,7 +116,7 @@ public class AsyncButton extends MaterialButton implements HasActive {
         setActive(false);
         setBackgroundColor(Color.WHITE);
         setTextColor(Color.BLACK);
-        setIconType(IconType.CHECK);
+        setIconType(successIcon);
         setText(message);
     }
 
@@ -111,5 +135,29 @@ public class AsyncButton extends MaterialButton implements HasActive {
             activeMixin = new ActiveMixin<>(this);
         }
         return activeMixin;
+    }
+
+    public IconType getLoadingIcon() {
+        return loadingIcon;
+    }
+
+    public void setLoadingIcon(IconType loadingIcon) {
+        this.loadingIcon = loadingIcon;
+    }
+
+    public IconType getErrorIcon() {
+        return errorIcon;
+    }
+
+    public void setErrorIcon(IconType errorIcon) {
+        this.errorIcon = errorIcon;
+    }
+
+    public IconType getSuccessIcon() {
+        return successIcon;
+    }
+
+    public void setSuccessIcon(IconType successIcon) {
+        this.successIcon = successIcon;
     }
 }

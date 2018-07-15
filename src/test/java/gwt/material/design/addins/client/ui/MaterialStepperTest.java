@@ -136,18 +136,18 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
         MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
 
         // when / then
-        stepper.setError("error");
+        stepper.setErrorText("error");
         assertTrue(step.getElement().hasClassName(AddinsCssName.ERROR));
         assertEquals(step.getIconError(), conCircle.getWidget(0));
         assertEquals(State.ERROR, step.getState());
 
-        stepper.setSuccess("success");
+        stepper.setSuccessText("success");
         assertFalse(step.getElement().hasClassName(AddinsCssName.ERROR));
         assertTrue(step.getElement().hasClassName(AddinsCssName.SUCCESS));
         assertEquals(step.getIconSuccess(), conCircle.getWidget(0));
         assertEquals(State.SUCCESS, step.getState());
 
-        stepper.clearErrorOrSuccess();
+        stepper.clearStatusText();
         assertFalse(step.getElement().hasClassName(AddinsCssName.ERROR));
         assertFalse(step.getElement().hasClassName(AddinsCssName.SUCCESS));
     }
