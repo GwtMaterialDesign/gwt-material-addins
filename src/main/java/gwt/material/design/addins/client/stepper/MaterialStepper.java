@@ -93,6 +93,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     private int currentStepIndex = 0;
+    private int totalSteps;
     private boolean stepSkippingAllowed = true;
     private boolean detectOrientation = true;
     private Div divFeedback = new Div();
@@ -153,6 +154,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         this.add((Widget) step);
         step.setAxis(getAxis());
         registerHandler(step.addSelectionHandler(this));
+        totalSteps++;
     }
 
     /**
@@ -329,6 +331,18 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             return (MaterialStep) w;
         }
         return null;
+    }
+
+    public int getTotalSteps() {
+        return totalSteps;
+    }
+
+    public boolean isLastStep() {
+        return getCurrentStep().getStep() == getTotalSteps();
+    }
+
+    public boolean isFirstStep() {
+        return getCurrentStep().getStep() == 1;
     }
 
     @Override
