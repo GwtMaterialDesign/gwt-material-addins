@@ -166,6 +166,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        displayArrowForAllowClearOption(false);
+
         if (getTextColor() != null) {
             $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
         }
@@ -198,7 +200,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void reset() {
         super.reset();
-        displayArrowForAllowClearOption(true);
+        displayArrowForAllowClearOption(false);
         setSelectedIndex(0);
     }
 
@@ -346,14 +348,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * arrow caret.
      */
     protected void displayArrowForAllowClearOption(boolean displayArrow) {
-        if (displayArrow) {
-            if (isAllowClear() && getArrowIconElement() != null) {
+        if (isAllowClear()) {
+            if (displayArrow && getArrowIconElement() != null) {
                 getArrowIconElement().css("display", "block");
-            }
-        } else {
-            if (isAllowClear() && getClearIconElement() != null && getArrowIconElement() != null) {
+            } else {
                 getArrowIconElement().css("display", "none");
-                getClearIconElement().css("marginRight", "-12px");
             }
         }
     }
