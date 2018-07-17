@@ -20,13 +20,20 @@
 package gwt.material.design.incubator.client.infinitescroll;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.infinitescroll.base.AbstractMagicScoll;
 import gwt.material.design.incubator.client.infinitescroll.base.ScrollLoader;
-import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadCallback;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
+import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
+import gwt.material.design.incubator.client.infinitescroll.events.HasInfiniteScrollEvent;
+import gwt.material.design.incubator.client.infinitescroll.events.LoadEvent;
 
 //@formatter:off
 
@@ -40,7 +47,7 @@ import gwt.material.design.jquery.client.api.Functions;
  *
  * @author kevzlou7979
  */
-public class InfiniteScrollPanel extends AbstractMagicScoll {
+public class InfiniteScrollPanel<T> extends AbstractMagicScoll implements HasInfiniteScrollEvent<T> {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
@@ -51,8 +58,21 @@ public class InfiniteScrollPanel extends AbstractMagicScoll {
         }
     }
 
-    private Functions.Func callback;
+    private int viewIndex;
     private ScrollLoader loader = new ScrollLoader();
+    private DataSource<T> dataSource;
+    private LoadConfig<T> loadConfig;
+
+    public InfiniteScrollPanel() {
+        super();
+    }
+
+    public InfiniteScrollPanel(DataSource<T> dataSource, LoadConfig<T> loadConfig) {
+        super();
+
+        this.dataSource = dataSource;
+        this.loadConfig = loadConfig;
+    }
 
     @Override
     public void load() {
@@ -65,11 +85,8 @@ public class InfiniteScrollPanel extends AbstractMagicScoll {
             if (loader != null) {
                 if (!loader.isActive()) {
                     loader.setActive(true);
-                    if (callback != null) {
-                        callback.call();
-                    } else {
-                        GWT.log("No callback has been set.");
-                    }
+
+                    load(viewIndex, loadConfig.getLimit());
                 }
             } else {
                 GWT.log("Loader is not set.", new IllegalStateException());
@@ -79,16 +96,45 @@ public class InfiniteScrollPanel extends AbstractMagicScoll {
         super.load();
     }
 
-    public Functions.Func getCallback() {
-        return callback;
-    }
+    protected void load(int offset, int limit) {
+        dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
+            @Override
+            public void onSuccess(LoadResult<T> loadResult) {
+                LoadEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
+                update();
+                viewIndex = viewIndex + loadConfig.getLimit();
+            }
 
-    public void setCallback(Functions.Func callback) {
-        this.callback = callback;
+            @Override
+            public void onFailure(Throwable caught) {
+                MaterialToast.fireToast("ERROR");
+            }
+        });
     }
 
     public void update() {
         loader.setActive(false);
         getScene().update(true);
+    }
+
+    public LoadConfig<T> getLoadConfig() {
+        return loadConfig;
+    }
+
+    public void setLoadConfig(LoadConfig<T> loadConfig) {
+        this.loadConfig = loadConfig;
+    }
+
+    public DataSource<T> getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource<T> dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @Override
+    public HandlerRegistration addLoadHandler(LoadEvent.LoadHandler<T> handler) {
+        return addHandler(handler, LoadEvent.getType());
     }
 }

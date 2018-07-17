@@ -48,10 +48,10 @@ public class ChangeEvent extends GwtEvent<ChangeEvent.ChangeHandler> {
 
     @Override
     protected void dispatch(ChangeHandler handler) {
-        handler.onChartEnter(this);
+        handler.onChange(this);
     }
 
     public interface ChangeHandler extends EventHandler {
-        void onChartEnter(ChangeEvent event);
+        void onChange(ChangeEvent event);
     }
 }

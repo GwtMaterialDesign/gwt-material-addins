@@ -48,10 +48,10 @@ public class StartEvent extends GwtEvent<StartEvent.StartHandler> {
 
     @Override
     protected void dispatch(StartHandler handler) {
-        handler.onChartEnter(this);
+        handler.onStart(this);
     }
 
     public interface StartHandler extends EventHandler {
-        void onChartEnter(StartEvent event);
+        void onStart(StartEvent event);
     }
 }

@@ -48,10 +48,10 @@ public class ProgressEvent extends GwtEvent<ProgressEvent.ProgressHandler> {
 
     @Override
     protected void dispatch(ProgressHandler handler) {
-        handler.onChartEnter(this);
+        handler.onProgress(this);
     }
 
     public interface ProgressHandler extends EventHandler {
-        void onChartEnter(ProgressEvent event);
+        void onProgress(ProgressEvent event);
     }
 }

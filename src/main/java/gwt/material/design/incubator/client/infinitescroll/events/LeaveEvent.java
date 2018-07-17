@@ -48,10 +48,10 @@ public class LeaveEvent extends GwtEvent<LeaveEvent.LeaveHandler> {
 
     @Override
     protected void dispatch(LeaveHandler handler) {
-        handler.onChartEnter(this);
+        handler.onLeave(this);
     }
 
     public interface LeaveHandler extends EventHandler {
-        void onChartEnter(LeaveEvent event);
+        void onLeave(LeaveEvent event);
     }
 }

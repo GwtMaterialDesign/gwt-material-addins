@@ -48,10 +48,10 @@ public class EnterEvent extends GwtEvent<EnterEvent.EnterHandler> {
 
     @Override
     protected void dispatch(EnterHandler handler) {
-        handler.onChartEnter(this);
+        handler.onEnter(this);
     }
 
     public interface EnterHandler extends EventHandler {
-        void onChartEnter(EnterEvent event);
+        void onEnter(EnterEvent event);
     }
 }

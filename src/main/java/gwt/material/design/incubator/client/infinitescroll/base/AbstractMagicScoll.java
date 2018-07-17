@@ -45,9 +45,9 @@ public abstract class AbstractMagicScoll extends MaterialWidget implements JsLoa
         }
     }
 
-    private Scene scene;
-    private Controller controller = new Controller();
-    private SceneOptions options = SceneOptions.create();
+    protected Scene scene;
+    protected Controller controller = new Controller();
+    protected SceneOptions options = SceneOptions.create();
 
     public AbstractMagicScoll() {
         super(Document.get().createDivElement());

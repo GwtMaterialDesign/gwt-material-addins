@@ -48,10 +48,10 @@ public class RemoveEvent extends GwtEvent<RemoveEvent.RemoveHandler> {
 
     @Override
     protected void dispatch(RemoveHandler handler) {
-        handler.onChartEnter(this);
+        handler.onRemove(this);
     }
 
     public interface RemoveHandler extends EventHandler {
-        void onChartEnter(RemoveEvent event);
+        void onRemove(RemoveEvent event);
     }
 }

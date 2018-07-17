@@ -48,10 +48,10 @@ public class DestroyEvent extends GwtEvent<DestroyEvent.DestroyHandler> {
 
     @Override
     protected void dispatch(DestroyHandler handler) {
-        handler.onChartEnter(this);
+        handler.onDestroy(this);
     }
 
     public interface DestroyHandler extends EventHandler {
-        void onChartEnter(DestroyEvent event);
+        void onDestroy(DestroyEvent event);
     }
 }

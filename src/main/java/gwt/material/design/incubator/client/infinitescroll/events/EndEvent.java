@@ -48,10 +48,10 @@ public class EndEvent extends GwtEvent<EndEvent.EndHandler> {
 
     @Override
     protected void dispatch(EndHandler handler) {
-        handler.onChartEnter(this);
+        handler.onEnd(this);
     }
 
     public interface EndHandler extends EventHandler {
-        void onChartEnter(EndEvent event);
+        void onEnd(EndEvent event);
     }
 }

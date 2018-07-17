@@ -48,10 +48,10 @@ public class ShiftEvent extends GwtEvent<ShiftEvent.ShiftHandler> {
 
     @Override
     protected void dispatch(ShiftHandler handler) {
-        handler.onChartEnter(this);
+        handler.onShift(this);
     }
 
     public interface ShiftHandler extends EventHandler {
-        void onChartEnter(ShiftEvent event);
+        void onShift(ShiftEvent event);
     }
 }
