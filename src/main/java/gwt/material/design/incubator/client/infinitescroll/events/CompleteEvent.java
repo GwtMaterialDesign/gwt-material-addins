@@ -27,31 +27,31 @@ import com.google.gwt.event.shared.HasHandlers;
 /**
  * @author kevzlou7979
  */
-public class UpdateEvent extends GwtEvent<UpdateEvent.UpdateHandler> {
+public class CompleteEvent extends GwtEvent<CompleteEvent.CompleteHandler> {
 
-    public static final Type<UpdateHandler> TYPE = new Type<>();
+    public static final Type<CompleteHandler> TYPE = new Type<>();
 
-    public UpdateEvent() {}
+    public CompleteEvent() {}
 
-    public static Type<UpdateHandler> getType() {
+    public static Type<CompleteHandler> getType() {
         return TYPE;
     }
 
     public static void fire(HasHandlers source) {
-        source.fireEvent(new UpdateEvent());
+        source.fireEvent(new CompleteEvent());
     }
 
     @Override
-    public Type<UpdateHandler> getAssociatedType() {
+    public Type<CompleteHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(UpdateHandler handler) {
-        handler.onUpdate(this);
+    protected void dispatch(CompleteHandler handler) {
+        handler.onComplete(this);
     }
 
-    public interface UpdateHandler extends EventHandler {
-        void onUpdate(UpdateEvent event);
+    public interface CompleteHandler extends EventHandler {
+        void onComplete(CompleteEvent event);
     }
 }

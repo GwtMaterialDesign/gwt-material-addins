@@ -27,31 +27,39 @@ import com.google.gwt.event.shared.HasHandlers;
 /**
  * @author kevzlou7979
  */
-public class LeaveEvent extends GwtEvent<LeaveEvent.LeaveHandler> {
+public class ErrorEvent extends GwtEvent<ErrorEvent.ErrorHandler> {
 
-    public static final Type<LeaveHandler> TYPE = new Type<>();
+    public static final Type<ErrorHandler> TYPE = new Type<>();
 
-    public LeaveEvent() {}
+    private String message;
 
-    public static Type<LeaveHandler> getType() {
+    public ErrorEvent(String message) {
+        this.message = message;
+    }
+
+    public static Type<ErrorHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new LeaveEvent());
+    public static void fire(HasHandlers source, String message) {
+        source.fireEvent(new ErrorEvent(message));
     }
 
     @Override
-    public Type<LeaveHandler> getAssociatedType() {
+    public Type<ErrorHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(LeaveHandler handler) {
-        handler.onLeave(this);
+    protected void dispatch(ErrorHandler handler) {
+        handler.onError(this);
     }
 
-    public interface LeaveHandler extends EventHandler {
-        void onLeave(LeaveEvent event);
+    public String getMessage() {
+        return message;
+    }
+
+    public interface ErrorHandler extends EventHandler {
+        void onError(ErrorEvent event);
     }
 }

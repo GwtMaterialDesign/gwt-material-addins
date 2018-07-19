@@ -27,31 +27,31 @@ import com.google.gwt.event.shared.HasHandlers;
 /**
  * @author kevzlou7979
  */
-public class ShiftEvent extends GwtEvent<ShiftEvent.ShiftHandler> {
+public class LoadingEvent extends GwtEvent<LoadingEvent.LoadingHandler> {
 
-    public static final Type<ShiftHandler> TYPE = new Type<>();
+    public static final Type<LoadingHandler> TYPE = new Type<>();
 
-    public ShiftEvent() {}
+    public LoadingEvent() {}
 
-    public static Type<ShiftHandler> getType() {
+    public static Type<LoadingHandler> getType() {
         return TYPE;
     }
 
     public static void fire(HasHandlers source) {
-        source.fireEvent(new ShiftEvent());
+        source.fireEvent(new LoadingEvent());
     }
 
     @Override
-    public Type<ShiftHandler> getAssociatedType() {
+    public Type<LoadingHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(ShiftHandler handler) {
-        handler.onShift(this);
+    protected void dispatch(LoadingHandler handler) {
+        handler.onLoading(this);
     }
 
-    public interface ShiftHandler extends EventHandler {
-        void onShift(ShiftEvent event);
+    public interface LoadingHandler extends EventHandler {
+        void onLoading(LoadingEvent event);
     }
 }

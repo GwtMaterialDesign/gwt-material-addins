@@ -22,7 +22,6 @@ package gwt.material.design.incubator.client.infinitescroll.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 
 import java.util.List;
 //@formatter:off
@@ -33,7 +32,7 @@ import java.util.List;
 public class LoadEvent<T> extends GwtEvent<LoadEvent.LoadHandler<T>> {
 
     private List<T> data;
-    private static Type<LoadEvent.LoadHandler<?>> TYPE;
+    private static Type<LoadHandler<?>> TYPE;
 
     public LoadEvent(List<T> data) {
         this.data = data;
@@ -44,11 +43,11 @@ public class LoadEvent<T> extends GwtEvent<LoadEvent.LoadHandler<T>> {
     }
 
     @Override
-    public final Type<LoadEvent.LoadHandler<T>> getAssociatedType() {
+    public final Type<LoadHandler<T>> getAssociatedType() {
         return (Type) TYPE;
     }
 
-    public static Type<LoadEvent.LoadHandler<?>> getType() {
+    public static Type<LoadHandler<?>> getType() {
         return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 

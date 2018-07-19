@@ -21,7 +21,13 @@ package gwt.material.design.incubator.client.infinitescroll.events;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public interface HasInfiniteScrollEvent<T> {
+public interface HasInfiniteScrollHandlers<T> {
+
+    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
 
     HandlerRegistration addLoadHandler(LoadEvent.LoadHandler<T> handler);
+
+    HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
+
+    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
 }

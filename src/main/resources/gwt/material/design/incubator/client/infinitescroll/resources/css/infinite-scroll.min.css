@@ -1,5 +1,4 @@
 .infinite-scroll-loader {
-    opacity: 0;
     clear: both;
     text-align: center;
     padding-top: 80px;
@@ -20,4 +19,5 @@
 
 .infinite-scroll-loader span {
     padding-bottom: 32px;
+    font-size: 1.2em;
 }

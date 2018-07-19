@@ -19,26 +19,25 @@
  */
 package gwt.material.design.incubator.client.infinitescroll;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.infinitescroll.base.AbstractMagicScoll;
-import gwt.material.design.incubator.client.infinitescroll.base.ScrollLoader;
 import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
 import gwt.material.design.incubator.client.infinitescroll.data.LoadCallback;
 import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
 import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
-import gwt.material.design.incubator.client.infinitescroll.events.HasInfiniteScrollEvent;
-import gwt.material.design.incubator.client.infinitescroll.events.LoadEvent;
+import gwt.material.design.incubator.client.infinitescroll.events.*;
+
+import static gwt.material.design.client.js.JsMaterialElement.$;
 
 //@formatter:off
 
 /**
- * //TODO Brief description about the library
+ * Infinite scrolling, sometimes called endless scrolling, is a technique that allowing users to scroll through a
+ * massive chunk of content with no finishing-line in sight. This technique simply keeps refreshing a page when you
+ * scroll down it.
  * <p>
  * <p><i>
  * Note: This component is under the incubation process and subject to change.
@@ -47,7 +46,7 @@ import gwt.material.design.incubator.client.infinitescroll.events.LoadEvent;
  *
  * @author kevzlou7979
  */
-public class InfiniteScrollPanel<T> extends AbstractMagicScoll implements HasInfiniteScrollEvent<T> {
+public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfiniteScrollHandlers<T> {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
@@ -58,10 +57,13 @@ public class InfiniteScrollPanel<T> extends AbstractMagicScoll implements HasInf
         }
     }
 
-    private int viewIndex;
-    private ScrollLoader loader = new ScrollLoader();
+    private ScrollLoader loader = new ScrollLoader(this);
     private DataSource<T> dataSource;
     private LoadConfig<T> loadConfig;
+    private int _offset = 0;
+    private int _limit = 0;
+    private int _absoluteTotal;
+    private boolean _completed;
 
     public InfiniteScrollPanel() {
         super();
@@ -75,46 +77,62 @@ public class InfiniteScrollPanel<T> extends AbstractMagicScoll implements HasInf
     }
 
     @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        load();
+    }
+
     public void load() {
+        _offset = loadConfig.getOffset();
+        _limit = loadConfig.getLimit();
 
-        setTriggerElement("." + IncubatorCssName.INFINITE_SCROLL_LOADER);
+        load(_offset, _limit);
 
-        add(loader);
-
-        addSceneEnterHandler(event -> {
-            if (loader != null) {
-                if (!loader.isActive()) {
-                    loader.setActive(true);
-
-                    load(viewIndex, loadConfig.getLimit());
+        $(getElement()).scroll((e, param1) -> {
+            if (!loader.isAttached()) {
+                if (getElement().getScrollTop() == (getElement().getScrollHeight()) - getElement().getOffsetHeight()) {
+                    load(_offset, _limit);
                 }
-            } else {
-                GWT.log("Loader is not set.", new IllegalStateException());
             }
+            return false;
         });
 
-        super.load();
+        addLoadHandler(event -> loading(false));
+        addCompleteHandler(event -> loading(false));
     }
 
     protected void load(int offset, int limit) {
-        dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
-            @Override
-            public void onSuccess(LoadResult<T> loadResult) {
-                LoadEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
-                update();
-                viewIndex = viewIndex + loadConfig.getLimit();
-            }
+        if (!_completed) {
+            loading(true);
+            dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
+                @Override
+                public void onSuccess(LoadResult<T> loadResult) {
+                    LoadEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
 
-            @Override
-            public void onFailure(Throwable caught) {
-                MaterialToast.fireToast("ERROR");
-            }
-        });
+                    _offset = _offset + limit;
+                    _absoluteTotal = loadResult.getTotalLength();
+
+                    if (_offset >= _absoluteTotal) {
+                        CompleteEvent.fire(InfiniteScrollPanel.this);
+                        _completed = true;
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    ErrorEvent.fire(InfiniteScrollPanel.this, caught.getMessage());
+                }
+            });
+        }
     }
 
-    public void update() {
-        loader.setActive(false);
-        getScene().update(true);
+    public void loading(boolean show) {
+        if (show) {
+            loader.show();
+        } else {
+            loader.hide();
+        }
     }
 
     public LoadConfig<T> getLoadConfig() {
@@ -134,7 +152,22 @@ public class InfiniteScrollPanel<T> extends AbstractMagicScoll implements HasInf
     }
 
     @Override
+    public HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler) {
+        return addHandler(handler, LoadingEvent.getType());
+    }
+
+    @Override
     public HandlerRegistration addLoadHandler(LoadEvent.LoadHandler<T> handler) {
         return addHandler(handler, LoadEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler) {
+        return addHandler(handler, CompleteEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler) {
+        return addHandler(handler, ErrorEvent.getType());
     }
 }
