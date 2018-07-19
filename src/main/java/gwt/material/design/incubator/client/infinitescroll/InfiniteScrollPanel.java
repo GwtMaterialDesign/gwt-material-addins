@@ -20,14 +20,12 @@
 package gwt.material.design.incubator.client.infinitescroll;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadCallback;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadConfig;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
+import gwt.material.design.incubator.client.infinitescroll.data.*;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
 
 import static gwt.material.design.client.js.JsMaterialElement.$;
@@ -60,10 +58,11 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     private ScrollLoader loader = new ScrollLoader(this);
     private DataSource<T> dataSource;
     private LoadConfig<T> loadConfig;
-    private int _offset = 0;
-    private int _limit = 0;
-    private int _absoluteTotal;
-    private boolean _completed;
+    private Renderer<T> renderer;
+    private int offset = 0;
+    private int limit = 0;
+    private int absoluteTotal;
+    private boolean completed;
 
     public InfiniteScrollPanel() {
         super();
@@ -84,38 +83,44 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     }
 
     public void load() {
-        _offset = loadConfig.getOffset();
-        _limit = loadConfig.getLimit();
+        offset = loadConfig.getOffset();
+        limit = loadConfig.getLimit();
 
-        load(_offset, _limit);
+        load(offset, limit);
 
         $(getElement()).scroll((e, param1) -> {
             if (!loader.isAttached()) {
                 if (getElement().getScrollTop() == (getElement().getScrollHeight()) - getElement().getOffsetHeight()) {
-                    load(_offset, _limit);
+                    load(offset, limit);
                 }
             }
             return false;
         });
 
-        addLoadHandler(event -> loading(false));
+        addLoadHandler(event -> {
+            loading(false);
+
+            for (T model : event.getData()) {
+                Widget widget = renderer.render(model);
+                add(widget);
+            }
+        });
         addCompleteHandler(event -> loading(false));
     }
 
     protected void load(int offset, int limit) {
-        if (!_completed) {
+        if (!completed) {
             loading(true);
             dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
                     LoadEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
+                    InfiniteScrollPanel.this.offset = InfiniteScrollPanel.this.offset + limit;
+                    absoluteTotal = loadResult.getTotalLength();
 
-                    _offset = _offset + limit;
-                    _absoluteTotal = loadResult.getTotalLength();
-
-                    if (_offset >= _absoluteTotal) {
+                    if (InfiniteScrollPanel.this.offset >= absoluteTotal) {
                         CompleteEvent.fire(InfiniteScrollPanel.this);
-                        _completed = true;
+                        completed = true;
                     }
                 }
 
@@ -149,6 +154,14 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
     public void setDataSource(DataSource<T> dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public Renderer<T> getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(Renderer<T> renderer) {
+        this.renderer = renderer;
     }
 
     @Override
