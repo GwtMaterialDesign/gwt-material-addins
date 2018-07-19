@@ -26,12 +26,6 @@ import com.google.gwt.resources.client.TextResource;
 public interface InfiniteScrollClientBundle extends ClientBundle {
     InfiniteScrollClientBundle INSTANCE = GWT.create(InfiniteScrollClientBundle.class);
 
-    @Source("resources/js/ScrollMagic.min.js")
-    TextResource scrollMagicJs();
-
-    @Source("resources/js/debug.addIndicators.min.js")
-    TextResource addIndicatorsPluginJs();
-
     @Source("resources/css/infinite-scroll.min.css")
     TextResource infiniteScrollCss();
 }
