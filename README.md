@@ -6,21 +6,21 @@
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
-## Current Version
+## Current Version 2.1
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.0.1</version>
+    <version>2.1</version>
 </dependency>
 ```
 
-## Snapshot Version
+## Snapshot Version 2.2-SNAPSHOT
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>2.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -96,6 +96,20 @@ We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apid
 ``` gwt.material.design.addins.client.addin_widget.resources ``` Where module.gwt.xml is located e.g. GWTMaterialAddins.gwt.xml <br/>
 ``` gwt.material.design.addins.client.addin_widget.resources.img ``` Image Resources of Addins module <br/>
 ``` gwt.material.design.addins.client.addin_widget.resources.js ``` Javascript Files of Addins module <br/>
+
+### (NEW) Incubator Widgets
+- These are beta widgets that still in incubation process (Subject for further API changes).
+  - Alert
+  - Async
+  - Language Selector
+  - Loading State
+  - Progress LinedBar
+  - Google
+    - Recaptcha
+    - Address Lookup
+  - Inline Search
+  - Timer (Infinite)
+  - Toggle
 
 ##Follow Us
 <a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a>

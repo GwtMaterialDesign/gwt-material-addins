@@ -25,7 +25,7 @@ public interface HasInfiniteScrollHandlers<T> {
 
     HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
 
-    HandlerRegistration addLoadHandler(LoadEvent.LoadHandler<T> handler);
+    HandlerRegistration addLoadedHandler(LoadedEvent.LoadHandler<T> handler);
 
     HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
 

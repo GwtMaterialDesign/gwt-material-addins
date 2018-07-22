@@ -29,17 +29,17 @@ import java.util.List;
 /**
  * @author kevzlou7979
  */
-public class LoadEvent<T> extends GwtEvent<LoadEvent.LoadHandler<T>> {
+public class LoadedEvent<T> extends GwtEvent<LoadedEvent.LoadHandler<T>> {
 
     private List<T> data;
     private static Type<LoadHandler<?>> TYPE;
 
-    public LoadEvent(List<T> data) {
+    public LoadedEvent(List<T> data) {
         this.data = data;
     }
 
     public static void fire(HasHandlers source, List<?> data) {
-        source.fireEvent(new LoadEvent(data));
+        source.fireEvent(new LoadedEvent(data));
     }
 
     @Override
@@ -61,6 +61,6 @@ public class LoadEvent<T> extends GwtEvent<LoadEvent.LoadHandler<T>> {
     }
 
     public interface LoadHandler<T> extends EventHandler {
-        void onItemLoaded(LoadEvent<T> event);
+        void onItemLoaded(LoadedEvent<T> event);
     }
 }

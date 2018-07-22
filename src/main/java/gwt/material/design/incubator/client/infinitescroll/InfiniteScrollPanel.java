@@ -97,7 +97,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             return false;
         });
 
-        addLoadHandler(event -> {
+        addLoadedHandler(event -> {
             loading(false);
 
             for (T model : event.getData()) {
@@ -114,7 +114,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
-                    LoadEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
+                    LoadedEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
                     InfiniteScrollPanel.this.offset = InfiniteScrollPanel.this.offset + limit;
                     absoluteTotal = loadResult.getTotalLength();
 
@@ -170,8 +170,8 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     }
 
     @Override
-    public HandlerRegistration addLoadHandler(LoadEvent.LoadHandler<T> handler) {
-        return addHandler(handler, LoadEvent.getType());
+    public HandlerRegistration addLoadedHandler(LoadedEvent.LoadHandler<T> handler) {
+        return addHandler(handler, LoadedEvent.getType());
     }
 
     @Override
