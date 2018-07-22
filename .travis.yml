@@ -13,7 +13,7 @@ before_install:
 - cd ..
 # install the gwt-material library before we build the demo
 - git clone -b master https://github.com/GwtMaterialDesign/gwt-material.git
-- cd master
+- cd gwt-material
 - mvn install -DskipTests=true -DdryRun=true
 - cd ..
 install: true
