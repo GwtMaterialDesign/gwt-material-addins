@@ -57,4 +57,7 @@ public class JsMasonry extends JQueryElement {
 
     @JsMethod
     public native JsMasonry masonry(String action, Element element);
+
+    @JsMethod
+    public native JsMasonry masonry(String action, String selector);
 }

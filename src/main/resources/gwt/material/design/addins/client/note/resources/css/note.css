@@ -1,0 +1,16 @@
+.material-note {
+    background: #e3f2fd;
+    color: #2196f3;
+    padding: 12px;
+    width: 100%;
+}
+
+.material-note i {
+    float: left;
+    margin-right: 15px;
+}
+
+.material-note span {
+    text-align: left;
+    padding-left: 32px;
+}

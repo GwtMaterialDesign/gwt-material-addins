@@ -5353,7 +5353,7 @@
                     .val('')
                 );
 
-                $imageBtn.click(function(event) {
+                $imageBtn.off("click").click(function(event) {
                     event.preventDefault();
 
                     deferred.resolve($imageUrl.val());

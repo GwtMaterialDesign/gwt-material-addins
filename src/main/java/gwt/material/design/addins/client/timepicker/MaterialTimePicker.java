@@ -36,7 +36,10 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialInput;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.html.Label;
 
 import java.util.Date;
@@ -68,7 +71,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  */
 //@formatter:on
 public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly {
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -85,15 +88,15 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     private MaterialPanel container = new MaterialPanel();
     private MaterialInput timeInput = new MaterialInput();
     private MaterialLabel errorLabel = new MaterialLabel();
-    private Label placeholderLabel = new Label();
+    private Label label = new Label();
     private MaterialIcon icon = new MaterialIcon();
     private JsTimePickerOptions options = new JsTimePickerOptions();
 
     private ToggleStyleMixin<MaterialInput> validMixin;
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private ReadOnlyMixin<MaterialTimePicker, MaterialInput> readOnlyMixin;
     private EnabledMixin<MaterialWidget> enabledMixin;
-
+    private FieldTypeMixin<MaterialTimePicker> fieldTypeMixin;
 
     public MaterialTimePicker() {
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
@@ -115,7 +118,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
         setUniqueId(DOM.createUniqueId());
         timeInput.setType(InputType.TEXT);
-        container.add(placeholderLabel);
+        container.add(label);
         container.add(timeInput);
         container.add(errorLabel);
         add(container);
@@ -173,8 +176,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public void clear() {
         time = null;
-        clearErrorOrSuccess();
-        placeholderLabel.removeStyleName(CssName.ACTIVE);
+        clearStatusText();
+        label.removeStyleName(CssName.ACTIVE);
         timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
     }
@@ -187,8 +190,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
      * </ul>
      */
     public void reset() {
-        setValue(new Date());
-        clearErrorOrSuccess();
+        clear();
     }
 
     public boolean isAutoClose() {
@@ -230,7 +232,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public void setPlaceholder(String placeholder) {
         this.placeholder = placeholder;
-        placeholderLabel.setText(placeholder);
+        label.setText(placeholder);
     }
 
     /**
@@ -290,8 +292,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         if (this.time == null) {
             return;
         }
-        placeholderLabel.removeStyleName(CssName.ACTIVE);
-        placeholderLabel.addStyleName(CssName.ACTIVE);
+        label.removeStyleName(CssName.ACTIVE);
+        label.addStyleName(CssName.ACTIVE);
         $(timeInput.getElement()).val(DateTimeFormat.getFormat(options.hour24 ? "HH:mm" : "hh:mm aa").format(time));
         super.setValue(time, fireEvents);
     }
@@ -398,11 +400,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, timeInput, placeholderLabel);
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, timeInput, label);
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 
     protected ReadOnlyMixin<MaterialTimePicker, MaterialInput> getReadOnlyMixin() {
@@ -417,6 +419,13 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
             validMixin = new ToggleStyleMixin<>(timeInput, CssName.VALID);
         }
         return validMixin;
+    }
+
+    protected FieldTypeMixin<MaterialTimePicker> getFieldTypeMixin() {
+        if (fieldTypeMixin == null) {
+            fieldTypeMixin = new FieldTypeMixin<>(this);
+        }
+        return fieldTypeMixin;
     }
 
     @Override
@@ -439,6 +448,26 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         return getReadOnlyMixin().isToggleReadOnly();
     }
 
+    @Override
+    public void setFieldType(FieldType type) {
+        getFieldTypeMixin().setFieldType(type);
+    }
+
+    @Override
+    public FieldType getFieldType() {
+        return getFieldTypeMixin().getFieldType();
+    }
+
+    @Override
+    public void setLabelWidth(double percentWidth) {
+        getFieldTypeMixin().setLabelWidth(percentWidth);
+    }
+
+    @Override
+    public void setFieldWidth(double percentWidth) {
+        getFieldTypeMixin().setFieldWidth(percentWidth);
+    }
+
     public MaterialInput getTimeInput() {
         return timeInput;
     }
@@ -451,8 +480,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         return errorLabel;
     }
 
-    public Label getPlaceholderLabel() {
-        return placeholderLabel;
+    public Label getLabel() {
+        return label;
     }
 
     @Override

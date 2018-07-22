@@ -34,6 +34,7 @@ import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.ui.base.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
 
@@ -215,7 +216,7 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
         // when / then
         // Check Initial children
         assertEquals(0, comboBox.getValues().size());
-        assertEquals(2, comboBox.getChildren().size());
+        assertEquals(3, comboBox.getChildren().size());
         // Check simple String object
         for (int i = 1; i <= 5; i++) {
             comboBox.addItem("item" + i);
@@ -240,6 +241,11 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
         assertTrue(comboBox.getWidget(1) instanceof Label);
         Label lblTitle = (Label) comboBox.getWidget(1);
         assertTrue(lblTitle.getElement().hasClassName(AddinsCssName.SELECT2LABEL));
+        // Check error label
+        assertNotNull(comboBox.getWidget(2));
+        assertTrue(comboBox.getWidget(2) instanceof MaterialLabel);
+        assertEquals(comboBox.getErrorLabel(), comboBox.getWidget(2));
+
     }
 
     public void testElements() {

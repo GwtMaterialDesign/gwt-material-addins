@@ -19,6 +19,9 @@
  */
 package gwt.material.design.addins.client.combobox.js;
 
+import gwt.material.design.addins.client.combobox.js.options.Data;
+import gwt.material.design.addins.client.combobox.js.options.Params;
+import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -65,6 +68,9 @@ public class JsComboBoxOptions {
 
     @JsProperty
     public boolean tags;
+
+    @JsProperty
+    public Functions.FuncRet2<Params, Data> matcher;
 
     @JsProperty
     public LanguageOptions language;

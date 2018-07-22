@@ -26,26 +26,26 @@ package gwt.material.design.addins.client.fileuploader.base;
  */
 public class UploadResponse {
 
-    private String code;
+    private int code;
     private String message;
     private String body;
 
-    public UploadResponse(String code, String message) {
+    public UploadResponse(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public UploadResponse(String code, String message, String body) {
+    public UploadResponse(int code, String message, String body) {
         this.code = code;
         this.message = message;
         this.body = body;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

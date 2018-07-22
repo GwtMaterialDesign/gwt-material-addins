@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -38,7 +39,7 @@ import gwt.material.design.addins.client.stepper.events.PreviousEvent;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
-import gwt.material.design.client.base.HasError;
+import gwt.material.design.client.base.HasStatusText;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.Axis;
@@ -80,7 +81,7 @@ import gwt.material.design.client.ui.html.Span;
  * @see <a href="https://material.io/guidelines/components/steppers.html">Material Design Specification</a>
  */
 // @formatter:on
-public class MaterialStepper extends MaterialWidget implements HasAxis, HasError, SelectionHandler<MaterialStep>,
+public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
         HasSelectionChangedHandlers, HasStepsHandler {
 
     static {
@@ -92,8 +93,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
     }
 
     private int currentStepIndex = 0;
+    private int totalSteps;
     private boolean stepSkippingAllowed = true;
-    private boolean detectOrientation = false;
+    private boolean detectOrientation = true;
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
@@ -152,6 +154,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
         this.add((Widget) step);
         step.setAxis(getAxis());
         registerHandler(step.addSelectionHandler(this));
+        totalSteps++;
     }
 
     /**
@@ -166,7 +169,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
                 MaterialStep step = (MaterialStep) w;
                 step.setActive(false);
 
-                step.setSuccess(step.getDescription());
+                step.setSuccessText(step.getDescription());
 
                 // next step
                 int nextStepIndex = getWidgetIndex(step) + 1;
@@ -281,7 +284,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
      */
     public void reset() {
         goToStep(1);
-        clearErrorOrSuccess();
+        clearStatusText();
     }
 
     /**
@@ -330,36 +333,78 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasError
         return null;
     }
 
-    @Override
-    public void setError(String error) {
-        getCurrentStep().setError(error);
+    public int getTotalSteps() {
+        return totalSteps;
+    }
+
+    public boolean isLastStep() {
+        return getCurrentStep().getStep() == getTotalSteps();
+    }
+
+    public boolean isFirstStep() {
+        return getCurrentStep().getStep() == 1;
     }
 
     @Override
-    public void setSuccess(String success) {
-        getCurrentStep().setSuccess(success);
+    public void setErrorText(String errorText) {
+        getCurrentStep().setErrorText(errorText);
+    }
+
+    @Override
+    public void setSuccessText(String successText) {
+        getCurrentStep().setSuccessText(successText);
     }
 
     @Override
     public void setHelperText(String helperText) {
-        getCurrentStep().setDescription(helperText);
+        getCurrentStep().setHelperText(helperText);
     }
 
     @Override
-    public void clearErrorOrSuccess() {
+    public void clearStatusText() {
         for (int i = 0; i < getWidgetCount(); i++) {
             Widget w = getWidget(i);
             if (w instanceof MaterialStep) {
-                ((MaterialStep) w).clearErrorOrSuccess();
+                ((MaterialStep) w).clearStatusText();
             }
         }
+    }
+
+    @Override
+    public boolean isErrorTextVisible() {
+        return getCurrentStep().isErrorTextVisible();
+    }
+
+    @Override
+    public void clearErrorText() {
+        getCurrentStep().clearErrorText();
+    }
+
+    @Override
+    public boolean isHelperTextVisible() {
+        return getCurrentStep().isHelperTextVisible();
+    }
+
+    @Override
+    public void clearHelperText() {
+        getCurrentStep().clearHelperText();
+    }
+
+    @Override
+    public boolean isSuccessTextVisible() {
+        return getCurrentStep().isSuccessTextVisible();
+    }
+
+    @Override
+    public void clearSuccessText() {
+        getCurrentStep().clearSuccessText();
     }
 
     /**
      * Get feedback message.
      */
     public String getFeedback() {
-        return feedbackSpan.getElement().getInnerHTML();
+        return SafeHtmlUtils.fromString(feedbackSpan.getElement().getInnerHTML()).asString();
     }
 
     /**

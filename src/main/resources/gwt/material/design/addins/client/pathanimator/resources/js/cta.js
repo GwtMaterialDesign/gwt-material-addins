@@ -133,6 +133,7 @@
 
 		// Create a dummy element for transition.
 		dummy = document.createElement('div');
+		dummy.classList.add("bridge-path");
 		dummy.style.setProperty('z-index', '999', 'important');
 		dummy.style.setProperty('pointer-events', 'none', 'important');
 		dummy.style.setProperty('position', (options.relativeToWindow ? 'fixed' : 'absolute'), 'important');
