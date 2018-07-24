@@ -12,7 +12,7 @@
     <packaging>gwt-lib</packaging>
 
     <name>Gwt Material Addins</name>
-    <version>2.1</version>
+    <version>2.1.1-SNAPSHOT</version>
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
