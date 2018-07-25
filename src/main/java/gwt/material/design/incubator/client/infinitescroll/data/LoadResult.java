@@ -26,17 +26,11 @@ public class LoadResult<T> {
     private final List<T> data;
     private final int offset;
     private final int totalLength;
-    private final boolean cacheData;
 
     public LoadResult(List<T> data, int offset, int totalLength) {
-        this(data, offset, totalLength, true);
-    }
-
-    public LoadResult(List<T> data, int offset, int totalLength, boolean cacheData) {
         this.data = data;
         this.offset = offset;
         this.totalLength = totalLength;
-        this.cacheData = cacheData;
     }
 
     /**
