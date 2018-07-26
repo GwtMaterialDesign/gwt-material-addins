@@ -68,6 +68,8 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     private int limit = 0;
     private int absoluteTotal;
     private boolean completed;
+    private int bufferTop = 40;
+    private int bufferBottom = 40;
 
     public InfiniteScrollPanel() {
         super();
@@ -100,6 +102,9 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         limit = loadConfig.getLimit();
 
         load(offset, limit);
+
+        setPaddingTop(bufferTop);
+        setPaddingBottom(bufferBottom);
 
         $(getElement()).scroll((e, param1) -> {
             if (!loader.isAttached()) {
@@ -193,6 +198,22 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
     public void setRenderer(Renderer<T> renderer) {
         this.renderer = renderer;
+    }
+
+    public int getBufferTop() {
+        return bufferTop;
+    }
+
+    public void setBufferTop(int bufferTop) {
+        this.bufferTop = bufferTop;
+    }
+
+    public int getBufferBottom() {
+        return bufferBottom;
+    }
+
+    public void setBufferBottom(int bufferBottom) {
+        this.bufferBottom = bufferBottom;
     }
 
     @Override
