@@ -20,22 +20,18 @@
 package gwt.material.design.incubator.client.infinitescroll;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.SpinnerColor;
 import gwt.material.design.client.constants.TextAlign;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.MaterialSpinner;
 import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollDebugClientBundle;
 
-public class ScrollLoadingSpinner extends MaterialWidget {
+public class InfiniteScrollLoader extends MaterialWidget {
 
     private Span label = new Span();
-    private MaterialWidget container;
+    private InfiniteScrollPanel container;
 
-    public ScrollLoadingSpinner(MaterialWidget container) {
+    public InfiniteScrollLoader(InfiniteScrollPanel container) {
         super(Document.get().createDivElement(), IncubatorCssName.INFINITE_SCROLL_LOADER);
 
         this.container = container;

@@ -25,9 +25,10 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.incubator.client.infinitescroll.constants.RecycleViewPosition;
 import gwt.material.design.incubator.client.infinitescroll.data.*;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
+import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
+import gwt.material.design.incubator.client.infinitescroll.recycle.RecyclePosition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,17 +60,15 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
-    private ScrollLoadingSpinner loader = new ScrollLoadingSpinner(this);
+    private InfiniteScrollLoader loader;
     private DataSource<T> dataSource;
     private LoadConfig<T> loadConfig;
     private Renderer<T> renderer;
-    private ScrollRecycler scrollRecycler = new DefaultScrollRecycler(this);
+    private RecycleManager recycleManager;
     private int offset = 0;
     private int limit = 0;
     private int absoluteTotal;
     private boolean completed;
-    private int bufferTop = 40;
-    private int bufferBottom = 40;
 
     public InfiniteScrollPanel() {
         super();
@@ -82,48 +81,31 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         this.loadConfig = loadConfig;
     }
 
-    public InfiniteScrollPanel(DataSource<T> dataSource, LoadConfig<T> loadConfig, ScrollRecycler viewrecycler) {
-        super();
-
-        this.dataSource = dataSource;
-        this.loadConfig = loadConfig;
-        this.scrollRecycler = viewrecycler;
-    }
-
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        load();
-    }
-
-    public void load() {
+        loader = new InfiniteScrollLoader(this);
         offset = loadConfig.getOffset();
         limit = loadConfig.getLimit();
 
+        // Will first load the initial data
         load(offset, limit);
 
-        setPaddingTop(bufferTop);
-        setPaddingBottom(bufferBottom);
-
         $(getElement()).scroll((e, param1) -> {
-            if (!loader.isAttached()) {
+            if (!isLoading()) {
                 if (getElement().getScrollTop() <= 0) {
-                    scrollRecycler.recycle(RecycleViewPosition.TOP);
+                    onScrollTop();
                 }
 
                 if (getElement().getScrollTop() == (getElement().getScrollHeight()) - getElement().getOffsetHeight()) {
-                    if (scrollRecycler.hasCachedWidgets()) {
-                        scrollRecycler.recycle(RecycleViewPosition.BOTTOM);
-                    } else {
-                        load(offset, limit);
-                    }
+                    onScrollBottom();
                 }
             }
             return false;
         });
 
-        addLoadedHandler(event -> {
+        registerHandler(addLoadedHandler(event -> {
             loading(false);
 
             List<Widget> widgets = new ArrayList<>();
@@ -133,11 +115,26 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
                 widgets.add(widget);
             }
 
-            if (scrollRecycler != null) {
-                scrollRecycler.addWidgets(widgets);
+            if (isEnableRecycling()) {
+                recycleManager.addWidgets(widgets);
             }
-        });
-        addCompleteHandler(event -> loading(false));
+        }));
+
+        registerHandler(addCompleteHandler(event -> loading(false)));
+    }
+
+    protected void onScrollBottom() {
+        if (isEnableRecycling() && recycleManager.hasCachedWidgets()) {
+            recycleManager.recycle(RecyclePosition.BOTTOM);
+        } else {
+            load(offset, limit);
+        }
+    }
+
+    protected void onScrollTop() {
+        if (isEnableRecycling()) {
+            recycleManager.recycle(RecyclePosition.TOP);
+        }
     }
 
     protected void load(int offset, int limit) {
@@ -172,8 +169,8 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
-    public void setScrollRecycler(ScrollRecycler scrollRecycler) {
-        this.scrollRecycler = scrollRecycler;
+    public boolean isLoading() {
+        return loader.isAttached();
     }
 
     public LoadConfig<T> getLoadConfig() {
@@ -200,20 +197,14 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         this.renderer = renderer;
     }
 
-    public int getBufferTop() {
-        return bufferTop;
+    public void setRecycleManager(RecycleManager recycleManager) {
+        this.recycleManager = recycleManager;
+        this.recycleManager.setParent(this);
     }
 
-    public void setBufferTop(int bufferTop) {
-        this.bufferTop = bufferTop;
-    }
 
-    public int getBufferBottom() {
-        return bufferBottom;
-    }
-
-    public void setBufferBottom(int bufferBottom) {
-        this.bufferBottom = bufferBottom;
+    public boolean isEnableRecycling() {
+        return recycleManager != null;
     }
 
     @Override
