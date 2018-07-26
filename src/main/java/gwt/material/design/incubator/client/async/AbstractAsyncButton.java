@@ -25,6 +25,7 @@ import gwt.material.design.client.base.HasActive;
 import gwt.material.design.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.html.Icon;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.async.events.ErrorEvent;
 import gwt.material.design.incubator.client.async.events.HasAsyncHandlers;
@@ -38,9 +39,9 @@ import gwt.material.design.incubator.client.base.IncubatorWidget;
  * Asynchronous buttons are components that is good ux for
  * calling the server side component and automatically updates
  * the states of the ui logic.
- *
+ * <p>
  * <p><i>
- *     Note: This component is under the incubation process and subject to change.
+ * Note: This component is under the incubation process and subject to change.
  * </i></p>
  * <h3>XML Namespace Declaration</h3>
  *
@@ -59,6 +60,8 @@ public abstract class AbstractAsyncButton extends AbstractIconButton
     }
 
     protected ActiveMixin<AbstractAsyncButton> activeMixin;
+    protected IconType initialIcon;
+    protected String initialMessage;
     protected IconType loadingIcon = IconType.AUTORENEW;
     protected IconType errorIcon = IconType.WARNING;
     protected IconType successIcon = IconType.CHECK;
@@ -97,6 +100,21 @@ public abstract class AbstractAsyncButton extends AbstractIconButton
         setIconType(successIcon);
         setEnabled(true);
         SuccessEvent.fire(this);
+    }
+
+    public void reset(IconType iconType) {
+        reset(iconType, null);
+    }
+
+    public void reset(String message) {
+        reset(null, message);
+    }
+
+    public void reset(IconType iconType, String message) {
+        setActive(true);
+
+        if (iconType != null) setIconType(iconType);
+        if (message != null) setText(message);
     }
 
     @Override

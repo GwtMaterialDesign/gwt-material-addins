@@ -30,12 +30,12 @@ import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollDebugClientBundle;
 
-public class ScrollLoader extends MaterialWidget {
+public class ScrollLoadingSpinner extends MaterialWidget {
 
     private Span label = new Span();
     private MaterialWidget container;
 
-    public ScrollLoader(MaterialWidget container) {
+    public ScrollLoadingSpinner(MaterialWidget container) {
         super(Document.get().createDivElement(), IncubatorCssName.INFINITE_SCROLL_LOADER);
 
         this.container = container;

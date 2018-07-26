@@ -25,8 +25,12 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
+import gwt.material.design.incubator.client.infinitescroll.constants.RecycleViewPosition;
 import gwt.material.design.incubator.client.infinitescroll.data.*;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static gwt.material.design.client.js.JsMaterialElement.$;
 
@@ -55,10 +59,11 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
-    private ScrollLoader loader = new ScrollLoader(this);
+    private ScrollLoadingSpinner loader = new ScrollLoadingSpinner(this);
     private DataSource<T> dataSource;
     private LoadConfig<T> loadConfig;
     private Renderer<T> renderer;
+    private ScrollRecycler scrollRecycler = new DefaultScrollRecycler(this);
     private int offset = 0;
     private int limit = 0;
     private int absoluteTotal;
@@ -73,6 +78,14 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
         this.dataSource = dataSource;
         this.loadConfig = loadConfig;
+    }
+
+    public InfiniteScrollPanel(DataSource<T> dataSource, LoadConfig<T> loadConfig, ScrollRecycler viewrecycler) {
+        super();
+
+        this.dataSource = dataSource;
+        this.loadConfig = loadConfig;
+        this.scrollRecycler = viewrecycler;
     }
 
     @Override
@@ -90,8 +103,16 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
         $(getElement()).scroll((e, param1) -> {
             if (!loader.isAttached()) {
+                if (getElement().getScrollTop() <= 0) {
+                    scrollRecycler.recycle(RecycleViewPosition.TOP);
+                }
+
                 if (getElement().getScrollTop() == (getElement().getScrollHeight()) - getElement().getOffsetHeight()) {
-                    load(offset, limit);
+                    if (scrollRecycler.hasCachedWidgets()) {
+                        scrollRecycler.recycle(RecycleViewPosition.BOTTOM);
+                    } else {
+                        load(offset, limit);
+                    }
                 }
             }
             return false;
@@ -100,9 +121,15 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         addLoadedHandler(event -> {
             loading(false);
 
+            List<Widget> widgets = new ArrayList<>();
             for (T model : event.getData()) {
                 Widget widget = renderer.render(model);
                 add(widget);
+                widgets.add(widget);
+            }
+
+            if (scrollRecycler != null) {
+                scrollRecycler.addWidgets(widgets);
             }
         });
         addCompleteHandler(event -> loading(false));
@@ -138,6 +165,10 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         } else {
             loader.hide();
         }
+    }
+
+    public void setScrollRecycler(ScrollRecycler scrollRecycler) {
+        this.scrollRecycler = scrollRecycler;
     }
 
     public LoadConfig<T> getLoadConfig() {
