@@ -31,14 +31,20 @@ public class LoadingEvent extends GwtEvent<LoadingEvent.LoadingHandler> {
 
     public static final Type<LoadingHandler> TYPE = new Type<>();
 
-    public LoadingEvent() {}
+    private int startIndex;
+    private int lastIndex;
+
+    public LoadingEvent(int startIndex, int lastIndex) {
+        this.startIndex = startIndex;
+        this.lastIndex = lastIndex;
+    }
 
     public static Type<LoadingHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new LoadingEvent());
+    public static void fire(HasHandlers source, int startIndex, int lastIndex) {
+        source.fireEvent(new LoadingEvent(startIndex, lastIndex));
     }
 
     @Override
@@ -49,6 +55,14 @@ public class LoadingEvent extends GwtEvent<LoadingEvent.LoadingHandler> {
     @Override
     protected void dispatch(LoadingHandler handler) {
         handler.onLoading(this);
+    }
+
+    public int getStartIndex() {
+        return startIndex;
+    }
+
+    public int getLastIndex() {
+        return lastIndex;
     }
 
     public interface LoadingHandler extends EventHandler {

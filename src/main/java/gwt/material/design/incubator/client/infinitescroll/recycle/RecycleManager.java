@@ -16,7 +16,7 @@ public class RecycleManager {
     private int loadIndex = 0;
     private int currentIndex = -1;
     private InfiniteScrollPanel parent;
-    private Map<Integer, List<Widget>> cachedWidgets = new HashMap<>();
+    private Map<Integer, List<Widget>> recycledWidgets = new HashMap<>();
     private RecycleOptions options = new RecycleOptions();
 
     public RecycleManager() {
@@ -37,12 +37,12 @@ public class RecycleManager {
 
     protected void recycleTop() {
         if (currentIndex > 0) {
-            // Remove the current cached widgets
-            List<Widget> currentWidgets = cachedWidgets.get(currentIndex);
+            // Remove the current recycled widgets
+            List<Widget> currentWidgets = recycledWidgets.get(currentIndex);
             if (currentWidgets != null) remove(currentWidgets);
 
-            // Add the previous cached widgets
-            List<Widget> previousWidgets = cachedWidgets.get(currentIndex - 1);
+            // Add the previous recycled widgets
+            List<Widget> previousWidgets = recycledWidgets.get(currentIndex - 1);
             if (previousWidgets != null) add(previousWidgets);
             scrollTo(parentElement().get(0).getScrollHeight() - (options.getBufferTop() + options.getBufferBottom() + parentElement().outerHeight()));
             currentIndex--;
@@ -50,14 +50,14 @@ public class RecycleManager {
     }
 
     protected void recycleBottom() {
-        // Remove the current cached widgets
+        // Remove the current recycled widgets
         if (currentIndex <= loadIndex) {
-            List<Widget> currentWidgets = cachedWidgets.get(currentIndex);
+            List<Widget> currentWidgets = recycledWidgets.get(currentIndex);
             if (currentWidgets != null) remove(currentWidgets);
 
-            // Add the previous cached widgets
-            if (hasCachedWidgets()) {
-                List<Widget> nextWidgets = cachedWidgets.get(currentIndex + 1);
+            // Add the previous recycled widgets
+            if (hasRecycledWidgets()) {
+                List<Widget> nextWidgets = recycledWidgets.get(currentIndex + 1);
                 if (nextWidgets != null) add(nextWidgets);
                 scrollTo(options.getBufferTop());
             }
@@ -70,18 +70,24 @@ public class RecycleManager {
     }
 
     protected void remove(List<Widget> widgets) {
-        if (options.getType() == RecycleType.VISIBILITY) {
-            widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.NONE));
-        } else if (options.getType() == RecycleType.DETACH) {
-            widgets.forEach(widget -> widget.removeFromParent());
+        switch (options.getType()) {
+            case DETACH:
+                widgets.forEach(widget -> widget.removeFromParent());
+                break;
+            case DISPLAY:
+                widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.NONE));
+                break;
         }
     }
 
     protected void add(List<Widget> widgets) {
-        if (options.getType() == RecycleType.VISIBILITY) {
-            widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.BLOCK));
-        } else if (options.getType() == RecycleType.DETACH) {
-            widgets.forEach(widget -> parent.add(widget));
+        switch (options.getType()) {
+            case DETACH:
+                widgets.forEach(widget -> parent.add(widget));
+                break;
+            case DISPLAY:
+                widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.BLOCK));
+                break;
         }
     }
 
@@ -90,13 +96,13 @@ public class RecycleManager {
     }
 
     public void addWidgets(List<Widget> widgets) {
-        cachedWidgets.put(loadIndex, widgets); // 0
+        recycledWidgets.put(loadIndex, widgets);
         loadIndex++;
         recycle(RecyclePosition.BOTTOM);
     }
 
-    public boolean hasCachedWidgets() {
-        return cachedWidgets.get(currentIndex + 1) != null;
+    public boolean hasRecycledWidgets() {
+        return recycledWidgets.get(currentIndex + 1) != null;
     }
 
     public void setParent(InfiniteScrollPanel parent) {

@@ -67,7 +67,6 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     private RecycleManager recycleManager;
     private int offset = 0;
     private int limit = 0;
-    private int absoluteTotal;
     private boolean completed;
 
     public InfiniteScrollPanel() {
@@ -89,7 +88,6 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         offset = loadConfig.getOffset();
         limit = loadConfig.getLimit();
 
-        // Will first load the initial data
         load(offset, limit);
 
         $(getElement()).scroll((e, param1) -> {
@@ -109,7 +107,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             loading(false);
 
             List<Widget> widgets = new ArrayList<>();
-            for (T model : event.getData()) {
+            for (T model : event.getResult().getData()) {
                 Widget widget = renderer.render(model);
                 add(widget);
                 widgets.add(widget);
@@ -120,11 +118,14 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             }
         }));
 
-        registerHandler(addCompleteHandler(event -> loading(false)));
+        registerHandler(addCompleteHandler(event -> {
+            loading(false);
+            completed = true;
+        }));
     }
 
     protected void onScrollBottom() {
-        if (isEnableRecycling() && recycleManager.hasCachedWidgets()) {
+        if (isEnableRecycling() && recycleManager.hasRecycledWidgets()) {
             recycleManager.recycle(RecyclePosition.BOTTOM);
         } else {
             load(offset, limit);
@@ -143,13 +144,11 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
-                    LoadedEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
+                    LoadedEvent.fire(InfiniteScrollPanel.this, loadResult);
                     InfiniteScrollPanel.this.offset = InfiniteScrollPanel.this.offset + limit;
-                    absoluteTotal = loadResult.getTotalLength();
 
-                    if (InfiniteScrollPanel.this.offset >= absoluteTotal) {
-                        CompleteEvent.fire(InfiniteScrollPanel.this);
-                        completed = true;
+                    if (InfiniteScrollPanel.this.offset >= loadResult.getTotalLength()) {
+                        CompleteEvent.fire(InfiniteScrollPanel.this, loadResult.getTotalLength());
                     }
                 }
 
@@ -202,6 +201,13 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         this.recycleManager.setParent(this);
     }
 
+    public InfiniteScrollLoader getLoader() {
+        return loader;
+    }
+
+    public RecycleManager getRecycleManager() {
+        return recycleManager;
+    }
 
     public boolean isEnableRecycling() {
         return recycleManager != null;

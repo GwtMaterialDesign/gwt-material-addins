@@ -49,11 +49,6 @@ public class LoadResult<T> {
 
     /**
      * Return total length of the data.
-     * <br/>
-     * <ul>
-     *  <li>For non-paging requests equals size of the data.</li>
-     *  <li>For paging requests should equals total number of records</li>
-     * </ul>
      */
     public int getTotalLength() {
         return totalLength;

@@ -31,14 +31,18 @@ public class CompleteEvent extends GwtEvent<CompleteEvent.CompleteHandler> {
 
     public static final Type<CompleteHandler> TYPE = new Type<>();
 
-    public CompleteEvent() {}
+    private int total;
+
+    public CompleteEvent(int total) {
+        this.total = total;
+    }
 
     public static Type<CompleteHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new CompleteEvent());
+    public static void fire(HasHandlers source, int total) {
+        source.fireEvent(new CompleteEvent(total));
     }
 
     @Override
@@ -49,6 +53,10 @@ public class CompleteEvent extends GwtEvent<CompleteEvent.CompleteHandler> {
     @Override
     protected void dispatch(CompleteHandler handler) {
         handler.onComplete(this);
+    }
+
+    public int getTotal() {
+        return total;
     }
 
     public interface CompleteHandler extends EventHandler {
