@@ -35,14 +35,20 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
  */
 public class InfiniteScrollLoader extends MaterialWidget {
 
+    private String message = "Loading";
     private Span label = new Span();
-    private InfiniteScrollPanel container;
+    private InfiniteScrollPanel parent;
 
-    public InfiniteScrollLoader(InfiniteScrollPanel container) {
+    public InfiniteScrollLoader() {
         super(Document.get().createDivElement(), IncubatorCssName.INFINITE_SCROLL_LOADER);
-
-        this.container = container;
     }
+
+    public InfiniteScrollLoader(String message) {
+        this();
+
+        this.message = message;
+    }
+
 
     @Override
     protected void onLoad() {
@@ -50,7 +56,7 @@ public class InfiniteScrollLoader extends MaterialWidget {
 
         setTextAlign(TextAlign.CENTER);
 
-        label.setText("Loading");
+        label.setText(message);
         label.setFontSize("1.2em");
         label.setLineHeight(12);
 
@@ -58,15 +64,15 @@ public class InfiniteScrollLoader extends MaterialWidget {
     }
 
     /**
-     * Will attach a loader to it's container
+     * Will attach a loader to it's parent
      */
     public void show() {
         MaterialLoader.loading(true, this);
-        container.add(this);
+        parent.add(this);
     }
 
     /**
-     * Will detach a loader to it's container
+     * Will detach a loader to it's parent
      */
     public void hide() {
         MaterialLoader.loading(false);
@@ -74,9 +80,13 @@ public class InfiniteScrollLoader extends MaterialWidget {
     }
 
     /**
-     * Will check if the loading indicator still attached to it's container
+     * Will check if the loading indicator still attached to it's parent
      */
     public boolean isLoading() {
         return isAttached();
+    }
+
+    public void setParent(InfiniteScrollPanel parent) {
+        this.parent = parent;
     }
 }

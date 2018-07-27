@@ -120,7 +120,10 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
      * of the scroll panel providing a target threshold on scrolling both top / bottom positions.
      */
     protected void load() {
-        loader = new InfiniteScrollLoader(this);
+        if (loader == null) {
+            setInfiniteScrollLoader(new InfiniteScrollLoader());
+        }
+
         offset = loadConfig.getOffset();
         limit = loadConfig.getLimit();
         setPaddingTop(bufferTop);
@@ -296,6 +299,11 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
      */
     public InfiniteScrollLoader getLoader() {
         return loader;
+    }
+
+    public void setInfiniteScrollLoader(InfiniteScrollLoader loader) {
+        this.loader = loader;
+        this.loader.setParent(this);
     }
 
     /**
