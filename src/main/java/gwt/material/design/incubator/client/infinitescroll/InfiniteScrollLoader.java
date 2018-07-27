@@ -26,6 +26,13 @@ import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
+//@formatter:off
+
+/**
+ * Scroll Loader widget - shown when loading data thru {@link InfiniteScrollPanel#load(int, int)}
+ *
+ * @author kevzlou7979
+ */
 public class InfiniteScrollLoader extends MaterialWidget {
 
     private Span label = new Span();
@@ -50,13 +57,26 @@ public class InfiniteScrollLoader extends MaterialWidget {
         add(label);
     }
 
+    /**
+     * Will attach a loader to it's container
+     */
     public void show() {
         MaterialLoader.loading(true, this);
         container.add(this);
     }
 
+    /**
+     * Will detach a loader to it's container
+     */
     public void hide() {
         MaterialLoader.loading(false);
         removeFromParent();
+    }
+
+    /**
+     * Will check if the loading indicator still attached to it's container
+     */
+    public boolean isLoading() {
+        return isAttached();
     }
 }

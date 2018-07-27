@@ -25,6 +25,8 @@ import com.google.gwt.event.shared.HasHandlers;
 //@formatter:off
 
 /**
+ * Fire whenever the infinite scroll still loading the data from data source.
+ *
  * @author kevzlou7979
  */
 public class LoadingEvent extends GwtEvent<LoadingEvent.LoadingHandler> {

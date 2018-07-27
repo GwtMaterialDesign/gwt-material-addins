@@ -22,9 +22,12 @@ package gwt.material.design.incubator.client.infinitescroll.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
 //@formatter:off
 
 /**
+ * Fired whenever we pulled all the data provided in datasource.
+ *
  * @author kevzlou7979
  */
 public class CompleteEvent extends GwtEvent<CompleteEvent.CompleteHandler> {

@@ -26,6 +26,8 @@ import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
 //@formatter:off
 
 /**
+ * Fired whenever the data is loaded.
+ *
  * @author kevzlou7979
  */
 public class LoadedEvent<T> extends GwtEvent<LoadedEvent.LoadHandler<T>> {

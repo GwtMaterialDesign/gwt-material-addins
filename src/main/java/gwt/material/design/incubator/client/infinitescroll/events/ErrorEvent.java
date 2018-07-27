@@ -22,9 +22,12 @@ package gwt.material.design.incubator.client.infinitescroll.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+
 //@formatter:off
 
 /**
+ * Fired when the Infinite Scroll failed to retrieve the data
+ *
  * @author kevzlou7979
  */
 public class ErrorEvent extends GwtEvent<ErrorEvent.ErrorHandler> {
