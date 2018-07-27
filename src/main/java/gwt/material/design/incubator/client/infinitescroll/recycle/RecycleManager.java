@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,10 +106,24 @@ public class RecycleManager {
         return recycledWidgets.get(currentIndex + 1) != null;
     }
 
+    public List<Widget> getRecycledWidgets() {
+        List<Widget> widgets = new ArrayList<>();
+        for (Integer recycledIndex : recycledWidgets.keySet()) {
+            widgets.addAll(recycledWidgets.get(recycledIndex));
+        }
+        return widgets;
+    }
+
     public void setParent(InfiniteScrollPanel parent) {
         this.parent = parent;
 
         parent.setPaddingBottom(options.getBufferBottom());
         parent.setPaddingTop(options.getBufferTop());
+    }
+
+    public void unload() {
+        loadIndex = 0;
+        currentIndex = -1;
+        recycledWidgets = new HashMap<>();
     }
 }

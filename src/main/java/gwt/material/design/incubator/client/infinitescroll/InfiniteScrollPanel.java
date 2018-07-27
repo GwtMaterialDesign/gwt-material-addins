@@ -23,6 +23,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.data.*;
@@ -74,7 +75,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     }
 
     public InfiniteScrollPanel(DataSource<T> dataSource, LoadConfig<T> loadConfig) {
-        super();
+        this();
 
         this.dataSource = dataSource;
         this.loadConfig = loadConfig;
@@ -83,12 +84,6 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     @Override
     protected void onLoad() {
         super.onLoad();
-
-        loader = new InfiniteScrollLoader(this);
-        offset = loadConfig.getOffset();
-        limit = loadConfig.getLimit();
-
-        load(offset, limit);
 
         $(getElement()).scroll((e, param1) -> {
             if (!isLoading()) {
@@ -105,7 +100,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
         registerHandler(addLoadedHandler(event -> {
             loading(false);
-
+            MaterialToast.fireToast("TEST");
             List<Widget> widgets = new ArrayList<>();
             for (T model : event.getResult().getData()) {
                 Widget widget = renderer.render(model);
@@ -122,6 +117,16 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             loading(false);
             completed = true;
         }));
+
+        load();
+    }
+
+    protected void load() {
+        loader = new InfiniteScrollLoader(this);
+        offset = loadConfig.getOffset();
+        limit = loadConfig.getLimit();
+
+        load(offset, limit);
     }
 
     protected void onScrollBottom() {
@@ -158,6 +163,21 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
                 }
             });
         }
+    }
+
+    public void unload() {
+        clear();
+        offset = 0;
+        limit = 0;
+        completed = false;
+        if (isEnableRecycling()) {
+            recycleManager.unload();
+        }
+    }
+
+    public void reload() {
+        unload();
+        load();
     }
 
     public void loading(boolean show) {
