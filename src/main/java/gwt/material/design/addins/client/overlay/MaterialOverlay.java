@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.overlay;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -31,6 +32,8 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialIcon;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -72,6 +75,8 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
 
     private Element sourceElement;
     private MaterialPathAnimator animator = new MaterialPathAnimator();
+    private MaterialOverlayTab overlayTab;
+    private MaterialIcon minimizeIcon = new MaterialIcon(IconType.KEYBOARD_ARROW_DOWN);
 
     public MaterialOverlay() {
         super(Document.get().createDivElement(), AddinsCssName.OVERLAY_PANEL);
@@ -100,8 +105,8 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         $("body").attr("style", "overflow: hidden !important");
         animator.setSourceElement(sourceElement);
         animator.setTargetElement(getElement());
+        animator.setCompletedCallback(() -> OpenEvent.fire(MaterialOverlay.this, MaterialOverlay.this));
         animator.animate();
-        OpenEvent.fire(this, this);
     }
 
     /**
@@ -114,18 +119,40 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     }
 
     /**
-     * Close the Overlay Panel with Path Animator applied
+     * Close the Overlay Panel with Path Animator applied.
      */
     public void close() {
+        close(true);
+    }
+
+    /**
+     * Close the Overlay Panel with Path Animator applied.
+     *
+     * @param fireEventImmediately should we fire the close event immediately or wait for the animation.
+     */
+    public void close(boolean fireEventImmediately) {
         if ($(getElement()).parents(AddinsCssName.OVERLAY_PANEL).length() == 1) {
             body().attr("style", "overflow: hidden !important");
         } else {
             body().attr("style", "overflow: auto !important");
         }
         if (sourceElement != null) {
+            if(!fireEventImmediately) {
+                animator.setCompletedCallback(() -> CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this));
+            } else {
+                CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this);
+            }
             animator.reverseAnimate();
+        } else {
+            setOpacity(0);
+            setVisibility(Style.Visibility.HIDDEN);
+            CloseEvent.fire(MaterialOverlay.this, MaterialOverlay.this);
         }
-        CloseEvent.fire(this, this);
+    }
+
+    public boolean isOpen() {
+        Style.Visibility visibility = getVisibility();
+        return visibility == null || !visibility.equals(Style.Visibility.HIDDEN);
     }
 
     /**
@@ -204,5 +231,28 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
                 }
             }
         }, OpenEvent.getType());
+    }
+
+    public MaterialOverlayTab getOverlayTab() {
+        return overlayTab;
+    }
+
+    public void setOverlayTab(MaterialOverlayTab overlayTab) {
+        this.overlayTab = overlayTab;
+        minimizeIcon.addStyleName(AddinsCssName.MINIMIZE_ICON);
+        minimizeIcon.addMouseDownHandler(e -> minimize());
+        add(minimizeIcon);
+    }
+
+    protected void minimize() {
+        if (overlayTab != null) {
+            overlayTab.minimize(this);
+        } else {
+            GWT.log("You must set the overlay container before minimizing the overlay.", new IllegalStateException());
+        }
+    }
+
+    public MaterialIcon getMinimizeIcon() {
+        return minimizeIcon;
     }
 }

@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.dnd;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.constants.DragEvents;
 import gwt.material.design.addins.client.dnd.constants.DropEvents;
 import gwt.material.design.addins.client.dnd.js.JsDnd;
@@ -31,7 +32,6 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.events.*;
 import gwt.material.design.jquery.client.api.Event;
-import gwt.material.design.jquery.client.api.JQuery;
 
 //@formatter:off
 
@@ -73,6 +73,7 @@ public class MaterialDnd {
     private Element[] ignoreFrom;
     private JsDropOptions dropOptions;
     private JsDragOptions dragOptions;
+    private String ignoreFromClassName;
 
     protected MaterialDnd(MaterialWidget target) {
         this.target = target;
@@ -174,26 +175,29 @@ public class MaterialDnd {
 
     public void ignoreFrom(Element... elements) {
         this.ignoreFrom = elements;
-        if (target.isAttached()) {
-            for (Element element : ignoreFrom) {
-                JsDnd.interact(target.getElement()).ignoreFrom(element);
-            }
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> {
-                for (Element element : ignoreFrom) {
-                    JsDnd.interact(target.getElement()).ignoreFrom(element);
-                }
-            }, true));
+
+        String ignoredClass = getIgnoreFromClassName();
+        for (Element element : elements) {
+            element.addClassName(ignoredClass);
         }
+
+        ignoreFrom("." + ignoredClass);
     }
 
     public void ignoreFrom(String selector) {
-        this.ignoreFrom = new Element[]{JQuery.$(selector).asElement()};
+        this.ignoreFromClassName = selector;
         if (target.isAttached()) {
             JsDnd.interact(target.getElement()).ignoreFrom(selector);
         } else {
             target.registerHandler(target.addAttachHandler(event -> JsDnd.interact(target.getElement()).ignoreFrom(selector), true));
         }
+    }
+
+    public String getIgnoreFromClassName() {
+        if (ignoreFromClassName == null) {
+            ignoreFromClassName = AddinsCssName.INTERACT_IGNORED_CONTENT;
+        }
+        return ignoreFromClassName;
     }
 
     public MaterialWidget getTarget() {

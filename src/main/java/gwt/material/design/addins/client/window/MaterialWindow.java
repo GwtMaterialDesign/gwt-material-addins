@@ -36,9 +36,11 @@ import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
+import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -92,6 +94,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     private static MaterialPanel windowOverlay;
     private static int windowCount = 0;
     private boolean preventClose;
+    private boolean fullsceenOnMobile = true;
     private MaterialAnimation openAnimation;
     private MaterialAnimation closeAnimation;
     private MaterialDnd dnd;
@@ -270,6 +273,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
             RootPanel.get().add(windowOverlay);
         }
 
+        if (fullsceenOnMobile && Window.matchMedia(Resolution.ALL_MOBILE.asMediaQuery())) {
+            setMaximize(true);
+        }
+
         if (openAnimation == null) {
             getOpenMixin().setOn(true);
             OpenEvent.fire(this, true);
@@ -344,6 +351,14 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     public void setCloseAnimation(final MaterialAnimation closeAnimation) {
         this.closeAnimation = closeAnimation;
+    }
+
+    public boolean isFullsceenOnMobile() {
+        return fullsceenOnMobile;
+    }
+
+    public void setFullsceenOnMobile(boolean fullsceenOnMobile) {
+        this.fullsceenOnMobile = fullsceenOnMobile;
     }
 
     @Override

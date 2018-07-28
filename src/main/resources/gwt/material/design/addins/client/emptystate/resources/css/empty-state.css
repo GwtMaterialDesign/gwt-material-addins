@@ -1,17 +1,18 @@
 .empty-state i.large {
     border-radius: 100%;
     padding: 20px;
-    background: white;
+    background: #fff;
     color: #4caf50;
     font-size: 4rem;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
 }
 
 .empty-state .preloader-wrapper {
     width: 100px;
-    height: 100px;
+    height: 100px
 }
 
 .empty-state .loader-wrapper {
     background: transparent;
+    z-index: 1;
 }
