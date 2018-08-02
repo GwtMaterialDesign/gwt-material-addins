@@ -532,7 +532,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public void setSingleValue(T value, boolean fireEvents) {
         int index = this.values.indexOf(value);
-        if (index >= 0) {
+        if (index < 0 && value instanceof String) {
+            index = getIndexByString((String) value);
+        }
+
+        if (index > -1) {
             List<T> before = getValue();
             setSelectedIndex(index);
 
@@ -540,6 +544,28 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
                 ValueChangeEvent.fireIfNotEqual(this, before, Collections.singletonList(value));
             }
         }
+    }
+
+    // TODO: Optimize performance (maybe use a map)
+    public T getValueByString(String key) {
+        for (T value : values) {
+            if (keyFactory.generateKey(value).equals(key)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    // TODO: Optimize performance (maybe use a map)
+    public int getIndexByString(String key) {
+        int index = -1;
+        for (T value : values) {
+            index++;
+            if (keyFactory.generateKey(value).equals(key)) {
+                return index;
+            }
+        }
+        return index;
     }
 
     /**
