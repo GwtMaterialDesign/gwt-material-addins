@@ -526,8 +526,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         }
     }
 
-    //TODO Just check the same approach
-
     /**
      * Set the selected value using a single item, generally used
      * in single selection mode.
