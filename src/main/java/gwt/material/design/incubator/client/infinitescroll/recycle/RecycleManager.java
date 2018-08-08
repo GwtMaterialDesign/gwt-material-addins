@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static gwt.material.design.incubator.client.infinitescroll.recycle.RecycleType.DETACH;
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -22,8 +23,9 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  */
 public class RecycleManager {
 
+    private int currentIndex = 0;
+    private int stubCount = 0;
     private int loadIndex = 0;
-    private int currentIndex = -1;
     private InfiniteScrollPanel parent;
     private Map<Integer, List<Widget>> recycledWidgets = new HashMap<>();
     private RecycleType type;
@@ -40,52 +42,75 @@ public class RecycleManager {
      * Will recycle the provided widgets (@link widgets} with provided {@link RecyclePosition}
      */
     public void recycle(RecyclePosition position) {
-        if (position == RecyclePosition.BOTTOM) {
-            // Remove the current recycled widgets
-            if (currentIndex <= loadIndex) {
-                List<Widget> currentWidgets = recycledWidgets.get(currentIndex);
-                if (currentWidgets != null) remove(currentWidgets);
 
-                // Add the previous recycled widgets
+        stubCount = determineStubCount();
+
+        switch (position) {
+            case BOTTOM:
                 if (hasRecycledWidgets()) {
-                    List<Widget> nextWidgets = recycledWidgets.get(currentIndex + 1);
-                    if (nextWidgets != null) add(nextWidgets);
-                    scrollTo(parent.getBufferTop());
+                    // Will remove the  current recycled widgets
+                    remove(getRecycledWidgets().stream()
+                            .skip(0)
+                            .limit((parent.getLimit() * (currentIndex + 1)) - stubCount)
+                            .collect(Collectors.toList()));
+
+                    currentIndex++;
+
+                    // Will determine if the current index is greater than the load index then we need to recycle the next
+                    // set of recycled widgets
+                    if (currentIndex < loadIndex) {
+                        add(getRecycledWidgets(currentIndex));
+                    }
                 }
-                currentIndex++;
-            }
-        } else {
-            if (currentIndex > 0) {
-                // Remove the current recycled widgets
-                List<Widget> currentWidgets = recycledWidgets.get(currentIndex);
-                if (currentWidgets != null) remove(currentWidgets);
+                break;
+            case TOP:
+                if (currentIndex > 0) {
+                    // Will remove the current recycled widgets
+                    remove(getRecycledWidgets(currentIndex));
 
-                // Add the previous recycled widgets
-                List<Widget> previousWidgets = recycledWidgets.get(currentIndex - 1);
-                if (previousWidgets != null) add(previousWidgets);
-                scrollTo(parentElement().get(0).getScrollHeight() - (parent.getBufferTop() + parent.getBufferBottom() + parentElement().outerHeight()));
-                currentIndex--;
-            }
+                    // Will add the previous recycled widgets
+                    int skip = ((parent.getLimit() * currentIndex) - parent.getLimit()) - stubCount;
+                    insert(getRecycledWidgets().stream()
+                            .skip(skip < 0 ? 0 : skip)
+                            .limit(parent.getLimit())
+                            .collect(Collectors.toList()));
+
+                    currentIndex--;
+                }
+                break;
         }
-    }
-
-    /**
-     * Helper method to scroll to a given offset
-     */
-    protected void scrollTo(int value) {
-        $(parent.getElement()).scrollTop(value);
     }
 
     /**
      * Helper method to remove the provided widgets with {@link RecycleType} defined
      */
     protected void remove(List<Widget> widgets) {
+        if (widgets != null) {
+            switch (type) {
+                case DETACH:
+                    widgets.forEach(widget -> widget.removeFromParent());
+                    break;
+                case DISPLAY:
+                    widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.NONE));
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Helper method to insert the provided widgets with {@link RecycleType} defined
+     */
+    protected void insert(List<Widget> widgets) {
         switch (type) {
             case DETACH:
-                widgets.forEach(widget -> widget.removeFromParent());
+                for (Widget widget : widgets) {
+                    int index = widgets.indexOf(widget);
+                    parent.insert(widget, index);
+                }
+
                 break;
             case DISPLAY:
-                widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.NONE));
+                widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.BLOCK));
                 break;
         }
     }
@@ -96,7 +121,10 @@ public class RecycleManager {
     protected void add(List<Widget> widgets) {
         switch (type) {
             case DETACH:
-                widgets.forEach(widget -> parent.add(widget));
+                for (Widget widget : widgets) {
+                    parent.add(widget);
+                }
+
                 break;
             case DISPLAY:
                 widgets.forEach(widget -> widget.getElement().getStyle().setDisplay(Style.Display.BLOCK));
@@ -104,20 +132,20 @@ public class RecycleManager {
         }
     }
 
-    /**
-     * The Parent Infinite scroll element.
-     */
-    protected JQueryElement parentElement() {
-        return $(parent.getElement());
+    protected int determineStubCount() {
+        if (stubCount <= 0) {
+            stubCount = parent.getLimit() / 2;
+        }
+        return stubCount;
     }
 
     /**
      * Will add the widgets in a map {@link this#recycledWidgets}
      */
-    public void addWidgets(List<Widget> widgets) {
+    public void recycleWidgets(List<Widget> widgets) {
         recycledWidgets.put(loadIndex, widgets);
-        loadIndex++;
         recycle(RecyclePosition.BOTTOM);
+        loadIndex++;
     }
 
     /**
@@ -145,22 +173,27 @@ public class RecycleManager {
         return recycledWidgets.get(index);
     }
 
+    public int getStubCount() {
+        return stubCount;
+    }
+
+    public void setStubCount(int stubCount) {
+        this.stubCount = stubCount;
+    }
+
     /**
      * Will set the InfiniteScrollPanel and this will manage all the recycling mechanism
      */
     public void setParent(InfiniteScrollPanel parent) {
         this.parent = parent;
-
-        parent.setPaddingBottom(parent.getBufferBottom());
-        parent.setPaddingTop(parent.getBufferTop());
     }
 
     /**
      * Will reset and unload all the configs of this manager.
      */
     public void unload() {
+        currentIndex = 0;
         loadIndex = 0;
-        currentIndex = -1;
         recycledWidgets = new HashMap<>();
     }
 }

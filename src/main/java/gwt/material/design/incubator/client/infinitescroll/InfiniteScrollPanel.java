@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,9 +68,10 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     private RecycleManager recycleManager;
     private int offset = 0;
     private int limit = 0;
-    private int bufferTop = 40;
-    private int bufferBottom = 40;
+    private int bufferTop = 20;
+    private int bufferBottom = 20;
     private boolean completed;
+    private int itemCount = 1;
 
     public InfiniteScrollPanel() {
         super();
@@ -87,14 +88,14 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     protected void onLoad() {
         super.onLoad();
 
-        // Will setup the scroll events to determin if scrolls top / bottom.
+        // Will setup the scroll events to determine if scrolls top / bottom.
         $(getElement()).scroll((e, param1) -> {
             if (!isLoading()) {
-                if (getElement().getScrollTop() <= 0) {
+                if (getElement().getScrollTop() <= bufferTop) {
                     onScrollTop();
                 }
 
-                if (getElement().getScrollTop() == (getElement().getScrollHeight()) - getElement().getOffsetHeight()) {
+                if (getElement().getScrollTop() >= ((getElement().getScrollHeight()) - getElement().getOffsetHeight()) - bufferBottom) {
                     onScrollBottom();
                 }
             }
@@ -126,8 +127,6 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
         offset = loadConfig.getOffset();
         limit = loadConfig.getLimit();
-        setPaddingTop(bufferTop);
-        setPaddingBottom(bufferBottom);
         load(offset, limit);
     }
 
@@ -165,13 +164,15 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         List<Widget> widgets = new ArrayList<>();
         for (T model : data) {
             Widget widget = renderer.render(model);
+            widget.getElement().setId("item-" + itemCount);
             add(widget);
             widgets.add(widget);
+            itemCount++;
         }
 
         // Check if recycling is enabled
         if (isEnableRecycling()) {
-            recycleManager.addWidgets(widgets);
+            recycleManager.recycleWidgets(widgets);
         }
 
         // Will force the scroll panel to have a scroll if it isn't visible
@@ -213,6 +214,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         clear();
         offset = 0;
         limit = 0;
+        itemCount = 1;
         completed = false;
         if (isEnableRecycling()) {
             recycleManager.unload();
@@ -355,6 +357,10 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
      */
     public void setBufferBottom(int bufferBottom) {
         this.bufferBottom = bufferBottom;
+    }
+
+    public int getLimit() {
+        return limit;
     }
 
     @Override
