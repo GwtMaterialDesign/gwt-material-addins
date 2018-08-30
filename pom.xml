@@ -23,7 +23,7 @@
         <connection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</connection>
         <developerConnection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</developerConnection>
         <url>http://github.com/GwtMaterialDesign/gwt-material-addins</url>
-        <tag>v2.1.1-SNAPSHOT</tag>
+        <tag>v2.1.1</tag>
     </scm>
 
     <licenses>
