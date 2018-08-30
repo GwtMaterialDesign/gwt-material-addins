@@ -17,52 +17,41 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
+package gwt.material.design.incubator.client.async.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.infinitescroll.data.DataSource;
 //@formatter:off
 
 /**
- * Fired whenever we pulled all the data provided in datasource.
- *
  * @author kevzlou7979
  */
-public class CompleteEvent extends GwtEvent<CompleteEvent.CompleteHandler> {
+public class ErrorEvent extends GwtEvent<ErrorEvent.ErrorHandler> {
 
-    public static final Type<CompleteHandler> TYPE = new Type<>();
+    public static final Type<ErrorHandler> TYPE = new Type<>();
 
-    private int total;
+    public ErrorEvent() {}
 
-    public CompleteEvent(int total) {
-        this.total = total;
-    }
-
-    public static Type<CompleteHandler> getType() {
+    public static Type<ErrorHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, int total) {
-        source.fireEvent(new CompleteEvent(total));
+    public static void fire(HasHandlers source) {
+        source.fireEvent(new ErrorEvent());
     }
 
     @Override
-    public Type<CompleteHandler> getAssociatedType() {
+    public Type<ErrorHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(CompleteHandler handler) {
-        handler.onComplete(this);
+    protected void dispatch(ErrorHandler handler) {
+        handler.onError(this);
     }
 
-    public int getTotal() {
-        return total;
-    }
-
-    public interface CompleteHandler extends EventHandler {
-        void onComplete(CompleteEvent event);
+    public interface ErrorHandler extends EventHandler {
+        void onError(ErrorEvent event);
     }
 }

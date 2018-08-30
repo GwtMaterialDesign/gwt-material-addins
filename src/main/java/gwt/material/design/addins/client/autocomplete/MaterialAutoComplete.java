@@ -232,59 +232,65 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     protected void loadHandlers() {
 
-        itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
-            if (getValue().size() > 0) {
-                label.addStyleName(CssName.ACTIVE);
-            }
-        });
+        if (itemBoxBlurHandler == null) {
+            itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
+                if (getValue().size() > 0) {
+                    label.addStyleName(CssName.ACTIVE);
+                }
+            });
+        }
 
-        itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
-            switch (event.getNativeKeyCode()) {
-                case KeyCodes.KEY_ENTER:
-                    if (directInputAllowed) {
-                        String value = itemBox.getValue();
-                        if (value != null && !(value = value.trim()).isEmpty()) {
-                            gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
-                            directInput.setDisplay(value);
-                            directInput.setSuggestion(value);
-                            addItem(directInput);
-                            if (getType() == AutocompleteType.TEXT) {
-                                itemBox.setText(value);
-                            } else {
-                                itemBox.setValue("");
+        if (itemBoxKeyDownHandler == null) {
+            itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
+                switch (event.getNativeKeyCode()) {
+                    case KeyCodes.KEY_ENTER:
+                        if (directInputAllowed) {
+                            String value = itemBox.getValue();
+                            if (value != null && !(value = value.trim()).isEmpty()) {
+                                gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
+                                directInput.setDisplay(value);
+                                directInput.setSuggestion(value);
+                                addItem(directInput);
+                                if (getType() == AutocompleteType.TEXT) {
+                                    itemBox.setText(value);
+                                } else {
+                                    itemBox.setValue("");
+                                }
+                                itemBox.setFocus(true);
                             }
-                            itemBox.setFocus(true);
                         }
-                    }
-                    break;
-                case KeyCodes.KEY_BACKSPACE:
-                    if (itemBox.getValue().trim().isEmpty()) {
-                        if (itemsHighlighted.isEmpty()) {
-                            if (suggestionMap.size() > 0) {
-                                ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
+                        break;
+                    case KeyCodes.KEY_BACKSPACE:
+                        if (itemBox.getValue().trim().isEmpty()) {
+                            if (itemsHighlighted.isEmpty()) {
+                                if (suggestionMap.size() > 0) {
+                                    ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
 
+                                    if (tryRemoveSuggestion(li.getWidget(0))) {
+                                        li.removeFromParent();
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case KeyCodes.KEY_DELETE:
+                        if (itemBox.getValue().trim().isEmpty()) {
+                            for (ListItem li : itemsHighlighted) {
                                 if (tryRemoveSuggestion(li.getWidget(0))) {
                                     li.removeFromParent();
                                 }
                             }
+                            itemsHighlighted.clear();
                         }
-                    }
-                    break;
-                case KeyCodes.KEY_DELETE:
-                    if (itemBox.getValue().trim().isEmpty()) {
-                        for (ListItem li : itemsHighlighted) {
-                            if (tryRemoveSuggestion(li.getWidget(0))) {
-                                li.removeFromParent();
-                            }
-                        }
-                        itemsHighlighted.clear();
-                    }
-                    itemBox.setFocus(true);
-                    break;
-            }
-        });
+                        itemBox.setFocus(true);
+                        break;
+                }
+            });
+        }
 
-        itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        if (itemBoxClickHandler == null) {
+            itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        }
     }
 
     @Override

@@ -20,26 +20,35 @@
 package gwt.material.design.incubator.client.infinitescroll;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.SpinnerColor;
 import gwt.material.design.client.constants.TextAlign;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.MaterialSpinner;
 import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollDebugClientBundle;
 
-public class ScrollLoader extends MaterialWidget {
+//@formatter:off
 
+/**
+ * Scroll Loader widget - shown when loading data thru {@link InfiniteScrollPanel#load(int, int)}
+ *
+ * @author kevzlou7979
+ */
+public class InfiniteScrollLoader extends MaterialWidget {
+
+    private String message = "Loading";
     private Span label = new Span();
-    private MaterialWidget container;
+    private InfiniteScrollPanel parent;
 
-    public ScrollLoader(MaterialWidget container) {
+    public InfiniteScrollLoader() {
         super(Document.get().createDivElement(), IncubatorCssName.INFINITE_SCROLL_LOADER);
-
-        this.container = container;
     }
+
+    public InfiniteScrollLoader(String message) {
+        this();
+
+        this.message = message;
+    }
+
 
     @Override
     protected void onLoad() {
@@ -47,20 +56,37 @@ public class ScrollLoader extends MaterialWidget {
 
         setTextAlign(TextAlign.CENTER);
 
-        label.setText("Loading");
+        label.setText(message);
         label.setFontSize("1.2em");
         label.setLineHeight(12);
 
         add(label);
     }
 
+    /**
+     * Will attach a loader to it's parent
+     */
     public void show() {
         MaterialLoader.loading(true, this);
-        container.add(this);
+        parent.add(this);
     }
 
+    /**
+     * Will detach a loader to it's parent
+     */
     public void hide() {
         MaterialLoader.loading(false);
         removeFromParent();
+    }
+
+    /**
+     * Will check if the loading indicator still attached to it's parent
+     */
+    public boolean isLoading() {
+        return isAttached();
+    }
+
+    public void setParent(InfiniteScrollPanel parent) {
+        this.parent = parent;
     }
 }

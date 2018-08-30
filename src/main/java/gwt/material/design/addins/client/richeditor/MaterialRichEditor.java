@@ -118,7 +118,6 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
 
     @Override
     public void load() {
-
         JsRichEditor jsRichEditor = $(getElement());
 
         options.toolbar = manager.getToolbars();
@@ -264,11 +263,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     protected void adjustFullScreen(MaterialDialog dialog) {
         getEditor().find("div[data-event='fullscreen']").off("click").on("click", (e, param1) -> {
             dialog.setFullscreen(toggleFullScreen);
-            if (toggleFullScreen) {
-                toggleFullScreen = false;
-            } else {
-                toggleFullScreen = true;
-            }
+            toggleFullScreen = !toggleFullScreen;
             return true;
         });
     }

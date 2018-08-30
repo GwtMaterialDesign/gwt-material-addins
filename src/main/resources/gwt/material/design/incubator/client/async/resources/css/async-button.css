@@ -4,18 +4,33 @@
     padding-left: 60px;
     transition: 0.4s all;
 }
-.async-button .spinner-layer {
+
+.async-button .spinner-layer, .async-icon .spinner-layer {
     display: none;
     position: absolute;
     width: 20px;
     height: 20px;
-    top: 8px;
     z-index: 1003;
+}
+
+.async-button .spinner-layer {
+    top: 8px;
     left: 20px;
 }
-.async-button.active .spinner-layer {
+
+.async-button.active .spinner-layer, .async-icon.active .spinner-layer {
     display: block;
 }
+
 .async-button.active i, .async-button.active span {
     color: black !important;
+}
+
+.async-icon.active {
+    position: relative;
+}
+
+.async-icon .spinner-layer {
+    top: -8px;
+    left: 2px;
 }

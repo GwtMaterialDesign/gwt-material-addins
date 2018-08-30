@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.infinitescroll;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.MaterialDesignBase;
@@ -27,6 +28,11 @@ import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.data.*;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
+import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
+import gwt.material.design.incubator.client.infinitescroll.recycle.RecyclePosition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static gwt.material.design.client.js.JsMaterialElement.$;
 
@@ -55,21 +61,24 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
-    private ScrollLoader loader = new ScrollLoader(this);
+    private InfiniteScrollLoader loader;
     private DataSource<T> dataSource;
     private LoadConfig<T> loadConfig;
     private Renderer<T> renderer;
+    private RecycleManager recycleManager;
     private int offset = 0;
     private int limit = 0;
-    private int absoluteTotal;
+    private int bufferTop = 20;
+    private int bufferBottom = 20;
     private boolean completed;
+    private int itemCount = 1;
 
     public InfiniteScrollPanel() {
         super();
     }
 
     public InfiniteScrollPanel(DataSource<T> dataSource, LoadConfig<T> loadConfig) {
-        super();
+        this();
 
         this.dataSource = dataSource;
         this.loadConfig = loadConfig;
@@ -79,48 +88,63 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     protected void onLoad() {
         super.onLoad();
 
-        load();
-    }
-
-    public void load() {
-        offset = loadConfig.getOffset();
-        limit = loadConfig.getLimit();
-
-        load(offset, limit);
-
+        // Will setup the scroll events to determine if scrolls top / bottom.
         $(getElement()).scroll((e, param1) -> {
-            if (!loader.isAttached()) {
-                if (getElement().getScrollTop() == (getElement().getScrollHeight()) - getElement().getOffsetHeight()) {
-                    load(offset, limit);
+            if (!isLoading()) {
+                if (getElement().getScrollTop() <= bufferTop) {
+                    onScrollTop();
+                }
+
+                if (getElement().getScrollTop() >= ((getElement().getScrollHeight()) - getElement().getOffsetHeight()) - bufferBottom) {
+                    onScrollBottom();
                 }
             }
             return false;
         });
 
-        addLoadedHandler(event -> {
+        // Will register all initial event handlers
+        registerHandler(addLoadingHandler(event -> loading(true)));
+        registerHandler(addLoadedHandler(event -> {
             loading(false);
+            render(event.getResult().getData());
+        }));
+        registerHandler(addCompleteHandler(event -> {
+            loading(false);
+            completed = true;
+        }));
 
-            for (T model : event.getData()) {
-                Widget widget = renderer.render(model);
-                add(widget);
-            }
-        });
-        addCompleteHandler(event -> loading(false));
+        load();
     }
 
+    /**
+     * Will load the initial data and initialize the buffer top and bottom
+     * of the scroll panel providing a target threshold on scrolling both top / bottom positions.
+     */
+    protected void load() {
+        if (loader == null) {
+            setInfiniteScrollLoader(new InfiniteScrollLoader());
+        }
+
+        offset = loadConfig.getOffset();
+        limit = loadConfig.getLimit();
+        load(offset, limit);
+    }
+
+    /**
+     * Will load the provided offset and limit with the datasource provided via
+     * {@link this#setDataSource(DataSource)}
+     */
     protected void load(int offset, int limit) {
         if (!completed) {
-            loading(true);
+            LoadingEvent.fire(this, offset, offset + (limit - 1));
             dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
-                    LoadedEvent.fire(InfiniteScrollPanel.this, loadResult.getData());
+                    LoadedEvent.fire(InfiniteScrollPanel.this, loadResult);
                     InfiniteScrollPanel.this.offset = InfiniteScrollPanel.this.offset + limit;
-                    absoluteTotal = loadResult.getTotalLength();
 
-                    if (InfiniteScrollPanel.this.offset >= absoluteTotal) {
-                        CompleteEvent.fire(InfiniteScrollPanel.this);
-                        completed = true;
+                    if (InfiniteScrollPanel.this.offset >= loadResult.getTotalLength()) {
+                        CompleteEvent.fire(InfiniteScrollPanel.this, loadResult.getTotalLength());
                     }
                 }
 
@@ -132,6 +156,82 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
+    /**
+     * Will render the provided data result with the provided {@link Renderer}.
+     * This method will also check if recycling is enabled (You can turn on recycling by setting {@link this#setRecycleManager(RecycleManager)}.
+     */
+    private void render(List<T> data) {
+        List<Widget> widgets = new ArrayList<>();
+        for (T model : data) {
+            Widget widget = renderer.render(model);
+            widget.getElement().setId("item-" + itemCount);
+            add(widget);
+            widgets.add(widget);
+            itemCount++;
+        }
+
+        // Check if recycling is enabled
+        if (isEnableRecycling()) {
+            recycleManager.recycleWidgets(widgets);
+        }
+
+        // Will force the scroll panel to have a scroll if it isn't visible
+        if (!hasScrollBar()) {
+            int height = $(widgets.get(0).getElement()).outerHeight();
+            getElement().getStyle().setHeight(height, Style.Unit.PX);
+        }
+    }
+
+    /**
+     * Will be called once the scroll bar reached at the bottom of the scroll panel.
+     * This will load the current {@link this#offset} and {@link this#limit} and will
+     * check if recycling is enabled.
+     */
+    protected void onScrollBottom() {
+        if (isEnableRecycling() && recycleManager.hasRecycledWidgets()) {
+            recycleManager.recycle(RecyclePosition.BOTTOM);
+        } else {
+            load(offset, limit);
+        }
+    }
+
+    /**
+     * Will be called once the scroll bar reached at the top of the scroll panel.
+     * This will load the current {@link this#offset} and {@link this#limit} and will
+     * check if recycling is enabled.
+     */
+    protected void onScrollTop() {
+        if (isEnableRecycling()) {
+            recycleManager.recycle(RecyclePosition.TOP);
+        }
+    }
+
+    /**
+     * Will clear the scroll panel children and reset it's initial properties.
+     * If Recycling is enabled will unload it via {@link RecycleManager#unload()}
+     */
+    public void unload() {
+        clear();
+        offset = 0;
+        limit = 0;
+        itemCount = 1;
+        completed = false;
+        if (isEnableRecycling()) {
+            recycleManager.unload();
+        }
+    }
+
+    /**
+     * Will reload the entire ScrollPanel setup
+     */
+    public void reload() {
+        unload();
+        load();
+    }
+
+    /**
+     * Will display or hide the loading indicator upon reaching the target threshold.
+     */
     public void loading(boolean show) {
         if (show) {
             loader.show();
@@ -140,28 +240,127 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
+    /**
+     * Determine if there's currently data that still loading.
+     */
+    public boolean isLoading() {
+        return loader.isLoading();
+    }
+
+    /**
+     * Determine if scroll bar is present in the scroll panel
+     */
+    public boolean hasScrollBar() {
+        return $(getElement()).get(0).getScrollHeight() > $(getElement()).outerHeight();
+    }
+
+    /**
+     * Get the load configuration
+     */
     public LoadConfig<T> getLoadConfig() {
         return loadConfig;
     }
 
+    /**
+     * Set the load configuration
+     */
     public void setLoadConfig(LoadConfig<T> loadConfig) {
         this.loadConfig = loadConfig;
     }
 
+    /**
+     * Get the datasource
+     */
     public DataSource<T> getDataSource() {
         return dataSource;
     }
 
+    /**
+     * Set the datasource
+     */
     public void setDataSource(DataSource<T> dataSource) {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Get the widget renderer
+     */
     public Renderer<T> getRenderer() {
         return renderer;
     }
 
+    /**
+     * Set the widget renderer
+     */
     public void setRenderer(Renderer<T> renderer) {
         this.renderer = renderer;
+    }
+
+    /**
+     * Get the loader widget
+     */
+    public InfiniteScrollLoader getLoader() {
+        return loader;
+    }
+
+    public void setInfiniteScrollLoader(InfiniteScrollLoader loader) {
+        this.loader = loader;
+        this.loader.setParent(this);
+    }
+
+    /**
+     * Get the recycling manager
+     */
+    public RecycleManager getRecycleManager() {
+        return recycleManager;
+    }
+
+    /**
+     * If set then recycling mechanism will be enabled, Else will provide a default
+     * infinite scrolling logic.
+     */
+    public void setRecycleManager(RecycleManager recycleManager) {
+        this.recycleManager = recycleManager;
+        this.recycleManager.setParent(this);
+    }
+
+    /**
+     * Check if recyling is enabled
+     */
+    public boolean isEnableRecycling() {
+        return recycleManager != null;
+    }
+
+    /**
+     * Get the buffer top
+     */
+    public int getBufferTop() {
+        return bufferTop;
+    }
+
+    /**
+     * Set the buffer top
+     */
+    public void setBufferTop(int bufferTop) {
+        this.bufferTop = bufferTop;
+    }
+
+    /**
+     * Get the buffer bottom
+     */
+    public int getBufferBottom() {
+        return bufferBottom;
+    }
+
+    /**
+     * Set the buffer bottom
+     */
+    public void setBufferBottom(int bufferBottom) {
+        this.bufferBottom = bufferBottom;
+    }
+
+    public int getLimit() {
+        return limit;
     }
 
     @Override
