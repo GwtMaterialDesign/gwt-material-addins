@@ -60,7 +60,7 @@ import java.util.List;
  * @author kevzlou7979
  */
 //@formatter:on
-public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<Integer>,
+public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<T>,
         HasStatusText {
 
     static {
@@ -196,7 +196,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     public void fireSelectionEvent(ToggleButton toggleButton) {
-        SelectionEvent.fire(this, items.indexOf(toggleButton));
+        SelectionEvent.fire(this, values.get(items.indexOf(toggleButton)));
     }
 
     public ToggleButton get(int index) {
@@ -242,7 +242,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> selectionHandler) {
+    public HandlerRegistration addSelectionHandler(SelectionHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
     }
 
