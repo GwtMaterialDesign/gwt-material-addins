@@ -162,6 +162,13 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         totalSteps++;
     }
 
+    public void insert(MaterialStep step, int index) {
+        super.insert(step, index);
+        step.setAxis(getAxis());
+        registerHandler(step.addSelectionHandler(this));
+        totalSteps++;
+    }
+
     /**
      * Go to next step, used by linear stepper.
      */
