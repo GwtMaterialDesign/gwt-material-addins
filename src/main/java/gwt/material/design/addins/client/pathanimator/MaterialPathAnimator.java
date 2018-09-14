@@ -23,10 +23,17 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
+import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
+import gwt.material.design.addins.client.pathanimator.base.PathStylerMixin;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
+import gwt.material.design.client.base.helper.ScrollHelper;
+import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -57,7 +64,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/chinchang/cta.js">CTAJs 0.3.2</a>
  */
 //@formatter:on
-public class MaterialPathAnimator implements HasDurationTransition {
+public class MaterialPathAnimator implements HasDurationTransition, HasPathStyles {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -67,33 +74,21 @@ public class MaterialPathAnimator implements HasDurationTransition {
         }
     }
 
+    private ScrollHelper scrollHelper;
     private Element sourceElement;
     private Element targetElement;
-    private Functions.Func animateCallback;
-    private Functions.Func reverseCallback;
+    private Functions.Func animateCallback, startAnimateCallback, reverseCallback, completedCallback;
     private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
+    private PathStylerMixin<MaterialPathAnimator> stylerMixin;
 
     public MaterialPathAnimator() {
+        this.scrollHelper = new ScrollHelper();
     }
 
     public MaterialPathAnimator(Element sourceElement, Element targetElement) {
+        this();
         this.sourceElement = sourceElement;
         this.targetElement = targetElement;
-    }
-
-    /**
-     * Animate the path animator
-     */
-    public void animate() {
-        $("document").ready(() -> JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-            if (animateCallback != null) {
-                animateCallback.call();
-            } else {
-                // For default animateCallback when animateCallback is null
-                targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                targetElement.getStyle().setOpacity(1);
-            }
-        }));
     }
 
     /**
@@ -143,9 +138,34 @@ public class MaterialPathAnimator implements HasDurationTransition {
     }
 
     /**
+     * Animate the path animator
+     */
+    public void animate() {
+        detectOutOfScopeElement(targetElement, () -> {
+            $("document").ready(() -> {
+                onStartAnimateCallback();
+                JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+                    if (animateCallback != null) {
+                        animateCallback.call();
+                    } else {
+                        // For default animateCallback when animateCallback is null
+                        targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                        targetElement.getStyle().setOpacity(1);
+                    }
+
+                    if (completedCallback != null) {
+                        completedCallback.call();
+                    }
+                });
+            });
+        });
+    }
+
+    /**
      * Reverse the Animation
      */
     public void reverseAnimate() {
+        onStartAnimateCallback();
         $("document").ready(() -> {
             if (reverseCallback != null) {
                 reverseCallback.call();
@@ -153,8 +173,35 @@ public class MaterialPathAnimator implements HasDurationTransition {
                 targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
                 targetElement.getStyle().setOpacity(0);
             }
-            JsPathAnimator.cta(targetElement, sourceElement, options);
+            detectOutOfScopeElement(sourceElement, () -> JsPathAnimator.cta(targetElement, sourceElement, options, () -> onCompleteCallback()));
         });
+    }
+
+    /**
+     * Will detect if the target / source element is out of scope in the viewport.
+     * If it is then we will call {@link ScrollHelper#scrollTo(double)} with default offset position
+     * of {@link OffsetPosition#MIDDLE}.
+     */
+    protected void detectOutOfScopeElement(Element element, Functions.Func callback) {
+        if (scrollHelper.isInViewPort(element)) {
+            callback.call();
+        } else {
+            scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
+            scrollHelper.setCompleteCallback(() -> callback.call());
+            scrollHelper.scrollTo(element);
+        }
+    }
+
+    protected void onStartAnimateCallback() {
+        if (startAnimateCallback != null) {
+            startAnimateCallback.call();
+        }
+    }
+
+    protected void onCompleteCallback() {
+        if (completedCallback != null) {
+            completedCallback.call();
+        }
     }
 
     /**
@@ -245,6 +292,10 @@ public class MaterialPathAnimator implements HasDurationTransition {
         this.animateCallback = animateCallback;
     }
 
+    public void setAnimateOnStartCallback(Functions.Func startAnimateCallback) {
+        this.startAnimateCallback = startAnimateCallback;
+    }
+
     /**
      * Get the reverse callback method when the path animator is applied
      */
@@ -257,6 +308,13 @@ public class MaterialPathAnimator implements HasDurationTransition {
      */
     public void setReverseCallback(Functions.Func reverseCallback) {
         this.reverseCallback = reverseCallback;
+    }
+
+    /**
+     * Set a callback for when the animation has completed.
+     */
+    public void setCompletedCallback(Functions.Func completedCallback) {
+        this.completedCallback = completedCallback;
     }
 
     @Override
@@ -300,5 +358,50 @@ public class MaterialPathAnimator implements HasDurationTransition {
      */
     public void setRelativeToWindow(boolean relativeToWindow) {
         options.relativeToWindow = relativeToWindow;
+    }
+
+    public ScrollHelper getScrollHelper() {
+        return scrollHelper;
+    }
+
+    @Override
+    public void setBackgroundColor(Color backgroundColor) {
+        getStylerMixin().setBackgroundColor(backgroundColor);
+    }
+
+    @Override
+    public void setStyleProperty(PathStyleProperty property) {
+        getStylerMixin().setStyleProperty(property);
+    }
+
+    @Override
+    public void setStyleProperty(String property, String value) {
+        getStylerMixin().setStyleProperty(property, value);
+    }
+
+    @Override
+    public void clearStyleProperty(String property) {
+        getStylerMixin().clearStyleProperty(property);
+    }
+
+    @Override
+    public void clearStyles() {
+        getStylerMixin().clearStyles();
+    }
+
+    public Element getBridgeElement() {
+        return getStylerMixin().getBridgeElement();
+    }
+
+    @Override
+    public void setShadow(Integer shadowDepth) {
+        getStylerMixin().setShadow(shadowDepth);
+    }
+
+    protected PathStylerMixin<MaterialPathAnimator> getStylerMixin() {
+        if (stylerMixin == null) {
+            stylerMixin = new PathStylerMixin<>(this);
+        }
+        return stylerMixin;
     }
 }

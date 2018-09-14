@@ -33,6 +33,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialChip;
@@ -159,7 +160,7 @@ import java.util.Map.Entry;
  */
 // @formatter:on
 public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
-        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly {
+        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -183,11 +184,12 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialChipProvider chipProvider = new DefaultMaterialChipProvider();
 
-    private ErrorMixin<AbstractValueWidget, MaterialLabel> errorMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private ProgressMixin<MaterialAutoComplete> progressMixin;
     private FocusableMixin<MaterialWidget> focusableMixin;
     private ReadOnlyMixin<MaterialAutoComplete, TextBox> readOnlyMixin;
     private CssTypeMixin<AutocompleteType, MaterialAutoComplete> typeMixin;
+    private FieldTypeMixin<MaterialAutoComplete> fieldTypeMixin;
 
     /**
      * Use MaterialAutocomplete to search for matches from local or remote data
@@ -219,7 +221,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         setup(suggestions);
     }
 
-    private HandlerRegistration listHandler, itemBoxKeyDownHandler, itemBoxBlurHandler, itemBoxClickHandler;
+    private HandlerRegistration itemBoxKeyDownHandler, itemBoxBlurHandler, itemBoxClickHandler;
 
     @Override
     protected void onLoad() {
@@ -229,64 +231,66 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     protected void loadHandlers() {
-        listHandler = list.addDomHandler(event -> suggestBox.showSuggestionList(), ClickEvent.getType());
 
-        itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
-            if (getValue().size() > 0) {
-                label.addStyleName(CssName.ACTIVE);
-            }
-        });
+        if (itemBoxBlurHandler == null) {
+            itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
+                if (getValue().size() > 0) {
+                    label.addStyleName(CssName.ACTIVE);
+                }
+            });
+        }
 
-        itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
-            boolean changed = false;
-
-            switch (event.getNativeKeyCode()) {
-                case KeyCodes.KEY_ENTER:
-                    if (directInputAllowed) {
-                        String value = itemBox.getValue();
-                        if (value != null && !(value = value.trim()).isEmpty()) {
-                            gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
-                            directInput.setDisplay(value);
-                            directInput.setSuggestion(value);
-                            changed = addItem(directInput);
-                            if (getType() == AutocompleteType.TEXT) {
-                                itemBox.setText(value);
-                            } else {
-                                itemBox.setValue("");
+        if (itemBoxKeyDownHandler == null) {
+            itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
+                switch (event.getNativeKeyCode()) {
+                    case KeyCodes.KEY_ENTER:
+                        if (directInputAllowed) {
+                            String value = itemBox.getValue();
+                            if (value != null && !(value = value.trim()).isEmpty()) {
+                                gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
+                                directInput.setDisplay(value);
+                                directInput.setSuggestion(value);
+                                addItem(directInput);
+                                if (getType() == AutocompleteType.TEXT) {
+                                    itemBox.setText(value);
+                                } else {
+                                    itemBox.setValue("");
+                                }
+                                itemBox.setFocus(true);
                             }
-                            itemBox.setFocus(true);
                         }
-                    }
-                    break;
-                case KeyCodes.KEY_BACKSPACE:
-                    if (itemBox.getValue().trim().isEmpty()) {
-                        if (itemsHighlighted.isEmpty()) {
-                            if (suggestionMap.size() > 0) {
-                                ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
+                        break;
+                    case KeyCodes.KEY_BACKSPACE:
+                        if (itemBox.getValue().trim().isEmpty()) {
+                            if (itemsHighlighted.isEmpty()) {
+                                if (suggestionMap.size() > 0) {
+                                    ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
 
-                                if (tryRemoveSuggestion(li.getWidget(0))) {
-                                    li.removeFromParent();
-                                    changed = true;
+                                    if (tryRemoveSuggestion(li.getWidget(0))) {
+                                        li.removeFromParent();
+                                    }
                                 }
                             }
                         }
-                    }
-                case KeyCodes.KEY_DELETE:
-                    if (itemBox.getValue().trim().isEmpty()) {
-                        for (ListItem li : itemsHighlighted) {
-                            if (tryRemoveSuggestion(li.getWidget(0))) {
-                                li.removeFromParent();
-                                changed = true;
+                        break;
+                    case KeyCodes.KEY_DELETE:
+                        if (itemBox.getValue().trim().isEmpty()) {
+                            for (ListItem li : itemsHighlighted) {
+                                if (tryRemoveSuggestion(li.getWidget(0))) {
+                                    li.removeFromParent();
+                                }
                             }
+                            itemsHighlighted.clear();
                         }
-                        itemsHighlighted.clear();
-                    }
-                    itemBox.setFocus(true);
-                    break;
-            }
-        });
+                        itemBox.setFocus(true);
+                        break;
+                }
+            });
+        }
 
-        itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        if (itemBoxClickHandler == null) {
+            itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        }
     }
 
     @Override
@@ -297,7 +301,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     protected void unloadHandlers() {
-        removeHandler(listHandler);
         removeHandler(itemBoxBlurHandler);
         removeHandler(itemBoxKeyDownHandler);
         removeHandler(itemBoxClickHandler);
@@ -417,6 +420,13 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         return true;
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+
+        clear();
+    }
+
     /**
      * Clear the chip items on the autocomplete box
      */
@@ -433,7 +443,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         }
         suggestionMap.clear();
 
-        clearErrorOrSuccess();
+        clearStatusText();
     }
 
     @Override
@@ -669,6 +679,26 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         return getReadOnlyMixin().isToggleReadOnly();
     }
 
+    @Override
+    public void setFieldType(FieldType type) {
+        getFieldTypeMixin().setFieldType(type);
+    }
+
+    @Override
+    public FieldType getFieldType() {
+        return getFieldTypeMixin().getFieldType();
+    }
+
+    @Override
+    public void setLabelWidth(double percentWidth) {
+        getFieldTypeMixin().setLabelWidth(percentWidth);
+    }
+
+    @Override
+    public void setFieldWidth(double percentWidth) {
+        getFieldTypeMixin().setFieldWidth(percentWidth);
+    }
+
     /**
      * Interface that defines how a {@link MaterialChip} is created, given a
      * {@link Suggestion}.
@@ -866,11 +896,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     @Override
-    public ErrorMixin<AbstractValueWidget, MaterialLabel> getErrorMixin() {
-        if (errorMixin == null) {
-            errorMixin = new ErrorMixin<>(this, errorLabel, list, label);
+    public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
+        if (statusTextMixin == null) {
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, list, label);
         }
-        return errorMixin;
+        return statusTextMixin;
     }
 
     protected ReadOnlyMixin<MaterialAutoComplete, TextBox> getReadOnlyMixin() {
@@ -886,5 +916,12 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
             focusableMixin = new FocusableMixin<>(new MaterialWidget(itemBox.getElement()));
         }
         return focusableMixin;
+    }
+
+    protected FieldTypeMixin<MaterialAutoComplete> getFieldTypeMixin() {
+        if (fieldTypeMixin == null) {
+            fieldTypeMixin = new FieldTypeMixin<>(this);
+        }
+        return fieldTypeMixin;
     }
 }

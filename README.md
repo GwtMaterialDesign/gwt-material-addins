@@ -6,21 +6,21 @@
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
-## Current Version
+## Current Version 2.1.1
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.0.1</version>
+    <version>2.1.1</version>
 </dependency>
 ```
 
-## Snapshot Version
+## Snapshot Version 2.2-SNAPSHOT
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>2.2-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -46,13 +46,19 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 | Avatar | [JDenticon](https://github.com/dmester/jdenticon) | 1.3.2 |
 | Bubble | N/A | N/A |
 | Camera | N/A | N/A |
+| Carousel | [SlickJs](https://github.com/kenwheeler/slick) | 1.6.0 |
+| Circular Progress | [jquery-circle-progress](https://github.com/kottenator/jquery-circle-progress) | 1.2.2 |
 | ComboBox | [Select2](https://github.com/select2/select2) | 4.0.3 |
+| CountUp | [CountUpJs](https://github.com/inorganik/countUp.js) | 1.9.0 |
 | Cutout | N/A | N/A |
 | Document Viewer | N/A | N/A |
 | Dnd | [InteractJs](https://github.com/taye/interact.js) | 1.2.6 |
 | EmptyState | N/A | N/A |
 | File Uploader | [DropzoneJs](https://github.com/enyo/dropzone) | 4.3.0 |
 | Icon Morph | N/A | N/A |
+| Image Cropper | [CroppieJs](https://github.com/Foliotek/Croppie) | 2.5.0 |
+| Input Mask | [JQuery-Mask-Plugin](https://github.com/Foliotek/Croppie) | 1.14.10 |
+| Live Stamp | [LiveStamp](https://github.com/mattbradley/livestampjs) | 1.1.2 |
 | Masonry | [Masonry](https://github.com/desandro/masonry) | 4.0.0 |
 | Menubar | N/A | N/A |
 | Overlay | N/A | N/A |
@@ -61,6 +67,7 @@ xmlns:ma="urn:import:gwt.material.design.addins.client"
 | Rating | N/A | N/A |
 | Rich Editor | [Material Note](https://github.com/Cerealkillerway/materialNote) | 1.2.1 |
 | Scrollfire | N/A | N/A |
+| Signature Pad | [SignaturePad](https://github.com/szimek/signature_pad) | 2.3.0 |
 | SideProfile | N/A | N/A |
 | SplitPanel | [TouchSplitterJQuery](https://github.com/colelawrence/Touch-Splitter-jQuery) | 0.5.1 |
 | Steppers | N/A | N/A |
@@ -90,5 +97,19 @@ We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apid
 ``` gwt.material.design.addins.client.addin_widget.resources.img ``` Image Resources of Addins module <br/>
 ``` gwt.material.design.addins.client.addin_widget.resources.js ``` Javascript Files of Addins module <br/>
 
-##Follow Us
+### (NEW) Incubator Widgets
+- These are beta widgets that still in incubation process (Subject for further API changes).
+  - Alert
+  - Async
+  - Language Selector
+  - Loading State
+  - Progress LinedBar
+  - Google
+    - Recaptcha
+    - Address Lookup
+  - Inline Search
+  - Timer (Infinite)
+  - Toggle
+
+## Follow Us
 <a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a>

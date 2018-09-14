@@ -19,7 +19,9 @@
  */
 package gwt.material.design.addins.client.ui;
 
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
@@ -27,9 +29,8 @@ import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.events.*;
 import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
-
-import java.util.Arrays;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -116,20 +117,22 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
         // given
         MaterialPanel panel = getWidget(false);
         MaterialIcon iconIgnore = new MaterialIcon();
+        MaterialLabel labelIgnore = new MaterialLabel();
         panel.add(iconIgnore);
+        panel.add(labelIgnore);
 
         // when / then
-        checkRestriction(panel, iconIgnore);
+        checkRestriction(panel, iconIgnore.getElement(), labelIgnore.getElement());
 
         // Standard
         // given
         attachWidget();
 
         // when / then
-        checkRestriction(panel, iconIgnore);
+        checkRestriction(panel, iconIgnore.getElement(), labelIgnore.getElement());
     }
 
-    protected void checkRestriction(MaterialPanel panel, MaterialIcon iconIgnore) {
+    protected void checkRestriction(MaterialPanel panel, Element... ignoredWidgets) {
         // when
         Restriction restriction = new Restriction();
         restriction.setBottom(20);
@@ -139,18 +142,21 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
         restriction.setEndOnly(true);
         restriction.setRestriction(Restriction.Restrict.PARENT);
         MaterialDnd dnd = MaterialDnd.draggable(panel, JsDragOptions.create(restriction));
-        dnd.ignoreFrom(iconIgnore);
+        dnd.ignoreFrom(ignoredWidgets);
         JsDragOptions options = dnd.getDragOptions();
 
         // then
         assertEquals(panel, dnd.getTarget());
-        assertTrue(Arrays.asList(dnd.getIgnoreFrom()).contains(iconIgnore.getElement()));
         assertEquals(Double.valueOf(20), options.restrict.elementRect.top);
         assertEquals(Double.valueOf(20), options.restrict.elementRect.left);
         assertEquals(Double.valueOf(20), options.restrict.elementRect.right);
         assertEquals(Double.valueOf(20), options.restrict.elementRect.bottom);
         assertEquals(Restriction.Restrict.PARENT, options.restrict.restriction);
         assertTrue(options.restrict.endOnly);
+        assertEquals(2, dnd.getIgnoreFrom().length);
+        for (Element element : dnd.getIgnoreFrom()) {
+            assertTrue(element.hasClassName(AddinsCssName.INTERACT_IGNORED_CONTENT));
+        }
     }
 
     public void testDropEvents() {
@@ -174,17 +180,20 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
         // Drop Activate Event
         final boolean[] isDropActivateFired = {false};
         panel.addDropActivateHandler(event -> isDropActivateFired[0] = true);
-        panel.fireEvent(new DropActivateEvent() {});
+        panel.fireEvent(new DropActivateEvent() {
+        });
         assertTrue(isDropActivateFired[0]);
         // Drop Deactivate Event
         final boolean[] isDropDeactivateFired = {false};
         panel.addDropDeactivateHandler(event -> isDropDeactivateFired[0] = true);
-        panel.fireEvent(new DropDeactivateEvent() {});
+        panel.fireEvent(new DropDeactivateEvent() {
+        });
         assertTrue(isDropDeactivateFired[0]);
         // Drop Event
         final boolean[] isDropFired = {false};
         panel.addDropHandler(event -> isDropFired[0] = true);
-        panel.fireEvent(new DropEvent($(panel.getElement())) {});
+        panel.fireEvent(new DropEvent($(panel.getElement())) {
+        });
         assertTrue(isDropFired[0]);
     }
 
@@ -203,32 +212,38 @@ public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
         // when / then
         checkDragEvents(panel);
     }
+
     protected void checkDragEvents(MaterialPanel panel) {
         MaterialDnd.draggable(panel);
         // Drag Start Event
         final boolean[] isDragStartFired = {false};
         panel.addDragStartHandler(event -> isDragStartFired[0] = true);
-        panel.fireEvent(new DragStartEvent() {});
+        panel.fireEvent(new DragStartEvent() {
+        });
         assertTrue(isDragStartFired[0]);
         // Drag Enter Event
         final boolean[] isDragEnterFired = {false};
         panel.addDragEnterHandler(event -> isDragEnterFired[0] = true);
-        panel.fireEvent(new DragEnterEvent($(panel.getElement())) {});
+        panel.fireEvent(new DragEnterEvent($(panel.getElement())) {
+        });
         assertTrue(isDragEnterFired[0]);
         // Drag Move Event
         final boolean[] isDragMoveFired = {false};
         panel.addDragMoveHandler(event -> isDragMoveFired[0] = true);
-        panel.fireEvent(new DragMoveEvent() {});
+        panel.fireEvent(new DragMoveEvent() {
+        });
         assertTrue(isDragMoveFired[0]);
         // Drag End Event
         final boolean[] isDragEndFired = {false};
         panel.addDragEndHandler(event -> isDragEndFired[0] = true);
-        panel.fireEvent(new DragEndEvent() {});
+        panel.fireEvent(new DragEndEvent() {
+        });
         assertTrue(isDragEndFired[0]);
         // Drag Over Event
         final boolean[] isDragOverFired = {false};
         panel.addDragOverHandler(event -> isDragOverFired[0] = true);
-        panel.fireEvent(new DragOverEvent() {});
+        panel.fireEvent(new DragOverEvent() {
+        });
         assertTrue(isDragOverFired[0]);
     }
 }

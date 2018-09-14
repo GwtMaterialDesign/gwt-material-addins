@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.fileuploader;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
@@ -35,6 +36,7 @@ import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.addins.client.fileuploader.js.Dropzone;
 import gwt.material.design.addins.client.fileuploader.js.File;
 import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
+import gwt.material.design.addins.client.fileuploader.js.Response;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -87,8 +89,9 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
     private boolean preview = true;
     private boolean enabled = true;
+
     private int totalFiles = 0;
-    private String globalResponse = "";
+    private Object globalResponse;
     private Dropzone uploader;
     private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
     private JsFileUploaderOptions options = new JsFileUploaderOptions();
@@ -127,15 +130,12 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
                 } else {
                     getWidget(1).getElement().setId(clickable);
                 }
-
             }
 
             if (!isPreview()) {
                 uploadPreview.setDisplay(Display.NONE);
             }
-
             load();
-
         } else {
             GWT.log("You don't have any child widget to use as a upload label");
         }
@@ -177,9 +177,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
     /**
      * Intialize the dropzone component with element and form url to provide a
-     * dnd feature for the file upload
-     *
-     * @param e
+     * dnd feature for the file upload.
      */
     protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles) {
         JQueryElement previewNode = $(template);
@@ -233,9 +231,9 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             totalFiles++;
 
             if (isPreview()) {
-                $(uploadPreview).css("visibility", "visible");
                 $(uploadedFiles).html("Uploaded files " + totalFiles);
                 getUploadPreview().getUploadHeader().getProgress().setPercent(0);
+                getUploadPreview().setVisibility(Style.Visibility.VISIBLE);
             }
         });
 
@@ -243,32 +241,47 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
+
+            if (totalFiles == 0 && isPreview()) {
+                getUploadPreview().setVisibility(Style.Visibility.HIDDEN);
+            }
         });
 
         uploader.on("error", (file, response) -> {
-            String code = "200";
+            int code = 200;
+            String statusText = "";
+
             if (file.xhr != null) {
                 code = file.xhr.status;
+                statusText = file.xhr.statusText;
             }
 
-            if (response.indexOf("401") >= 0) {
-                response = "Unauthorized. Your session may have expired. Log in and try again.";
+            String body = "";
+
+            if (response instanceof String) {
+                body = (String)response;
+            } else {
+                statusText = getResponseMessage(response);
+            }
+
+            if (code == 401) {
+                statusText = statusText.isEmpty() ? "Unauthorized. Your session may have expired. Log in and try again." : statusText;
                 globalResponse = response;
-                UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+                UnauthorizedEvent.fire(this, convertUploadFile(file), new UploadResponse(code, statusText, body));
             }
 
-            if (response.indexOf("404") >= 0) {
-                response = "There is a problem uploading your file.";
+            if (code == 404) {
+                statusText = statusText.isEmpty() ? "There is a problem uploading your file." : statusText;
                 globalResponse = response;
             }
 
-            if (response.indexOf("500") >= 0) {
-                response = "There is a problem uploading your file.";
+            if (code == 500) {
+                statusText = statusText.isEmpty() ? "There is a problem uploading your file." : statusText;
                 globalResponse = response;
             }
 
-            $(file.previewElement).find("#error-message").html(response);
-            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+
+            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(code, statusText, body));
         });
 
         uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, file, response) -> {
@@ -286,16 +299,21 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
 
         uploader.on(FileUploaderEvents.SENDING, file -> {
-            SendingEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText));
+            SendingEvent.fire(this, convertUploadFile(file),
+                    new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
         uploader.on(FileUploaderEvents.SUCCESS, (file, response) -> {
             globalResponse = response;
-            SuccessEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, response));
+            String message = getResponseMessage(response);
+            SuccessEvent.fire(this, convertUploadFile(file),
+                    new UploadResponse(file.xhr.status, file.xhr.statusText, message));
         });
 
         uploader.on(FileUploaderEvents.COMPLETE, file -> {
-            CompleteEvent.fire(this, convertUploadFile(file), new UploadResponse(file.xhr.status, file.xhr.statusText, globalResponse));
+            String message = getResponseMessage(globalResponse);
+            CompleteEvent.fire(this, convertUploadFile(file),
+                    new UploadResponse(file.xhr.status, file.xhr.statusText, message));
         });
 
         uploader.on(FileUploaderEvents.CANCELED, file -> {
@@ -312,6 +330,17 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
     }
 
+    private String getResponseMessage(Object response) {
+        String message = null;
+        if (response != null) {
+            if (response instanceof String) {
+                message = (String) response;
+            } else {
+                message = ((Response) response).message;
+            }
+        }
+        return message;
+    }
 
     @Override
     public void setEnabled(boolean enabled) {

@@ -69,6 +69,8 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
 
     public MaterialEmptyState() {
         super(Document.get().createDivElement(), CssName.VALIGN_WRAPPER, AddinsCssName.EMPTY_STATE);
+
+        setIconSize(IconSize.LARGE);
     }
 
     public MaterialEmptyState(Color bgColor, Color textColor, IconType iconType, String title, String description) {
@@ -89,13 +91,17 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
         container.setWidth("100%");
         container.setStyleName(CssName.VALIGN + " " + CssName.CENTER);
         container.add(title);
-        icon.setIconSize(IconSize.LARGE);
         title.insert(icon, 0);
     }
 
     @Override
     public void setDescription(String description) {
         title.setDescription(description);
+    }
+
+    @Override
+    public String getDescription() {
+        return title.getDescription();
     }
 
     @Override

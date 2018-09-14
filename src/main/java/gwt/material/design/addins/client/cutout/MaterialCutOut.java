@@ -44,7 +44,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 //@formatter:off
 
 /**
- * MaterialCutOut is a fullscreen modal-like component to show users about new
+ * MaterialCutOut is a fullscreen dialog-like component to show users about new
  * features or important elements of the document.
  * <p>
  * You can use {@link CloseHandler}s to be notified when the cut out is closed.
@@ -70,7 +70,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * {@code
  * MaterialCutOut cutOut = ... //create using new or using UiBinder
  * cutOut.setTarget(myTargetWidget); //the widget or element you want to focus
- * cutOut.open(); //shows the modal over the page
+ * cutOut.open(); //shows the dialog over the page
  * }
  * <p>
  * <h3>Custom styling:</h3> You use change the cut out style by using the
@@ -121,7 +121,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     /**
-     * Opens the modal cut out taking all the screen. The target element should
+     * Opens the dialog cut out taking all the screen. The target element should
      * be set before calling this method.
      *
      * @throws IllegalStateException if the target element is <code>null</code>
@@ -159,13 +159,18 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         } else {
             focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
-
+        
         if (circle) {
             focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
             focusElement.getStyle().setProperty("borderRadius", "50%");
+            // Temporary fixed for the IOS Issue on recalculation of the border radius
+            focusElement.getStyle().setProperty("webkitBorderTopLeftRadius", "49.9%");
+            focusElement.getStyle().setProperty("borderTopLeftRadius", "49.9%");
         } else {
             focusElement.getStyle().clearProperty("WebkitBorderRadius");
             focusElement.getStyle().clearProperty("borderRadius");
+            focusElement.getStyle().clearProperty("webkitBorderTopLeftRadius");
+            focusElement.getStyle().clearProperty("borderTopLeftRadius");
         }
         setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
 
@@ -208,7 +213,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Closes the cut out.
      *
-     * @param autoClosed Notifies with the modal was auto closed or closed by user action
+     * @param autoClosed Notifies with the dialog was auto closed or closed by user action
      */
     public void close(boolean autoClosed) {
         //restore the old overflow of the page
@@ -247,7 +252,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     }
 
     @Override
-    public double getOpacity() {
+    public Double getOpacity() {
         return opacity;
     }
 
@@ -364,7 +369,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Setups the cut out position when the screen changes size or is scrolled.
      */
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
-        float top = relativeTo.getAbsoluteTop() - body().scrollTop();
+        float top = relativeTo.getOffsetTop() - (Math.max($("html").scrollTop(), $("body").scrollTop()));
         float left = relativeTo.getAbsoluteLeft();
 
         float width = relativeTo.getOffsetWidth();

@@ -28,6 +28,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.base.HasTreeItems;
+import gwt.material.design.addins.client.webp.HasWebpFallback;
+import gwt.material.design.addins.client.webp.MaterialWebpImage;
 import gwt.material.design.client.base.AbstractIconButton;
 import gwt.material.design.client.base.HasImage;
 import gwt.material.design.client.base.MaterialWidget;
@@ -65,12 +67,12 @@ import java.util.List;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
 // @formatter:on
-public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems {
+public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems, HasWebpFallback {
 
     private boolean hide = true;
     private MaterialWidget divHeader = new MaterialWidget(Document.get().createDivElement());
     private Span span;
-    private MaterialImage image;
+    private MaterialWebpImage image;
     private MaterialTree tree;
     private Object object;
 
@@ -139,9 +141,7 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void setUrl(String url) {
-        if (image == null) {
-            image = new MaterialImage();
-        }
+        image = getWebpImage();
         image.setUrl(url);
     }
 
@@ -152,10 +152,9 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     public void setResource(ImageResource resource) {
-        if (image == null) {
-            image = new MaterialImage();
-        }
+        image = getWebpImage();
         image.setResource(resource);
+        add(image);
     }
 
     @Override
@@ -305,5 +304,32 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
     public void removeFromParent() {
         tree = null;
         super.removeFromParent();
+    }
+
+    @Override
+    public void setFallbackUrl(String fallbackUrl) {
+        image.setFallbackUrl(fallbackUrl);
+    }
+
+    @Override
+    public String getFallbackUrl() {
+        return getWebpImage().getFallbackUrl();
+    }
+
+    @Override
+    public void setFallbackExtension(String extension) {
+        getWebpImage().setFallbackExtension(extension);
+    }
+
+    @Override
+    public String getFallbackExtension() {
+        return image.getFallbackExtension();
+    }
+
+    public MaterialWebpImage getWebpImage() {
+        if (image == null) {
+            image = new MaterialWebpImage();
+        }
+        return image;
     }
 }
