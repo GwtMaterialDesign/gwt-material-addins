@@ -46,4 +46,5 @@ public interface IncubatorCssName {
     String LABEL_PANEL = "label-panel";
     String JSON_TABLE = "json-table";
     String SINGLE_LANGUAGE = "single-language";
+    String CONTENT_PLACEHOLDER = "content-placeholder";
 }
