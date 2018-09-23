@@ -125,6 +125,11 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
     }
 
     @Override
+    public void setValue(Double value) {
+        setValue(value, false);
+    }
+
+    @Override
     public void setValue(Double value, boolean fireEvents) {
         setValue(value, fireEvents, true);
     }

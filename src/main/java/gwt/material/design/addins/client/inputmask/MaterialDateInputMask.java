@@ -39,12 +39,18 @@ public class MaterialDateInputMask extends MaterialInputMask<Date> {
         return dateInputParser.parseDate(format);
     }
 
+    @Override
+    public void setMask(String mask) {
+        this.format = mask;
+        parseFormatToMask(mask);
+    }
+
     protected void parseFormatToMask(String format) {
         String dateFormatMask = format.toLowerCase()
                 .replace("m", "0")
                 .replace("d", "0")
                 .replace("y", "0");
-        setMask(dateFormatMask);
+        super.setMask(dateFormatMask);
     }
 
     public String getFormat() {

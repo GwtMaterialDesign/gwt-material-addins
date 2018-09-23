@@ -88,6 +88,11 @@
     display: block
 }
 
+.select2-results__option {
+    padding: 1rem;
+    min-height: 52px;
+}
+
 .select2-results__options {
     list-style: none;
     margin: 0;

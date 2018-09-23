@@ -104,7 +104,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
-    private KeyFactory<T, String> keyFactory = Object::toString;
+    private KeyFactory<T, String> keyFactory = new AllowBlankKeyFactory<>();
     private JsComboBoxOptions options = JsComboBoxOptions.create();
 
     private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
