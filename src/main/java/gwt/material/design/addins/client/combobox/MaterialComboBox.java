@@ -39,13 +39,11 @@ import gwt.material.design.addins.client.combobox.js.options.Data;
 import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.EnabledMixin;
-import gwt.material.design.client.base.mixin.FieldTypeMixin;
-import gwt.material.design.client.base.mixin.ReadOnlyMixin;
-import gwt.material.design.client.base.mixin.StatusTextMixin;
+import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -119,9 +117,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     protected void onLoad() {
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
-        super.add(listbox);
-        super.add(label);
-        super.add(errorLabel);
+        addWidget(listbox);
+        addWidget(label);
+        addWidget(errorLabel);
         errorLabel.setMarginTop(8);
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
@@ -171,6 +169,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         if (getTextColor() != null) {
             $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
         }
+
+        getStatusTextMixin().getStatusDisplayMixin().setContainer(new MaterialWidget($(getElement())));
     }
 
     @Override
@@ -216,6 +216,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             values.add((T) ((Option) child).getValue());
         }
         listbox.add(child);
+    }
+
+    public void addWidget(Widget widget) {
+        super.add(widget);
     }
 
     /**

@@ -43,8 +43,8 @@ import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasStatusText;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.base.mixin.StatusDisplayMixin;
 import gwt.material.design.client.constants.Axis;
-import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
@@ -52,7 +52,6 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Span;
-import org.apache.regexp.RE;
 
 //@formatter:off
 
@@ -460,6 +459,11 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     @Override
     public StatusDisplayType getStatusDisplayType() {
         return getCurrentStep().getStatusDisplayType();
+    }
+
+    @Override
+    public void updateStatusDisplay(StatusDisplayMixin.StatusType statusType) {
+        getCurrentStep().updateStatusDisplay(statusType);
     }
 
     /**
