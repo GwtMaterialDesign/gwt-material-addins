@@ -847,7 +847,6 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
 }
 
 .input-field.filled.combobox label.select2label {
-    top: 24px;
     margin-left: 12px
 }
 

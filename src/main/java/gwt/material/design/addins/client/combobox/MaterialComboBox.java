@@ -822,7 +822,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
         if (statusTextMixin == null) {
-            statusTextMixin = new StatusTextMixin<>(this, errorLabel, this.asWidget());
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, this.asWidget(), label);
         }
         return statusTextMixin;
     }
