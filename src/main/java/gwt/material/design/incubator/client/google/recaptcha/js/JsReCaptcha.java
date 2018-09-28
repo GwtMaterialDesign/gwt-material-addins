@@ -29,8 +29,12 @@ import jsinterop.annotations.JsType;
 public class JsReCaptcha extends JQueryElement {
 
     @JsMethod(namespace = JsPackage.GLOBAL)
-    public static native JsReCaptcha initReCaptcha(String element, String siteKey, Functions.Func callback, String theme, String type);
+    public static native JsReCaptcha initReCaptcha(String element, String siteKey, Functions.Func1<String> callback,
+                                                   Functions.Func expiredCallback, Functions.Func errorCallback, String theme, String type);
 
     @JsMethod(namespace = JsPackage.GLOBAL)
     public static native void reset();
+
+    @JsMethod(namespace = JsPackage.GLOBAL)
+    public static native String getResponse();
 }

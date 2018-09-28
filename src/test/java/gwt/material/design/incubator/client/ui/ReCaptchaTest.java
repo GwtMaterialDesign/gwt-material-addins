@@ -47,9 +47,9 @@ public class ReCaptchaTest extends MaterialWidgetTest<ReCaptcha> {
         assertEquals(reCaptcha.getTheme(), RecaptchaTheme.DARK);
 
         // Check Callback
-        final Functions.Func callback = () -> {};
-        reCaptcha.setCallback(callback);
-        assertEquals(reCaptcha.getCallback(), callback);
+        final Functions.Func1<String> callback = (response) -> {};
+        reCaptcha.setDataCallback(callback);
+        assertEquals(reCaptcha.getDataCallback(), callback);
 
         // Check Type
         // Expected by default - IMAGE
