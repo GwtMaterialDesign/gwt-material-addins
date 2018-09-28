@@ -43,6 +43,10 @@ function getResponse() {
     return grecaptcha.getResponse();
 }
 
+function reset() {
+    grecaptcha.reset();
+}
+
 var recaptchaVerifyCallback = function(response) {
     _callbacks.fire(response);
 }
