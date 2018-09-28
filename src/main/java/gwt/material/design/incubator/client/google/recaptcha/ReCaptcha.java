@@ -152,4 +152,12 @@ public class ReCaptcha extends MaterialWidget {
     public RecaptchaType getType() {
         return type;
     }
+
+    /**
+     * Will get the response
+     * @return
+     */
+    public String getResponse() {
+        return $this().find("#g-recaptcha-response").val().toString();
+    }
 }
