@@ -867,6 +867,7 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
 }
 
 /** Hoverable Status **/
-.input-field.hoverable-status .select2-container--default .select2-selection--single .select2-selection__arrow {
+.input-field.hoverable-status.field-error .select2-container--default .select2-selection--single .select2-selection__arrow,
+.input-field.hoverable-status.field-success .select2-container--default .select2-selection--single .select2-selection__arrow{
     display: none;
 }
