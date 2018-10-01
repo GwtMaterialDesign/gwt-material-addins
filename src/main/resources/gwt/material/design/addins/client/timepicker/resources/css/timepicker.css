@@ -614,6 +614,11 @@
     position: relative;
 }
 
+/** Filled **/
+.input-field.filled input.disabled {
+    background: transparent;
+}
+
 /** Outlined **/
 .input-field.outlined.timepicker input:focus,
 .input-field.outlined.timepicker input.valid{
@@ -639,4 +644,9 @@
 .input-field.timepicker input.valid {
     border-bottom: 1px solid #42a5f5;
     box-shadow: 0 1px 0 0 #42a5f5;
+}
+
+/** Mandatory Field **/
+.input-field.timepicker input.disabled + label.required:before {
+    display: none;
 }
