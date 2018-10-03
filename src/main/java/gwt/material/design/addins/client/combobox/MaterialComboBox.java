@@ -565,9 +565,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         int index = -1;
 
         for (T value : values) {
-            ++index;
             if (keyFactory.generateKey(value).equals(key)) {
-                return index;
+                return values.indexOf(value);
             }
         }
         return index;
