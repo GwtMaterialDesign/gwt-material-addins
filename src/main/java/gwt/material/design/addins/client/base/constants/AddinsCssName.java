@@ -75,6 +75,7 @@ public interface AddinsCssName {
     String SUCCESS = "success";
     String ERROR = "error";
     String STEPPER = "stepper";
+    String CON_CIRCLE = "con-circle";
     String FEEDBACK = "feedback";
     String SUBHEADER = "subheader";
     String CONTAINER1 = "container1";

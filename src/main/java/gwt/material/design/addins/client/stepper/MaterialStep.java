@@ -91,6 +91,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
 
+        conCircle.addStyleName(AddinsCssName.CON_CIRCLE);
         super.add(conCircle);
         conCircle.add(divCircle);
         conCircle.add(divLine);
@@ -313,8 +314,8 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         switch (axis) {
             case HORIZONTAL:
                 conCircle.add(divTitle);
-                conCircle.add(divLine);
                 conCircle.add(divDescription);
+                super.insert(divLine, 1);
                 break;
             case VERTICAL:
                 conBody.insert(divTitle, 0);

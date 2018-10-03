@@ -5,8 +5,8 @@
     cursor: pointer
 }
 
-.stepper .step:hover {
-    background: #F6F6F6
+.stepper .step:hover, .stepper .step:hover .con-circle {
+    background: #F6F6F6 !important;
 }
 
 .stepper .step > div:first-child {
@@ -77,18 +77,33 @@
     position: initial
 }
 
+.stepper.horizontal .step .con-circle {
+    display: inherit;
+    height: 40px;
+    max-width: 80%;
+    background: white;
+    z-index: 2;
+    position: relative;
+    padding-right: 20px;
+    box-sizing: border-box;
+    min-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .stepper.horizontal .step .line, .stepper.horizontal .step .title, .stepper.horizontal .step > div:first-child .circle {
     display: inline-block
 }
 
 .stepper.horizontal .step .line {
     border-left: 0;
+    height: 1px;
     position: inherit;
     border-top: 1px solid #dcdcdc;
-    width: 100px;
-    margin-bottom: 5px;
-    margin-left: 8px;
-    margin-right: -36px
+    width: 100%;
+    float: right;
+    margin-top: -24px;
 }
 
 .stepper.horizontal .step .title {
@@ -117,10 +132,6 @@
 .stepper .step.inactive .title {
     color: #C9C9C9;
     font-weight: 400
-}
-
-.stepper.horizontal .step.inactive > :nth-child(2) {
-    visibility: hidden
 }
 
 .stepper .step.inactive .body {
@@ -181,6 +192,9 @@
 }
 
 /** Vertical steppers **/
+.stepper.vertical .step {
+    width: 100% !important;
+}
 .stepper.vertical .step.active .body {
     padding-bottom: 0px;
     padding-right: 20px;
