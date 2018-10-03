@@ -130,16 +130,17 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     public void updateStepWidth() {
-        if (equalStepWidth) {
-            for (Widget child : getChildren()) {
-                if (child instanceof MaterialStep) {
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialStep) {
+                if (equalStepWidth) {
                     double stepWidth = 100 / getChildren().size();
                     child.setWidth(stepWidth + "%");
+                } else {
+                    child.getElement().getStyle().clearWidth();
                 }
             }
-        } else {
-            MaterialToast.fireToast("asd");
         }
+
     }
 
     public void setDetectOrientation(boolean detectOrientation) {
@@ -502,6 +503,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
 
     public void setEqualStepWidth(boolean equalStepWidth) {
         this.equalStepWidth = equalStepWidth;
+
+        if (isAttached()) {
+            updateStepWidth();
+        }
     }
 
     public Span getFeedbackSpan() {

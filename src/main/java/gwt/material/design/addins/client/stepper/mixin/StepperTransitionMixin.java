@@ -49,10 +49,12 @@ public class StepperTransitionMixin<T extends MaterialStepper> implements HasSte
         if (currentStep != null && nextStep != null) {
 
             if (enableTransition) {
+                stepper.setOverflow(Style.Overflow.HIDDEN);
                 currentStep.getDivBody().setOverflow(Style.Overflow.HIDDEN);
                 new MaterialAnimation().transition(nextOutTransition).animate(currentStep.getConBody(), () -> {
                     currentStep.setActive(false);
                     currentStep.getDivBody().setOverflow(Style.Overflow.AUTO);
+                    stepper.setOverflow(Style.Overflow.AUTO);
                 });
 
                 nextStep.setActive(true);
@@ -70,9 +72,11 @@ public class StepperTransitionMixin<T extends MaterialStepper> implements HasSte
         MaterialStep previousStep = stepper.getStep(currentStep.getStep() - 1);
         if (currentStep != null && previousStep != null) {
             if (enableTransition) {
+                stepper.setOverflow(Style.Overflow.HIDDEN);
                 currentStep.getDivBody().setOverflow(Style.Overflow.HIDDEN);
                 new MaterialAnimation().transition(previousOutTransition).animate(currentStep.getConBody(), () -> {
                     currentStep.setActive(false);
+                    currentStep.getDivBody().setOverflow(Style.Overflow.AUTO);
                     currentStep.getDivBody().setOverflow(Style.Overflow.AUTO);
                 });
 
