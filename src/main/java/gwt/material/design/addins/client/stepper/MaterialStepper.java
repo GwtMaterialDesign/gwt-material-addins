@@ -21,7 +21,6 @@ package gwt.material.design.addins.client.stepper;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -38,6 +37,8 @@ import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 import gwt.material.design.addins.client.stepper.events.NextEvent;
 import gwt.material.design.addins.client.stepper.events.PreviousEvent;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
+import gwt.material.design.addins.client.stepper.mixin.HasStepperTransition;
+import gwt.material.design.addins.client.stepper.mixin.StepperTransitionMixin;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasStatusText;
@@ -86,7 +87,7 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers, HasStepsHandler {
+        HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -104,10 +105,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
-    private Transition nextTransition;
-    private Transition previousTransition;
 
     private CssNameMixin<MaterialStepper, Axis> axisMixin;
+    private StepperTransitionMixin<MaterialStepper> stepperTransitionMixin;
 
     public MaterialStepper() {
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
@@ -199,14 +199,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             Widget w = getWidget(currentStepIndex);
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
-
-                //TODO: Optimize as an API
-                step.getDivBody().setOverflow(Style.Overflow.HIDDEN);
-                new MaterialAnimation().transition(Transition.SLIDEOUTLEFT).animate(step.getConBody(), () -> {
-                    step.setActive(false);
-                    step.getDivBody().setOverflow(Style.Overflow.AUTO);
-                });
-
                 step.setSuccessText(step.getDescription());
 
                 // next step
@@ -219,11 +211,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
                         }
                         MaterialStep nextStep = (MaterialStep) w;
                         if (nextStep.isEnabled() && nextStep.isVisible()) {
-
-                            //TODO: Optimize as an API
-                            nextStep.setActive(true);
-                            new MaterialAnimation().transition(Transition.SLIDEINRIGHT).animate(nextStep.getConBody());
-
+                            animateNext();
                             setCurrentStepIndex(i);
                             NextEvent.fire(MaterialStepper.this);
                             break;
@@ -243,13 +231,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
 
-                //TODO: Optimize as an API
-                step.getDivBody().setOverflow(Style.Overflow.HIDDEN);
-                new MaterialAnimation().transition(Transition.SLIDEOUTRIGHT).animate(step.getConBody(), () -> {
-                    step.setActive(false);
-                    step.getDivBody().setOverflow(Style.Overflow.AUTO);
-                });
-
                 // prev step
                 int prevStepIndex = getWidgetIndex(step) - 1;
                 if (prevStepIndex >= 0) {
@@ -260,14 +241,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
                         }
                         MaterialStep prevStep = (MaterialStep) w;
                         if (prevStep.isEnabled() && prevStep.isVisible()) {
-
-                            //TODO: Optimize as an API
-                            prevStep.setActive(true);
-                            prevStep.getDivBody().setOverflow(Style.Overflow.HIDDEN);
-                            new MaterialAnimation().transition(Transition.SLIDEINLEFT).animate(prevStep.getConBody(), () -> {
-                                prevStep.getDivBody().setOverflow(Style.Overflow.AUTO);
-                            });
-
+                            animatePrevious();
                             setCurrentStepIndex(i);
                             PreviousEvent.fire(MaterialStepper.this);
                             break;
@@ -359,7 +333,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     public MaterialStep getStep(int step) {
-        return getStep(step  + 1);
+        return getStepByIndex(step  - 1);
     }
 
     public MaterialStep getStepByIndex(int stepIndex) {
@@ -530,22 +504,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         this.equalStepWidth = equalStepWidth;
     }
 
-    public Transition getNextTransition() {
-        return nextTransition;
-    }
-
-    public void setNextTransition(Transition nextTransition) {
-        this.nextTransition = nextTransition;
-    }
-
-    public Transition getPreviousTransition() {
-        return previousTransition;
-    }
-
-    public void setPreviousTransition(Transition previousTransition) {
-        this.previousTransition = previousTransition;
-    }
-
     public Span getFeedbackSpan() {
         return feedbackSpan;
     }
@@ -560,6 +518,46 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
                 goToStep(event.getSelectedItem());
             }
         }
+    }
+
+    @Override
+    public void setNextInTransition(Transition transition) {
+        getStepperTransitionMixin().setNextInTransition(transition);
+    }
+
+    @Override
+    public void setNextOutTransition(Transition transition) {
+        getStepperTransitionMixin().setNextOutTransition(transition);
+    }
+
+    @Override
+    public void setPreviousInTransition(Transition transition) {
+        getStepperTransitionMixin().setPreviousInTransition(transition);
+    }
+
+    @Override
+    public void setPreviousOutTransition(Transition transition) {
+        getStepperTransitionMixin().setPreviousOutTransition(transition);
+    }
+
+    @Override
+    public void animateNext() {
+        getStepperTransitionMixin().animateNext();
+    }
+
+    @Override
+    public void animatePrevious() {
+        getStepperTransitionMixin().animatePrevious();
+    }
+
+    @Override
+    public void setEnableTransition(boolean enableTransition) {
+        getStepperTransitionMixin().setEnableTransition(enableTransition);
+    }
+
+    @Override
+    public boolean isEnableTransition() {
+        return getStepperTransitionMixin().isEnableTransition();
     }
 
     @Override
@@ -592,5 +590,12 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             axisMixin = new CssNameMixin<>(this);
         }
         return axisMixin;
+    }
+
+    protected StepperTransitionMixin<MaterialStepper> getStepperTransitionMixin() {
+        if (stepperTransitionMixin == null) {
+            stepperTransitionMixin = new StepperTransitionMixin<>(this);
+        }
+        return stepperTransitionMixin;
     }
 }
