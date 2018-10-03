@@ -48,6 +48,7 @@ import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
@@ -98,6 +99,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private int currentStepIndex = 0;
     private int totalSteps;
     private boolean stepSkippingAllowed = true;
+    private boolean equalStepWidth = false;
     private boolean detectOrientation = true;
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
@@ -124,6 +126,20 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         }
 
         setDetectOrientation(detectOrientation);
+        updateStepWidth();
+    }
+
+    public void updateStepWidth() {
+        if (equalStepWidth) {
+            for (Widget child : getChildren()) {
+                if (child instanceof MaterialStep) {
+                    double stepWidth = 100 / getChildren().size();
+                    child.setWidth(stepWidth + "%");
+                }
+            }
+        } else {
+            MaterialToast.fireToast("asd");
+        }
     }
 
     public void setDetectOrientation(boolean detectOrientation) {
@@ -504,6 +520,14 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
      */
     public boolean isStepSkippingAllowed() {
         return stepSkippingAllowed;
+    }
+
+    public boolean isEqualStepWidth() {
+        return equalStepWidth;
+    }
+
+    public void setEqualStepWidth(boolean equalStepWidth) {
+        this.equalStepWidth = equalStepWidth;
     }
 
     public Transition getNextTransition() {
