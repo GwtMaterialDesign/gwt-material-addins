@@ -43,10 +43,10 @@ import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.Event;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
@@ -201,7 +201,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public void reset() {
         super.reset();
         displayArrowForAllowClearOption(false);
-        setSelectedIndex(0);
+        unselect();
     }
 
     @Override
@@ -521,7 +521,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void setValue(List<T> values, boolean fireEvents) {
-        if (!isMultiple()) {
+        if (values == null) {
+            reset();
+
+            if (fireEvents) {
+                ValueChangeEvent.fire(this,  null);
+            }
+        } else if (!isMultiple()) {
             if (!values.isEmpty()) {
                 setSingleValue(values.get(0), fireEvents);
             }
@@ -635,6 +641,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return Integer.parseInt(o.toString());
         }
         return -1;
+    }
+
+    public void unselect() {
+        $(listbox.getElement()).val("").change();
+        $(listbox.getElement()).trigger(new Event(ComboBoxEvents.UNSELECT));
     }
 
     /**
