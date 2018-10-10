@@ -73,14 +73,13 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
             assertEquals(step.getWidget(0), step.getHeader());
             Div conCircle = step.getHeader();
 
-            assertEquals(step.getWidget(1), step.getConBody());
+            assertEquals(step.getWidget(1), step.getDivLine());
             Div conBody = step.getConBody();
 
             assertEquals(step.getAxis(), Axis.HORIZONTAL);
             assertEquals(step.getDivCircle(), conCircle.getWidget(0));
             assertEquals(step.getDivTitle(), conCircle.getWidget(1));
-            assertEquals(step.getDivLine(), conCircle.getWidget(2));
-            assertEquals(step.getDivDescription(), conCircle.getWidget(3));
+            assertEquals(step.getDivDescription(), conCircle.getWidget(2));
 
             step.setAxis(Axis.VERTICAL);
             assertEquals(step.getDivTitle(), conBody.getWidget(0));
@@ -170,26 +169,21 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
 
     protected void checkAxis(MaterialStepper stepper) {
         MaterialStep step = stepper.getCurrentStep();
-        MaterialWidget conCircle = (MaterialWidget) step.getWidget(0);
-        MaterialWidget conBody = (MaterialWidget) step.getWidget(1);
 
-        // when / then
-        assertNotNull(stepper.getCurrentStep());
-        stepper.setAxis(Axis.VERTICAL);
-        assertEquals(Axis.VERTICAL, stepper.getAxis());
-        assertTrue(stepper.getElement().hasClassName(Axis.VERTICAL.getCssName()));
+        step.setAxis(Axis.HORIZONTAL);
+        assertEquals(step.getAxis(), Axis.HORIZONTAL);
 
-        assertTrue(conBody.getWidget(0).getElement().hasClassName(CssName.TITLE));
-        assertTrue(conBody.getWidget(1).getElement().hasClassName(AddinsCssName.DESCRIPTION));
-        assertTrue(conBody.getWidget(2).getElement().hasClassName(AddinsCssName.BODY));
+        assertEquals(step.getHeader().getWidget(0), step.getDivCircle());
+        assertEquals(step.getHeader().getWidget(1), step.getDivTitle());
+        assertEquals(step.getHeader().getWidget(2), step.getDivDescription());
+        assertEquals(step.getWidget(1), step.getDivLine());
 
-        stepper.setAxis(Axis.HORIZONTAL);
-        assertEquals(Axis.HORIZONTAL, stepper.getAxis());
-        assertTrue(stepper.getElement().hasClassName(Axis.HORIZONTAL.getCssName()));
-        assertTrue(step.getWidget(0) instanceof MaterialWidget);
-        MaterialWidget horiCon = (MaterialWidget) step.getWidget(0);
-        assertTrue(horiCon.getWidget(1).getElement().hasClassName(CssName.TITLE));
-        assertTrue(horiCon.getWidget(3).getElement().hasClassName(AddinsCssName.DESCRIPTION));
+        step.setAxis(Axis.VERTICAL);
+        assertEquals(step.getAxis(), Axis.VERTICAL);
+
+        assertEquals(step.getConBody().getWidget(0), step.getDivTitle());
+        assertEquals(step.getConBody().getWidget(1), step.getDivDescription());
+        assertEquals(step.getHeader().getWidget(1), step.getDivLine());
     }
 
     public void testStepNavigation() {
