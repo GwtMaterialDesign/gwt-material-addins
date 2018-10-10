@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.stepper.mixin;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
+import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 
@@ -67,7 +68,7 @@ public class StepperTransitionMixin<T extends MaterialStepper> implements HasSte
         MaterialStep nextStep = stepper.getStep(currentStep.getStep() + 1);
         if (currentStep != null && nextStep != null) {
 
-            if (enableTransition) {
+            if (enableTransition && stepper.getAxis() == Axis.HORIZONTAL) {
                 currentStep.getDivBody().setOverflow(Style.Overflow.HIDDEN);
                 new MaterialAnimation().transition(nextOutTransition).animate(currentStep.getConBody(), () -> {
                     currentStep.setActive(false);
@@ -88,7 +89,7 @@ public class StepperTransitionMixin<T extends MaterialStepper> implements HasSte
         MaterialStep currentStep = stepper.getCurrentStep();
         MaterialStep previousStep = stepper.getStep(currentStep.getStep() - 1);
         if (currentStep != null && previousStep != null) {
-            if (enableTransition) {
+            if (enableTransition && stepper.getAxis() == Axis.HORIZONTAL) {
                 currentStep.getDivBody().setOverflow(Style.Overflow.HIDDEN);
                 new MaterialAnimation().transition(previousOutTransition).animate(currentStep.getConBody(), () -> {
                     currentStep.setActive(false);

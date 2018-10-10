@@ -74,7 +74,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     private int step;
     private String title;
     private String description = "";
-    private Div conCircle = new Div();
+    private Div header = new Div();
     private Div conBody = new Div();
     private Div divCircle = new Div();
     private Div divLine = new Div();
@@ -91,9 +91,10 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public MaterialStep() {
         super(Document.get().createDivElement(), AddinsCssName.STEP);
 
-        super.add(conCircle);
-        conCircle.add(divCircle);
-        conCircle.add(divLine);
+        header.addStyleName(AddinsCssName.STEP_HEADER);
+        super.add(header);
+        header.add(divCircle);
+        header.add(divLine);
 
         super.add(conBody);
         conBody.add(divTitle);
@@ -125,7 +126,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
                 SelectionEvent.fire(MaterialStep.this, MaterialStep.this);
             }
         };
-        registerHandler(conCircle.addClickHandler(handler));
+        registerHandler(header.addClickHandler(handler));
         registerHandler(divTitle.addClickHandler(handler));
         registerHandler(divDescription.addClickHandler(handler));
     }
@@ -205,7 +206,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
     public void clearStatusText() {
         clearErrorText();
         clearSuccessText();
-        conCircle.insert(divCircle, 0);
+        header.insert(divCircle, 0);
     }
 
     @Override
@@ -259,7 +260,7 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         iconError.removeFromParent();
         iconSuccess.removeFromParent();
         divCircle.removeFromParent();
-        conCircle.insert(icon, 0);
+        header.insert(icon, 0);
         if (description != null) {
             divDescription.getElement().setInnerSafeHtml(SafeHtmlUtils.fromString(description));
         }
@@ -276,8 +277,8 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         }
     }
 
-    public Div getConCircle() {
-        return conCircle;
+    public Div getHeader() {
+        return header;
     }
 
     public Div getConBody() {
@@ -312,15 +313,14 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
         this.axis = axis;
         switch (axis) {
             case HORIZONTAL:
-                conCircle.add(divTitle);
-                conCircle.add(divLine);
-                conCircle.add(divDescription);
+                header.add(divTitle);
+                header.add(divDescription);
+                super.insert(divLine, 1);
                 break;
             case VERTICAL:
                 conBody.insert(divTitle, 0);
                 conBody.insert(divDescription, 1);
-                conCircle.add(divLine);
-
+                header.add(divLine);
                 break;
         }
     }

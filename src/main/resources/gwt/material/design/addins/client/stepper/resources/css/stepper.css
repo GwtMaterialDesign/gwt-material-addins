@@ -2,10 +2,19 @@
     position: relative;
     min-height: 32px;
     padding: 12px;
-    cursor: pointer
+    cursor: pointer;
 }
 
-.stepper .step:hover {
+.stepper.horizontal .step {
+    min-width: 240px;
+}
+
+.stepper.horizontal.fixed-step-width .step {
+    min-width: unset;
+}
+
+.stepper .step:hover,
+.stepper.horizontal .step:hover .step-header {
     background: #F6F6F6
 }
 
@@ -51,10 +60,8 @@
 }
 
 .stepper .body {
-    padding-bottom: 28px;
-    padding-top: 8px;
     opacity: 1;
-    padding: 20px;
+    padding: 20px
 }
 
 .stepper .description {
@@ -67,7 +74,7 @@
 .stepper.horizontal {
     line-height: 0;
     position: relative;
-    min-height: 600px;
+    min-height: 600px
 }
 
 .stepper.horizontal .step {
@@ -81,14 +88,28 @@
     display: inline-block
 }
 
+.stepper.horizontal .step .step-header {
+    display: inherit;
+    height: 40px;
+    max-width: 80%;
+    background: #FFFFFF;
+    z-index: 1;
+    position: relative;
+    padding-right: 20px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .stepper.horizontal .step .line {
     border-left: 0;
+    height: 2px;
     position: inherit;
-    border-top: 1px solid #dcdcdc;
-    width: 100px;
-    margin-bottom: 5px;
-    margin-left: 8px;
-    margin-right: -36px
+    border-top: 2px solid #dcdcdc;
+    width: 100%;
+    float: right;
+    margin-top: -24px;
 }
 
 .stepper.horizontal .step .title {
@@ -119,10 +140,6 @@
     font-weight: 400
 }
 
-.stepper.horizontal .step.inactive > :nth-child(2) {
-    visibility: hidden
-}
-
 .stepper .step.inactive .body {
     opacity: 0;
     transition: .6s all;
@@ -130,7 +147,7 @@
     max-height: 0;
     z-index: -1;
     position: relative;
-    display: none;
+    display: none
 }
 
 .stepper .step.active .body {
@@ -141,11 +158,11 @@
     padding-bottom: 28px;
     padding-top: 8px;
     z-index: 1 !important;
-    display: block !important;
+    display: block !important
 }
 
 .stepper .step.inactive > div:first-child .circle {
-    background-color: #9e9e9e !important;
+    background-color: #9e9e9e !important
 }
 
 .stepper .step > div:first-child i {
@@ -180,8 +197,12 @@
     padding: 36px
 }
 
-/** Vertical steppers **/
+/** Vertical Stepper **/
+.stepper.vertical .step {
+    width: 100% !important;
+}
+
 .stepper.vertical .step.active .body {
-    padding-bottom: 0px;
-    padding-right: 20px;
+    padding-bottom: 0;
+    padding-right: 20px
 }

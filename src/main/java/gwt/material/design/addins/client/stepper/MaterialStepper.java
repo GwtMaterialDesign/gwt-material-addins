@@ -45,11 +45,11 @@ import gwt.material.design.client.base.HasStatusText;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.mixin.StatusDisplayMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
@@ -100,12 +100,13 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private int currentStepIndex = 0;
     private int totalSteps;
     private boolean stepSkippingAllowed = true;
-    private boolean equalStepWidth = false;
+    private boolean fixedStepWidth = false;
     private boolean detectOrientation = true;
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
 
+    private ToggleStyleMixin<MaterialStepper> toggleFixedStepWidth;
     private CssNameMixin<MaterialStepper, Axis> axisMixin;
     private StepperTransitionMixin<MaterialStepper> stepperTransitionMixin;
 
@@ -132,7 +133,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     public void updateStepWidth() {
         for (Widget child : getChildren()) {
             if (child instanceof MaterialStep) {
-                if (equalStepWidth) {
+                if (fixedStepWidth) {
                     double stepWidth = 100 / getChildren().size();
                     child.setWidth(stepWidth + "%");
                 } else {
@@ -497,16 +498,14 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         return stepSkippingAllowed;
     }
 
-    public boolean isEqualStepWidth() {
-        return equalStepWidth;
+    public boolean isFixedStepWidth() {
+        return fixedStepWidth;
     }
 
-    public void setEqualStepWidth(boolean equalStepWidth) {
-        this.equalStepWidth = equalStepWidth;
-
-        if (isAttached()) {
-            updateStepWidth();
-        }
+    public void setFixedStepWidth(boolean fixedStepWidth) {
+        this.fixedStepWidth = fixedStepWidth;
+        updateStepWidth();
+        getToggleFixedStepWidth().setOn(fixedStepWidth);
     }
 
     public Span getFeedbackSpan() {
@@ -602,5 +601,12 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             stepperTransitionMixin = new StepperTransitionMixin<>(this);
         }
         return stepperTransitionMixin;
+    }
+
+    protected ToggleStyleMixin<MaterialStepper> getToggleFixedStepWidth() {
+        if (toggleFixedStepWidth == null) {
+            toggleFixedStepWidth = new ToggleStyleMixin<>(this, AddinsCssName.FIXED_STEP_WIDTH);
+        }
+        return toggleFixedStepWidth;
     }
 }

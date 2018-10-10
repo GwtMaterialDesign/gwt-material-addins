@@ -70,8 +70,8 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
             int i = steps.indexOf(step) + 1;
 
             assertEquals(i, step.getStep());
-            assertEquals(step.getWidget(0), step.getConCircle());
-            Div conCircle = step.getConCircle();
+            assertEquals(step.getWidget(0), step.getHeader());
+            Div conCircle = step.getHeader();
 
             assertEquals(step.getWidget(1), step.getConBody());
             Div conBody = step.getConBody();
