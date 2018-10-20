@@ -30,5 +30,5 @@
   <public path="public"/>
 
   <!-- Reference to all classes and styles for font-awesome icons -->
-  <stylesheet src="css/fontawesome-all.min.css" />
+  <stylesheet src="css/fontawesome-all.css" />
 </module>
