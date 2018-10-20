@@ -385,6 +385,16 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     @Override
+    public void setCustomIconType(String iconType) {
+        icon.setCustomIconType(iconType);
+    }
+
+    @Override
+    public String getCustomIconType() {
+        return icon.getCustomIconType();
+    }
+
+    @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
