@@ -201,7 +201,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public void reset() {
         super.reset();
         displayArrowForAllowClearOption(false);
-        unselect();
     }
 
     @Override
