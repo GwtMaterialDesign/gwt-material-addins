@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,24 +19,24 @@
  */
 package gwt.material.design.incubator.client.async;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.async.events.FailureEvent;
+import gwt.material.design.client.async.events.HasAsyncHandlers;
+import gwt.material.design.client.async.events.LoadingEvent;
+import gwt.material.design.client.async.events.SuccessEvent;
 import gwt.material.design.client.base.AbstractIconButton;
 import gwt.material.design.client.base.HasActive;
 import gwt.material.design.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.html.Icon;
 import gwt.material.design.incubator.client.AddinsIncubator;
-import gwt.material.design.incubator.client.async.events.ErrorEvent;
-import gwt.material.design.incubator.client.async.events.HasAsyncHandlers;
-import gwt.material.design.incubator.client.async.events.LoadingEvent;
-import gwt.material.design.incubator.client.async.events.SuccessEvent;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 
 //@formatter:off
 
 /**
- * Asynchronous buttons are components that is good ux for
+ * HasAsynchronousSupport buttons are components that is good ux for
  * calling the server side component and automatically updates
  * the states of the ui logic.
  * <p>
@@ -60,8 +60,6 @@ public abstract class AbstractAsyncButton extends AbstractIconButton
     }
 
     protected ActiveMixin<AbstractAsyncButton> activeMixin;
-    protected IconType initialIcon;
-    protected String initialMessage;
     protected IconType loadingIcon = IconType.AUTORENEW;
     protected IconType errorIcon = IconType.WARNING;
     protected IconType successIcon = IconType.CHECK;
@@ -92,7 +90,7 @@ public abstract class AbstractAsyncButton extends AbstractIconButton
         setActive(false);
         setIconType(errorIcon);
         setEnabled(true);
-        ErrorEvent.fire(this);
+        FailureEvent.fire(this);
     }
 
     public void success(String message) {
@@ -159,17 +157,17 @@ public abstract class AbstractAsyncButton extends AbstractIconButton
     }
 
     @Override
-    public void addLoadingHandler(LoadingEvent.LoadingHandler handler) {
-        addHandler(handler, LoadingEvent.getType());
+    public HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler) {
+        return addHandler(handler, LoadingEvent.getType());
     }
 
     @Override
-    public void addErrorHandler(ErrorEvent.ErrorHandler handler) {
-        addHandler(handler, ErrorEvent.getType());
+    public HandlerRegistration addErrorHandler(FailureEvent.ErrorHandler handler) {
+        return addHandler(handler, FailureEvent.getType());
     }
 
     @Override
-    public void addSuccessHandler(SuccessEvent.SuccessHandler handler) {
-        addHandler(handler, SuccessEvent.getType());
+    public HandlerRegistration addSuccessHandler(SuccessEvent.SuccessHandler handler) {
+        return addHandler(handler, SuccessEvent.getType());
     }
 }

@@ -21,8 +21,11 @@ package gwt.material.design.incubator.client.async;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+
+import java.util.function.Consumer;
 
 public class AsyncButton extends AbstractAsyncButton {
 
@@ -53,5 +56,10 @@ public class AsyncButton extends AbstractAsyncButton {
     @Override
     protected Element createElement() {
         return Document.get().createPushButtonElement();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Widget> action) {
+
     }
 }
