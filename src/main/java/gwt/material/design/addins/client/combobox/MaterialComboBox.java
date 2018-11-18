@@ -28,6 +28,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.combobox.async.DefaultComboBoxDisplayLoader;
 import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
@@ -38,8 +39,15 @@ import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.addins.client.combobox.js.options.Data;
 import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.async.AsyncWidgetCallback;
+import gwt.material.design.client.async.IsAsyncWidget;
+import gwt.material.design.client.async.loader.AsyncDisplayLoader;
+import gwt.material.design.client.async.mixin.AsyncWidgetMixin;
 import gwt.material.design.client.base.*;
-import gwt.material.design.client.base.mixin.*;
+import gwt.material.design.client.base.mixin.EnabledMixin;
+import gwt.material.design.client.base.mixin.FieldTypeMixin;
+import gwt.material.design.client.base.mixin.ReadOnlyMixin;
+import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -84,7 +92,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-        HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly, HasFieldTypes {
+        HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -109,9 +117,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private ReadOnlyMixin<MaterialComboBox, MaterialWidget> readOnlyMixin;
     private EnabledMixin<MaterialWidget> enabledMixin;
     private FieldTypeMixin<MaterialComboBox> fieldTypeMixin;
+    private AsyncWidgetMixin<MaterialComboBox, List<T>> asyncWidgetMixin;
 
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
+
+        setAsyncDisplayLoader(new DefaultComboBoxDisplayLoader(this));
     }
 
     @Override
@@ -155,7 +166,15 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         });
 
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
-            OpenEvent.fire(this, null);
+
+            if (isAsynchronous()) {
+                event1.stopPropagation();
+                event1.preventDefault();
+                load(getAsyncCallback());
+            } else {
+                OpenEvent.fire(this, null);
+            }
+
             return true;
         });
 
@@ -524,7 +543,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             reset();
 
             if (fireEvents) {
-                ValueChangeEvent.fire(this,  null);
+                ValueChangeEvent.fire(this, null);
             }
         } else if (!isMultiple()) {
             if (!values.isEmpty()) {
@@ -801,6 +820,51 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         getFieldTypeMixin().setFieldWidth(percentWidth);
     }
 
+    @Override
+    public void setAsynchronous(boolean asynchronous) {
+        getAsyncWidgetMixin().setAsynchronous(asynchronous);
+    }
+
+    @Override
+    public boolean isAsynchronous() {
+        return getAsyncWidgetMixin().isAsynchronous();
+    }
+
+    @Override
+    public void load(AsyncWidgetCallback<MaterialComboBox, List<T>> asyncCallback) {
+        getAsyncWidgetMixin().load(asyncCallback);
+    }
+
+    @Override
+    public void setLoaded(boolean loaded) {
+        getAsyncWidgetMixin().setLoaded(loaded);
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return getAsyncWidgetMixin().isLoaded();
+    }
+
+    @Override
+    public void setAsyncCallback(AsyncWidgetCallback<MaterialComboBox, List<T>> asyncCallback) {
+        getAsyncWidgetMixin().setAsyncCallback(asyncCallback);
+    }
+
+    @Override
+    public AsyncWidgetCallback<MaterialComboBox, List<T>> getAsyncCallback() {
+        return getAsyncWidgetMixin().getAsyncCallback();
+    }
+
+    @Override
+    public void setAsyncDisplayLoader(AsyncDisplayLoader displayLoader) {
+        getAsyncWidgetMixin().setAsyncDisplayLoader(displayLoader);
+    }
+
+    @Override
+    public AsyncDisplayLoader getAsyncDisplayLoader() {
+        return getAsyncWidgetMixin().getAsyncDisplayLoader();
+    }
+
     public HandlerRegistration addSelectionHandler(SelectItemEvent.SelectComboHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectItemEvent.getType());
     }
@@ -843,10 +907,17 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return readOnlyMixin;
     }
 
-    protected FieldTypeMixin<MaterialComboBox> getFieldTypeMixin() {
+    public FieldTypeMixin<MaterialComboBox> getFieldTypeMixin() {
         if (fieldTypeMixin == null) {
             fieldTypeMixin = new FieldTypeMixin<>(this);
         }
         return fieldTypeMixin;
+    }
+
+    public AsyncWidgetMixin<MaterialComboBox, List<T>> getAsyncWidgetMixin() {
+        if (asyncWidgetMixin == null) {
+            asyncWidgetMixin = new AsyncWidgetMixin<>(this);
+        }
+        return asyncWidgetMixin;
     }
 }

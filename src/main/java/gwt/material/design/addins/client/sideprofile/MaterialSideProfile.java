@@ -70,6 +70,7 @@ public class MaterialSideProfile extends AbstractValueWidget<String> implements 
         }
     }
 
+    private String alt;
     private String url;
     private ImageResource resource;
 
@@ -108,6 +109,17 @@ public class MaterialSideProfile extends AbstractValueWidget<String> implements 
     @Override
     public ImageResource getResource() {
         return resource;
+    }
+
+    @Override
+    public void setAlt(String alt) {
+        this.alt = alt;
+        getElement().setAttribute("alt", alt);
+    }
+
+    @Override
+    public String getAlt() {
+        return alt;
     }
 
     protected void applyBackground(String url) {
