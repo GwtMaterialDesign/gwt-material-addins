@@ -23,6 +23,10 @@
     font-size: 0.7em;
 }
 
+.group-toggle-button .wrapper button:hover {
+    color: white;
+}
+
 .group-toggle-button button {
     background: #fff;
     color: #4a4a4a;

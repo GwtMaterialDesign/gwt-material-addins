@@ -33,8 +33,10 @@ import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import gwt.material.design.jscore.client.api.Array;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //@formatter:off
@@ -175,6 +177,14 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         return values.get(getSelectedIndexes().get(0));
     }
 
+    public void setSingleValue(T value) {
+        setSingleValue(value, false);
+    }
+
+    public void setSingleValue(T value, boolean fireEvents) {
+        setValue(Arrays.asList(value), fireEvents);
+    }
+
     public void selectAll() {
         for (ToggleButton mButton : items) {
             mButton.setToggle(true);
@@ -185,6 +195,22 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         for (ToggleButton mButton : items) {
             mButton.setToggle(false);
         }
+    }
+
+    @Override
+    public void setValue(List<T> value) {
+        setValue(value, false);
+    }
+
+    @Override
+    public void setValue(List<T> value, boolean fireEvents) {
+        super.setValue(value, fireEvents);
+
+        value.forEach(t -> {
+            if (values.contains(t)) {
+                setActive(values.indexOf(t));
+            }
+        });
     }
 
     public boolean isMultiple() {
