@@ -9,9 +9,7 @@ import jsinterop.annotations.JsType;
 public class LocaleString {
 
     @JsConstructor
-    public LocaleString(String value) {
-        this.value = value;
-    }
+    public LocaleString(String value) {}
 
     @JsProperty
     public String value;
