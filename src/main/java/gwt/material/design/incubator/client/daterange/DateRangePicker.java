@@ -17,8 +17,6 @@ import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
-import gwt.material.design.client.base.viewport.Resolution;
-import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -30,7 +28,6 @@ import gwt.material.design.jquery.client.api.Functions;
 
 import java.util.Date;
 
-import static gwt.material.design.addins.client.moment.Moment.moment;
 import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
 
 
@@ -79,10 +76,6 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
         add(dateInput);
         add(label);
         add(errorLabel);
-
-        ViewPort.when(Resolution.ALL_MOBILE).then(param1 -> {
-            setDropdownAlignment(DropdownAlignment.CENTER);
-        });
 
         getInputElement().daterangepicker(options, (param1, param2, param3) -> {
             //TODO Change event
