@@ -3,6 +3,11 @@ package gwt.material.design.incubator.client.daterange.js;
 import gwt.material.design.client.base.helper.EnumHelper;
 import gwt.material.design.client.constants.CssType;
 
+/**
+ * @see {@link gwt.material.design.incubator.client.daterange.DateRangePicker#setDropdownPosition(DropdownPosition)}
+ *
+ * @author kevzlou7979
+ */
 public enum DropdownPosition implements CssType {
 
     LEFT("left"),

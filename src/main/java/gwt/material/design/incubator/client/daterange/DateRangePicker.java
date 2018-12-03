@@ -1,11 +1,15 @@
 package gwt.material.design.incubator.client.daterange;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextBox;
+import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
+import gwt.material.design.addins.client.combobox.js.JsComboBox;
+import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
+import gwt.material.design.addins.client.moment.Moment;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
@@ -13,12 +17,11 @@ import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
+import gwt.material.design.client.base.viewport.Resolution;
+import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.MaterialDatePicker;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.client.ui.html.DateInput;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.daterange.events.*;
@@ -27,10 +30,11 @@ import gwt.material.design.jquery.client.api.Functions;
 
 import java.util.Date;
 
+import static gwt.material.design.addins.client.moment.Moment.moment;
 import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
 
 
-public class DateRange extends AbstractValueWidget<Date> implements HasDateRangeHandlers, HasFieldTypes,
+public class DateRangePicker extends AbstractValueWidget<Date> implements HasDateRangeHandlers, HasFieldTypes,
         HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder {
 
     static {
@@ -45,19 +49,21 @@ public class DateRange extends AbstractValueWidget<Date> implements HasDateRange
             MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerCss());
             MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss());
         }
+        MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
+        MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
     }
 
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
-    private FieldTypeMixin<DateRange> fieldTypeMixin;
+    private FieldTypeMixin<DateRangePicker> fieldTypeMixin;
     private TextBox dateInput = new TextBox();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialIcon icon = new MaterialIcon();
     private DateRangeOptions options = new DateRangeOptions();
     private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
-    private ReadOnlyMixin<DateRange, TextBox> readOnlyMixin;
+    private ReadOnlyMixin<DateRangePicker, TextBox> readOnlyMixin;
 
-    public DateRange() {
+    public DateRangePicker() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, DATE_RANGE_STYLENAME);
     }
 
@@ -74,39 +80,80 @@ public class DateRange extends AbstractValueWidget<Date> implements HasDateRange
         add(label);
         add(errorLabel);
 
-        getInputElement().daterangepicker(options);
+        ViewPort.when(Resolution.ALL_MOBILE).then(param1 -> {
+            setDropdownAlignment(DropdownAlignment.CENTER);
+        });
 
-        //TODO: Change target to Date
-        getInputElement().on(DateRangeEvents.OPEN, (e, param1) -> {
-            OpenEvent.fire(this, this);
+        getInputElement().daterangepicker(options, (param1, param2, param3) -> {
+            //TODO Change event
+        });
+
+        getInputElement().on(DateRangeEvents.UPDATE_CALENDAR, (e, picker) -> {
+            //  OpenEvent.fire(this, picker);
+            toggleTypeAssist();
             return true;
         });
 
-        //TODO: Change target to Date
-        getInputElement().on(DateRangeEvents.CLOSE, (e, param1) -> {
-            CloseEvent.fire(this, this);
+        getInputElement().on(DateRangeEvents.NEXT, (e, picker) -> {
+            //  OpenEvent.fire(this, picker);
+            toggleTypeAssist();
             return true;
         });
 
-        getInputElement().on(DateRangeEvents.CLOSE_CALENDAR, (e, param1) -> {
-            MaterialToast.fireToast("Close Calendar");
+        getInputElement().on(DateRangeEvents.PREV, (e, picker) -> {
+            //  OpenEvent.fire(this, picker);
+            toggleTypeAssist();
             return true;
         });
 
-        getInputElement().on(DateRangeEvents.OPEN_CALENDAR, (e, param1) -> {
-            MaterialToast.fireToast("Open Calendar");
+        getInputElement().on(DateRangeEvents.SELECT, (e, picker) -> {
+            //  OpenEvent.fire(this, picker);
+            toggleTypeAssist();
             return true;
         });
 
-        getInputElement().on(DateRangeEvents.APPLY, (e, param1) -> {
-            MaterialToast.fireToast("Apply");
+        getInputElement().on(DateRangeEvents.OPEN, (e, picker) -> {
+            //  OpenEvent.fire(this, picker);
             return true;
         });
 
-        getInputElement().on(DateRangeEvents.CANCEL, (e, param1) -> {
-            MaterialToast.fireToast("Cancel");
+        getInputElement().on(DateRangeEvents.CLOSE, (e, picker) -> {
+            // CloseEvent.fire(this, picker);
             return true;
         });
+
+        getInputElement().on(DateRangeEvents.CLOSE_CALENDAR, (e, picker) -> {
+            // CloseCalendarEvent.fire(this, picker);
+            return true;
+        });
+
+        getInputElement().on(DateRangeEvents.OPEN_CALENDAR, (e, picker) -> {
+            // OpenCalendarEvent.fire(this, picker);
+            return true;
+        });
+
+        getInputElement().on(DateRangeEvents.APPLY, (e, picker) -> {
+            // ApplyEvent.fire(this, picker);
+            return true;
+        });
+
+        getInputElement().on(DateRangeEvents.CANCEL, (e, picker) -> {
+            // CancelEvent.fire(this, picker);
+            return true;
+        });
+
+        setId(DOM.createUniqueId());
+    }
+
+    protected void toggleTypeAssist() {
+        if (isShowDropdowns()) {
+            JsComboBox monthSelect = JsComboBox.$(".monthselect");
+            JsComboBox yearSelect = JsComboBox.$(".yearselect");
+            JsComboBoxOptions op = JsComboBoxOptions.create();
+            op.dropdownParent = JsComboBox.$(getElement());
+            monthSelect.select2(op);
+            yearSelect.select2(op);
+        }
     }
 
     @Override
@@ -123,6 +170,9 @@ public class DateRange extends AbstractValueWidget<Date> implements HasDateRange
         getInputElement().off(DateRangeEvents.OPEN_CALENDAR);
         getInputElement().off(DateRangeEvents.APPLY);
         getInputElement().off(DateRangeEvents.CANCEL);
+        getInputElement().off(DateRangeEvents.NEXT);
+        getInputElement().off(DateRangeEvents.PREV);
+        getInputElement().off(DateRangeEvents.UPDATE_CALENDAR);
     }
 
     public void reload() {
@@ -135,312 +185,312 @@ public class DateRange extends AbstractValueWidget<Date> implements HasDateRange
     }
 
     @Override
-    public Date getStartDate() {
-        return options.startDate;
+    public Moment getStartDate() {
+        return options.getStartDate();
     }
 
     @Override
-    public void setStartDate(Date startDate) {
-        options.startDate = startDate;
+    public void setStartDate(Moment startDate) {
+        options.setStartDate(startDate);
     }
 
     @Override
     public Date getEndDate() {
-        return options.endDate;
+        return options.getEndDate();
     }
 
     @Override
     public void setEndDate(Date endDate) {
-        options.endDate = endDate;
+        options.setEndDate(endDate);
     }
 
     @Override
     public Date getMinDate() {
-        return options.minDate;
+        return options.getMinDate();
     }
 
     @Override
     public void setMinDate(Date minDate) {
-        options.minDate = minDate;
+        options.setMinDate(minDate);
     }
 
     @Override
     public Date getMaxDate() {
-        return options.maxDate;
+        return options.getMaxDate();
     }
 
     @Override
     public void setMaxDate(Date maxDate) {
-        options.maxDate = maxDate;
+        options.setMaxDate(maxDate);
     }
 
     @Override
     public Object getMaxSpan() {
-        return options.maxSpan;
+        return options.getMaxSpan();
     }
 
     @Override
     public void setMaxSpan(Object maxSpan) {
-        options.maxSpan = maxSpan;
+        options.setMaxSpan(maxSpan);
     }
 
     @Override
     public boolean isShowDropdowns() {
-        return options.showDropdowns;
+        return options.isShowDropdowns();
     }
 
     @Override
     public void setShowDropdowns(boolean showDropdowns) {
-        options.showDropdowns = showDropdowns;
+        options.setShowDropdowns(showDropdowns);
     }
 
     @Override
     public int getMinYear() {
-        return options.minYear;
+        return options.getMinYear();
     }
 
     @Override
     public void setMinYear(int minYear) {
-        options.minYear = minYear;
+        options.setMinYear(minYear);
     }
 
     @Override
     public int getMaxYear() {
-        return options.maxYear;
+        return options.getMaxYear();
     }
 
     @Override
     public void setMaxYear(int maxYear) {
-        options.maxYear = maxYear;
+        options.setMaxYear(maxYear);
     }
 
     @Override
     public boolean isShowWeekNumbers() {
-        return options.showWeekNumbers;
+        return options.isShowWeekNumbers();
     }
 
     @Override
     public void setShowWeekNumbers(boolean showWeekNumbers) {
-        options.showWeekNumbers = showWeekNumbers;
+        options.setShowWeekNumbers(showWeekNumbers);
     }
 
     @Override
     public boolean isShowISOWeekNumbers() {
-        return options.showISOWeekNumbers;
+        return options.isShowISOWeekNumbers();
     }
 
     @Override
     public void setShowISOWeekNumbers(boolean showISOWeekNumbers) {
-        options.showISOWeekNumbers = showISOWeekNumbers;
+        options.setShowISOWeekNumbers(showISOWeekNumbers);
     }
 
     @Override
     public boolean isTimePicker() {
-        return options.timePicker;
+        return options.isTimePicker();
     }
 
     @Override
     public void setTimePicker(boolean timePicker) {
-        options.timePicker = timePicker;
+        options.setTimePicker(timePicker);
     }
 
     @Override
     public int getTimePickerIncrement() {
-        return options.timePickerIncrement;
+        return options.getTimePickerIncrement();
     }
 
     @Override
     public void setTimePickerIncrement(int timePickerIncrement) {
-        options.timePickerIncrement = timePickerIncrement;
+        options.setTimePickerIncrement(timePickerIncrement);
     }
 
     @Override
     public boolean isTimePicker24Hour() {
-        return options.timePicker24Hour;
+        return options.isTimePicker24Hour();
     }
 
     @Override
     public void setTimePicker24Hour(boolean timePicker24Hour) {
-        options.timePicker24Hour = timePicker24Hour;
+        options.setTimePicker24Hour(timePicker24Hour);
     }
 
     @Override
     public boolean isTimePickerSeconds() {
-        return options.timePickerSeconds;
+        return options.isTimePickerSeconds();
     }
 
     @Override
     public void setTimePickerSeconds(boolean timePickerSeconds) {
-        options.timePickerSeconds = timePickerSeconds;
+        options.setTimePickerSeconds(timePickerSeconds);
     }
 
     @Override
     public Object getRanges() {
-        return options.ranges;
+        return options.getRanges();
     }
 
     @Override
     public void setRanges(Object ranges) {
-        options.ranges = ranges;
+        options.setRanges(ranges);
     }
 
     @Override
     public boolean isShowCustomRangeLabel() {
-        return options.showCustomRangeLabel;
+        return options.isShowCustomRangeLabel();
     }
 
     @Override
     public void setShowCustomRangeLabel(boolean showCustomRangeLabel) {
-        options.showCustomRangeLabel = showCustomRangeLabel;
+        options.setShowCustomRangeLabel(showCustomRangeLabel);
     }
 
     @Override
     public boolean isAlwaysShowCalendars() {
-        return options.alwaysShowCalendars;
+        return options.isAlwaysShowCalendars();
     }
 
     @Override
     public void setAlwaysShowCalendars(boolean alwaysShowCalendars) {
-        options.alwaysShowCalendars = alwaysShowCalendars;
+        options.setAlwaysShowCalendars(alwaysShowCalendars);
     }
 
     @Override
     public DropdownAlignment getDropdownAlignment() {
-        return options.opens != null ? DropdownAlignment.fromStyleName(options.opens) : null;
+        return options.getOpens() != null ? DropdownAlignment.fromStyleName(options.getOpens()) : null;
     }
 
     @Override
     public void setDropdownAlignment(DropdownAlignment alignment) {
-        options.opens = alignment.getCssName();
+        options.setOpens(alignment.getCssName());
     }
 
     @Override
     public DropdownPosition getDropdownPosition() {
-        return options.drops != null ? DropdownPosition.fromStyleName(options.drops) : null;
+        return options.getDrops() != null ? DropdownPosition.fromStyleName(options.getDrops()) : null;
     }
 
     @Override
     public void setDropdownPosition(DropdownPosition dropdownPosition) {
-        options.drops = dropdownPosition.getCssName();
+        options.setDrops(dropdownPosition.getCssName());
     }
 
     @Override
     public String getButtonClasses() {
-        return options.buttonClasses;
+        return options.getButtonClasses();
     }
 
     @Override
     public void setButtonClasses(String buttonClasses) {
-        options.buttonClasses = buttonClasses;
+        options.setButtonClasses(buttonClasses);
     }
 
     @Override
     public String getApplyButtonClasses() {
-        return options.applyButtonClasses;
+        return options.getApplyButtonClasses();
     }
 
     @Override
     public void setApplyButtonClasses(String applyButtonClasses) {
-        options.applyButtonClasses = applyButtonClasses;
+        options.setApplyButtonClasses(applyButtonClasses);
     }
 
     @Override
     public String getCancelButtonClasses() {
-        return options.cancelButtonClasses;
+        return options.getCancelButtonClasses();
     }
 
     @Override
     public void setCancelButtonClasses(String cancelButtonClasses) {
-        options.cancelButtonClasses = cancelButtonClasses;
+        options.setCancelButtonClasses(cancelButtonClasses);
     }
 
     @Override
-    public Object getLocale() {
-        return options.locale;
+    public DateRangeLocale getLocale() {
+        return options.getLocale() != null ? (DateRangeLocale) options.getLocale() : null;
     }
 
     @Override
-    public void setLocale(Object locale) {
-        options.locale = locale;
+    public void setLocale(DateRangeLocale locale) {
+        options.setLocale(locale != null ? locale : false);
     }
 
     @Override
     public boolean isSingleDatePicker() {
-        return options.singleDatePicker;
+        return options.isSingleDatePicker();
     }
 
     @Override
     public void setSingleDatePicker(boolean singleDatePicker) {
-        options.singleDatePicker = singleDatePicker;
+        options.setSingleDatePicker(singleDatePicker);
     }
 
     @Override
     public boolean isAutoApply() {
-        return options.autoApply;
+        return options.isAutoApply();
     }
 
     @Override
     public void setAutoApply(boolean autoApply) {
-        options.autoApply = autoApply;
+        options.setAutoApply(autoApply);
     }
 
     @Override
     public boolean isLinkedCalendars() {
-        return options.linkedCalendars;
+        return options.isLinkedCalendars();
     }
 
     @Override
     public void setLinkedCalendars(boolean linkedCalendars) {
-        options.linkedCalendars = linkedCalendars;
+        options.setLinkedCalendars(linkedCalendars);
     }
 
     @Override
     public Functions.FuncRet1<Boolean> isInvalidDate() {
-        return options.isInvalidDate;
+        return options.isInvalidDate();
     }
 
     @Override
     public void setInvalidDate(Functions.FuncRet1<Boolean> invalidDate) {
-        options.isInvalidDate = invalidDate;
+        options.setInvalidDate(invalidDate);
     }
 
     @Override
     public Functions.FuncRet1<Object> isCustomDate() {
-        return options.isCustomDate;
+        return options.isCustomDate();
     }
 
     @Override
     public void setCustomDate(Functions.FuncRet1<Object> customDate) {
-        options.isCustomDate = customDate;
+        options.setCustomDate(customDate);
     }
 
     @Override
     public boolean isAutoUpdateInput() {
-        return options.autoUpdateInput;
+        return options.isAutoUpdateInput();
     }
 
     @Override
     public void setAutoUpdateInput(boolean autoUpdateInput) {
-        options.autoUpdateInput = autoUpdateInput;
+        options.setAutoUpdateInput(autoUpdateInput);
     }
 
     @Override
     public String getParentEl() {
-        return options.parentEl;
+        return options.getParentEl();
     }
 
     @Override
     public void setParentEl(String parentEl) {
-        options.parentEl = parentEl;
+        options.setParentEl(parentEl);
     }
 
     @Override
     public Date getValue() {
-        Date date = null;
+        /*Date date = null;
         if (getInputElement().val() != null) {
             date = (Date) getInputElement().val();
-        }
-        return date;
+        }*/
+        return null;
     }
 
     @Override
@@ -587,7 +637,7 @@ public class DateRange extends AbstractValueWidget<Date> implements HasDateRange
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
-    protected FieldTypeMixin<DateRange> getFieldTypeMixin() {
+    protected FieldTypeMixin<DateRangePicker> getFieldTypeMixin() {
         if (fieldTypeMixin == null) {
             fieldTypeMixin = new FieldTypeMixin<>(this);
         }
@@ -602,7 +652,7 @@ public class DateRange extends AbstractValueWidget<Date> implements HasDateRange
         return statusTextMixin;
     }
 
-    protected ReadOnlyMixin<DateRange, TextBox> getReadOnlyMixin() {
+    protected ReadOnlyMixin<DateRangePicker, TextBox> getReadOnlyMixin() {
         if (readOnlyMixin == null) {
             readOnlyMixin = new ReadOnlyMixin<>(this, dateInput);
         }

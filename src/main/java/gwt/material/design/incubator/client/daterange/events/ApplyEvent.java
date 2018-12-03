@@ -22,10 +22,11 @@ package gwt.material.design.incubator.client.daterange.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-
-import java.util.Date;
+import gwt.material.design.incubator.client.daterange.js.JsDateRange;
 
 /**
+ *  Triggered when the apply button is clicked, or when a predefined range is clicked
+ *
  * @author kevzlou7979
  */
 public class ApplyEvent extends GwtEvent<ApplyEvent.ApplyEventHandler> {
@@ -36,22 +37,22 @@ public class ApplyEvent extends GwtEvent<ApplyEvent.ApplyEventHandler> {
 
     public static final Type<ApplyEventHandler> TYPE = new Type<>();
 
-    private Date date;
+    private JsDateRange dateRange;
 
-    public ApplyEvent(Date date) {
-        this.date = date;
+    public ApplyEvent(JsDateRange dateRange) {
+        this.dateRange = dateRange;
     }
 
     public static Type<ApplyEventHandler> getType() {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, Date date) {
-        source.fireEvent(new ApplyEvent(date));
+    public static void fire(HasHandlers source, JsDateRange dateRange) {
+        source.fireEvent(new ApplyEvent(dateRange));
     }
 
-    public Date getDate() {
-        return date;
+    public JsDateRange getDateRange() {
+        return dateRange;
     }
 
     @Override

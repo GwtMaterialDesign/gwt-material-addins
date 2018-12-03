@@ -22,10 +22,11 @@ package gwt.material.design.incubator.client.daterange.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-
-import java.util.Date;
+import gwt.material.design.incubator.client.daterange.js.JsDateRange;
 
 /**
+ * Triggered when the picker is shown
+ *
  * @author kevzlou7979
  */
 public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEventHandler> {
@@ -34,10 +35,10 @@ public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEv
         void onOpenCalendarEvent(OpenCalendarEvent event);
     }
 
-    private Date date;
+    private JsDateRange dateRange;
 
-    public OpenCalendarEvent(Date date) {
-        this.date = date;
+    public OpenCalendarEvent(JsDateRange dateRange) {
+        this.dateRange = dateRange;
     }
 
     public static final Type<OpenCalendarEventHandler> TYPE = new Type<>();
@@ -46,12 +47,12 @@ public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEv
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, Date date) {
-        source.fireEvent(new OpenCalendarEvent(date));
+    public static void fire(HasHandlers source, JsDateRange dateRange) {
+        source.fireEvent(new OpenCalendarEvent(dateRange));
     }
 
-    public Date getDate() {
-        return date;
+    public JsDateRange getDateRange() {
+        return dateRange;
     }
 
     @Override

@@ -4,6 +4,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
+/**
+ * Client Bundle for {@link DateRangePicker}
+ *
+ * @author kevzlou7979
+ */
 public interface DateRangeClientDebugBundle extends ClientBundle {
 
     DateRangeClientDebugBundle INSTANCE = GWT.create(DateRangeClientDebugBundle.class);
@@ -14,6 +19,6 @@ public interface DateRangeClientDebugBundle extends ClientBundle {
     @Source("resources/css/daterangepicker.css")
     TextResource dateRangePickerDebugCss();
 
-    @Source("resources/css/daterangepicker-override.css")
+    @Source("resources/css/daterangepicker-materialize.css")
     TextResource dateRangePickerOverrideDebugCss();
 }

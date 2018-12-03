@@ -1,0 +1,146 @@
+/** Calendar **/
+.daterangepicker {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+}
+
+/** Calendar Header **/
+.daterangepicker .calendar-table th,
+.daterangepicker .calendar-table td {
+    padding: unset;
+}
+
+.daterangepicker th.month {
+    color: #444;
+    font-size: 1.2em;
+}
+
+/** Calendar Day Item / Columns **/
+.daterangepicker .calendar-table td.available {
+    width: 36px !important;
+    height: 36px !important;
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover,
+.daterangepicker td.in-range.active:not(.off) {
+    background-color: #42a5f5;
+    border-color: transparent;
+    color: #fff;
+    border-radius: 100%;
+}
+
+.daterangepicker td.start-date.end-date {
+    border-radius: 100%;
+}
+
+.daterangepicker td.in-range,
+.daterangepicker td.available.in-range:hover:not(.active) {
+    background-color: #e3f2fd;
+}
+
+.daterangepicker td.available:hover {
+    position: relative;
+    background-color: white;
+}
+
+.daterangepicker td.available:hover:after {
+    content: " ";
+    background: transparent;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    border-radius: 100%;
+    border: 2px solid #42a5f5;
+}
+
+/** Calendar Container **/
+.daterangepicker .drp-calendar {
+    max-width: unset;
+}
+
+.daterangepicker .drp-calendar.left,
+.daterangepicker .drp-calendar.right {
+    padding: 20px;
+}
+
+/** Action Buttons **/
+.daterangepicker .calendar-table .prev {
+    left: -18px;
+    right: unset;
+}
+
+/** Month and Year Selection **/
+.date-range-picker .select2-container--default .select2-search--dropdown .select2-search__field {
+    width: 100% !important;
+    background: white;
+    border-radius: 0px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 0px;
+    padding-left: 12px !important;
+    font-size: 1em;
+}
+
+.date-range-picker .select2-results__option {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    min-height: 20px;
+}
+
+.date-range-picker .select2-container--classic .select2-results > .select2-results__options, .select2-container--default .select2-results > .select2-results__options {
+    max-height: 240px !important;
+}
+
+.date-range-picker .select2-container {
+    z-index: 10000;
+}
+
+.daterangepicker .select2-container--default .select2-selection--single {
+    border-bottom: none;
+}
+
+.daterangepicker .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 46px;
+    padding-left: 0;
+    font-size: 14px;
+}
+
+.daterangepicker .select2-container--default .select2-selection--single .select2-selection__rendered:after {
+    content: "";
+    position: absolute;
+    right: 8px;
+    bottom: 23px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 8px 8px;
+    border-color: transparent transparent #9c9c9c !important;
+}
+
+/** Calendar Footer **/
+.daterangepicker .drp-buttons .btn {
+    padding-left: 12px;
+    padding-right: 12px;
+    line-height: 20px;
+}
+
+.daterangepicker .drp-selected {
+    float: left;
+    padding: 12px;
+    font-size: 1em;
+}
+
+button.cancelBtn {
+    background: none;
+    color: #42a5f5;
+    box-shadow: none;
+    border: 1px solid;
+}
+
+button.cancelBtn:hover {
+    color: #ffffff;
+    border: none;
+}

@@ -1,18 +1,21 @@
 package gwt.material.design.incubator.client.daterange.js;
 
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 import java.util.Date;
 
-@JsType(isNative = true)
-public class JsDateRange extends JQueryElement {
+/**
+ * JSInterop utils for {@link gwt.material.design.incubator.client.daterange.DateRangePicker}
+ *
+ * @author kevzlou7979
+ */
+@JsType(isNative = true, name = "DateRangePicker")
+public class JsDateRange extends DateRangeOptions {
 
     @JsMethod(name = "$", namespace = JsPackage.GLOBAL)
     public static native JsDateRange $(JQueryElement element);
@@ -27,13 +30,12 @@ public class JsDateRange extends JQueryElement {
     public native void daterangepicker(DateRangeOptions options);
 
     @JsMethod
+    public native void daterangepicker(DateRangeOptions options, Functions.Func3<Date, Date, Object> callback);
+
+    @JsMethod
     public native void daterangepicker();
 
-    @JsMethod
-    public native void setStartDate(Date date);
+    public native JsDateRange on(String event, Functions.EventFunc1<JsDateRange> callback);
 
-    @JsMethod
-    public native void setEndDate(Date date);
-
-
+    public native JsDateRange off(String event);
 }
