@@ -25,30 +25,30 @@ import com.google.gwt.event.shared.HasHandlers;
 import gwt.material.design.incubator.client.daterange.js.JsDateRange;
 
 /**
- * Triggered when the picker is shown
+ *  Triggered when the Selection button is pressed to proceed to the next calendar
  *
  * @author kevzlou7979
  */
-public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEventHandler> {
+public class SelectionEvent extends GwtEvent<SelectionEvent.SelectionEventHandler> {
 
-    public interface OpenCalendarEventHandler extends EventHandler {
-        void onOpenCalendarEvent(OpenCalendarEvent event);
+    public interface SelectionEventHandler extends EventHandler {
+        void onSelectionEvent(SelectionEvent event);
     }
+
+    public static final Type<SelectionEventHandler> TYPE = new Type<>();
 
     private JsDateRange dateRange;
 
-    public OpenCalendarEvent(JsDateRange dateRange) {
+    public SelectionEvent(JsDateRange dateRange) {
         this.dateRange = dateRange;
     }
 
-    public static final Type<OpenCalendarEventHandler> TYPE = new Type<>();
-
-    public static Type<OpenCalendarEventHandler> getType() {
+    public static Type<SelectionEventHandler> getType() {
         return TYPE;
     }
 
     public static void fire(HasHandlers source, JsDateRange dateRange) {
-        source.fireEvent(new OpenCalendarEvent(dateRange));
+        source.fireEvent(new SelectionEvent(dateRange));
     }
 
     public JsDateRange getDateRange() {
@@ -56,12 +56,12 @@ public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEv
     }
 
     @Override
-    public Type<OpenCalendarEventHandler> getAssociatedType() {
+    public Type<SelectionEventHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(OpenCalendarEvent.OpenCalendarEventHandler handler) {
-        handler.onOpenCalendarEvent(this);
+    protected void dispatch(SelectionEvent.SelectionEventHandler handler) {
+        handler.onSelectionEvent(this);
     }
 }

@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2018 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.incubator.client.daterange;
 
 import com.google.gwt.dom.client.Document;
@@ -23,6 +42,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.daterange.events.*;
+import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
 import gwt.material.design.incubator.client.daterange.js.*;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -82,56 +102,56 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
         });
 
         getInputElement().on(DateRangeEvents.UPDATE_CALENDAR, (e, picker) -> {
-            //  OpenEvent.fire(this, picker);
+            OpenEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
 
         getInputElement().on(DateRangeEvents.NEXT, (e, picker) -> {
-            //  OpenEvent.fire(this, picker);
+            OpenEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
 
         getInputElement().on(DateRangeEvents.PREV, (e, picker) -> {
-            //  OpenEvent.fire(this, picker);
+            PreviousEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
 
         getInputElement().on(DateRangeEvents.SELECT, (e, picker) -> {
-            //  OpenEvent.fire(this, picker);
+            SelectionEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
 
         getInputElement().on(DateRangeEvents.OPEN, (e, picker) -> {
-            //  OpenEvent.fire(this, picker);
+            OpenEvent.fire(this, picker);
             return true;
         });
 
         getInputElement().on(DateRangeEvents.CLOSE, (e, picker) -> {
-            // CloseEvent.fire(this, picker);
+            CloseEvent.fire(this, picker);
             return true;
         });
 
         getInputElement().on(DateRangeEvents.CLOSE_CALENDAR, (e, picker) -> {
-            // CloseCalendarEvent.fire(this, picker);
+            CloseCalendarEvent.fire(this, picker);
             return true;
         });
 
         getInputElement().on(DateRangeEvents.OPEN_CALENDAR, (e, picker) -> {
-            // OpenCalendarEvent.fire(this, picker);
+            OpenCalendarEvent.fire(this, picker);
             return true;
         });
 
         getInputElement().on(DateRangeEvents.APPLY, (e, picker) -> {
-            // ApplyEvent.fire(this, picker);
+            ApplyEvent.fire(this, picker);
             return true;
         });
 
         getInputElement().on(DateRangeEvents.CANCEL, (e, picker) -> {
-            // CancelEvent.fire(this, picker);
+            CancelEvent.fire(this, picker);
             return true;
         });
 

@@ -25,30 +25,30 @@ import com.google.gwt.event.shared.HasHandlers;
 import gwt.material.design.incubator.client.daterange.js.JsDateRange;
 
 /**
- * Triggered when the picker is shown
+ *  Triggered when the Previous button is pressed to proceed to the previous calendar
  *
  * @author kevzlou7979
  */
-public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEventHandler> {
+public class PreviousEvent extends GwtEvent<PreviousEvent.PreviousEventHandler> {
 
-    public interface OpenCalendarEventHandler extends EventHandler {
-        void onOpenCalendarEvent(OpenCalendarEvent event);
+    public interface PreviousEventHandler extends EventHandler {
+        void onPreviousEvent(PreviousEvent event);
     }
+
+    public static final Type<PreviousEventHandler> TYPE = new Type<>();
 
     private JsDateRange dateRange;
 
-    public OpenCalendarEvent(JsDateRange dateRange) {
+    public PreviousEvent(JsDateRange dateRange) {
         this.dateRange = dateRange;
     }
 
-    public static final Type<OpenCalendarEventHandler> TYPE = new Type<>();
-
-    public static Type<OpenCalendarEventHandler> getType() {
+    public static Type<PreviousEventHandler> getType() {
         return TYPE;
     }
 
     public static void fire(HasHandlers source, JsDateRange dateRange) {
-        source.fireEvent(new OpenCalendarEvent(dateRange));
+        source.fireEvent(new PreviousEvent(dateRange));
     }
 
     public JsDateRange getDateRange() {
@@ -56,12 +56,12 @@ public class OpenCalendarEvent extends GwtEvent<OpenCalendarEvent.OpenCalendarEv
     }
 
     @Override
-    public Type<OpenCalendarEventHandler> getAssociatedType() {
+    public Type<PreviousEventHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(OpenCalendarEvent.OpenCalendarEventHandler handler) {
-        handler.onOpenCalendarEvent(this);
+    protected void dispatch(PreviousEvent.PreviousEventHandler handler) {
+        handler.onPreviousEvent(this);
     }
 }
