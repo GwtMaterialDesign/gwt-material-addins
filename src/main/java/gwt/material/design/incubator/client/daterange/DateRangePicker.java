@@ -114,7 +114,7 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
         });
 
         getInputElement().on(DateRangeEvents.PREV, (e, picker) -> {
-            PreviousEvent.fire(this, picker);
+            PreviousCalendarEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
@@ -198,13 +198,13 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Moment getStartDate() {
+    public Date getStartDate() {
         return options.getStartDate();
     }
 
     @Override
     public void setStartDate(Moment startDate) {
-        options.setStartDate(startDate);
+        options.setStartDate(new Date());
     }
 
     @Override
@@ -621,8 +621,23 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
+    public HandlerRegistration addPreviousCalendarHandler(PreviousCalendarEvent.PreviousCalendarEventHandler handler) {
+        return addHandler(handler, PreviousCalendarEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addSelectionHandler(SelectionEvent.SelectionEventHandler handler) {
+        return addHandler(handler, SelectionEvent.getType());
+    }
+
+    @Override
     public HandlerRegistration addCloseCalendarHandler(CloseCalendarEvent.CloseCalendarEventHandler handler) {
         return addHandler(handler, CloseCalendarEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addNextCalendarHandler(NextCalendarEvent.NextCalendarEventHandler handler) {
+        return addHandler(handler, NextCalendarEvent.getType());
     }
 
     @Override

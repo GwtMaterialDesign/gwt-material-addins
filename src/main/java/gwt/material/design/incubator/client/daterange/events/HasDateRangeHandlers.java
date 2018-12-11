@@ -26,8 +26,11 @@ import gwt.material.design.incubator.client.daterange.js.JsDateRange;
 
 public interface HasDateRangeHandlers<T extends JsDateRange> extends HasOpenHandlers<T>, HasCloseHandlers<T> {
 
-    HandlerRegistration addOpenCalendarHandler(OpenCalendarEvent.OpenCalendarEventHandler handler);
-    HandlerRegistration addCloseCalendarHandler(CloseCalendarEvent.CloseCalendarEventHandler handler);
     HandlerRegistration addApplyHandler(ApplyEvent.ApplyEventHandler handler);
     HandlerRegistration addCancelHandler(CancelEvent.CancelEventHandler handler);
+    HandlerRegistration addCloseCalendarHandler(CloseCalendarEvent.CloseCalendarEventHandler handler);
+    HandlerRegistration addNextCalendarHandler(NextCalendarEvent.NextCalendarEventHandler handler);
+    HandlerRegistration addOpenCalendarHandler(OpenCalendarEvent.OpenCalendarEventHandler handler);
+    HandlerRegistration addPreviousCalendarHandler(PreviousCalendarEvent.PreviousCalendarEventHandler handler);
+    HandlerRegistration addSelectionHandler(SelectionEvent.SelectionEventHandler handler);
 }

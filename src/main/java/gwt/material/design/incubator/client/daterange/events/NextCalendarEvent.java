@@ -25,30 +25,30 @@ import com.google.gwt.event.shared.HasHandlers;
 import gwt.material.design.incubator.client.daterange.js.JsDateRange;
 
 /**
- *  Triggered when the Previous button is pressed to proceed to the previous calendar
+ *  Triggered when the Next button is pressed to proceed to the next calendar
  *
  * @author kevzlou7979
  */
-public class PreviousEvent extends GwtEvent<PreviousEvent.PreviousEventHandler> {
+public class NextCalendarEvent extends GwtEvent<NextCalendarEvent.NextCalendarEventHandler> {
 
-    public interface PreviousEventHandler extends EventHandler {
-        void onPreviousEvent(PreviousEvent event);
+    public interface NextCalendarEventHandler extends EventHandler {
+        void onNextCalendarEvent(NextCalendarEvent event);
     }
 
-    public static final Type<PreviousEventHandler> TYPE = new Type<>();
+    public static final Type<NextCalendarEventHandler> TYPE = new Type<>();
 
     private JsDateRange dateRange;
 
-    public PreviousEvent(JsDateRange dateRange) {
+    public NextCalendarEvent(JsDateRange dateRange) {
         this.dateRange = dateRange;
     }
 
-    public static Type<PreviousEventHandler> getType() {
+    public static Type<NextCalendarEventHandler> getType() {
         return TYPE;
     }
 
     public static void fire(HasHandlers source, JsDateRange dateRange) {
-        source.fireEvent(new PreviousEvent(dateRange));
+        source.fireEvent(new NextCalendarEvent(dateRange));
     }
 
     public JsDateRange getDateRange() {
@@ -56,12 +56,12 @@ public class PreviousEvent extends GwtEvent<PreviousEvent.PreviousEventHandler> 
     }
 
     @Override
-    public Type<PreviousEventHandler> getAssociatedType() {
+    public Type<NextCalendarEventHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(PreviousEvent.PreviousEventHandler handler) {
-        handler.onPreviousEvent(this);
+    protected void dispatch(NextCalendarEventHandler handler) {
+        handler.onNextCalendarEvent(this);
     }
 }

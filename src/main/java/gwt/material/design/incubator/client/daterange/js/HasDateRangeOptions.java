@@ -31,7 +31,7 @@ import java.util.Date;
  */
 public interface HasDateRangeOptions {
 
-    Moment getStartDate();
+    Date getStartDate();
 
     /**
      * The beginning date of the initially selected date range. If you provide a string, it must match the date format

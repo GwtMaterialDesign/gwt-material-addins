@@ -125,13 +125,13 @@ public class DateRangeOptions {
     private String parentEl;
 
     @JsOverlay
-    public final Moment getStartDate() {
-        return startDate;
+    public final Date getStartDate() {
+        return new Date(startDate.format().toString());
     }
 
     @JsOverlay
-    public final void setStartDate(Moment startDate) {
-        this.startDate = startDate;
+    public final void setStartDate(Date startDate) {
+        this.startDate = null;
     }
 
     @JsOverlay
