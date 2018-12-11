@@ -70,18 +70,8 @@ public class DateRangeLocale {
     private String firstDay;
 
     @JsOverlay
-    public final String getFormat() {
-        return format;
-    }
-
-    @JsOverlay
     public final void setFormat(String format) {
         this.format = format;
-    }
-
-    @JsOverlay
-    public final String getSeparator() {
-        return separator;
     }
 
     @JsOverlay
@@ -90,18 +80,8 @@ public class DateRangeLocale {
     }
 
     @JsOverlay
-    public final String getApplyLabel() {
-        return applyLabel;
-    }
-
-    @JsOverlay
     public final void setApplyLabel(String applyLabel) {
         this.applyLabel = applyLabel;
-    }
-
-    @JsOverlay
-    public final String getCancelLabel() {
-        return cancelLabel;
     }
 
     @JsOverlay
@@ -110,18 +90,8 @@ public class DateRangeLocale {
     }
 
     @JsOverlay
-    public final String getFromLabel() {
-        return fromLabel;
-    }
-
-    @JsOverlay
     public final void setFromLabel(String fromLabel) {
         this.fromLabel = fromLabel;
-    }
-
-    @JsOverlay
-    public final String getToLabel() {
-        return toLabel;
     }
 
     @JsOverlay
@@ -130,18 +100,8 @@ public class DateRangeLocale {
     }
 
     @JsOverlay
-    public final String getCustomRangeLabel() {
-        return customRangeLabel;
-    }
-
-    @JsOverlay
     public final void setCustomRangeLabel(String customRangeLabel) {
         this.customRangeLabel = customRangeLabel;
-    }
-
-    @JsOverlay
-    public final String getWeekLabel() {
-        return weekLabel;
     }
 
     @JsOverlay
@@ -150,18 +110,8 @@ public class DateRangeLocale {
     }
 
     @JsOverlay
-    public final LocaleString[] getDaysOfWeek() {
-        return daysOfWeek;
-    }
-
-    @JsOverlay
     public final void setDaysOfWeek(LocaleString[] daysOfWeek) {
         this.daysOfWeek = daysOfWeek;
-    }
-
-    @JsOverlay
-    public final LocaleString[] getMonthNames() {
-        return monthNames;
     }
 
     @JsOverlay
@@ -172,12 +122,6 @@ public class DateRangeLocale {
             GWT.log("Months must be equal to seven (12) months", new IllegalArgumentException());
         }
     }
-
-    @JsOverlay
-    public final String getFirstDay() {
-        return firstDay;
-    }
-
     @JsOverlay
     public final void setFirstDay(String firstDay) {
         this.firstDay = firstDay;

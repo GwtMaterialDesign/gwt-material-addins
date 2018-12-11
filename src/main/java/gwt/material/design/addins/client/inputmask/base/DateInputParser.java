@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.inputmask.base;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.Date;
 
@@ -35,6 +36,7 @@ public class DateInputParser<T extends MaterialInputMask> {
     public Date parseDate(String format) {
         if (isValid(format)) {
             valuebox.clearStatusText();
+            MaterialToast.fireToast(format);
             return DateTimeFormat.getFormat(format).parse(valuebox.getText());
         }
         return null;

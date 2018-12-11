@@ -29,9 +29,8 @@ import gwt.material.design.client.constants.CssType;
  */
 public enum DropdownPosition implements CssType {
 
-    LEFT("left"),
-    RIGHT("right"),
-    CENTER("center");
+    DOWN("down"),
+    UP("up");
 
     private final String cssClass;
 
@@ -45,6 +44,6 @@ public enum DropdownPosition implements CssType {
     }
 
     public static DropdownPosition fromStyleName(final String styleName) {
-        return EnumHelper.fromStyleName(styleName, DropdownPosition.class, LEFT);
+        return EnumHelper.fromStyleName(styleName, DropdownPosition.class, DOWN);
     }
 }

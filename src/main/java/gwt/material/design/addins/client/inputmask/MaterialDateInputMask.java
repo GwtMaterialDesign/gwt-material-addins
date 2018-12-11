@@ -41,7 +41,10 @@ public class MaterialDateInputMask extends MaterialInputMask<Date> {
 
     @Override
     public void setMask(String mask) {
-        this.format = mask;
+        this.format = mask
+                    .replace("m", "M")
+                    .replace("Y", "y")
+                    .replace("D", "d");
         parseFormatToMask(mask);
     }
 

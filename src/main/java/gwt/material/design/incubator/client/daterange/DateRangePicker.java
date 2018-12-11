@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
-import gwt.material.design.addins.client.moment.Moment;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
@@ -51,7 +50,7 @@ import java.util.Date;
 import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
 
 
-public class DateRangePicker extends AbstractValueWidget<Date> implements HasDateRangeHandlers, HasFieldTypes,
+public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
         HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder {
 
     static {
@@ -79,6 +78,9 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     private DateRangeOptions options = new DateRangeOptions();
     private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
     private ReadOnlyMixin<DateRangePicker, TextBox> readOnlyMixin;
+    private Date startDate;
+    private Date endDate;
+    private Date[] value;
 
     public DateRangePicker() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, DATE_RANGE_STYLENAME);
@@ -97,18 +99,17 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
         add(label);
         add(errorLabel);
 
-        getInputElement().daterangepicker(options, (param1, param2, param3) -> {
-            //TODO Change event
+        getInputElement().daterangepicker(options, (startDate, endDate) -> {
+            setValue(new Date[]{new Date(startDate.format()), new Date(endDate.format())}, true);
         });
 
         getInputElement().on(DateRangeEvents.UPDATE_CALENDAR, (e, picker) -> {
-            OpenEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
 
         getInputElement().on(DateRangeEvents.NEXT, (e, picker) -> {
-            OpenEvent.fire(this, picker);
+            NextCalendarEvent.fire(this, picker);
             toggleTypeAssist();
             return true;
         });
@@ -159,7 +160,7 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     protected void toggleTypeAssist() {
-        if (isShowDropdowns()) {
+        if (options.showDropdowns) {
             JsComboBox monthSelect = JsComboBox.$(".monthselect");
             JsComboBox yearSelect = JsComboBox.$(".yearselect");
             JsComboBoxOptions op = JsComboBoxOptions.create();
@@ -198,18 +199,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Date getStartDate() {
-        return options.getStartDate();
-    }
-
-    @Override
-    public void setStartDate(Moment startDate) {
-        options.setStartDate(new Date());
-    }
-
-    @Override
-    public Date getEndDate() {
-        return options.getEndDate();
+    public void setStartDate(Date startDate) {
+        options.setStartDate(startDate);
     }
 
     @Override
@@ -218,18 +209,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Date getMinDate() {
-        return options.getMinDate();
-    }
-
-    @Override
     public void setMinDate(Date minDate) {
         options.setMinDate(minDate);
-    }
-
-    @Override
-    public Date getMaxDate() {
-        return options.getMaxDate();
     }
 
     @Override
@@ -238,18 +219,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Object getMaxSpan() {
-        return options.getMaxSpan();
-    }
-
-    @Override
     public void setMaxSpan(Object maxSpan) {
         options.setMaxSpan(maxSpan);
-    }
-
-    @Override
-    public boolean isShowDropdowns() {
-        return options.isShowDropdowns();
     }
 
     @Override
@@ -258,18 +229,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public int getMinYear() {
-        return options.getMinYear();
-    }
-
-    @Override
     public void setMinYear(int minYear) {
         options.setMinYear(minYear);
-    }
-
-    @Override
-    public int getMaxYear() {
-        return options.getMaxYear();
     }
 
     @Override
@@ -278,18 +239,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public boolean isShowWeekNumbers() {
-        return options.isShowWeekNumbers();
-    }
-
-    @Override
     public void setShowWeekNumbers(boolean showWeekNumbers) {
         options.setShowWeekNumbers(showWeekNumbers);
-    }
-
-    @Override
-    public boolean isShowISOWeekNumbers() {
-        return options.isShowISOWeekNumbers();
     }
 
     @Override
@@ -298,18 +249,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public boolean isTimePicker() {
-        return options.isTimePicker();
-    }
-
-    @Override
     public void setTimePicker(boolean timePicker) {
         options.setTimePicker(timePicker);
-    }
-
-    @Override
-    public int getTimePickerIncrement() {
-        return options.getTimePickerIncrement();
     }
 
     @Override
@@ -318,18 +259,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public boolean isTimePicker24Hour() {
-        return options.isTimePicker24Hour();
-    }
-
-    @Override
     public void setTimePicker24Hour(boolean timePicker24Hour) {
         options.setTimePicker24Hour(timePicker24Hour);
-    }
-
-    @Override
-    public boolean isTimePickerSeconds() {
-        return options.isTimePickerSeconds();
     }
 
     @Override
@@ -338,18 +269,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Object getRanges() {
-        return options.getRanges();
-    }
-
-    @Override
     public void setRanges(Object ranges) {
         options.setRanges(ranges);
-    }
-
-    @Override
-    public boolean isShowCustomRangeLabel() {
-        return options.isShowCustomRangeLabel();
     }
 
     @Override
@@ -358,18 +279,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public boolean isAlwaysShowCalendars() {
-        return options.isAlwaysShowCalendars();
-    }
-
-    @Override
     public void setAlwaysShowCalendars(boolean alwaysShowCalendars) {
         options.setAlwaysShowCalendars(alwaysShowCalendars);
-    }
-
-    @Override
-    public DropdownAlignment getDropdownAlignment() {
-        return options.getOpens() != null ? DropdownAlignment.fromStyleName(options.getOpens()) : null;
     }
 
     @Override
@@ -378,18 +289,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public DropdownPosition getDropdownPosition() {
-        return options.getDrops() != null ? DropdownPosition.fromStyleName(options.getDrops()) : null;
-    }
-
-    @Override
     public void setDropdownPosition(DropdownPosition dropdownPosition) {
         options.setDrops(dropdownPosition.getCssName());
-    }
-
-    @Override
-    public String getButtonClasses() {
-        return options.getButtonClasses();
     }
 
     @Override
@@ -398,18 +299,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public String getApplyButtonClasses() {
-        return options.getApplyButtonClasses();
-    }
-
-    @Override
     public void setApplyButtonClasses(String applyButtonClasses) {
         options.setApplyButtonClasses(applyButtonClasses);
-    }
-
-    @Override
-    public String getCancelButtonClasses() {
-        return options.getCancelButtonClasses();
     }
 
     @Override
@@ -418,18 +309,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public DateRangeLocale getLocale() {
-        return options.getLocale() != null ? (DateRangeLocale) options.getLocale() : null;
-    }
-
-    @Override
     public void setLocale(DateRangeLocale locale) {
         options.setLocale(locale != null ? locale : false);
-    }
-
-    @Override
-    public boolean isSingleDatePicker() {
-        return options.isSingleDatePicker();
     }
 
     @Override
@@ -438,18 +319,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public boolean isAutoApply() {
-        return options.isAutoApply();
-    }
-
-    @Override
     public void setAutoApply(boolean autoApply) {
         options.setAutoApply(autoApply);
-    }
-
-    @Override
-    public boolean isLinkedCalendars() {
-        return options.isLinkedCalendars();
     }
 
     @Override
@@ -458,18 +329,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Functions.FuncRet1<Boolean> isInvalidDate() {
-        return options.isInvalidDate();
-    }
-
-    @Override
     public void setInvalidDate(Functions.FuncRet1<Boolean> invalidDate) {
         options.setInvalidDate(invalidDate);
-    }
-
-    @Override
-    public Functions.FuncRet1<Object> isCustomDate() {
-        return options.isCustomDate();
     }
 
     @Override
@@ -478,18 +339,8 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public boolean isAutoUpdateInput() {
-        return options.isAutoUpdateInput();
-    }
-
-    @Override
     public void setAutoUpdateInput(boolean autoUpdateInput) {
         options.setAutoUpdateInput(autoUpdateInput);
-    }
-
-    @Override
-    public String getParentEl() {
-        return options.getParentEl();
     }
 
     @Override
@@ -498,12 +349,47 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public Date getValue() {
-        /*Date date = null;
-        if (getInputElement().val() != null) {
-            date = (Date) getInputElement().val();
-        }*/
-        return null;
+    public void setValue(Date[] value, boolean fireEvents) {
+        this.value = value;
+
+        if (value.length >= 1) {
+            this.startDate = value[0];
+
+            if (value.length >= 2) {
+                this.endDate = value[1];
+            }
+        }
+
+        super.setValue(value, fireEvents);
+    }
+
+    @Override
+    public Date[] getValue() {
+        return value;
+    }
+
+    public TextBox getDateInput() {
+        return dateInput;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public MaterialLabel getErrorLabel() {
+        return errorLabel;
+    }
+
+    public DateRangeOptions getOptions() {
+        return options;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
     }
 
     @Override
@@ -661,7 +547,7 @@ public class DateRangePicker extends AbstractValueWidget<Date> implements HasDat
     }
 
     @Override
-    public HandlerRegistration addValueChangeHandler(ValueChangeHandler handler) {
+    public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Date[]> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
     }
 

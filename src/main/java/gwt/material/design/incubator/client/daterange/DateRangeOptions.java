@@ -17,9 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.daterange.js;
+package gwt.material.design.incubator.client.daterange;
 
+import com.google.gwt.core.client.JsDate;
 import gwt.material.design.addins.client.moment.Moment;
+import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.incubator.client.daterange.js.DropdownAlignment;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
@@ -28,145 +31,123 @@ import jsinterop.annotations.JsType;
 
 import java.util.Date;
 
+import static gwt.material.design.addins.client.moment.Moment.moment;
+
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class DateRangeOptions {
 
     @JsProperty
-    private Moment startDate;
+    protected JsDate startDate;
 
     @JsProperty
-    private Date endDate;
+    protected JsDate endDate;
 
     @JsProperty
-    private Date minDate;
+    protected JsDate minDate;
 
     @JsProperty
-    private Date maxDate;
+    protected JsDate maxDate;
 
     @JsProperty
-    private Object maxSpan;
+    protected Object maxSpan;
 
     @JsProperty
-    private boolean showDropdowns;
+    protected boolean showDropdowns;
 
     @JsProperty
-    private int minYear;
+    protected int minYear;
 
     @JsProperty
-    private int maxYear;
+    protected int maxYear;
 
     @JsProperty
-    private boolean showWeekNumbers;
+    protected boolean showWeekNumbers;
 
     @JsProperty
-    private boolean showISOWeekNumbers;
+    protected boolean showISOWeekNumbers;
 
     @JsProperty
-    private boolean timePicker;
+    protected boolean timePicker;
 
     @JsProperty
-    private int timePickerIncrement;
+    protected int timePickerIncrement;
 
     @JsProperty
-    private boolean timePicker24Hour;
+    protected boolean timePicker24Hour;
 
     @JsProperty
-    private boolean timePickerSeconds;
+    protected boolean timePickerSeconds;
 
     @JsProperty
-    private Object ranges;
+    protected Object ranges;
 
     @JsProperty
-    private boolean showCustomRangeLabel;
+    protected boolean showCustomRangeLabel;
 
     @JsProperty
-    private boolean alwaysShowCalendars;
+    protected boolean alwaysShowCalendars;
 
     /**
      * @see DropdownAlignment
      */
     @JsProperty
-    private String opens;
+    protected String opens;
 
     @JsProperty
-    private String drops;
+    protected String drops;
 
     @JsProperty
-    private String buttonClasses;
+    protected String buttonClasses;
 
     @JsProperty
-    private String applyButtonClasses;
+    protected String applyButtonClasses;
 
     @JsProperty
-    private String cancelButtonClasses;
+    protected String cancelButtonClasses;
 
     @JsProperty
-    private Object locale;
+    protected Object locale;
 
     @JsProperty
-    private boolean singleDatePicker;
+    protected boolean singleDatePicker;
 
     @JsProperty
-    private boolean autoApply;
+    protected boolean autoApply;
 
     @JsProperty
-    private boolean linkedCalendars;
+    protected boolean linkedCalendars;
 
     @JsProperty
-    private Functions.FuncRet1<Boolean> isInvalidDate;
+    protected Functions.FuncRet1<Boolean> isInvalidDate;
 
     @JsProperty
-    private Functions.FuncRet1<Object> isCustomDate;
+    protected Functions.FuncRet1<Object> isCustomDate;
 
     @JsProperty
-    private boolean autoUpdateInput;
+    protected boolean autoUpdateInput;
 
     @JsProperty
-    private String parentEl;
-
-    @JsOverlay
-    public final Date getStartDate() {
-        return new Date(startDate.format().toString());
-    }
+    protected String parentEl;
+    
 
     @JsOverlay
     public final void setStartDate(Date startDate) {
-        this.startDate = null;
-    }
-
-    @JsOverlay
-    public final Date getEndDate() {
-        return endDate;
+        this.startDate = JsDate.create(startDate.getTime());
     }
 
     @JsOverlay
     public final void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    @JsOverlay
-    public final Date getMinDate() {
-        return minDate;
+        this.endDate = JsDate.create(endDate.getTime());
     }
 
     @JsOverlay
     public final void setMinDate(Date minDate) {
-        this.minDate = minDate;
-    }
-
-    @JsOverlay
-    public final Date getMaxDate() {
-        return maxDate;
+        this.minDate = JsDate.create(minDate.getTime());
     }
 
     @JsOverlay
     public final void setMaxDate(Date maxDate) {
-        this.maxDate = maxDate;
-    }
-
-    @JsOverlay
-    public final Object getMaxSpan() {
-        return maxSpan;
+        this.maxDate = JsDate.create(maxDate.getTime());
     }
 
     @JsOverlay
@@ -175,18 +156,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final boolean isShowDropdowns() {
-        return showDropdowns;
-    }
-
-    @JsOverlay
     public final void setShowDropdowns(boolean showDropdowns) {
         this.showDropdowns = showDropdowns;
-    }
-
-    @JsOverlay
-    public final int getMinYear() {
-        return minYear;
     }
 
     @JsOverlay
@@ -195,18 +166,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final int getMaxYear() {
-        return maxYear;
-    }
-
-    @JsOverlay
     public final void setMaxYear(int maxYear) {
         this.maxYear = maxYear;
-    }
-
-    @JsOverlay
-    public final boolean isShowWeekNumbers() {
-        return showWeekNumbers;
     }
 
     @JsOverlay
@@ -215,18 +176,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final boolean isShowISOWeekNumbers() {
-        return showISOWeekNumbers;
-    }
-
-    @JsOverlay
     public final void setShowISOWeekNumbers(boolean showISOWeekNumbers) {
         this.showISOWeekNumbers = showISOWeekNumbers;
-    }
-
-    @JsOverlay
-    public final boolean isTimePicker() {
-        return timePicker;
     }
 
     @JsOverlay
@@ -235,18 +186,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final int getTimePickerIncrement() {
-        return timePickerIncrement;
-    }
-
-    @JsOverlay
     public final void setTimePickerIncrement(int timePickerIncrement) {
         this.timePickerIncrement = timePickerIncrement;
-    }
-
-    @JsOverlay
-    public final boolean isTimePicker24Hour() {
-        return timePicker24Hour;
     }
 
     @JsOverlay
@@ -255,18 +196,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final boolean isTimePickerSeconds() {
-        return timePickerSeconds;
-    }
-
-    @JsOverlay
     public final void setTimePickerSeconds(boolean timePickerSeconds) {
         this.timePickerSeconds = timePickerSeconds;
-    }
-
-    @JsOverlay
-    public final Object getRanges() {
-        return ranges;
     }
 
     @JsOverlay
@@ -275,18 +206,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final boolean isShowCustomRangeLabel() {
-        return showCustomRangeLabel;
-    }
-
-    @JsOverlay
     public final void setShowCustomRangeLabel(boolean showCustomRangeLabel) {
         this.showCustomRangeLabel = showCustomRangeLabel;
-    }
-
-    @JsOverlay
-    public final boolean isAlwaysShowCalendars() {
-        return alwaysShowCalendars;
     }
 
     @JsOverlay
@@ -295,18 +216,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final String getOpens() {
-        return opens;
-    }
-
-    @JsOverlay
     public final void setOpens(String opens) {
         this.opens = opens;
-    }
-
-    @JsOverlay
-    public final String getDrops() {
-        return drops;
     }
 
     @JsOverlay
@@ -315,18 +226,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final String getButtonClasses() {
-        return buttonClasses;
-    }
-
-    @JsOverlay
     public final void setButtonClasses(String buttonClasses) {
         this.buttonClasses = buttonClasses;
-    }
-
-    @JsOverlay
-    public final String getApplyButtonClasses() {
-        return applyButtonClasses;
     }
 
     @JsOverlay
@@ -335,18 +236,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final String getCancelButtonClasses() {
-        return cancelButtonClasses;
-    }
-
-    @JsOverlay
     public final void setCancelButtonClasses(String cancelButtonClasses) {
         this.cancelButtonClasses = cancelButtonClasses;
-    }
-
-    @JsOverlay
-    public final Object getLocale() {
-        return locale;
     }
 
     @JsOverlay
@@ -355,18 +246,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final boolean isSingleDatePicker() {
-        return singleDatePicker;
-    }
-
-    @JsOverlay
     public final void setSingleDatePicker(boolean singleDatePicker) {
         this.singleDatePicker = singleDatePicker;
-    }
-
-    @JsOverlay
-    public final boolean isAutoApply() {
-        return autoApply;
     }
 
     @JsOverlay
@@ -375,18 +256,8 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final boolean isLinkedCalendars() {
-        return linkedCalendars;
-    }
-
-    @JsOverlay
     public final void setLinkedCalendars(boolean linkedCalendars) {
         this.linkedCalendars = linkedCalendars;
-    }
-
-    @JsOverlay
-    public final Functions.FuncRet1<Boolean> isInvalidDate() {
-        return isInvalidDate;
     }
 
     @JsOverlay
@@ -395,28 +266,13 @@ public class DateRangeOptions {
     }
 
     @JsOverlay
-    public final Functions.FuncRet1<Object> isCustomDate() {
-        return isCustomDate;
-    }
-
-    @JsOverlay
     public final void setCustomDate(Functions.FuncRet1<Object> isCustomDate) {
         this.isCustomDate = isCustomDate;
     }
 
     @JsOverlay
-    public final boolean isAutoUpdateInput() {
-        return autoUpdateInput;
-    }
-
-    @JsOverlay
     public final void setAutoUpdateInput(boolean autoUpdateInput) {
         this.autoUpdateInput = autoUpdateInput;
-    }
-
-    @JsOverlay
-    public final String getParentEl() {
-        return parentEl;
     }
 
     @JsOverlay
