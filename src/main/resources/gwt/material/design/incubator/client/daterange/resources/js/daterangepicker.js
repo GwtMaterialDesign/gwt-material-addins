@@ -1137,6 +1137,7 @@
 
         outsideClick: function(e) {
             var target = $(e.target);
+
             // if the page is clicked anywhere except within the daterangerpicker/button
             // itself then call this.hide()
             if (
@@ -1144,7 +1145,10 @@
                 e.type == "focusin" ||
                 target.closest(this.element).length ||
                 target.closest(this.container).length ||
-                target.closest('.calendar-table').length
+                target.closest('.calendar-table').length ||
+                target.hasClass("select2-search__field") ||
+                target.hasClass("select2-results__option")
+
             ) return;
             this.hide();
             this.element.trigger('outsideClick.daterangepicker', this);
@@ -1427,7 +1431,6 @@
                 var start = this.startDate.clone();
                 start.hour(hour);
                 start.minute(minute);
-                start.second(second);
                 this.setStartDate(start);
                 if (this.singleDatePicker) {
                     this.endDate = this.startDate.clone();
@@ -1451,7 +1454,7 @@
             //re-render the time pickers because changing one selection can affect what's enabled in another
             this.renderTimePicker('left');
             this.renderTimePicker('right');
-
+            this.element.trigger('timeChanged.daterangepicker', this);
         },
 
         elementChanged: function() {

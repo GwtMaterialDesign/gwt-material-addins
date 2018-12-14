@@ -41,56 +41,56 @@ public class Moment {
 
     // Parse : Now
 
-    @JsMethod
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment();
 
-    @JsMethod
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String[] arr);
 
     // Parse : String
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String value);
 
     // Parse : String + Format
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String format);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String format, String locale);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String format, Boolean strict);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String format, String locale, Boolean strict);
 
     // Parse : String + Formats
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String[] format);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String[] format, String locale);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String[] format, Boolean strict);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String date, String[] format, String locale, Boolean strict);
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(String s, JavaScriptObject special_format);
 
     // Parse : Special Formats
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(JavaScriptObject object);
 
     // Parse : Unix Timestamp (milliseconds)
 
-    @JsMethod
+    @JsMethod(namespace = "moment")
     public static native Moment moment(double milliseconds);
 
     // Parse : Unix Timestamp (seconds)
@@ -649,7 +649,7 @@ public class Moment {
     @JsMethod
     public native String toISOString(boolean keepOffset); // from 2.20.0
 
-    // Display : As Object 
+    // Display : As Object
 
     @JsMethod
     public native JavaScriptObject toObject();
@@ -866,7 +866,7 @@ public class Moment {
     @JsMethod
     public native boolean isMoment(Object obj);
 
-    // I18n 
+    // I18n
 
     @JsMethod
     public native Moment locale(String param);

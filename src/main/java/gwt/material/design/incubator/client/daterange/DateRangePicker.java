@@ -40,10 +40,13 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
 import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
 import gwt.material.design.incubator.client.daterange.js.*;
 import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.JQuery;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Date;
 
@@ -156,17 +159,43 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             return true;
         });
 
+        getInputElement().on(DateRangeEvents.TIME_CHANGED, (e, picker) -> {
+            toggleTimePickerTypeAssist();
+            return true;
+        });
+
         setId(DOM.createUniqueId());
     }
 
     protected void toggleTypeAssist() {
         if (options.showDropdowns) {
-            JsComboBox monthSelect = JsComboBox.$(".monthselect");
-            JsComboBox yearSelect = JsComboBox.$(".yearselect");
-            JsComboBoxOptions op = JsComboBoxOptions.create();
-            op.dropdownParent = JsComboBox.$(getElement());
-            monthSelect.select2(op);
-            yearSelect.select2(op);
+            toggleMonthYearTypeAssist();
+        }
+        toggleTimePickerTypeAssist();
+    }
+
+    protected void toggleMonthYearTypeAssist() {
+        if (options.showDropdowns) {
+            toggleTypeAssistSelector(DateRangeElementSelector.MONTH_SELECT, DateRangeElementSelector.YEAR_SELECT);
+        }
+    }
+
+    protected void toggleTimePickerTypeAssist() {
+        if (options.timePicker) {
+            toggleTypeAssistSelector(DateRangeElementSelector.HOUR_SELECT, DateRangeElementSelector.MINUTE_SELECT, DateRangeElementSelector.AM_PM_SELECT);
+            if (options.timePickerSeconds) {
+                toggleTypeAssistSelector(DateRangeElementSelector.SECONDS_SELECT);
+            }
+        }
+    }
+
+    protected void toggleTypeAssistSelector(String... selectors) {
+        for (String selector : selectors) {
+            JQueryElement parent = JsComboBox.$(getElement());
+            JsComboBox selectElement = JsComboBox.$(selector);
+            JsComboBoxOptions option = JsComboBoxOptions.create();
+            option.dropdownParent = parent;
+            selectElement.select2(option);
         }
     }
 

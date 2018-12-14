@@ -31,4 +31,5 @@ public interface DateRangeEvents {
     String UPDATE_CALENDAR = "updateCalendar.daterangepicker";
     String NEXT = "next.daterangepicker";
     String PREV = "prev.daterangepicker";
+    String TIME_CHANGED = "timeChanged.daterangepicker";
 }
