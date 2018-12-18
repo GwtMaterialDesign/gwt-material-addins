@@ -36,7 +36,6 @@ public class DateInputParser<T extends MaterialInputMask> {
     public Date parseDate(String format) {
         if (isValid(format)) {
             valuebox.clearStatusText();
-            MaterialToast.fireToast(format);
             return DateTimeFormat.getFormat(format).parse(valuebox.getText());
         }
         return null;

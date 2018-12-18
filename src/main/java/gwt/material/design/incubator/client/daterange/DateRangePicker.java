@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
+import gwt.material.design.addins.client.combobox.js.options.Data;
+import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
@@ -38,6 +40,7 @@ import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
@@ -194,6 +197,36 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             JQueryElement parent = JsComboBox.$(getElement());
             JsComboBox selectElement = JsComboBox.$(selector);
             JsComboBoxOptions option = JsComboBoxOptions.create();
+
+            if (selector.equals(DateRangeElementSelector.MONTH_SELECT)) {
+                Functions.FuncRet2<Params, Data> customMonthMatcher = (params, data) -> {
+                    // If there are no search terms, return all of the data
+                    if (params == null || params.term == null) {
+                        return data;
+                    }
+
+                    // Do not display the item if there is no 'text' property
+                    if (data.text == null) {
+                        return null;
+                    }
+
+                    // Will do an advance month searching using index
+                    Integer i = null;
+                    try {
+                        i = Integer.parseInt(params.term);
+                    } catch (NumberFormatException e) {
+                        // Do nothing
+                    }
+
+                    if (data.text.toLowerCase().contains(params.term.toLowerCase()) || (i != null && data.id == i - 1)) {
+                        return data;
+                    }
+
+                    return null;
+                };
+                option.matcher = customMonthMatcher;
+            }
+
             option.dropdownParent = parent;
             selectElement.select2(option);
         }

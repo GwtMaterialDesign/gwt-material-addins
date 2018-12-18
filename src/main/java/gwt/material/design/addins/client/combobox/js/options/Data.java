@@ -19,12 +19,24 @@
  */
 package gwt.material.design.addins.client.combobox.js.options;
 
+import gwt.material.design.jscore.client.api.core.Element;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
+import java.util.List;
+
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class Data {
+
+    @JsProperty
+    public int id;
+
+    @JsProperty
+    public Element element;
+
+    @JsProperty
+    public boolean selected;
 
     @JsProperty
     public String text;
