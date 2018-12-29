@@ -35,12 +35,14 @@ import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundl
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
+import gwt.material.design.client.base.mixin.NativeBrowserStyleMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
+import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.*;
+import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
@@ -48,7 +50,6 @@ import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
 import gwt.material.design.incubator.client.daterange.js.*;
 import gwt.material.design.jquery.client.api.Functions;
-import gwt.material.design.jquery.client.api.JQuery;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Date;
@@ -57,7 +58,7 @@ import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
 
 
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
-        HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder {
+        HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle {
 
     static {
         if (AddinsIncubator.isDebug()) {
@@ -76,17 +77,19 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
-    private FieldTypeMixin<DateRangePicker> fieldTypeMixin;
     private TextBox dateInput = new TextBox();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialIcon icon = new MaterialIcon();
     private DateRangeOptions options = new DateRangeOptions();
-    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
-    private ReadOnlyMixin<DateRangePicker, TextBox> readOnlyMixin;
     private Date startDate;
     private Date endDate;
     private Date[] value;
+
+    private FieldTypeMixin<DateRangePicker> fieldTypeMixin;
+    private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
+    private ReadOnlyMixin<DateRangePicker, TextBox> readOnlyMixin;
+    private NativeBrowserStyleMixin<DateRangePicker> nativeBrowserStyleMixin;
 
     public DateRangePicker() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, DATE_RANGE_STYLENAME);
@@ -133,6 +136,9 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         });
 
         getInputElement().on(DateRangeEvents.OPEN, (e, picker) -> {
+            if (Window.matchMedia(Resolution.ALL_MOBILE.asMediaQuery()) || Window.matchMedia(Resolution.TABLET.asMediaQuery())) {
+                JsComboBox.$(dateInput.getElement()).blur();
+            }
             OpenEvent.fire(this, picker);
             return true;
         });
@@ -194,49 +200,54 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     protected void toggleTypeAssistSelector(String... selectors) {
         for (String selector : selectors) {
-            JQueryElement parent = JsComboBox.$(getElement());
             JsComboBox selectElement = JsComboBox.$(selector);
-            JsComboBoxOptions option = JsComboBoxOptions.create();
+            if (!isNativeBrowserStyle()) {
+                JQueryElement parent = JsComboBox.$(getElement());
+                JsComboBoxOptions option = JsComboBoxOptions.create();
+                if (selector.equals(DateRangeElementSelector.MONTH_SELECT)) {
+                    option.matcher = getDefaultMonthMatcher();
+                }
+                option.dropdownParent = parent;
+                selectElement.select2(option);
+                selectElement.removeClass(CssName.BROWSER_DEFAULT);
+            } else {
+                selectElement.addClass(CssName.BROWSER_DEFAULT);
+            }
+        }
+    }
 
-            if (selector.equals(DateRangeElementSelector.MONTH_SELECT)) {
-                Functions.FuncRet2<Params, Data> customMonthMatcher = (params, data) -> {
-                    // If there are no search terms, return all of the data
-                    if (params == null || params.term == null) {
-                        return data;
-                    }
-
-                    // Do not display the item if there is no 'text' property
-                    if (data.text == null) {
-                        return null;
-                    }
-
-                    // Will do an advance month searching using index
-                    Integer i = null;
-                    try {
-                        i = Integer.parseInt(params.term);
-                    } catch (NumberFormatException e) {
-                        // Do nothing
-                    }
-
-                    if (data.text.toLowerCase().contains(params.term.toLowerCase()) || (i != null && data.id == i - 1)) {
-                        return data;
-                    }
-
-                    return null;
-                };
-                option.matcher = customMonthMatcher;
+    protected Functions.FuncRet2<Params, Data> getDefaultMonthMatcher() {
+        return (params, data) -> {
+            // If there are no search terms, return all of the data
+            if (params == null || params.term == null) {
+                return data;
             }
 
-            option.dropdownParent = parent;
-            selectElement.select2(option);
-        }
+            // Do not display the item if there is no 'text' property
+            if (data.text == null) {
+                return null;
+            }
+
+            // Will do an advance month searching using index
+            Integer i = null;
+            try {
+                i = Integer.parseInt(params.term);
+            } catch (NumberFormatException e) {
+                // Do nothing
+            }
+
+            if (data.text.toLowerCase().contains(params.term.toLowerCase()) || (i != null && data.id == i - 1)) {
+                return data;
+            }
+            return null;
+        };
     }
 
     @Override
     protected void onUnload() {
-        super.onUnload();
-
         unload();
+
+        super.onUnload();
     }
 
     protected void unload() {
@@ -564,6 +575,16 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     @Override
+    public void setNativeBrowserStyle(boolean nativeBrowserStyle) {
+        getNativeBrowserStyleMixin().setNativeBrowserStyle(nativeBrowserStyle);
+    }
+
+    @Override
+    public boolean isNativeBrowserStyle() {
+        return getNativeBrowserStyleMixin().isNativeBrowserStyle();
+    }
+
+    @Override
     public HandlerRegistration addOpenCalendarHandler(OpenCalendarEvent.OpenCalendarEventHandler handler) {
         return addHandler(handler, OpenCalendarEvent.getType());
     }
@@ -633,5 +654,12 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             readOnlyMixin = new ReadOnlyMixin<>(this, dateInput);
         }
         return readOnlyMixin;
+    }
+
+    protected NativeBrowserStyleMixin<DateRangePicker> getNativeBrowserStyleMixin() {
+        if (nativeBrowserStyleMixin == null) {
+            nativeBrowserStyleMixin = new NativeBrowserStyleMixin<>(this);
+        }
+        return nativeBrowserStyleMixin;
     }
 }
