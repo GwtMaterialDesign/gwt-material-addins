@@ -39,6 +39,7 @@ import gwt.material.design.client.base.mixin.NativeBrowserStyleMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.base.viewport.Resolution;
+import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -107,6 +108,17 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         add(dateInput);
         add(label);
         add(errorLabel);
+
+        ViewPort.when(Resolution.TABLET).then(param1 -> {
+            if (options.ranges != null) {
+                setDropdownAlignment(DropdownAlignment.CENTER);
+            } else {
+                setDropdownAlignment(DropdownAlignment.RIGHT);
+            }
+        }, viewPort -> {
+            setDropdownAlignment(DropdownAlignment.RIGHT);
+            return false;
+        });
 
         getInputElement().daterangepicker(options, (startDate, endDate) -> {
             setValue(new Date[]{new Date(startDate.format()), new Date(endDate.format())}, true);
