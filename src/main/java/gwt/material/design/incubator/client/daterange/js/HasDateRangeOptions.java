@@ -31,6 +31,41 @@ import java.util.Date;
 public interface HasDateRangeOptions {
 
     /**
+     * Will open the Date Range Calendar Picker and fire {@link com.google.gwt.event.logical.shared.OpenEvent}
+     */
+    void open();
+
+    /**
+     * Will open the Date Range Calendar Picker with provided parameter for firing an event or not.
+     */
+    void open(boolean fireEvent);
+
+    /**
+     * Will close the Date Range Calendar Picker and fire {@link com.google.gwt.event.logical.shared.CloseEvent}
+     */
+    void close();
+
+    /**
+     * Will close the Date Range Calendar Picker with provided parameter for firing an event or not.
+     */
+    void close(boolean fireEvent);
+
+    /**
+     * Will remove the Date Range Calendar Picker
+     */
+    void remove();
+
+    /**
+     * Will navigate to the next calendar
+     */
+    void nextCalendar();
+
+    /**
+     * Will navigate to the previous calendar
+     */
+    void previousCalendar();
+
+    /**
      * The beginning date of the initially selected date range. If you provide a string, it must match the date format
      * string set in your locale setting.
      */

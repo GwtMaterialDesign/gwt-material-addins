@@ -45,6 +45,10 @@
     height: 36px !important;
 }
 
+.daterangepicker .calendar-table td {
+    border: unset;
+}
+
 .daterangepicker td.active,
 .daterangepicker td.active:hover,
 .daterangepicker td.in-range.active:not(.off) {
@@ -65,7 +69,6 @@
 
 .daterangepicker td.available:hover {
     position: relative;
-    background-color: white;
 }
 
 .daterangepicker td.available:hover:after {
@@ -214,10 +217,6 @@ button.cancelBtn:hover {
 
 /** Mobile Queries **/
 @media screen and (max-width: 600px) {
-    .daterangepicker:not(.single) .drp-selected {
-        display: none;
-    }
-
     .daterangepicker:not(.single) {
         position: fixed;
         top: 0px !important;
@@ -236,7 +235,6 @@ button.cancelBtn:hover {
 
     .daterangepicker:not(.single) .drp-calendar.left,
     .daterangepicker:not(.single) .drp-calendar.right {
-        display: block;
         margin: auto;
         float: none !important;
         padding: 0px 5%;
@@ -254,7 +252,6 @@ button.cancelBtn:hover {
         width: 100%;
         background: #fafafa;
         padding-right: 5%;
-        display: block;
     }
 
     .daterangepicker:not(.single) .drp-calendar table thead tr:nth-child(1),
@@ -309,8 +306,21 @@ button.cancelBtn:hover {
         height: 32px;
         color: transparent;
     }
+}
+
+/** Mobile and Tablet Queries **/
+@media screen and (max-width: 900px){
+    .daterangepicker:not(.single) .drp-calendar.left,
+    .daterangepicker:not(.single) .drp-calendar.right,
+    .daterangepicker:not(.single) .drp-buttons {
+        display: block;
+    }
 
     /** Range Definitions **/
+    .daterangepicker:not(.single) .drp-selected {
+        display: none;
+    }
+
     .daterangepicker .ranges {
         position: fixed;
         z-index: 999;
@@ -329,6 +339,10 @@ button.cancelBtn:hover {
         border-style: solid;
         border-width: 0 0 12px 12px;
         border-color: transparent transparent #9c9c9c;
+    }
+
+    .daterangepicker .ranges ul:hover:before {
+        display: none;
     }
 
     .daterangepicker .ranges:hover {
@@ -376,5 +390,11 @@ button.cancelBtn:hover {
     .daterangepicker .drp-calendar.left,
     .daterangepicker .drp-calendar.right {
         padding: 12px;
+    }
+
+    .daterangepicker:not(.single) .ranges {
+        position: absolute;
+        left: 0;
+        margin-left: 0px;
     }
 }

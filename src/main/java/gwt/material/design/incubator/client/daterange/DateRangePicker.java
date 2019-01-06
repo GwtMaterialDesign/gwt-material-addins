@@ -34,12 +34,12 @@ import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
+import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
 import gwt.material.design.client.base.mixin.NativeBrowserStyleMixin;
 import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.base.viewport.Resolution;
-import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -51,6 +51,7 @@ import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
 import gwt.material.design.incubator.client.daterange.js.*;
 import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.JQuery;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Date;
@@ -78,6 +79,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
+    private ScrollHelper scrollHelper = new ScrollHelper();
     private TextBox dateInput = new TextBox();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
@@ -109,17 +111,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         add(label);
         add(errorLabel);
 
-        ViewPort.when(Resolution.TABLET).then(param1 -> {
-            if (options.ranges != null) {
-                setDropdownAlignment(DropdownAlignment.CENTER);
-            } else {
-                setDropdownAlignment(DropdownAlignment.RIGHT);
-            }
-        }, viewPort -> {
-            setDropdownAlignment(DropdownAlignment.RIGHT);
-            return false;
-        });
-
         getInputElement().daterangepicker(options, (startDate, endDate) -> {
             setValue(new Date[]{new Date(startDate.format()), new Date(endDate.format())}, true);
         });
@@ -149,9 +140,10 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
         getInputElement().on(DateRangeEvents.OPEN, (e, picker) -> {
             if (Window.matchMedia(Resolution.ALL_MOBILE.asMediaQuery()) || Window.matchMedia(Resolution.TABLET.asMediaQuery())) {
-                JsComboBox.$(dateInput.getElement()).blur();
+                JQuery.$(dateInput.getElement()).blur();
             }
             OpenEvent.fire(this, picker);
+            detectPosition();
             return true;
         });
 
@@ -185,7 +177,21 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             return true;
         });
 
+        getHandlerRegistry().registerHandler(Window.addResizeHandler(event -> detectPosition()));
+
         setId(DOM.createUniqueId());
+    }
+
+    protected void detectPosition() {
+        if (!isInVerticalViewPort()) {
+            getMethodProvider().setDrops(DropdownPosition.UP.getCssName());
+        } else {
+            getMethodProvider().setDrops(DropdownPosition.DOWN.getCssName());
+        }
+    }
+
+    public boolean isInVerticalViewPort() {
+        return scrollHelper.isInViewPort(getElement(), 480);
     }
 
     protected void toggleTypeAssist() {
@@ -281,6 +287,44 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     public JsDateRange getInputElement() {
         return $(dateInput.getElement());
+    }
+
+    protected JsDateRangeMethod getMethodProvider() {
+        return getInputElement().data("daterangepicker");
+    }
+
+    @Override
+    public void open() {
+        open(true);
+    }
+
+    public void open(boolean fireEvent) {
+        getMethodProvider().show(fireEvent);
+    }
+
+    @Override
+    public void close() {
+        close(true);
+    }
+
+    @Override
+    public void close(boolean fireEvent) {
+        getMethodProvider().hide(fireEvent);
+    }
+
+    @Override
+    public void remove() {
+        getMethodProvider().remove();
+    }
+
+    @Override
+    public void nextCalendar() {
+        getMethodProvider().clickNext();
+    }
+
+    @Override
+    public void previousCalendar() {
+        getMethodProvider().clickPrev();
     }
 
     @Override

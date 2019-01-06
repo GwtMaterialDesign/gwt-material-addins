@@ -1016,6 +1016,11 @@
 
         },
 
+        setDrops: function(drops) {
+            this.drops = drops;
+            this.move();
+        },
+
         move: function() {
             var parentOffset = { top: 0, left: 0 },
                 containerTop;
@@ -1074,7 +1079,7 @@
             }
         },
 
-        show: function(e) {
+        show: function(fireEvent) {
             if (this.isShowing) return;
 
             // Create a click proxy that is private to this instance of datepicker, for unbinding
@@ -1100,11 +1105,13 @@
             this.updateView();
             this.container.show();
             this.move();
-            this.element.trigger('show.daterangepicker', this);
+            if (fireEvent) {
+                this.element.trigger('show.daterangepicker', this);
+            }
             this.isShowing = true;
         },
 
-        hide: function(e) {
+        hide: function(fireEvent) {
             if (!this.isShowing) return;
 
             //incomplete date selection, revert to last values
@@ -1123,7 +1130,9 @@
             $(document).off('.daterangepicker');
             $(window).off('.daterangepicker');
             this.container.hide();
-            this.element.trigger('hide.daterangepicker', this);
+            if (fireEvent) {
+                this.element.trigger('hide.daterangepicker', this);
+            }
             this.isShowing = false;
         },
 
