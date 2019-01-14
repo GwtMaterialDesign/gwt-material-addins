@@ -183,12 +183,14 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
      * of {@link OffsetPosition#MIDDLE}.
      */
     protected void detectOutOfScopeElement(Element element, Functions.Func callback) {
-        if (scrollHelper.isInViewPort(element)) {
-            callback.call();
-        } else {
-            scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
-            scrollHelper.setCompleteCallback(() -> callback.call());
-            scrollHelper.scrollTo(element);
+        if (element != null) {
+            if (scrollHelper.isInViewPort(element)) {
+                callback.call();
+            } else {
+                scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
+                scrollHelper.setCompleteCallback(() -> callback.call());
+                scrollHelper.scrollTo(element);
+            }
         }
     }
 
