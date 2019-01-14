@@ -1,4 +1,4 @@
-<img src="http://i.imgur.com/k7iZMbE.png" />
+<img src="https://i.imgur.com/bO2kFKs.png" width="120px"/>
 
 # gwt-material-addins 
 
