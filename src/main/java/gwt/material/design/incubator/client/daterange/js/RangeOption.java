@@ -41,7 +41,7 @@ public class RangeOption {
     public static final RangeOption create() {
         RangeOption range = new RangeOption();
         range.Today = new Moment[]{moment(), moment()};
-        range.Yesterday = new Moment[]{moment().subtract(1, "days"), moment().subtract(1, "days")};
+        range.VeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrvery = new Moment[]{moment().subtract(1, "days"), moment().subtract(1, "days")};
         range.Last7Days = new Moment[]{moment().subtract(6, "days"), moment()};
         range.Last30Days = new Moment[]{moment().subtract(29, "days"), moment()};
         range.ThisMonth = new Moment[]{moment().startOf("month"), moment().endOf("month")};
@@ -53,7 +53,7 @@ public class RangeOption {
     public Moment[] Today;
 
     @JsProperty
-    public Moment[] Yesterday;
+    public Moment[] VeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrveryVeryveyrvery;
 
     @JsProperty
     public Moment[] Last7Days;

@@ -23,7 +23,10 @@ public class MaterialDoubleInputMask extends MaterialInputMask<Double> {
 
     @Override
     public Double getValue() {
-        return Double.parseDouble(getCleanValue());
+        if (getCleanValue() != null && !getCleanValue().isEmpty()) {
+            return Double.parseDouble(getCleanValue());
+        }
+        return null;
     }
 
     @Override

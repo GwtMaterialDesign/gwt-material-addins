@@ -23,7 +23,10 @@ public class MaterialLongInputMask extends MaterialInputMask<Long> {
 
     @Override
     public Long getValue() {
-        return Long.parseLong(getCleanValue());
+        if (getCleanValue() != null && !getCleanValue().isEmpty()) {
+            return Long.parseLong(getCleanValue());
+        }
+        return null;
     }
 
     @Override

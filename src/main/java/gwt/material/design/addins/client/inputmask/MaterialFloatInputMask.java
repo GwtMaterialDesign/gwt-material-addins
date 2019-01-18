@@ -23,7 +23,10 @@ public class MaterialFloatInputMask extends MaterialInputMask<Float> {
 
     @Override
     public Float getValue() {
-        return Float.parseFloat(getCleanValue());
+        if (getCleanValue() != null && !getCleanValue().isEmpty()) {
+            return Float.parseFloat(getCleanValue());
+        }
+        return null;
     }
 
     @Override
