@@ -70,4 +70,7 @@ public class JsRichEditorOptions {
 
     @JsProperty
     public String defaultTextColor;
+
+    @JsProperty
+    public String lang;
 }

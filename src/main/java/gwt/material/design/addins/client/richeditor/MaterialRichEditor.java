@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.richeditor;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -35,6 +36,7 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
 import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
 import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
+import gwt.material.design.addins.client.richeditor.base.constants.RichEditorLanguage;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
 import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
@@ -90,8 +92,9 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     private ToolBarManager manager = new ToolBarManager();
     private boolean toggleFullScreen = true;
     private JsRichEditorOptions options = JsRichEditorOptions.create();
+    private RichEditorLanguage language;
 
-    private HandlerRegistration handlerRegistration;
+    private HandlerRegistration handlerRegistration, attachHandler;
 
     public MaterialRichEditor() {
         super(Document.get().createDivElement(), AddinsCssName.EDITOR);
@@ -123,6 +126,9 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         options.toolbar = manager.getToolbars();
         options.placeholder = getPlaceholder();
         options.height = getHeight();
+        if (language != null) {
+            options.lang = language.getCode();
+        }
 
         jsRichEditor.materialnote(options);
 
@@ -242,6 +248,36 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
 
     public void setHeightOptions(ToolbarButton... heightOptions) {
         manager.setHeightOptions(heightOptions);
+    }
+
+    public RichEditorLanguage getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(RichEditorLanguage language) {
+        this.language = language;
+
+        if (attachHandler != null) {
+            attachHandler.removeHandler();
+            attachHandler = null;
+        }
+
+        if (isAttached()) {
+            setupLanguage(language);
+        } else {
+            attachHandler = registerHandler(addAttachHandler(attachEvent -> setupLanguage(language)));
+        }
+    }
+
+    protected void setupLanguage(RichEditorLanguage language) {
+        if (language.getJs() != null) {
+            if (MaterialAddins.isDebug()) {
+                MaterialDesignBase.injectDebugJs(language.getJs());
+            } else {
+                MaterialDesignBase.injectJs(language.getJs());
+            }
+            Scheduler.get().scheduleDeferred(() -> reload());
+        }
     }
 
     protected void checkContainer() {
