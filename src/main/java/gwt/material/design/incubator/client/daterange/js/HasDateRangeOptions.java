@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.daterange.js;
 
+import gwt.material.design.incubator.client.daterange.DateRangePicker;
 import gwt.material.design.jquery.client.api.Functions;
 
 import java.util.Date;
@@ -232,4 +233,12 @@ public interface HasDateRangeOptions {
      * 'body'
      */
     void setParentEl(String parentEl);
+
+    double getAddedOffsetHeight();
+
+    /**
+     * Added height to detect dynamic positioning when opening the daterangepicker
+     * @see {@link DateRangePicker#isInVerticalViewPort()}
+     */
+    void setAddedOffsetHeight(double addedOffsetHeight);
 }

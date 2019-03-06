@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -85,6 +85,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialIcon icon = new MaterialIcon();
     private DateRangeOptions options = new DateRangeOptions();
+    private double addedOffsetHeight = 480;
     private Date startDate;
     private Date endDate;
     private Date[] value;
@@ -191,7 +192,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     public boolean isInVerticalViewPort() {
-        return scrollHelper.isInViewPort(getElement(), 480);
+        return scrollHelper.isInViewPort(getElement(), addedOffsetHeight);
     }
 
     protected void toggleTypeAssist() {
@@ -492,6 +493,21 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         super.setValue(value, fireEvents);
     }
 
+    public void setSingleValue(Date value) {
+        setValue(new Date[]{value}, false);
+    }
+
+    public void setSingleValue(Date value, boolean fireEvents) {
+        setValue(new Date[]{value}, fireEvents);
+    }
+
+    public Date getSingleValue() {
+        if (getValue().length >= 1) {
+            return getValue()[0];
+        }
+        return null;
+    }
+
     @Override
     public Date[] getValue() {
         return value;
@@ -628,6 +644,16 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     @Override
     public void setPlaceholder(String placeholder) {
         label.setText(placeholder);
+    }
+
+    @Override
+    public double getAddedOffsetHeight() {
+        return addedOffsetHeight;
+    }
+
+    @Override
+    public void setAddedOffsetHeight(double addedOffsetHeight) {
+        this.addedOffsetHeight = addedOffsetHeight;
     }
 
     @Override
