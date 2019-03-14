@@ -17,12 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.inputmask;
+package gwt.material.design.incubator.client.dob;
 
-public class MaterialTextInputMask extends MaterialInputMask<String> {
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.incubator.client.daterange.DateRangePicker;
 
-    @Override
-    public String getValue() {
-        return super.getValue();
-    }
+/**
+ * Client Bundle for {@link DateRangePicker}
+ *
+ * @author kevzlou7979
+ */
+public interface DateOfBirthPickerDebugClientBundle extends ClientBundle {
+
+    DateOfBirthPickerDebugClientBundle INSTANCE = GWT.create(DateOfBirthPickerDebugClientBundle.class);
+
+    @Source("resources/css/dob.css")
+    TextResource dobDebugCss();
 }

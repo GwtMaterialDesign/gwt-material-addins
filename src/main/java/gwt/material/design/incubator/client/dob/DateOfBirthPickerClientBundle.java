@@ -17,23 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.inputmask;
+package gwt.material.design.incubator.client.dob;
 
-import gwt.material.design.client.base.NumberBox;
-import gwt.material.design.client.ui.MaterialFloatBox;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.incubator.client.daterange.DateRangePicker;
 
-public class MaterialFloatInputMask extends AbstractInputMask<Float> {
+/**
+ * Client Bundle for {@link DateRangePicker}
+ *
+ * @author kevzlou7979
+ */
+public interface DateOfBirthPickerClientBundle extends ClientBundle {
 
-    public MaterialFloatInputMask() {
-        super(new NumberBox<>(new NumberBox.NumberHandler<>(new MaterialFloatBox())));
-    }
+    DateOfBirthPickerClientBundle INSTANCE = GWT.create(DateOfBirthPickerClientBundle.class);
 
-    @Override
-    public Float getValue() {
-        String cleanValue = getCleanValue();
-        if (cleanValue != null) {
-            return Float.parseFloat(cleanValue);
-        }
-        return null;
-    }
+    @Source("resources/css/dob.min.css")
+    TextResource dobCss();
 }

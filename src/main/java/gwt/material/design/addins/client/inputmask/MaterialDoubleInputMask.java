@@ -19,18 +19,21 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
-public class MaterialDoubleInputMask extends MaterialInputMask<Double> {
+import gwt.material.design.client.base.NumberBox;
+import gwt.material.design.client.ui.MaterialLongBox;
 
-    @Override
-    public Double getValue() {
-        if (getCleanValue() != null && !getCleanValue().isEmpty()) {
-            return Double.parseDouble(getCleanValue());
-        }
-        return null;
+public class MaterialDoubleInputMask extends AbstractInputMask<Double> {
+
+    public MaterialDoubleInputMask() {
+        super(new NumberBox<>(new NumberBox.NumberHandler<>(new MaterialLongBox())));
     }
 
     @Override
-    public void setValue(Double value) {
-        super.setValue(Double.parseDouble(getCleanValue()));
+    public Double getValue() {
+        String cleanValue = getCleanValue();
+        if (cleanValue != null) {
+            return Double.parseDouble(cleanValue);
+        }
+        return null;
     }
 }

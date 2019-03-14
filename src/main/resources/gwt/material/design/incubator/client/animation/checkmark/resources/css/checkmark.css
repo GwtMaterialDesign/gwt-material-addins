@@ -92,8 +92,8 @@ button {
 }
 
 .sa-icon.sa-success.animate::after {
-    -webkit-animation: rotatePlaceholder 4.25s ease-in;
-    animation: rotatePlaceholder 4.25s ease-in;
+    -webkit-animation: rotatePlaceholder 6.25s ease-in;
+    animation: rotatePlaceholder 6.25s ease-in;
 }
 
 .sa-icon.sa-success {
@@ -107,13 +107,13 @@ button {
 }
 
 .animateSuccessTip {
-    -webkit-animation: animateSuccessTip 0.75s;
-    animation: animateSuccessTip 0.75s;
+    -webkit-animation: animateSuccessTip 1.25s;
+    animation: animateSuccessTip 1.25s;
 }
 
 .animateSuccessLong {
-    -webkit-animation: animateSuccessLong 0.75s;
-    animation: animateSuccessLong 0.75s;
+    -webkit-animation: animateSuccessLong 2.25s;
+    animation: animateSuccessLong 2.25s;
 }
 
 @-webkit-keyframes animateSuccessLong {

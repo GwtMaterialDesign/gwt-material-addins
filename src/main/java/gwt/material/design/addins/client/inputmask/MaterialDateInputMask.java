@@ -23,7 +23,7 @@ import gwt.material.design.addins.client.inputmask.base.DateInputParser;
 
 import java.util.Date;
 
-public class MaterialDateInputMask extends MaterialInputMask<Date> {
+public class MaterialDateInputMask extends AbstractInputMask<Date> {
 
     private String format = "MM/dd/yyyy";
     private DateInputParser dateInputParser = new DateInputParser(this);

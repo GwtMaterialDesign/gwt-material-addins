@@ -20,12 +20,11 @@
 package gwt.material.design.addins.client.inputmask.base;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import gwt.material.design.addins.client.inputmask.MaterialInputMask;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.addins.client.inputmask.AbstractInputMask;
 
 import java.util.Date;
 
-public class DateInputParser<T extends MaterialInputMask> {
+public class DateInputParser<T extends AbstractInputMask> {
 
     private final T valuebox;
 

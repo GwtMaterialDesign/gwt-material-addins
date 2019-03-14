@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2018 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.inputmask;
+package gwt.material.design.incubator.client.dob;
 
-import gwt.material.design.client.base.NumberBox;
-import gwt.material.design.client.ui.MaterialLongBox;
+import java.util.Map;
 
-public class MaterialLongInputMask extends AbstractInputMask<Long> {
+public interface MonthDataProvider {
 
-    public MaterialLongInputMask() {
-        super(new NumberBox<>(new NumberBox.NumberHandler<>(new MaterialLongBox())));
-    }
-
-    @Override
-    public Long getValue() {
-        String cleanValue = getCleanValue();
-        if (cleanValue != null) {
-            return Long.parseLong(cleanValue);
-        }
-        return null;
-    }
+    Map<Integer, String> get();
 }
