@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,6 +46,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
 import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
@@ -224,7 +225,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
                 JQueryElement parent = JsComboBox.$(getElement());
                 JsComboBoxOptions option = JsComboBoxOptions.create();
                 if (selector.equals(DateRangeElementSelector.MONTH_SELECT)) {
-                    option.matcher = getDefaultMonthMatcher();
+                    option.matcher = DateMonthMatcher.getDefaultMonthMatcher();
                 }
                 option.dropdownParent = parent;
                 selectElement.select2(option);
@@ -233,33 +234,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
                 selectElement.addClass(CssName.BROWSER_DEFAULT);
             }
         }
-    }
-
-    protected Functions.FuncRet2<Params, Data> getDefaultMonthMatcher() {
-        return (params, data) -> {
-            // If there are no search terms, return all of the data
-            if (params == null || params.term == null) {
-                return data;
-            }
-
-            // Do not display the item if there is no 'text' property
-            if (data.text == null) {
-                return null;
-            }
-
-            // Will do an advance month searching using index
-            Integer i = null;
-            try {
-                i = Integer.parseInt(params.term);
-            } catch (NumberFormatException e) {
-                // Do nothing
-            }
-
-            if (data.text.toLowerCase().contains(params.term.toLowerCase()) || (i != null && data.id == i - 1)) {
-                return data;
-            }
-            return null;
-        };
     }
 
     @Override

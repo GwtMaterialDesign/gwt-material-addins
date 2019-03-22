@@ -32,7 +32,9 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.constants.TextAlign;
+import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 
 import java.util.Date;
 
@@ -81,8 +83,9 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
                 month.addItem(dataProvider.get().get(index), index);
             }
         }
-        month.setLabel("Birthdate");
-        month.setGrid("s5");
+        month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
+        month.setLabel("Month");
+        month.setGrid("s12 m5");
         month.addValueChangeHandler(event -> {
             if (validateDate()) {
                 value.setMonth(month.getSingleValue());
@@ -91,12 +94,13 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     protected void setupDay() {
+        day.setLabel("Day");
         day.addStyleName("dob-day");
         day.setMask("00");
         day.setFloat(Style.Float.LEFT);
         day.setTextAlign(TextAlign.CENTER);
         day.setPlaceholder("DD");
-        day.setGrid("s3");
+        day.setGrid("s4 m3");
         day.addValueChangeHandler(event -> {
             if (validateDate()) {
                 value.setDate(day.getValue());
@@ -105,12 +109,13 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     protected void setupYear() {
+        year.setLabel("Year");
         year.addStyleName("dob-year");
         year.setMask("0000");
         year.setFloat(Style.Float.LEFT);
         year.setTextAlign(TextAlign.CENTER);
         year.setPlaceholder("YYYY");
-        year.setGrid("s4");
+        year.setGrid("s8 m4");
         year.addValueChangeHandler(event -> {
             if (validateDate()) {
                 value.setYear(year.getValue() - 1900);
@@ -145,6 +150,8 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
     @Override
     public Date getValue() {
+        //TODO: Date value builder - compare to expected month value
+        //TODO: Input mask 1900 - current date - 100
         return value;
     }
 
