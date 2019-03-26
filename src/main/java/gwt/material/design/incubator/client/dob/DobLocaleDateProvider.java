@@ -21,7 +21,7 @@ package gwt.material.design.incubator.client.dob;
 
 import java.util.Map;
 
-public interface DobLocaleDateProvide {
+public interface DobLocaleDateProvider {
 
     Map<Integer, String> get();
 

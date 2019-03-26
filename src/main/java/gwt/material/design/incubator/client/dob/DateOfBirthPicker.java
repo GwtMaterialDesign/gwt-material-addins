@@ -48,7 +48,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     private Date value;
-    private DobLocaleDateProvide dataProvider = new DefaultDobLocaleDateProvide();
+    private DobLocaleDateProvider dataProvider = new DefaultDobLocaleDateProvider();
     private MaterialComboBox<Integer> month = new MaterialComboBox();
     private MaterialIntegerInputMask day = new MaterialIntegerInputMask();
     private MaterialIntegerInputMask year = new MaterialIntegerInputMask();
@@ -251,11 +251,11 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         return month.getStatusDisplayType();
     }
 
-    public DobLocaleDateProvide getDataProvider() {
+    public DobLocaleDateProvider getDataProvider() {
         return dataProvider;
     }
 
-    public void setDataProvider(DobLocaleDateProvide dataProvider) {
+    public void setDataProvider(DobLocaleDateProvider dataProvider) {
         this.dataProvider = dataProvider;
     }
 
