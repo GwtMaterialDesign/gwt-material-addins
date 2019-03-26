@@ -21,7 +21,19 @@ package gwt.material.design.incubator.client.dob;
 
 import java.util.Map;
 
-public interface MonthDataProvider {
+public interface DobLocaleDateProvide {
 
     Map<Integer, String> get();
+
+    String getMonthLabel();
+
+    String getDayLabel();
+
+    String getYearLabel();
+
+    String getInvalidMonthMessage();
+
+    String getInvalidDayMessage();
+
+    String getInvalidYearLabel();
 }

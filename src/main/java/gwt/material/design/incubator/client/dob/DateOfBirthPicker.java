@@ -32,7 +32,6 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.constants.TextAlign;
-import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 
@@ -49,7 +48,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     private Date value;
-    private MonthDataProvider dataProvider = new DefaultMonthDataProvider();
+    private DobLocaleDateProvide dataProvider = new DefaultDobLocaleDateProvide();
     private MaterialComboBox<Integer> month = new MaterialComboBox();
     private MaterialIntegerInputMask day = new MaterialIntegerInputMask();
     private MaterialIntegerInputMask year = new MaterialIntegerInputMask();
@@ -74,17 +73,24 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         add(year);
     }
 
+    public void reload() {
+        setupMonth();
+        setupDay();
+        setupYear();
+    }
+
     protected void setupMonth() {
         month.addStyleName("dob-month");
         if (dataProvider.get().size() > 12) {
-            setErrorText("Months must be equal to 12");
+            setErrorText(dataProvider.getInvalidMonthMessage());
         } else {
+            month.clear();
             for (Integer index : dataProvider.get().keySet()) {
                 month.addItem(dataProvider.get().get(index), index);
             }
         }
         month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
-        month.setLabel("Month");
+        month.setLabel(dataProvider.getMonthLabel());
         month.setGrid("s12 m5");
         month.addValueChangeHandler(event -> {
             if (validateDate()) {
@@ -94,7 +100,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     protected void setupDay() {
-        day.setLabel("Day");
+        day.setLabel(dataProvider.getDayLabel());
         day.addStyleName("dob-day");
         day.setMask("00");
         day.setFloat(Style.Float.LEFT);
@@ -109,7 +115,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     protected void setupYear() {
-        year.setLabel("Year");
+        year.setLabel(dataProvider.getYearLabel());
         year.addStyleName("dob-year");
         year.setMask("0000");
         year.setFloat(Style.Float.LEFT);
@@ -127,21 +133,21 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         boolean valid = true;
         if (!(month.getSingleValue() != null && month.getSingleValue() > 0 && month.getSingleValue() < 12)) {
             valid = false;
-            month.setErrorText("Invalid Month");
+            month.setErrorText(dataProvider.getInvalidMonthMessage());
         } else {
             month.clearErrorText();
         }
 
         if (!(year.getValue() != null && year.getValue() >= 1900)) {
             valid = false;
-            year.setErrorText("Invalid Year");
+            year.setErrorText(dataProvider.getInvalidYearLabel());
         } else {
             year.clearErrorText();
         }
 
         if (!(day.getValue() != null && day.getValue() > 0 && day.getValue() <= 31)) {
             valid = false;
-            day.setErrorText("Invalid Day");
+            day.setErrorText(dataProvider.getInvalidDayMessage());
         } else {
             day.clearErrorText();
         }
@@ -245,11 +251,11 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         return month.getStatusDisplayType();
     }
 
-    public MonthDataProvider getDataProvider() {
+    public DobLocaleDateProvide getDataProvider() {
         return dataProvider;
     }
 
-    public void setDataProvider(MonthDataProvider dataProvider) {
+    public void setDataProvider(DobLocaleDateProvide dataProvider) {
         this.dataProvider = dataProvider;
     }
 

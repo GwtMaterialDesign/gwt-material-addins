@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.dob;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultMonthDataProvider implements MonthDataProvider {
+public class DefaultDobLocaleDateProvide implements DobLocaleDateProvide {
     @Override
     public Map<Integer, String> get() {
         Map<Integer, String> months = new HashMap<>();
@@ -39,5 +39,35 @@ public class DefaultMonthDataProvider implements MonthDataProvider {
         months.put(10, "November");
         months.put(11, "December");
         return months;
+    }
+
+    @Override
+    public String getMonthLabel() {
+        return "Month";
+    }
+
+    @Override
+    public String getDayLabel() {
+        return "Day";
+    }
+
+    @Override
+    public String getYearLabel() {
+        return "Year";
+    }
+
+    @Override
+    public String getInvalidMonthMessage() {
+        return "Invalid Month value";
+    }
+
+    @Override
+    public String getInvalidDayMessage() {
+        return "Invalid Day value";
+    }
+
+    @Override
+    public String getInvalidYearLabel() {
+        return "Invalid Year value";
     }
 }
