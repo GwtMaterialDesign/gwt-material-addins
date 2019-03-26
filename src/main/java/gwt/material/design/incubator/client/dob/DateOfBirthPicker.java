@@ -132,7 +132,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
             month.clearErrorText();
         }
 
-        if (!(year.getValue() != null && year.getValue() > 0)) {
+        if (!(year.getValue() != null && year.getValue() >= 1900)) {
             valid = false;
             year.setErrorText("Invalid Year");
         } else {
@@ -220,8 +220,37 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     @Override
+    public void setErrorText(String errorText) {
+        month.setErrorText(errorText);
+        day.setErrorText(errorText);
+        year.setErrorText(errorText);
+    }
+
+    @Override
+    public void setSuccessText(String successText) {
+        month.setErrorText(successText);
+        day.setErrorText(successText);
+        year.setErrorText(successText);
+    }
+
+    @Override
+    public void setHelperText(String helperText) {
+        month.setErrorText(helperText);
+        day.setErrorText(helperText);
+        year.setErrorText(helperText);
+    }
+
+    @Override
     public StatusDisplayType getStatusDisplayType() {
         return month.getStatusDisplayType();
+    }
+
+    public MonthDataProvider getDataProvider() {
+        return dataProvider;
+    }
+
+    public void setDataProvider(MonthDataProvider dataProvider) {
+        this.dataProvider = dataProvider;
     }
 
     public FieldTypeMixin<DateOfBirthPicker> getFieldTypeMixin() {
