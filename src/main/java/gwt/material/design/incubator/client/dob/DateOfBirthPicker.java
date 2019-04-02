@@ -90,17 +90,19 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
             }
         }
         month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
-        month.setLabel(dataProvider.getMonthLabel());
         month.setGrid("s12 m5");
         month.addValueChangeHandler(event -> {
             if (validateDate()) {
                 value.setMonth(month.getSingleValue());
             }
         });
+
+        if (dataProvider.getMonthLabel() != null && !dataProvider.getMonthLabel().isEmpty()) {
+            month.setLabel(dataProvider.getMonthLabel());
+        }
     }
 
     protected void setupDay() {
-        day.setLabel(dataProvider.getDayLabel());
         day.addStyleName("dob-day");
         day.setMask("00");
         day.setFloat(Style.Float.LEFT);
@@ -112,10 +114,13 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
                 value.setDate(day.getValue());
             }
         });
+
+        if (dataProvider.getDayLabel() != null && !dataProvider.getDayLabel().isEmpty()) {
+            day.setLabel(dataProvider.getDayLabel());
+        }
     }
 
     protected void setupYear() {
-        year.setLabel(dataProvider.getYearLabel());
         year.addStyleName("dob-year");
         year.setMask("0000");
         year.setFloat(Style.Float.LEFT);
@@ -127,6 +132,10 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
                 value.setYear(year.getValue() - 1900);
             }
         });
+
+        if (dataProvider.getYearLabel() != null && !dataProvider.getYearLabel().isEmpty()) {
+            year.setLabel(dataProvider.getYearLabel());
+        }
     }
 
     protected boolean validateDate() {
@@ -257,6 +266,18 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
     public void setDataProvider(DobLocaleDateProvider dataProvider) {
         this.dataProvider = dataProvider;
+    }
+
+    public MaterialComboBox<Integer> getMonth() {
+        return month;
+    }
+
+    public MaterialIntegerInputMask getDay() {
+        return day;
+    }
+
+    public MaterialIntegerInputMask getYear() {
+        return year;
     }
 
     public FieldTypeMixin<DateOfBirthPicker> getFieldTypeMixin() {
