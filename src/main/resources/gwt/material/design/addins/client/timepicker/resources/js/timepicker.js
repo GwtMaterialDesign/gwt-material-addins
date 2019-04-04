@@ -366,142 +366,145 @@
 
     // Show popover
     LolliClock.prototype.show = function () {
-        //this.input.trigger('blur');
-        if (this.isShown) {
-            return;
-        }
+        var _this = this;
+        setTimeout(function () {
+            //_this.input.trigger('blur');
+            if (_this.isShown) {
+                return;
+            }
 
-        raiseCallback(this.options.beforeShow);
-        var self = this;
+            raiseCallback(_this.options.beforeShow);
+            var self = _this;
 
-        this.popover.addClass(this.options.orientation);
+            _this.popover.addClass(_this.options.orientation);
 
-        // Initialize
-        if (!this.isAppended) {
-            // Append popover to body
-            $(document.body).append(this.popover);
-            this.isAppended = true;
+            // Initialize
+            if (!_this.isAppended) {
+                // Append popover to body
+                $(document.body).append(_this.popover);
+                _this.isAppended = true;
 
-            // Reset position when resize
-            $(window).on('resize.lolliclock' + this.id, function () {
-                if (self.isShown) {
-                    self.locate();
+                // Reset position when resize
+                $(window).on('resize.lolliclock' + _this.id, function () {
+                    if (self.isShown) {
+                        self.locate();
+                    }
+                });
+
+                // Reset position on scroll
+                $(window).on('scroll.lolliclock', function () {
+                    if (self.isShown) {
+                        self.locate();
+                    }
+                });
+
+                //Add listeners
+                _this.AmPmButtons.on('click', function (e) {
+                    self.changeAmPm(e.currentTarget.children[1].innerHTML);
+                });
+                _this.spanMinutes.on('click', function () {
+                    self.toggleView('minutes');
+                });
+                _this.spanHours.on('click', function () {
+                    self.toggleView('hours');
+                });
+                _this.spanAmPm.on('click', function () {
+                    self.changeAmPm();
+                });
+            }
+
+            // Set position
+            self.locate();
+
+            //animate show
+            _this.plate.addClass('animate');
+            _this.header.addClass('animate');
+            _this.popover.addClass('animate');
+            _this.AmPmButtons.addClass('animate');
+            _this.spanNewTime.addClass('animate');
+            _this.spanOldTime.addClass('animate');
+            !_this.options.autoclose && _this.closeButtons.addClass('animate');
+
+            _this.plate.on('webkitAnimationEnd animationend MSAnimationEnd oanimationend', function () {
+                self.plate.removeClass("animate");
+                self.header.removeClass("animate");
+                self.popover.removeClass("animate");
+                self.AmPmButtons.removeClass("animate");
+                self.spanNewTime.removeClass("animate");
+                self.spanOldTime.removeClass("animate");
+                !self.options.autoclose && self.closeButtons.removeClass("animate");
+                self.plate.off('webkitAnimationEnd animationend MSAnimationEnd oanimationend');
+            });
+
+            //Get the time
+            function timeToDate(time) {
+                var parts = time.split(':');
+                if (parts.length === 2){
+                    var hours = +parts[0];
+                    var minAM = parts[1].split(' ');
+                    if (minAM.length === 2) {
+                        var mins = minAM[0];
+                        if (minAM[1] === 'PM') hours += 12;
+                        return new Date(1970, 1, 1, hours, mins);
+                    }
+                }
+                return new Date('x');
+            }
+
+            function isValidTime(time) {
+                return !isNaN(timeToDate(time).getTime());
+            }
+
+            var value;
+            var inputValue = _this.input.prop('value');
+            var defaultValue = _this.options.startTime;
+            var placeholderValue = _this.input.prop('placeholder');
+
+            if (inputValue && isValidTime(inputValue)) {
+                value = timeToDate(inputValue);
+            } else if (defaultValue === 'now') {
+                value = new Date();
+            } else if (defaultValue && isValidTime(defaultValue)) {
+                value = timeToDate(defaultValue);
+            } else if (placeholderValue && isValidTime(placeholderValue)) {
+                value = timeToDate(placeholderValue);
+            } else {
+                value = new Date();
+            }
+            if(_this.options.hour24) {
+                _this.hours = value.getHours()
+            } else {
+                _this.hours = value.getHours()%12;
+                _this.amOrPm = value.getHours() > 11 ? "AM" : "PM";
+            }
+            _this.minutes = value.getMinutes();
+            //purposefully wrong because we change it next line
+
+            _this.changeAmPm();
+
+            // Set time
+            self.toggleView('minutes');
+            self.toggleView('hours');
+
+            self.isShown = true;
+
+            // Hide when clicking or tabbing on any element except the clock, input
+            $(document).on('click.lolliclock.' + _this.id + ' focusin.lolliclock.' + _this.id, function (e) {
+                var target = $(e.target);
+                if (target.closest(self.popover).length === 0 &&
+                    target.closest(self.input).length === 0) {
+                    self.done();
                 }
             });
 
-            // Reset position on scroll
-            $(window).on('scroll.lolliclock', function () {
-                if (self.isShown) {
-                    self.locate();
+            // Hide when ESC is pressed
+            $(document).on('keyup.lolliclock.' + _this.id, function (e) {
+                if (e.keyCode === 27) {
+                    self.hide();
                 }
             });
-
-            //Add listeners
-            this.AmPmButtons.on('click', function (e) {
-                self.changeAmPm(e.currentTarget.children[1].innerHTML);
-            });
-            this.spanMinutes.on('click', function () {
-                self.toggleView('minutes');
-            });
-            this.spanHours.on('click', function () {
-                self.toggleView('hours');
-            });
-            this.spanAmPm.on('click', function () {
-                self.changeAmPm();
-            });
-        }
-
-        // Set position
-        self.locate();
-
-        //animate show
-        this.plate.addClass('animate');
-        this.header.addClass('animate');
-        this.popover.addClass('animate');
-        this.AmPmButtons.addClass('animate');
-        this.spanNewTime.addClass('animate');
-        this.spanOldTime.addClass('animate');
-        !this.options.autoclose && this.closeButtons.addClass('animate');
-
-        this.plate.on('webkitAnimationEnd animationend MSAnimationEnd oanimationend', function () {
-            self.plate.removeClass("animate");
-            self.header.removeClass("animate");
-            self.popover.removeClass("animate");
-            self.AmPmButtons.removeClass("animate");
-            self.spanNewTime.removeClass("animate");
-            self.spanOldTime.removeClass("animate");
-            !self.options.autoclose && self.closeButtons.removeClass("animate");
-            self.plate.off('webkitAnimationEnd animationend MSAnimationEnd oanimationend');
-        });
-
-        //Get the time
-        function timeToDate(time) {
-            var parts = time.split(':');
-            if (parts.length === 2){
-                var hours = +parts[0];
-                var minAM = parts[1].split(' ');
-                if (minAM.length === 2) {
-                    var mins = minAM[0];
-                    if (minAM[1] === 'PM') hours += 12;
-                    return new Date(1970, 1, 1, hours, mins);
-                }
-            }
-            return new Date('x');
-        }
-
-        function isValidTime(time) {
-            return !isNaN(timeToDate(time).getTime());
-        }
-
-        var value;
-        var inputValue = this.input.prop('value');
-        var defaultValue = this.options.startTime;
-        var placeholderValue = this.input.prop('placeholder');
-
-        if (inputValue && isValidTime(inputValue)) {
-            value = timeToDate(inputValue);
-        } else if (defaultValue === 'now') {
-            value = new Date();
-        } else if (defaultValue && isValidTime(defaultValue)) {
-            value = timeToDate(defaultValue);
-        } else if (placeholderValue && isValidTime(placeholderValue)) {
-            value = timeToDate(placeholderValue);
-        } else {
-            value = new Date();
-        }
-        if(this.options.hour24) {
-            this.hours = value.getHours()
-        } else {
-            this.hours = value.getHours()%12;
-            this.amOrPm = value.getHours() > 11 ? "AM" : "PM";
-        }
-        this.minutes = value.getMinutes();
-        //purposefully wrong because we change it next line
-
-        this.changeAmPm();
-
-        // Set time
-        self.toggleView('minutes');
-        self.toggleView('hours');
-
-        self.isShown = true;
-
-        // Hide when clicking or tabbing on any element except the clock, input
-        $(document).on('click.lolliclock.' + this.id + ' focusin.lolliclock.' + this.id, function (e) {
-            var target = $(e.target);
-            if (target.closest(self.popover).length === 0 &&
-                target.closest(self.input).length === 0) {
-                self.done();
-            }
-        });
-
-        // Hide when ESC is pressed
-        $(document).on('keyup.lolliclock.' + this.id, function (e) {
-            if (e.keyCode === 27) {
-                self.hide();
-            }
-        });
-        raiseCallback(this.options.afterShow);
+            raiseCallback(_this.options.afterShow);
+        }, 100);
     };
 
     // Hide popover
