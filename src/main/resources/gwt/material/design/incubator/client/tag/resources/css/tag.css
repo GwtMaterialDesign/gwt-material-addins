@@ -1,42 +1,48 @@
 .tag-label:first-child {
-    margin-left: 0px;
+    margin-left: 12px;
 }
 
 .tag-label {
-    margin-left: 20px;
     padding: 0 10px 0 12px;
     background: #ebebeb;
     color: #6c6c6c;
     text-decoration: none;
+    float: left;
+    height: 24px;
+    line-height: 24px;
+    position: relative;
+    font-size: 0.9em;
+    margin-bottom: 12px;
     -moz-border-radius-bottomright: 4px;
     -webkit-border-bottom-right-radius: 4px;
     border-bottom-right-radius: 4px;
     -moz-border-radius-topright: 4px;
     -webkit-border-top-right-radius: 4px;
     border-top-right-radius: 4px;
-    float: left;
-    height: 24px;
-    line-height: 24px;
-    position: relative;
-    font-size: 0.9em;
 }
 
-.tag-label:before {
+.tag-label.arrow-left {
+    margin-left: 20px;
+}
+
+.tag-label:before,
+.tag-label:after {
     content: "";
-    float: left;
     position: absolute;
+}
+
+.tag-label.arrow-left:before {
+    float: left;
     top: 0;
     left: -12px;
     width: 0;
     height: 0;
     border-color: transparent #ebebeb transparent transparent;
-    border-style: solid;
     border-width: 12px 12px 12px 0;
+    border-style: solid;
 }
 
-.tag-label:after {
-    content: "";
-    position: absolute;
+.tag-label.arrow-left:after {
     top: 10px;
     left: 0;
     float: left;
@@ -49,4 +55,64 @@
     -moz-box-shadow: -1px -1px 2px #ebebeb;
     -webkit-box-shadow: -1px -1px 2px #ebebeb;
     box-shadow: -1px -1px 2px #ebebeb;
+}
+
+/** Right **/
+.tag-label.arrow-right {
+    margin-right: 20px;
+    border-radius: 0px;
+}
+
+.tag-label.arrow-right:before {
+    top: 10px;
+    right: 0;
+    float: right;
+    width: 4px;
+    height: 4px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    background: #fff;
+    -moz-box-shadow: -1px -1px 2px #ebebeb;
+    -webkit-box-shadow: -1px -1px 2px #ebebeb;
+    box-shadow: -1px -1px 2px #ebebeb;
+}
+
+.tag-label.arrow-right:after {
+    border-width: 12px 0px 12px 12px !important;
+    border-color: transparent transparent transparent #ebebeb !important;
+    right: -12px;
+    border-style: solid;
+}
+
+/** Sizes **/
+/** Left - Medium **/
+.tag-label.medium {
+    height: 32px;
+    line-height: 32px;
+}
+
+.tag-label.arrow-left.medium:before {
+    border-width: 16px 16px 16px 0;
+    left: -15px;
+}
+
+/** Right - Medium **/
+.tag-label.arrow-right.medium:after {
+    border-width: 16px 0px 16px 16px !important;
+    right: -15px;
+}
+
+.tag-label.arrow-right.medium:before {
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+}
+
+/** Left - Large **/
+
+.tag-label.large {
+    height: 40px;
+    line-height: 40px;
 }
