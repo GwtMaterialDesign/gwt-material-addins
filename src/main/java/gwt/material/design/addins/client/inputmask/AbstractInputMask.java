@@ -110,8 +110,8 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
      */
     public void load(String mask) {
         options.onComplete = object -> CompleteEvent.fire(this, object);
-        options.onKeyPress = object -> KeyPressEvent.fire(this, object);
-        options.onChange = object -> ChangeEvent.fire(this, object);
+        options.onKeyPress = object -> MaskKeyPressEvent.fire(this, object);
+        options.onChange = object -> MaskChangeEvent.fire(this, object);
         options.onInvalid = (object, event, function, error) -> InvalidEvent.fire(this, object, error[0]);
         $(valueBoxBase.getElement()).mask(mask, options);
     }
@@ -182,7 +182,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
      * Gets the value of the field without the mask.
      */
     public String getCleanValue() {
-        return valueBoxBase.isAttached() ? $(valueBoxBase.getElement()).cleanVal() : null;
+        return valueBoxBase.isAttached() && valueBoxBase.getText() != null ?  $(valueBoxBase.getElement()).cleanVal() : null;
     }
 
     public String getValueWithMask() {
@@ -202,8 +202,8 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     }
 
     @Override
-    public HandlerRegistration addChangeHandler(ChangeEvent.ChangeHandler handler) {
-        return addHandler(handler, ChangeEvent.TYPE);
+    public HandlerRegistration addMaskChangeHandler(MaskChangeEvent.MaskChangeHandler handler) {
+        return addHandler(handler, MaskChangeEvent.TYPE);
     }
 
     @Override
@@ -212,7 +212,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     }
 
     @Override
-    public HandlerRegistration addKeyPressHandler(KeyPressEvent.KeyPressHandler handler) {
-        return addHandler(handler, KeyPressEvent.TYPE);
+    public HandlerRegistration addMaskKeyPressHandler(MaskKeyPressEvent.MaskKeyPressHandler handler) {
+        return addHandler(handler, MaskKeyPressEvent.TYPE);
     }
 }

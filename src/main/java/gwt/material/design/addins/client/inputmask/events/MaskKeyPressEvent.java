@@ -23,34 +23,34 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
-public class ChangeEvent<T> extends GwtEvent<ChangeEvent.ChangeHandler> {
+public class MaskKeyPressEvent<T> extends GwtEvent<MaskKeyPressEvent.MaskKeyPressHandler> {
 
-    public static final Type<ChangeEvent.ChangeHandler> TYPE = new Type<>();
+    public static final Type<MaskKeyPressHandler> TYPE = new Type<>();
     private T result;
 
-    public ChangeEvent(T result) {
+    public MaskKeyPressEvent(T result) {
         this.result = result;
     }
 
     public static void fire(HasHandlers source, Object result) {
-        source.fireEvent(new ChangeEvent(result));
+        source.fireEvent(new MaskKeyPressEvent(result));
     }
 
     @Override
-    public Type<ChangeEvent.ChangeHandler> getAssociatedType() {
+    public Type<MaskKeyPressHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(ChangeEvent.ChangeHandler handler) {
-        handler.onChange(this);
+    protected void dispatch(MaskKeyPressHandler handler) {
+        handler.onKeyPress(this);
     }
 
     public T getResult() {
         return result;
     }
 
-    public interface ChangeHandler extends EventHandler {
-        void onChange(ChangeEvent event);
+    public interface MaskKeyPressHandler extends EventHandler {
+        void onKeyPress(MaskKeyPressEvent event);
     }
 }
