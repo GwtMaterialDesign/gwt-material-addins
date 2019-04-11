@@ -17,24 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
+package gwt.material.design.incubator.client.async;
 
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-//@formatter:off
+public class AsyncIcon extends AbstractAsyncButton {
 
-/**
- * Set of Infinite Scroll handlers
- *
- * @author kevzlou7979
- */
-public interface HasInfiniteScrollHandlers<T> {
+    public AsyncIcon() {
+        super(IncubatorCssName.ASYNC_ICON);
+    }
 
-    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
-
-    HandlerRegistration addLoadedHandler(LoadedEvent.LoadHandler<T> handler);
-
-    HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
-
-    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
+    @Override
+    protected Element createElement() {
+        return Document.get().createElement("i");
+    }
 }

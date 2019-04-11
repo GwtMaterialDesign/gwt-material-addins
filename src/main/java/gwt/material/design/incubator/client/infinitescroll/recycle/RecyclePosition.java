@@ -17,24 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
-
-import com.google.gwt.event.shared.HandlerRegistration;
+package gwt.material.design.incubator.client.infinitescroll.recycle;
 
 //@formatter:off
 
 /**
- * Set of Infinite Scroll handlers
+ * Recycling position of {@link RecycleManager}
  *
  * @author kevzlou7979
  */
-public interface HasInfiniteScrollHandlers<T> {
+public enum RecyclePosition {
 
-    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
-
-    HandlerRegistration addLoadedHandler(LoadedEvent.LoadHandler<T> handler);
-
-    HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
-
-    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
+    /**
+     * Recycle all previous set of widgets
+     */
+    TOP,
+    /**
+     * Recycle all the next set of widgets
+     */
+    BOTTOM
 }

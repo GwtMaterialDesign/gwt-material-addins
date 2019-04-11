@@ -17,24 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
-
-import com.google.gwt.event.shared.HandlerRegistration;
-
-//@formatter:off
+package gwt.material.design.incubator.client.infinitescroll.recycle;
 
 /**
- * Set of Infinite Scroll handlers
+ * Recycle Type - provide a recycling mechanism managed by {@link RecycleManager}.
  *
  * @author kevzlou7979
  */
-public interface HasInfiniteScrollHandlers<T> {
+public enum RecycleType {
 
-    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
-
-    HandlerRegistration addLoadedHandler(LoadedEvent.LoadHandler<T> handler);
-
-    HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
-
-    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
+    /**
+     * Will recycle the widgets affecting only it's display by setting the
+     * css {@link com.google.gwt.dom.client.Style.Display} property to BLOCK or NONE
+     */
+    DISPLAY,
+    /**
+     * Will recycle the widgets on it's DOM structure by attaching or detaching the widgets
+     */
+    DETACH
 }

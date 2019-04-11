@@ -17,24 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.events;
+package gwt.material.design.incubator.client.async.events;
 
-import com.google.gwt.event.shared.HandlerRegistration;
+public interface HasAsyncHandlers {
 
-//@formatter:off
+    void addLoadingHandler(LoadingEvent.LoadingHandler handler);
 
-/**
- * Set of Infinite Scroll handlers
- *
- * @author kevzlou7979
- */
-public interface HasInfiniteScrollHandlers<T> {
+    void addErrorHandler(ErrorEvent.ErrorHandler handler);
 
-    HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler);
-
-    HandlerRegistration addLoadedHandler(LoadedEvent.LoadHandler<T> handler);
-
-    HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
-
-    HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler);
+    void addSuccessHandler(SuccessEvent.SuccessHandler handler);
 }
