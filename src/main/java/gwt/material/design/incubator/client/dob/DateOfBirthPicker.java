@@ -58,10 +58,76 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     public DateOfBirthPicker() {
         super(Document.get().createDivElement(), CssName.ROW);
 
-        setupMonth();
-        setupDay();
-        setupYear();
+        setupLayout();
+        setupHandlers();
         addStyleName("dob-container");
+    }
+
+    protected void setupLayout() {
+        // Month
+        month.addStyleName("dob-month");
+        month.setGrid("s12 m5");
+
+        // Day
+        day.addStyleName("dob-day");
+        day.setMask("00");
+        day.setFloat(Style.Float.LEFT);
+        day.setTextAlign(TextAlign.CENTER);
+        day.setPlaceholder("DD");
+        day.setGrid("s4 m3");
+
+        // Year
+        year.addStyleName("dob-year");
+        year.setMask("0000");
+        year.setFloat(Style.Float.LEFT);
+        year.setTextAlign(TextAlign.CENTER);
+        year.setPlaceholder("YYYY");
+        year.setGrid("s8 m4");
+    }
+
+    protected void setupHandlers() {
+        // Month
+        if (dataProvider.get().size() > 12) {
+            setErrorText(dataProvider.getInvalidMonthMessage());
+        } else {
+            month.clear();
+            for (Integer index : dataProvider.get().keySet()) {
+                month.addItem(dataProvider.get().get(index), index);
+            }
+        }
+        month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
+
+        month.addValueChangeHandler(event -> {
+            if (validateDate()) {
+                value.setMonth(month.getSingleValue());
+            }
+        });
+
+        if (dataProvider.getMonthLabel() != null && !dataProvider.getMonthLabel().isEmpty()) {
+            month.setLabel(dataProvider.getMonthLabel());
+        }
+
+        // Day
+        day.addValueChangeHandler(event -> {
+            if (validateDate()) {
+                value.setDate(day.getValue());
+            }
+        });
+
+        if (dataProvider.getDayLabel() != null && !dataProvider.getDayLabel().isEmpty()) {
+            day.setLabel(dataProvider.getDayLabel());
+        }
+
+        // Year
+        year.addValueChangeHandler(event -> {
+            if (validateDate()) {
+                value.setYear(year.getValue() - 1900);
+            }
+        });
+
+        if (dataProvider.getYearLabel() != null && !dataProvider.getYearLabel().isEmpty()) {
+            year.setLabel(dataProvider.getYearLabel());
+        }
     }
 
     @Override
@@ -74,73 +140,12 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     public void reload() {
-        setupMonth();
-        setupDay();
-        setupYear();
-    }
-
-    protected void setupMonth() {
-        month.addStyleName("dob-month");
-        if (dataProvider.get().size() > 12) {
-            setErrorText(dataProvider.getInvalidMonthMessage());
-        } else {
-            month.clear();
-            for (Integer index : dataProvider.get().keySet()) {
-                month.addItem(dataProvider.get().get(index), index);
-            }
-        }
-        month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
-        month.setGrid("s12 m5");
-        month.addValueChangeHandler(event -> {
-            if (validateDate()) {
-                value.setMonth(month.getSingleValue());
-            }
-        });
-
-        if (dataProvider.getMonthLabel() != null && !dataProvider.getMonthLabel().isEmpty()) {
-            month.setLabel(dataProvider.getMonthLabel());
-        }
-    }
-
-    protected void setupDay() {
-        day.addStyleName("dob-day");
-        day.setMask("00");
-        day.setFloat(Style.Float.LEFT);
-        day.setTextAlign(TextAlign.CENTER);
-        day.setPlaceholder("DD");
-        day.setGrid("s4 m3");
-        day.addValueChangeHandler(event -> {
-            if (validateDate()) {
-                value.setDate(day.getValue());
-            }
-        });
-
-        if (dataProvider.getDayLabel() != null && !dataProvider.getDayLabel().isEmpty()) {
-            day.setLabel(dataProvider.getDayLabel());
-        }
-    }
-
-    protected void setupYear() {
-        year.addStyleName("dob-year");
-        year.setMask("0000");
-        year.setFloat(Style.Float.LEFT);
-        year.setTextAlign(TextAlign.CENTER);
-        year.setPlaceholder("YYYY");
-        year.setGrid("s8 m4");
-        year.addValueChangeHandler(event -> {
-            if (validateDate()) {
-                value.setYear(year.getValue() - 1900);
-            }
-        });
-
-        if (dataProvider.getYearLabel() != null && !dataProvider.getYearLabel().isEmpty()) {
-            year.setLabel(dataProvider.getYearLabel());
-        }
+        setupHandlers();
     }
 
     protected boolean validateDate() {
         boolean valid = true;
-        if (!(month.getSingleValue() != null && month.getSingleValue() > 0 && month.getSingleValue() < 12)) {
+        if (!(month.getSingleValue() != null && month.getSingleValue() >= 0 && month.getSingleValue() < 12)) {
             valid = false;
             month.setErrorText(dataProvider.getInvalidMonthMessage());
         } else {
