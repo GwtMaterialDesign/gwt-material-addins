@@ -99,7 +99,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
 
         month.addValueChangeHandler(event -> {
-            if (validateDate()) {
+            if (validateDate(true)) {
                 value.setMonth(month.getSingleValue());
             }
         });
@@ -110,7 +110,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
         // Day
         day.addValueChangeHandler(event -> {
-            if (validateDate()) {
+            if (validateDate(true)) {
                 value.setDate(day.getValue());
             }
         });
@@ -121,7 +121,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
         // Year
         year.addValueChangeHandler(event -> {
-            if (validateDate()) {
+            if (validateDate(true)) {
                 value.setYear(year.getValue() - 1900);
             }
         });
@@ -144,36 +144,41 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         setupHandlers();
     }
 
-    protected boolean validateDate() {
+    protected boolean validateDate(boolean showErrors) {
         boolean valid = true;
         if (!(month.getSingleValue() != null && month.getSingleValue() >= 0 && month.getSingleValue() < 12)) {
             valid = false;
-            month.setErrorText(dataProvider.getInvalidMonthMessage());
+            if (showErrors) month.setErrorText(dataProvider.getInvalidMonthMessage());
         } else {
-            month.clearErrorText();
+            if (showErrors) month.clearErrorText();
         }
 
         if (!(year.getValue() != null && year.getValue() >= 1900)) {
             valid = false;
-            year.setErrorText(dataProvider.getInvalidYearLabel());
+            if (showErrors) year.setErrorText(dataProvider.getInvalidYearLabel());
         } else {
-            year.clearErrorText();
+            if (showErrors) year.clearErrorText();
         }
 
         if (!(day.getValue() != null && day.getValue() > 0 && day.getValue() <= 31)) {
             valid = false;
-            day.setErrorText(dataProvider.getInvalidDayMessage());
+            if (showErrors) day.setErrorText(dataProvider.getInvalidDayMessage());
         } else {
-            day.clearErrorText();
+            if (showErrors) day.clearErrorText();
         }
 
         if (!validateLeapYear(month.getSingleValue(), day.getValue(), year.getValue())) {
             valid = false;
-            day.setErrorText("Invalid Date");
+            if (showErrors) day.setErrorText("Invalid Date");
         } else {
-            day.clearErrorText();
+            if (showErrors) day.clearErrorText();
         }
         return valid;
+    }
+
+    @Override
+    public boolean validate() {
+        return super.validate() && validateDate(false);
     }
 
     public boolean validateLeapYear(int month, int day, int year) {
@@ -197,8 +202,6 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
     @Override
     public Date getValue() {
-        //TODO: Date value builder - compare to expected month value
-        //TODO: Input mask 1900 - current date - 100
         return value;
     }
 
