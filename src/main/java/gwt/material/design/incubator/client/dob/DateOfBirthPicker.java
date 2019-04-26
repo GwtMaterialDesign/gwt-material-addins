@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package gwt.material.design.incubator.client.dob;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.addins.client.inputmask.MaterialIntegerInputMask;
 import gwt.material.design.client.MaterialDesignBase;
@@ -165,7 +166,33 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         } else {
             day.clearErrorText();
         }
+
+        if (!validateLeapYear(month.getSingleValue(), day.getValue(), year.getValue())) {
+            valid = false;
+            day.setErrorText("Invalid Date");
+        } else {
+            day.clearErrorText();
+        }
         return valid;
+    }
+
+    public boolean validateLeapYear(int month, int day, int year) {
+        String dateToValidate = month + 1 + "/" + day + "/" + year;
+        if (dateToValidate == null) {
+            return false;
+        }
+        DateTimeFormat sdf = DateTimeFormat.getFormat("MM/dd/yyyy");
+        try {
+            Date date = sdf.parse(dateToValidate);
+            if (date.getMonth() != month) {
+                return false;
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
