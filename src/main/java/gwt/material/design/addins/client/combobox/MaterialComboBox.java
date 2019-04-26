@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,12 +25,13 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.async.DefaultComboBoxDisplayLoader;
-import gwt.material.design.addins.client.combobox.base.HasUnselectItemHandler;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
+import gwt.material.design.addins.client.combobox.events.HasComboBoxHandlers;
 import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
@@ -50,6 +51,8 @@ import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
+import gwt.material.design.client.events.ClosingEvent;
+import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
@@ -92,7 +95,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-        HasOpenHandlers<T>, HasCloseHandlers<T>, HasUnselectItemHandler<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
+        HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -145,6 +148,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public void load() {
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.select2(options);
+        setId(DOM.createUniqueId());
 
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
             if (!suppressChangeEvent) {
@@ -165,6 +169,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        jsComboBox.on(ComboBoxEvents.OPENING, (e, param1) -> {
+            OpeningEvent.fire(this);
+            return true;
+        });
+
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
 
             if (isAsynchronous()) {
@@ -178,8 +187,22 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        jsComboBox.on(ComboBoxEvents.CLOSING, (e, param1) -> {
+            ClosingEvent.fire(this);
+            if (getValue() != null && !getValue().isEmpty()) {
+                jsComboBox.select2("focus");
+            }
+            return true;
+        });
+
         jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
             CloseEvent.fire(this, null);
+            return true;
+        });
+
+        // Tab Focus support
+        body().on("focus", "#" + getId() + " .select2", (e, param1) -> {
+            open();
             return true;
         });
 
@@ -207,6 +230,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.UNSELECT);
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
+        body().off("focus");
         jsComboBox.select2("destroy");
     }
 
@@ -870,8 +894,18 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     @Override
+    public HandlerRegistration addOpeningHandler(OpeningEvent.OpeningHandler handler) {
+        return addHandler(handler, OpeningEvent.getType());
+    }
+
+    @Override
     public HandlerRegistration addOpenHandler(OpenHandler<T> openHandler) {
         return addHandler(openHandler, OpenEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addClosingHandler(ClosingEvent.ClosingHandler handler) {
+        return addHandler(handler, ClosingEvent.getType());
     }
 
     @Override
