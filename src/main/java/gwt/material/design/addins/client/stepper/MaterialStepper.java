@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,6 +46,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.mixin.StatusDisplayMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
@@ -159,6 +160,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     protected void detectAndApplyOrientation() {
+        if (getAxis() != null && getAxis() == Axis.VERTICAL && !Window.matchMedia(Resolution.ALL_MOBILE.asMediaQuery())) {
+            return;
+        }
+
         if (Window.matchMedia("(orientation: portrait)")) {
             setAxis(Axis.VERTICAL);
         } else {
@@ -181,7 +186,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
 
     public void insert(MaterialStep step, int index) {
         super.insert(step, index);
-     
+
         registerStep(step);
     }
 
@@ -335,7 +340,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     public MaterialStep getStep(int step) {
-        return getStepByIndex(step  - 1);
+        return getStepByIndex(step - 1);
     }
 
     public MaterialStep getStepByIndex(int stepIndex) {
