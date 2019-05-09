@@ -242,14 +242,23 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
 
             Navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
                 mediaStream = (MediaStream) streamObj;
-                if (URL.createObjectURL(mediaStream) != null) {
-                    $(video).attr("src", URL.createObjectURL(mediaStream));
-                } else if (WebkitURL.createObjectURL(mediaStream) != null) {
-                    $(video).attr("src", WebkitURL.createObjectURL(mediaStream));
+
+                if (mediaStream != null) {
+                    try {
+                        video.setPropertyObject("srcObject", mediaStream);
+                    } catch (Exception e) {
+                        if (URL.createObjectURL(mediaStream) != null) {
+                            $(video).attr("src", URL.createObjectURL(mediaStream));
+                        } else if (WebkitURL.createObjectURL(mediaStream) != null) {
+                            $(video).attr("src", WebkitURL.createObjectURL(mediaStream));
+                        }
+                    } finally {
+                        if (video instanceof VideoElement) {
+                            ((VideoElement) video).play();
+                        }
+                    }
                 }
-                if (video instanceof VideoElement) {
-                    ((VideoElement) video).play();
-                }
+
                 onCameraCaptureLoad();
                 return null;
             }).catchException(error -> {
