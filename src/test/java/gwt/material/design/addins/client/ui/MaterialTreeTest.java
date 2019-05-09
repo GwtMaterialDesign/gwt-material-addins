@@ -215,6 +215,7 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         assertEquals(0, tree.getWidgetCount());
 
         MaterialTreeItem item = new MaterialTreeItem();
+        item.setText("Tree Item");
         tree.add(item);
         assertEquals(1, tree.getWidgetCount());
 

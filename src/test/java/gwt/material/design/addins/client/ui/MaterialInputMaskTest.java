@@ -31,6 +31,7 @@ public class MaterialInputMaskTest extends MaterialValueBoxTest<AbstractInputMas
 
     final static String MASK_REGEX = "000.000.000.000";
     final static String VALUE = "123456789098";
+    final static String EXPECTED_VALUE = "123.456.789.098";
 
     @Override
     protected AbstractInputMask createWidget() {
@@ -92,10 +93,10 @@ public class MaterialInputMaskTest extends MaterialValueBoxTest<AbstractInputMas
     protected void checkValue(AbstractInputMask inputMask, boolean checkCleanValue) {
         inputMask.setMask(MASK_REGEX);
         inputMask.setValue(VALUE);
-        assertEquals(VALUE, inputMask.getValue());
 
         if (checkCleanValue) {
-            //assertEquals(VALUE, inputMask.getCleanValue());
+            assertEquals(EXPECTED_VALUE, inputMask.getValue());
+            assertEquals(VALUE, inputMask.getCleanValue());
         }
     }
 
