@@ -20,11 +20,11 @@
 package gwt.material.design.addins.client.inputmask.base;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.addins.client.inputmask.AbstractInputMask;
 
 import java.util.Date;
 
-public class DateInputParser<T extends MaterialInputMask> {
+public class DateInputParser<T extends AbstractInputMask> {
 
     private final T valuebox;
 
@@ -43,9 +43,10 @@ public class DateInputParser<T extends MaterialInputMask> {
     protected boolean isValid(String format) {
         if (valuebox.getText() != null && !valuebox.getText().isEmpty()
                 && valuebox.getMask() != null && format != null) {
+            format = format.toLowerCase();
             String dateString = valuebox.getText();
-            String month = dateString.substring(format.indexOf("M"), format.indexOf("M/") + 1);
-            String day = dateString.substring(format.indexOf("d"), format.indexOf("d/") + 1);
+            String month = dateString.substring(format.indexOf("m"), format.indexOf("m") + 2);
+            String day = dateString.substring(format.indexOf("d"), format.indexOf("d") + 2);
             String year = dateString.substring(format.indexOf("y"), format.lastIndexOf("y") + 1);
 
             boolean validLeapYear = validateLeapYear(day, month, Integer.parseInt(year));

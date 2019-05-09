@@ -118,8 +118,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
         setUniqueId(DOM.createUniqueId());
         timeInput.setType(InputType.TEXT);
-        container.add(label);
         container.add(timeInput);
+        container.add(label);
         container.add(errorLabel);
         add(container);
         timeInput.getElement().setAttribute("type", "text");
@@ -382,6 +382,16 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public boolean isIconPrefix() {
         return icon.isIconPrefix();
+    }
+
+    @Override
+    public void setCustomIconType(String iconType) {
+        icon.setCustomIconType(iconType);
+    }
+
+    @Override
+    public String getCustomIconType() {
+        return icon.getCustomIconType();
     }
 
     @Override

@@ -25,9 +25,9 @@ public interface HasInputMaskHandlers {
 
     HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
 
-    HandlerRegistration addChangeHandler(ChangeEvent.ChangeHandler handler);
+    HandlerRegistration addMaskChangeHandler(MaskChangeEvent.MaskChangeHandler handler);
 
     HandlerRegistration addInvalidHandler(InvalidEvent.InvalidHandler handler);
 
-    HandlerRegistration addKeyPressHandler(KeyPressEvent.KeyPressHandler handler);
+    HandlerRegistration addMaskKeyPressHandler(MaskKeyPressEvent.MaskKeyPressHandler handler);
 }

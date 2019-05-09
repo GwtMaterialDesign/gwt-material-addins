@@ -98,7 +98,9 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
                 }
             }
             MaterialTreeItem treeItem = event.getSelectedItem();
-            treeItem.addStyleName(AddinsCssName.SELECTED);
+            if (treeItem != null) {
+                treeItem.addStyleName(AddinsCssName.SELECTED);
+            }
             setSelectedItem(treeItem);
         }));
     }

@@ -419,7 +419,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     @Override
     public void setPaddingLeft(double padding) {
-        content.setPaddingTop(padding);
+        content.setPaddingLeft(padding);
     }
 
     @Override

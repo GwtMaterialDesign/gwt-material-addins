@@ -6,12 +6,12 @@
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
-## Current Version 2.1.1
+## Current Version 2.2-rc1
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.1.1</version>
+    <version>2.2-rc1</version>
 </dependency>
 ```
 

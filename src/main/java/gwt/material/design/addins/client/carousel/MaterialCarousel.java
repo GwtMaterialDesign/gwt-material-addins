@@ -20,7 +20,6 @@
 package gwt.material.design.addins.client.carousel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -42,7 +41,10 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialImage;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTab;
 
 import java.util.List;
 
@@ -271,7 +273,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     }
 
     protected Object command(String action, Object... params) {
-        if (container == null || !container.isAttached()) {
+        if (container == null) {
             GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
         } else {
             return $("#" + container.getId()).slick(action, params);

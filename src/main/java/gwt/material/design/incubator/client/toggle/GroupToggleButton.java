@@ -33,8 +33,10 @@ import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import gwt.material.design.jscore.client.api.Array;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //@formatter:off
@@ -60,7 +62,7 @@ import java.util.List;
  * @author kevzlou7979
  */
 //@formatter:on
-public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<Integer>,
+public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<T>,
         HasStatusText {
 
     static {
@@ -175,6 +177,14 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         return values.get(getSelectedIndexes().get(0));
     }
 
+    public void setSingleValue(T value) {
+        setSingleValue(value, false);
+    }
+
+    public void setSingleValue(T value, boolean fireEvents) {
+        setValue(Arrays.asList(value), fireEvents);
+    }
+
     public void selectAll() {
         for (ToggleButton mButton : items) {
             mButton.setToggle(true);
@@ -187,6 +197,22 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         }
     }
 
+    @Override
+    public void setValue(List<T> value) {
+        setValue(value, false);
+    }
+
+    @Override
+    public void setValue(List<T> value, boolean fireEvents) {
+        super.setValue(value, fireEvents);
+
+        value.forEach(t -> {
+            if (values.contains(t)) {
+                setActive(values.indexOf(t));
+            }
+        });
+    }
+
     public boolean isMultiple() {
         return multiple;
     }
@@ -196,7 +222,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     public void fireSelectionEvent(ToggleButton toggleButton) {
-        SelectionEvent.fire(this, items.indexOf(toggleButton));
+        SelectionEvent.fire(this, values.get(items.indexOf(toggleButton)));
     }
 
     public ToggleButton get(int index) {
@@ -242,7 +268,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     @Override
-    public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> selectionHandler) {
+    public HandlerRegistration addSelectionHandler(SelectionHandler<T> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
     }
 
