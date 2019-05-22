@@ -211,7 +211,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
         this.value = value;
         year.setValue(value.getYear() + 1900);
-        day.setValue(value.getDay());
+        day.setValue(value.getDate());
         month.setSingleValue(value.getMonth());
     }
 
