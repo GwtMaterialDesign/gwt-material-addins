@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.chartjs.js.options.global;
+package gwt.material.design.incubator.client.storage;
 
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class PaddingOptions {
+public interface LocalStorageClientDebugBundle extends ClientBundle {
 
-    @JsProperty
-    public int left;
+    LocalStorageClientDebugBundle INSTANCE = GWT.create(LocalStorageClientDebugBundle.class);
 
-    @JsProperty
-    public int right;
-
-    @JsProperty
-    public int top;
-
-    @JsProperty
-    public int bottom;
+    @Source("resources/js/localforage.js")
+    TextResource localForageDebugJs();
 }

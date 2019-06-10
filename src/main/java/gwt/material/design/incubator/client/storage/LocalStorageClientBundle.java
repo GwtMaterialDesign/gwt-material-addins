@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.chartjs;
+package gwt.material.design.incubator.client.storage;
 
-import gwt.material.design.incubator.client.chart.chartjs.base.AbstractChart;
-import gwt.material.design.incubator.client.chart.chartjs.base.constants.ChartType;
-import gwt.material.design.incubator.client.chart.chartjs.js.datasets.BarChartDataSets;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-public class RadarChart extends AbstractChart<BarChartDataSets> {
+public interface LocalStorageClientBundle extends ClientBundle {
 
-    public RadarChart() {
-        super(ChartType.RADAR);
-    }
+    LocalStorageClientBundle INSTANCE = GWT.create(LocalStorageClientBundle.class);
+
+    @Source("resources/js/localforage.min.js")
+    TextResource localForage();
 }

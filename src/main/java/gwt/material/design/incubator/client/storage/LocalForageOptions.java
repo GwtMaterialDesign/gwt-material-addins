@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,30 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.chartjs.js.options.global;
+package gwt.material.design.incubator.client.storage;
 
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class ElementOptions {
+public class LocalForageOptions {
 
+    @JsProperty
+    public Driver driver;
+
+    @JsProperty
+    public String name;
+
+    @JsProperty
+    public int size;
+
+    @JsProperty
+    public String storeName;
+
+    @JsProperty
+    public double version;
+
+    @JsProperty
+    public String description;
 }

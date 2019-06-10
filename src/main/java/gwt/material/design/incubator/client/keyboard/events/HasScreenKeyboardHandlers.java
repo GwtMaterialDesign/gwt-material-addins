@@ -26,7 +26,7 @@ public interface HasScreenKeyboardHandlers  {
     /**
      * Executes the callback function on key press. Returns button layout name (i.e.: “{shift}”).
      */
-    HandlerRegistration addKeyPressHandler(KeyPressEvent.KeyPressHandler handler);
+    HandlerRegistration addKeyboardPressHandler(KeyPressEvent.KeyPressHandler handler);
 
     /**
      * Executes the callback function on input change. Returns the current input’s string.

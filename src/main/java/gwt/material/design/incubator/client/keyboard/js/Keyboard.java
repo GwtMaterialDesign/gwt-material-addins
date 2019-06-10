@@ -19,9 +19,11 @@
  */
 package gwt.material.design.incubator.client.keyboard.js;
 
+import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
@@ -38,6 +40,9 @@ public class Keyboard {
 
     public Keyboard(KeyboardOptions options) {
     }
+
+    @JsProperty
+    public Element keyboardDOM;
 
     /**
      * Clear the keyboard’s input.

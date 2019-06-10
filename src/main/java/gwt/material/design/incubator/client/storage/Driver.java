@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,33 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.chart.chartjs.js.datasets;
+package gwt.material.design.incubator.client.storage;
+
 
 import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class PolarDataSets extends ChartDataSets {
+public class Driver {
 
-    @JsProperty
-    public String label;
-
-    @JsProperty
-    public String[] backgroundColor;
-
-    @JsProperty
-    public String[] borderColor;
-
-    @JsProperty
-    public int[] borderWidth;
-
-    @JsProperty
-    public String[] hoverBackgroundColor;
-
-    @JsProperty
-    public String[] hoverBorderColor;
-
-    @JsProperty
-    public int[] hoverBorderWidth;
 }

@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.keyboard;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
@@ -209,8 +210,12 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
         this.shiftBinding = shiftBinding;
     }
 
+    public Element getKeyboardDOM() {
+        return keyboard.keyboardDOM;
+    }
+
     @Override
-    public HandlerRegistration addKeyPressHandler(KeyPressEvent.KeyPressHandler handler) {
+    public HandlerRegistration addKeyboardPressHandler(KeyPressEvent.KeyPressHandler handler) {
         return addHandler(handler, KeyPressEvent.getType());
     }
 
