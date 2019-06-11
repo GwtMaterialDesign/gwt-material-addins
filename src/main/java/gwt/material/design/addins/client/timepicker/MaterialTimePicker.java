@@ -304,6 +304,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
     public void setUniqueId(String uniqueId) {
         options.uniqueId = uniqueId;
+        timeInput.setId(uniqueId);
     }
 
     public String getCancelText() {

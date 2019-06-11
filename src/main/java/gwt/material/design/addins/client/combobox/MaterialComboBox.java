@@ -202,7 +202,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         // Tab Focus support
         body().on("focus", "#" + getId() + " .select2", (e, param1) -> {
-            open();
+            if (!isMultiple()) {
+                open();
+            }
             return true;
         });
 
