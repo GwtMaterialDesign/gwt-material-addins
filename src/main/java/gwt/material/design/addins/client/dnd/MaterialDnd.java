@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,13 +25,16 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.constants.DragEvents;
 import gwt.material.design.addins.client.dnd.constants.DropEvents;
+import gwt.material.design.addins.client.dnd.event.InteractDragEvent;
+import gwt.material.design.addins.client.dnd.event.dispatch.DragEventDispatcher;
+import gwt.material.design.addins.client.dnd.event.dispatch.DropEventDispatcher;
+import gwt.material.design.addins.client.dnd.event.listener.DefaultDragMoveEventListener;
+import gwt.material.design.addins.client.dnd.event.listener.DragEventListener;
 import gwt.material.design.addins.client.dnd.js.JsDnd;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.events.*;
-import gwt.material.design.jquery.client.api.Event;
 
 //@formatter:off
 
@@ -74,41 +77,39 @@ public class MaterialDnd {
     private JsDropOptions dropOptions;
     private JsDragOptions dragOptions;
     private String ignoreFromClassName;
+    private DragEventListener dragMoveListener;
+    private DragEventDispatcher dragEventDispatcher;
+    private DropEventDispatcher dropEventDispatcher;
 
-    protected MaterialDnd(MaterialWidget target) {
+    public MaterialDnd(MaterialWidget target) {
         this.target = target;
+        this.dragEventDispatcher = new DragEventDispatcher(target);
+        this.dropEventDispatcher = new DropEventDispatcher(target);
     }
 
-    protected MaterialDnd draggable() {
+    public MaterialDnd draggable() {
         if (jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
 
             // Events
-            jsDnd.off(DragEvents.DRAG_MOVE).on(DragEvents.DRAG_MOVE, event -> {
-                move(event);
-                DragMoveEvent.fire(this.target);
+            jsDnd.off(DragEvents.DRAG_START).on(DragEvents.DRAG_START, event -> {
+                dragEventDispatcher.fireDragStartEvent();
                 return true;
             });
-            jsDnd.off(DragEvents.DRAG_START).on(DragEvents.DRAG_START, event -> {
-                DragStartEvent.fire(this.target);
+            jsDnd.off(DragEvents.DRAG_MOVE).on(DragEvents.DRAG_MOVE, (event) -> {
+                if (dragMoveListener == null) {
+                    dragMoveListener = new DefaultDragMoveEventListener();
+                }
+                dragMoveListener.register((InteractDragEvent) event);
+                dragEventDispatcher.fireDragMoveEvent();
                 return true;
             });
             jsDnd.off(DragEvents.DRAG_END).on(DragEvents.DRAG_END, event -> {
-                DragEndEvent.fire(this.target);
+                dragEventDispatcher.fireDragEndEvent();
                 return true;
             });
         }
         jsDnd.draggable(dragOptions);
-        return this;
-    }
-
-    public MaterialDnd draggable(JsDragOptions options) {
-        dragOptions = options;
-        if (target.isAttached()) {
-            draggable();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> draggable(), true));
-        }
         return this;
     }
 
@@ -126,28 +127,58 @@ public class MaterialDnd {
 
             // Events
             jsDnd.off(DropEvents.DROP_ACTIVATE).on(DropEvents.DROP_ACTIVATE, event -> {
-                DropActivateEvent.fire(this.target);
+                dropEventDispatcher.fireDropActiveEvent();
                 return true;
             });
             jsDnd.off(DragEvents.DRAG_ENTER).on(DragEvents.DRAG_ENTER, event -> {
-                DragEnterEvent.fire(this.target, event.getRelatedTarget());
+                dragEventDispatcher.fireDragEnterEvent(event.getRelatedTarget());
                 return true;
             });
             jsDnd.off(DragEvents.DRAG_LEAVE).on(DragEvents.DRAG_LEAVE, event -> {
-                DragLeaveEvent.fire(this.target, event.getRelatedTarget());
+                dragEventDispatcher.fireDragLeaveEvent(event.getRelatedTarget());
                 return true;
             });
             jsDnd.off(DropEvents.DROP).on(DropEvents.DROP, event -> {
-                DropEvent.fire(this.target, event.getRelatedTarget());
+                dropEventDispatcher.fireDropEvent(event.getRelatedTarget());
                 return true;
             });
             jsDnd.off(DropEvents.DROP_DEACTIVATE).on(DropEvents.DROP_DEACTIVATE, event -> {
-                DropDeactivateEvent.fire(this.target);
+                dropEventDispatcher.fireDropDeactivateEvent();
                 return true;
             });
         }
 
         jsDnd.dropzone(dropOptions);
+        return this;
+    }
+
+    public void unload() {
+        unloadDragEvents();
+        unloadDropEvents();
+    }
+
+    public void unloadDragEvents() {
+        jsDnd.off(DragEvents.DRAG_MOVE);
+        jsDnd.off(DragEvents.DRAG_START);
+        jsDnd.off(DragEvents.DRAG_END);
+        jsDnd.off(DropEvents.DROP_ACTIVATE);
+        jsDnd.off(DragEvents.DRAG_ENTER);
+        jsDnd.off(DragEvents.DRAG_LEAVE);
+    }
+
+    public void unloadDropEvents() {
+        jsDnd.off(DropEvents.DROP_ACTIVATE);
+        jsDnd.off(DropEvents.DROP);
+        jsDnd.off(DropEvents.DROP_DEACTIVATE);
+    }
+
+    public MaterialDnd draggable(JsDragOptions options) {
+        dragOptions = options;
+        if (target.isAttached()) {
+            draggable();
+        } else {
+            target.registerHandler(target.addAttachHandler(event -> draggable(), true));
+        }
         return this;
     }
 
@@ -212,20 +243,23 @@ public class MaterialDnd {
         return dropOptions;
     }
 
+    public void setDropOptions(JsDropOptions dropOptions) {
+        this.dropOptions = dropOptions;
+    }
+
     public JsDragOptions getDragOptions() {
         return dragOptions;
     }
 
-    public static native void move(Event event) /*-{
-        var target = event.target,
-            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+    public void setDragOptions(JsDragOptions dragOptions) {
+        this.dragOptions = dragOptions;
+    }
 
-        target.style.webkitTransform =
-            target.style.transform =
-                'translate(' + x + 'px, ' + y + 'px)';
+    public DragEventListener getDragMoveListener() {
+        return dragMoveListener;
+    }
 
-        target.setAttribute('data-x', x);
-        target.setAttribute('data-y', y);
-    }-*/;
+    public void setDragMoveListener(DragEventListener dragMoveListener) {
+        this.dragMoveListener = dragMoveListener;
+    }
 }
