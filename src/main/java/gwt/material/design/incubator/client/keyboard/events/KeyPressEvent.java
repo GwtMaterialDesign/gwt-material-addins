@@ -22,7 +22,6 @@ package gwt.material.design.incubator.client.keyboard.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.keyboard.constants.KeyboardButton;
 
 //@formatter:off
 
@@ -35,9 +34,9 @@ public class KeyPressEvent extends GwtEvent<KeyPressEvent.KeyPressHandler> {
 
     public static final Type<KeyPressHandler> TYPE = new Type<>();
 
-    private KeyboardButton button;
+    private String button;
 
-    public KeyPressEvent(KeyboardButton button) {
+    public KeyPressEvent(String button) {
         this.button = button;
     }
 
@@ -45,7 +44,7 @@ public class KeyPressEvent extends GwtEvent<KeyPressEvent.KeyPressHandler> {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, KeyboardButton message) {
+    public static void fire(HasHandlers source, String message) {
         source.fireEvent(new KeyPressEvent(message));
     }
 
@@ -59,7 +58,7 @@ public class KeyPressEvent extends GwtEvent<KeyPressEvent.KeyPressHandler> {
         handler.onKeyPress(this);
     }
 
-    public KeyboardButton getButton() {
+    public String getButton() {
         return button;
     }
 

@@ -28,13 +28,39 @@ import jsinterop.annotations.JsType;
 public class KeyboardLayout {
 
     @JsProperty(name = "default")
-    public String[] defaultLayout;
+    private String[] defaultLayout;
 
     @JsProperty(name = "shift")
-    public String[] shiftLayout;
+    private String[] shiftLayout;
+
+    @JsProperty(name =  "alt")
+    private String[] altLayout;
+
+    @JsProperty(name = "smileys")
+    private String[] smileysLayout;
 
     @JsOverlay
     public final String[] getDefaultLayout() {
         return defaultLayout;
+    }
+
+    @JsOverlay
+    public final void setDefaultLayout(String[] defaultLayout) {
+        this.defaultLayout = defaultLayout;
+    }
+
+    @JsOverlay
+    public final void setShiftLayout(String[] shiftLayout) {
+        this.shiftLayout = shiftLayout;
+    }
+
+    @JsOverlay
+    public final void setAltLayout(String[] altLayout) {
+        this.altLayout = altLayout;
+    }
+
+    @JsOverlay
+    public final void setSmileysLayout(String[] smileysLayout) {
+        this.smileysLayout = smileysLayout;
     }
 }

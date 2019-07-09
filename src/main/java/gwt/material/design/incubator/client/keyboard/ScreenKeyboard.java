@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,9 +24,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.keyboard.binder.DefaultShiftBinder;
-import gwt.material.design.incubator.client.keyboard.binder.KeyBinder;
-import gwt.material.design.incubator.client.keyboard.constants.KeyboardButton;
 import gwt.material.design.incubator.client.keyboard.events.*;
 import gwt.material.design.incubator.client.keyboard.js.Keyboard;
 import gwt.material.design.incubator.client.keyboard.js.KeyboardOptions;
@@ -54,7 +51,6 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
     private static final String SIMPLE_KEYBOARD_PROPERTY = "SimpleKeyboard";
     protected Keyboard keyboard;
     protected KeyboardOptions options = new KeyboardOptions();
-    protected KeyBinder shiftBinding = new DefaultShiftBinder();
 
     public ScreenKeyboard() {
         super(Document.get().createDivElement(), "simple-keyboard");
@@ -69,7 +65,7 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
 
     protected void load() {
         // Initial SimpleKeyboard Defaults
-        SimpleKeyboard simpleKeyboard = (SimpleKeyboard)    JQuery.window().getPropertyObject(SIMPLE_KEYBOARD_PROPERTY);
+        SimpleKeyboard simpleKeyboard = (SimpleKeyboard) JQuery.window().getPropertyObject(SIMPLE_KEYBOARD_PROPERTY);
         JQuery.window().setPropertyObject(KEYBOARD_PROPERTY, simpleKeyboard._default);
 
         if (options != null) {
@@ -78,14 +74,7 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
             options.beforeRender = () -> BeforeRenderEvent.fire(this);
             options.onRender = () -> RenderEvent.fire(this);
             options.onInit = () -> InitEvent.fire(this);
-            options.onKeyPress = button -> {
-                KeyboardButton keyboardButton = null;
-                if (button != null) {
-                    keyboardButton = KeyboardButton.get(button);
-                    shiftBinding.bind(this, keyboardButton);
-                }
-                KeyPressEvent.fire(this, keyboardButton);
-            };
+            options.onKeyPress = button -> KeyPressEvent.fire(this, button);
             options.onChange = input -> ChangeEvent.fire(this, input);
             options.onChangeAll = input -> ChangeAllEvent.fire(this, input);
 
@@ -196,18 +185,6 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
 
     public Keyboard getKeyboard() {
         return keyboard;
-    }
-
-    public KeyBinder getShiftBinding() {
-        return shiftBinding;
-    }
-
-    /**
-     * Set the default shift binding registration.
-     * @see DefaultShiftBinder
-     */
-    public void setShiftBinding(KeyBinder shiftBinding) {
-        this.shiftBinding = shiftBinding;
     }
 
     public Element getKeyboardDOM() {
