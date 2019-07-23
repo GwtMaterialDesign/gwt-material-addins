@@ -21,6 +21,7 @@ package gwt.material.design.incubator.client.google.addresslookup.js.options;
 
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
@@ -46,6 +47,14 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class LatLng {
 
+    @JsProperty
+    public double lat;
+
+    @JsProperty
+    public double lng;
+
+    public LatLng() {}
+
     public LatLng(double lattitude, double longitude) {
     }
 
@@ -59,13 +68,13 @@ public class LatLng {
      * Returns the latitude in degrees.
      */
     @JsMethod
-    public native Double lat();
+    public native double lat();
 
     /**
      * Returns the longitude in degrees.
      */
     @JsMethod
-    public native Double lng();
+    public native double lng();
 
     /**
      * Converts to JSON representation. This function is intended to be used via JSON.stringify.

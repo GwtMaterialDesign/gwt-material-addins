@@ -18,6 +18,7 @@
 
 .content-placeholder {
     display: inline-block;
+    width: 100%;
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
     -webkit-animation-fill-mode: forwards;

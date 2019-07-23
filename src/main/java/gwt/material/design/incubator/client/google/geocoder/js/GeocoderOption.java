@@ -17,22 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.dnd.event;
+package gwt.material.design.incubator.client.google.geocoder.js;
 
+import gwt.material.design.incubator.client.google.addresslookup.js.options.LatLng;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class InteractDragEvent extends InteractCommonEvent {
-
-    public InteractDragEvent(String type) {
-        super(type);
-    }
+public class GeocoderOption {
 
     @JsProperty
-    public Object dragEnter;
-
-    @JsProperty
-    public Object dragLeave;
+    public LatLng location;
 }
