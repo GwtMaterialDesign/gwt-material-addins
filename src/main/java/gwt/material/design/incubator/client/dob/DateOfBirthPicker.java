@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasFieldTypes;
 import gwt.material.design.client.base.HasReadOnly;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.StatusDisplayType;
@@ -48,6 +49,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         }
     }
 
+    private boolean showFieldLabels;
     private Date value;
     private DobLocaleDateProvider dataProvider = new DefaultDobLocaleDateProvider();
     private MaterialComboBox<Integer> month = new MaterialComboBox();
@@ -55,6 +57,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     private MaterialIntegerInputMask year = new MaterialIntegerInputMask();
 
     private FieldTypeMixin<DateOfBirthPicker> fieldTypeMixin;
+    private ToggleStyleMixin<DateOfBirthPicker> toggleStyleMixin;
 
     public DateOfBirthPicker() {
         super(Document.get().createDivElement(), CssName.ROW);
@@ -68,6 +71,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         // Month
         month.addStyleName("dob-month");
         month.setGrid("s12 m5");
+        month.setCloseOnSelect(true);
 
         // Day
         day.addStyleName("dob-day");
@@ -138,6 +142,22 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         add(month);
         add(day);
         add(year);
+
+        if (!showFieldLabels) {
+            if (month != null) {
+                month.getLabel().removeFromParent();
+            }
+
+            if (day != null) {
+                day.getLabel().removeFromParent();
+            }
+
+            if (year != null) {
+                year.getLabel().removeFromParent();
+            }
+        }
+
+        getToggleStyleMixin().setOn(!showFieldLabels);
     }
 
     public void reload() {
@@ -303,6 +323,14 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         this.dataProvider = dataProvider;
     }
 
+    public boolean isShowFieldLabels() {
+        return showFieldLabels;
+    }
+
+    public void setShowFieldLabels(boolean showFieldLabels) {
+        this.showFieldLabels = showFieldLabels;
+    }
+
     public MaterialComboBox<Integer> getMonth() {
         return month;
     }
@@ -320,5 +348,12 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
             fieldTypeMixin = new FieldTypeMixin<>(this);
         }
         return fieldTypeMixin;
+    }
+
+    public ToggleStyleMixin<DateOfBirthPicker> getToggleStyleMixin() {
+        if (toggleStyleMixin == null) {
+            toggleStyleMixin = new ToggleStyleMixin<>(this, "no-labels");
+        }
+        return toggleStyleMixin;
     }
 }
