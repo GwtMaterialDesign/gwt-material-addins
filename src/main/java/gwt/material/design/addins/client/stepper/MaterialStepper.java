@@ -48,6 +48,7 @@ import gwt.material.design.client.base.mixin.StatusDisplayMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.constants.Position;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
@@ -461,6 +462,11 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     @Override
     public void updateStatusDisplay(StatusDisplayMixin.StatusType statusType) {
         getCurrentStep().updateStatusDisplay(statusType);
+    }
+
+    @Override
+    public void setStatusDisplayPosition(Position position) {
+        getCurrentStep().setStatusDisplayPosition(position);
     }
 
     /**

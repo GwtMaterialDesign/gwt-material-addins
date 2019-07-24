@@ -32,10 +32,7 @@ import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.ActiveMixin;
 import gwt.material.design.client.base.mixin.StatusDisplayMixin;
-import gwt.material.design.client.constants.Axis;
-import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.constants.StatusDisplayType;
+import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.html.Div;
 
@@ -253,6 +250,11 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     @Override
     public void updateStatusDisplay(StatusDisplayMixin.StatusType statusType) {
+        // Nothing for now
+    }
+
+    @Override
+    public void setStatusDisplayPosition(Position position) {
         // Nothing for now
     }
 

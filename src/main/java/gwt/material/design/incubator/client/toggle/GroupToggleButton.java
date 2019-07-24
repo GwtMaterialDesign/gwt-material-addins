@@ -20,7 +20,10 @@
 package gwt.material.design.incubator.client.toggle;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
@@ -33,7 +36,6 @@ import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.jscore.client.api.Array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
