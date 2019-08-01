@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -103,6 +103,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
 
         month.addValueChangeHandler(event -> {
+            Date test = value;
             if (validateDate(true)) {
                 value.setMonth(month.getSingleValue());
             }
@@ -164,30 +165,44 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         setupHandlers();
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+
+        month.reset();
+        day.reset();
+        year.reset();
+        value = null;
+    }
+
     protected boolean validateDate(boolean showErrors) {
         boolean valid = true;
-        if (!(month.getSingleValue() != null && month.getSingleValue() >= 0 && month.getSingleValue() < 12)) {
+        Integer monthValue = month.getSingleValue();
+        Integer yearValue = year.getText() != null && !year.getText().isEmpty() ? Integer.parseInt(year.getText()) : null;
+        Integer dayValue = day.getText() != null && !day.getText().isEmpty() ? Integer.parseInt(day.getText()) : null;
+
+        if (!(monthValue != null && monthValue >= 0 && monthValue < 12)) {
             valid = false;
             if (showErrors) month.setErrorText(dataProvider.getInvalidMonthMessage());
         } else {
             if (showErrors) month.clearErrorText();
         }
 
-        if (!(year.getValue() != null && year.getValue() >= 1900)) {
+        if (!(yearValue != null && yearValue >= 1900)) {
             valid = false;
             if (showErrors) year.setErrorText(dataProvider.getInvalidYearLabel());
         } else {
             if (showErrors) year.clearErrorText();
         }
 
-        if (!(day.getValue() != null && day.getValue() > 0 && day.getValue() <= 31)) {
+        if (!(dayValue != null && dayValue > 0 && dayValue <= 31)) {
             valid = false;
             if (showErrors) day.setErrorText(dataProvider.getInvalidDayMessage());
         } else {
             if (showErrors) day.clearErrorText();
         }
 
-        if (!validateLeapYear(month.getSingleValue(), day.getValue(), year.getValue())) {
+        if (!validateLeapYear(monthValue, dayValue, yearValue)) {
             valid = false;
             if (showErrors) day.setErrorText("Invalid Date");
         } else {
@@ -201,23 +216,27 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         return super.validate() && validateDate(false);
     }
 
-    public boolean validateLeapYear(int month, int day, int year) {
-        String dateToValidate = month + 1 + "/" + day + "/" + year;
-        if (dateToValidate == null) {
-            return false;
-        }
-        DateTimeFormat sdf = DateTimeFormat.getFormat("MM/dd/yyyy");
-        try {
-            Date date = sdf.parse(dateToValidate);
-            if (date.getMonth() != month) {
+    public boolean validateLeapYear(Integer month, Integer day, Integer year) {
+        if (month != null && day != null && year != null) {
+            String dateToValidate = month + 1 + "/" + day + "/" + year;
+            if (dateToValidate == null) {
                 return false;
             }
-        } catch (Exception e) {
+            DateTimeFormat sdf = DateTimeFormat.getFormat("MM/dd/yyyy");
+            try {
+                Date date = sdf.parse(dateToValidate);
+                if (date.getMonth() != month) {
+                    return false;
+                }
+                value = date;
+            } catch (Exception e) {
 
-            e.printStackTrace();
-            return false;
+                e.printStackTrace();
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
