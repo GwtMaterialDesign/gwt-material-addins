@@ -36,4 +36,7 @@ public interface KanbanClientBundle extends ClientBundle {
 
     @Source("resources/css/jkanban.min.css")
     TextResource jskanbanCss();
+
+    @Source("resources/js/long-press-event.min.js")
+    TextResource longPressEventJs();
 }

@@ -29,6 +29,12 @@ public class KanbanItem {
     @JsProperty
     private Functions.Func1<Element> drop;
 
+    @JsProperty
+    public DataSet dataset;
+
+    @JsProperty
+    public String innerHTML;
+
     @JsOverlay
     public final String getId() {
         return id;
@@ -92,5 +98,15 @@ public class KanbanItem {
     @JsOverlay
     public final void setWidget(Widget widget) {
         setTitle(widget.getElement().getInnerHTML());
+    }
+
+    @JsOverlay
+    public final DataSet getDataset() {
+        return dataset;
+    }
+
+    @JsOverlay
+    public final String getInnerHTML() {
+        return innerHTML;
     }
 }

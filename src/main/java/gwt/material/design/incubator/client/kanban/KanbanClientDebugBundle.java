@@ -37,4 +37,7 @@ public interface KanbanClientDebugBundle extends ClientBundle {
 
     @Source("resources/css/jkanban.css")
     TextResource jskanbanCss();
+
+    @Source("resources/js/long-press-event.js")
+    TextResource longPressEventJs();
 }

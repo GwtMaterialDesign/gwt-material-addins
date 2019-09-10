@@ -21,6 +21,7 @@ public class KanbanOptions {
     public static final KanbanOptions create() {
         String Z_DEPTH_1 = "z-depth-1";
         KanbanOptions options = new KanbanOptions();
+        options.setWidthBoard("360px");
         options.setDragEl((element, source) -> {
             if (element != null && !element.hasClassName(Z_DEPTH_1)) {
                 element.addClassName(Z_DEPTH_1);

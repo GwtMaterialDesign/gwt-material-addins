@@ -11,9 +11,12 @@ import gwt.material.design.incubator.client.kanban.js.JKanban;
 import gwt.material.design.incubator.client.kanban.js.KanbanBoard;
 import gwt.material.design.incubator.client.kanban.js.KanbanItem;
 import gwt.material.design.incubator.client.kanban.js.KanbanOptions;
+import gwt.material.design.incubator.client.kanban.util.KanbanResponsiveLoader;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
  * A Kanban Board implementation to easily build and organize your Board and it's Item.
@@ -23,11 +26,17 @@ import java.util.List;
  */
 public class Kanban extends MaterialWidget implements JsLoader {
 
+    private boolean responsive = true;
     private JKanban kanban;
     private KanbanOptions kanbanOptions = KanbanOptions.create();
+    private KanbanResponsiveLoader responsiveLoader;
+    private List<KanbanBoard> boards;
+
 
     public Kanban() {
-        super(Document.get().createDivElement());
+        super(Document.get().createDivElement(), "kanban");
+
+        responsiveLoader = new KanbanResponsiveLoader(this);
     }
 
     static {
@@ -53,6 +62,12 @@ public class Kanban extends MaterialWidget implements JsLoader {
         kanbanOptions = getOptions();
         kanbanOptions.setElement("#" + getId());
         kanban = new JKanban(getOptions());
+
+        if (responsive) {
+            responsiveLoader.load();
+        } else {
+            responsiveLoader.unload();
+        }
     }
 
     @Override
@@ -95,6 +110,7 @@ public class Kanban extends MaterialWidget implements JsLoader {
      * Add one or more boards in the kanban, boards are in the standard format
      */
     public void addBoards(KanbanBoard... boards) {
+        this.boards = Arrays.asList(boards);
         kanban.addBoards(boards);
     }
 
@@ -106,10 +122,25 @@ public class Kanban extends MaterialWidget implements JsLoader {
     }
 
     /**
+     * Returns the DOM element of an item
+     */
+    public Element findElementItem(KanbanItem item) {
+        return $(".kanban-item[data-eid='" + item.getDataset().getId() + "']").asElement();
+    }
+
+    /**
      * Replace item by id with element JSON standard format
      */
     public void replaceItem(String id, KanbanItem element) {
         kanban.replaceElement(id, element);
+    }
+
+    public void moveItem(KanbanItem currentItem, String boardId) {
+        KanbanItem newItem = new KanbanItem();
+        newItem.setId(currentItem.getDataset().getId());
+        newItem.setTitle(currentItem.getInnerHTML());
+        removeItem(currentItem.getDataset().getId());
+        addItem(boardId, newItem);
     }
 
     /**
@@ -133,6 +164,10 @@ public class Kanban extends MaterialWidget implements JsLoader {
         return Arrays.asList(kanban.getBoardElements(id));
     }
 
+    public List<KanbanBoard> getAllBoards() {
+        return boards;
+    }
+
     /**
      * Remove a board's element by id
      */
@@ -146,4 +181,16 @@ public class Kanban extends MaterialWidget implements JsLoader {
     public void removeBoard(String id) {
         kanban.removeBoard(id);
     }
+
+    /**
+     * Will enable / disable Mobile Responsive support
+     */
+    public void setResponsive(boolean responsive) {
+        this.responsive = responsive;
+    }
+
+    public boolean isResponsive() {
+        return responsiveLoader.isResponsive();
+    }
+
 }
