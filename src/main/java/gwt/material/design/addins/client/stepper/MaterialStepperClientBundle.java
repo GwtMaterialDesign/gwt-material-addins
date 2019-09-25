@@ -34,4 +34,7 @@ interface MaterialStepperClientBundle extends ClientBundle {
 
     @Source("resources/css/stepper.min.css")
     TextResource stepperCss();
+
+    @Source("resources/css/step-highlighter.min.css")
+    TextResource stepHighlighterCss();
 }

@@ -206,10 +206,3 @@
     padding-bottom: 0;
     padding-right: 20px
 }
-
-/** Step Highlight **/
-.highlight:not(.gwt-RadioButton):not(.checkbox),
-.highlight [type=radio] + label:before,
-.highlight [type=checkbox] + label:after {
-    animation: shadow-pulse-toggle 800ms infinite !important;
-}

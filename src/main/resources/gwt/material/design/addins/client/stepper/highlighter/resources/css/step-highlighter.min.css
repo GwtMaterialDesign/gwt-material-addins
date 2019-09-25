@@ -1,0 +1,1 @@
+.highlight [type=checkbox]+label:after,.highlight [type=radio]+label:before,.highlight:not(.gwt-RadioButton):not(.checkbox){animation:shadow-pulse-toggle .8s infinite!important}

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.stepper;
+package gwt.material.design.addins.client.stepper.highlighter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -28,12 +28,9 @@ import com.google.gwt.resources.client.TextResource;
  *
  * @author kevzlou7979
  */
-interface MaterialStepperDebugClientBundle extends ClientBundle {
+interface StepHighlighterDebugClientBundle extends ClientBundle {
 
-    MaterialStepperDebugClientBundle INSTANCE = GWT.create(MaterialStepperDebugClientBundle.class);
-
-    @Source("resources/css/stepper.css")
-    TextResource stepperDebugCss();
+    StepHighlighterDebugClientBundle INSTANCE = GWT.create(StepHighlighterDebugClientBundle.class);
 
     @Source("resources/css/step-highlighter.css")
     TextResource stepHighlighterDebugCss();

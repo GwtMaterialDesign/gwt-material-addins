@@ -1,11 +1,21 @@
-package gwt.material.design.addins.client.stepper.highlight;
+package gwt.material.design.addins.client.stepper.highlighter;
 
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StepHighlighter {
+
+    static {
+        if (MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(StepHighlighterDebugClientBundle.INSTANCE.stepHighlighterDebugCss());
+        } else {
+            MaterialDesignBase.injectCss(StepHighlighterClientBundle.INSTANCE.stepHighlighterCss());
+        }
+    }
 
     protected static final String HIGHLIGHT = "highlight";
     protected int currentIndex = 0;
