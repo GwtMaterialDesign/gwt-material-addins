@@ -1,16 +1,9 @@
 package gwt.material.design.incubator.client.kanban.util;
 
-import com.google.gwt.core.client.Scheduler;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.incubator.client.kanban.Kanban;
 import gwt.material.design.incubator.client.kanban.KanbanClientBundle;
-import gwt.material.design.jquery.client.api.JQueryElement;
-
-import java.util.Date;
-
-import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class KanbanResponsiveLoader {
 
