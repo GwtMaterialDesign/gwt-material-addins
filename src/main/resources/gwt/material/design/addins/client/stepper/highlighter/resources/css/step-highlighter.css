@@ -4,3 +4,12 @@
 .highlight [type=checkbox] + label:after {
     animation: shadow-pulse-toggle 800ms infinite !important;
 }
+
+@keyframes shadow-pulse-toggle {
+    0% {
+        box-shadow: 0 0 0 0px rgba(66, 165, 245, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 0 32px rgba(66, 165, 245, 0);
+    }
+}
