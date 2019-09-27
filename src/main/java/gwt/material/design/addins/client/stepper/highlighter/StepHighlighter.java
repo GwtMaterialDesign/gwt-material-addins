@@ -59,8 +59,14 @@ public class StepHighlighter {
         clearHighlightStyle();
     }
 
-    public void register( Widget object) {
+    public void register(Widget object) {
         widgets.add(object);
+    }
+
+    public void register(Widget... objects) {
+        for (Widget widget : objects) {
+            widgets.add(widget);
+        }
     }
 
     public void unregister(Widget widget) {
