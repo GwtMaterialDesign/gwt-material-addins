@@ -20,4 +20,10 @@ public class JsPasswordStrengthMeter {
 
     @JsMethod
     public native void pwdstrength(PasswordStrengthOptions options);
+
+    @JsMethod
+    public native void destroy();
+
+    @JsMethod
+    public native void reset();
 }

@@ -1,10 +1,20 @@
 (function ($) {
+    var _container;
+    var _labelContainer;
+    var _strengthLabel;
+    var _progressLabel;
+    var _progressBar;
+    var _progressFill;
+    var _suggestionUl;
+    var _errorLabel;
+
     $.fn.extend({
         pwdstrength: function (options) {
             var _this = this;
 
             // Setup default options
             var defaults = {
+                url: location.origin + "/pwd/strength/",
                 limit: 4,
                 showSuggestions: true,
                 label : {
@@ -28,53 +38,54 @@
             options = $.extend(defaults, options);
 
             // Create PWD Strength Container
-            var container = document.createElement("div");
-            container.classList.add("pwd-strength-meter");
-            _this.parent().append(container);
+            _container = document.createElement("div");
+            _container.classList.add("pwd-strength-meter");
+            _this.parent().append(_container);
 
             // Create Progress Indicator Label
-            var labelContainer = document.createElement("div");
-            labelContainer.classList.add("row");
-            labelContainer.classList.add("label-container");
-            container.append(labelContainer);
+            _labelContainer = document.createElement("div");
+            _labelContainer.classList.add("row");
+            _labelContainer.classList.add("label-container");
+            _container.append(_labelContainer);
 
-            var strengthLabel = document.createElement("span");
-            strengthLabel.innerHTML = options.label.strength;
-            strengthLabel.classList.add("strength-label");
-            labelContainer.append(strengthLabel);
+            _strengthLabel = document.createElement("span");
+            _strengthLabel.innerHTML = options.label.strength;
+            _strengthLabel.classList.add("strength-label");
+            _labelContainer.append(_strengthLabel);
 
-            var progressLabel = document.createElement("span");
-            progressLabel.classList.add("progress-label");
-            labelContainer.append(progressLabel);
+            _progressLabel = document.createElement("span");
+            _progressLabel.classList.add("progress-label");
+            _labelContainer.append(_progressLabel);
 
             // Create ProgressBar
-            var progressBar = document.createElement("div");
-            progressBar.classList.add("progress");
-            progressBar.style.height = options.progress.height;
-            var progressFill = document.createElement("div");
-            progressFill.classList.add("determinate");
-            progressBar.append(progressFill);
-            container.append(progressBar);
+            _progressBar = document.createElement("div");
+            _progressBar.classList.add("progress");
+            _progressBar.style.height = options.progress.height;
+            _progressFill = document.createElement("div");
+            _progressFill.classList.add("determinate");
+            _progressBar.append(_progressFill);
+            _container.append(_progressBar);
 
             // Create Suggestion UL
-            var suggestionUl = document.createElement("ul");
-            suggestionUl.classList.add("pwd-suggestions");
-            container.append(suggestionUl);
+            _suggestionUl = document.createElement("ul");
+            _suggestionUl.classList.add("pwd-suggestions");
+            _container.append(_suggestionUl);
 
             // Create Error Label
-            var errorLabel = document.createElement("span");
-            errorLabel.classList.add("pwd-error-label");
-            container.append(errorLabel);
+            _errorLabel = document.createElement("span");
+            _errorLabel.classList.add("pwd-error-label");
+            _container.append(_errorLabel);
 
             // Assign Input Field change handlers
             _this.on("change keyup paste blur", function () {
                 var value = _this.val();
-                var url = location.origin + "/pwd/" + value + "/strength/" + options.limit;
+                var url = options.url + options.limit;
 
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     contentType: "application/json",
                     url: url,
+                    data: value,
                     dataType: 'json',
                     success: function (data) {
                         var percent = data.percent;
@@ -82,44 +93,57 @@
 
                         // Update Progress
                         var color;
-                        progressFill.style.width = percent + "%";
+                        _progressFill.style.width = percent + "%";
                         if (percent > 0 && percent <= 25) {
                             color = options.progress.color.weak;
-                            progressLabel.innerText = options.label.weak;
+                            _progressLabel.innerText = options.label.weak;
                         } else if (percent > 25 && percent <= 50) {
                             color = options.progress.color.fair;
-                            progressLabel.innerText = options.label.fair;
+                            _progressLabel.innerText = options.label.fair;
                         } else if (percent > 50 && percent <= 75) {
                             color = options.progress.color.good;
-                            progressLabel.innerText = options.label.good;
+                            _progressLabel.innerText = options.label.good;
                         } else if (percent > 75 && percent <= 100) {
                             color = options.progress.color.strong;
-                            progressLabel.innerText = options.label.strong;
+                            _progressLabel.innerText = options.label.strong;
                         } else {
-                            progressLabel.innerText = "";
+                            _progressLabel.innerText = "";
                         }
 
-                        progressLabel.style.color = color;
-                        progressFill.style.backgroundColor = color;
+                        _progressLabel.style.color = color;
+                        _progressFill.style.backgroundColor = color;
 
                         // Update Suggestions
                         if (options.showSuggestions) {
-                            suggestionUl.innerHTML = "";
+                            _suggestionUl.innerHTML = "";
                             for (i = 0; i < suggestions.length; i++) {
                                 var suggestionListItem = document.createElement("li");
                                 var suggestion = suggestions[i];
                                 suggestionListItem.innerHTML = "<span>" + suggestion + "</span>"
-                                suggestionUl.append(suggestionListItem)
+                                _suggestionUl.append(suggestionListItem)
                             }
                         } else {
-                            suggestionUl.remove();
+                            _suggestionUl.remove();
                         }
                     },
                     error: function (xhr, status, error) {
-                        errorLabel.innerHTML = error;
+                        _errorLabel.innerHTML = error;
                     }
                 });
+
+                if (value === "") {
+                    $(_this).reset();
+                }
             });
+        },
+        destroy: function() {
+            _container.remove();
+        },
+        reset: function() {
+            _errorLabel.innerHTML = "";
+            _suggestionUl.innerHTML = "";
+            _progressLabel.innerText = "";
+            _progressFill.style.width = "0%";
         }
     });
 })(jQuery);
