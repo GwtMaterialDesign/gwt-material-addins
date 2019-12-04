@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,12 @@
  */
 package gwt.material.design.addins.client.bubble;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
-/**
- * Client Bundle for Bubble component
- *
- * @author kevzlou7979
- */
-interface MaterialBubbleDebugClientBundle extends ClientBundle {
+public class MaterialBubbleDarkTheme extends DarkThemeLoader {
 
-    MaterialBubbleDebugClientBundle INSTANCE = GWT.create(MaterialBubbleDebugClientBundle.class);
-
-    @Source("resources/js/bubble.js")
-    TextResource bubbleJsDebug();
-
-    @Source("resources/css/bubble.css")
-    TextResource bubbleCssDebug();
-
-    @Source("resources/css/bubble-dark.css")
-    TextResource bubbleDarkDebugCss();
+    public MaterialBubbleDarkTheme() {
+        super(MaterialAddins.isDebug() ? MaterialBubbleDebugClientBundle.INSTANCE.bubbleDarkDebugCss() : MaterialBubbleClientBundle.INSTANCE.bubbleDarkCss());
+    }
 }

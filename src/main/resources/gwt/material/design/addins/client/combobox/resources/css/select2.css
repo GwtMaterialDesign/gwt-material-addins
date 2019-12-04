@@ -788,6 +788,11 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
     z-index: 1
 }
 
+.select2-container--default .select2-results__group {
+    opacity: 0.6;
+    font-size: 1em;
+}
+
 /** Aligned Label **/
 .input-field.aligned-label.combobox .select2-container {
     width: 70% !important;
@@ -798,6 +803,14 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
 
 .input-field.aligned-label.combobox label.select2label {
     font-size: 1em !important
+}
+
+/** Disabled **/
+.input-field.combobox .select2-container--focus .select2-selection,
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    color: rgba(0,0,0,.26);
+    border-bottom: 1px dotted rgba(0,0,0,.26);
+    box-shadow: none !important;
 }
 
 /** Outlined **/

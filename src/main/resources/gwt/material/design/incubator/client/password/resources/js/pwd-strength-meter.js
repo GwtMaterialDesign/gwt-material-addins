@@ -94,9 +94,10 @@
                         // Update Progress
                         var color;
                         _progressFill.style.width = percent + "%";
-                        if (percent > 0 && percent <= 25) {
+                        if (percent >= 0 && percent <= 25) {
                             color = options.progress.color.weak;
                             _progressLabel.innerText = options.label.weak;
+                            _progressFill.style.width = "25%";
                         } else if (percent > 25 && percent <= 50) {
                             color = options.progress.color.fair;
                             _progressLabel.innerText = options.label.fair;

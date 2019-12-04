@@ -1,0 +1,18 @@
+.bubble {
+    background: #424242;
+    color: #ffffff;
+}
+
+.bubble .triangle.left {
+    border-right-color: #424242;
+}
+.bubble .triangle.right {
+    border-left-color: #424242;
+}
+.bubble .triangle.top {
+    border-bottom-color: #424242;
+}
+
+.bubble .triangle.bottom {
+    border-top-color: #424242;
+}
