@@ -124,4 +124,6 @@ public interface AddinsCssName {
     String BRIDGE_PATH = "bridge-path";
     String INTERACT_IGNORED_CONTENT = "interact-ignored-content";
     String FIXED_STEP_WIDTH = "fixed-step-width";
+    String CONTINUOUS_SLIDER = "rkmd-slider slider-continuous";
+
 }

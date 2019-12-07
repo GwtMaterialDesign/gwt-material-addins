@@ -50,3 +50,27 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
 .select2-container--default.select2-container--disabled .select2-selection--single {
     border-bottom: 1px dotted rgba(255,255,255,.26) !important;
 }
+
+.select2-container--default .select2-search--inline .select2-search__field:focus {
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
+}
+
+/** Outlined **/
+.input-field.outlined.combobox label.select2label {
+    background-color: #292929;
+}
+
+.input-field.outlined.combobox .select2-selection {
+    border: 1px solid #7b7b7b;
+}
+
+/** Filled **/
+.input-field.filled.combobox .select2-container {
+    background: #2f2f2f;
+}
+
+.input-field.filled.combobox .select2-container:focus {
+    background: #484848;
+}

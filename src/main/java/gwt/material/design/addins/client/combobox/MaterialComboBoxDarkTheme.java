@@ -20,9 +20,9 @@
 package gwt.material.design.addins.client.combobox;
 
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.addins.client.dark.AddinsWidgetDarkTheme;
 
-public class MaterialComboBoxDarkTheme extends DarkThemeLoader {
+public class MaterialComboBoxDarkTheme extends AddinsWidgetDarkTheme {
 
     public MaterialComboBoxDarkTheme() {
         super(MaterialAddins.isDebug() ? MaterialComboBoxDebugClientBundle.INSTANCE.select2DarkDebugCss() : MaterialComboBoxClientBundle.INSTANCE.select2DarkCss());

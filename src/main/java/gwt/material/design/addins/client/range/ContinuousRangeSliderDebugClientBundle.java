@@ -17,27 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.timepicker;
+package gwt.material.design.addins.client.range;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for TimePicker component
+ * Client Bundle for PathAnimator component
  *
  * @author kevzlou7979
  */
-interface MaterialTimePickerDebugClientBundle extends ClientBundle {
+interface ContinuousRangeSliderDebugClientBundle extends ClientBundle {
 
-    MaterialTimePickerDebugClientBundle INSTANCE = GWT.create(MaterialTimePickerDebugClientBundle.class);
+    ContinuousRangeSliderDebugClientBundle INSTANCE = GWT.create(ContinuousRangeSliderDebugClientBundle.class);
 
-    @Source("resources/js/timepicker.js")
-    TextResource timepickerJsDebug();
+    @Source("resources/js/continuous-range.js")
+    TextResource continuousRangeJs();
 
-    @Source("resources/css/timepicker.css")
-    TextResource timepickerCssDebug();
-
-    @Source("resources/css/timepicker-dark.css")
-    TextResource timepickerDarkCssDebug();
+    @Source("resources/css/continuous-range.css")
+    TextResource continuousRangeCss();
 }

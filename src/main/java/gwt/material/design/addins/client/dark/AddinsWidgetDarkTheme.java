@@ -17,17 +17,28 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.dark;
 
-import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
-import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
+import com.google.gwt.resources.client.TextResource;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
-// TODO: Fixed Conflict with static imports of Light Mode Css resource
-public class AddinsDarkThemeLoader extends DarkThemeLoader {
+public class AddinsWidgetDarkTheme extends DarkThemeLoader {
 
-    public AddinsDarkThemeLoader() {
-        super(new MaterialBubbleDarkTheme(),
-            new MaterialComboBoxDarkTheme());
+    private boolean suppressReload;
+
+    public AddinsWidgetDarkTheme(TextResource resource) {
+        super(resource, false);
+    }
+
+    public void suppressReload() {
+        if (!suppressReload) {
+            setInjectResource(true);
+            reload();
+            suppressReload = true;
+        }
+    }
+
+    public boolean isSuppressReload() {
+        return suppressReload;
     }
 }
