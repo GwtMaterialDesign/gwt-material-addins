@@ -55,7 +55,7 @@ public class ContinuousRangeSlider extends MaterialRange implements HasType<Cont
     protected void onLoad() {
         super.onLoad();
 
-        setType(ContinuousRangeSliderType.SCALE);
+        setType(ContinuousRangeSliderType.SHADOW);
         $(getElement()).on("slider-change", (event, o) -> {
             setValue(Integer.parseInt(getRangeInputElement().getValue()), true, false);
             return true;

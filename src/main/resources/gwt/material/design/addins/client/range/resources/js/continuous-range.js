@@ -64,7 +64,7 @@
             });
         }
 
-        self.on('mousedown', '.slider-handle', function(e) {
+        self.on('mousedown touchstart', '.slider-handle', function(e) {
             if(e.button === 2) {
                 return false;
             }
@@ -89,7 +89,50 @@
                         slider_move(parents, slider_new_width, slider_width);
                     }
                 },
+                touchmove: function(e) {
+                    var touch = event.touches[0];
+                    var slider_new_width = touch.pageX - slider_offset;
+
+                    if(slider_new_width <= slider_width && !(slider_new_width < '0')) {
+                        slider_move(parents, slider_new_width, slider_width);
+                    }
+                },
                 mouseup: function(e) {
+                    $(this).off(handlers);
+                    var range          = self.find('input[type="range"]');
+                    var slider_fill    = self.find('.slider-fill');
+                    var slider_handle  = self.find('.slider-handle');
+                    var step = range.attr("step");
+                    var max = range.attr("max");
+                    var value = range.val();
+                    var slider_new_val;
+
+                    // Manage Step
+                    if (step && step > 0) {
+
+                        var x = (value / step);
+                        var y = (max / step) ;
+                        var total = (x / y) * 100;
+                        slider_new_val = total;
+
+                        console.log(total);
+
+                        slider_fill.css('width', slider_new_val +'%');
+                        slider_handle.css({
+                            'left': slider_new_val +'%',
+                            'transition': 'none',
+                            '-webkit-transition': 'none',
+                            '-moz-transition': 'none'
+                        });
+                    }
+
+                    if(parents.hasClass('slider-discrete') === true) {
+                        parents.find('.is-active').removeClass('is-active');
+                    }
+
+
+                },
+                touchend: function(e) {
                     $(this).off(handlers);
 
                     if(parents.hasClass('slider-discrete') === true) {
@@ -151,6 +194,7 @@
         var slider_fill    = parents.find('.slider-fill');
         var slider_handle  = parents.find('.slider-handle');
         var range          = parents.find('input[type="range"]');
+
 
         slider_fill.css('width', slider_new_val +'%');
         slider_handle.css({

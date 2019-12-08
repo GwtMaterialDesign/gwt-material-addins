@@ -19,8 +19,11 @@
  */
 package gwt.material.design.incubator.client.toggle;
 
+import com.google.gwt.event.logical.shared.AttachEvent;
 import gwt.material.design.client.base.HasActive;
+import gwt.material.design.client.base.helper.EventHelper;
 import gwt.material.design.client.base.mixin.ActiveMixin;
+import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialButton;
 
 public class ToggleButton extends MaterialButton implements HasActive {
@@ -33,6 +36,8 @@ public class ToggleButton extends MaterialButton implements HasActive {
     public ToggleButton(String text) {
         super(text);
     }
+
+    public ToggleButton() {}
 
     @Override
     protected void onLoad() {
@@ -69,7 +74,12 @@ public class ToggleButton extends MaterialButton implements HasActive {
 
     @Override
     public void setActive(boolean active) {
-        getActiveMixin().setActive(active);
+        AttachEvent.Handler handler = event -> getActiveMixin().setActive(active);
+        if (!isAttached()) {
+            EventHelper.onAttachOnce(this, handler);
+        } else {
+            handler.onAttachOrDetach(null);
+        }
     }
 
     @Override

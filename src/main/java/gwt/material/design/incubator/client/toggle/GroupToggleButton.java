@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,14 +58,14 @@ import java.util.List;
  * </pre>
  *
  * <p><i>
- *     Note: This component is under the incubation process and subject to change.
+ * Note: This component is under the incubation process and subject to change.
  * </i></p>
  *
  * @author kevzlou7979
  */
 //@formatter:on
 public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<T>,
-        HasStatusText {
+    HasStatusText {
 
     static {
         IncubatorWidget.showWarning(GroupToggleButton.class);
@@ -106,6 +106,10 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     public ToggleButton addItem(String text, T value) {
+        return addItem(text, value, false);
+    }
+
+    public ToggleButton addItem(String text, T value, boolean active) {
         ToggleButton button = new ToggleButton(text);
         button.setGroupParent(this);
         button.addClickHandler(clickEvent -> {
@@ -118,6 +122,10 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         wrapper.add(button);
         items.add(button);
         values.add(value);
+
+        if (active) {
+            setActive(values.indexOf(value));
+        }
         return button;
     }
 
@@ -140,7 +148,6 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     public void setActive(int index) {
         setActive(index, true);
     }
-
 
     public void setActive(int index, boolean active) {
         items.get(index).setToggle(active);
