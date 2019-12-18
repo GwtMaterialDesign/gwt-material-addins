@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -150,7 +150,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.select2(options);
         setId(DOM.createUniqueId());
-
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
             if (!suppressChangeEvent) {
                 ValueChangeEvent.fire(this, getValue());
@@ -176,7 +175,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         });
 
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
-
             if (isAsynchronous()) {
                 event1.stopPropagation();
                 event1.preventDefault();
@@ -198,14 +196,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
             CloseEvent.fire(this, null);
-            return true;
-        });
-
-        // Tab Focus support
-        body().on("focus", "#" + getId() + " .select2", (e, param1) -> {
-            if (!isMultiple()) {
-                open();
-            }
             return true;
         });
 
