@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,8 @@
 package gwt.material.design.addins.client.inputmask;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.InitializeEvent;
+import com.google.gwt.event.logical.shared.InitializeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueBoxBase;
@@ -62,7 +64,7 @@ import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
  */
 //@formatter:on
 public class AbstractInputMask<T> extends MaterialValueBox<T>
-        implements JsLoader, HasInputMaskHandlers {
+    implements JsLoader, HasInputMaskHandlers {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -114,6 +116,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
         options.onChange = object -> MaskChangeEvent.fire(this, object);
         options.onInvalid = (object, event, function, error) -> InvalidEvent.fire(this, object, error[0]);
         $(valueBoxBase.getElement()).mask(mask, options);
+        InitializeEvent.fire(this);
     }
 
     @Override
@@ -182,7 +185,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
      * Gets the value of the field without the mask.
      */
     public String getCleanValue() {
-        return valueBoxBase.isAttached() && valueBoxBase.getText() != null ?  $(valueBoxBase.getElement()).cleanVal() : null;
+        return valueBoxBase.isAttached() && valueBoxBase.getText() != null ? $(valueBoxBase.getElement()).cleanVal() : null;
     }
 
     public String getValueWithMask() {
@@ -214,5 +217,10 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     @Override
     public HandlerRegistration addMaskKeyPressHandler(MaskKeyPressEvent.MaskKeyPressHandler handler) {
         return addHandler(handler, MaskKeyPressEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addInitializeHandler(InitializeHandler handler) {
+        return addHandler(handler, InitializeEvent.getType());
     }
 }
