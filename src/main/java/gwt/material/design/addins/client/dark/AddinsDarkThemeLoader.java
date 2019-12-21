@@ -21,6 +21,8 @@ package gwt.material.design.addins.client.dark;
 
 import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
+import gwt.material.design.addins.client.rating.MaterialRatingDarkTheme;
+import gwt.material.design.addins.client.richeditor.MaterialRichEditorDarkTheme;
 import gwt.material.design.addins.client.timepicker.MaterialTimePickerDarkTheme;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
@@ -29,6 +31,8 @@ public class AddinsDarkThemeLoader extends DarkThemeLoader {
     public AddinsDarkThemeLoader() {
         super(new MaterialBubbleDarkTheme(),
             new MaterialComboBoxDarkTheme(),
-            new MaterialTimePickerDarkTheme());
+            new MaterialTimePickerDarkTheme(),
+            new MaterialRatingDarkTheme(),
+            new MaterialRichEditorDarkTheme());
     }
 }

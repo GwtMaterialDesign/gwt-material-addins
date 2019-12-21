@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.dark;
 
 import com.google.gwt.resources.client.TextResource;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.client.theme.dark.DarkThemeManager;
 
 public class AddinsWidgetDarkTheme extends DarkThemeLoader {
 
@@ -35,6 +36,13 @@ public class AddinsWidgetDarkTheme extends DarkThemeLoader {
             setInjectResource(true);
             reload();
             suppressReload = true;
+        }
+    }
+
+    @Override
+    public void load() {
+        if (DarkThemeManager.get().isDarkMode()) {
+            super.load();
         }
     }
 

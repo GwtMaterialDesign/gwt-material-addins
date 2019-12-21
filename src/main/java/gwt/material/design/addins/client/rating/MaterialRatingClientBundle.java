@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,27 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.richeditor;
+package gwt.material.design.addins.client.rating;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
-/**
- * Client Bundle for Rich Editor component
- *
- * @author kevzlou7979
- */
-interface MaterialRichEditorClientBundle extends ClientBundle {
+interface MaterialRatingClientBundle extends ClientBundle {
 
-    MaterialRichEditorClientBundle INSTANCE = GWT.create(MaterialRichEditorClientBundle.class);
+    MaterialRatingClientBundle INSTANCE = GWT.create(MaterialRatingClientBundle.class);
 
-    @Source("resources/js/material-note.min.js")
-    TextResource richEditorJs();
-
-    @Source("resources/css/material-note.min.css")
-    TextResource richEditorCss();
-
-    @Source("resources/css/material-note-dark.min.css")
-    TextResource richEditorDarkCss();
+    @Source("resources/css/rating-dark.min.css")
+    TextResource ratingDarkCss();
 }

@@ -32,6 +32,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
 import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
 import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
@@ -153,6 +154,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         });
 
         checkContainer();
+        AddinsDarkThemeReloader.get().reload(MaterialRichEditorDarkTheme.class);
     }
 
     @Override
