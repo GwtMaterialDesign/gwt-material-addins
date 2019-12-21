@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,17 +33,17 @@ import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
-import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
 import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
 import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
-import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.HasPasteHandlers;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.JsLoader;
+import gwt.material.design.client.events.PasteEvent;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -74,7 +74,8 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  * @see <a href="https://github.com/Cerealkillerway/materialNote">1.2.1</a>
  */
 //@formatter:on
-public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>, HasPasteHandlers, HasPlaceholder, HasHTML  {
+public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>,
+    HasPasteHandlers, HasPlaceholder, HasHTML {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -129,23 +130,28 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
 
         // Events
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_BLUR, event -> {
-            fireEvent(new BlurEvent() {});
+            fireEvent(new BlurEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_FOCUS, event -> {
-            fireEvent(new FocusEvent() {});
+            fireEvent(new FocusEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYUP, event -> {
-            fireEvent(new KeyUpEvent() {});
+            fireEvent(new KeyUpEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYDOWN, event -> {
-            fireEvent(new KeyDownEvent() {});
+            fireEvent(new KeyDownEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_PASTE, event -> {
-            fireEvent(new PasteEvent() {});
+            fireEvent(new PasteEvent(getValue()) {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_CHANGE, event -> {
@@ -405,7 +411,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     }
 
     @Override
-    public HandlerRegistration addPasteHandler(final PasteEvent.PasteHandler handler) {
+    public HandlerRegistration addPasteHandler(final PasteEvent.PasteEventHandler handler) {
         return addHandler(handler, PasteEvent.TYPE);
     }
 }

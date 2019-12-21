@@ -31,6 +31,7 @@ import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
@@ -107,7 +108,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private Div divFeedback = new Div();
     private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
-
+    private MaterialLoader loader = new MaterialLoader();
     private ToggleStyleMixin<MaterialStepper> toggleFixedStepWidth;
     private CssNameMixin<MaterialStepper, Axis> axisMixin;
     private StepperTransitionMixin<MaterialStepper> stepperTransitionMixin;
@@ -130,6 +131,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
 
         setDetectOrientation(detectOrientation);
         updateStepWidth();
+        AddinsDarkThemeReloader.get().reload(MaterialStepperDarkTheme.class);
     }
 
     public void updateStepWidth() {
@@ -482,7 +484,9 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     public void showFeedback(String feedbackText) {
         feedbackSpan.setText(feedbackText);
         new MaterialAnimation().transition(Transition.FADEINUP).duration(400).animate(feedbackSpan);
-        MaterialLoader.loading(true, getCurrentStep().getDivBody());
+        loader.setMessage(feedbackText);
+        loader.setContainer(divFeedback);
+        loader.show();
         add(divFeedback);
     }
 
@@ -490,6 +494,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
      * Hide feedback message and circular loader on body container.
      */
     public void hideFeedback() {
+        loader.hide();
         divFeedback.removeFromParent();
     }
 
