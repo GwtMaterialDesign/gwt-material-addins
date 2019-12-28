@@ -292,7 +292,8 @@
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
-    border: 1px solid #aaa
+    border: 1px solid #aaa;
+    padding-left: 16px;
 }
 
 .select2-container--default .select2-search--inline .select2-search__field {
