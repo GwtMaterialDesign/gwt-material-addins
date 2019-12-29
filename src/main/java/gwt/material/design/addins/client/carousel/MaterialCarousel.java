@@ -34,6 +34,7 @@ import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.addins.client.carousel.ui.NextArrow;
 import gwt.material.design.addins.client.carousel.ui.PreviousArrow;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.JsLoader;
@@ -169,6 +170,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         }
         
         $(container.getElement()).slick(options);
+        AddinsDarkThemeReloader.get().reload(MaterialCarouselDarkTheme.class);
     }
 
     @Override

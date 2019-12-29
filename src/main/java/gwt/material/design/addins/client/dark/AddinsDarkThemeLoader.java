@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.dark;
 
 import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
+import gwt.material.design.addins.client.carousel.MaterialCarouselDarkTheme;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
 import gwt.material.design.addins.client.rating.MaterialRatingDarkTheme;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditorDarkTheme;
@@ -32,6 +33,7 @@ public class AddinsDarkThemeLoader extends DarkThemeLoader {
     public AddinsDarkThemeLoader() {
         super(new MaterialBubbleDarkTheme(),
             new MaterialComboBoxDarkTheme(),
+            new MaterialCarouselDarkTheme(),
             new MaterialTimePickerDarkTheme(),
             new MaterialRatingDarkTheme(),
             new MaterialStepperDarkTheme(),
