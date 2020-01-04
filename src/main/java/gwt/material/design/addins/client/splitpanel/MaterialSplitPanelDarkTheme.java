@@ -17,14 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.fileuploader;
+package gwt.material.design.addins.client.splitpanel;
 
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.dark.AddinsWidgetDarkTheme;
 
-public class MaterialFileUploaderDarkTheme extends AddinsWidgetDarkTheme {
+public class MaterialSplitPanelDarkTheme extends AddinsWidgetDarkTheme {
 
-    public MaterialFileUploaderDarkTheme() {
-        super(MaterialAddins.isDebug() ? MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneDarkCss() : MaterialFileUploaderClientBundle.INSTANCE.dropzoneDarkCss());
+    public MaterialSplitPanelDarkTheme() {
+        super(MaterialAddins.isDebug() ? MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDarkCss() : MaterialSplitPanelClientBundle.INSTANCE.splitPanelDarkCss());
     }
 }
