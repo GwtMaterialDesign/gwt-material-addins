@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
@@ -173,6 +174,8 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
                 }
             }
         }));
+
+        AddinsDarkThemeReloader.get().reload(MaterialWindowDarkTheme.class);
     }
 
     /**
@@ -192,7 +195,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         dnd.ignoreFrom(".content, .window-action");
         return dnd;
     }
-    
+
     protected void onClose() {
 
     }
@@ -249,12 +252,12 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     }
 
     public static void setOverlay(boolean overlay) {
-        if(overlay) {
-            if(windowOverlay == null) {
+        if (overlay) {
+            if (windowOverlay == null) {
                 windowOverlay = new MaterialPanel(AddinsCssName.WINDOW_OVERLAY);
             }
         } else {
-            if(windowOverlay != null) {
+            if (windowOverlay != null) {
                 windowOverlay.removeFromParent();
                 windowOverlay = null;
             }
@@ -269,7 +272,7 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
             RootPanel.get().add(this);
         }
         windowCount++;
-        if(windowOverlay != null && !windowOverlay.isAttached()) {
+        if (windowOverlay != null && !windowOverlay.isAttached()) {
             RootPanel.get().add(windowOverlay);
         }
 
@@ -299,14 +302,14 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         windowCount--;
         if (closeAnimation == null) {
             getOpenMixin().setOn(false);
-            if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
+            if (windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
                 windowOverlay.removeFromParent();
             }
             CloseEvent.fire(this, false);
         } else {
             closeAnimation.animate(this, () -> {
                 getOpenMixin().setOn(false);
-                if(windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
+                if (windowOverlay != null && windowOverlay.isAttached() && windowCount < 1) {
                     windowOverlay.removeFromParent();
                 }
                 CloseEvent.fire(this, false);
@@ -445,10 +448,10 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
      * or a {@link String} selector.
      */
     public void setDndArea(Object dndArea) {
-        if(dndArea instanceof UIObject) {
+        if (dndArea instanceof UIObject) {
             dndArea = ((UIObject) dndArea).getElement();
         }
-        if(dnd != null) {
+        if (dnd != null) {
             dnd.draggable(JsDragOptions.create(new Restriction(dndArea, true, 0, 0, 1.2, 1)));
         }
     }

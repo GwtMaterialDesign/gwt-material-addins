@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,22 +19,12 @@
  */
 package gwt.material.design.addins.client.window;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.dark.AddinsWidgetDarkTheme;
 
-/**
- * Client Bundle for Waterfall component
- *
- * @author kevzlou7979
- */
-interface MaterialWindowClientBundle extends ClientBundle {
+public class MaterialWindowDarkTheme extends AddinsWidgetDarkTheme {
 
-    MaterialWindowClientBundle INSTANCE = GWT.create(MaterialWindowClientBundle.class);
-
-    @Source("resources/css/window.min.css")
-    TextResource windowCss();
-
-    @Source("resources/css/window-dark.min.css")
-    TextResource windowDarkCss();
+    public MaterialWindowDarkTheme() {
+        super(MaterialAddins.isDebug() ? MaterialWindowDebugClientBundle.INSTANCE.windowDarkCss() : MaterialWindowClientBundle.INSTANCE.windowDarkCss());
+    }
 }

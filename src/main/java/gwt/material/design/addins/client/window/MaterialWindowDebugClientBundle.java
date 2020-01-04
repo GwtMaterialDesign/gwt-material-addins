@@ -34,4 +34,7 @@ interface MaterialWindowDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/window.css")
     TextResource windowCssDebug();
+
+    @Source("resources/css/window-dark.css")
+    TextResource windowDarkCss();
 }
