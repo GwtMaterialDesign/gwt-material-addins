@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
@@ -231,7 +232,6 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     protected void loadHandlers() {
-
         if (itemBoxBlurHandler == null) {
             itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
                 if (getValue().size() > 0) {
@@ -291,6 +291,12 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         if (itemBoxClickHandler == null) {
             itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
         }
+
+        if (itemBox != null && itemBox.isAttached()) {
+            itemBox.getElement().setAttribute("autocomplete", "off");
+        }
+
+        AddinsDarkThemeReloader.get().reload(MaterialAutoCompleteDarkTheme.class);
     }
 
     @Override
