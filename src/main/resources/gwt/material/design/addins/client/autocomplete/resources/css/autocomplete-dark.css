@@ -8,5 +8,5 @@
 
 ul.multiValueSuggestBox-list input[type=text]:focus:not([readonly]) {
     border: none !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
