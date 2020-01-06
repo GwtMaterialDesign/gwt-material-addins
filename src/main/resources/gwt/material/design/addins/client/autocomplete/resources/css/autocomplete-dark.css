@@ -2,8 +2,8 @@
     background: #2f2f2f;
 }
 
-.gwt-SuggestBoxPopup .item:hover {
-    background-color: #353535;
+.gwt-SuggestBoxPopup .suggestPopupContent table tr td:hover {
+    background-color: #353535 !important;
 }
 
 ul.multiValueSuggestBox-list input[type=text]:focus:not([readonly]) {
