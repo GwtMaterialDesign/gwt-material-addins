@@ -34,4 +34,7 @@ interface MaterialOverlayClientBundle extends ClientBundle {
 
     @Source("resources/css/overlay.min.css")
     TextResource overlayCss();
+
+    @Source("resources/css/overlay-dark.min.css")
+    TextResource overlayDarkCss();
 }

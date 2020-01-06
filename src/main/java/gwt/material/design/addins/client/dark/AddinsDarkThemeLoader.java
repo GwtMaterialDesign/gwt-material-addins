@@ -24,6 +24,7 @@ import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
 import gwt.material.design.addins.client.carousel.MaterialCarouselDarkTheme;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploaderDarkTheme;
+import gwt.material.design.addins.client.overlay.MaterialOverlayDarkTheme;
 import gwt.material.design.addins.client.rating.MaterialRatingDarkTheme;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditorDarkTheme;
 import gwt.material.design.addins.client.splitpanel.MaterialSplitPanelDarkTheme;
@@ -42,6 +43,7 @@ public class AddinsDarkThemeLoader extends DarkThemeLoader {
             new MaterialComboBoxDarkTheme(),
             new MaterialCarouselDarkTheme(),
             new MaterialFileUploaderDarkTheme(),
+            new MaterialOverlayDarkTheme(),
             new MaterialTimePickerDarkTheme(),
             new MaterialRatingDarkTheme(),
             new MaterialRichEditorDarkTheme(),
