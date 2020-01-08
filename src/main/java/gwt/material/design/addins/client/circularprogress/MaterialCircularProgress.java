@@ -92,10 +92,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     protected void onLoad() {
         super.onLoad();
 
-
-        label.setSize(getSize(), isResponsive());
         add(label);
-
 
         $(getElement()).on(CircularProgressEvents.PROGRESS, (e, progress, step) -> {
             ProgressEvent.fire(this, (double) progress, (double) step);
@@ -116,6 +113,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     @Override
     public void load() {
+        label.setSize(getSize(), isResponsive());
         Scheduler.get().scheduleDeferred(() -> $(getElement()).circleProgress(options));
     }
 
