@@ -25,6 +25,7 @@ import gwt.material.design.client.base.mixin.StyleMixin;
 import gwt.material.design.client.constants.Size;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 public class TagLabel extends MaterialLabel implements HasSize {
 
@@ -44,6 +45,13 @@ public class TagLabel extends MaterialLabel implements HasSize {
 
         addStyleName("tag-label");
         setPosition(TagPosition.LEFT);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        IncubatorDarkThemeReloader.get().reload(TagLabelDarkTheme.class);
     }
 
     @Override
