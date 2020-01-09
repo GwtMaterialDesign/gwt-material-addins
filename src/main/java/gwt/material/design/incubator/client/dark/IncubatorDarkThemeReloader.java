@@ -9,9 +9,9 @@ public class IncubatorDarkThemeReloader {
     static IncubatorDarkThemeReloader instance;
 
     public void reload(Class<? extends DarkThemeLoader> widgetLoader) {
-        DarkThemeLoader addinsLoader = DarkThemeManager.get().getLoader(IncubatorDarkThemeLoader.class);
-        if (addinsLoader != null) {
-            DarkThemeLoader child = addinsLoader.getChild(widgetLoader);
+        DarkThemeLoader incubatorLoader = DarkThemeManager.get().getLoader(IncubatorDarkThemeLoader.class);
+        if (incubatorLoader != null) {
+            DarkThemeLoader child = incubatorLoader.getChild(widgetLoader);
             if (child != null && child instanceof AddinsWidgetDarkTheme) {
                 ((AddinsWidgetDarkTheme) child).suppressReload();
             }

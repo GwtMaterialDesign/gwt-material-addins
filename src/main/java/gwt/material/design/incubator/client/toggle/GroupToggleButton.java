@@ -36,6 +36,8 @@ import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeLoader;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,12 +95,12 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     protected void onLoad() {
         super.onLoad();
 
-        registerHandler(addSelectionHandler(selectionEvent -> {
-            ValueChangeEvent.fire(GroupToggleButton.this, getValue());
-        }));
         add(label);
         add(wrapper);
         add(errorLabel);
+
+        registerHandler(addSelectionHandler(selectionEvent -> ValueChangeEvent.fire(GroupToggleButton.this, getValue())));
+        IncubatorDarkThemeReloader.get().reload(GroupToggleDarkTheme.class);
     }
 
     public ToggleButton addItem(String text) {
