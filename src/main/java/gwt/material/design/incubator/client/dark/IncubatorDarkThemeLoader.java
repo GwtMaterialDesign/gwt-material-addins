@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.dark;
 
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.incubator.client.google.addresslookup.AddressLookupDarkTheme;
 import gwt.material.design.incubator.client.placeholder.PlaceholderDarkTheme;
 import gwt.material.design.incubator.client.progress.ProgressLineBarDarkTheme;
 import gwt.material.design.incubator.client.tag.TagLabelDarkTheme;
@@ -28,7 +29,8 @@ import gwt.material.design.incubator.client.toggle.GroupToggleDarkTheme;
 public class IncubatorDarkThemeLoader extends DarkThemeLoader {
 
     public IncubatorDarkThemeLoader() {
-        super(new GroupToggleDarkTheme(),
+        super(new AddressLookupDarkTheme(),
+            new GroupToggleDarkTheme(),
             new PlaceholderDarkTheme(),
             new ProgressLineBarDarkTheme(),
             new TagLabelDarkTheme());
