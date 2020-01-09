@@ -191,7 +191,6 @@
     left: 0;
     font-size: 1.1em;
     top: 0;
-    background: #fff;
     width: 100%;
     height: 100%;
     padding: 36px
@@ -203,6 +202,10 @@
 }
 
 /** Vertical Stepper **/
+.stepper.vertical {
+    position: relative;
+}
+
 .stepper.vertical .step {
     width: 100% !important;
 }

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -53,10 +52,8 @@ import gwt.material.design.client.constants.Position;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
-import gwt.material.design.client.ui.html.Span;
 
 //@formatter:off
 
@@ -90,7 +87,7 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
+    HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -105,8 +102,8 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private boolean stepSkippingAllowed = true;
     private boolean fixedStepWidth = false;
     private boolean detectOrientation = true;
+    private String feedback = "";
     private Div divFeedback = new Div();
-    private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
     private MaterialLoader loader = new MaterialLoader();
     private ToggleStyleMixin<MaterialStepper> toggleFixedStepWidth;
@@ -117,7 +114,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
 
         divFeedback.setStyleName(AddinsCssName.FEEDBACK);
-        divFeedback.add(feedbackSpan);
     }
 
     @Override
@@ -475,16 +471,15 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
      * Get feedback message.
      */
     public String getFeedback() {
-        return SafeHtmlUtils.fromString(feedbackSpan.getElement().getInnerHTML()).asString();
+        return feedback;
     }
 
     /**
      * Show feedback message and circular loader on body container
      */
-    public void showFeedback(String feedbackText) {
-        feedbackSpan.setText(feedbackText);
-        new MaterialAnimation().transition(Transition.FADEINUP).duration(400).animate(feedbackSpan);
-        loader.setMessage(feedbackText);
+    public void showFeedback(String feedback) {
+        this.feedback = feedback;
+        loader.setMessage(feedback);
         loader.setContainer(divFeedback);
         loader.show();
         add(divFeedback);
@@ -522,10 +517,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         this.fixedStepWidth = fixedStepWidth;
         updateStepWidth();
         getToggleFixedStepWidth().setOn(fixedStepWidth);
-    }
-
-    public Span getFeedbackSpan() {
-        return feedbackSpan;
     }
 
     /**
