@@ -27,6 +27,7 @@ import gwt.material.design.incubator.client.placeholder.PlaceholderDarkTheme;
 import gwt.material.design.incubator.client.progress.ProgressLineBarDarkTheme;
 import gwt.material.design.incubator.client.search.InlineSearchDarkTheme;
 import gwt.material.design.incubator.client.tag.TagLabelDarkTheme;
+import gwt.material.design.incubator.client.timer.TimerProgressDarkTheme;
 import gwt.material.design.incubator.client.toggle.GroupToggleDarkTheme;
 
 public class IncubatorDarkThemeLoader extends DarkThemeLoader {
@@ -39,6 +40,7 @@ public class IncubatorDarkThemeLoader extends DarkThemeLoader {
             new InlineSearchDarkTheme(),
             new PlaceholderDarkTheme(),
             new ProgressLineBarDarkTheme(),
-            new TagLabelDarkTheme());
+            new TagLabelDarkTheme(),
+            new TimerProgressDarkTheme());
     }
 }

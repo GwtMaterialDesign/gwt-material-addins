@@ -34,6 +34,9 @@ public interface TimerProgressDebugClientBundle extends ClientBundle {
     @Source("resources/css/timer.css")
     TextResource timerDebugCss();
 
+    @Source("resources/css/timer-dark.css")
+    TextResource timerDarkCss();
+
     @Source("resources/css/circular.css")
     TextResource circularTimerDebugCss();
 }
