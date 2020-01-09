@@ -26,12 +26,10 @@
 .daterangepicker .calendar-table th.next {
     position: absolute;
     right: 0;
-    top: 12px;
 }
 
 .daterangepicker .calendar-table th.prev {
     position: absolute;
-    top: 12px;
     left: 0px;
 }
 
@@ -65,6 +63,7 @@
 .daterangepicker td.in-range,
 .daterangepicker td.available.in-range:hover:not(.active) {
     background-color: #e3f2fd;
+    color: #42a5f5;
 }
 
 .daterangepicker td.available:hover {
