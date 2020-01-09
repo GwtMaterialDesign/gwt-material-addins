@@ -28,4 +28,7 @@ public interface ProgressLineBarDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/progress-line-bar.css")
     TextResource progressLineBarDebugCss();
+
+    @Source("resources/css/progress-line-bar-dark.css")
+    TextResource progressLineBarDarkCss();
 }

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.Map;
  * current progress is.
  *
  * <p><i>
- *     Note: This component is under the incubation process and subject to change.
+ * Note: This component is under the incubation process and subject to change.
  * </i></p>
  *
  * @author kevzlou7979
@@ -76,6 +77,8 @@ public class ProgressLineBar<T> extends MaterialWidget {
                 item.setActive(true);
             }
         }
+
+        IncubatorDarkThemeReloader.get().reload(ProgressLineBarDarkTheme.class);
     }
 
     public void addOption(T option) {
