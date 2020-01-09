@@ -35,4 +35,7 @@ public interface CheckMarkClientBundle extends ClientBundle {
 
     @Source("resources/css/checkmark.min.css")
     TextResource checkMarkCss();
+
+    @Source("resources/css/checkmark-dark.min.css")
+    TextResource checkMarkDarkCss();
 }

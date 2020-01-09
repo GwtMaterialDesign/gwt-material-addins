@@ -30,6 +30,7 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 public class CheckMark extends MaterialWidget implements HasDelayTransition {
 
@@ -73,6 +74,8 @@ public class CheckMark extends MaterialWidget implements HasDelayTransition {
         iconWrapper.add(longLine);
         iconWrapper.add(placeholder);
         iconWrapper.add(fixLine);
+
+        IncubatorDarkThemeReloader.get().reload(CheckMarkDarkTheme.class);
     }
 
     public void animate() {

@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.dark;
 
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.incubator.client.animation.checkmark.CheckMarkDarkTheme;
 import gwt.material.design.incubator.client.daterange.DateRangeDarkTheme;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookupDarkTheme;
 import gwt.material.design.incubator.client.placeholder.PlaceholderDarkTheme;
@@ -31,6 +32,7 @@ public class IncubatorDarkThemeLoader extends DarkThemeLoader {
 
     public IncubatorDarkThemeLoader() {
         super(new AddressLookupDarkTheme(),
+            new CheckMarkDarkTheme(),
             new DateRangeDarkTheme(),
             new GroupToggleDarkTheme(),
             new PlaceholderDarkTheme(),
