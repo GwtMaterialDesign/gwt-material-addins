@@ -28,4 +28,7 @@ public interface PlaceholderDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/content-placeholder.css")
     TextResource contentPlaceholder();
+
+    @Source("resources/css/content-placeholder-dark.css")
+    TextResource contentPlaceholderDarkCss();
 }

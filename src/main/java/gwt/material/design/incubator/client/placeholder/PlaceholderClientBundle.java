@@ -28,4 +28,7 @@ public interface PlaceholderClientBundle extends ClientBundle {
 
     @Source("resources/css/content-placeholder.min.css")
     TextResource contentPlaceholderCss();
+
+    @Source("resources/css/content-placeholder-dark.min.css")
+    TextResource contentPlaceholderDarkCss();
 }
