@@ -28,6 +28,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
@@ -141,6 +142,7 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
         super.onLoad();
 
         revalidateLayout();
+        AddinsDarkThemeReloader.get().reload(MaterialRatingDarkTheme.class);
     }
 
     /**

@@ -22,15 +22,16 @@ package gwt.material.design.addins.client.combobox.async;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.client.async.loader.AsyncDisplayLoader;
 import gwt.material.design.client.constants.LoaderType;
+import gwt.material.design.client.constants.ProgressType;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.client.ui.MaterialProgress;
 
 import java.util.List;
 
 public class DefaultComboBoxDisplayLoader<T> implements AsyncDisplayLoader<List<T>> {
 
     private MaterialComboBox comboBox;
-    private MaterialLoader loader;
+    private MaterialProgress progress = new MaterialProgress();
 
     public DefaultComboBoxDisplayLoader(MaterialComboBox comboBox) {
         this.comboBox = comboBox;
@@ -39,19 +40,18 @@ public class DefaultComboBoxDisplayLoader<T> implements AsyncDisplayLoader<List<
     }
 
     protected void setupLoader() {
-        loader = new MaterialLoader();
-        loader.setType(LoaderType.PROGRESS);
-        loader.setContainer(comboBox);
+        progress.setType(ProgressType.INDETERMINATE);
+
     }
 
     @Override
     public void loading() {
-        loader.show();
+        comboBox.addWidget(progress);
     }
 
     @Override
     public void success(List<T> result) {
-        MaterialToast.fireToast(result.size() + " SIZE");
+
     }
 
     @Override
@@ -61,6 +61,6 @@ public class DefaultComboBoxDisplayLoader<T> implements AsyncDisplayLoader<List<
 
     @Override
     public void finalize() {
-        loader.hide();
+        progress.removeFromParent();
     }
 }

@@ -1,0 +1,21 @@
+.content-placeholder {
+    display: inline-block;
+    width: 100%;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: placeHolderShimmer;
+    animation-name: placeHolderShimmer;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, #454545), color-stop(18%, #555555), color-stop(33%, #444444));
+    background: -webkit-linear-gradient(left, #454545 8%, #555555 18%, #444444 33%);
+    background: linear-gradient(to right, #454545 8%, #555555 18%, #444444 33%);
+    -webkit-background-size: 800px 104px;
+    background-size: 800px 104px;
+    height: inherit;
+    position: relative;
+}

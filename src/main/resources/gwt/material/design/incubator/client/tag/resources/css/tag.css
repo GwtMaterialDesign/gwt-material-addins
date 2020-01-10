@@ -94,13 +94,20 @@
 
 .tag-label.arrow-left.medium:before {
     border-width: 16px 16px 16px 0;
-    left: -15px;
+    left: -16px;
+}
+
+.tag-label.arrow-left.medium:after {
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
 }
 
 /** Right - Medium **/
 .tag-label.arrow-right.medium:after {
     border-width: 16px 0px 16px 16px !important;
-    right: -15px;
+    right: -16px;
 }
 
 .tag-label.arrow-right.medium:before {
@@ -111,8 +118,32 @@
 }
 
 /** Left - Large **/
-
 .tag-label.large {
     height: 40px;
     line-height: 40px;
+}
+
+.tag-label.arrow-left.large:before {
+    border-width: 20px 20px 20px 0;
+    left: -20px;
+}
+
+.tag-label.arrow-left.large:after {
+    top: 16px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+}
+
+/** Right Large **/
+.tag-label.arrow-right.large:after {
+    border-width: 20px 0px 20px 20px !important;
+    right: -20px;
+}
+
+.tag-label.arrow-right.large:before {
+    top: 16px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
 }

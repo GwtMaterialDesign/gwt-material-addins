@@ -37,4 +37,7 @@ interface MaterialSplitPanelDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/touchsplitter.css")
     TextResource splitPanelDebugCss();
+
+    @Source("resources/css/touchsplitter-dark.css")
+    TextResource splitPanelDarkCss();
 }

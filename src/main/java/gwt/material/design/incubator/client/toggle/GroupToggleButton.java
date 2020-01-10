@@ -20,7 +20,10 @@
 package gwt.material.design.incubator.client.toggle;
 
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.*;
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
@@ -33,7 +36,8 @@ import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.jscore.client.api.Array;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeLoader;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,14 +60,14 @@ import java.util.List;
  * </pre>
  *
  * <p><i>
- *     Note: This component is under the incubation process and subject to change.
+ * Note: This component is under the incubation process and subject to change.
  * </i></p>
  *
  * @author kevzlou7979
  */
 //@formatter:on
 public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<T>,
-        HasStatusText {
+    HasStatusText {
 
     static {
         IncubatorWidget.showWarning(GroupToggleButton.class);
@@ -91,12 +95,12 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     protected void onLoad() {
         super.onLoad();
 
-        registerHandler(addSelectionHandler(selectionEvent -> {
-            ValueChangeEvent.fire(GroupToggleButton.this, getValue());
-        }));
         add(label);
         add(wrapper);
         add(errorLabel);
+
+        registerHandler(addSelectionHandler(selectionEvent -> ValueChangeEvent.fire(GroupToggleButton.this, getValue())));
+        IncubatorDarkThemeReloader.get().reload(GroupToggleDarkTheme.class);
     }
 
     public ToggleButton addItem(String text) {
@@ -104,6 +108,10 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     public ToggleButton addItem(String text, T value) {
+        return addItem(text, value, false);
+    }
+
+    public ToggleButton addItem(String text, T value, boolean active) {
         ToggleButton button = new ToggleButton(text);
         button.setGroupParent(this);
         button.addClickHandler(clickEvent -> {
@@ -116,6 +124,10 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         wrapper.add(button);
         items.add(button);
         values.add(value);
+
+        if (active) {
+            setActive(values.indexOf(value));
+        }
         return button;
     }
 
@@ -138,7 +150,6 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     public void setActive(int index) {
         setActive(index, true);
     }
-
 
     public void setActive(int index, boolean active) {
         items.get(index).setToggle(active);

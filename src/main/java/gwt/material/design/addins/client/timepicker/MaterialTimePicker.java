@@ -30,6 +30,8 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
@@ -139,6 +141,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         registerHandler(addOrientationChangeHandler(event -> {
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", event.getOrientation().getCssName());
         }));
+        AddinsDarkThemeReloader.get().reload(MaterialTimePickerDarkTheme.class);
     }
 
     @Override

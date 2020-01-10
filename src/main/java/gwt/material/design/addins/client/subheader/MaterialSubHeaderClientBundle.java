@@ -37,4 +37,7 @@ interface MaterialSubHeaderClientBundle extends ClientBundle {
 
     @Source("resources/css/subheader.min.css")
     TextResource subheaderCss();
+
+    @Source("resources/css/subheader-dark.min.css")
+    TextResource subheaderDarkCss();
 }

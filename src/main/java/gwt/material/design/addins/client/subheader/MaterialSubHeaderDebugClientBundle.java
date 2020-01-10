@@ -37,4 +37,7 @@ interface MaterialSubHeaderDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/subheader.css")
     TextResource subheaderCssDebug();
+
+    @Source("resources/css/subheader-dark.css")
+    TextResource subheaderDarkCss();
 }

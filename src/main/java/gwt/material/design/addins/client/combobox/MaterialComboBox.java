@@ -39,6 +39,7 @@ import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.addins.client.combobox.js.options.Data;
 import gwt.material.design.addins.client.combobox.js.options.Params;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.async.AsyncWidgetCallback;
 import gwt.material.design.client.async.IsAsyncWidget;
@@ -95,7 +96,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-        HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
+    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -149,7 +150,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         JsComboBox jsComboBox = $(listbox.getElement());
         jsComboBox.select2(options);
         setId(DOM.createUniqueId());
-
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
             if (!suppressChangeEvent) {
                 ValueChangeEvent.fire(this, getValue());
@@ -175,7 +175,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         });
 
         jsComboBox.on(ComboBoxEvents.OPEN, (event1, o) -> {
-
             if (isAsynchronous()) {
                 event1.stopPropagation();
                 event1.preventDefault();
@@ -190,21 +189,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.on(ComboBoxEvents.CLOSING, (e, param1) -> {
             ClosingEvent.fire(this);
             if (getValue() != null && !getValue().isEmpty()) {
-                jsComboBox.select2("focus");
+                focus();
             }
             return true;
         });
 
         jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
             CloseEvent.fire(this, null);
-            return true;
-        });
-
-        // Tab Focus support
-        body().on("focus", "#" + getId() + " .select2", (e, param1) -> {
-            if (!isMultiple()) {
-                open();
-            }
             return true;
         });
 
@@ -215,6 +206,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         }
 
         getStatusTextMixin().getStatusDisplayMixin().setContainer(new MaterialWidget($(getElement())));
+        AddinsDarkThemeReloader.get().reload(MaterialComboBoxDarkTheme.class);
     }
 
     @Override
@@ -234,6 +226,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.CLOSE);
         body().off("focus");
         jsComboBox.select2("destroy");
+    }
+
+    public void focus() {
+        JsComboBox jsComboBox = $(listbox.getElement());
+        jsComboBox.select2("focus");
     }
 
     @Override
@@ -665,7 +662,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         this.selectedIndex = selectedIndex;
         if (values.size() > 0) {
             T value = values.get(selectedIndex);
-            if (value != null) {
+            if (value != null || isAllowBlank()) {
                 $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
             } else {
                 GWT.log("Value index is not found.", new IndexOutOfBoundsException());

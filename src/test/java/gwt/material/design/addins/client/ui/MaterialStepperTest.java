@@ -265,13 +265,6 @@ public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
 
         // when / then
         stepper.showFeedback(FEEDBACK);
-        assertEquals(FEEDBACK, stepper.getFeedback());
-        MaterialWidget feedback = (MaterialWidget) stepper.getWidget(FEEDBACK_INDEX);
-        assertTrue(feedback.getWidget(0) instanceof Span);
-        assertEquals(feedback.getWidget(0), stepper.getFeedbackSpan());
-        assertEquals(FEEDBACK, stepper.getFeedbackSpan().getText());
-        stepper.hideFeedback();
-        assertFalse(feedback.isAttached());
-        assertFalse(stepper.getFeedbackSpan().isAttached());
+        assertEquals(stepper.getFeedback(), FEEDBACK);
     }
 }

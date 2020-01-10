@@ -37,4 +37,7 @@ interface MaterialBubbleDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/bubble.css")
     TextResource bubbleCssDebug();
+
+    @Source("resources/css/bubble-dark.css")
+    TextResource bubbleDarkDebugCss();
 }

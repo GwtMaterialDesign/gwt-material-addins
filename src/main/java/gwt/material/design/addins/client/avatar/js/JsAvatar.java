@@ -37,5 +37,4 @@ public class JsAvatar extends JQueryElement {
 
     @JsMethod(namespace = JsPackage.GLOBAL)
     public static native String md5(String value);
-
 }

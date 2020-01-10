@@ -28,4 +28,7 @@ public interface InlineSearchClientBundle extends ClientBundle {
 
     @Source("resources/css/inline-search.min.css")
     TextResource inlineSearchCss();
+
+    @Source("resources/css/inline-search-dark.min.css")
+    TextResource inlineSearchDarkCss();
 }

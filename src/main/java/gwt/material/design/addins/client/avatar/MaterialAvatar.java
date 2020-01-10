@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.avatar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.avatar.js.AvatarOptions;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
@@ -66,6 +67,8 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     }
 
     private String value;
+    private AvatarOptions options;
+
     public MaterialAvatar() {
         super(Document.get().createCanvasElement());
     }
@@ -84,11 +87,20 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
 
     @Override
     public void load() {
+        if (options != null) {
+            loadOption(options);
+        }
+
         JsAvatar.jdenticon();
     }
 
+    protected static native void loadOption(AvatarOptions options) /*-{
+        $wnd.jdenticon_config = options;
+    }-*/;
+
     @Override
-    public void unload() {}
+    public void unload() {
+    }
 
     @Override
     public void reload() {
@@ -113,6 +125,7 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
 
     /**
      * Replaced by {@link MaterialAvatar#setValue(Object)}
+     *
      * @param name
      */
     @Deprecated
@@ -154,7 +167,8 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
 
     /**
      * Allowing to set the dimension of the Avatar component.
-     * @param width - the width dimension of the avatar without any Unit suffix (e.i 100)
+     *
+     * @param width  - the width dimension of the avatar without any Unit suffix (e.i 100)
      * @param height - the height dimension of the avatar without any Unit suffix (e.i 100)
      */
     public void setDimension(int width, int height) {
@@ -169,5 +183,13 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     protected String generateHashCode(String value) {
         this.value = value;
         return JsAvatar.md5(value);
+    }
+
+    public AvatarOptions getOptions() {
+        return options;
+    }
+
+    public void setOptions(AvatarOptions options) {
+        this.options = options;
     }
 }

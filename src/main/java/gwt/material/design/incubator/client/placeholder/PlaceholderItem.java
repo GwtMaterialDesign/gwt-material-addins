@@ -25,6 +25,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.loadingstate.LoadingStatePanel;
 
 public class PlaceholderItem extends MaterialWidget {
@@ -40,5 +41,12 @@ public class PlaceholderItem extends MaterialWidget {
 
     public PlaceholderItem() {
         super(Document.get().createDivElement(), IncubatorCssName.CONTENT_PLACEHOLDER);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        IncubatorDarkThemeReloader.get().reload(PlaceholderDarkTheme.class);
     }
 }

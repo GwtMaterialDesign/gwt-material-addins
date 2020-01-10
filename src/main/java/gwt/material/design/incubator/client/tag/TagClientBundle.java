@@ -28,4 +28,7 @@ public interface TagClientBundle extends ClientBundle {
 
     @Source("resources/css/tag.min.css")
     TextResource tagCss();
+
+    @Source("resources/css/tag-dark.min.css")
+    TextResource tagDarkCss();
 }

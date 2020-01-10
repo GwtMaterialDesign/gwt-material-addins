@@ -13,6 +13,6 @@
 }
 
 .empty-state .loader-wrapper {
-    background: transparent;
+    background: transparent !important;
     z-index: 1;
 }

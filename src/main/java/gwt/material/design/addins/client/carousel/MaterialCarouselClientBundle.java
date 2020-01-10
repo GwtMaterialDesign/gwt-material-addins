@@ -40,4 +40,7 @@ public interface MaterialCarouselClientBundle extends ClientBundle {
 
     @Source("resources/css/custom.min.css")
     TextResource customCss();
+
+    @Source("resources/css/slick-dark.min.css")
+    TextResource carouselDarkCss();
 }

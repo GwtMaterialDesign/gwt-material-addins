@@ -27,6 +27,7 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
@@ -91,6 +92,13 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         this(backgroundColor);
         setVisibility(visibility);
         setOpacity(opacity);
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        AddinsDarkThemeReloader.get().reload(MaterialOverlayDarkTheme.class);
     }
 
     public void open(MaterialWidget source) {

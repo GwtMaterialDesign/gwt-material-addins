@@ -29,6 +29,7 @@ import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasFieldTypes;
 import gwt.material.design.client.base.HasReadOnly;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.StatusDisplayType;
@@ -48,6 +49,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         }
     }
 
+    private boolean showFieldLabels;
     private Date value;
     private DobLocaleDateProvider dataProvider = new DefaultDobLocaleDateProvider();
     private MaterialComboBox<Integer> month = new MaterialComboBox();
@@ -55,6 +57,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     private MaterialIntegerInputMask year = new MaterialIntegerInputMask();
 
     private FieldTypeMixin<DateOfBirthPicker> fieldTypeMixin;
+    private ToggleStyleMixin<DateOfBirthPicker> toggleStyleMixin;
 
     public DateOfBirthPicker() {
         super(Document.get().createDivElement(), CssName.ROW);
@@ -68,6 +71,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         // Month
         month.addStyleName("dob-month");
         month.setGrid("s12 m5");
+        month.setCloseOnSelect(true);
 
         // Day
         day.addStyleName("dob-day");
@@ -99,6 +103,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         month.setMatcher(DateMonthMatcher.getDefaultMonthMatcher());
 
         month.addValueChangeHandler(event -> {
+            Date test = value;
             if (validateDate(true)) {
                 value.setMonth(month.getSingleValue());
             }
@@ -138,36 +143,66 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         add(month);
         add(day);
         add(year);
+
+        if (!showFieldLabels) {
+            if (month != null) {
+                month.getLabel().removeFromParent();
+            }
+
+            if (day != null) {
+                day.getLabel().removeFromParent();
+            }
+
+            if (year != null) {
+                year.getLabel().removeFromParent();
+            }
+        }
+
+        getToggleStyleMixin().setOn(!showFieldLabels);
     }
 
     public void reload() {
         setupHandlers();
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+
+        month.reset();
+        day.reset();
+        year.reset();
+        value = null;
+    }
+
     protected boolean validateDate(boolean showErrors) {
         boolean valid = true;
-        if (!(month.getSingleValue() != null && month.getSingleValue() >= 0 && month.getSingleValue() < 12)) {
+        Integer monthValue = month.getSingleValue();
+        Integer yearValue = year.getText() != null && !year.getText().isEmpty() ? Integer.parseInt(year.getText()) : null;
+        Integer dayValue = day.getText() != null && !day.getText().isEmpty() ? Integer.parseInt(day.getText()) : null;
+
+        if (!(monthValue != null && monthValue >= 0 && monthValue < 12)) {
             valid = false;
             if (showErrors) month.setErrorText(dataProvider.getInvalidMonthMessage());
         } else {
             if (showErrors) month.clearErrorText();
         }
 
-        if (!(year.getValue() != null && year.getValue() >= 1900)) {
+        if (!(yearValue != null && yearValue >= 1900)) {
             valid = false;
             if (showErrors) year.setErrorText(dataProvider.getInvalidYearLabel());
         } else {
             if (showErrors) year.clearErrorText();
         }
 
-        if (!(day.getValue() != null && day.getValue() > 0 && day.getValue() <= 31)) {
+        if (!(dayValue != null && dayValue > 0 && dayValue <= 31)) {
             valid = false;
             if (showErrors) day.setErrorText(dataProvider.getInvalidDayMessage());
         } else {
             if (showErrors) day.clearErrorText();
         }
 
-        if (!validateLeapYear(month.getSingleValue(), day.getValue(), year.getValue())) {
+        if (!validateLeapYear(monthValue, dayValue, yearValue)) {
             valid = false;
             if (showErrors) day.setErrorText("Invalid Date");
         } else {
@@ -181,23 +216,27 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         return super.validate() && validateDate(false);
     }
 
-    public boolean validateLeapYear(int month, int day, int year) {
-        String dateToValidate = month + 1 + "/" + day + "/" + year;
-        if (dateToValidate == null) {
-            return false;
-        }
-        DateTimeFormat sdf = DateTimeFormat.getFormat("MM/dd/yyyy");
-        try {
-            Date date = sdf.parse(dateToValidate);
-            if (date.getMonth() != month) {
+    public boolean validateLeapYear(Integer month, Integer day, Integer year) {
+        if (month != null && day != null && year != null) {
+            String dateToValidate = month + 1 + "/" + day + "/" + year;
+            if (dateToValidate == null) {
                 return false;
             }
-        } catch (Exception e) {
+            DateTimeFormat sdf = DateTimeFormat.getFormat("MM/dd/yyyy");
+            try {
+                Date date = sdf.parse(dateToValidate);
+                if (date.getMonth() != month) {
+                    return false;
+                }
+                value = date;
+            } catch (Exception e) {
 
-            e.printStackTrace();
-            return false;
+                e.printStackTrace();
+                return false;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -303,6 +342,14 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
         this.dataProvider = dataProvider;
     }
 
+    public boolean isShowFieldLabels() {
+        return showFieldLabels;
+    }
+
+    public void setShowFieldLabels(boolean showFieldLabels) {
+        this.showFieldLabels = showFieldLabels;
+    }
+
     public MaterialComboBox<Integer> getMonth() {
         return month;
     }
@@ -320,5 +367,12 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
             fieldTypeMixin = new FieldTypeMixin<>(this);
         }
         return fieldTypeMixin;
+    }
+
+    public ToggleStyleMixin<DateOfBirthPicker> getToggleStyleMixin() {
+        if (toggleStyleMixin == null) {
+            toggleStyleMixin = new ToggleStyleMixin<>(this, "no-labels");
+        }
+        return toggleStyleMixin;
     }
 }

@@ -32,9 +32,12 @@ interface MaterialRichEditorDebugClientBundle extends ClientBundle {
 
     MaterialRichEditorDebugClientBundle INSTANCE = GWT.create(MaterialRichEditorDebugClientBundle.class);
 
-    @Source("resources/js/material_note.js")
+    @Source("resources/js/material-note.js")
     TextResource richEditorDebugJs();
 
-    @Source("resources/css/material_note.css")
+    @Source("resources/css/material-note.css")
     TextResource richEditorDebugCss();
+
+    @Source("resources/css/material-note-dark.css")
+    TextResource richEditorDarkCss();
 }

@@ -34,4 +34,7 @@ interface MaterialStepperDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/stepper.css")
     TextResource stepperDebugCss();
+
+    @Source("resources/css/stepper-dark.css")
+    TextResource stepperDarkCss();
 }

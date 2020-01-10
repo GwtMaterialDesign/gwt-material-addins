@@ -248,3 +248,8 @@ background: #ccc;
 .cr-rotate-r i:before {
 	content: '↻';
 }
+
+.cr-slider-wrap input[type=range]::-webkit-slider-runnable-track {
+    background-color: #e9e9e9 !important;
+    margin-top: 0px;
+}

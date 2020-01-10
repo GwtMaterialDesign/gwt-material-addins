@@ -28,4 +28,7 @@ public interface TagDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/tag.css")
     TextResource tagDebugCss();
+
+    @Source("resources/css/tag-dark.css")
+    TextResource tagDarkCss();
 }

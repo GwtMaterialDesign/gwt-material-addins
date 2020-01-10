@@ -24,13 +24,13 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
@@ -48,13 +48,12 @@ import gwt.material.design.client.base.mixin.StatusDisplayMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.constants.Position;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
-import gwt.material.design.client.ui.html.Span;
 
 //@formatter:off
 
@@ -88,7 +87,7 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
+    HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -103,10 +102,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private boolean stepSkippingAllowed = true;
     private boolean fixedStepWidth = false;
     private boolean detectOrientation = true;
+    private String feedback = "";
     private Div divFeedback = new Div();
-    private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
-
+    private MaterialLoader loader = new MaterialLoader();
     private ToggleStyleMixin<MaterialStepper> toggleFixedStepWidth;
     private CssNameMixin<MaterialStepper, Axis> axisMixin;
     private StepperTransitionMixin<MaterialStepper> stepperTransitionMixin;
@@ -115,7 +114,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
 
         divFeedback.setStyleName(AddinsCssName.FEEDBACK);
-        divFeedback.add(feedbackSpan);
     }
 
     @Override
@@ -129,6 +127,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
 
         setDetectOrientation(detectOrientation);
         updateStepWidth();
+        AddinsDarkThemeReloader.get().reload(MaterialStepperDarkTheme.class);
     }
 
     public void updateStepWidth() {
@@ -463,20 +462,26 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         getCurrentStep().updateStatusDisplay(statusType);
     }
 
+    @Override
+    public void setStatusDisplayPosition(Position position) {
+        getCurrentStep().setStatusDisplayPosition(position);
+    }
+
     /**
      * Get feedback message.
      */
     public String getFeedback() {
-        return SafeHtmlUtils.fromString(feedbackSpan.getElement().getInnerHTML()).asString();
+        return feedback;
     }
 
     /**
      * Show feedback message and circular loader on body container
      */
-    public void showFeedback(String feedbackText) {
-        feedbackSpan.setText(feedbackText);
-        new MaterialAnimation().transition(Transition.FADEINUP).duration(400).animate(feedbackSpan);
-        MaterialLoader.loading(true, getCurrentStep().getDivBody());
+    public void showFeedback(String feedback) {
+        this.feedback = feedback;
+        loader.setMessage(feedback);
+        loader.setContainer(divFeedback);
+        loader.show();
         add(divFeedback);
     }
 
@@ -484,6 +489,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
      * Hide feedback message and circular loader on body container.
      */
     public void hideFeedback() {
+        loader.hide();
         divFeedback.removeFromParent();
     }
 
@@ -511,10 +517,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         this.fixedStepWidth = fixedStepWidth;
         updateStepWidth();
         getToggleFixedStepWidth().setOn(fixedStepWidth);
-    }
-
-    public Span getFeedbackSpan() {
-        return feedbackSpan;
     }
 
     /**

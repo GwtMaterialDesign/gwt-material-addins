@@ -40,4 +40,7 @@ public interface DateRangeClientDebugBundle extends ClientBundle {
 
     @Source("resources/css/daterangepicker-materialize.css")
     TextResource dateRangePickerOverrideDebugCss();
+
+    @Source("resources/css/daterangepicker-dark.css")
+    TextResource dateRangeDarkCss();
 }

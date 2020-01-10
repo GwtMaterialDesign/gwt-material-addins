@@ -47,6 +47,7 @@ import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
 import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
@@ -182,6 +183,8 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         getHandlerRegistry().registerHandler(Window.addResizeHandler(event -> detectPosition()));
 
         setId(DOM.createUniqueId());
+
+        IncubatorDarkThemeReloader.get().reload(DateRangeDarkTheme.class);
     }
 
     protected void detectPosition() {

@@ -1,0 +1,44 @@
+.fileuploader {
+    background: #1e1e1e;
+}
+
+.fileuploader .upload-label {
+    background-color: #292929 !important;
+}
+
+.fileuploader .upload-label i {
+    background: #ffffff !important;
+    color: #1e1e1e !important;
+}
+
+.fileuploader.active {
+    background: #1e1e1e !important;
+}
+
+.fileuploader.active .upload-label {
+    color: #fff !important;
+}
+
+.preview-container {
+    background-color: #1e1e1e;
+}
+
+.preview-container .previews .zdrop-info .preview-icon {
+    color: #1e1e1e !important;
+}
+
+.preview-container .header {
+    background-color: #1e1e1e !important;
+}
+
+.preview-container .previews .zdrop-info .preview-icon {
+    background: #393939;
+}
+
+.preview-container .previews .collection-item {
+    border-bottom: 1px solid #393939;
+}
+
+.preview-container .previews .zdrop-info .preview-icon {
+    color: #ffffff !important;
+}

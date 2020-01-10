@@ -37,4 +37,7 @@ interface MaterialFileUploaderClientBundle extends ClientBundle {
 
     @Source("resources/css/dropzone.min.css")
     TextResource dropzoneCss();
+
+    @Source("resources/css/dropzone-dark.min.css")
+    TextResource dropzoneDarkCss();
 }

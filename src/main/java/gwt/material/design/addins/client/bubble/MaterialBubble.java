@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
+import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.JsLoader;
@@ -105,6 +107,7 @@ public class MaterialBubble extends MaterialWidget implements JsLoader, HasPosit
     @Override
     public void load() {
         $(getElement()).bubble(options);
+        AddinsDarkThemeReloader.get().reload(MaterialBubbleDarkTheme.class);
     }
 
     @Override
@@ -115,7 +118,8 @@ public class MaterialBubble extends MaterialWidget implements JsLoader, HasPosit
     }
 
     @Override
-    public void unload() {}
+    public void unload() {
+    }
 
     @Override
     public void reload() {
