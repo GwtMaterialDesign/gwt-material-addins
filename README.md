@@ -15,12 +15,12 @@ Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gw
 </dependency>
 ```
 
-## Snapshot Version 2.3-SNAPSHOT
+## Snapshot Version 2.3.1-SNAPSHOT
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.3.1-SNAPSHOT</version>
 </dependency>
 ```
 
