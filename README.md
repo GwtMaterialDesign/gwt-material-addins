@@ -1,8 +1,8 @@
-<img src="http://i.imgur.com/k7iZMbE.png" />
+<img src="https://i.imgur.com/bO2kFKs.png" width="120px"/>
 
 # gwt-material-addins 
 
-[![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins) [![Join the chat at https://gitter.im/GwtMaterialDesign/gwt-material-addins](https://badges.gitter.im/GwtMaterialDesign/gwt-material-addins.svg)](https://gitter.im/GwtMaterialDesign/gwt-material-addins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins) [![Join us](https://img.shields.io/badge/slack-channel-purple)](https://gmd-project.slack.com)
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
