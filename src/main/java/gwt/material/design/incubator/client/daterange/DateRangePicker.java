@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,8 +28,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
-import gwt.material.design.addins.client.combobox.js.options.Data;
-import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
@@ -49,8 +47,8 @@ import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
-import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
+import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.js.*;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQuery;
@@ -62,7 +60,7 @@ import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
 
 
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
-        HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle {
+    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle {
 
     static {
         if (AddinsIncubator.isDebug()) {
