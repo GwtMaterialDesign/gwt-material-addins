@@ -58,4 +58,7 @@ public class JsTimePickerOptions {
 
     @JsProperty
     public String okText;
+    
+    @JsProperty
+    public String startTime;
 }

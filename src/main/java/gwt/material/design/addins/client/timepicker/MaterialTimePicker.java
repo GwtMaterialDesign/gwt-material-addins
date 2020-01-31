@@ -339,6 +339,18 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
             reload();
         }
     }
+    
+    /**
+     * Set the "Default" on TimePicker
+     */
+    
+    public void setStartTime(Date startTime) {
+    	options.startTime = DateTimeFormat.getFormat(options.hour24 ? "HH:mm" : "hh:mm aa").format(startTime);
+    }
+
+    public void setStartTime(String startTimeStr) {
+    	options.startTime = startTimeStr;
+    }
 
     @Override
     public MaterialIcon getIcon() {
