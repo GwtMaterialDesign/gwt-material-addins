@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,6 +52,8 @@ import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
+import gwt.material.design.client.events.ClearEvent;
+import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -199,6 +201,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        jsComboBox.on(ComboBoxEvents.CLEAR, (e, param1) -> {
+            ClearEvent.fire(this);
+            return true;
+        });
+
+        jsComboBox.on(ComboBoxEvents.CLEARING, (e, param1) -> {
+            ClearingEvent.fire(this);
+            return true;
+        });
+
         displayArrowForAllowClearOption(false);
 
         if (getTextColor() != null) {
@@ -224,6 +236,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.UNSELECT);
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
+        jsComboBox.off(ComboBoxEvents.CLEAR);
+        jsComboBox.off(ComboBoxEvents.CLEARING);
         body().off("focus");
         jsComboBox.select2("destroy");
     }
@@ -812,6 +826,34 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return options.language;
     }
 
+    /**
+     * Supports customization of the container width.
+     *
+     * @see <a href="https://select2.org/appearance#container-width">Example</a>
+     */
+    public void setContainerWidth(String width) {
+        options.width = width;
+    }
+
+    public String getContainerWidth() {
+        return options.width;
+    }
+
+    /**
+     * If true, resolves issue for multiselects using closeOnSelect: false that caused the list of results to scroll to
+     * the first selection after each select/unselect (see https://github.com/select2/select2/pull/5150). This behaviour
+     * was intentional to deal with infinite scroll UI issues (if you need this behavior, set false) but it created an
+     * issue with multiselect dropdown boxes of fixed length. This pull request adds a configurable option to toggle
+     * between these two desirable behaviours.
+     */
+    public void setScrollAfterSelect(boolean scrollAfterSelect) {
+        options.scrollAfterSelect = scrollAfterSelect;
+    }
+
+    public boolean isScrollAfterSelect() {
+        return options.scrollAfterSelect;
+    }
+
     public void scrollTop(int offset) {
         Scheduler.get().scheduleDeferred(() -> getDropdownResultElement().scrollTop(offset));
     }
@@ -905,6 +947,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public HandlerRegistration addClosingHandler(ClosingEvent.ClosingHandler handler) {
         return addHandler(handler, ClosingEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addClearHandler(ClearEvent.ClearHandler handler) {
+        return addHandler(handler, ClearEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addClearingHandler(ClearingEvent.ClearingHandler handler) {
+        return addHandler(handler, ClearingEvent.TYPE);
     }
 
     @Override
