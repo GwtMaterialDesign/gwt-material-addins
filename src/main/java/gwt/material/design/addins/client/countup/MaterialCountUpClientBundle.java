@@ -32,6 +32,6 @@ interface MaterialCountUpClientBundle extends ClientBundle {
 
     MaterialCountUpClientBundle INSTANCE = GWT.create(MaterialCountUpClientBundle.class);
 
-    @Source("resources/js/countup.min.js")
+    @Source("resources/js/countUp.min.js")
     TextResource countUpJs();
 }
