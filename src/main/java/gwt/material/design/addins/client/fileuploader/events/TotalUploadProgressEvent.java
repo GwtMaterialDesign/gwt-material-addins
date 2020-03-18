@@ -25,12 +25,6 @@ import com.google.gwt.event.shared.HasHandlers;
 
 public class TotalUploadProgressEvent extends GwtEvent<TotalUploadProgressEvent.TotalUploadProgressHandler> {
 
-    public interface TotalUploadProgressHandler extends EventHandler {
-        void onTotalUploadProgress(TotalUploadProgressEvent event);
-    }
-
-    public static final Type<TotalUploadProgressHandler> TYPE = new Type<>();
-
     private final double progress;
 
     public TotalUploadProgressEvent(double progress) {
@@ -54,4 +48,10 @@ public class TotalUploadProgressEvent extends GwtEvent<TotalUploadProgressEvent.
     protected void dispatch(TotalUploadProgressHandler handler) {
         handler.onTotalUploadProgress(this);
     }
+
+    public interface TotalUploadProgressHandler extends EventHandler {
+        void onTotalUploadProgress(TotalUploadProgressEvent event);
+    }
+
+    public static final Type<TotalUploadProgressHandler> TYPE = new Type<>();
 }

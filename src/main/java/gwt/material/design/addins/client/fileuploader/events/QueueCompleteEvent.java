@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,42 +23,35 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 
-public class AddedFileEvent<T> extends GwtEvent<AddedFileEvent.AddedFileHandler<T>> {
+public class QueueCompleteEvent extends GwtEvent<QueueCompleteEvent.QueueCompleteHandler> {
 
-    private static Type<AddedFileHandler<?>> TYPE;
+    private static Type<QueueCompleteHandler> TYPE;
 
-    public interface AddedFileHandler<T> extends EventHandler {
-        void onAddedFile(AddedFileEvent<T> event);
+    protected QueueCompleteEvent() {
     }
 
-    public static <T> void fire(HasFileUploadHandlers<T> source, T target) {
+    public static void fire(HasFileUploadHandlers source) {
         if (TYPE != null) {
-            AddedFileEvent<T> event = new AddedFileEvent<T>(target);
+            QueueCompleteEvent event = new QueueCompleteEvent();
             source.fireEvent(event);
         }
     }
 
-    public static Type<AddedFileHandler<?>> getType() {
+    public static Type<QueueCompleteHandler> getType() {
         return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 
-    private final T target;
-
-    protected AddedFileEvent(T target) {
-        this.target = target;
+    @Override
+    public final Type<QueueCompleteHandler> getAssociatedType() {
+        return TYPE;
     }
 
     @Override
-    public final Type<AddedFileHandler<T>> getAssociatedType() {
-        return (Type) TYPE;
+    protected void dispatch(QueueCompleteHandler handler) {
+        handler.onQueueComplete(this);
     }
 
-    public T getTarget() {
-        return target;
-    }
-
-    @Override
-    protected void dispatch(AddedFileHandler<T> handler) {
-        handler.onAddedFile(this);
+    public interface QueueCompleteHandler extends EventHandler {
+        void onQueueComplete(QueueCompleteEvent event);
     }
 }

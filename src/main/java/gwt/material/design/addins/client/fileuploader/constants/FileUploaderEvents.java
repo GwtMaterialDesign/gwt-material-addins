@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,4 +34,14 @@ public interface FileUploaderEvents extends DragEvents, DropEvents {
     String CANCELED = "canceled";
     String MAX_FILES_REACHED = "maxfilesreached";
     String MAX_FILES_EXCEEDED = "maxfilesexceeded";
+    String ERROR = "error";
+    String THUMBNAIL = "thumbnail";
+    String PROCESSING = "processing";
+    String PROCESSING_MULTIPLE = "processingmultiple";
+    String SENDING_MULTIPLE = "sendingmultiple";
+    String SUCCESS_MULTIPLE = "successmultiple";
+    String COMPLETE_MULTIPLE = "completemultiple";
+    String CANCELED_MULTIPLE = "canceledmultiple";
+    String RESET = "reset";
+    String QUEUE_COMPLETE = "queuecomplete";
 }

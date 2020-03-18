@@ -21,26 +21,9 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 
 public class MaxFilesExceededEvent<T> extends GwtEvent<MaxFilesExceededEvent.MaxFilesExceededHandler<T>> {
-
-    private static Type<MaxFilesExceededHandler<?>> TYPE;
-
-    public interface MaxFilesExceededHandler<T> extends EventHandler {
-        void onMaxFilesExceeded(MaxFilesExceededEvent<T> event);
-    }
-
-    public static <T> void fire(HasFileUpload<T> source, T target) {
-        if (TYPE != null) {
-            MaxFilesExceededEvent<T> event = new MaxFilesExceededEvent<T>(target);
-            source.fireEvent(event);
-        }
-    }
-
-    public static Type<MaxFilesExceededHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<>());
-    }
 
     private final T target;
 
@@ -60,5 +43,22 @@ public class MaxFilesExceededEvent<T> extends GwtEvent<MaxFilesExceededEvent.Max
     @Override
     protected void dispatch(MaxFilesExceededHandler<T> handler) {
         handler.onMaxFilesExceeded(this);
+    }
+
+    private static Type<MaxFilesExceededHandler<?>> TYPE;
+
+    public interface MaxFilesExceededHandler<T> extends EventHandler {
+        void onMaxFilesExceeded(MaxFilesExceededEvent<T> event);
+    }
+
+    public static <T> void fire(HasFileUploadHandlers<T> source, T target) {
+        if (TYPE != null) {
+            MaxFilesExceededEvent<T> event = new MaxFilesExceededEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
+
+    public static Type<MaxFilesExceededHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 }

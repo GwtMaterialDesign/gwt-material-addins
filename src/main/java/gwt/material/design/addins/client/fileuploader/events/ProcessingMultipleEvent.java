@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,20 +22,19 @@ package gwt.material.design.addins.client.fileuploader.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
-import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 
-public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
+import java.util.List;
+
+public class ProcessingMultipleEvent<T extends List<?>> extends GwtEvent<ProcessingMultipleEvent.ProcessingMultipleHandler<T>> {
 
     private final T target;
-    private final UploadResponse response;
 
-    protected SuccessEvent(T target, UploadResponse response) {
+    protected ProcessingMultipleEvent(T target) {
         this.target = target;
-        this.response = response;
     }
 
     @Override
-    public final Type<SuccessHandler<T>> getAssociatedType() {
+    public final Type<ProcessingMultipleHandler<T>> getAssociatedType() {
         return (Type) TYPE;
     }
 
@@ -43,29 +42,25 @@ public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
         return target;
     }
 
-    public UploadResponse getResponse() {
-        return response;
-    }
-
     @Override
-    protected void dispatch(SuccessHandler<T> handler) {
-        handler.onSuccess(this);
+    protected void dispatch(ProcessingMultipleHandler<T> handler) {
+        handler.onProcessingMultiple(this);
     }
 
-    private static Type<SuccessHandler<?>> TYPE;
+    private static Type<ProcessingMultipleHandler<?>> TYPE;
 
-    public interface SuccessHandler<T> extends EventHandler {
-        void onSuccess(SuccessEvent<T> event);
+    public interface ProcessingMultipleHandler<T> extends EventHandler {
+        void onProcessingMultiple(ProcessingMultipleEvent event);
     }
 
-    public static <T> void fire(HasFileUploadHandlers<T> source, T target, UploadResponse response) {
+    public static <T> void fire(HasFileUploadHandlers<T> source, List<T> target) {
         if (TYPE != null) {
-            SuccessEvent<T> event = new SuccessEvent<T>(target, response);
+            ProcessingMultipleEvent event = new ProcessingMultipleEvent(target);
             source.fireEvent(event);
         }
     }
 
-    public static Type<SuccessHandler<?>> getType() {
+    public static Type<ProcessingMultipleHandler<?>> getType() {
         return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 }

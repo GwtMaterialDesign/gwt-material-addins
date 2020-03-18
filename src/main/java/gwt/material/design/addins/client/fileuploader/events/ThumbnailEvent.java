@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,20 +22,19 @@ package gwt.material.design.addins.client.fileuploader.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
-import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 
-public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
+public class ThumbnailEvent<T> extends GwtEvent<ThumbnailEvent.ThumbnailHandler<T>> {
 
     private final T target;
-    private final UploadResponse response;
+    private String dataUrl;
 
-    protected SuccessEvent(T target, UploadResponse response) {
+    protected ThumbnailEvent(T target, String dataUrl) {
         this.target = target;
-        this.response = response;
+        this.dataUrl = dataUrl;
     }
 
     @Override
-    public final Type<SuccessHandler<T>> getAssociatedType() {
+    public final Type<ThumbnailHandler<T>> getAssociatedType() {
         return (Type) TYPE;
     }
 
@@ -43,29 +42,29 @@ public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
         return target;
     }
 
-    public UploadResponse getResponse() {
-        return response;
+    public String getDataUrl() {
+        return dataUrl;
     }
 
     @Override
-    protected void dispatch(SuccessHandler<T> handler) {
-        handler.onSuccess(this);
+    protected void dispatch(ThumbnailHandler<T> handler) {
+        handler.onThumbnail(this);
     }
 
-    private static Type<SuccessHandler<?>> TYPE;
+    private static Type<ThumbnailHandler<?>> TYPE;
 
-    public interface SuccessHandler<T> extends EventHandler {
-        void onSuccess(SuccessEvent<T> event);
+    public interface ThumbnailHandler<T> extends EventHandler {
+        void onThumbnail(ThumbnailEvent<T> event);
     }
 
-    public static <T> void fire(HasFileUploadHandlers<T> source, T target, UploadResponse response) {
+    public static <T> void fire(HasFileUploadHandlers<T> source, T target, String dataUrl) {
         if (TYPE != null) {
-            SuccessEvent<T> event = new SuccessEvent<T>(target, response);
+            ThumbnailEvent<T> event = new ThumbnailEvent<T>(target, dataUrl);
             source.fireEvent(event);
         }
     }
 
-    public static Type<SuccessHandler<?>> getType() {
+    public static Type<ThumbnailHandler<?>> getType() {
         return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 }

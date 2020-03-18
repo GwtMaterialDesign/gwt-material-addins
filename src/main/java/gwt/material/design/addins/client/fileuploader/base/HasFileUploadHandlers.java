@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,9 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 import gwt.material.design.addins.client.fileuploader.events.*;
 
-public interface HasFileUpload<T> extends HasHandlers {
+import java.util.List;
+
+public interface HasFileUploadHandlers<T> extends HasHandlers {
 
     /**
      * When a file is added to the list.
@@ -81,7 +83,7 @@ public interface HasFileUpload<T> extends HasHandlers {
     /**
      * Called when a file upload gets canceled.
      */
-    HandlerRegistration addCancelHandler(CanceledEvent.CanceledHandler<T> handler);
+    HandlerRegistration addCanceledHandler(CanceledEvent.CanceledHandler<T> handler);
 
     /**
      * Called when the number of files accepted reaches the maxFiles limit.
@@ -92,4 +94,49 @@ public interface HasFileUpload<T> extends HasHandlers {
      * Called for each file that has been rejected because the number of files exceeds the maxFiles limit.
      */
     HandlerRegistration addMaxFilesExceededHandler(MaxFilesExceededEvent.MaxFilesExceededHandler<T> handler);
+
+    /**
+     * When the thumbnail has been generated. Receives the dataUrl as second parameter.
+     */
+    HandlerRegistration addThumbnailHandler(ThumbnailEvent.ThumbnailHandler<T> handler);
+
+    /**
+     * When a file gets processed (since there is a queue not all files are processed immediately). This event was called processingfile previously.
+     */
+    HandlerRegistration addProcessingHandler(ProcessingEvent.ProcessingHandler<T> handler);
+
+    /**
+     * @see #addProcessingHandler(ProcessingEvent.ProcessingHandler)
+     */
+    HandlerRegistration addProcessingMultipleHandler(ProcessingMultipleEvent.ProcessingMultipleHandler<List<T>> handler);
+
+    /**
+     * @see #addSendingHandler(SendingEvent.SendingHandler)
+     */
+    HandlerRegistration addSendingMultipleHandler(SendingMultipleEvent.SendingMultipleHandler<List<T>> handler);
+
+    /**
+     * @see #addSuccessHandler(SuccessEvent.SuccessHandler)
+     */
+    HandlerRegistration addSuccessMultipleHandler(SuccessMultipleEvent.SuccessMulttipleHandler<List<T>> handler);
+
+    /**
+     * @see #addCompleteHandler(CompleteEvent.CompleteHandler)
+     */
+    HandlerRegistration addCompleteMultipleHandler(CompleteMultipleEvent.CompleteMulttipleHandler<List<T>> handler);
+
+    /**
+     * @see #addCanceledHandler(CanceledEvent.CanceledHandler)
+     */
+    HandlerRegistration addCanceledMultipleHandler(CanceledMultipleEvent.CanceledMulttipleHandler<List<T>> handler);
+
+    /**
+     * Called when all files in the list are removed and the dropzone is reset to initial state.
+     */
+    HandlerRegistration addResetHandler(ResetEvent.ResetHandler handler);
+
+    /**
+     * Called when all files in the queue finish uploading.
+     */
+    HandlerRegistration addQueueCompleteHandler(QueueCompleteEvent.QueueCompleteHandler handler);
 }
