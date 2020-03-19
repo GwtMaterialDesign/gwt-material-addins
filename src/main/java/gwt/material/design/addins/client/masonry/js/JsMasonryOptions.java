@@ -51,7 +51,22 @@ public class JsMasonryOptions {
     public String itemSelector;
 
     @JsProperty
+    public String columnWidth;
+
+    @JsProperty
+    public int gutter;
+
+    @JsProperty
+    public boolean horizontalOrder;
+
+    @JsProperty
     public boolean percentPosition;
+
+    @JsProperty
+    public String stamp;
+
+    @JsProperty
+    public boolean fitWidth;
 
     @JsProperty
     public boolean originLeft;
@@ -60,11 +75,14 @@ public class JsMasonryOptions {
     public boolean originTop;
 
     @JsProperty
-    public int gutter;
+    public int stagger;
+
+    @JsProperty
+    public boolean resize;
+
+    @JsProperty
+    public boolean initLayout;
 
     @JsProperty
     public String transitionDuration;
-
-    @JsProperty
-    public String columnWidth;
 }
