@@ -19,12 +19,17 @@
  */
 package gwt.material.design.addins.client.fileuploader;
 
+import static gwt.material.design.jquery.client.api.JQuery.$;
+
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
@@ -33,7 +38,18 @@ import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
-import gwt.material.design.addins.client.fileuploader.events.*;
+import gwt.material.design.addins.client.fileuploader.events.AddedFileEvent;
+import gwt.material.design.addins.client.fileuploader.events.CanceledEvent;
+import gwt.material.design.addins.client.fileuploader.events.CompleteEvent;
+import gwt.material.design.addins.client.fileuploader.events.CurrentUploadProgressEvent;
+import gwt.material.design.addins.client.fileuploader.events.ErrorEvent;
+import gwt.material.design.addins.client.fileuploader.events.MaxFilesExceededEvent;
+import gwt.material.design.addins.client.fileuploader.events.MaxFilesReachedEvent;
+import gwt.material.design.addins.client.fileuploader.events.RemovedFileEvent;
+import gwt.material.design.addins.client.fileuploader.events.SendingEvent;
+import gwt.material.design.addins.client.fileuploader.events.SuccessEvent;
+import gwt.material.design.addins.client.fileuploader.events.TotalUploadProgressEvent;
+import gwt.material.design.addins.client.fileuploader.events.UnauthorizedEvent;
 import gwt.material.design.addins.client.fileuploader.js.Dropzone;
 import gwt.material.design.addins.client.fileuploader.js.File;
 import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
@@ -43,13 +59,15 @@ import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
-import gwt.material.design.client.events.*;
+import gwt.material.design.client.events.DragEndEvent;
+import gwt.material.design.client.events.DragEnterEvent;
+import gwt.material.design.client.events.DragLeaveEvent;
+import gwt.material.design.client.events.DragOverEvent;
+import gwt.material.design.client.events.DragStartEvent;
+import gwt.material.design.client.events.DropEvent;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.JQueryElement;
-
-import java.util.Date;
-
-import static gwt.material.design.jquery.client.api.JQuery.$;
+import jsinterop.base.JsPropertyMap;
 
 //@formatter:off
 
@@ -503,6 +521,28 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
      */
     public void setAcceptedFiles(String acceptedFiles) {
         options.acceptedFiles = acceptedFiles;
+    }
+    
+    /**
+     * Add a parameter to the upload form. The uploader will have to be reloaded to take effect.
+     * 
+     * @param name
+     * @param value
+     */
+    public void setParam(String name, String value) {
+    	if (options.params == null)
+    		options.params = JsPropertyMap.of();
+    	options.params.set(name, value);
+    }
+    
+    /**
+     * Get the value of the parameter that will be added to the upload form.
+     * 
+     * @param name
+     * @return
+     */
+    public String getParam(String name) {
+    	return (String) options.params.get(name);
     }
 
     public void fireDropEvent() {

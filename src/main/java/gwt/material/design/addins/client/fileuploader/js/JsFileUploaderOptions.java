@@ -24,6 +24,7 @@ package gwt.material.design.addins.client.fileuploader.js;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Options for file uploader component
@@ -32,7 +33,7 @@ import jsinterop.annotations.JsType;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsFileUploaderOptions {
-
+	
     public String url;
 
     @JsProperty
@@ -93,4 +94,7 @@ public class JsFileUploaderOptions {
 
     @JsProperty
     public String dictMaxFilesExceeded;
+    
+    @JsProperty
+    public JsPropertyMap<Object> params;
 }

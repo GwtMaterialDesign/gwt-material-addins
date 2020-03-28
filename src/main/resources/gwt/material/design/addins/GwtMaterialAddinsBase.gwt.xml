@@ -29,6 +29,9 @@
 
     <inherits name="gwt.material.design.jquery.JQuery"/>
     <inherits name='gwt.material.design.GwtMaterialDesignBase'/>
+    
+    <!-- Required for file uploader -->
+    <inherits name="jsinterop.base.Base" />
 
     <!-- Specify the paths for translatable code                    -->
     <source path='client'/>
