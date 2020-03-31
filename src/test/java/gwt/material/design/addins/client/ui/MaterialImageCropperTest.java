@@ -105,9 +105,9 @@ public class MaterialImageCropperTest extends MaterialWidgetTest<MaterialImageCr
         assertFalse(cropper.isEnforceBoundary());
 
         cropper.setMouseWheelZoom(true);
-        assertTrue(cropper.isMouseWheelZoom());
+        assertEquals(cropper.getMouseWheelZoom(), true);
         cropper.setMouseWheelZoom(false);
-        assertFalse(cropper.isMouseWheelZoom());
+        assertEquals(cropper.getMouseWheelZoom(), false);
 
         cropper.setShowZoomer(true);
         assertTrue(cropper.isShowZoomer());

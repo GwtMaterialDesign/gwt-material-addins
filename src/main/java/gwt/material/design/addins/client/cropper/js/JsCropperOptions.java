@@ -106,7 +106,7 @@ public class JsCropperOptions {
      * Enable or disable the ability to use the mouse wheel to zoom in and out on a cropper instance
      */
     @JsProperty
-    public boolean mouseWheelZoom;
+    public Object mouseWheelZoom;
 
     /**
      * Hide or Show the zoom slider

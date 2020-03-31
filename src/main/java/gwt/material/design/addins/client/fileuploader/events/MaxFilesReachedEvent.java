@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,26 +21,9 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 
 public class MaxFilesReachedEvent<T> extends GwtEvent<MaxFilesReachedEvent.MaxFilesReachedHandler<T>> {
-
-    private static Type<MaxFilesReachedHandler<?>> TYPE;
-
-    public interface MaxFilesReachedHandler<T> extends EventHandler {
-        void onMaxFilesReached(MaxFilesReachedEvent<T> event);
-    }
-
-    public static <T> void fire(HasFileUpload<T> source, T target) {
-        if (TYPE != null) {
-            MaxFilesReachedEvent<T> event = new MaxFilesReachedEvent<T>(target);
-            source.fireEvent(event);
-        }
-    }
-
-    public static Type<MaxFilesReachedHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<>());
-    }
 
     private final T target;
 
@@ -60,5 +43,22 @@ public class MaxFilesReachedEvent<T> extends GwtEvent<MaxFilesReachedEvent.MaxFi
     @Override
     protected void dispatch(MaxFilesReachedHandler<T> handler) {
         handler.onMaxFilesReached(this);
+    }
+
+    private static Type<MaxFilesReachedHandler<?>> TYPE;
+
+    public interface MaxFilesReachedHandler<T> extends EventHandler {
+        void onMaxFilesReached(MaxFilesReachedEvent<T> event);
+    }
+
+    public static <T> void fire(HasFileUploadHandlers<T> source, T target) {
+        if (TYPE != null) {
+            MaxFilesReachedEvent<T> event = new MaxFilesReachedEvent<T>(target);
+            source.fireEvent(event);
+        }
+    }
+
+    public static Type<MaxFilesReachedHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 }

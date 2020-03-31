@@ -33,10 +33,6 @@
     left: 0px;
 }
 
-.daterangepicker .drp-calendar.right .calendar-table table thead:first-child tr:first-child th:first-child {
-    display: none;
-}
-
 /** Calendar Day Item / Columns **/
 .daterangepicker .calendar-table td.available {
     width: 36px !important;
@@ -93,6 +89,9 @@
 }
 
 /** Month and Year Selection **/
+.daterangepicker .select2 {
+    width: 92px !important;
+}
 .date-range-picker .select2-container--default .select2-search--dropdown .select2-search__field {
     width: 100% !important;
     background: white;

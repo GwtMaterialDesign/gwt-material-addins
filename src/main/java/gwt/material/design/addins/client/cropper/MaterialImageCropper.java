@@ -269,14 +269,14 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
         options.enforceBoundary = enforceBoundary;
     }
 
-    public boolean isMouseWheelZoom() {
+    public Object getMouseWheelZoom() {
         return options.mouseWheelZoom;
     }
 
     /**
      * Enable or disable the ability to use the mouse wheel to zoom in and out on a cropper instance
      */
-    public void setMouseWheelZoom(boolean mouseWheelZoom) {
+    public void setMouseWheelZoom(Object mouseWheelZoom) {
         options.mouseWheelZoom = mouseWheelZoom;
     }
 

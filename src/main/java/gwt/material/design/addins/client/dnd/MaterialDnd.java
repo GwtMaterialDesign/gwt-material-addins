@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,14 +25,17 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.constants.DragEvents;
 import gwt.material.design.addins.client.dnd.constants.DropEvents;
+import gwt.material.design.addins.client.dnd.constants.ResizeEvents;
 import gwt.material.design.addins.client.dnd.event.InteractDragEvent;
 import gwt.material.design.addins.client.dnd.event.dispatch.DragEventDispatcher;
 import gwt.material.design.addins.client.dnd.event.dispatch.DropEventDispatcher;
+import gwt.material.design.addins.client.dnd.event.dispatch.ResizeEventDispatcher;
 import gwt.material.design.addins.client.dnd.event.listener.DefaultDragMoveEventListener;
 import gwt.material.design.addins.client.dnd.event.listener.DragEventListener;
 import gwt.material.design.addins.client.dnd.js.JsDnd;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.addins.client.dnd.js.JsDropOptions;
+import gwt.material.design.addins.client.dnd.js.JsResizableOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -76,15 +79,18 @@ public class MaterialDnd {
     private Element[] ignoreFrom;
     private JsDropOptions dropOptions;
     private JsDragOptions dragOptions;
+    private JsResizableOptions resizableOptions;
     private String ignoreFromClassName;
     private DragEventListener dragMoveListener;
     private DragEventDispatcher dragEventDispatcher;
     private DropEventDispatcher dropEventDispatcher;
+    private ResizeEventDispatcher resizeEventDispatcher;
 
     public MaterialDnd(MaterialWidget target) {
         this.target = target;
         this.dragEventDispatcher = new DragEventDispatcher(target);
         this.dropEventDispatcher = new DropEventDispatcher(target);
+        this.resizeEventDispatcher = new ResizeEventDispatcher(target);
     }
 
     public MaterialDnd draggable() {
@@ -152,6 +158,19 @@ public class MaterialDnd {
         return this;
     }
 
+    protected MaterialDnd resizable() {
+        if (jsDnd == null) {
+            jsDnd = JsDnd.interact(target.getElement());
+
+        }
+        jsDnd.off(ResizeEvents.RESIZE_MOVE).on(ResizeEvents.RESIZE_MOVE, e -> {
+            resizeEventDispatcher.fireResizeMoveEvent();
+            return true;
+        });
+        jsDnd.resizable(resizableOptions);
+        return this;
+    }
+
     public void unload() {
         unloadDragEvents();
         unloadDropEvents();
@@ -192,12 +211,26 @@ public class MaterialDnd {
         return this;
     }
 
+    public MaterialDnd resizable(JsResizableOptions options) {
+        resizableOptions = options;
+        if (target.isAttached()) {
+            resizable();
+        } else {
+            target.registerHandler(target.addAttachHandler(event -> resizable(), true));
+        }
+        return this;
+    }
+
     public static MaterialDnd dropzone(MaterialWidget target) {
         return dropzone(target, JsDropOptions.create());
     }
 
     public static MaterialDnd dropzone(MaterialWidget target, JsDropOptions options) {
         return new MaterialDnd(target).dropzone(options);
+    }
+
+    public static MaterialDnd resizable(MaterialWidget target, JsResizableOptions resizableOptions) {
+        return new MaterialDnd(target).resizable(resizableOptions);
     }
 
     public void ignoreFrom(UIObject uiObject) {
@@ -261,5 +294,13 @@ public class MaterialDnd {
 
     public void setDragMoveListener(DragEventListener dragMoveListener) {
         this.dragMoveListener = dragMoveListener;
+    }
+
+    public JsResizableOptions getResizableOptions() {
+        return resizableOptions;
+    }
+
+    public void setResizableOptions(JsResizableOptions resizableOptions) {
+        this.resizableOptions = resizableOptions;
     }
 }

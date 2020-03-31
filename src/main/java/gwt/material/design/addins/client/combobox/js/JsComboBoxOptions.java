@@ -67,7 +67,13 @@ public class JsComboBoxOptions {
     public boolean closeOnSelect;
 
     @JsProperty
+    public boolean scrollAfterSelect;
+
+    @JsProperty
     public boolean tags;
+
+    @JsProperty
+    public String width;
 
     @JsProperty
     public Functions.FuncRet2<Params, Data> matcher;

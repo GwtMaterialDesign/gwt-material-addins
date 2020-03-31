@@ -362,7 +362,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isCompleteFired[0]);
         // Canceled Event
         final boolean[] isCanceledFired = {false};
-        fileUploader.addCancelHandler(event -> isCanceledFired[0] = true);
+        fileUploader.addCanceledHandler(event -> isCanceledFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<CanceledEvent.CanceledHandler<?>>() {
             @Override
             public Type<CanceledEvent.CanceledHandler<?>> getAssociatedType() {

@@ -33,4 +33,6 @@ public interface ComboBoxEvents {
     String OPENING = "select2:opening";
     String CLOSE = "select2:close";
     String CLOSING = "select2:closing";
+    String CLEAR = "select2:clear";
+    String CLEARING = "select2:clearing";
 }
