@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -126,21 +126,21 @@ public class AvatarOptions {
      * Specifies when icons will be rendered. This option has no effect on Node.js.
      * <ul>
      *     <li>
-     *         "never" – icons are never rendered automatically. You need to call jdenticon.update() manually to render
+     *         {@link ReplaceMode#NEVER} – icons are never rendered automatically. You need to call jdenticon.update() manually to render
      *     identicons.
      *     </li>
      *     <li>
-     *         "once" – icons are rendered once the page has loaded. Any dynamically inserted or modified icons will
+     *         {@link ReplaceMode#ONCE} – icons are rendered once the page has loaded. Any dynamically inserted or modified icons will
      *         not be rendered unless jdenticon.update() is manually called.
      *     </li>
      *     <li>
-     *         "observe" – icons are rendered upon page load, and the DOM is monitored for new icons using a MutationObserver.
+     *         {@link ReplaceMode#OBSERVE} – icons are rendered upon page load, and the DOM is monitored for new icons using a MutationObserver.
      *         Use this if icons are inserted dynamically, e.g. by using Angular, React or VanillaJS. This option behaves as "once" in IE<11.
      *     </li>
      * </ul>
      */
     @JsOverlay
-    public final void setReplaceMode(String replaceMode) {
-        this.replaceMode = replaceMode;
+    public final void setReplaceMode(ReplaceMode replaceMode) {
+        this.replaceMode = replaceMode.getName();
     }
 }

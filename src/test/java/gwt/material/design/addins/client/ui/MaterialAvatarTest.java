@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package gwt.material.design.addins.client.ui;
 
 import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.avatar.MaterialAvatar;
-import gwt.material.design.addins.client.avatar.js.JsAvatar;
+import gwt.material.design.addins.client.avatar.js.*;
 
 /**
  * Test case for avatar component
@@ -120,5 +120,65 @@ public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
         assertEquals(WIDTH, avatar.getElement().getAttribute("width"));
         assertTrue(avatar.getElement().hasAttribute("height"));
         assertEquals(HEIGHT, avatar.getElement().getAttribute("height"));
+    }
+
+    public void testOptions() {
+        // UiBinder
+        // given
+        MaterialAvatar avatar = getWidget(false);
+
+        // when / then
+        checkOptions(avatar);
+
+        // Standard
+        // given
+        attachWidget();
+
+        // when / then
+        checkOptions(avatar);
+    }
+
+    public void checkOptions(MaterialAvatar avatar) {
+        final Double[] HUES = new Double[]{1.0, 2.0};
+        final Double[] LIGHTNESS_COLOR = new Double[]{2.0, 3.0};
+        final Double[] GRAYSCALE = new Double[]{2.0, 3.0};
+
+        AvatarOptions options = new AvatarOptions();
+        // Hues
+        options.setHues(HUES);
+        assertEquals(HUES, options.getHues());
+        // Lightness
+        final AvatarLightnessOptions lightnessOptions = new AvatarLightnessOptions();
+        lightnessOptions.setColor(LIGHTNESS_COLOR);
+        assertEquals(LIGHTNESS_COLOR, lightnessOptions.getColor());
+        lightnessOptions.setGrayscale(GRAYSCALE);
+        assertEquals(GRAYSCALE, lightnessOptions.getGrayscale());
+        options.setLightness(lightnessOptions);
+        assertEquals(lightnessOptions, options.getLightness());
+        // Saturation
+        final AvatarSaturationOptions saturationOptions = new AvatarSaturationOptions();
+        saturationOptions.setColor(1.0);
+        assertEquals(1.0, saturationOptions.getColor());
+        saturationOptions.setGrayscale(0.5);
+        assertEquals(0.5, saturationOptions.getGrayscale());
+        options.setSaturation(saturationOptions);
+        assertEquals(saturationOptions, options.getSaturation());
+        // Padding
+        final int PADDING = 20;
+        options.setPadding(PADDING);
+        assertEquals(PADDING, options.getPadding());
+        // Back Color
+        final String BACK_COLOR = "#ffffff";
+        options.setBackColor(BACK_COLOR);
+        assertEquals(BACK_COLOR, options.getBackColor());
+        // Replace Mode
+        options.setReplaceMode(ReplaceMode.NEVER);
+        assertEquals(ReplaceMode.NEVER.getName(), options.getReplaceMode());
+        options.setReplaceMode(ReplaceMode.OBSERVE);
+        assertEquals(ReplaceMode.OBSERVE.getName(), options.getReplaceMode());
+        options.setReplaceMode(ReplaceMode.ONCE);
+        assertEquals(ReplaceMode.ONCE.getName(), options.getReplaceMode());
+        avatar.setOptions(options);
+        assertEquals(options, avatar.getOptions());
     }
 }
