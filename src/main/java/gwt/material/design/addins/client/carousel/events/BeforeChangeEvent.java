@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * BeforeChange Event for Carousel component
+ * Before slide change callback
  *
  * @author kevzlou7979
  */

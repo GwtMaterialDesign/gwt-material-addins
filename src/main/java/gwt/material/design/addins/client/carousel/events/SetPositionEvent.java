@@ -24,36 +24,36 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * When slider is destroyed, or unslicked.
+ * Every time Slick recalculates position
  *
  * @author kevzlou7979
  */
-public class DestroyEvent extends GwtEvent<DestroyEvent.DestroyHandler> {
+public class SetPositionEvent extends GwtEvent<SetPositionEvent.SetPositionHandler> {
 
-    public interface DestroyHandler extends EventHandler {
-        void onDestroy(DestroyEvent event);
+    public interface SetPositionHandler extends EventHandler {
+        void onSetPosition(SetPositionEvent event);
     }
 
-    public static final Type<DestroyHandler> TYPE = new Type<>();
+    public static final Type<SetPositionHandler> TYPE = new Type<>();
 
-    public static Type<DestroyHandler> getType() {
+    public static Type<SetPositionHandler> getType() {
         return TYPE;
     }
 
-    public DestroyEvent() {
+    public SetPositionEvent() {
     }
 
     public static void fire(HasHandlers source) {
-        source.fireEvent(new DestroyEvent());
+        source.fireEvent(new SetPositionEvent());
     }
 
     @Override
-    public Type<DestroyHandler> getAssociatedType() {
+    public Type<SetPositionHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(DestroyEvent.DestroyHandler handler) {
-        handler.onDestroy(this);
+    protected void dispatch(SetPositionEvent.SetPositionHandler handler) {
+        handler.onSetPosition(this);
     }
 }

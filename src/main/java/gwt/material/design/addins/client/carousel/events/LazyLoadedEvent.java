@@ -24,36 +24,49 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * When slider is destroyed, or unslicked.
+ * Fires after image loads lazily
  *
  * @author kevzlou7979
  */
-public class DestroyEvent extends GwtEvent<DestroyEvent.DestroyHandler> {
+public class LazyLoadedEvent extends GwtEvent<LazyLoadedEvent.LazyLoadedHandler> {
 
-    public interface DestroyHandler extends EventHandler {
-        void onDestroy(DestroyEvent event);
+    public interface LazyLoadedHandler extends EventHandler {
+        void onLazyLoaded(LazyLoadedEvent event);
     }
 
-    public static final Type<DestroyHandler> TYPE = new Type<>();
+    private Object image;
+    private Object imageSource;
 
-    public static Type<DestroyHandler> getType() {
+    public static final Type<LazyLoadedHandler> TYPE = new Type<>();
+
+    public static Type<LazyLoadedHandler> getType() {
         return TYPE;
     }
 
-    public DestroyEvent() {
+    public LazyLoadedEvent(Object image, Object imageSource) {
+        this.image = image;
+        this.imageSource = imageSource;
     }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new DestroyEvent());
+    public static void fire(HasHandlers source, Object image, Object imageSource) {
+        source.fireEvent(new LazyLoadedEvent(image, imageSource));
     }
 
     @Override
-    public Type<DestroyHandler> getAssociatedType() {
+    public Type<LazyLoadedHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(DestroyEvent.DestroyHandler handler) {
-        handler.onDestroy(this);
+    protected void dispatch(LazyLoadedEvent.LazyLoadedHandler handler) {
+        handler.onLazyLoaded(this);
+    }
+
+    public Object getImage() {
+        return image;
+    }
+
+    public Object getImageSource() {
+        return imageSource;
     }
 }

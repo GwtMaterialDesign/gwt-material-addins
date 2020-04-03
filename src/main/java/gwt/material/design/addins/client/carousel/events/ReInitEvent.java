@@ -24,36 +24,36 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * When slider is destroyed, or unslicked.
+ * Every time Slick (re-)initializes callback
  *
  * @author kevzlou7979
  */
-public class DestroyEvent extends GwtEvent<DestroyEvent.DestroyHandler> {
+public class ReInitEvent extends GwtEvent<ReInitEvent.ReInitHandler> {
 
-    public interface DestroyHandler extends EventHandler {
-        void onDestroy(DestroyEvent event);
+    public interface ReInitHandler extends EventHandler {
+        void onReInit(ReInitEvent event);
     }
 
-    public static final Type<DestroyHandler> TYPE = new Type<>();
+    public static final Type<ReInitHandler> TYPE = new Type<>();
 
-    public static Type<DestroyHandler> getType() {
+    public static Type<ReInitHandler> getType() {
         return TYPE;
     }
 
-    public DestroyEvent() {
+    public ReInitEvent() {
     }
 
     public static void fire(HasHandlers source) {
-        source.fireEvent(new DestroyEvent());
+        source.fireEvent(new ReInitEvent());
     }
 
     @Override
-    public Type<DestroyHandler> getAssociatedType() {
+    public Type<ReInitHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(DestroyEvent.DestroyHandler handler) {
-        handler.onDestroy(this);
+    protected void dispatch(ReInitEvent.ReInitHandler handler) {
+        handler.onReInit(this);
     }
 }

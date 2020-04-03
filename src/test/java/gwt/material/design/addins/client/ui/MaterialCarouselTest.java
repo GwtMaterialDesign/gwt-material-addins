@@ -23,10 +23,12 @@ import gwt.material.design.addins.client.MaterialWidgetTest;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.carousel.MaterialCarousel;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
+import gwt.material.design.addins.client.carousel.constants.RespondTo;
 import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTab;
+import gwt.material.design.jquery.client.api.Functions;
 
 public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
 
@@ -126,6 +128,34 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
         assertEquals(100, carousel.getAutoplaySpeed());
         carousel.setEdgeFriction(10);
         assertEquals(10.0, carousel.getEdgeFriction());
+        final Functions.Func customPaging = () -> {
+        };
+        carousel.setCustomPaging(customPaging);
+        assertEquals(customPaging, carousel.getCustomPaging());
+        carousel.setDotsClass("some-dot-class");
+        assertEquals("some-dot-class", carousel.getDotsClass());
+        carousel.setFocusOnSelect(true);
+        assertTrue(carousel.isFocusOnSelect());
+        carousel.setFocusOnSelect(false);
+        assertFalse(carousel.isFocusOnSelect());
+        carousel.setRespondTo(RespondTo.MIN);
+        assertEquals(RespondTo.MIN.getName(), carousel.getRespondTo());
+        carousel.setRespondTo(RespondTo.SLIDER);
+        assertEquals(RespondTo.SLIDER.getName(), carousel.getRespondTo());
+        carousel.setRespondTo(RespondTo.WINDOW);
+        assertEquals(RespondTo.WINDOW.getName(), carousel.getRespondTo());
+        carousel.setSlide("abc");
+        assertEquals("abc", carousel.getSlide());
+        carousel.setUseCSS(true);
+        assertTrue(carousel.isUseCSS());
+        carousel.setUseCSS(false);
+        assertFalse(carousel.isUseCSS());
+        carousel.setUseTransform(true);
+        assertTrue(carousel.isUseTransform());
+        carousel.setUseTransform(false);
+        assertFalse(carousel.isUseTransform());
+        carousel.setZIndex(999);
+        assertEquals(999, carousel.getZIndex());
     }
 
     public void testStructure() {
@@ -165,5 +195,6 @@ public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
     }
 
     // Test Fullscreen
-    public void testFullscreen() {}
+    public void testFullscreen() {
+    }
 }

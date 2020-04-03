@@ -24,36 +24,42 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * When slider is destroyed, or unslicked.
+ * Fires when an edge is overscrolled in non-infinite mode.
  *
  * @author kevzlou7979
  */
-public class DestroyEvent extends GwtEvent<DestroyEvent.DestroyHandler> {
+public class EdgeEvent extends GwtEvent<EdgeEvent.EdgeHandler> {
 
-    public interface DestroyHandler extends EventHandler {
-        void onDestroy(DestroyEvent event);
+    public interface EdgeHandler extends EventHandler {
+        void onEdge(EdgeEvent event);
     }
 
-    public static final Type<DestroyHandler> TYPE = new Type<>();
+    private Object direction;
+    public static final Type<EdgeHandler> TYPE = new Type<>();
 
-    public static Type<DestroyHandler> getType() {
+    public static Type<EdgeHandler> getType() {
         return TYPE;
     }
 
-    public DestroyEvent() {
+    public EdgeEvent(Object direction) {
+        this.direction = direction;
     }
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new DestroyEvent());
+    public static void fire(HasHandlers source, Object direction) {
+        source.fireEvent(new EdgeEvent(direction));
     }
 
     @Override
-    public Type<DestroyHandler> getAssociatedType() {
+    public Type<EdgeHandler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(DestroyEvent.DestroyHandler handler) {
-        handler.onDestroy(this);
+    protected void dispatch(EdgeEvent.EdgeHandler handler) {
+        handler.onEdge(this);
+    }
+
+    public Object getDirection() {
+        return direction;
     }
 }
