@@ -39,6 +39,7 @@ import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.addins.client.combobox.js.options.Data;
 import gwt.material.design.addins.client.combobox.js.options.Params;
+import gwt.material.design.addins.client.combobox.js.options.Template;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.async.AsyncWidgetCallback;
@@ -510,10 +511,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         }
     }
 
-    public void setMatcher(Functions.FuncRet2<Params, Data> matcher) {
-        options.matcher = matcher;
-    }
-
     public void setAcceptableValues(Collection<T> values) {
         setItems(values);
     }
@@ -837,6 +834,275 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public String getContainerWidth() {
         return options.width;
+    }
+
+    public Object getContainerCss() {
+        return options.containerCss;
+    }
+
+    /**
+     * Adds custom CSS to the container. Expects key-value pairs:
+     * <pre>
+     * { 'css-property': 'value' }
+     * </pre>
+     */
+    public void setContainerCss(Object containerCss) {
+        this.options.containerCss = containerCss;
+    }
+
+    public String getContainerCssClass() {
+        return options.containerCssClass;
+    }
+
+    /**
+     * Appended a class to the container
+     */
+    public void setContainerCssClass(String containerCssClass) {
+        this.options.containerCssClass = containerCssClass;
+    }
+
+    public Object[] getData() {
+        return options.data;
+    }
+
+    /**
+     * Allows rendering dropdown options from an array.
+     */
+    public void setData(Object[] data) {
+        this.options.data = data;
+    }
+
+    public Object getDataAdapter() {
+        return options.dataAdapter;
+    }
+
+    /**
+     * Used to override the built-in DataAdapter.
+     */
+    public void setDataAdapter(Object dataAdapter) {
+        this.options.dataAdapter = dataAdapter;
+    }
+
+    public boolean isDebug() {
+        return options.debug;
+    }
+
+    /**
+     * Enable debugging messages in the browser console.
+     */
+    public void setDebug(boolean debug) {
+        this.options.debug = debug;
+    }
+
+    public Object getDir() {
+        return options.dir;
+    }
+
+    public void setDir(Object dir) {
+        this.options.dir = dir;
+    }
+
+    public Object getDropdownAdapter() {
+        return options.dropdownAdapter;
+    }
+
+    /**
+     * Used to override the built-in DropdownAdapter
+     */
+    public void setDropdownAdapter(Object dropdownAdapter) {
+        this.options.dropdownAdapter = dropdownAdapter;
+    }
+
+    public boolean isDropdownAutoWidth() {
+        return options.dropdownAutoWidth;
+    }
+
+    /**
+     * Will adapt dropdown width to it's parent
+     */
+    public void setDropdownAutoWidth(boolean dropdownAutoWidth) {
+        this.options.dropdownAutoWidth = dropdownAutoWidth;
+    }
+
+    public Object getDropdownCss() {
+        return options.dropdownCss;
+    }
+
+    /**
+     * Adds custom CSS to the dropdown. Expects key-value pairs:
+     * <pre>
+     * { 'css-property': 'value' }
+     * </pre>
+     */
+    public void setDropdownCss(Object dropdownCss) {
+        this.options.dropdownCss = dropdownCss;
+    }
+
+    public String getDropdownCssClass() {
+        return options.dropdownCssClass;
+    }
+
+    public void setDropdownCssClass(String dropdownCssClass) {
+        this.options.dropdownCssClass = dropdownCssClass;
+    }
+
+    /**
+     * Append Css class to the dropdown
+     */
+    public void setDropdownParent(JQueryElement dropdownParent) {
+        this.options.dropdownParent = dropdownParent;
+    }
+
+    public Functions.Func getEscapeMarkup() {
+        return options.escapeMarkup;
+    }
+
+    /**
+     * Handles automatic escaping of content rendered by custom templates.
+     */
+    public void setEscapeMarkup(Functions.Func escapeMarkup) {
+        this.options.escapeMarkup = escapeMarkup;
+    }
+
+    public Functions.FuncRet2<Params, Data> getMatcher() {
+        return options.matcher;
+    }
+
+    /**
+     * Handles custom search matching.
+     */
+    public void setMatcher(Functions.FuncRet2<Params, Data> matcher) {
+        options.matcher = matcher;
+    }
+
+    public int getMaximumInputLength() {
+        return options.maximumInputLength;
+    }
+
+    /**
+     * Maximum number of characters that may be provided for a search term.
+     */
+    public void setMaximumInputLength(int maximumInputLength) {
+        this.options.maximumInputLength = maximumInputLength;
+    }
+
+    public int getMaximumSelectionLength() {
+        return options.maximumSelectionLength;
+    }
+
+    /**
+     * The maximum number of items that may be selected in a multi-select control. If the value of this option is less
+     * than 1, the number of selected items will not be limited.
+     */
+    public void setMaximumSelectionLength(int maximumSelectionLength) {
+        this.options.maximumSelectionLength = maximumSelectionLength;
+    }
+
+    public int getMinimumInputLength() {
+        return options.minimumInputLength;
+    }
+
+    /**
+     * Minimum number of characters required to start a search.
+     */
+    public void setMinimumInputLength(int minimumInputLength) {
+        this.options.minimumInputLength = minimumInputLength;
+    }
+
+    public String getMinimumResultsForSearch() {
+        return options.minimumResultsForSearch;
+    }
+
+    /**
+     * The minimum number of results required to display the search box.
+     */
+    public void setMinimumResultsForSearch(String minimumResultsForSearch) {
+        this.options.minimumResultsForSearch = minimumResultsForSearch;
+    }
+
+    public Object getResultsAdapter() {
+        return options.resultsAdapter;
+    }
+
+    /**
+     * Used to override the built-in ResultsAdapter.
+     */
+    public void setResultsAdapter(Object resultsAdapter) {
+        this.options.resultsAdapter = resultsAdapter;
+    }
+
+    public Object getSelectionAdapter() {
+        return options.selectionAdapter;
+    }
+
+    /**
+     * Used to override the built-in SelectionAdapter.
+     */
+    public void setSelectionAdapter(Object selectionAdapter) {
+        this.options.selectionAdapter = selectionAdapter;
+    }
+
+    public boolean isSelectOnClose() {
+        return options.selectOnClose;
+    }
+
+    /**
+     * Implements automatic selection when the dropdown is closed.
+     */
+    public void setSelectOnClose(boolean selectOnClose) {
+        this.options.selectOnClose = selectOnClose;
+    }
+
+    public Functions.Func getSorter() {
+        return options.sorter;
+    }
+
+    public void setSorter(Functions.Func sorter) {
+        this.options.sorter = sorter;
+    }
+
+    public Functions.FuncRet1<Template> getTemplateResult() {
+        return options.templateResult;
+    }
+
+    /**
+     * Customizes the way that search results are rendered.
+     */
+    public void setTemplateResult(Functions.FuncRet1<Template> templateResult) {
+        this.options.templateResult = templateResult;
+    }
+
+    public Functions.FuncRet1<Template> getTemplateSelection() {
+        return options.templateSelection;
+    }
+
+    /**
+     * Customizes the way that selections are rendered.
+     */
+    public void setTemplateSelection(Functions.FuncRet1<Template> templateSelection) {
+        this.options.templateSelection = templateSelection;
+    }
+
+    public Functions.Func getTokenizer() {
+        return options.tokenizer;
+    }
+
+    /**
+     * A callback that handles automatic tokenization of free-text entry.
+     */
+    public void setTokenizer(Functions.Func tokenizer) {
+        this.options.tokenizer = tokenizer;
+    }
+
+    public Object[] getTokenSeparators() {
+        return options.tokenSeparators;
+    }
+
+    /**
+     * The list of characters that should be used as token separators.
+     */
+    public void setTokenSeparators(Object[] tokenSeparators) {
+        this.options.tokenSeparators = tokenSeparators;
     }
 
     /**
