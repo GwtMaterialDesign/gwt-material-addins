@@ -4,13 +4,13 @@ import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 
-public class ImageTextResultTemplate extends MaterialPanel {
+public class DefaultSelectionTemplate extends MaterialPanel {
 
     protected MaterialImage imgResult = new MaterialImage();
     protected MaterialLabel textResult = new MaterialLabel();
 
-    public ImageTextResultTemplate(String image, String text) {
-        addStyleName("image-text-result-template");
+    public DefaultSelectionTemplate(String image, String text) {
+        addStyleName("selection-template");
         if (image != null) {
             imgResult.setUrl(image);
             add(imgResult);
