@@ -20,14 +20,11 @@
 package gwt.material.design.incubator.client.daterange.js;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.json.client.JSONString;
+
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-
-import java.util.List;
 
 /**
  * @author kevzlou7979
@@ -67,7 +64,7 @@ public class DateRangeLocale {
     private LocaleString[] monthNames;
 
     @JsProperty
-    private String firstDay;
+    private int firstDay;
 
     @JsOverlay
     public final void setFormat(String format) {
@@ -123,7 +120,7 @@ public class DateRangeLocale {
         }
     }
     @JsOverlay
-    public final void setFirstDay(String firstDay) {
+    public final void setFirstDay(int firstDay) {
         this.firstDay = firstDay;
     }
 }
