@@ -67,7 +67,7 @@ public class DateRangeLocale {
     private LocaleString[] monthNames;
 
     @JsProperty
-    private String firstDay;
+    private int firstDay;
 
     @JsOverlay
     public final void setFormat(String format) {
@@ -123,7 +123,7 @@ public class DateRangeLocale {
         }
     }
     @JsOverlay
-    public final void setFirstDay(String firstDay) {
+    public final void setFirstDay(int firstDay) {
         this.firstDay = firstDay;
     }
 }
