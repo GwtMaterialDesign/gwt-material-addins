@@ -150,7 +150,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void load() {
-        JsComboBox jsComboBox = $(listbox.getElement());
+        JsComboBox jsComboBox = getJsComboBox();
         jsComboBox.select2(options);
         setId(DOM.createUniqueId());
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
@@ -231,7 +231,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void unload() {
-        JsComboBox jsComboBox = $(listbox.getElement());
+        JsComboBox jsComboBox = getJsComboBox();
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
         jsComboBox.off(ComboBoxEvents.UNSELECT);
@@ -244,8 +244,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     public void focus() {
-        JsComboBox jsComboBox = $(listbox.getElement());
-        jsComboBox.select2("focus");
+        getJsComboBox().select2("focus");
+    }
+
+    public void destroy() {
+        getJsComboBox().select2("destroy");
     }
 
     @Override
@@ -272,6 +275,37 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             values.add((T) ((Option) child).getValue());
         }
         listbox.add(child);
+    }
+
+    /**
+     * Programmatically open the combobox component
+     */
+    public void open() {
+        getJsComboBox().select2("open");
+    }
+
+    /**
+     * Programmatically close the combobox component
+     */
+    public void close() {
+        getJsComboBox().select2("close");
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<Widget> it = iterator();
+        while (it.hasNext()) {
+            final Widget widget = it.next();
+            if (widget != label && widget != errorLabel && widget != listbox) {
+                it.remove();
+            }
+        }
+        listbox.clear();
+        values.clear();
+    }
+
+    public boolean isInitialized() {
+        return getJsComboBox().hasClass("select2-hidden-accessible");
     }
 
     public void addWidget(Widget widget) {
@@ -338,33 +372,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         option.setText(text);
         option.setValue(keyFactory.generateKey(value));
         return option;
-    }
-
-    /**
-     * Programmatically open the combobox component
-     */
-    public void open() {
-        $(listbox.getElement()).select2("open");
-    }
-
-    /**
-     * Programmatically close the combobox component
-     */
-    public void close() {
-        $(listbox.getElement()).select2("close");
-    }
-
-    @Override
-    public void clear() {
-        final Iterator<Widget> it = iterator();
-        while (it.hasNext()) {
-            final Widget widget = it.next();
-            if (widget != label && widget != errorLabel && widget != listbox) {
-                it.remove();
-            }
-        }
-        listbox.clear();
-        values.clear();
     }
 
     /**
@@ -505,9 +512,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public void setMultiple(boolean multiple) {
         if (multiple) {
-            $(listbox.getElement()).attr("multiple", "multiple");
+            getJsComboBox().attr("multiple", "multiple");
         } else {
-            $(listbox.getElement()).removeAttr("multiple");
+            getJsComboBox().removeAttr("multiple");
         }
     }
 
@@ -524,7 +531,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
                 // Check when the value is a custom tag
                 if (isTags()) {
-                    value = (T) $(listbox.getElement()).val();
+                    value = (T) getJsComboBox().val();
                 } else {
                     value = values.get(index);
                 }
@@ -648,7 +655,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             stringValues[i] = keyFactory.generateKey(values.get(i));
         }
         suppressChangeEvent = !fireEvents;
-        $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
+        getJsComboBox().val(stringValues).trigger("change", selectedIndex);
         suppressChangeEvent = false;
     }
 
@@ -674,7 +681,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         if (values.size() > 0) {
             T value = values.get(selectedIndex);
             if (value != null || isAllowBlank()) {
-                $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
+                getJsComboBox().val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
             } else {
                 GWT.log("Value index is not found.", new IndexOutOfBoundsException());
             }
@@ -696,8 +703,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     public void unselect() {
-        $(listbox.getElement()).val("").change();
-        $(listbox.getElement()).trigger(new Event(ComboBoxEvents.UNSELECT));
+        getJsComboBox().val("").change();
+        getJsComboBox().trigger(new Event(ComboBoxEvents.UNSELECT));
     }
 
     /**
@@ -711,7 +718,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Get the selected vales from multiple combobox
      */
     public List<T> getSelectedValues() {
-        Object[] curVal = (Object[]) $(listbox.getElement()).val();
+        Object[] curVal = (Object[]) getJsComboBox().val();
 
         List<T> selectedValues = new ArrayList<>();
         if (curVal == null || curVal.length < 1) {
@@ -1189,6 +1196,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void setAsyncDisplayLoader(AsyncDisplayLoader displayLoader) {
         getAsyncWidgetMixin().setAsyncDisplayLoader(displayLoader);
+    }
+
+    public JsComboBox getJsComboBox() {
+        return $(listbox.getElement());
     }
 
     @Override
