@@ -26,6 +26,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import jsinterop.base.JsPropertyMap;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ import java.util.List;
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsFileUploaderOptions {
-
+	
     public String url;
 
     @JsProperty
@@ -190,4 +191,7 @@ public class JsFileUploaderOptions {
 
     @JsProperty
     public boolean forceFallback;
+    
+    @JsProperty
+    public JsPropertyMap<Object> params;
 }

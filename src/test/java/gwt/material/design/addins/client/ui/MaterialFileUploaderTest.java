@@ -100,6 +100,10 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(fileUploader.isWithCredentials());
         fileUploader.setWithCredentials(false);
         assertFalse(fileUploader.isWithCredentials());
+        fileUploader.setParam("name1", "value1");
+        assertEquals("value1", fileUploader.getParam("name1"));
+        fileUploader.setParam("name1", "value2");
+        assertEquals("value2", fileUploader.getParam("name1"));
     }
 
     @Override

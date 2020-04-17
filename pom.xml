@@ -85,6 +85,14 @@
             <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- JsInterop Base -->
+        <dependency>
+			<groupId>com.google.jsinterop</groupId>
+			<artifactId>base</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+        
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
