@@ -44,13 +44,15 @@ import gwt.material.design.client.constants.CssName;
  * <h3>UiBinder Usage:</h3>
  * <pre>
  * {@code
- * <m:MaterialSideNav type="OPEN" m:id="sideNav" closeOnClick="false" width="280">
- *    <ma:sideprofile.MaterialSideProfile url="http://static1.squarespace.com/static/51609147e4b0715db61d32b6/521b97cee4b05f031fd12dde/5519e33de4b06a1002802805/1431718693701/?format=1500w">
- *        <m:MaterialImage url="http://b.vimeocdn.com/ps/339/488/3394886_300.jpg" />
- *        <m:MaterialLabel text="GWT Material" textColor="white"/>
- *        <m:MaterialLink text="gwt-material@gmail.com" activates="dropProfile" iconType="ARROW_DROP_DOWN" iconPosition="RIGHT" textColor="white"/>
- *    </ma:sideprofile.MaterialSideProfile>
- * </m:MaterialSideNav>
+ * <m:MaterialSideNavPush ui:field="sidenav" m:id="right-sidenav" width="300">
+ *  <ma:sideprofile.MaterialSideProfile
+ *      url="someurl">
+ *      <m:MaterialImage url="someurl"/>
+ *      <m:MaterialLabel text="GWT Material" textColor="WHITE"/>
+ *      <m:MaterialLink text="gwt-material@gmail.com" activates="dropProfile" iconType="ARROW_DROP_DOWN"
+ *      iconPosition="RIGHT" textColor="WHITE"/>
+ *  </ma:sideprofile.MaterialSideProfile>
+ * </m:MaterialSideNavPush>
  * }
  * </pre>
  *
