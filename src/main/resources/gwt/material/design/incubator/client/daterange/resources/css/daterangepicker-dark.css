@@ -16,6 +16,14 @@
     border-bottom: 7px solid #2e3033;
 }
 
+.daterangepicker.drop-up:before {
+    border-top: 7px solid #2e3033;
+}
+
+.daterangepicker.drop-up:after {
+    border-top: 6px solid #2e3033;
+}
+
 .daterangepicker th.month {
     color: #ffffff;
 }
