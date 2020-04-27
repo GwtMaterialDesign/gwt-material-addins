@@ -527,13 +527,18 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         if (!isMultiple()) {
             int index = getSelectedIndex();
             T value;
-            if (index != -1) {
 
+            if (index != -1) {
                 // Check when the value is a custom tag
                 if (isTags()) {
                     value = (T) getJsComboBox().val();
                 } else {
                     value = values.get(index);
+                }
+
+                // Check whether we add an item with null value
+                if (index == 0 && value == null) {
+                    return isAllowBlank() ? new ArrayList<>() : null;
                 }
 
                 return Collections.singletonList(value);
