@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
@@ -78,6 +79,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
     }
 
+    private static final String DATE_INPUT_FORMAT = "MM/dd/yyyy";
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
     private ScrollHelper scrollHelper = new ScrollHelper();
     private TextBox dateInput = new TextBox();
@@ -457,12 +459,21 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     public void setValue(Date[] value, boolean fireEvents) {
         this.value = value;
 
-        if (value.length >= 1) {
-            this.startDate = value[0];
+        if (value != null) {
+            if (value.length >= 1) {
+                this.startDate = value[0];
 
-            if (value.length >= 2) {
-                this.endDate = value[1];
+                if (value.length >= 2) {
+                    this.endDate = value[1];
+                }
             }
+
+            // If autoUpdateInput is false then we need to set the date input value manually
+            if (!options.autoUpdateInput) {
+                setDateInputValue(value[0], value[1]);
+            }
+        } else {
+            clearInputValue();
         }
 
         super.setValue(value, fireEvents);
@@ -483,6 +494,27 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return null;
     }
 
+    /**
+     * Call this if you have defined {@link DateRangePicker#setAutoUpdateInput(boolean)} to false.
+     * This will be required in order to update the input date textfield manually.
+     */
+    public void setDateInputValue(Date creationDate, Date endDate, String format) {
+        if (dateInput != null && creationDate != null && endDate != null && format != null && !format.isEmpty()) {
+            dateInput.setValue(DateTimeFormat.getFormat(format).format(creationDate) + " - " +
+                DateTimeFormat.getFormat(format).format(endDate));
+        } else {
+            clearInputValue();
+        }
+    }
+
+    public void setDateInputValue(Date creationDate, Date endDate) {
+        setDateInputValue(creationDate, endDate, DATE_INPUT_FORMAT);
+    }
+
+    public void clearInputValue() {
+        dateInput.setValue("");
+    }
+
     @Override
     public Date[] getValue() {
         return value;
@@ -494,6 +526,10 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     public Label getLabel() {
         return label;
+    }
+
+    public void setLabel(String label) {
+        this.label.setText(label);
     }
 
     public MaterialLabel getErrorLabel() {
@@ -531,7 +567,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     public void setFieldWidth(double percentWidth) {
         getFieldTypeMixin().setFieldWidth(percentWidth);
     }
-
 
     @Override
     public MaterialIcon getIcon() {
@@ -618,7 +653,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     @Override
     public void setPlaceholder(String placeholder) {
-        label.setText(placeholder);
+        dateInput.getElement().setAttribute("placeholder", placeholder);
     }
 
     @Override
