@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,13 +30,20 @@ import gwt.material.design.addins.client.combobox.events.SelectItemEvent;
 import gwt.material.design.addins.client.combobox.events.UnselectItemEvent;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.LanguageOptions;
+import gwt.material.design.addins.client.combobox.js.options.Data;
+import gwt.material.design.addins.client.combobox.js.options.Params;
+import gwt.material.design.addins.client.combobox.js.options.Template;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
 import gwt.material.design.addins.client.ui.base.dto.User;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.events.ClearEvent;
+import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.Option;
+import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,6 +128,52 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
         assertTrue(comboBox.isTags());
         comboBox.setTags(false);
         assertFalse(comboBox.isTags());
+        comboBox.setContainerCss("width: 100px");
+        assertEquals("width: 100px", comboBox.getContainerCss());
+        comboBox.setContainerCss("custom");
+        assertEquals("custom", comboBox.getContainerCss());
+        String[] data = new String[]{"one", "two", "three"};
+        comboBox.setData(data);
+        assertEquals(data, comboBox.getData());
+        comboBox.setDebug(true);
+        assertTrue(comboBox.isDebug());
+        comboBox.setDropdownAutoWidth(true);
+        assertTrue(comboBox.isDropdownAutoWidth());
+        comboBox.setDropdownCss("width: 20px");
+        assertEquals("width: 20px", comboBox.getDropdownCss());
+        comboBox.setDropdownCssClass("someClass");
+        assertEquals("someClass", comboBox.getDropdownCssClass());
+        JQueryElement element = $(".some-parent");
+        comboBox.setDropdownParent(element);
+        assertEquals(element, comboBox.getDropdownParent());
+        Functions.Func func = () -> {
+        };
+        comboBox.setEscapeMarkup(func);
+        assertEquals(func, comboBox.getEscapeMarkup());
+        Functions.FuncRet2<Params, Data> matcher = (param1, param2) -> param1;
+        comboBox.setMatcher(matcher);
+        assertEquals(matcher, comboBox.getMatcher());
+        comboBox.setMaximumInputLength(20);
+        assertEquals(20, comboBox.getMaximumInputLength());
+        comboBox.setMaximumSelectionLength(10);
+        assertEquals(10, comboBox.getMaximumSelectionLength());
+        comboBox.setMinimumInputLength(4);
+        assertEquals(4, comboBox.getMinimumInputLength());
+        comboBox.setMinimumResultsForSearch("minimum");
+        assertEquals("minimum", comboBox.getMinimumResultsForSearch());
+        comboBox.setSelectOnClose(true);
+        assertTrue(comboBox.isSelectOnClose());
+        Functions.Func sorter = () -> {
+        };
+        comboBox.setSorter(sorter);
+        assertEquals(sorter, comboBox.getSorter());
+        Functions.FuncRet1<Template> template = param1 -> param1;
+        comboBox.setTemplateResult(template);
+        assertEquals(template, comboBox.getTemplateResult());
+        Functions.Func tokenizer = () -> {
+        };
+        comboBox.setTokenizer(tokenizer);
+        assertEquals(tokenizer, comboBox.getTokenizer());
 
         // given
         final String BODY_SELECTOR = "body";
@@ -197,6 +250,41 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
             }
         });
         assertTrue(isValueChangeEvent[0]);
+        // Clear Handler
+        final boolean[] isClearEventFired = {false};
+        comboBox.addClearHandler(event -> {
+            isClearEventFired[0] = true;
+        });
+        comboBox.fireEvent(new GwtEvent<ClearEvent.ClearHandler>() {
+            @Override
+            public Type<ClearEvent.ClearHandler> getAssociatedType() {
+                return ClearEvent.TYPE;
+            }
+
+            @Override
+            protected void dispatch(ClearEvent.ClearHandler eventHandler) {
+                eventHandler.onClear(null);
+            }
+        });
+        assertTrue(isClearEventFired[0]);
+        
+        // Clearing Handler
+        final boolean[] isClearingEventFired = {false};
+        comboBox.addClearingHandler(event -> {
+            isClearingEventFired[0] = true;
+        });
+        comboBox.fireEvent(new GwtEvent<ClearingEvent.ClearingHandler>() {
+            @Override
+            public Type<ClearingEvent.ClearingHandler> getAssociatedType() {
+                return ClearingEvent.TYPE;
+            }
+
+            @Override
+            protected void dispatch(ClearingEvent.ClearingHandler eventHandler) {
+                eventHandler.onClearing(null);
+            }
+        });
+        assertTrue(isClearingEventFired[0]);
     }
 
     @Override
