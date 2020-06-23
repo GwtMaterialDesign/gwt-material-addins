@@ -30,7 +30,6 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
@@ -83,11 +82,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     private Date time;
-    private String placeholder;
+    private String label;
     private MaterialPanel container = new MaterialPanel();
     private MaterialInput timeInput = new MaterialInput();
     private MaterialLabel errorLabel = new MaterialLabel();
-    private Label label = new Label();
+    private Label labelWidget = new Label();
     private MaterialIcon icon = new MaterialIcon();
     private JsTimePickerOptions options = new JsTimePickerOptions();
 
@@ -101,13 +100,13 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
     }
 
-    public MaterialTimePicker(String placeholder) {
+    public MaterialTimePicker(String label) {
         this();
-        setPlaceholder(placeholder);
+        setLabel(label);
     }
 
-    public MaterialTimePicker(String placeholder, Date value) {
-        this(placeholder);
+    public MaterialTimePicker(String label, Date value) {
+        this(label);
         setValue(value);
     }
 
@@ -118,7 +117,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         setUniqueId(DOM.createUniqueId());
         timeInput.setType(InputType.TEXT);
         container.add(timeInput);
-        container.add(label);
+        container.add(labelWidget);
         container.add(errorLabel);
         add(container);
         timeInput.getElement().setAttribute("type", "text");
@@ -177,7 +176,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     public void clear() {
         time = null;
         clearStatusText();
-        label.removeStyleName(CssName.ACTIVE);
+        labelWidget.removeStyleName(CssName.ACTIVE);
         timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
     }
@@ -219,11 +218,14 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     /**
-     * @return The placeholder text.
+     * Starting GMD 2.3.1 we standardized the labelling system
+     * of all value widget fields. Please check {@link HasLabel#setLabel(String)}
+     * for the new setter.
      */
+    @Deprecated
     @Override
     public String getPlaceholder() {
-        return this.placeholder;
+        return getLabel();
     }
 
     /**
@@ -240,8 +242,13 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
     @Override
     public void setLabel(String label) {
-        this.placeholder = label;
-        this.label.setText(placeholder);
+        this.label = label;
+        this.labelWidget.setText(this.label);
+    }
+
+    @Override
+    public String getLabel() {
+        return labelWidget.getText();
     }
 
     /**
@@ -301,8 +308,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         if (this.time == null) {
             return;
         }
-        label.removeStyleName(CssName.ACTIVE);
-        label.addStyleName(CssName.ACTIVE);
+        labelWidget.removeStyleName(CssName.ACTIVE);
+        labelWidget.addStyleName(CssName.ACTIVE);
         $(timeInput.getElement()).val(DateTimeFormat.getFormat(options.hour24 ? "HH:mm" : "hh:mm aa").format(time));
         super.setValue(time, fireEvents);
     }
@@ -422,7 +429,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
         if (statusTextMixin == null) {
-            statusTextMixin = new StatusTextMixin<>(this, errorLabel, timeInput, label);
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, timeInput, labelWidget);
         }
         return statusTextMixin;
     }
@@ -500,8 +507,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         return errorLabel;
     }
 
-    public Label getLabel() {
-        return label;
+    public Label getLabelWidget() {
+        return labelWidget;
     }
 
     @Override

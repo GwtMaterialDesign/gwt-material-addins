@@ -161,7 +161,7 @@ import java.util.Map.Entry;
  */
 // @formatter:on
 public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
-        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes, HasLabel {
+    HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -349,7 +349,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
-                "document.getElementById('" + autocompleteId + "').focus()");
+            "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(errorLabel);
         suggestBox.setFocus(true);
     }
@@ -585,16 +585,17 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.getElement().setAttribute("placeholder", placeholder);
     }
 
-    /**
-     * @param label
-     * @see gwt.material.design.client.ui.MaterialValueBox#setLabel(String)
-     */
     @Override
     public void setLabel(String label) {
         this.label.setText(label);
         if (!getPlaceholder().isEmpty()) {
             this.label.setStyleName(CssName.ACTIVE);
         }
+    }
+
+    @Override
+    public String getLabel() {
+        return label.getText();
     }
 
     /**
@@ -821,7 +822,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.setEnabled(enabled);
     }
 
-    public Label getLabel() {
+    public Label getLabelWidget() {
         return label;
     }
 
