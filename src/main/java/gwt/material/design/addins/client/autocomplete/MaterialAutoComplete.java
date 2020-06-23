@@ -161,7 +161,7 @@ import java.util.Map.Entry;
  */
 // @formatter:on
 public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
-        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes {
+        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -487,7 +487,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     /**
      * @param itemValues the itemsSelected to set
-     * @see #setValue(Object)
+     * @see #setValue(List, boolean)
      */
     public void setItemValues(List<String> itemValues) {
         setItemValues(itemValues, false);
@@ -496,7 +496,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     /**
      * @param itemValues the itemsSelected to set
      * @param fireEvents will fire value change event if true
-     * @see #setValue(Object)
+     * @see #setValue(List, boolean)
      */
     public void setItemValues(List<String> itemValues, boolean fireEvents) {
         if (itemValues == null) {
@@ -589,6 +589,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
      * @param label
      * @see gwt.material.design.client.ui.MaterialValueBox#setLabel(String)
      */
+    @Override
     public void setLabel(String label) {
         this.label.setText(label);
         if (!getPlaceholder().isEmpty()) {

@@ -38,10 +38,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialInput;
-import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Label;
 
 import java.util.Date;
@@ -73,7 +70,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  */
 //@formatter:on
 public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes {
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -230,12 +227,21 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     /**
-     * @param placeholder The placeholder text to set.
+     * Starting GMD 2.3.1 we standardized the labelling system
+     * of all value widget fields. Please check {@link HasLabel#setLabel(String)}
+     * for the new setter.
      */
+    @Deprecated
     @Override
     public void setPlaceholder(String placeholder) {
-        this.placeholder = placeholder;
-        label.setText(placeholder);
+        setLabel(placeholder);
+    }
+
+
+    @Override
+    public void setLabel(String label) {
+        this.placeholder = label;
+        this.label.setText(placeholder);
     }
 
     /**

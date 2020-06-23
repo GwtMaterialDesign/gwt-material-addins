@@ -99,7 +99,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
+    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -438,6 +438,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     /**
      * Set the upper label above the combobox
      */
+    @Override
     public void setLabel(String text) {
         label.setText(text);
     }
@@ -564,7 +565,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public T getSingleValue() {
         List<T> values = getSelectedValue();
-        if (!values.isEmpty()) {
+        if (values != null && !values.isEmpty()) {
             return values.get(0);
         }
         return null;

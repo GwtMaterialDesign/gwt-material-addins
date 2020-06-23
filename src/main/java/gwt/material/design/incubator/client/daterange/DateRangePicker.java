@@ -61,7 +61,7 @@ import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
 
 
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
-    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle {
+    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel {
 
     static {
         if (AddinsIncubator.isDebug()) {
@@ -528,6 +528,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return label;
     }
 
+    @Override
     public void setLabel(String label) {
         this.label.setText(label);
     }
