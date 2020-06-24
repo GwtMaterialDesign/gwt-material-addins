@@ -132,6 +132,12 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         setAsyncDisplayLoader(new DefaultComboBoxDisplayLoader(this));
     }
 
+    public MaterialComboBox(List<T> items) {
+        this();
+
+        setItems(items);
+    }
+
     @Override
     protected void onLoad() {
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
@@ -361,7 +367,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     public void addItems(Collection<T> items) {
-        items.forEach(this::addItem);
+        if (items != null) {
+            items.forEach(this::addItem);
+        }
     }
 
     /**
