@@ -33,7 +33,6 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
