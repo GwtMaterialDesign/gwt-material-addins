@@ -30,10 +30,10 @@ import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.mixin.ColorsMixin;
-import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
@@ -322,10 +322,9 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
 
     protected void applySplitterLineColor(Color splitterLineColor) {
         if (splitterLineColor != null) {
-            JQueryElement splitterBar = $(getElement()).find(".splitter-bar");
+            JQueryElement splitterBar = $(getElement()).find("> .splitter-bar");
             if (splitterBar != null) {
-                MaterialWidget widget = new MaterialWidget(splitterBar);
-                widget.setBackgroundColor(splitterLineColor);
+                splitterBar.css("backgroundColor", ColorHelper.setupComputedBackgroundColor(splitterLineColor));
             }
         }
     }
