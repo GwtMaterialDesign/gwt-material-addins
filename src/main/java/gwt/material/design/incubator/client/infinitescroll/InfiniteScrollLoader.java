@@ -33,6 +33,7 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
  *
  * @author kevzlou7979
  */
+//TODO: Standardized the loader to make use of the recent GMD Loader structure
 public class InfiniteScrollLoader extends MaterialWidget {
 
     private String message = "Loading";
