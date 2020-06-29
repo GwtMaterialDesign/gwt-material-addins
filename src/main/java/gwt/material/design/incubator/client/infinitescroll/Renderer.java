@@ -17,29 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.incubator.client.infinitescroll.data;
+package gwt.material.design.incubator.client.infinitescroll;
 
-public class LoadConfig<T> {
+import com.google.gwt.user.client.ui.Widget;
 
-    private final int offset;
-    private final int limit;
+public interface Renderer<T> {
 
-    public LoadConfig(int offset, int limit) {
-        this.offset = offset;
-        this.limit = limit;
-    }
-
-    /**
-     * Get load offset.
-     */
-    public int getOffset() {
-        return offset;
-    }
-
-    /**
-     * Get load limit. Set to "0" for no limit.
-     */
-    public int getLimit() {
-        return limit;
-    }
+    Widget render(T model);
 }

@@ -54,6 +54,13 @@
             <version>${gwt-material.version}</version>
         </dependency>
 
+        <!-- GwtMaterialTable -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-table</artifactId>
+            <version>${gwt-material.version}</version>
+        </dependency>
+
         <!-- GwtMaterial Test Jar -->
         <dependency>
             <groupId>com.github.gwtmaterialdesign</groupId>
