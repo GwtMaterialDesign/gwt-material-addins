@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +23,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.client.MaterialDesign;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.kanban.js.JKanban;
 import gwt.material.design.incubator.client.kanban.js.KanbanBoard;
 import gwt.material.design.incubator.client.kanban.js.KanbanItem;
@@ -43,7 +43,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979@gmail.com
  * @see <a href="https://github.com/riktar/jkanban">Documentation</a>
  */
-public class Kanban extends MaterialWidget implements JsLoader {
+public class Kanban extends MaterialWidget {
 
     private boolean responsive = true;
     private JKanban kanban;
@@ -75,7 +75,6 @@ public class Kanban extends MaterialWidget implements JsLoader {
         load();
     }
 
-    @Override
     public void load() {
         setId(DOM.createUniqueId());
         kanbanOptions = getOptions();
@@ -87,16 +86,8 @@ public class Kanban extends MaterialWidget implements JsLoader {
         } else {
             responsiveLoader.unload();
         }
-    }
 
-    @Override
-    public void unload() {
-
-    }
-
-    @Override
-    public void reload() {
-
+        IncubatorDarkThemeReloader.get().reload(KanbanDarkTheme.class);
     }
 
     /**
@@ -199,6 +190,15 @@ public class Kanban extends MaterialWidget implements JsLoader {
      */
     public void removeBoard(String id) {
         kanban.removeBoard(id);
+    }
+
+    /**
+     * Clear all the boards
+     */
+    public void clearAllBoards() {
+        if (boards != null) {
+            boards.forEach(kanbanBoard -> removeBoard(kanbanBoard.getId()));
+        }
     }
 
     /**

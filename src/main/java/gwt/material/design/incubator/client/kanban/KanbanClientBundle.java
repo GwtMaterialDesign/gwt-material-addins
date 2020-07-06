@@ -34,6 +34,9 @@ public interface KanbanClientBundle extends ClientBundle {
     @Source("resources/js/jkanban.min.js")
     TextResource jkanbanJs();
 
+    @Source("resources/css/jkanban-dark.min.css")
+    TextResource jkanbanDarkCss();
+
     @Source("resources/css/jkanban.min.css")
     TextResource jskanbanCss();
 
