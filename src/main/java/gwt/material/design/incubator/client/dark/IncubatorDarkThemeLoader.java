@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import gwt.material.design.incubator.client.animation.checkmark.CheckMarkDarkThe
 import gwt.material.design.incubator.client.daterange.DateRangeDarkTheme;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookupDarkTheme;
 import gwt.material.design.incubator.client.kanban.KanbanDarkTheme;
+import gwt.material.design.incubator.client.keyboard.ScreenKeyboardDarkTheme;
 import gwt.material.design.incubator.client.placeholder.PlaceholderDarkTheme;
 import gwt.material.design.incubator.client.progress.ProgressLineBarDarkTheme;
 import gwt.material.design.incubator.client.search.InlineSearchDarkTheme;
@@ -42,6 +43,7 @@ public class IncubatorDarkThemeLoader extends DarkThemeLoader {
             new KanbanDarkTheme(),
             new PlaceholderDarkTheme(),
             new ProgressLineBarDarkTheme(),
+            new ScreenKeyboardDarkTheme(),
             new TagLabelDarkTheme(),
             new TimerProgressDarkTheme());
     }

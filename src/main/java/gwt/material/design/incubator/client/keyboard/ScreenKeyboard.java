@@ -24,6 +24,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
+import gwt.material.design.incubator.client.kanban.KanbanDarkTheme;
 import gwt.material.design.incubator.client.keyboard.events.*;
 import gwt.material.design.incubator.client.keyboard.js.Keyboard;
 import gwt.material.design.incubator.client.keyboard.js.KeyboardOptions;
@@ -81,6 +83,8 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
             // Construct Keyboard with required options
             keyboard = new Keyboard(options);
         }
+
+        IncubatorDarkThemeReloader.get().reload(ScreenKeyboardDarkTheme.class);
     }
 
     /**
