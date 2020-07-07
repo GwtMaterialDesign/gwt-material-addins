@@ -234,13 +234,13 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
             mediaTrackConstraints.facingMode = facingMode.getName();
             constraints.video = mediaTrackConstraints;
 
-            Navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
+            Navigator.mediaDevices.getUserMedia(constraints).then((event, streamObj) -> {
                 mediaStream = (MediaStream) streamObj;
 
                 if (mediaStream != null) {
                     try {
                         video.setPropertyObject("srcObject", mediaStream);
-                    } catch (Exception e) {
+                    } catch (Exception exception) {
                         if (URL.createObjectURL(mediaStream) != null) {
                             $(video).attr("src", URL.createObjectURL(mediaStream));
                         } else if (WebkitURL.createObjectURL(mediaStream) != null) {
@@ -255,7 +255,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
 
                 onCameraCaptureLoad();
                 return null;
-            }).catchException(error -> {
+            }).fail((e, error) -> {
                 GWT.log("MaterialCameraCapture: An error occured! " + error);
                 onCameraCaptureError(error.toString());
                 return null;
@@ -289,9 +289,9 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
      */
     public static boolean isSupported() {
         return Navigator.webkitGetUserMedia != null
-                || Navigator.getUserMedia != null
-                || Navigator.mozGetUserMedia != null
-                || Navigator.msGetUserMedia != null;
+            || Navigator.getUserMedia != null
+            || Navigator.mozGetUserMedia != null
+            || Navigator.msGetUserMedia != null;
     }
 
     public void addOverlay(MaterialWidget overlay) {
