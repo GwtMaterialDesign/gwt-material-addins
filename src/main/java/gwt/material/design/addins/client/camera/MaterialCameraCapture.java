@@ -234,7 +234,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
             mediaTrackConstraints.facingMode = facingMode.getName();
             constraints.video = mediaTrackConstraints;
 
-            Navigator.mediaDevices.getUserMedia(constraints).then((event, streamObj) -> {
+            Navigator.mediaDevices.getUserMedia(constraints).then((streamObj) -> {
                 mediaStream = (MediaStream) streamObj;
 
                 if (mediaStream != null) {
