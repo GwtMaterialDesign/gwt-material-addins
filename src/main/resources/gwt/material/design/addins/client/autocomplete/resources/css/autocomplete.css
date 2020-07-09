@@ -17,9 +17,11 @@ ul.multiValueSuggestBox-list {
     border-bottom: 1px solid #9e9e9e
 }
 
+
 .autocomplete.disabled ul.multiValueSuggestBox-list {
     border-bottom: 1px dotted rgba(0, 0, 0, .26)
 }
+
 
 .autocomplete-text .multiValueSuggestBox-input-token, .autocomplete-text .multiValueSuggestBox-input-token input {
     width: 100% !important
@@ -73,6 +75,10 @@ ul.multiValueSuggestBox-list {
 .suggestPopupMiddle {
     width: 100%;
     left: 0 !important
+}
+
+ul.multiValueSuggestBox-list li:first-child {
+    margin-left: 0px;
 }
 
 ul.multiValueSuggestBox-list li input {

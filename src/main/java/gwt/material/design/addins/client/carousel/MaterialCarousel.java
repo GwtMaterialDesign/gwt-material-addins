@@ -104,19 +104,21 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         }
     }
 
-    private MaterialPanel container = new MaterialPanel();
-    private NextArrow nextArrow = new NextArrow();
-    private PreviousArrow previousArrow = new PreviousArrow();
-    private MaterialPanel wrapper = new MaterialPanel();
+    private final MaterialPanel container = new MaterialPanel();
+    private final NextArrow nextArrow = new NextArrow();
+    private final PreviousArrow previousArrow = new PreviousArrow();
+    private final MaterialPanel wrapper = new MaterialPanel();
 
 
-    private JsCarouselOptions options = JsCarouselOptions.create();
+    private final JsCarouselOptions options = JsCarouselOptions.create();
 
     private CssTypeMixin<CarouselType, MaterialCarousel> typeMixin;
     private List<String> values;
+    private final String uniqueId;
 
     public MaterialCarousel() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
+        uniqueId = DOM.createUniqueId();
     }
 
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
@@ -125,14 +127,34 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     protected void onLoad() {
         super.onLoad();
 
-        container.setId(DOM.createUniqueId());
+        container.setId(uniqueId);
         wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         wrapper.add(container);
 
         super.add(nextArrow);
         super.add(previousArrow);
         super.add(wrapper);
+        
+        load();
+    }
 
+    @Override
+    public void load() {
+        loadHandlers();
+        if (nextArrow != null) {
+            options.nextArrow = "#" + nextArrow.getId();
+        }
+
+        if (previousArrow != null) {
+            options.prevArrow = "#" + previousArrow.getId();
+        }
+
+        $(container.getElement()).slick(options);
+
+        AddinsDarkThemeReloader.get().reload(MaterialCarouselDarkTheme.class);
+    }
+
+    protected void loadHandlers() {
         $(getElement()).on(CarouselEvents.AFTER_CHANGE, (e, slick, currentSlide) -> {
             AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
             return true;
@@ -183,22 +205,6 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
             SwipeEvent.fire(this, direction.toString());
             return true;
         });
-
-        load();
-    }
-
-    @Override
-    public void load() {
-        if (nextArrow != null) {
-            options.nextArrow = "#" + nextArrow.getId();
-        }
-
-        if (previousArrow != null) {
-            options.prevArrow = "#" + previousArrow.getId();
-        }
-
-        $(container.getElement()).slick(options);
-        AddinsDarkThemeReloader.get().reload(MaterialCarouselDarkTheme.class);
     }
 
     @Override
@@ -326,7 +332,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         if (container == null) {
             GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
         } else {
-            return $("\\#" + container.getId()).slick(action, params);
+            return $("#" + uniqueId).slick(action, params);
         }
         return null;
     }
