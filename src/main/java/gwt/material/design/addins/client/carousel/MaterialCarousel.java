@@ -134,13 +134,14 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         super.add(nextArrow);
         super.add(previousArrow);
         super.add(wrapper);
-        
+
         load();
     }
 
     @Override
     public void load() {
         loadHandlers();
+
         if (nextArrow != null) {
             options.nextArrow = "#" + nextArrow.getId();
         }
@@ -368,8 +369,6 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
      */
     public void setShowArrows(boolean showArrows) {
         options.arrows = showArrows;
-        getBtnPrevArrow().setVisible(showArrows);
-        getBtnNextArrow().setVisible(showArrows);
     }
 
     public int getSlidesToShow() {
