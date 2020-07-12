@@ -92,8 +92,20 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     protected void onLoad() {
         super.onLoad();
 
-        add(label);
+        load();
+    }
 
+    @Override
+    public void load() {
+        if (!label.isAttached()) {
+            add(label);
+            label.setSize(getSize(), isResponsive());
+        }
+        loadHandlers();
+        Scheduler.get().scheduleDeferred(() -> $(getElement()).circleProgress(options));
+    }
+
+    public void loadHandlers() {
         $(getElement()).on(CircularProgressEvents.PROGRESS, (e, progress, step) -> {
             ProgressEvent.fire(this, (double) progress, (double) step);
             return true;
@@ -107,14 +119,6 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
             CompleteEvent.fire(this, getValue());
             return true;
         });
-
-        load();
-    }
-
-    @Override
-    public void load() {
-        label.setSize(getSize(), isResponsive());
-        Scheduler.get().scheduleDeferred(() -> $(getElement()).circleProgress(options));
     }
 
     @Override
@@ -126,6 +130,11 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     @Override
     public void unload() {
+
+        if (label.isAttached()) {
+            label.removeFromParent();
+        }
+
         $(getElement()).off(CircularProgressEvents.START);
         $(getElement()).off(CircularProgressEvents.PROGRESS);
         $(getElement()).off(CircularProgressEvents.COMPLETED);
@@ -133,8 +142,15 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     @Override
     public void reload() {
+        reload(false);
+    }
+
+    public void reload(boolean redraw) {
         unload();
         load();
+        if (redraw) {
+            redraw();
+        }
     }
 
     @Override
