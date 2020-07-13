@@ -45,6 +45,11 @@ public interface HasScreenKeyboardHandlers  {
     HandlerRegistration addBeforeFirstRenderHandler(BeforeFirstRenderEvent.BeforeFirstRenderHandler handler);
 
     /**
+     * Executes the callback function before simple-keyboard render.
+     */
+    HandlerRegistration addBeforeRenderHandler(BeforeRenderEvent.BeforeRenderHandler handler);
+
+    /**
      * Executes the callback function every time simple-keyboard is rendered (e.g: when you change layouts).
      */
     HandlerRegistration addRenderHandler(RenderEvent.RenderHandler handler);

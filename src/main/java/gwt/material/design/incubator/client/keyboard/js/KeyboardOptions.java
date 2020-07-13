@@ -153,7 +153,7 @@ public class KeyboardOptions {
      * This is useful if you’re handling several inputs with simple-keyboard, as specified in the “Using several inputs” guide.
      */
     @JsProperty
-    public Functions.Func1<String> onChangeAll;
+    public Functions.Func1<KeyInput> onChangeAll;
 
     @JsOverlay
     public final KeyboardLayout getLayout() {

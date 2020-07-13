@@ -25,7 +25,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
-import gwt.material.design.incubator.client.kanban.KanbanDarkTheme;
 import gwt.material.design.incubator.client.keyboard.events.*;
 import gwt.material.design.incubator.client.keyboard.js.Keyboard;
 import gwt.material.design.incubator.client.keyboard.js.KeyboardOptions;
@@ -78,7 +77,7 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
             options.onInit = () -> InitEvent.fire(this);
             options.onKeyPress = button -> KeyPressEvent.fire(this, button);
             options.onChange = input -> ChangeEvent.fire(this, input);
-            options.onChangeAll = input -> ChangeAllEvent.fire(this, input);
+            options.onChangeAll = inputs -> ChangeAllEvent.fire(this, inputs.default_);
 
             // Construct Keyboard with required options
             keyboard = new Keyboard(options);
@@ -213,6 +212,11 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
     @Override
     public HandlerRegistration addBeforeFirstRenderHandler(BeforeFirstRenderEvent.BeforeFirstRenderHandler handler) {
         return addHandler(handler, BeforeFirstRenderEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addBeforeRenderHandler(BeforeRenderEvent.BeforeRenderHandler handler) {
+        return addHandler(handler, BeforeRenderEvent.getType());
     }
 
     @Override
