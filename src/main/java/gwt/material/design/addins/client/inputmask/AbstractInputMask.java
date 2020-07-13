@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -111,10 +111,10 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
      * Mask the input field with given mask value.
      */
     public void load(String mask) {
-        options.onComplete = object -> CompleteEvent.fire(this, object);
-        options.onKeyPress = object -> MaskKeyPressEvent.fire(this, object);
-        options.onChange = object -> MaskChangeEvent.fire(this, object);
-        options.onInvalid = (object, event, function, error) -> InvalidEvent.fire(this, object, error[0]);
+        options.onComplete = cep -> CompleteEvent.fire(this, cep);
+        options.onKeyPress = cep -> MaskKeyPressEvent.fire(this, cep);
+        options.onChange = cep -> MaskChangeEvent.fire(this, cep);
+        options.onInvalid = (val, event, function, error, options) -> InvalidEvent.fire(this, val, error);
         $(valueBoxBase.getElement()).mask(mask, options);
         InitializeEvent.fire(this);
     }
