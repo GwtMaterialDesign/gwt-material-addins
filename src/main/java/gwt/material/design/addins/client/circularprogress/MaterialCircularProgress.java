@@ -76,12 +76,11 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     }
 
 
-    private CircularProgressLabel label = new CircularProgressLabel();
+    private final CircularProgressLabel label = new CircularProgressLabel();
+    private final JsCircularProgressOptions options = JsCircularProgressOptions.create();
     private Color fillColor = Color.BLUE;
     private Color emptyFillColor = Color.GREY_LIGHTEN_2;
-
     private ToggleStyleMixin<MaterialWidget> responsiveMixin;
-    private JsCircularProgressOptions options = JsCircularProgressOptions.create();
     private FontSizeMixin<MaterialWidget> fontSizeMixin;
 
     public MaterialCircularProgress() {
@@ -273,7 +272,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
      * else set it to the default size = 100
      **/
     public void setResponsive(boolean responsive) {
-        options.size = responsive == true ? 1000 : 100;
+        options.size = responsive ? 1000 : 100;
         getResponsiveMixin().setOn(responsive);
     }
 
@@ -283,7 +282,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     public ToggleStyleMixin<MaterialWidget> getResponsiveMixin() {
         if (responsiveMixin == null) {
-            responsiveMixin = new ToggleStyleMixin(this, AddinsCssName.RESPONSIVE);
+            responsiveMixin = new ToggleStyleMixin<>(this, AddinsCssName.RESPONSIVE);
         }
         return responsiveMixin;
     }

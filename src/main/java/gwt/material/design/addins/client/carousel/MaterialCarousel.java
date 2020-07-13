@@ -108,10 +108,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     private final NextArrow nextArrow = new NextArrow();
     private final PreviousArrow previousArrow = new PreviousArrow();
     private final MaterialPanel wrapper = new MaterialPanel();
-
-
     private final JsCarouselOptions options = JsCarouselOptions.create();
-
     private CssTypeMixin<CarouselType, MaterialCarousel> typeMixin;
     private List<String> values;
     private final String uniqueId;
