@@ -20,7 +20,6 @@
 package gwt.material.design.addins.client.inputmask.js;
 
 import gwt.material.design.jquery.client.api.Event;
-import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -44,20 +43,38 @@ public class JsInputMaskOptions {
     public boolean selectOnFocus;
 
     @JsProperty
-    public Functions.Func1<Object> onComplete;
+    public CompleteCallback onComplete;
 
     @JsProperty
-    public Functions.Func1<Object> onKeyPress;
+    public KeyPressCallback onKeyPress;
 
     @JsProperty
-    public Functions.Func1<Object> onChange;
+    public ChangeCallback onChange;
 
     @JsProperty
-    public Func5<Object, Event, Object, InputMaskError[], JsInputMaskOptions> onInvalid;
+    public InvalidCallback onInvalid;
 
     @FunctionalInterface
     @JsFunction
-    public interface Func5<A, B, C, D, E> {
-        void call(A param1, B param2, C param3, D param4, E param5);
+    public interface InvalidCallback {
+        void call(Object param1, Event param2, Object param3, InputMaskError[] param4, JsInputMaskOptions param5);
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface CompleteCallback {
+        void call(Object param1);
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface KeyPressCallback {
+        void call(Object param1);
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface ChangeCallback {
+        void call(Object param1);
     }
 }

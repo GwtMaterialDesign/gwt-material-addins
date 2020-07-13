@@ -129,7 +129,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
 
-        setAsyncDisplayLoader(new DefaultComboBoxDisplayLoader(this));
+        setAsyncDisplayLoader(new DefaultComboBoxDisplayLoader<>(this));
     }
 
     public MaterialComboBox(List<T> items) {
