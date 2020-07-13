@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -187,8 +187,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
     protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles) {
         JQueryElement previewNode = $(template);
         previewNode.asElement().setId("");
-        String previewTemplate = previewNode.parent().html();
-        options.previewTemplate = previewTemplate;
+        options.previewTemplate = previewNode.parent().html();
         options.previewsContainer = "#" + previews;
         uploader = new Dropzone(e, options);
 
@@ -291,14 +290,14 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(code, statusText, body));
         });
 
-        uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, file, response) -> {
+        uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, totalBytes, totalBytesSent) -> {
             TotalUploadProgressEvent.fire(this, progress);
             if (isPreview()) {
                 getUploadPreview().getUploadHeader().getProgress().setPercent(progress);
             }
         });
 
-        uploader.on(FileUploaderEvents.UPLOAD_PROGRESS, (progress, file, response) -> {
+        uploader.on(FileUploaderEvents.UPLOAD_PROGRESS, (progress, totalBytes, totalBytesSent) -> {
             CurrentUploadProgressEvent.fire(this, progress);
             if ($this != null) {
                 $this.find(".progress .determinate").css("width", progress + "%");

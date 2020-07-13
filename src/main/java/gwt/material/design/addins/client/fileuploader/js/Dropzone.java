@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.fileuploader.js;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -38,13 +39,19 @@ public class Dropzone extends JQueryElement {
     }
 
     @JsMethod
-    public  native Dropzone on(String events, Functions.Func1<Object> callback);
+    public  native void on(String events, Functions.Func1<Object> callback);
 
     @JsMethod
-    public native Dropzone on(String events, Functions.Func3<Double, File, Object> callback);
+    public native void on(String events, ProgressCallback callback);
+
+    @FunctionalInterface
+    @JsFunction
+    public interface ProgressCallback {
+        void call(Double uploadProgress, Integer totalBytes, Integer totalBytesSent);
+    }
 
     @JsMethod
-    public native Dropzone on(String events, Functions.Func2<File, Object> callback);
+    public native void on(String events, Functions.Func2<File, Object> callback);
 
     @JsMethod
     public native void removeEventListeners();
