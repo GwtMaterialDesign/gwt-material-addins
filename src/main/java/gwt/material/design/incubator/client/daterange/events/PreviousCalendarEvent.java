@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.daterange.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.daterange.js.JsDateRange;
+import gwt.material.design.incubator.client.daterange.js.JsDateRangePicker;
 
 /**
  *  Triggered when the Previous button is pressed to proceed to the previous calendar
@@ -37,9 +37,9 @@ public class PreviousCalendarEvent extends GwtEvent<PreviousCalendarEvent.Previo
 
     public static final Type<PreviousCalendarEventHandler> TYPE = new Type<>();
 
-    private JsDateRange dateRange;
+    private JsDateRangePicker dateRange;
 
-    public PreviousCalendarEvent(JsDateRange dateRange) {
+    public PreviousCalendarEvent(JsDateRangePicker dateRange) {
         this.dateRange = dateRange;
     }
 
@@ -47,11 +47,11 @@ public class PreviousCalendarEvent extends GwtEvent<PreviousCalendarEvent.Previo
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, JsDateRange dateRange) {
+    public static void fire(HasHandlers source, JsDateRangePicker dateRange) {
         source.fireEvent(new PreviousCalendarEvent(dateRange));
     }
 
-    public JsDateRange getDateRange() {
+    public JsDateRangePicker getDateRange() {
         return dateRange;
     }
 

@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.daterange.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.daterange.js.JsDateRange;
+import gwt.material.design.incubator.client.daterange.js.JsDateRangePicker;
 
 /**
  *  Triggered when the apply button is clicked, or when a predefined range is clicked
@@ -37,9 +37,9 @@ public class ApplyEvent extends GwtEvent<ApplyEvent.ApplyEventHandler> {
 
     public static final Type<ApplyEventHandler> TYPE = new Type<>();
 
-    private JsDateRange dateRange;
+    private JsDateRangePicker dateRange;
 
-    public ApplyEvent(JsDateRange dateRange) {
+    public ApplyEvent(JsDateRangePicker dateRange) {
         this.dateRange = dateRange;
     }
 
@@ -47,11 +47,11 @@ public class ApplyEvent extends GwtEvent<ApplyEvent.ApplyEventHandler> {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, JsDateRange dateRange) {
+    public static void fire(HasHandlers source, JsDateRangePicker dateRange) {
         source.fireEvent(new ApplyEvent(dateRange));
     }
 
-    public JsDateRange getDateRange() {
+    public JsDateRangePicker getDateRange() {
         return dateRange;
     }
 
