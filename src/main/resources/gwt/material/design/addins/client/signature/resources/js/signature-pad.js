@@ -511,5 +511,3 @@ var SignaturePad = (function () {
     };
     return SignaturePad;
 }());
-
-module.exports = SignaturePad;
