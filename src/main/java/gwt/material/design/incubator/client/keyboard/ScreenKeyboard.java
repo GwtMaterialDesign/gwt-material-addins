@@ -77,7 +77,7 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
             options.onInit = () -> InitEvent.fire(this);
             options.onKeyPress = button -> KeyPressEvent.fire(this, button);
             options.onChange = input -> ChangeEvent.fire(this, input);
-            options.onChangeAll = inputs -> ChangeAllEvent.fire(this, inputs.default_);
+            options.onChangeAll = inputs -> ChangeAllEvent.fire(this, inputs._default);
 
             // Construct Keyboard with required options
             keyboard = new Keyboard(options);

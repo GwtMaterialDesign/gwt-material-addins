@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.inputmask.js;
 
 import gwt.material.design.jquery.client.api.Event;
+import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -57,7 +58,7 @@ public class JsInputMaskOptions {
     @FunctionalInterface
     @JsFunction
     public interface InvalidCallback {
-        void call(Object param1, Event param2, Object param3, InputMaskError[] param4, JsInputMaskOptions param5);
+        void call(Object val, Event event, Functions.Func function, InputMaskError[] error, JsInputMaskOptions options);
     }
 
     @FunctionalInterface

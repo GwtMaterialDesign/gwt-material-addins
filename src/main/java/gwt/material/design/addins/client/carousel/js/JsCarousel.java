@@ -50,11 +50,5 @@ public class JsCarousel extends JQueryElement {
     public native JQueryElement slick();
 
     @JsMethod
-    public native JavaScriptObject slick(String action);
-
-    @JsMethod
-    public native JavaScriptObject slick(Object action, Object param2);
-
-    @JsMethod
-    public native JavaScriptObject slick(Object action, Object param1, Object param2);
+    public native JavaScriptObject slick(String action, Object params);
 }
