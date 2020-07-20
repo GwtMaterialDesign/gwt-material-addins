@@ -1,6 +1,7 @@
 /*!
  * Lolliclock v0.1.0
  * Matthew Krick 2015
+ * Volker Kubitz 2020 added startTime for hour24 mode
  * Inspired by Google's material design & ClockPicker v0.0.7 (http://weareoutman.github.io/clockpicker/)
  */
 
@@ -444,22 +445,22 @@
         });
 
         //Get the time
-        function timeToDate(time) {
+        function timeToDate(time,hour24) {
             var parts = time.split(':');
             if (parts.length === 2){
                 var hours = +parts[0];
                 var minAM = parts[1].split(' ');
-                if (minAM.length === 2) {
+                if (minAM.length === 2||(hour24&&minAM.length === 1)) {
                     var mins = minAM[0];
-                    if (minAM[1] === 'PM') hours += 12;
+                    if (!hour24&&minAM[1] === 'PM') hours += 12;
                     return new Date(1970, 1, 1, hours, mins);
                 }
             }
             return new Date('x');
         }
 
-        function isValidTime(time) {
-            return !isNaN(timeToDate(time).getTime());
+        function isValidTime(time,hour24) {
+            return !isNaN(timeToDate(time,hour24).getTime());
         }
 
         var value;
@@ -467,14 +468,14 @@
         var defaultValue = this.options.startTime;
         var placeholderValue = this.input.prop('placeholder');
 
-        if (inputValue && isValidTime(inputValue)) {
-            value = timeToDate(inputValue);
+        if (inputValue && isValidTime(inputValue,this.options.hour24)) {
+            value = timeToDate(inputValue,this.options.hour24);
         } else if (defaultValue === 'now') {
             value = new Date();
-        } else if (defaultValue && isValidTime(defaultValue)) {
-            value = timeToDate(defaultValue);
-        } else if (placeholderValue && isValidTime(placeholderValue)) {
-            value = timeToDate(placeholderValue);
+        } else if (defaultValue && isValidTime(defaultValue,this.options.hour24)) {
+            value = timeToDate(defaultValue,this.options.hour24);
+        } else if (placeholderValue && isValidTime(placeholderValue,this.options.hour24)) {
+            value = timeToDate(placeholderValue,this.options.hour24);
         } else {
             value = new Date();
         }
