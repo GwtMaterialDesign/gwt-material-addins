@@ -17,15 +17,17 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client;
+package gwt.material.design.incubator.client.ui.base;
 
+import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.base.MaterialWidgetTestCase;
 import org.junit.Ignore;
 
 @Ignore
-public class MaterialTestCase extends gwt.material.design.client.MaterialTestCase {
+public abstract class MaterialWidgetTest<T extends MaterialWidget> extends MaterialWidgetTestCase<T> {
 
     @Override
     public String getModuleName() {
-        return "gwt.material.design.addins.GwtMaterialAddins";
+        return "gwt.material.design.incubator.AddinsIncubator";
     }
 }

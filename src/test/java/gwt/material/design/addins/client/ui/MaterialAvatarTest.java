@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.avatar.MaterialAvatar;
 import gwt.material.design.addins.client.avatar.js.*;
 
@@ -28,7 +28,7 @@ import gwt.material.design.addins.client.avatar.js.*;
  *
  * @author kevzlou7979
  */
-public class MaterialAvatarTest extends MaterialWidgetTest<MaterialAvatar> {
+public class MaterialAvatarTest extends AddinsWidgetTestCase<MaterialAvatar> {
 
     @Override
     protected MaterialAvatar createWidget() {

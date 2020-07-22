@@ -23,7 +23,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.popupmenu.MaterialPopupMenu;
 import gwt.material.design.client.ui.MaterialLink;
 
@@ -32,7 +32,7 @@ import gwt.material.design.client.ui.MaterialLink;
  *
  * @author kevzlou7979
  */
-public class MaterialPopupMenuTest extends MaterialWidgetTest<MaterialPopupMenu> {
+public class MaterialPopupMenuTest extends AddinsWidgetTestCase<MaterialPopupMenu> {
 
     @Override
     protected MaterialPopupMenu createWidget() {

@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.cutout.MaterialCutOut;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
@@ -31,7 +31,7 @@ import gwt.material.design.client.ui.MaterialIcon;
  *
  * @author kevzlou7979
  */
-public class MaterialCutoutTest extends MaterialWidgetTest<MaterialCutOut> {
+public class MaterialCutoutTest extends AddinsWidgetTestCase<MaterialCutOut> {
 
     private MaterialIcon target;
 

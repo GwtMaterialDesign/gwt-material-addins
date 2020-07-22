@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.carousel.MaterialCarousel;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTab;
 import gwt.material.design.jquery.client.api.Functions;
 
-public class MaterialCarouselTest extends MaterialWidgetTest<MaterialCarousel> {
+public class MaterialCarouselTest extends AddinsWidgetTestCase<MaterialCarousel> {
 
     @Override
     protected MaterialCarousel createWidget() {

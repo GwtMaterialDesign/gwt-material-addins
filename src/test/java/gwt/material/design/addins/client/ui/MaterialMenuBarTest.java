@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.menubar.MaterialMenuBar;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialLink;
@@ -29,7 +29,7 @@ import gwt.material.design.client.ui.MaterialLink;
  *
  * @author kevzlou7979
  */
-public class MaterialMenuBarTest extends MaterialWidgetTest<MaterialMenuBar> {
+public class MaterialMenuBarTest extends AddinsWidgetTestCase<MaterialMenuBar> {
 
     @Override
     protected MaterialMenuBar createWidget() {

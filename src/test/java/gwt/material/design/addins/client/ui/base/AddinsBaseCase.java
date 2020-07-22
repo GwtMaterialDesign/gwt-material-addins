@@ -17,13 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client;
+package gwt.material.design.addins.client.ui.base;
 
-import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.client.ui.base.BaseTestCase;
 import org.junit.Ignore;
 
 @Ignore
-public abstract class WidgetTestCase<T extends Widget> extends gwt.material.design.client.WidgetTestCase<T> {
+public class AddinsBaseCase extends BaseTestCase {
 
     @Override
     public String getModuleName() {

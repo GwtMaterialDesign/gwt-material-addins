@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
@@ -39,7 +39,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  */
-public class MaterialDndTest extends MaterialWidgetTest<MaterialPanel> {
+public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
 
     @Override
     protected MaterialPanel createWidget() {

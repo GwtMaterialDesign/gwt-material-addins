@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.core.client.Scheduler;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.scrollfire.MaterialScrollfire;
 import gwt.material.design.client.ui.MaterialPanel;
 
@@ -31,7 +31,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  */
-public class MaterialScrollfireTest extends MaterialWidgetTest<MaterialPanel> {
+public class MaterialScrollfireTest extends AddinsWidgetTestCase<MaterialPanel> {
 
     @Override
     protected MaterialPanel createWidget() {
