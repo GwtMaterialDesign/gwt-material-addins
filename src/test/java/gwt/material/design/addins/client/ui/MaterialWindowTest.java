@@ -114,20 +114,19 @@ public class MaterialWindowTest extends AddinsWidgetTestCase<MaterialWindow> {
 
     //TODO: Failed Tests
     public void testDndArea() {
-        /*// UiBinder
+        // UiBinder
         // given
-        MaterialWindow window = getWidget(false);
+        MaterialWindow window = getWidget(true);
+
         MaterialPanel dndArea = new MaterialPanel();
         window.setDndArea(dndArea);
-
-        attachWidget();
 
         window.open();
 
         assertTrue(window.getDnd().getDragOptions().restrict.restriction instanceof Element);
         Element element = (Element) window.getDnd().getDragOptions().restrict.restriction;
         assertEquals(dndArea.getElement().getInnerHTML(), element.getInnerHTML());
-        assertEquals(dndArea.getElement(), element);*/
+        assertEquals(dndArea.getElement(), element);
     }
 
     @Override
