@@ -28,6 +28,7 @@
 
     <inherits name="gwt.material.design.addins.GwtMaterialAddinsBase"/>
     <inherits name='gwt.material.design.addins.GwtMaterialAddinsBasicDebug'/>
+    <inherits name="gwt.material.design.GwtMaterialTableBasicDebug" />
     <inherits name="com.google.gwt.json.JSON"/>
 
     <!-- Specify the app entry point class -->

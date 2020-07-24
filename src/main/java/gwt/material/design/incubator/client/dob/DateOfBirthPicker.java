@@ -146,15 +146,15 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
 
         if (!showFieldLabels) {
             if (month != null) {
-                month.getLabel().removeFromParent();
+                month.getLabelWidget().removeFromParent();
             }
 
             if (day != null) {
-                day.getLabel().removeFromParent();
+                day.getLabelWidget().removeFromParent();
             }
 
             if (year != null) {
-                year.getLabel().removeFromParent();
+                year.getLabelWidget().removeFromParent();
             }
         }
 

@@ -21,7 +21,6 @@ package gwt.material.design.incubator.client.storage;
 
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.Promise;
 import jsinterop.annotations.*;
 
@@ -63,12 +62,11 @@ public class LocalForage {
     public static native Promise keys();
 
     @JsMethod
-    public static native Promise iterate(Functions.Func3<Object, String, Integer> callback);
+    public static native Promise iterate(IterateCallback callback);
 
     /**
      * Settings Api
      */
-
     @JsMethod
     public native static void setDriver(Driver driver);
 
@@ -113,5 +111,11 @@ public class LocalForage {
         } else {
             MaterialDesignBase.injectJs(LocalStorageClientBundle.INSTANCE.localForage());
         }
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface IterateCallback {
+        void call(Object value, String key, Integer iterationNumber);
     }
 }

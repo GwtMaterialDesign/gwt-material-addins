@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.swipeable.MaterialSwipeablePanel;
 import gwt.material.design.addins.client.swipeable.events.*;
@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialLabel;
  *
  * @author kevzlou7979
  */
-public class MaterialSwipeableTest extends MaterialWidgetTest<MaterialSwipeablePanel> {
+public class MaterialSwipeableTest extends AddinsWidgetTestCase<MaterialSwipeablePanel> {
 
     private MaterialLabel label1;
     private MaterialLabel label2;

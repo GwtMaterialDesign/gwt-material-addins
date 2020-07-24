@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.cropper.MaterialImageCropper;
 import gwt.material.design.addins.client.cropper.constants.Shape;
 import gwt.material.design.addins.client.cropper.events.CropEvent;
@@ -30,7 +30,7 @@ import gwt.material.design.addins.client.cropper.js.JsCropperDimension;
  *
  * @author kevzlou7979
  */
-public class MaterialImageCropperTest extends MaterialWidgetTest<MaterialImageCropper> {
+public class MaterialImageCropperTest extends AddinsWidgetTestCase<MaterialImageCropper> {
 
     final static int BOUNDARY_WIDTH = 200;
     final static int BOUNDARY_HEIGHT = 200;
@@ -105,9 +105,9 @@ public class MaterialImageCropperTest extends MaterialWidgetTest<MaterialImageCr
         assertFalse(cropper.isEnforceBoundary());
 
         cropper.setMouseWheelZoom(true);
-        assertTrue(cropper.isMouseWheelZoom());
+        assertEquals(cropper.getMouseWheelZoom(), true);
         cropper.setMouseWheelZoom(false);
-        assertFalse(cropper.isMouseWheelZoom());
+        assertEquals(cropper.getMouseWheelZoom(), false);
 
         cropper.setShowZoomer(true);
         assertTrue(cropper.isShowZoomer());

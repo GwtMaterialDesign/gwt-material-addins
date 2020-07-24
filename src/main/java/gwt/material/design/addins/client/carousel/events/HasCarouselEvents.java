@@ -35,6 +35,31 @@ public interface HasCarouselEvents extends HasHandlers {
     HandlerRegistration addBeforeChangeHandler(BeforeChangeEvent.BeforeChangeHandler handler);
 
     /**
+     * Fires when an edge is overscrolled in non-infinite mode.
+     */
+    HandlerRegistration addEdgeHandler(EdgeEvent.EdgeHandler handler);
+
+    /**
+     * Fires after image loads lazily
+     */
+    HandlerRegistration addLazyLoadedErrorHandler(LazyLoadedErrorEvent.LazyLoadedErrorHandler handler);
+
+    /**
+     * Fires after image loads lazily
+     */
+    HandlerRegistration addLazyLoadedHandler(LazyLoadedEvent.LazyLoadedHandler handler);
+
+    /**
+     * Every time Slick (re-)initializes callback
+     */
+    HandlerRegistration addReInitHandler(ReInitEvent.ReInitHandler handler);
+
+    /**
+     * Every time Slick recalculates position
+     */
+    HandlerRegistration addSetPositionHandler(SetPositionEvent.SetPositionHandler handler);
+
+    /**
      * Fires after first initialization.
      */
     HandlerRegistration addInitHandler(InitEvent.InitHandler handler);
@@ -48,4 +73,6 @@ public interface HasCarouselEvents extends HasHandlers {
      * Fires after swipe/drag
      */
     HandlerRegistration addSwipeHandler(SwipeEvent.SwipeHandler handler);
+
+
 }

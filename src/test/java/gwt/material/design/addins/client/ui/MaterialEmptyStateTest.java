@@ -19,8 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.emptystate.MaterialEmptyState;
 import gwt.material.design.client.constants.CssName;
@@ -29,7 +28,7 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.html.Div;
 
-public class MaterialEmptyStateTest extends MaterialWidgetTest<MaterialEmptyState> {
+public class MaterialEmptyStateTest extends AddinsWidgetTestCase<MaterialEmptyState> {
 
     @Override
     protected MaterialEmptyState createWidget() {

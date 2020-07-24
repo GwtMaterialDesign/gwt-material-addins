@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * Destroy Event for Carousel component
+ * When slider is destroyed, or unslicked.
  *
  * @author kevzlou7979
  */

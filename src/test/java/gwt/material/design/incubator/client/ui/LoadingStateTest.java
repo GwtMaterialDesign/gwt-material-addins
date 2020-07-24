@@ -24,7 +24,7 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.incubator.client.MaterialWidgetTest;
+import gwt.material.design.incubator.client.ui.base.MaterialWidgetTest;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.loadingstate.LoadingStatePanel;
 import gwt.material.design.incubator.client.loadingstate.constants.State;

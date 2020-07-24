@@ -21,27 +21,10 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 
 public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
-
-    private static Type<SuccessHandler<?>> TYPE;
-
-    public interface SuccessHandler<T> extends EventHandler {
-        void onSuccess(SuccessEvent<T> event);
-    }
-
-    public static <T> void fire(HasFileUpload<T> source, T target, UploadResponse response) {
-        if (TYPE != null) {
-            SuccessEvent<T> event = new SuccessEvent<T>(target, response);
-            source.fireEvent(event);
-        }
-    }
-
-    public static Type<SuccessHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<>());
-    }
 
     private final T target;
     private final UploadResponse response;
@@ -67,5 +50,22 @@ public class SuccessEvent<T> extends GwtEvent<SuccessEvent.SuccessHandler<T>> {
     @Override
     protected void dispatch(SuccessHandler<T> handler) {
         handler.onSuccess(this);
+    }
+
+    private static Type<SuccessHandler<?>> TYPE;
+
+    public interface SuccessHandler<T> extends EventHandler {
+        void onSuccess(SuccessEvent<T> event);
+    }
+
+    public static <T> void fire(HasFileUploadHandlers<T> source, T target, UploadResponse response) {
+        if (TYPE != null) {
+            SuccessEvent<T> event = new SuccessEvent<T>(target, response);
+            source.fireEvent(event);
+        }
+    }
+
+    public static Type<SuccessHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<>());
     }
 }

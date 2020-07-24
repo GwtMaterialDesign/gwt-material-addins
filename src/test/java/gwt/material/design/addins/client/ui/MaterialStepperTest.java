@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.view.client.SelectionChangeEvent;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.stepper.MaterialStep;
 import gwt.material.design.addins.client.stepper.MaterialStepper;
@@ -28,9 +28,7 @@ import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Axis;
-import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.Div;
-import gwt.material.design.client.ui.html.Span;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class MaterialStepperTest extends MaterialWidgetTest<MaterialStepper> {
+public class MaterialStepperTest extends AddinsWidgetTestCase<MaterialStepper> {
 
     private List<MaterialStep> steps;
 

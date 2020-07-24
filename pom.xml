@@ -5,25 +5,26 @@
     <parent>
         <artifactId>gwt-material-parent</artifactId>
         <groupId>com.github.gwtmaterialdesign</groupId>
-        <version>2.3.0</version>
+        <version>2.4.0-rc1</version>
     </parent>
 
     <artifactId>gwt-material-addins</artifactId>
     <packaging>gwt-lib</packaging>
 
     <name>Gwt Material Addins</name>
-    <version>2.3.0</version>
+    <version>2.4.0-rc1</version>
     <description>Extra Components of GWT Material Framework</description>
 
     <properties>
-        <gwt-material.version>2.3.0</gwt-material.version>
+        <gwt-material.version>2.4.0-rc1</gwt-material.version>
+        <maven.failsafe.plugin>2.22.1</maven.failsafe.plugin>
     </properties>
 
     <scm>
         <connection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</connection>
         <developerConnection>scm:git:git@github.com:GwtMaterialDesign/gwt-material-addins.git</developerConnection>
         <url>http://github.com/GwtMaterialDesign/gwt-material-addins</url>
-        <tag>v2.3.0</tag>
+        <tag>v2.4.0-rc1</tag>
     </scm>
 
     <licenses>
@@ -51,6 +52,13 @@
         <dependency>
             <groupId>com.github.gwtmaterialdesign</groupId>
             <artifactId>gwt-material</artifactId>
+            <version>${gwt-material.version}</version>
+        </dependency>
+
+        <!-- GwtMaterialTable -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-table</artifactId>
             <version>${gwt-material.version}</version>
         </dependency>
 
@@ -89,8 +97,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>${htmlunit.version}</version>
         </dependency>
     </dependencies>
 
@@ -113,22 +126,35 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
                 <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <useManifestOnlyJar>false</useManifestOnlyJar>
-                    <forkMode>always</forkMode>
-                    <argLine>-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.NoOpLog</argLine>
+                    <excludes>
+                        <exclude>**/**.java</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
+                        <phase>test</phase>
                         <goals>
                             <goal>test</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <!--
+				The integration-test phase runs after regular test phase (but before verify/install).
+				We use this to our advantage to peak at the compiled output from the GWTTestSuite
+				 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.failsafe.plugin}</version>
+                <configuration>
+                    <includes>
+                        <include>**/*.class</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
@@ -152,13 +178,38 @@
                     <skipModule>true</skipModule>
                     <classpathScope>compile+runtime</classpathScope>
                     <failOnError>true</failOnError>
-                    <skipModule>true</skipModule>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>compile</id>
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>default-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <!--
+							Because we expressly disable asserts in tests to avoid a compiler bug, we also must run surefire manually
+							on the JRE tests
+							 -->
+                            <excludes>
+                                <exclude>**/ui/**.java</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/AddinsTestSuite.java</include>
+                                <include>**/IncubatorTestSuite.java</include>
+                            </includes>
+
+                            <!-- disable JVM asserts, but enable JS asserts for tests -->
+                            <enableAssertions>false</enableAssertions>
+                            <testArgs>
+                                <testArg>-checkAssertions</testArg>
+                            </testArgs>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

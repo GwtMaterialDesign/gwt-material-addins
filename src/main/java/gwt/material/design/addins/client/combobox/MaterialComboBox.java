@@ -39,6 +39,7 @@ import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.addins.client.combobox.js.options.Data;
 import gwt.material.design.addins.client.combobox.js.options.Params;
+import gwt.material.design.addins.client.combobox.js.options.Template;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.async.AsyncWidgetCallback;
@@ -52,6 +53,8 @@ import gwt.material.design.client.base.mixin.ReadOnlyMixin;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
+import gwt.material.design.client.events.ClearEvent;
+import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -96,7 +99,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>> {
+    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -126,7 +129,13 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     public MaterialComboBox() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, AddinsCssName.COMBOBOX);
 
-        setAsyncDisplayLoader(new DefaultComboBoxDisplayLoader(this));
+        setAsyncDisplayLoader(new DefaultComboBoxDisplayLoader<>(this));
+    }
+
+    public MaterialComboBox(List<T> items) {
+        this();
+
+        setItems(items);
     }
 
     @Override
@@ -147,7 +156,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void load() {
-        JsComboBox jsComboBox = $(listbox.getElement());
+        JsComboBox jsComboBox = getJsComboBox();
         jsComboBox.select2(options);
         setId(DOM.createUniqueId());
         jsComboBox.on(ComboBoxEvents.CHANGE, event -> {
@@ -199,6 +208,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        jsComboBox.on(ComboBoxEvents.CLEAR, (e, param1) -> {
+            ClearEvent.fire(this);
+            return true;
+        });
+
+        jsComboBox.on(ComboBoxEvents.CLEARING, (e, param1) -> {
+            ClearingEvent.fire(this);
+            return true;
+        });
+
         displayArrowForAllowClearOption(false);
 
         if (getTextColor() != null) {
@@ -218,19 +237,24 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     @Override
     public void unload() {
-        JsComboBox jsComboBox = $(listbox.getElement());
+        JsComboBox jsComboBox = getJsComboBox();
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
         jsComboBox.off(ComboBoxEvents.UNSELECT);
         jsComboBox.off(ComboBoxEvents.OPEN);
         jsComboBox.off(ComboBoxEvents.CLOSE);
+        jsComboBox.off(ComboBoxEvents.CLEAR);
+        jsComboBox.off(ComboBoxEvents.CLEARING);
         body().off("focus");
         jsComboBox.select2("destroy");
     }
 
     public void focus() {
-        JsComboBox jsComboBox = $(listbox.getElement());
-        jsComboBox.select2("focus");
+        getJsComboBox().select2("focus");
+    }
+
+    public void destroy() {
+        getJsComboBox().select2("destroy");
     }
 
     @Override
@@ -257,6 +281,37 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             values.add((T) ((Option) child).getValue());
         }
         listbox.add(child);
+    }
+
+    /**
+     * Programmatically open the combobox component
+     */
+    public void open() {
+        getJsComboBox().select2("open");
+    }
+
+    /**
+     * Programmatically close the combobox component
+     */
+    public void close() {
+        getJsComboBox().select2("close");
+    }
+
+    @Override
+    public void clear() {
+        final Iterator<Widget> it = iterator();
+        while (it.hasNext()) {
+            final Widget widget = it.next();
+            if (widget != label && widget != errorLabel && widget != listbox) {
+                it.remove();
+            }
+        }
+        listbox.clear();
+        values.clear();
+    }
+
+    public boolean isInitialized() {
+        return getJsComboBox().hasClass("select2-hidden-accessible");
     }
 
     public void addWidget(Widget widget) {
@@ -312,7 +367,9 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     public void addItems(Collection<T> items) {
-        items.forEach(this::addItem);
+        if (items != null) {
+            items.forEach(this::addItem);
+        }
     }
 
     /**
@@ -323,33 +380,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         option.setText(text);
         option.setValue(keyFactory.generateKey(value));
         return option;
-    }
-
-    /**
-     * Programmatically open the combobox component
-     */
-    public void open() {
-        $(listbox.getElement()).select2("open");
-    }
-
-    /**
-     * Programmatically close the combobox component
-     */
-    public void close() {
-        $(listbox.getElement()).select2("close");
-    }
-
-    @Override
-    public void clear() {
-        final Iterator<Widget> it = iterator();
-        while (it.hasNext()) {
-            final Widget widget = it.next();
-            if (widget != label && widget != errorLabel && widget != listbox) {
-                it.remove();
-            }
-        }
-        listbox.clear();
-        values.clear();
     }
 
     /**
@@ -416,9 +446,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     /**
      * Set the upper label above the combobox
      */
+    @Override
     public void setLabel(String text) {
         label.setText(text);
     }
+
+    @Override
+    public String getLabel() {
+        return label.getText();
+    }
+
 
     @Override
     public String getPlaceholder() {
@@ -490,14 +527,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public void setMultiple(boolean multiple) {
         if (multiple) {
-            $(listbox.getElement()).attr("multiple", "multiple");
+            getJsComboBox().attr("multiple", "multiple");
         } else {
-            $(listbox.getElement()).removeAttr("multiple");
+            getJsComboBox().removeAttr("multiple");
         }
-    }
-
-    public void setMatcher(Functions.FuncRet2<Params, Data> matcher) {
-        options.matcher = matcher;
     }
 
     public void setAcceptableValues(Collection<T> values) {
@@ -509,13 +542,18 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         if (!isMultiple()) {
             int index = getSelectedIndex();
             T value;
-            if (index != -1) {
 
+            if (index != -1) {
                 // Check when the value is a custom tag
                 if (isTags()) {
-                    value = (T) $(listbox.getElement()).val();
+                    value = (T) getJsComboBox().val();
                 } else {
                     value = values.get(index);
+                }
+
+                // Check whether we add an item with null value
+                if (index == 0 && value == null) {
+                    return isAllowBlank() ? new ArrayList<>() : null;
                 }
 
                 return Collections.singletonList(value);
@@ -541,7 +579,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      */
     public T getSingleValue() {
         List<T> values = getSelectedValue();
-        if (!values.isEmpty()) {
+        if (values != null && !values.isEmpty()) {
             return values.get(0);
         }
         return null;
@@ -637,7 +675,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             stringValues[i] = keyFactory.generateKey(values.get(i));
         }
         suppressChangeEvent = !fireEvents;
-        $(listbox.getElement()).val(stringValues).trigger("change", selectedIndex);
+        getJsComboBox().val(stringValues).trigger("change", selectedIndex);
         suppressChangeEvent = false;
     }
 
@@ -663,7 +701,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         if (values.size() > 0) {
             T value = values.get(selectedIndex);
             if (value != null || isAllowBlank()) {
-                $(listbox.getElement()).val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
+                getJsComboBox().val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
             } else {
                 GWT.log("Value index is not found.", new IndexOutOfBoundsException());
             }
@@ -685,8 +723,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     public void unselect() {
-        $(listbox.getElement()).val("").change();
-        $(listbox.getElement()).trigger(new Event(ComboBoxEvents.UNSELECT));
+        getJsComboBox().val("").change();
+        getJsComboBox().trigger(new Event(ComboBoxEvents.UNSELECT));
     }
 
     /**
@@ -700,7 +738,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Get the selected vales from multiple combobox
      */
     public List<T> getSelectedValues() {
-        Object[] curVal = (Object[]) $(listbox.getElement()).val();
+        Object[] curVal = (Object[]) getJsComboBox().val();
 
         List<T> selectedValues = new ArrayList<>();
         if (curVal == null || curVal.length < 1) {
@@ -781,7 +819,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return listbox;
     }
 
-    public Label getLabel() {
+    public Label getLabelWidget() {
         return label;
     }
 
@@ -810,6 +848,303 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public LanguageOptions getLanguage() {
         return options.language;
+    }
+
+    /**
+     * Supports customization of the container width.
+     *
+     * @see <a href="https://select2.org/appearance#container-width">Example</a>
+     */
+    public void setContainerWidth(String width) {
+        options.width = width;
+    }
+
+    public String getContainerWidth() {
+        return options.width;
+    }
+
+    public Object getContainerCss() {
+        return options.containerCss;
+    }
+
+    /**
+     * Adds custom CSS to the container. Expects key-value pairs:
+     * <pre>
+     * { 'css-property': 'value' }
+     * </pre>
+     */
+    public void setContainerCss(Object containerCss) {
+        this.options.containerCss = containerCss;
+    }
+
+    public String getContainerCssClass() {
+        return options.containerCssClass;
+    }
+
+    /**
+     * Appended a class to the container
+     */
+    public void setContainerCssClass(String containerCssClass) {
+        this.options.containerCssClass = containerCssClass;
+    }
+
+    public Object[] getData() {
+        return options.data;
+    }
+
+    /**
+     * Allows rendering dropdown options from an array.
+     */
+    public void setData(Object[] data) {
+        this.options.data = data;
+    }
+
+    public Object getDataAdapter() {
+        return options.dataAdapter;
+    }
+
+    /**
+     * Used to override the built-in DataAdapter.
+     */
+    public void setDataAdapter(Object dataAdapter) {
+        this.options.dataAdapter = dataAdapter;
+    }
+
+    public boolean isDebug() {
+        return options.debug;
+    }
+
+    /**
+     * Enable debugging messages in the browser console.
+     */
+    public void setDebug(boolean debug) {
+        this.options.debug = debug;
+    }
+
+    public Object getDir() {
+        return options.dir;
+    }
+
+    public void setDir(Object dir) {
+        this.options.dir = dir;
+    }
+
+    public Object getDropdownAdapter() {
+        return options.dropdownAdapter;
+    }
+
+    /**
+     * Used to override the built-in DropdownAdapter
+     */
+    public void setDropdownAdapter(Object dropdownAdapter) {
+        this.options.dropdownAdapter = dropdownAdapter;
+    }
+
+    public boolean isDropdownAutoWidth() {
+        return options.dropdownAutoWidth;
+    }
+
+    /**
+     * Will adapt dropdown width to it's parent
+     */
+    public void setDropdownAutoWidth(boolean dropdownAutoWidth) {
+        this.options.dropdownAutoWidth = dropdownAutoWidth;
+    }
+
+    public Object getDropdownCss() {
+        return options.dropdownCss;
+    }
+
+    /**
+     * Adds custom CSS to the dropdown. Expects key-value pairs:
+     * <pre>
+     * { 'css-property': 'value' }
+     * </pre>
+     */
+    public void setDropdownCss(Object dropdownCss) {
+        this.options.dropdownCss = dropdownCss;
+    }
+
+    public String getDropdownCssClass() {
+        return options.dropdownCssClass;
+    }
+
+    public void setDropdownCssClass(String dropdownCssClass) {
+        this.options.dropdownCssClass = dropdownCssClass;
+    }
+
+    /**
+     * Append Css class to the dropdown
+     */
+    public void setDropdownParent(JQueryElement dropdownParent) {
+        this.options.dropdownParent = dropdownParent;
+    }
+
+    public Functions.Func getEscapeMarkup() {
+        return options.escapeMarkup;
+    }
+
+    /**
+     * Handles automatic escaping of content rendered by custom templates.
+     */
+    public void setEscapeMarkup(Functions.Func escapeMarkup) {
+        this.options.escapeMarkup = escapeMarkup;
+    }
+
+    public Functions.FuncRet2<Params, Data> getMatcher() {
+        return options.matcher;
+    }
+
+    /**
+     * Handles custom search matching.
+     */
+    public void setMatcher(Functions.FuncRet2<Params, Data> matcher) {
+        options.matcher = matcher;
+    }
+
+    public int getMaximumInputLength() {
+        return options.maximumInputLength;
+    }
+
+    /**
+     * Maximum number of characters that may be provided for a search term.
+     */
+    public void setMaximumInputLength(int maximumInputLength) {
+        this.options.maximumInputLength = maximumInputLength;
+    }
+
+    public int getMaximumSelectionLength() {
+        return options.maximumSelectionLength;
+    }
+
+    /**
+     * The maximum number of items that may be selected in a multi-select control. If the value of this option is less
+     * than 1, the number of selected items will not be limited.
+     */
+    public void setMaximumSelectionLength(int maximumSelectionLength) {
+        this.options.maximumSelectionLength = maximumSelectionLength;
+    }
+
+    public int getMinimumInputLength() {
+        return options.minimumInputLength;
+    }
+
+    /**
+     * Minimum number of characters required to start a search.
+     */
+    public void setMinimumInputLength(int minimumInputLength) {
+        this.options.minimumInputLength = minimumInputLength;
+    }
+
+    public String getMinimumResultsForSearch() {
+        return options.minimumResultsForSearch;
+    }
+
+    /**
+     * The minimum number of results required to display the search box.
+     */
+    public void setMinimumResultsForSearch(String minimumResultsForSearch) {
+        this.options.minimumResultsForSearch = minimumResultsForSearch;
+    }
+
+    public Object getResultsAdapter() {
+        return options.resultsAdapter;
+    }
+
+    /**
+     * Used to override the built-in ResultsAdapter.
+     */
+    public void setResultsAdapter(Object resultsAdapter) {
+        this.options.resultsAdapter = resultsAdapter;
+    }
+
+    public Object getSelectionAdapter() {
+        return options.selectionAdapter;
+    }
+
+    /**
+     * Used to override the built-in SelectionAdapter.
+     */
+    public void setSelectionAdapter(Object selectionAdapter) {
+        this.options.selectionAdapter = selectionAdapter;
+    }
+
+    public boolean isSelectOnClose() {
+        return options.selectOnClose;
+    }
+
+    /**
+     * Implements automatic selection when the dropdown is closed.
+     */
+    public void setSelectOnClose(boolean selectOnClose) {
+        this.options.selectOnClose = selectOnClose;
+    }
+
+    public Functions.Func getSorter() {
+        return options.sorter;
+    }
+
+    public void setSorter(Functions.Func sorter) {
+        this.options.sorter = sorter;
+    }
+
+    public Functions.FuncRet1<Template> getTemplateResult() {
+        return options.templateResult;
+    }
+
+    /**
+     * Customizes the way that search results are rendered.
+     */
+    public void setTemplateResult(Functions.FuncRet1<Template> templateResult) {
+        this.options.templateResult = templateResult;
+    }
+
+    public Functions.FuncRet1<Template> getTemplateSelection() {
+        return options.templateSelection;
+    }
+
+    /**
+     * Customizes the way that selections are rendered.
+     */
+    public void setTemplateSelection(Functions.FuncRet1<Template> templateSelection) {
+        this.options.templateSelection = templateSelection;
+    }
+
+    public Functions.Func getTokenizer() {
+        return options.tokenizer;
+    }
+
+    /**
+     * A callback that handles automatic tokenization of free-text entry.
+     */
+    public void setTokenizer(Functions.Func tokenizer) {
+        this.options.tokenizer = tokenizer;
+    }
+
+    public Object[] getTokenSeparators() {
+        return options.tokenSeparators;
+    }
+
+    /**
+     * The list of characters that should be used as token separators.
+     */
+    public void setTokenSeparators(Object[] tokenSeparators) {
+        this.options.tokenSeparators = tokenSeparators;
+    }
+
+    /**
+     * If true, resolves issue for multiselects using closeOnSelect: false that caused the list of results to scroll to
+     * the first selection after each select/unselect (see https://github.com/select2/select2/pull/5150). This behaviour
+     * was intentional to deal with infinite scroll UI issues (if you need this behavior, set false) but it created an
+     * issue with multiselect dropdown boxes of fixed length. This pull request adds a configurable option to toggle
+     * between these two desirable behaviours.
+     */
+    public void setScrollAfterSelect(boolean scrollAfterSelect) {
+        options.scrollAfterSelect = scrollAfterSelect;
+    }
+
+    public boolean isScrollAfterSelect() {
+        return options.scrollAfterSelect;
     }
 
     public void scrollTop(int offset) {
@@ -883,6 +1218,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         getAsyncWidgetMixin().setAsyncDisplayLoader(displayLoader);
     }
 
+    public JsComboBox getJsComboBox() {
+        return $(listbox.getElement());
+    }
+
     @Override
     public AsyncDisplayLoader getAsyncDisplayLoader() {
         return getAsyncWidgetMixin().getAsyncDisplayLoader();
@@ -905,6 +1244,16 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public HandlerRegistration addClosingHandler(ClosingEvent.ClosingHandler handler) {
         return addHandler(handler, ClosingEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addClearHandler(ClearEvent.ClearHandler handler) {
+        return addHandler(handler, ClearEvent.TYPE);
+    }
+
+    @Override
+    public HandlerRegistration addClearingHandler(ClearingEvent.ClearingHandler handler) {
+        return addHandler(handler, ClearingEvent.TYPE);
     }
 
     @Override

@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.window.MaterialWindow;
 import gwt.material.design.client.base.MaterialWidget;
@@ -34,7 +34,7 @@ import gwt.material.design.client.ui.MaterialPanel;
  *
  * @author kevzlou7979
  */
-public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
+public class MaterialWindowTest extends AddinsWidgetTestCase<MaterialWindow> {
 
     @Override
     protected MaterialWindow createWidget() {
@@ -112,14 +112,14 @@ public class MaterialWindowTest extends MaterialWidgetTest<MaterialWindow> {
         assertEquals(0, window.getContent().getChildren().size());
     }
 
+    //TODO: Failed Tests
     public void testDndArea() {
         // UiBinder
         // given
-        MaterialWindow window = getWidget(false);
+        MaterialWindow window = getWidget(true);
+
         MaterialPanel dndArea = new MaterialPanel();
         window.setDndArea(dndArea);
-
-        attachWidget();
 
         window.open();
 

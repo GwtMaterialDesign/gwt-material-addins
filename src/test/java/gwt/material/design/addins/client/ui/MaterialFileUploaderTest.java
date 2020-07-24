@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.fileuploader.MaterialFileUploader;
 import gwt.material.design.addins.client.fileuploader.MaterialUploadCollection;
@@ -41,7 +41,7 @@ import gwt.material.design.client.ui.html.Span;
  *
  * @author kevzlou7979
  */
-public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUploader> {
+public class MaterialFileUploaderTest extends AddinsWidgetTestCase<MaterialFileUploader> {
 
     @Override
     protected MaterialFileUploader createWidget() {
@@ -358,7 +358,7 @@ public class MaterialFileUploaderTest extends MaterialWidgetTest<MaterialFileUpl
         assertTrue(isCompleteFired[0]);
         // Canceled Event
         final boolean[] isCanceledFired = {false};
-        fileUploader.addCancelHandler(event -> isCanceledFired[0] = true);
+        fileUploader.addCanceledHandler(event -> isCanceledFired[0] = true);
         fileUploader.fireEvent(new GwtEvent<CanceledEvent.CanceledHandler<?>>() {
             @Override
             public Type<CanceledEvent.CanceledHandler<?>> getAssociatedType() {

@@ -23,10 +23,13 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.data.DataSource;
+import gwt.material.design.client.data.loader.LoadCallback;
+import gwt.material.design.client.data.loader.LoadConfig;
+import gwt.material.design.client.data.loader.LoadResult;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.incubator.client.infinitescroll.data.*;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
 import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
 import gwt.material.design.incubator.client.infinitescroll.recycle.RecyclePosition;
@@ -61,9 +64,10 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
         }
     }
 
+    private static final String INFINITE_SCROLL_PANEL = "infinite-scroll-panel";
     private InfiniteScrollLoader loader;
     private DataSource<T> dataSource;
-    private LoadConfig<T> loadConfig;
+    private InfiniteScrollLoadConfig loadConfig;
     private Renderer<T> renderer;
     private RecycleManager recycleManager;
     private int offset = 0;
@@ -75,9 +79,11 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
 
     public InfiniteScrollPanel() {
         super();
+
+        setStyleName(INFINITE_SCROLL_PANEL);
     }
 
-    public InfiniteScrollPanel(DataSource<T> dataSource, LoadConfig<T> loadConfig) {
+    public InfiniteScrollPanel(DataSource<T> dataSource, InfiniteScrollLoadConfig loadConfig) {
         this();
 
         this.dataSource = dataSource;
@@ -137,7 +143,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     protected void load(int offset, int limit) {
         if (!completed) {
             LoadingEvent.fire(this, offset, offset + (limit - 1));
-            dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
+            dataSource.load(new LoadConfig<>(offset, limit, null, null), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
                     LoadedEvent.fire(InfiniteScrollPanel.this, loadResult);
@@ -257,14 +263,14 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     /**
      * Get the load configuration
      */
-    public LoadConfig<T> getLoadConfig() {
+    public InfiniteScrollLoadConfig getLoadConfig() {
         return loadConfig;
     }
 
     /**
      * Set the load configuration
      */
-    public void setLoadConfig(LoadConfig<T> loadConfig) {
+    public void setLoadConfig(InfiniteScrollLoadConfig loadConfig) {
         this.loadConfig = loadConfig;
     }
 

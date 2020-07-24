@@ -27,7 +27,7 @@ import gwt.material.design.addins.client.moment.option.Duration;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.*;
 
-@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class Moment {
 
     @JsOverlay

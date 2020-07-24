@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
+import gwt.material.design.addins.client.carousel.constants.RespondTo;
 import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.addins.client.carousel.ui.NextArrow;
@@ -46,6 +47,8 @@ import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialTab;
+import gwt.material.design.jquery.client.api.Functions;
+import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.List;
 
@@ -101,19 +104,18 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         }
     }
 
-    private MaterialPanel container = new MaterialPanel();
-    private NextArrow nextArrow = new NextArrow();
-    private PreviousArrow previousArrow = new PreviousArrow();
-    private MaterialPanel wrapper = new MaterialPanel();
-
-
-    private JsCarouselOptions options = JsCarouselOptions.create();
-
+    private final MaterialPanel container = new MaterialPanel();
+    private final NextArrow nextArrow = new NextArrow();
+    private final PreviousArrow previousArrow = new PreviousArrow();
+    private final MaterialPanel wrapper = new MaterialPanel();
+    private final JsCarouselOptions options = JsCarouselOptions.create();
     private CssTypeMixin<CarouselType, MaterialCarousel> typeMixin;
     private List<String> values;
+    private final String uniqueId;
 
     public MaterialCarousel() {
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
+        uniqueId = DOM.createUniqueId();
     }
 
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
@@ -122,7 +124,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     protected void onLoad() {
         super.onLoad();
 
-        container.setId(DOM.createUniqueId());
+        container.setId(uniqueId);
         wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         wrapper.add(container);
 
@@ -130,6 +132,27 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         super.add(previousArrow);
         super.add(wrapper);
 
+        load();
+    }
+
+    @Override
+    public void load() {
+        loadHandlers();
+
+        if (nextArrow != null) {
+            options.nextArrow = "#" + nextArrow.getId();
+        }
+
+        if (previousArrow != null) {
+            options.prevArrow = "#" + previousArrow.getId();
+        }
+
+        $(container.getElement()).slick(options);
+
+        AddinsDarkThemeReloader.get().reload(MaterialCarouselDarkTheme.class);
+    }
+
+    protected void loadHandlers() {
         $(getElement()).on(CarouselEvents.AFTER_CHANGE, (e, slick, currentSlide) -> {
             AfterChangeEvent.fire(this, Integer.parseInt(currentSlide.toString()));
             return true;
@@ -151,26 +174,35 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
             return true;
         });
 
+        $(getElement()).on(CarouselEvents.EDGE, (e, direction) -> {
+            EdgeEvent.fire(this, direction);
+            return true;
+        });
+
+        $(getElement()).on(CarouselEvents.LAZY_LOAD_ERROR, (e, image, imageSource) -> {
+            LazyLoadedErrorEvent.fire(this, image, imageSource);
+            return true;
+        });
+
+        $(getElement()).on(CarouselEvents.LAZY_LOADED, (e, image, imageSource) -> {
+            LazyLoadedEvent.fire(this, image, imageSource);
+            return true;
+        });
+
+        $(getElement()).on(CarouselEvents.RE_INIT, (e) -> {
+            ReInitEvent.fire(this);
+            return true;
+        });
+
+        $(getElement()).on(CarouselEvents.SET_POSITION, (e) -> {
+            SetPositionEvent.fire(this);
+            return true;
+        });
+
         $(getElement()).on(CarouselEvents.SWIPE, (e, slick, direction) -> {
             SwipeEvent.fire(this, direction.toString());
             return true;
         });
-
-        load();
-    }
-
-    @Override
-    public void load() {
-        if (nextArrow != null) {
-            options.nextArrow = "#" + nextArrow.getId();
-        }
-
-        if (previousArrow != null) {
-            options.prevArrow = "#" + previousArrow.getId();
-        }
-        
-        $(container.getElement()).slick(options);
-        AddinsDarkThemeReloader.get().reload(MaterialCarouselDarkTheme.class);
     }
 
     @Override
@@ -182,11 +214,17 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
 
     @Override
     public void unload() {
-        $(getElement()).off(CarouselEvents.AFTER_CHANGE);
-        $(getElement()).off(CarouselEvents.BEFORE_CHANGE);
-        $(getElement()).off(CarouselEvents.INIT);
-        $(getElement()).off(CarouselEvents.DESTROY);
-        $(getElement()).off(CarouselEvents.SWIPE);
+        JQueryElement element = $(getElement());
+        element.off(CarouselEvents.AFTER_CHANGE);
+        element.off(CarouselEvents.BEFORE_CHANGE);
+        element.off(CarouselEvents.INIT);
+        element.off(CarouselEvents.DESTROY);
+        element.off(CarouselEvents.EDGE);
+        element.off(CarouselEvents.LAZY_LOAD_ERROR);
+        element.off(CarouselEvents.LAZY_LOADED);
+        element.off(CarouselEvents.RE_INIT);
+        element.off(CarouselEvents.SET_POSITION);
+        element.off(CarouselEvents.SWIPE);
 
         destroy();
     }
@@ -274,11 +312,25 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         command("slickPlay");
     }
 
+    /**
+     * Filters slides using jQuery .filter syntax
+     */
+    public void filter(String selector) {
+        command("slickFilter", selector);
+    }
+
+    /**
+     * Removes applied filter
+     */
+    public void unFilter() {
+        command("slickUnfilter");
+    }
+
     protected Object command(String action, Object... params) {
         if (container == null) {
             GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
         } else {
-            return $("#" + container.getId()).slick(action, params);
+            return $("#" + uniqueId).slick(action, params);
         }
         return null;
     }
@@ -314,8 +366,6 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
      */
     public void setShowArrows(boolean showArrows) {
         options.arrows = showArrows;
-        getBtnPrevArrow().setVisible(showArrows);
-        getBtnNextArrow().setVisible(showArrows);
     }
 
     public int getSlidesToShow() {
@@ -497,6 +547,96 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         registerHandler(addBeforeChangeHandler(event -> navigation.goToSlide(event.getNextSlide())));
     }
 
+    public Functions.Func getCustomPaging() {
+        return options.customPaging;
+    }
+
+    /**
+     * Custom paging templates. See source for use example.
+     */
+    public void setCustomPaging(Functions.Func customPaging) {
+        this.options.customPaging = customPaging;
+    }
+
+    public String getDotsClass() {
+        return options.dotsClass;
+    }
+
+    /**
+     * Class for slide indicator dots container
+     */
+    public void setDotsClass(String dotsClass) {
+        this.options.dotsClass = dotsClass;
+    }
+
+    public boolean isFocusOnChange() {
+        return options.focusOnChange;
+    }
+
+    /**
+     * Puts focus on slide after change
+     */
+    public void setFocusOnChange(boolean focusOnChange) {
+        this.options.focusOnChange = focusOnChange;
+    }
+
+    public String getRespondTo() {
+        return options.respondTo;
+    }
+
+    /**
+     * Width that responsive object responds to. Can be 'window', 'slider' or 'min' (the smaller of the two).
+     *
+     * @see gwt.material.design.addins.client.carousel.constants.RespondTo
+     */
+    public void setRespondTo(RespondTo respondTo) {
+        this.options.respondTo = respondTo.getName();
+    }
+
+    public String getSlide() {
+        return options.slide;
+    }
+
+    /**
+     * Slide element query
+     */
+    public void setSlide(String slide) {
+        this.options.slide = slide;
+    }
+
+    public boolean isUseCSS() {
+        return options.useCSS;
+    }
+
+    /**
+     * Enable/Disable CSS Transitions
+     */
+    public void setUseCSS(boolean useCSS) {
+        this.options.useCSS = useCSS;
+    }
+
+    public boolean isUseTransform() {
+        return options.useTransform;
+    }
+
+    /**
+     * Enable/Disable CSS Transforms
+     */
+    public void setUseTransform(boolean useTransform) {
+        this.options.useTransform = useTransform;
+    }
+
+    public int getZIndex() {
+        return options.zIndex;
+    }
+
+    /**
+     * Set the zIndex values for slides, useful for IE9 and lower
+     */
+    public void setZIndex(int zIndex) {
+        this.options.zIndex = zIndex;
+    }
+
     public MaterialPanel getWrapper() {
         return wrapper;
     }
@@ -521,6 +661,31 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     @Override
     public HandlerRegistration addBeforeChangeHandler(BeforeChangeEvent.BeforeChangeHandler handler) {
         return addHandler(handler, BeforeChangeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addEdgeHandler(EdgeEvent.EdgeHandler handler) {
+        return addHandler(handler, EdgeEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addLazyLoadedErrorHandler(LazyLoadedErrorEvent.LazyLoadedErrorHandler handler) {
+        return addHandler(handler, LazyLoadedErrorEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addLazyLoadedHandler(LazyLoadedEvent.LazyLoadedHandler handler) {
+        return addHandler(handler, LazyLoadedEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addReInitHandler(ReInitEvent.ReInitHandler handler) {
+        return addHandler(handler, ReInitEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addSetPositionHandler(SetPositionEvent.SetPositionHandler handler) {
+        return addHandler(handler, SetPositionEvent.getType());
     }
 
     @Override

@@ -35,6 +35,7 @@ import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.base.viewport.Resolution;
@@ -82,7 +83,8 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
-public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
+public class MaterialWindow extends MaterialPanel implements JsLoader,
+    HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -111,30 +113,6 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
 
     public MaterialWindow() {
         super(AddinsCssName.WINDOW);
-
-        content.setStyleName(AddinsCssName.CONTENT);
-        toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
-        labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
-        iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
-        iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
-
-        iconClose.setCircle(true);
-        iconClose.setWaves(WavesType.DEFAULT);
-
-        iconMaximize.setCircle(true);
-        iconMaximize.setWaves(WavesType.DEFAULT);
-
-        toolbar.add(labelTitle);
-        toolbar.add(iconClose);
-        toolbar.add(iconMaximize);
-
-        super.add(toolbar);
-        super.add(content);
-
-        setTop(100);
-
-        // Add a draggable header
-        dnd = buildDnd();
     }
 
     public MaterialWindow(String title) {
@@ -157,6 +135,36 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
     protected void onLoad() {
         super.onLoad();
 
+        load();
+    }
+
+    @Override
+    public void load() {
+        // Update UI
+        content.setStyleName(AddinsCssName.CONTENT);
+        toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
+        labelTitle.setStyleName(AddinsCssName.WINDOW_TITLE);
+        iconClose.addStyleName(AddinsCssName.WINDOW_ACTION);
+        iconMaximize.addStyleName(AddinsCssName.WINDOW_ACTION);
+
+        iconClose.setCircle(true);
+        iconClose.setWaves(WavesType.DEFAULT);
+
+        iconMaximize.setCircle(true);
+        iconMaximize.setWaves(WavesType.DEFAULT);
+
+        if (!labelTitle.isAttached()) toolbar.add(labelTitle);
+        if (!iconClose.isAttached()) toolbar.add(iconClose);
+        if (!iconMaximize.isAttached()) toolbar.add(iconMaximize);
+
+        if (!toolbar.isAttached()) super.add(toolbar);
+        if (!content.isAttached()) super.add(content);
+
+        setTop(100);
+
+        // Add a draggable header
+        dnd = buildDnd();
+
         // Add handlers to action buttons
         registerHandler(iconMaximize.addClickHandler(event -> toggleMaximize()));
 
@@ -176,6 +184,16 @@ public class MaterialWindow extends MaterialPanel implements HasCloseHandlers<Bo
         }));
 
         AddinsDarkThemeReloader.get().reload(MaterialWindowDarkTheme.class);
+    }
+
+    @Override
+    public void unload() {
+
+    }
+
+    @Override
+    public void reload() {
+
     }
 
     /**

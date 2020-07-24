@@ -23,6 +23,8 @@ import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.incubator.client.animation.checkmark.CheckMarkDarkTheme;
 import gwt.material.design.incubator.client.daterange.DateRangeDarkTheme;
 import gwt.material.design.incubator.client.google.addresslookup.AddressLookupDarkTheme;
+import gwt.material.design.incubator.client.kanban.KanbanDarkTheme;
+import gwt.material.design.incubator.client.keyboard.ScreenKeyboardDarkTheme;
 import gwt.material.design.incubator.client.placeholder.PlaceholderDarkTheme;
 import gwt.material.design.incubator.client.progress.ProgressLineBarDarkTheme;
 import gwt.material.design.incubator.client.search.InlineSearchDarkTheme;
@@ -38,8 +40,10 @@ public class IncubatorDarkThemeLoader extends DarkThemeLoader {
             new DateRangeDarkTheme(),
             new GroupToggleDarkTheme(),
             new InlineSearchDarkTheme(),
+            new KanbanDarkTheme(),
             new PlaceholderDarkTheme(),
             new ProgressLineBarDarkTheme(),
+            new ScreenKeyboardDarkTheme(),
             new TagLabelDarkTheme(),
             new TimerProgressDarkTheme());
     }

@@ -38,6 +38,9 @@ public interface ScreenKeyboardClientBundle extends ClientBundle {
     @Source("resources/css/screen-keyboard-custom.min.css")
     TextResource screenKeyboardCustomCss();
 
+    @Source("resources/css/screen-keyboard-dark.min.css")
+    TextResource screenKeyboardDarkCss();
+
     @Source("resources/js/screen-keyboard.min.js")
     TextResource screenKeyboardJs();
 }

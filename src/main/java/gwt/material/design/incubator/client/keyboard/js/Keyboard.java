@@ -97,6 +97,12 @@ public class Keyboard {
     public native void setOptions(KeyboardOptions options);
 
     /**
+     * Removes keyboard listeners and DOM elements.
+     */
+    @JsMethod
+    public native void destroy();
+
+    /**
      * Send a command to all simple-keyboard instances at once (if you have multiple instances).
      */
     @JsMethod
@@ -118,9 +124,7 @@ public class Keyboard {
     /**
      * Removes an entry to the buttonTheme. Basically a way to remove a class previously added to a button through
      * buttonTheme or addButtonTheme.
-     *
-     * @param clasNames
      */
     @JsMethod
-    public native void removeButtonTheme(String buttons, String clasNames);
+    public native void removeButtonTheme(String buttons, String classNames);
 }

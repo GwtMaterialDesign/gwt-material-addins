@@ -21,10 +21,7 @@ package gwt.material.design.incubator.client.kanban.js;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.Functions;
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import jsinterop.annotations.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,7 +88,7 @@ public class KanbanOptions {
     private Functions.Func1<Element> dragendEl;
 
     @JsProperty
-    private Func4<Element, Object, Object, Object> dropEl;
+    private DropElCallback dropEl;
 
     @JsProperty
     private Functions.Func2<Element, Object> dragBoard;
@@ -223,12 +220,12 @@ public class KanbanOptions {
     }
 
     @JsOverlay
-    public final Func4<Element, Object, Object, Object> getDropEl() {
+    public final DropElCallback getDropEl() {
         return dropEl;
     }
 
     @JsOverlay
-    public final void setDropEl(Func4<Element, Object, Object, Object> dropEl) {
+    public final void setDropEl(DropElCallback dropEl) {
         this.dropEl = dropEl;
     }
 
@@ -262,7 +259,9 @@ public class KanbanOptions {
         this.buttonClick = buttonClick;
     }
 
-    interface Func4<A, B, C, D> {
-        void call(A param1, B param2, C param3, D param4);
+    @FunctionalInterface
+    @JsFunction
+    public interface DropElCallback {
+        void call(Object param1, Object param2, Object param3, Object param4);
     }
 }

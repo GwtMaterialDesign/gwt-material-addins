@@ -19,11 +19,9 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.iconmorph.MaterialIconMorph;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.ui.MaterialIcon;
@@ -33,7 +31,7 @@ import gwt.material.design.client.ui.MaterialIcon;
  *
  * @author kevzlou7979
  */
-public class MaterialIconMorphTest extends MaterialWidgetTest<MaterialIconMorph> {
+public class MaterialIconMorphTest extends AddinsWidgetTestCase<MaterialIconMorph> {
 
     @Override
     protected MaterialIconMorph createWidget() {

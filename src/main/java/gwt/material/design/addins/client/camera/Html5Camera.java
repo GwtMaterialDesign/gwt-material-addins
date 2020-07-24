@@ -80,6 +80,7 @@ public class Html5Camera extends AbstractValueWidget<String> {
         }
     }
 
+    //TODO: Convert to JSInterop
     protected native File toFile(Element inputElement) /*-{
         return $wnd.jQuery(inputElement).prop('files')[0];
     }-*/;

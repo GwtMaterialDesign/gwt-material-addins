@@ -23,13 +23,12 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
-import gwt.material.design.addins.client.combobox.js.options.Data;
-import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
@@ -49,8 +48,8 @@ import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
-import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
+import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.js.*;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQuery;
@@ -58,11 +57,11 @@ import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Date;
 
-import static gwt.material.design.incubator.client.daterange.js.JsDateRange.$;
+import static gwt.material.design.incubator.client.daterange.js.JsDateRangePicker.$;
 
 
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
-        HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle {
+    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel {
 
     static {
         if (AddinsIncubator.isDebug()) {
@@ -80,6 +79,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
     }
 
+    private static final String DATE_INPUT_FORMAT = "MM/dd/yyyy";
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
     private ScrollHelper scrollHelper = new ScrollHelper();
     private TextBox dateInput = new TextBox();
@@ -263,7 +263,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         load();
     }
 
-    public JsDateRange getInputElement() {
+    public JsDateRangePicker getInputElement() {
         return $(dateInput.getElement());
     }
 
@@ -459,12 +459,21 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     public void setValue(Date[] value, boolean fireEvents) {
         this.value = value;
 
-        if (value.length >= 1) {
-            this.startDate = value[0];
+        if (value != null) {
+            if (value.length >= 1) {
+                this.startDate = value[0];
 
-            if (value.length >= 2) {
-                this.endDate = value[1];
+                if (value.length >= 2) {
+                    this.endDate = value[1];
+                }
             }
+
+            // If autoUpdateInput is false then we need to set the date input value manually
+            if (!options.autoUpdateInput) {
+                setDateInputValue(value[0], value[1]);
+            }
+        } else {
+            clearInputValue();
         }
 
         super.setValue(value, fireEvents);
@@ -485,6 +494,27 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return null;
     }
 
+    /**
+     * Call this if you have defined {@link DateRangePicker#setAutoUpdateInput(boolean)} to false.
+     * This will be required in order to update the input date textfield manually.
+     */
+    public void setDateInputValue(Date creationDate, Date endDate, String format) {
+        if (dateInput != null && creationDate != null && endDate != null && format != null && !format.isEmpty()) {
+            dateInput.setValue(DateTimeFormat.getFormat(format).format(creationDate) + " - " +
+                DateTimeFormat.getFormat(format).format(endDate));
+        } else {
+            clearInputValue();
+        }
+    }
+
+    public void setDateInputValue(Date creationDate, Date endDate) {
+        setDateInputValue(creationDate, endDate, DATE_INPUT_FORMAT);
+    }
+
+    public void clearInputValue() {
+        dateInput.setValue("");
+    }
+
     @Override
     public Date[] getValue() {
         return value;
@@ -494,8 +524,18 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return dateInput;
     }
 
-    public Label getLabel() {
+    public Label getLabelWidget() {
         return label;
+    }
+
+    @Override
+    public void setLabel(String label) {
+        this.label.setText(label);
+    }
+
+    @Override
+    public String getLabel() {
+        return label.getText();
     }
 
     public MaterialLabel getErrorLabel() {
@@ -533,7 +573,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     public void setFieldWidth(double percentWidth) {
         getFieldTypeMixin().setFieldWidth(percentWidth);
     }
-
 
     @Override
     public MaterialIcon getIcon() {
@@ -620,7 +659,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     @Override
     public void setPlaceholder(String placeholder) {
-        label.setText(placeholder);
+        dateInput.getElement().setAttribute("placeholder", placeholder);
     }
 
     @Override

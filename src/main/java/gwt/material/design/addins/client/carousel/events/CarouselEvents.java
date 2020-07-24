@@ -23,7 +23,12 @@ public interface CarouselEvents {
 
     String AFTER_CHANGE = "afterChange";
     String BEFORE_CHANGE = "beforeChange";
-    String INIT = "init";
     String DESTROY = "destroy";
+    String EDGE = "edge";
+    String INIT = "init";
+    String RE_INIT = "reInit";
+    String SET_POSITION = "setPosition";
     String SWIPE = "swipe";
+    String LAZY_LOADED = "lazyLoaded";
+    String LAZY_LOAD_ERROR = "lazyLoadError";
 }

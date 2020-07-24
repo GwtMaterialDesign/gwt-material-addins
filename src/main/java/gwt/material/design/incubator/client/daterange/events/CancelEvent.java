@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.daterange.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.daterange.js.JsDateRange;
+import gwt.material.design.incubator.client.daterange.js.JsDateRangePicker;
 
 /**
  * Triggered when the cancel button is clicked
@@ -37,9 +37,9 @@ public class CancelEvent extends GwtEvent<CancelEvent.CancelEventHandler> {
 
     public static final Type<CancelEventHandler> TYPE = new Type<>();
 
-    private JsDateRange dateRange;
+    private JsDateRangePicker dateRange;
 
-    public CancelEvent(JsDateRange dateRange) {
+    public CancelEvent(JsDateRangePicker dateRange) {
         this.dateRange = dateRange;
     }
 
@@ -47,7 +47,7 @@ public class CancelEvent extends GwtEvent<CancelEvent.CancelEventHandler> {
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, JsDateRange dateRange) {
+    public static void fire(HasHandlers source, JsDateRangePicker dateRange) {
         source.fireEvent(new CancelEvent(dateRange));
     }
 
@@ -56,7 +56,7 @@ public class CancelEvent extends GwtEvent<CancelEvent.CancelEventHandler> {
         return TYPE;
     }
 
-    public JsDateRange getDateRange() {
+    public JsDateRangePicker getDateRange() {
         return dateRange;
     }
 

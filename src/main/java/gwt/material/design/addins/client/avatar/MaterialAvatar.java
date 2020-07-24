@@ -88,15 +88,10 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     @Override
     public void load() {
         if (options != null) {
-            loadOption(options);
+            JsAvatar.config = options;
         }
-
         JsAvatar.jdenticon();
     }
-
-    protected static native void loadOption(AvatarOptions options) /*-{
-        $wnd.jdenticon_config = options;
-    }-*/;
 
     @Override
     public void unload() {
@@ -124,9 +119,7 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     }
 
     /**
-     * Replaced by {@link MaterialAvatar#setValue(Object)}
-     *
-     * @param name
+     * Replaced by {@link MaterialAvatar#setValue(String, boolean)} )}
      */
     @Deprecated
     public void setName(String name) {

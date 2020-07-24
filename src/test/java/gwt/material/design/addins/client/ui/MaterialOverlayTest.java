@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.client.base.MaterialWidget;
@@ -31,7 +31,7 @@ import gwt.material.design.client.ui.MaterialButton;
  *
  * @author kevzlou7979
  */
-public class MaterialOverlayTest extends MaterialWidgetTest<MaterialOverlay> {
+public class MaterialOverlayTest extends AddinsWidgetTestCase<MaterialOverlay> {
 
     private MaterialWidget source;
     

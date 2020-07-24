@@ -19,7 +19,7 @@
  */
 package gwt.material.design.incubator.client.ui;
 
-import gwt.material.design.incubator.client.MaterialWidgetTest;
+import gwt.material.design.incubator.client.ui.base.MaterialWidgetTest;
 import gwt.material.design.incubator.client.google.recaptcha.ReCaptcha;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaTheme;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaType;

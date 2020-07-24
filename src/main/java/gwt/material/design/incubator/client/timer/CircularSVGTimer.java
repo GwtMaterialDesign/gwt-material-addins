@@ -78,6 +78,7 @@ public class CircularSVGTimer extends ComplexPanel {
         getElement().setAttribute("class", "spinner");
     }
 
+    //TODO: Convert to JSInterop
     private static native Element createElementNS(final String ns,
                                                   final String name)/*-{
         return document.createElementNS(ns, name);

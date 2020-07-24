@@ -21,7 +21,7 @@ package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.jquery.client.api.Functions;
@@ -31,7 +31,7 @@ import gwt.material.design.jquery.client.api.Functions;
  *
  * @author kevzlou7979
  */
-public class MaterialPathAnimatorTest extends MaterialWidgetTest<MaterialPanel> {
+public class MaterialPathAnimatorTest extends AddinsWidgetTestCase<MaterialPanel> {
 
     private MaterialPanel source;
     private MaterialPanel target;

@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.daterange.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.daterange.js.JsDateRange;
+import gwt.material.design.incubator.client.daterange.js.JsDateRangePicker;
 
 /**
  * Triggered when the picker is hidden
@@ -35,9 +35,9 @@ public class CloseCalendarEvent extends GwtEvent<CloseCalendarEvent.CloseCalenda
         void onCloseCalendarEvent(CloseCalendarEvent event);
     }
 
-    private JsDateRange dateRange;
+    private JsDateRangePicker dateRange;
 
-    public CloseCalendarEvent(JsDateRange dateRange) {
+    public CloseCalendarEvent(JsDateRangePicker dateRange) {
         this.dateRange = dateRange;
     }
 
@@ -47,7 +47,7 @@ public class CloseCalendarEvent extends GwtEvent<CloseCalendarEvent.CloseCalenda
         return TYPE;
     }
 
-    public static void fire(HasHandlers source, JsDateRange dateRange) {
+    public static void fire(HasHandlers source, JsDateRangePicker dateRange) {
         source.fireEvent(new CloseCalendarEvent(dateRange));
     }
 
@@ -56,7 +56,7 @@ public class CloseCalendarEvent extends GwtEvent<CloseCalendarEvent.CloseCalenda
         return TYPE;
     }
 
-    public JsDateRange getDateRange() {
+    public JsDateRangePicker getDateRange() {
         return dateRange;
     }
 
