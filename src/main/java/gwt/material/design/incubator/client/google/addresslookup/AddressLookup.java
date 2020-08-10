@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.google.addresslookup;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.client.constants.Autocomplete;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.google.addresslookup.constants.AddressComponentType;
@@ -81,7 +82,7 @@ public class AddressLookup extends MaterialTextBox
 
     public AddressLookup() {
         setPlaceholder("");
-        setAutocomplete(false);
+        setAutocomplete(Autocomplete.OFF);
     }
 
     /**
