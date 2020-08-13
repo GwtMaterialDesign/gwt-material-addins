@@ -110,6 +110,3 @@ We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apid
   - Inline Search
   - Timer (Infinite)
   - Toggle
-
-## Follow Us
-<a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a> 
