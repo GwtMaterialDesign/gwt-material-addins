@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.base.HasCircle;
 import gwt.material.design.client.base.HasDurationTransition;
+import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
@@ -87,7 +88,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  */
 // @formatter:on
 public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<MaterialCutOut>,
-        HasOpenHandlers<MaterialCutOut>, HasCircle, HasDurationTransition {
+    HasOpenHandlers<MaterialCutOut>, HasCircle, HasDurationTransition, HasOpenClose {
 
     private Color backgroundColor = Color.BLUE;
     private int cutOutPadding = 10;
@@ -127,6 +128,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * @throws IllegalStateException if the target element is <code>null</code>
      * @see #setTarget(Widget)
      */
+    @Override
     public void open() {
         setCutOutStyle();
 
@@ -159,7 +161,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         } else {
             focusElement.getStyle().setProperty("boxShadow", "0px 0px 0px " + backgroundSize + " " + computedBackgroundColor);
         }
-        
+
         if (circle) {
             focusElement.getStyle().setProperty("WebkitBorderRadius", "50%");
             focusElement.getStyle().setProperty("borderRadius", "50%");
@@ -206,8 +208,15 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      * Closes the cut out. It is the same as calling
      * {@link #close(boolean)} with <code>false</code>.
      */
+    @Override
     public void close() {
         this.close(false);
+    }
+
+    @Override
+    public boolean isOpen() {
+        String display = getElement().getStyle().getDisplay();
+        return display != null && display.equals(Display.BLOCK.getCssName());
     }
 
     /**

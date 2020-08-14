@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.daterange.js;
 
+import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.incubator.client.daterange.DateRangePicker;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -29,22 +30,12 @@ import java.util.Date;
  *
  * @author kevzlou7979
  */
-public interface HasDateRangeOptions {
-
-    /**
-     * Will open the Date Range Calendar Picker and fire {@link com.google.gwt.event.logical.shared.OpenEvent}
-     */
-    void open();
+public interface HasDateRangeOptions extends HasOpenClose {
 
     /**
      * Will open the Date Range Calendar Picker with provided parameter for firing an event or not.
      */
     void open(boolean fireEvent);
-
-    /**
-     * Will close the Date Range Calendar Picker and fire {@link com.google.gwt.event.logical.shared.CloseEvent}
-     */
-    void close();
 
     /**
      * Will close the Date Range Calendar Picker with provided parameter for firing an event or not.

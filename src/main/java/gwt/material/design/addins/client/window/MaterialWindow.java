@@ -35,6 +35,7 @@ import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
@@ -84,7 +85,7 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  */
 //@formatter:on
 public class MaterialWindow extends MaterialPanel implements JsLoader,
-    HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean> {
+    HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>, HasOpenClose {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -285,6 +286,7 @@ public class MaterialWindow extends MaterialPanel implements JsLoader,
     /**
      * Open the window.
      */
+    @Override
     public void open() {
         if (!isAttached()) {
             RootPanel.get().add(this);
@@ -313,6 +315,7 @@ public class MaterialWindow extends MaterialPanel implements JsLoader,
     /**
      * Close the window.
      */
+    @Override
     public void close() {
         // Turn back the cursor to POINTER
         RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.DEFAULT);
@@ -333,6 +336,11 @@ public class MaterialWindow extends MaterialPanel implements JsLoader,
                 CloseEvent.fire(this, false);
             });
         }
+    }
+
+    @Override
+    public boolean isOpen() {
+        return getOpenMixin().isOn();
     }
 
     public Color getToolbarColor() {
@@ -390,10 +398,6 @@ public class MaterialWindow extends MaterialPanel implements JsLoader,
     @Override
     public HandlerRegistration addOpenHandler(final OpenHandler<Boolean> handler) {
         return addHandler(handler, OpenEvent.getType());
-    }
-
-    public boolean isOpen() {
-        return getOpenMixin().isOn();
     }
 
     /**
