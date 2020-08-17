@@ -68,7 +68,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @see <a href="https://github.com/weareoutman/clockpicker">ClockPicker 0.0.7</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder,
+public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder, HasOpenClose,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
@@ -81,6 +81,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         }
     }
 
+    private boolean open;
     private Date time;
     private String label;
     private MaterialPanel container = new MaterialPanel();
@@ -161,15 +162,24 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     /**
      * Programmatically open the time picker component
      */
+    @Override
     public void open() {
         Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("show"));
+        open = true;
     }
 
     /**
      * Programmatically close the time picker component
      */
+    @Override
     public void close() {
         Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("hide"));
+        open = false;
+    }
+
+    @Override
+    public boolean isOpen() {
+        return open;
     }
 
     @Override

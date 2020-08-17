@@ -27,6 +27,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.note.MaterialNote;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasInOutDurationTransition;
+import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.TransitionConfig;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
@@ -58,7 +59,7 @@ import gwt.material.design.jquery.client.api.Functions;
  *
  * @author kevzlou7979
  */
-public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHandlers, HasCloseHandlers, HasInOutDurationTransition {
+public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenClose, HasOpenHandlers, HasCloseHandlers, HasInOutDurationTransition {
 
     private static boolean resourcesLoaded = false;
 
@@ -102,6 +103,7 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
     /**
      * Open / Show alert messages component.
      */
+    @Override
     public void open() {
         getToggleStyleMixin().setOn(true);
         OpenEvent.fire(this, this);
@@ -130,9 +132,15 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenHa
     /**
      * Close / Hide alert message component.
      */
+    @Override
     public void close() {
         getToggleStyleMixin().setOn(false);
         CloseEvent.fire(this, this);
+    }
+
+    @Override
+    public boolean isOpen() {
+        return getToggleStyleMixin().isOn();
     }
 
     /**

@@ -99,7 +99,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel {
+    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel, HasOpenClose {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -112,6 +112,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     private int selectedIndex;
+    private boolean open;
     private boolean suppressChangeEvent;
     protected List<T> values = new ArrayList<>();
     private Label label = new Label();
@@ -191,7 +192,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             } else {
                 OpenEvent.fire(this, null);
             }
-
+            open = true;
             return true;
         });
 
@@ -205,6 +206,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
         jsComboBox.on(ComboBoxEvents.CLOSE, (event1, o) -> {
             CloseEvent.fire(this, null);
+            open = false;
             return true;
         });
 
@@ -286,6 +288,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     /**
      * Programmatically open the combobox component
      */
+    @Override
     public void open() {
         getJsComboBox().select2("open");
     }
@@ -293,8 +296,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     /**
      * Programmatically close the combobox component
      */
+    @Override
     public void close() {
         getJsComboBox().select2("close");
+    }
+
+    @Override
+    public boolean isOpen() {
+        return open;
     }
 
     @Override

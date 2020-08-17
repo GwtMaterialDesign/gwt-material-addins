@@ -87,6 +87,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     private MaterialLabel errorLabel = new MaterialLabel();
     private MaterialIcon icon = new MaterialIcon();
     private DateRangeOptions options = new DateRangeOptions();
+    private boolean open;
     private double addedOffsetHeight = 480;
     private Date startDate;
     private Date endDate;
@@ -278,6 +279,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     public void open(boolean fireEvent) {
         getMethodProvider().show(fireEvent);
+        open = true;
     }
 
     @Override
@@ -288,6 +290,12 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     @Override
     public void close(boolean fireEvent) {
         getMethodProvider().hide(fireEvent);
+        open = false;
+    }
+
+    @Override
+    public boolean isOpen() {
+        return open;
     }
 
     @Override
