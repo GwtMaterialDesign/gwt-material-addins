@@ -23,6 +23,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
+import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.JsLoader;
@@ -60,10 +62,10 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
 
     static {
         if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialLiveStampDebugClientBundle.INSTANCE.momentDebugJs());
+            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
             MaterialDesignBase.injectDebugJs(MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugJs());
         } else {
-            MaterialDesignBase.injectJs(MaterialLiveStampClientBundle.INSTANCE.momentJs());
+            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJs());
             MaterialDesignBase.injectJs(MaterialLiveStampClientBundle.INSTANCE.liveStampJs());
         }
     }

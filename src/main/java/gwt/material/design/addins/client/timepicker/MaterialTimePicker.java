@@ -20,8 +20,10 @@
 package gwt.material.design.addins.client.timepicker;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.logical.shared.*;
@@ -30,16 +32,14 @@ import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialInput;
-import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Label;
 
 import java.util.Date;
@@ -70,8 +70,8 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @see <a href="https://github.com/weareoutman/clockpicker">ClockPicker 0.0.7</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder,
-        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes {
+public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder, HasOpenClose,
+        HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -83,12 +83,13 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         }
     }
 
+    private boolean open;
     private Date time;
-    private String placeholder;
+    private String label;
     private MaterialPanel container = new MaterialPanel();
     private MaterialInput timeInput = new MaterialInput();
     private MaterialLabel errorLabel = new MaterialLabel();
-    private Label label = new Label();
+    private Label labelWidget = new Label();
     private MaterialIcon icon = new MaterialIcon();
     private JsTimePickerOptions options = new JsTimePickerOptions();
 
@@ -102,13 +103,13 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         super(Document.get().createElement("div"), AddinsCssName.TIMEPICKER, CssName.INPUT_FIELD);
     }
 
-    public MaterialTimePicker(String placeholder) {
+    public MaterialTimePicker(String label) {
         this();
-        setPlaceholder(placeholder);
+        setLabel(label);
     }
 
-    public MaterialTimePicker(String placeholder, Date value) {
-        this(placeholder);
+    public MaterialTimePicker(String label, Date value) {
+        this(label);
         setValue(value);
     }
 
@@ -118,8 +119,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
         setUniqueId(DOM.createUniqueId());
         timeInput.setType(InputType.TEXT);
-        container.add(label);
         container.add(timeInput);
+        container.add(labelWidget);
         container.add(errorLabel);
         add(container);
         timeInput.getElement().setAttribute("type", "text");
@@ -139,6 +140,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         registerHandler(addOrientationChangeHandler(event -> {
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", event.getOrientation().getCssName());
         }));
+        AddinsDarkThemeReloader.get().reload(MaterialTimePickerDarkTheme.class);
     }
 
     @Override
@@ -162,22 +164,31 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     /**
      * Programmatically open the time picker component
      */
+    @Override
     public void open() {
         Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("show"));
+        open = true;
     }
 
     /**
      * Programmatically close the time picker component
      */
+    @Override
     public void close() {
         Scheduler.get().scheduleDeferred(() -> $(timeInput.getElement()).lolliclock("hide"));
+        open = false;
+    }
+
+    @Override
+    public boolean isOpen() {
+        return open;
     }
 
     @Override
     public void clear() {
         time = null;
         clearStatusText();
-        label.removeStyleName(CssName.ACTIVE);
+        labelWidget.removeStyleName(CssName.ACTIVE);
         timeInput.removeStyleName(CssName.VALID);
         $(timeInput.getElement()).val("");
     }
@@ -219,20 +230,37 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     /**
-     * @return The placeholder text.
+     * Starting GMD 2.3.1 we standardized the labelling system
+     * of all value widget fields. Please check {@link HasLabel#setLabel(String)}
+     * for the new setter.
      */
+    @Deprecated
     @Override
     public String getPlaceholder() {
-        return this.placeholder;
+        return getLabel();
     }
 
     /**
-     * @param placeholder The placeholder text to set.
+     * Starting GMD 2.3.1 we standardized the labelling system
+     * of all value widget fields. Please check {@link HasLabel#setLabel(String)}
+     * for the new setter.
      */
+    @Deprecated
     @Override
     public void setPlaceholder(String placeholder) {
-        this.placeholder = placeholder;
-        label.setText(placeholder);
+        setLabel(placeholder);
+    }
+
+
+    @Override
+    public void setLabel(String label) {
+        this.label = label;
+        this.labelWidget.setText(this.label);
+    }
+
+    @Override
+    public String getLabel() {
+        return labelWidget.getText();
     }
 
     /**
@@ -292,8 +320,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         if (this.time == null) {
             return;
         }
-        label.removeStyleName(CssName.ACTIVE);
-        label.addStyleName(CssName.ACTIVE);
+        labelWidget.removeStyleName(CssName.ACTIVE);
+        labelWidget.addStyleName(CssName.ACTIVE);
         $(timeInput.getElement()).val(DateTimeFormat.getFormat(options.hour24 ? "HH:mm" : "hh:mm aa").format(time));
         super.setValue(time, fireEvents);
     }
@@ -304,6 +332,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
 
     public void setUniqueId(String uniqueId) {
         options.uniqueId = uniqueId;
+        timeInput.setId(uniqueId);
     }
 
     public String getCancelText() {
@@ -385,6 +414,16 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     @Override
+    public void setCustomIconType(String iconType) {
+        icon.setCustomIconType(iconType);
+    }
+
+    @Override
+    public String getCustomIconType() {
+        return icon.getCustomIconType();
+    }
+
+    @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
@@ -402,7 +441,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public StatusTextMixin<AbstractValueWidget, MaterialLabel> getStatusTextMixin() {
         if (statusTextMixin == null) {
-            statusTextMixin = new StatusTextMixin<>(this, errorLabel, timeInput, label);
+            statusTextMixin = new StatusTextMixin<>(this, errorLabel, timeInput, labelWidget);
         }
         return statusTextMixin;
     }
@@ -480,8 +519,8 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         return errorLabel;
     }
 
-    public Label getLabel() {
-        return label;
+    public Label getLabelWidget() {
+        return labelWidget;
     }
 
     @Override

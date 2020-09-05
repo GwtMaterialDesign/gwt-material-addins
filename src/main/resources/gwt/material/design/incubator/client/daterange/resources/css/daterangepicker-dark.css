@@ -1,0 +1,110 @@
+.daterangepicker,
+.daterangepicker .calendar-table,
+.daterangepicker td.off,
+.daterangepicker td.off.in-range,
+.daterangepicker td.off.start-date,
+.daterangepicker td.off.end-date {
+    background-color: #2e3033;
+    border-color: #2e3033;
+}
+
+.daterangepicker:after {
+    border-bottom: 6px solid #2e3033;
+}
+
+.daterangepicker:before {
+    border-bottom: 7px solid #2e3033;
+}
+
+.daterangepicker.drop-up:before {
+    border-top: 7px solid #2e3033;
+}
+
+.daterangepicker.drop-up:after {
+    border-top: 6px solid #2e3033;
+}
+
+.daterangepicker th.month {
+    color: #ffffff;
+}
+
+.daterangepicker .calendar-table .next span,
+.daterangepicker .calendar-table .prev span {
+    border: solid white;
+    border-width: 0 2px 2px 0;
+}
+
+.daterangepicker .drp-buttons {
+    border-top: 1px solid #3d3d3d;
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover,
+.daterangepicker td.in-range.active:not(.off) {
+    background-color: #bb86fc;
+    color: #292929;
+}
+
+.daterangepicker td:not(.active).available:hover,
+.daterangepicker th.available:hover {
+    background-color: #2e3033;
+}
+
+.daterangepicker td.available:hover:after {
+    border: 2px solid #bb86fc;
+}
+
+.daterangepicker td.in-range,
+.daterangepicker td.available.in-range:hover:not(.active) {
+    background-color: rgba(187, 134, 252, .08);
+    color: #bb86fc;
+}
+
+button.cancelBtn {
+    color: #bb86fc;
+}
+
+.daterangepicker:not(.single) .drp-buttons {
+    background-color: #2e3033;
+}
+
+.daterangepicker .calendar-time {
+    background: #292929;
+    border: 1px solid #292929;
+}
+
+.daterangepicker .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: white;
+}
+
+.date-range-picker .select2-container--default .select2-search--dropdown .select2-search__field,
+.select2-container--default .select2-results__option[aria-selected=true],
+.date-range-picker .select2-results__option {
+    background: #2f2f2f;
+}
+
+.date-range-picker .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #292929;
+}
+
+.daterangepicker .select2-container--disabled .select2-selection__rendered {
+    color: #9c9c9c !important;
+}
+
+/** Ranges **/
+.daterangepicker .ranges li.active {
+    background-color: #bb86fc !important;
+    color: #000000;
+}
+
+.daterangepicker .ranges li:not(.active):hover {
+    background-color: #292929;
+}
+
+.daterangepicker .ranges li:hover {
+    background-color: #292929;
+}
+
+.daterangepicker.show-ranges .drp-calendar.left {
+    border-left: 1px solid #292929 !important;
+}

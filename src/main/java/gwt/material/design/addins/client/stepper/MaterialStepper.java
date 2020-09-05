@@ -24,31 +24,36 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
 import gwt.material.design.addins.client.stepper.events.NextEvent;
 import gwt.material.design.addins.client.stepper.events.PreviousEvent;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
+import gwt.material.design.addins.client.stepper.mixin.HasStepperTransition;
+import gwt.material.design.addins.client.stepper.mixin.StepperTransitionMixin;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasStatusText;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.base.mixin.StatusDisplayMixin;
+import gwt.material.design.client.base.mixin.ToggleStyleMixin;
+import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.Axis;
+import gwt.material.design.client.constants.Position;
+import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
-import gwt.material.design.client.ui.html.Span;
 
 //@formatter:off
 
@@ -82,7 +87,7 @@ import gwt.material.design.client.ui.html.Span;
  */
 // @formatter:on
 public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
-        HasSelectionChangedHandlers, HasStepsHandler {
+    HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -95,18 +100,20 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     private int currentStepIndex = 0;
     private int totalSteps;
     private boolean stepSkippingAllowed = true;
+    private boolean fixedStepWidth = false;
     private boolean detectOrientation = true;
+    private String feedback = "";
     private Div divFeedback = new Div();
-    private Span feedbackSpan = new Span();
     private HandlerRegistration orientationHandler;
-
+    private MaterialLoader loader = new MaterialLoader();
+    private ToggleStyleMixin<MaterialStepper> toggleFixedStepWidth;
     private CssNameMixin<MaterialStepper, Axis> axisMixin;
+    private StepperTransitionMixin<MaterialStepper> stepperTransitionMixin;
 
     public MaterialStepper() {
         super(Document.get().createDivElement(), AddinsCssName.STEPPER);
 
         divFeedback.setStyleName(AddinsCssName.FEEDBACK);
-        divFeedback.add(feedbackSpan);
     }
 
     @Override
@@ -119,6 +126,22 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         }
 
         setDetectOrientation(detectOrientation);
+        updateStepWidth();
+        AddinsDarkThemeReloader.get().reload(MaterialStepperDarkTheme.class);
+    }
+
+    public void updateStepWidth() {
+        for (Widget child : getChildren()) {
+            if (child instanceof MaterialStep) {
+                if (fixedStepWidth) {
+                    double stepWidth = 100 / getChildren().size();
+                    child.setWidth(stepWidth + "%");
+                } else {
+                    child.getElement().getStyle().clearWidth();
+                }
+            }
+        }
+
     }
 
     public void setDetectOrientation(boolean detectOrientation) {
@@ -136,6 +159,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     protected void detectAndApplyOrientation() {
+        if (getAxis() != null && getAxis() == Axis.VERTICAL && !Window.matchMedia(Resolution.ALL_MOBILE.asMediaQuery())) {
+            return;
+        }
+
         if (Window.matchMedia("(orientation: portrait)")) {
             setAxis(Axis.VERTICAL);
         } else {
@@ -152,6 +179,17 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
      */
     public void add(MaterialStep step) {
         this.add((Widget) step);
+
+        registerStep(step);
+    }
+
+    public void insert(MaterialStep step, int index) {
+        super.insert(step, index);
+
+        registerStep(step);
+    }
+
+    protected void registerStep(MaterialStep step) {
         step.setAxis(getAxis());
         registerHandler(step.addSelectionHandler(this));
         totalSteps++;
@@ -167,8 +205,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             Widget w = getWidget(currentStepIndex);
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
-                step.setActive(false);
-
                 step.setSuccessText(step.getDescription());
 
                 // next step
@@ -181,7 +217,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
                         }
                         MaterialStep nextStep = (MaterialStep) w;
                         if (nextStep.isEnabled() && nextStep.isVisible()) {
-                            nextStep.setActive(true);
+                            animateNext();
                             setCurrentStepIndex(i);
                             NextEvent.fire(MaterialStepper.this);
                             break;
@@ -200,7 +236,6 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             Widget w = getWidget(currentStepIndex);
             if (w instanceof MaterialStep) {
                 MaterialStep step = (MaterialStep) w;
-                step.setActive(false);
 
                 // prev step
                 int prevStepIndex = getWidgetIndex(step) - 1;
@@ -212,7 +247,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
                         }
                         MaterialStep prevStep = (MaterialStep) w;
                         if (prevStep.isEnabled() && prevStep.isVisible()) {
-                            prevStep.setActive(true);
+                            animatePrevious();
                             setCurrentStepIndex(i);
                             PreviousEvent.fire(MaterialStepper.this);
                             break;
@@ -301,6 +336,18 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
 
     public int getCurrentStepIndex() {
         return currentStepIndex;
+    }
+
+    public MaterialStep getStep(int step) {
+        return getStepByIndex(step - 1);
+    }
+
+    public MaterialStep getStepByIndex(int stepIndex) {
+        Widget widget = getWidget(stepIndex);
+        if (widget instanceof MaterialStep) {
+            return (MaterialStep) widget;
+        }
+        return null;
     }
 
     @Override
@@ -400,20 +447,41 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         getCurrentStep().clearSuccessText();
     }
 
+    @Override
+    public void setStatusDisplayType(StatusDisplayType displayType) {
+        getCurrentStep().setStatusDisplayType(displayType);
+    }
+
+    @Override
+    public StatusDisplayType getStatusDisplayType() {
+        return getCurrentStep().getStatusDisplayType();
+    }
+
+    @Override
+    public void updateStatusDisplay(StatusDisplayMixin.StatusType statusType) {
+        getCurrentStep().updateStatusDisplay(statusType);
+    }
+
+    @Override
+    public void setStatusDisplayPosition(Position position) {
+        getCurrentStep().setStatusDisplayPosition(position);
+    }
+
     /**
      * Get feedback message.
      */
     public String getFeedback() {
-        return SafeHtmlUtils.fromString(feedbackSpan.getElement().getInnerHTML()).asString();
+        return feedback;
     }
 
     /**
      * Show feedback message and circular loader on body container
      */
-    public void showFeedback(String feedbackText) {
-        feedbackSpan.setText(feedbackText);
-        new MaterialAnimation().transition(Transition.FADEINUP).duration(400).animate(feedbackSpan);
-        MaterialLoader.loading(true, getCurrentStep().getDivBody());
+    public void showFeedback(String feedback) {
+        this.feedback = feedback;
+        loader.setMessage(feedback);
+        loader.setContainer(divFeedback);
+        loader.show();
         add(divFeedback);
     }
 
@@ -421,6 +489,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
      * Hide feedback message and circular loader on body container.
      */
     public void hideFeedback() {
+        loader.hide();
         divFeedback.removeFromParent();
     }
 
@@ -440,8 +509,14 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         return stepSkippingAllowed;
     }
 
-    public Span getFeedbackSpan() {
-        return feedbackSpan;
+    public boolean isFixedStepWidth() {
+        return fixedStepWidth;
+    }
+
+    public void setFixedStepWidth(boolean fixedStepWidth) {
+        this.fixedStepWidth = fixedStepWidth;
+        updateStepWidth();
+        getToggleFixedStepWidth().setOn(fixedStepWidth);
     }
 
     /**
@@ -454,6 +529,46 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
                 goToStep(event.getSelectedItem());
             }
         }
+    }
+
+    @Override
+    public void setNextInTransition(Transition transition) {
+        getStepperTransitionMixin().setNextInTransition(transition);
+    }
+
+    @Override
+    public void setNextOutTransition(Transition transition) {
+        getStepperTransitionMixin().setNextOutTransition(transition);
+    }
+
+    @Override
+    public void setPreviousInTransition(Transition transition) {
+        getStepperTransitionMixin().setPreviousInTransition(transition);
+    }
+
+    @Override
+    public void setPreviousOutTransition(Transition transition) {
+        getStepperTransitionMixin().setPreviousOutTransition(transition);
+    }
+
+    @Override
+    public void animateNext() {
+        getStepperTransitionMixin().animateNext();
+    }
+
+    @Override
+    public void animatePrevious() {
+        getStepperTransitionMixin().animatePrevious();
+    }
+
+    @Override
+    public void setEnableTransition(boolean enableTransition) {
+        getStepperTransitionMixin().setEnableTransition(enableTransition);
+    }
+
+    @Override
+    public boolean isEnableTransition() {
+        return getStepperTransitionMixin().isEnableTransition();
     }
 
     @Override
@@ -486,5 +601,19 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             axisMixin = new CssNameMixin<>(this);
         }
         return axisMixin;
+    }
+
+    protected StepperTransitionMixin<MaterialStepper> getStepperTransitionMixin() {
+        if (stepperTransitionMixin == null) {
+            stepperTransitionMixin = new StepperTransitionMixin<>(this);
+        }
+        return stepperTransitionMixin;
+    }
+
+    protected ToggleStyleMixin<MaterialStepper> getToggleFixedStepWidth() {
+        if (toggleFixedStepWidth == null) {
+            toggleFixedStepWidth = new ToggleStyleMixin<>(this, AddinsCssName.FIXED_STEP_WIDTH);
+        }
+        return toggleFixedStepWidth;
     }
 }

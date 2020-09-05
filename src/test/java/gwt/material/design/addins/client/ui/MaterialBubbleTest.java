@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.bubble.MaterialBubble;
 import gwt.material.design.client.base.MaterialWidget;
@@ -30,7 +30,7 @@ import gwt.material.design.client.constants.Position;
  *
  * @author kevzlou7979
  */
-public class MaterialBubbleTest extends MaterialWidgetTest<MaterialBubble> {
+public class MaterialBubbleTest extends AddinsWidgetTestCase<MaterialBubble> {
 
     @Override
     protected MaterialBubble createWidget() {

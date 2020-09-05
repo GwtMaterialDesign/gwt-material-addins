@@ -135,4 +135,14 @@ public class MaterialNote extends MaterialWidget implements HasIcon {
     public boolean isIconPrefix() {
         return icon.isIconPrefix();
     }
+
+    @Override
+    public void setCustomIconType(String iconType) {
+        icon.setCustomIconType(iconType);
+    }
+
+    @Override
+    public String getCustomIconType() {
+        return icon.getCustomIconType();
+    }
 }

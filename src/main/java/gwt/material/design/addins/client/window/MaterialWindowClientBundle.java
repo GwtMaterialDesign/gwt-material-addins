@@ -34,4 +34,7 @@ interface MaterialWindowClientBundle extends ClientBundle {
 
     @Source("resources/css/window.min.css")
     TextResource windowCss();
+
+    @Source("resources/css/window-dark.min.css")
+    TextResource windowDarkCss();
 }

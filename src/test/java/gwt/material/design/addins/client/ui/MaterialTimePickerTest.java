@@ -173,8 +173,8 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest<MaterialTime
         assertTrue(timePicker.getWidget(0) instanceof MaterialPanel);
         MaterialPanel panel = (MaterialPanel) timePicker.getWidget(0);
         assertEquals(3, panel.getWidgetCount());
-        assertTrue(panel.getWidget(0) instanceof Label);
-        assertTrue(panel.getWidget(1) instanceof MaterialInput);
+        assertTrue(panel.getWidget(0) instanceof MaterialInput);
+        assertTrue(panel.getWidget(1) instanceof Label);
         assertTrue(panel.getWidget(2) instanceof MaterialLabel);
     }
 
@@ -208,9 +208,7 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest<MaterialTime
         timePicker.setCancelText(CANCEL_TEXT);
         assertEquals(CANCEL_TEXT, timePicker.getCancelText());
 
-        final boolean[] firedOpenHandler = {false};
         timePicker.addOpenHandler(openEvent -> {
-            firedOpenHandler[0] = true;
             JQueryElement cancelButton = $(".lolliclock-buttons .lolliclock-button:nth-child(1)");
             assertNotNull(cancelButton);
             assertEquals(CANCEL_TEXT, cancelButton.text());
@@ -220,7 +218,6 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest<MaterialTime
             assertEquals(OK_TEXT, okButton.text());
         });
 
-        JsTimePicker.$(timePicker.getTimeInput().getElement()).lolliclock("show");
-        assertTrue(firedOpenHandler[0]);
+        JsTimePicker.$(timePicker.getElement()).lolliclock("show");
     }
 }

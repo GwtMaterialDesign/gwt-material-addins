@@ -19,10 +19,10 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.countup.MaterialCountUp;
 
-public class MaterialCountUpTest extends MaterialWidgetTest<MaterialCountUp> {
+public class MaterialCountUpTest extends AddinsWidgetTestCase<MaterialCountUp> {
 
     final static double START_VALUE = 0.0;
     final static double END_VALUE = 100.0;

@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.signature.MaterialSignaturePad;
 import gwt.material.design.addins.client.signature.events.SignatureClearEvent;
 import gwt.material.design.addins.client.signature.events.SignatureEndEvent;
@@ -30,7 +30,7 @@ import gwt.material.design.addins.client.signature.events.SignatureStartEvent;
  *
  * @author kevzlou7979
  */
-public class MaterialSignaturePadTest extends MaterialWidgetTest<MaterialSignaturePad> {
+public class MaterialSignaturePadTest extends AddinsWidgetTestCase<MaterialSignaturePad> {
 
     final static double DOT_SIZE = 10.0;
     final static double LINE_MIN_WIDTH = 5.0;

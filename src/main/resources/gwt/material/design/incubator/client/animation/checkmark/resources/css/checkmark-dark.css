@@ -1,0 +1,8 @@
+.sa-icon.sa-success::before,
+.sa-icon.sa-success::after {
+    background-color: #292929;
+}
+
+.sa-icon.sa-success .sa-fix {
+    background-color: #292929;
+}

@@ -1,0 +1,19 @@
+.group-toggle-button .wrapper {
+    background: #424242;
+}
+
+.group-toggle-button .wrapper button.active,
+.group-toggle-button .wrapper button:not(.active):hover{
+    background: #bb86fc;
+    color: #1e1e1e;
+}
+
+.group-toggle-button .wrapper button:not(.active):hover {
+    background-color: #525252;
+}
+
+.group-toggle-button .wrapper button {
+    color: #8e8e8e;
+    background-color: #424242;
+    border-right: 1px solid #292929;
+}

@@ -88,6 +88,11 @@
     display: block
 }
 
+.select2-results__option {
+    padding: 1rem;
+    min-height: 52px;
+}
+
 .select2-results__options {
     list-style: none;
     margin: 0;
@@ -209,7 +214,7 @@
 }
 
 .select2-container--default .select2-selection--multiple {
-    cursor: text
+    cursor: text;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
@@ -240,7 +245,7 @@
     cursor: default;
     float: left;
     margin-right: 5px;
-    margin-top: 5px
+    margin-top: 8px
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
@@ -273,7 +278,7 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    border-bottom: 1px solid rgba(0, 0, 0, .14)
+    border-bottom: 1px solid rgba(0, 0, 0, .14);
 }
 
 .select2-container--default.select2-container--open.select2-container--above .select2-selection--multiple, .select2-container--default.select2-container--open.select2-container--above .select2-selection--single {
@@ -287,7 +292,8 @@
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
-    border: 1px solid #aaa
+    border: 1px solid #aaa;
+    padding-left: 16px;
 }
 
 .select2-container--default .select2-search--inline .select2-search__field {
@@ -384,7 +390,7 @@
 /** Arrow **/
 /** Header **/
 header nav .select2-container--default .select2-selection--single .select2-selection__arrow b {
-    border-color: transparent transparent rgba(255,255,255,0.5) !important;
+    border-color: transparent transparent rgba(255, 255, 255, 0.5) !important;
 }
 
 /** Default **/
@@ -404,6 +410,11 @@ header nav .select2-container--default .select2-selection--single .select2-selec
 .combobox.outlined .select2-container--open .select2-selection__arrow b,
 .combobox.outlined .select2-selection__arrow b {
     bottom: 17px;
+}
+
+.combobox.outlined .select2-container .select2-search--inline .select2-search__field {
+    margin-top: 8px;
+    margin-bottom: 0px !important;
 }
 
 .combobox .select2-container--disabled .select2-selection__arrow b {
@@ -762,8 +773,8 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
     top: 0;
     width: 20px;
     height: 20px;
-    border: 2px solid #26a69a;
-    background-color: #26a69a;
+    border: 2px solid #42a5f5;
+    background-color: #42a5f5;
     z-index: 0
 }
 
@@ -783,6 +794,11 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
     z-index: 1
 }
 
+.select2-container--default .select2-results__group {
+    opacity: 0.6;
+    font-size: 1em;
+}
+
 /** Aligned Label **/
 .input-field.aligned-label.combobox .select2-container {
     width: 70% !important;
@@ -795,11 +811,28 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
     font-size: 1em !important
 }
 
+/** Disabled **/
+.input-field.combobox .select2-container--focus .select2-selection,
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    color: rgba(0, 0, 0, .26);
+    border-bottom: 1px dotted rgba(0, 0, 0, .26);
+    box-shadow: none !important;
+}
+
 /** Outlined **/
 .input-field.outlined.combobox .select2-selection {
     border: 1px solid #e9e9e9;
     border-radius: 4px;
     height: 3em
+}
+
+.input-field.outlined.combobox .select2-container--default .select2-search--inline .select2-search__field:focus {
+    border: none !important;
+}
+
+.input-field.outlined.combobox .select2-container--default .select2-selection--multiple {
+    height: auto;
+    padding-left: 20px;
 }
 
 .input-field.outlined.combobox label.select2label {
@@ -835,18 +868,104 @@ ul.select2-results__options[aria-multiselectable=true] li.select2-results__optio
     box-shadow: none;
 }
 
+.input-field.outlined.combobox .select2-container--default .select2-selection--multiple {
+    padding-left: 12px !important;
+}
+
 /** Filled **/
 .input-field.filled.combobox .select2-container {
     background: rgba(0, 0, 0, .04);
     border-radius: 4px 4px 0 0
 }
 
+.input-field.filled.combobox .select2-container.select2-container--disabled {
+    background: transparent;
+}
+
 .input-field.filled.combobox label.select2label {
-    top: 24px;
+    margin-top: 14px;
     margin-left: 12px
 }
 
+.input-field.filled.combobox .select2-container--default .select2-selection--multiple .select2-selection__rendered,
 .input-field.filled.combobox .select2-container--default .select2-selection--single .select2-selection__rendered {
     padding-left: 12px;
     padding-top: 4px
+}
+
+.input-field.filled.combobox .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding-top: 12px;
+}
+
+/** Focus **/
+.input-field.combobox .select2-container--focus .select2-selection {
+    border-bottom: 1px solid #42a5f5;
+    box-shadow: 0 1px 0 0 #42a5f5;
+}
+
+.input-field.outlined.combobox .select2-container--focus .select2-selection {
+    border: 2px solid #42a5f5;
+    box-shadow: none;
+}
+
+.input-field.outlined.select2-container--focus.select2-container--disabled .select2-selection {
+    border: none;
+}
+
+/** Hoverable Status **/
+.input-field.hoverable-status.field-error .select2-container--default .select2-selection--single .select2-selection__arrow,
+.input-field.hoverable-status.field-success .select2-container--default .select2-selection--single .select2-selection__arrow {
+    display: none;
+}
+
+/** Mandatory Field **/
+.input-field.combobox select.disabled + span + label.required:before {
+    display: none;
+}
+
+/** Templating **/
+.selection-template img {
+    width: 24px;
+    height: 24px;
+    margin-left: -5px;
+    border-radius: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 4px;
+}
+
+.selection-template span {
+    padding-right: 20px;
+    padding-left: 12px;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.result-template img {
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+    margin-right: 12px;
+    float: left;
+    border-radius: 100%;
+}
+
+.result-template.has-second-line img {
+    width: 40px;
+    height: 40px;
+}
+
+.result-template div.right-panel {
+    width: calc(100% - 40px);
+}
+
+.result-template span {
+    display: block;
+}
+
+.result-template span.second-line {
+    opacity: 0.6;
 }

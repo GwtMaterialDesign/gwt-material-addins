@@ -25,6 +25,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -63,7 +64,7 @@ import gwt.material.design.client.base.MaterialWidget;
  */
 // @formatter:on
 public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>,
-        HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
+    HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -98,9 +99,13 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
                 }
             }
             MaterialTreeItem treeItem = event.getSelectedItem();
-            treeItem.addStyleName(AddinsCssName.SELECTED);
+            if (treeItem != null) {
+                treeItem.addStyleName(AddinsCssName.SELECTED);
+            }
             setSelectedItem(treeItem);
         }));
+
+        AddinsDarkThemeReloader.get().reload(MaterialTreeDarkTheme.class);
     }
 
     @Override

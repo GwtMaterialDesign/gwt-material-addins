@@ -309,6 +309,94 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
         return options.transitionDuration != null ? Integer.parseInt(options.transitionDuration.replace("ms", "")) : 0;
     }
 
+    public boolean isHorizontalOrder() {
+        return options.horizontalOrder;
+    }
+
+    /**
+     * Lays out items to (mostly) maintain horizontal left-to-right order.
+     */
+    public void setHorizontalOrder(boolean horizontalOrder) {
+        options.horizontalOrder = horizontalOrder;
+    }
+
+    public String getStamp() {
+        return options.stamp;
+    }
+
+    /**
+     * Specifies which elements are stamped within the layout. Masonry will layout items below stamped elements.
+     *
+     * The stamp option stamps elements only when the Masonry instance is first initialized. You can stamp additional
+     * elements afterwards with the stamp method.
+     */
+    public void setStamp(String stamp) {
+        options.stamp = stamp;
+    }
+
+    public boolean isFitWidth() {
+        return options.fitWidth;
+    }
+
+    /**
+     * Sets the width of the container to fit the available number of columns, based the size of container's parent element.
+     * When enabled, you can center the container with CSS.
+     * <br/><br/>
+     * Note: <b>fitWidth: true</b> does not work with element sizing with percentage width. Either columnWidth needs to be set
+     * to a fixed size, like <b>columnWidth: 120</b>, or items need to have a fixed size in pixels, like <b>width: 120px</b>. Otherwise,
+     * the container and item widths will collapse on one another.
+     */
+    public void setFitWidth(boolean fitWidth) {
+        options.fitWidth = fitWidth;
+    }
+
+    public int getStagger() {
+        return options.stagger;
+    }
+
+    /**
+     * Staggers item transitions, so items transition incrementally after one another. Set as a CSS time format,
+     * <b>'0.03s'</b>, or as a number in milliseconds, <b>30</b>.
+     */
+    public void setStagger(int stagger) {
+        options.stagger = stagger;
+    }
+
+    public boolean isResize() {
+        return options.resize;
+    }
+
+    /**
+     * Adjusts sizes and positions when window is resized. Enabled by default resize: true.
+     */
+    public void setResize(boolean resize) {
+        options.resize = resize;
+    }
+
+    public boolean isInitLayout() {
+        return options.initLayout;
+    }
+
+    /**
+     * Enables layout on initialization. Enabled by default initLayout: true.
+     *
+     * Set initLayout: false to disable layout on initialization, so you can use methods or add events before the initial layout.
+     */
+    public void setInitLayout(boolean initLayout) {
+        options.initLayout = initLayout;
+    }
+
+    public String getTransitionDuration() {
+        return options.transitionDuration;
+    }
+
+    /**
+     * Duration of the transition when items change position or appearance, set in a CSS time format. Default: transitionDuration: '0.4s'
+     */
+    public void setTransitionDuration(String transitionDuration) {
+        options.transitionDuration = transitionDuration;
+    }
+
     @Override
     public HandlerRegistration addLayoutCompleteHandler(LayoutCompleteEvent.LayoutCompleteHandler handler) {
         return addHandler(handler, LayoutCompleteEvent.TYPE);

@@ -2,6 +2,11 @@
     clear: both;
     text-align: center;
     padding-top: 80px;
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .infinite-scroll-loader.active {
@@ -9,7 +14,9 @@
 }
 
 .infinite-scroll-loader .loader-wrapper {
-    background: transparent;
+    opacity: 0.9 !important;
+    height: 100%;
+    background: white !important;
 }
 
 .infinite-scroll-loader .preloader-wrapper {
@@ -20,4 +27,11 @@
 .infinite-scroll-loader span {
     padding-bottom: 32px;
     font-size: 1.2em;
+    bottom: 170px !important;
+    left: 0px !important;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 9999;
+    font-weight: bold;
 }

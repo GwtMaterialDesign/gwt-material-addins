@@ -49,8 +49,8 @@ public class JsCircularProgress extends JQueryElement {
     public native JQueryElement circleProgress();
 
     @JsMethod
-    public native JQueryElement circleProgress(Object param1);
+    public native JQueryElement circleProgress(String action);
 
     @JsMethod
-    public native JQueryElement circleProgress(Object param1, Object param2);
+    public native JQueryElement circleProgress(String action, Double params);
 }

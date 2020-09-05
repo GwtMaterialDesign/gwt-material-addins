@@ -21,7 +21,7 @@ package gwt.material.design.incubator.client.ui;
 
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.incubator.client.MaterialWidgetTest;
+import gwt.material.design.incubator.client.ui.base.MaterialWidgetTest;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.timer.TimerProgress;
 

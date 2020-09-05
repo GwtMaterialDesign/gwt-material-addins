@@ -20,6 +20,7 @@ package gwt.material.design.addins.client.rating;
  * #L%
  */
 
+import com.gargoylesoftware.htmlunit.Page;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -27,6 +28,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
@@ -108,6 +110,8 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
     private int maxRating = 5;
     private IconType selectedRatingIcon = IconType.STAR;
     private IconType unselectedRatingIcon = IconType.STAR_BORDER;
+    private Color selectedRatingColor;
+    private Color unselectedRatingColor;
     private List<MaterialIcon> iconList = new LinkedList<>();
 
     /**
@@ -138,6 +142,21 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
         super.onLoad();
 
         revalidateLayout();
+        AddinsDarkThemeReloader.get().reload(MaterialRatingDarkTheme.class);
+    }
+
+    /**
+     * Will set the color of selected rating icon.
+     */
+    public void setSelectedRatingColor(Color selectedRatingColor) {
+        this.selectedRatingColor = selectedRatingColor;
+    }
+
+    /**
+     * Will set the color of unselected rating icon.
+     */
+    public void setUnselectedRatingColor(Color unselectedRatingColor) {
+        this.unselectedRatingColor = unselectedRatingColor;
     }
 
     /**
@@ -265,12 +284,18 @@ public class MaterialRating extends MaterialWidget implements HasValue<Integer> 
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(selectedRatingIcon);
             icon.addStyleName(AddinsCssName.MATERIAL_RATING_SELECTED);
+            if (selectedRatingColor != null) {
+                icon.setIconColor(selectedRatingColor);
+            }
         }
 
         for (int i = rating; i < iconList.size(); i++) {
             MaterialIcon icon = iconList.get(i);
             icon.setIconType(unselectedRatingIcon);
             icon.addStyleName(AddinsCssName.MATERIAL_RATING_UNSELECTED);
+            if (unselectedRatingColor != null) {
+                icon.setIconColor(unselectedRatingColor);
+            }
         }
     }
 

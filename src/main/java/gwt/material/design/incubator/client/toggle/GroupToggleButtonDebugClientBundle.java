@@ -33,4 +33,7 @@ public interface GroupToggleButtonDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/group-toggle-button.css")
     TextResource groupToggleDebugCss();
+
+    @Source("resources/css/group-toggle-button-dark.css")
+    TextResource groupToggleDarkCss();
 }

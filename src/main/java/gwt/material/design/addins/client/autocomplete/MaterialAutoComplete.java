@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
@@ -160,7 +161,7 @@ import java.util.Map.Entry;
  */
 // @formatter:on
 public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
-        HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes {
+    HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -231,60 +232,71 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     }
 
     protected void loadHandlers() {
+        if (itemBoxBlurHandler == null) {
+            itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
+                if (getValue().size() > 0) {
+                    label.addStyleName(CssName.ACTIVE);
+                }
+            });
+        }
 
-        itemBoxBlurHandler = itemBox.addBlurHandler(blurEvent -> {
-            if (getValue().size() > 0) {
-                label.addStyleName(CssName.ACTIVE);
-            }
-        });
-
-        itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
-            switch (event.getNativeKeyCode()) {
-                case KeyCodes.KEY_ENTER:
-                    if (directInputAllowed) {
-                        String value = itemBox.getValue();
-                        if (value != null && !(value = value.trim()).isEmpty()) {
-                            gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
-                            directInput.setDisplay(value);
-                            directInput.setSuggestion(value);
-                            addItem(directInput);
-                            if (getType() == AutocompleteType.TEXT) {
-                                itemBox.setText(value);
-                            } else {
-                                itemBox.setValue("");
+        if (itemBoxKeyDownHandler == null) {
+            itemBoxKeyDownHandler = itemBox.addKeyDownHandler(event -> {
+                switch (event.getNativeKeyCode()) {
+                    case KeyCodes.KEY_ENTER:
+                        if (directInputAllowed) {
+                            String value = itemBox.getValue();
+                            if (value != null && !(value = value.trim()).isEmpty()) {
+                                gwt.material.design.client.base.Suggestion directInput = new gwt.material.design.client.base.Suggestion();
+                                directInput.setDisplay(value);
+                                directInput.setSuggestion(value);
+                                addItem(directInput);
+                                if (getType() == AutocompleteType.TEXT) {
+                                    itemBox.setText(value);
+                                } else {
+                                    itemBox.setValue("");
+                                }
+                                itemBox.setFocus(true);
                             }
-                            itemBox.setFocus(true);
                         }
-                    }
-                    break;
-                case KeyCodes.KEY_BACKSPACE:
-                    if (itemBox.getValue().trim().isEmpty()) {
-                        if (itemsHighlighted.isEmpty()) {
-                            if (suggestionMap.size() > 0) {
-                                ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
+                        break;
+                    case KeyCodes.KEY_BACKSPACE:
+                        if (itemBox.getValue().trim().isEmpty()) {
+                            if (itemsHighlighted.isEmpty()) {
+                                if (suggestionMap.size() > 0) {
+                                    ListItem li = (ListItem) list.getWidget(list.getWidgetCount() - 2);
 
+                                    if (tryRemoveSuggestion(li.getWidget(0))) {
+                                        li.removeFromParent();
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case KeyCodes.KEY_DELETE:
+                        if (itemBox.getValue().trim().isEmpty()) {
+                            for (ListItem li : itemsHighlighted) {
                                 if (tryRemoveSuggestion(li.getWidget(0))) {
                                     li.removeFromParent();
                                 }
                             }
+                            itemsHighlighted.clear();
                         }
-                    }
-                    break;
-                case KeyCodes.KEY_DELETE:
-                    if (itemBox.getValue().trim().isEmpty()) {
-                        for (ListItem li : itemsHighlighted) {
-                            if (tryRemoveSuggestion(li.getWidget(0))) {
-                                li.removeFromParent();
-                            }
-                        }
-                        itemsHighlighted.clear();
-                    }
-                    itemBox.setFocus(true);
-                    break;
-            }
-        });
+                        itemBox.setFocus(true);
+                        break;
+                }
+            });
+        }
 
-        itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        if (itemBoxClickHandler == null) {
+            itemBoxClickHandler = itemBox.addClickHandler(event -> suggestBox.showSuggestionList());
+        }
+
+        if (itemBox != null && itemBox.isAttached()) {
+            itemBox.getElement().setAttribute("autocomplete", "off");
+        }
+
+        AddinsDarkThemeReloader.get().reload(MaterialAutoCompleteDarkTheme.class);
     }
 
     @Override
@@ -337,7 +349,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         panel.add(list);
         panel.getElement().setAttribute("onclick",
-                "document.getElementById('" + autocompleteId + "').focus()");
+            "document.getElementById('" + autocompleteId + "').focus()");
         panel.add(errorLabel);
         suggestBox.setFocus(true);
     }
@@ -475,7 +487,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     /**
      * @param itemValues the itemsSelected to set
-     * @see #setValue(Object)
+     * @see #setValue(List, boolean)
      */
     public void setItemValues(List<String> itemValues) {
         setItemValues(itemValues, false);
@@ -484,7 +496,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     /**
      * @param itemValues the itemsSelected to set
      * @param fireEvents will fire value change event if true
-     * @see #setValue(Object)
+     * @see #setValue(List, boolean)
      */
     public void setItemValues(List<String> itemValues, boolean fireEvents) {
         if (itemValues == null) {
@@ -573,15 +585,17 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.getElement().setAttribute("placeholder", placeholder);
     }
 
-    /**
-     * @param label
-     * @see gwt.material.design.client.ui.MaterialValueBox#setLabel(String)
-     */
+    @Override
     public void setLabel(String label) {
         this.label.setText(label);
         if (!getPlaceholder().isEmpty()) {
             this.label.setStyleName(CssName.ACTIVE);
         }
+    }
+
+    @Override
+    public String getLabel() {
+        return label.getText();
     }
 
     /**
@@ -808,7 +822,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         itemBox.setEnabled(enabled);
     }
 
-    public Label getLabel() {
+    public Label getLabelWidget() {
         return label;
     }
 

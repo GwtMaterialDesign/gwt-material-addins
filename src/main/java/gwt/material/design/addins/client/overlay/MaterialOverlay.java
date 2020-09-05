@@ -27,9 +27,11 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
+import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
@@ -63,7 +65,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  */
 //@formatter:on
 public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>,
-        HasCloseHandlers<MaterialOverlay>, HasDurationTransition {
+        HasCloseHandlers<MaterialOverlay>, HasDurationTransition, HasOpenClose {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -93,6 +95,13 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         setOpacity(opacity);
     }
 
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+
+        AddinsDarkThemeReloader.get().reload(MaterialOverlayDarkTheme.class);
+    }
+
     public void open(MaterialWidget source) {
         open(source.getElement());
     }
@@ -112,6 +121,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     /**
      * Open the Overlay Panel without Path Animator
      */
+    @Override
     public void open() {
         setVisibility(Style.Visibility.VISIBLE);
         setOpacity(1);
@@ -121,6 +131,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
     /**
      * Close the Overlay Panel with Path Animator applied.
      */
+    @Override
     public void close() {
         close(true);
     }
@@ -150,6 +161,7 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         }
     }
 
+    @Override
     public boolean isOpen() {
         Style.Visibility visibility = getVisibility();
         return visibility == null || !visibility.equals(Style.Visibility.HIDDEN);

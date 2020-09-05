@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.inputmask.MaterialInputMask;
+import gwt.material.design.addins.client.inputmask.AbstractInputMask;
 import gwt.material.design.addins.client.ui.base.MaterialValueBoxTest;
 
 /**
@@ -27,20 +27,21 @@ import gwt.material.design.addins.client.ui.base.MaterialValueBoxTest;
  *
  * @author kevzlou7979
  */
-public class MaterialInputMaskTest extends MaterialValueBoxTest<MaterialInputMask> {
+public class MaterialInputMaskTest extends MaterialValueBoxTest<AbstractInputMask> {
 
     final static String MASK_REGEX = "000.000.000.000";
     final static String VALUE = "123456789098";
+    final static String EXPECTED_VALUE = "123.456.789.098";
 
     @Override
-    protected MaterialInputMask createWidget() {
-        return new MaterialInputMask();
+    protected AbstractInputMask createWidget() {
+        return new AbstractInputMask();
     }
 
     public void testProperties() {
         // UiBinder
         // given
-        MaterialInputMask inputMask = getWidget();
+        AbstractInputMask inputMask = getWidget();
         inputMask.setMask(MASK_REGEX);
 
         assertEquals(MASK_REGEX, inputMask.getMask());
@@ -56,7 +57,7 @@ public class MaterialInputMaskTest extends MaterialValueBoxTest<MaterialInputMas
         checkProperties(inputMask);
     }
 
-    protected void checkProperties(MaterialInputMask inputMask) {
+    protected void checkProperties(AbstractInputMask inputMask) {
         inputMask.setSelectOnFocus(true);
         assertTrue(inputMask.isSelectOnFocus());
         inputMask.setSelectOnFocus(false);
@@ -76,7 +77,7 @@ public class MaterialInputMaskTest extends MaterialValueBoxTest<MaterialInputMas
     public void testValue() {
         // UiBinder
         // given
-        MaterialInputMask inputMask = getWidget();
+        AbstractInputMask inputMask = getWidget();
 
         // when / then
         checkValue(inputMask, false);
@@ -89,18 +90,18 @@ public class MaterialInputMaskTest extends MaterialValueBoxTest<MaterialInputMas
         checkValue(inputMask, true);
     }
 
-    protected void checkValue(MaterialInputMask inputMask, boolean checkCleanValue) {
+    protected void checkValue(AbstractInputMask inputMask, boolean checkCleanValue) {
         inputMask.setMask(MASK_REGEX);
         inputMask.setValue(VALUE);
-        assertEquals(VALUE, inputMask.getValue());
 
         if (checkCleanValue) {
-            //assertEquals(VALUE, inputMask.getCleanValue());
+            assertEquals(EXPECTED_VALUE, inputMask.getValue());
+            assertEquals(VALUE, inputMask.getCleanValue());
         }
     }
 
     public void testUnMask() {
-        MaterialInputMask inputMask = getWidget();
+        AbstractInputMask inputMask = getWidget();
 
         inputMask.setMask(MASK_REGEX);
         inputMask.setValue(VALUE);

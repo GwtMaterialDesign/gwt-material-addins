@@ -37,6 +37,17 @@
     left: 12px;
 }
 
+/** Hide Arrows **/
+.carousel-next-arrow,
+.carousel-prev-arrow {
+    display: none;
+}
+
+.carousel-next-arrow.slick-arrow,
+.carousel-prev-arrow.slick-arrow {
+    display: block;
+}
+
 /** OnBoard Type Carousel **/
 .material-carousel.carousel-onboard .carousel-next-arrow, .material-carousel.carousel-onboard .carousel-prev-arrow {
     bottom: 20px;

@@ -19,20 +19,19 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.subheader.MaterialSubHeader;
 import gwt.material.design.addins.client.subheader.MaterialSubHeaderContainer;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialSearch;
 
 /**
  * Test case for subheader component
  *
  * @author kevzlou7979
  */
-public class MaterialSubheaderTest extends MaterialWidgetTest<MaterialSubHeaderContainer> {
+public class MaterialSubheaderTest extends AddinsWidgetTestCase<MaterialSubHeaderContainer> {
 
     @Override
     protected MaterialSubHeaderContainer createWidget() {

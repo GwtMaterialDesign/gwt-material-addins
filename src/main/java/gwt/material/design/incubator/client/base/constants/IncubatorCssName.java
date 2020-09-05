@@ -23,6 +23,7 @@ public interface IncubatorCssName {
 
     String ALERT_CONTAINER = "alert-container";
     String ASYNC_BUTTON = "async-button";
+    String ASYNC_ICON = "async-icon";
     String TIMER_PROGRESS = "timer-progress";
     String LOADING_STATE = "loading-state";
     String BOUNCING = "bouncing";
@@ -45,4 +46,5 @@ public interface IncubatorCssName {
     String LABEL_PANEL = "label-panel";
     String JSON_TABLE = "json-table";
     String SINGLE_LANGUAGE = "single-language";
+    String CONTENT_PLACEHOLDER = "content-placeholder";
 }

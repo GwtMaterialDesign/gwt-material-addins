@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.carousel.js;
 
+import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -83,10 +84,10 @@ public class JsCarouselOptions {
     public boolean adaptiveHeight;
 
     @JsProperty
-    public boolean autoplay;
+    public String appendArrows;
 
     @JsProperty
-    public int autoplaySpeed;
+    public String appendDots;
 
     @JsProperty
     public boolean arrows;
@@ -95,16 +96,10 @@ public class JsCarouselOptions {
     public String asNavFor;
 
     @JsProperty
-    public String appendArrows;
+    public boolean autoplay;
 
     @JsProperty
-    public String appendDots;
-
-    @JsProperty
-    public String prevArrow;
-
-    @JsProperty
-    public String nextArrow;
+    public int autoplaySpeed;
 
     @JsProperty
     public boolean centerMode;
@@ -116,16 +111,16 @@ public class JsCarouselOptions {
     public String cssEase;
 
     @JsProperty
+    public Functions.Func customPaging;
+
+    @JsProperty
     public boolean dots;
 
     @JsProperty
+    public String dotsClass;
+
+    @JsProperty
     public boolean draggable;
-
-    @JsProperty
-    public boolean fade;
-
-    @JsProperty
-    public boolean focusOnSelect;
 
     @JsProperty
     public String easing;
@@ -134,10 +129,16 @@ public class JsCarouselOptions {
     public double edgeFriction;
 
     @JsProperty
-    public boolean infinite;
+    public boolean fade;
 
     @JsProperty
-    public boolean variableWidth;
+    public boolean focusOnSelect;
+
+    @JsProperty
+    public boolean focusOnChange;
+
+    @JsProperty
+    public boolean infinite;
 
     @JsProperty
     public int initialSlide;
@@ -149,25 +150,43 @@ public class JsCarouselOptions {
     public boolean mobileFirst;
 
     @JsProperty
+    public String nextArrow;
+
+    @JsProperty
+    public boolean pauseOnDotsHover;
+
+    @JsProperty
     public boolean pauseOnFocus;
 
     @JsProperty
     public boolean pauseOnHover;
 
     @JsProperty
-    public boolean pauseOnDotsHover;
+    public String prevArrow;
+
+    @JsProperty
+    public String respondTo;
+
+    @JsProperty
+    public JsResponsiveOptions[] responsive;
 
     @JsProperty
     public int rows;
 
     @JsProperty
+    public boolean rtl;
+
+    @JsProperty
+    public String slide;
+
+    @JsProperty
     public int slidesPerRow;
 
     @JsProperty
-    public int slidesToShow;
+    public int slidesToScroll;
 
     @JsProperty
-    public int slidesToScroll;
+    public int slidesToShow;
 
     @JsProperty
     public int speed;
@@ -185,17 +204,23 @@ public class JsCarouselOptions {
     public int touchThreshold;
 
     @JsProperty
+    public boolean useCSS;
+
+    @JsProperty
+    public boolean useTransform;
+
+    @JsProperty
+    public boolean variableWidth;
+
+    @JsProperty
     public boolean vertical;
 
     @JsProperty
     public boolean verticalSwiping;
 
     @JsProperty
-    public boolean rtl;
-
-    @JsProperty
     public boolean waitForAnimate;
 
     @JsProperty
-    public JsResponsiveOptions[] responsive;
+    public int zIndex;
 }

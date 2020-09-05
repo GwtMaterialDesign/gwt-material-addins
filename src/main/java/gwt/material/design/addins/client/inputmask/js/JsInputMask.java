@@ -46,6 +46,9 @@ public class JsInputMask extends JQueryElement {
     public native JQueryElement mask(String mask);
 
     @JsMethod
+    public native JQueryElement masked(String masked);
+
+    @JsMethod
     public native JQueryElement mask(String mask, JsInputMaskOptions options);
 
     @JsMethod

@@ -27,7 +27,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
@@ -44,9 +45,12 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.events.*;
 import gwt.material.design.client.ui.MaterialToast;
+import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -75,7 +79,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/enyo/dropzone">Dropzone 4.3.0</a>
  */
 //@formatter:on
-public class MaterialFileUploader extends MaterialWidget implements JsLoader, HasFileUpload<UploadFile> {
+public class MaterialFileUploader extends MaterialWidget implements JsLoader, HasFileUploadHandlers<UploadFile> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -141,6 +145,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         }
 
         setEnabled(enabled);
+        AddinsDarkThemeReloader.get().reload(MaterialFileUploaderDarkTheme.class);
     }
 
     @Override
@@ -148,10 +153,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
         if (uploadCollection != null) {
             initDropzone(getElement(),
-                    uploadCollection.getItem().getElement(),
-                    uploadCollection.getId(),
-                    uploadCollection.getElement(),
-                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+                uploadCollection.getItem().getElement(),
+                uploadCollection.getId(),
+                uploadCollection.getElement(),
+                uploadPreview.getUploadHeader().getUploadedFiles().getElement());
         }
     }
 
@@ -182,8 +187,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
     protected void initDropzone(Element e, Element template, String previews, Element uploadPreview, Element uploadedFiles) {
         JQueryElement previewNode = $(template);
         previewNode.asElement().setId("");
-        String previewTemplate = previewNode.parent().html();
-        options.previewTemplate = previewTemplate;
+        options.previewTemplate = previewNode.parent().html();
         options.previewsContainer = "#" + previews;
         uploader = new Dropzone(e, options);
 
@@ -226,7 +230,8 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             return true;
         });
 
-        uploader.on(FileUploaderEvents.ADDED_FILE, file -> {
+        uploader.on(FileUploaderEvents.ADDED_FILE, object -> {
+            File file = (File) object;
             AddedFileEvent.fire(this, convertUploadFile(file));
             totalFiles++;
 
@@ -237,7 +242,8 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             }
         });
 
-        uploader.on(FileUploaderEvents.REMOVED_FILE, file -> {
+        uploader.on(FileUploaderEvents.REMOVED_FILE, object -> {
+            File file = (File) object;
             RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
@@ -247,7 +253,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             }
         });
 
-        uploader.on("error", (file, response) -> {
+        uploader.on(FileUploaderEvents.ERROR, (file, response) -> {
             int code = 200;
             String statusText = "";
 
@@ -259,7 +265,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             String body = "";
 
             if (response instanceof String) {
-                body = (String)response;
+                body = (String) response;
             } else {
                 statusText = getResponseMessage(response);
             }
@@ -284,49 +290,99 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(code, statusText, body));
         });
 
-        uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, file, response) -> {
+        uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, totalBytes, totalBytesSent) -> {
             TotalUploadProgressEvent.fire(this, progress);
             if (isPreview()) {
                 getUploadPreview().getUploadHeader().getProgress().setPercent(progress);
             }
         });
 
-        uploader.on(FileUploaderEvents.UPLOAD_PROGRESS, (progress, file, response) -> {
+        uploader.on(FileUploaderEvents.UPLOAD_PROGRESS, (progress, totalBytes, totalBytesSent) -> {
             CurrentUploadProgressEvent.fire(this, progress);
             if ($this != null) {
                 $this.find(".progress .determinate").css("width", progress + "%");
             }
         });
 
-        uploader.on(FileUploaderEvents.SENDING, file -> {
+        uploader.on(FileUploaderEvents.SENDING, object -> {
+            File file = (File) object;
             SendingEvent.fire(this, convertUploadFile(file),
-                    new UploadResponse(file.xhr.status, file.xhr.statusText));
+                new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
         uploader.on(FileUploaderEvents.SUCCESS, (file, response) -> {
             globalResponse = response;
             String message = getResponseMessage(response);
             SuccessEvent.fire(this, convertUploadFile(file),
-                    new UploadResponse(file.xhr.status, file.xhr.statusText, message));
+                new UploadResponse(file.xhr.status, file.xhr.statusText, message));
         });
 
-        uploader.on(FileUploaderEvents.COMPLETE, file -> {
+        uploader.on(FileUploaderEvents.COMPLETE, object -> {
+            File file = (File) object;
             String message = getResponseMessage(globalResponse);
             CompleteEvent.fire(this, convertUploadFile(file),
-                    new UploadResponse(file.xhr.status, file.xhr.statusText, message));
+                new UploadResponse(file.xhr.status, file.xhr.statusText, message));
         });
 
-        uploader.on(FileUploaderEvents.CANCELED, file -> {
+        uploader.on(FileUploaderEvents.CANCELED, object -> {
+            File file = (File) object;
             CanceledEvent.fire(this, convertUploadFile(file));
         });
 
-        uploader.on(FileUploaderEvents.MAX_FILES_REACHED, file -> {
+        uploader.on(FileUploaderEvents.MAX_FILES_REACHED, object -> {
+            File file = (File) object;
             MaxFilesReachedEvent.fire(this, convertUploadFile(file));
         });
 
-        uploader.on(FileUploaderEvents.MAX_FILES_EXCEEDED, file -> {
+        uploader.on(FileUploaderEvents.MAX_FILES_EXCEEDED, object -> {
+            File file = (File) object;
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
             MaxFilesExceededEvent.fire(this, convertUploadFile(file));
+        });
+
+        //TODO: Find why the following events had exceptions
+        /*uploader.on(FileUploaderEvents.THUMBNAIL, (file, object) -> {
+         ThumbnailEvent.fire(this, convertUploadFile(file), object != null ? (String) object : "");
+            MaterialToast.fireToast("Thumbnail");
+        });
+
+        uploader.on(FileUploaderEvents.PROCESSING, object -> {
+            File file = (File) object;
+            ProcessingEvent.fire(this, convertUploadFile(file));
+        });*/
+
+        // All of these receive a list of files as first parameter and are only called if the uploadMultiple option is true
+        uploader.on(FileUploaderEvents.PROCESSING_MULTIPLE, object -> {
+            File[] files = (File[]) object;
+            ProcessingMultipleEvent.fire(this, convertUploadFiles(files));
+        });
+
+        uploader.on(FileUploaderEvents.SENDING_MULTIPLE, object -> {
+            File[] files = (File[]) object;
+            SendingMultipleEvent.fire(this, convertUploadFiles(files), generateUploadResponse(files));
+        });
+
+        uploader.on(FileUploaderEvents.SUCCESS_MULTIPLE, object -> {
+            File[] files = (File[]) object;
+            SuccessMultipleEvent.fire(this, convertUploadFiles(files), generateUploadResponse(files));
+        });
+
+        uploader.on(FileUploaderEvents.COMPLETE_MULTIPLE, object -> {
+            File[] files = (File[]) object;
+            CompleteMultipleEvent.fire(this, convertUploadFiles(files), generateUploadResponse(files));
+        });
+
+        uploader.on(FileUploaderEvents.CANCELED_MULTIPLE, object -> {
+            File[] files = (File[]) object;
+            CanceledMultipleEvent.fire(this, convertUploadFiles(files));
+        });
+
+        uploader.on(FileUploaderEvents.RESET, object -> {
+            ResetEvent.fire(this);
+        });
+
+        uploader.on(FileUploaderEvents.QUEUE_COMPLETE, object -> {
+            QueueCompleteEvent.fire(this);
         });
     }
 
@@ -366,12 +422,34 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
      * Converts a Native File Object to Upload File object
      */
     protected UploadFile convertUploadFile(File file) {
-        Date lastModifiedDate = new Date();
-        // Avoid parsing error on last modified date
-        if (file.lastModifiedDate != null && !file.lastModifiedDate.isEmpty()) {
-            lastModifiedDate = new Date(file.lastModifiedDate);
+        if (file != null) {
+            Date lastModifiedDate = new Date();
+            // Avoid parsing error on last modified date
+            if (file.lastModifiedDate != null && !file.lastModifiedDate.isEmpty()) {
+                lastModifiedDate = new Date(file.lastModifiedDate);
+            }
+            return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
         }
-        return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
+        return null;
+    }
+
+    protected List<UploadFile> convertUploadFiles(File[] files) {
+        List<UploadFile> uploadFiles = new ArrayList<>();
+        for (File file : files) {
+            UploadFile uploadFile = convertUploadFile(file);
+            if (uploadFile != null) {
+                uploadFiles.add(uploadFile);
+            }
+        }
+        return uploadFiles;
+    }
+
+    protected List<UploadResponse> generateUploadResponse(File[] files) {
+        List<UploadResponse> responses = new ArrayList<>();
+        for (File file : files) {
+            responses.add(new UploadResponse(file.xhr.status, file.xhr.statusText));
+        }
+        return responses;
     }
 
     /**
@@ -386,6 +464,64 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
      */
     public void enqueueFile(File file) {
         uploader.enqueueFile(file);
+    }
+
+    /**
+     * If you want to remove an added file from the dropzone, you can call .removeFile(file). This method also triggers
+     * the removedfile event.
+     */
+    public void removeFile(File file) {
+        uploader.removeFile(file);
+    }
+
+    /**
+     * If you want to remove all files, simply use .removeAllFiles(). Files that are in the process of being uploaded won’t be removed.
+     */
+    public void removeAllFiles() {
+        uploader.removeAllFiles();
+    }
+
+    /**
+     * If you want files that are currently uploading to be canceled, call .removeAllFiles(true) which will cancel the uploads.
+     */
+    public void removeAllFiles(boolean cancelUpload) {
+        uploader.removeAllFiles(cancelUpload);
+    }
+
+    /**
+     * Get all rejected files
+     */
+    public List<File> getRejectedFiles() {
+        return uploader.getRejectedFiles();
+    }
+
+    /**
+     * Get all queued files
+     */
+    public List<File> getQueuedFiles() {
+        return uploader.getQueuedFiles();
+    }
+
+    /**
+     * Get all uploading files
+     */
+    public List<File> getUploadingFiles() {
+        return uploader.getUploadingFiles();
+    }
+
+    /**
+     * If you do not need a dropzone anymore, just call .disable() on the object.
+     * This will remove all event listeners on the element, and clear all file arrays.
+     */
+    public void disable() {
+        uploader.disable();
+    }
+
+    /**
+     * To reenable dropzone.
+     */
+    public void enable() {
+        uploader.enable();
     }
 
     /**
@@ -641,50 +777,431 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         options.dictMaxFilesExceeded = dictMaxFilesExceeded;
     }
 
+    public String getDictFileSizeUnits() {
+        return options.dictFileSizeUnits;
+    }
+
+    /**
+     * Allows you to translate the different units. Starting with tb for terabytes and going down to b for bytes.
+     */
+    public void setDictFileSizeUnits(String dictFileSizeUnits) {
+        options.dictFileSizeUnits = dictFileSizeUnits;
+    }
+
+    public String getDictRemoveFileConfirmation() {
+        return options.dictRemoveFileConfirmation;
+    }
+
+    /**
+     * If this is not null, then the user will be prompted before removing a file.
+     */
+    public void setDictRemoveFileConfirmation(String dictRemoveFileConfirmation) {
+        options.dictRemoveFileConfirmation = dictRemoveFileConfirmation;
+    }
+
+    public String getDictUploadCanceled() {
+        return options.dictUploadCanceled;
+    }
+
+    /**
+     * The text that is displayed if an upload was manually canceled
+     */
+    public void setDictUploadCanceled(String dictUploadCanceled) {
+        options.dictUploadCanceled = dictUploadCanceled;
+    }
+
+    public int getTimeout() {
+        return options.timeout;
+    }
+
+    /**
+     * The timeout for the XHR requests in milliseconds (since v4.4.0).
+     * Defaults to 3000 ms or 30 seconds
+     */
+    public void setTimeout(int timeout) {
+        options.timeout = timeout;
+    }
+
+    public int getParallelUploads() {
+        return options.parallelUploads;
+    }
+
+    /**
+     * How many file uploads to process in parallel (See the Enqueuing file uploads documentation section for more info)
+     * Defaults to 2
+     */
+    public void setParallelUploads(int parallelUploads) {
+        options.parallelUploads = parallelUploads;
+    }
+
+
+    public boolean isUploadMultiple() {
+        return options.uploadMultiple;
+    }
+
+    /**
+     * Whether to send multiple files in one request. If this it set to true, then the fallback file input element will
+     * have the multiple attribute as well. This option will also trigger additional events (like processingmultiple). See the events documentation section for more information.
+     * Defaults to false
+     */
+    public void setUploadMultiple(boolean uploadMultiple) {
+        options.uploadMultiple = uploadMultiple;
+    }
+
+    public boolean isChunking() {
+        return options.chunking;
+    }
+
+    /**
+     * Whether you want files to be uploaded in chunks to your server. This can't be used in combination with uploadMultiple.
+     * See <a href="https://www.dropzonejs.com/#config-chunksUploaded">chunksUploaded</a> for the callback to finalise an upload.
+     * <p>
+     * Defaults to false
+     */
+    public void setChunking(boolean chunking) {
+        options.chunking = chunking;
+    }
+
+    public boolean isForceChunking() {
+        return options.forceChunking;
+    }
+
+    /**
+     * If chunking is enabled, this defines whether every file should be chunked, even if the file size is below chunkSize.
+     * This means, that the additional chunk form data will be submitted and the chunksUploaded callback will be invoked.
+     * <p>
+     * Defaults to false
+     */
+    public void setForceChunking(boolean forceChunking) {
+        options.forceChunking = forceChunking;
+    }
+
+    public long getChunkSize() {
+        return options.chunkSize;
+    }
+
+    /**
+     * If chunking is true, then this defines the chunk size in bytes.
+     * Defaults to 2000000
+     */
+    public void setChunkSize(long chunkSize) {
+        options.chunkSize = chunkSize;
+    }
+
+    public boolean isParallelChunkUploads() {
+        return options.parallelChunkUploads;
+    }
+
+    /**
+     * If true, the individual chunks of a file are being uploaded simultaneously.
+     */
+    public void setParallelChunkUploads(boolean parallelChunkUploads) {
+        options.parallelChunkUploads = parallelChunkUploads;
+    }
+
+    public boolean isRetryChunks() {
+        return options.retryChunks;
+    }
+
+    /**
+     * Whether a chunk should be retried if it fails.
+     * Defaults to false
+     */
+    public void setRetryChunks(boolean retryChunks) {
+        options.retryChunks = retryChunks;
+    }
+
+    public int getRetryChunksLimit() {
+        return options.retryChunksLimit;
+    }
+
+    /**
+     * If retryChunks is true, how many times should it be retried.
+     * Defaults to 3
+     */
+    public void setRetryChunksLimit(int retryChunksLimit) {
+        options.retryChunksLimit = retryChunksLimit;
+    }
+
+    public String getParamName() {
+        return options.paramName;
+    }
+
+    /**
+     * The name of the file param that gets transferred. NOTE: If you have the option uploadMultiple set to true, then
+     * Dropzone will append [] to the name.
+     * Defaults to "file"
+     */
+    public void setParamName(String paramName) {
+        options.paramName = paramName;
+    }
+
+    public boolean isCreateImageThumbnails() {
+        return options.createImageThumbnails;
+    }
+
+    /**
+     * Whether thumbnails for images should be generated
+     * Defaults to true
+     */
+    public void setCreateImageThumbnails(boolean createImageThumbnails) {
+        options.createImageThumbnails = createImageThumbnails;
+    }
+
+    public int getMaxThumbnailFilesize() {
+        return options.maxThumbnailFilesize;
+    }
+
+    /**
+     * In MB. When the filename exceeds this limit, the thumbnail will not be generated.
+     * Defaults to 10 MB
+     */
+    public void setMaxThumbnailFilesize(int maxThumbnailFilesize) {
+        options.maxThumbnailFilesize = maxThumbnailFilesize;
+    }
+
+    public int getThumbnailWidth() {
+        return options.thumbnailWidth;
+    }
+
+    /**
+     * If null, the ratio of the image will be used to calculate it.
+     * Defaults to 120
+     */
+    public void setThumbnailWidth(int thumbnailWidth) {
+        options.thumbnailWidth = thumbnailWidth;
+    }
+
+    public int getThumbnailHeight() {
+        return options.thumbnailHeight;
+    }
+
+    /**
+     * The same as thumbnailWidth. If both are null, images will not be resized.
+     * Defaults to 120
+     */
+    public void setThumbnailHeight(int thumbnailHeight) {
+        options.thumbnailHeight = thumbnailHeight;
+    }
+
+    public String getThumbnailMethod() {
+        return options.thumbnailMethod;
+    }
+
+    /**
+     * How the images should be scaled down in case both, thumbnailWidth and thumbnailHeight are provided. Can be either
+     * contain or crop.
+     * Defaults to "crop"
+     */
+    public void setThumbnailMethod(String thumbnailMethod) {
+        options.thumbnailMethod = thumbnailMethod;
+    }
+
+    public int getResizeWidth() {
+        return options.resizeWidth;
+    }
+
+    /**
+     * If set, images will be resized to these dimensions before being uploaded. If only one, resizeWidth or resizeHeight
+     * is provided, the original aspect ratio of the file will be preserved.
+     * The options.transformFile function uses these options, so if the transformFile function is overridden, these options
+     * don't do anything.
+     * Defaults to null
+     */
+    public void setResizeWidth(int resizeWidth) {
+        options.resizeWidth = resizeWidth;
+    }
+
+    public int getResizeHeight() {
+        return options.resizeHeight;
+    }
+
+    /**
+     * See resizeWidth.
+     * Defaults to null
+     */
+    public void setResizeHeight(int resizeHeight) {
+        options.resizeHeight = resizeHeight;
+    }
+
+    public String getResizeMimeType() {
+        return options.resizeMimeType;
+    }
+
+    /**
+     * The mime type of the resized image (before it gets uploaded to the server). If null the original mime type will be used.
+     * To force jpeg, for example, use image/jpeg. See resizeWidth for more information.
+     * Defaults to null
+     */
+    public void setResizeMimeType(String resizeMimeType) {
+        options.resizeMimeType = resizeMimeType;
+    }
+
+    public double getResizeQuality() {
+        return options.resizeQuality;
+    }
+
+    /**
+     * The quality of the resized images. See resizeWidth.
+     * Defaults to 0.8
+     */
+    public void setResizeQuality(double resizeQuality) {
+        options.resizeQuality = resizeQuality;
+    }
+
+    public String getResizeMethod() {
+        return options.resizeMethod;
+    }
+
+    /**
+     * How the images should be scaled down in case both, resizeWidth and resizeHeight are provided. Can be either contain or crop.
+     * Defaults to "contain"
+     */
+    public void setResizeMethod(String resizeMethod) {
+        options.resizeMethod = resizeMethod;
+    }
+
+    public int getFilsizeBase() {
+        return options.filesizeBase;
+    }
+
+    /**
+     * The base that is used to calculate the filesize. You can change this to 1024 if you would rather display kibibytes,
+     * mebibytes, etc... 1024 is technically incorrect, because 1024 bytes are 1 kibibyte not 1 kilobyte. You can change
+     * this to 1024 if you don't care about validity.
+     * Defaults to 1000
+     */
+    public void setFilesizeBase(int filsizeBase) {
+        options.filesizeBase = filsizeBase;
+    }
+
+    public Object getHeaders() {
+        return options.headers;
+    }
+
+    /**
+     * An optional object to send additional headers to the server. Eg: { "My-Awesome-Header": "header value" }
+     * Defaults to null
+     */
+    public void setHeaders(Object headers) {
+        options.headers = headers;
+    }
+
+    public boolean isIgnoreHiddenFiles() {
+        return options.ignoreHiddenFiles;
+    }
+
+    /**
+     * Whether hidden files in directories should be ignored.
+     * Defaults to true
+     */
+    public void setIgnoreHiddenFiles(boolean ignoreHiddenFiles) {
+        options.ignoreHiddenFiles = ignoreHiddenFiles;
+    }
+
+    public boolean isAddRemoveLinks() {
+        return options.addRemoveLinks;
+    }
+
+    /**
+     * If true, this will add a link to every file preview to remove or cancel (if already uploading) the file.
+     * The dictCancelUpload, dictCancelUploadConfirmation and dictRemoveFile options are used for the wording.
+     * Defaults to false
+     */
+    public void setAddRemoveLinks(boolean addRemoveLinks) {
+        options.addRemoveLinks = addRemoveLinks;
+    }
+
+    public Object getHiddenInputContainer() {
+        return options.hiddenInputContainer;
+    }
+
+    /**
+     * This is the element the hidden input field (which is used when clicking on the dropzone to trigger file selection)
+     * will be appended to. This might be important in case you use frameworks to switch the content of your page.
+     * <p>
+     * Can be a selector string, or an element directly.
+     * Defaults to "body"
+     */
+    public void setHiddenInputContainer(Object hiddenInputContainer) {
+        options.hiddenInputContainer = hiddenInputContainer;
+    }
+
+    public Object getCapture() {
+        return options.capture;
+    }
+
+    /**
+     * If null, no capture type will be specified If camera, mobile devices will skip the file selection and choose camera
+     * If microphone, mobile devices will skip the file selection and choose the microphone If camcorder, mobile devices
+     * will skip the file selection and choose the camera in video mode On apple devices multiple must be set to false.
+     * AcceptedFiles may need to be set to an appropriate mime type (e.g. "image/*", "audio/*", or "video/*").
+     * <p>
+     * Defaults to null
+     */
+    public void setCapture(Object capture) {
+        options.capture = capture;
+    }
+
+    public Functions.Func1<File> getRenameFile() {
+        return options.renameFile;
+    }
+
+    /**
+     * A function that is invoked before the file is uploaded to the server and renames the file. This function gets
+     * the File as argument and can use the file.name. The actual name of the file that gets used during the upload
+     * can be accessed through file.upload.filename.
+     * Defaults to null
+     */
+    public void setRenameFile(Functions.Func1<File> renameFile) {
+        options.renameFile = renameFile;
+    }
+
+    public boolean isForceFallback() {
+        return options.forceFallback;
+    }
+
+    /**
+     * If true the fallback will be forced. This is very useful to test your server implementations first and make sure
+     * that everything works as expected without dropzone if you experience problems, and to test how your fallbacks will look.
+     * Defaults to false
+     */
+    public void setForceFallback(boolean forceFallback) {
+        options.forceFallback = forceFallback;
+    }
+
     @Override
     public HandlerRegistration addAddedFileHandler(final AddedFileEvent.AddedFileHandler<UploadFile> handler) {
-        return addHandler(new AddedFileEvent.AddedFileHandler<UploadFile>() {
-            @Override
-            public void onAddedFile(AddedFileEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onAddedFile(event);
-                }
+        return addHandler((AddedFileEvent.AddedFileHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onAddedFile(event);
             }
         }, AddedFileEvent.getType());
     }
 
     @Override
     public HandlerRegistration addRemovedFileHandler(final RemovedFileEvent.RemovedFileHandler<UploadFile> handler) {
-        return addHandler(new RemovedFileEvent.RemovedFileHandler<UploadFile>() {
-            @Override
-            public void onRemovedFile(RemovedFileEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onRemovedFile(event);
-                }
+        return addHandler((RemovedFileEvent.RemovedFileHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onRemovedFile(event);
             }
         }, RemovedFileEvent.getType());
     }
 
     @Override
     public HandlerRegistration addErrorHandler(final ErrorEvent.ErrorHandler<UploadFile> handler) {
-        return addHandler(new ErrorEvent.ErrorHandler<UploadFile>() {
-            @Override
-            public void onError(ErrorEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onError(event);
-                }
+        return addHandler((ErrorEvent.ErrorHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onError(event);
             }
         }, ErrorEvent.getType());
     }
 
     @Override
     public HandlerRegistration addUnauthorizedHandler(final UnauthorizedEvent.UnauthorizedHandler<UploadFile> handler) {
-        return addHandler(new UnauthorizedEvent.UnauthorizedHandler<UploadFile>() {
-            @Override
-            public void onUnauthorized(UnauthorizedEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onUnauthorized(event);
-                }
+        return addHandler((UnauthorizedEvent.UnauthorizedHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onUnauthorized(event);
             }
         }, UnauthorizedEvent.getType());
     }
@@ -709,73 +1226,136 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
     @Override
     public HandlerRegistration addSendingHandler(final SendingEvent.SendingHandler<UploadFile> handler) {
-        return addHandler(new SendingEvent.SendingHandler<UploadFile>() {
-            @Override
-            public void onSending(SendingEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onSending(event);
-                }
+        return addHandler((SendingEvent.SendingHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onSending(event);
             }
         }, SendingEvent.getType());
     }
 
     @Override
     public HandlerRegistration addSuccessHandler(final SuccessEvent.SuccessHandler<UploadFile> handler) {
-        return addHandler(new SuccessEvent.SuccessHandler<UploadFile>() {
-            @Override
-            public void onSuccess(SuccessEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onSuccess(event);
-                }
+        return addHandler((SuccessEvent.SuccessHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onSuccess(event);
             }
         }, SuccessEvent.getType());
     }
 
     @Override
     public HandlerRegistration addCompleteHandler(final CompleteEvent.CompleteHandler<UploadFile> handler) {
-        return addHandler(new CompleteEvent.CompleteHandler<UploadFile>() {
-            @Override
-            public void onComplete(CompleteEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onComplete(event);
-                }
+        return addHandler((CompleteEvent.CompleteHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onComplete(event);
             }
         }, CompleteEvent.getType());
     }
 
     @Override
-    public HandlerRegistration addCancelHandler(final CanceledEvent.CanceledHandler<UploadFile> handler) {
-        return addHandler(new CanceledEvent.CanceledHandler<UploadFile>() {
-            @Override
-            public void onCanceled(CanceledEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onCanceled(event);
-                }
+    public HandlerRegistration addCanceledHandler(final CanceledEvent.CanceledHandler<UploadFile> handler) {
+        return addHandler((CanceledEvent.CanceledHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onCanceled(event);
             }
         }, CanceledEvent.getType());
     }
 
     @Override
     public HandlerRegistration addMaxFilesReachHandler(final MaxFilesReachedEvent.MaxFilesReachedHandler<UploadFile> handler) {
-        return addHandler(new MaxFilesReachedEvent.MaxFilesReachedHandler<UploadFile>() {
-            @Override
-            public void onMaxFilesReached(MaxFilesReachedEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onMaxFilesReached(event);
-                }
+        return addHandler((MaxFilesReachedEvent.MaxFilesReachedHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onMaxFilesReached(event);
             }
         }, MaxFilesReachedEvent.getType());
     }
 
     @Override
     public HandlerRegistration addMaxFilesExceededHandler(final MaxFilesExceededEvent.MaxFilesExceededHandler<UploadFile> handler) {
-        return addHandler(new MaxFilesExceededEvent.MaxFilesExceededHandler<UploadFile>() {
-            @Override
-            public void onMaxFilesExceeded(MaxFilesExceededEvent<UploadFile> event) {
-                if (isEnabled()) {
-                    handler.onMaxFilesExceeded(event);
-                }
+        return addHandler((MaxFilesExceededEvent.MaxFilesExceededHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onMaxFilesExceeded(event);
             }
         }, MaxFilesExceededEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addThumbnailHandler(ThumbnailEvent.ThumbnailHandler<UploadFile> handler) {
+        return addHandler((ThumbnailEvent.ThumbnailHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onThumbnail(event);
+            }
+        }, ThumbnailEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addProcessingHandler(ProcessingEvent.ProcessingHandler<UploadFile> handler) {
+        return addHandler((ProcessingEvent.ProcessingHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onProcessing(event);
+            }
+        }, ProcessingEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addProcessingMultipleHandler(ProcessingMultipleEvent.ProcessingMultipleHandler<List<UploadFile>> handler) {
+        return addHandler((ProcessingMultipleEvent.ProcessingMultipleHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onProcessingMultiple(event);
+            }
+        }, ProcessingMultipleEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addSendingMultipleHandler(SendingMultipleEvent.SendingMultipleHandler<List<UploadFile>> handler) {
+        return addHandler((SendingMultipleEvent.SendingMultipleHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onSendingMultiple(event);
+            }
+        }, SendingMultipleEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addSuccessMultipleHandler(SuccessMultipleEvent.SuccessMulttipleHandler<List<UploadFile>> handler) {
+        return addHandler((SuccessMultipleEvent.SuccessMulttipleHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onSuccessMulttiple(event);
+            }
+        }, SuccessMultipleEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addCompleteMultipleHandler(CompleteMultipleEvent.CompleteMulttipleHandler<List<UploadFile>> handler) {
+        return addHandler((CompleteMultipleEvent.CompleteMulttipleHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onCompleteMulttiple(event);
+            }
+        }, CompleteMultipleEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addCanceledMultipleHandler(CanceledMultipleEvent.CanceledMulttipleHandler<List<UploadFile>> handler) {
+        return addHandler((CanceledMultipleEvent.CanceledMulttipleHandler<UploadFile>) event -> {
+            if (isEnabled()) {
+                handler.onCanceledMulttiple(event);
+            }
+        }, CanceledMultipleEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addResetHandler(ResetEvent.ResetHandler handler) {
+        return addHandler(event -> {
+            if (isEnabled()) {
+                handler.onReset(event);
+            }
+        }, ResetEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addQueueCompleteHandler(QueueCompleteEvent.QueueCompleteHandler handler) {
+        return addHandler(event -> {
+            if (isEnabled()) {
+                handler.onQueueComplete(event);
+            }
+        }, QueueCompleteEvent.getType());
     }
 }

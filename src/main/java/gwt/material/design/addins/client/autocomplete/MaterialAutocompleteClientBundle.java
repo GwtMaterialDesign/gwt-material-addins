@@ -34,4 +34,7 @@ interface MaterialAutocompleteClientBundle extends ClientBundle {
 
     @Source("resources/css/autocomplete.min.css")
     TextResource autocompleteCss();
+
+    @Source("resources/css/autocomplete-dark.min.css")
+    TextResource autocompleteDarkCss();
 }

@@ -21,27 +21,10 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 
 public class UnauthorizedEvent<T> extends GwtEvent<UnauthorizedEvent.UnauthorizedHandler<T>> {
-
-    private static Type<UnauthorizedHandler<?>> TYPE;
-
-    public interface UnauthorizedHandler<T> extends EventHandler {
-        void onUnauthorized(UnauthorizedEvent<T> event);
-    }
-
-    public static <T> void fire(HasFileUpload<T> source, T target, UploadResponse response) {
-        if (TYPE != null) {
-            UnauthorizedEvent<T> event = new UnauthorizedEvent<T>(target, response);
-            source.fireEvent(event);
-        }
-    }
-
-    public static Type<UnauthorizedHandler<?>> getType() {
-        return TYPE != null ? TYPE : (TYPE = new Type<UnauthorizedHandler<?>>());
-    }
 
     private final T target;
     private final UploadResponse response;
@@ -69,4 +52,20 @@ public class UnauthorizedEvent<T> extends GwtEvent<UnauthorizedEvent.Unauthorize
         handler.onUnauthorized(this);
     }
 
+    private static Type<UnauthorizedHandler<?>> TYPE;
+
+    public interface UnauthorizedHandler<T> extends EventHandler {
+        void onUnauthorized(UnauthorizedEvent<T> event);
+    }
+
+    public static <T> void fire(HasFileUploadHandlers<T> source, T target, UploadResponse response) {
+        if (TYPE != null) {
+            UnauthorizedEvent<T> event = new UnauthorizedEvent<T>(target, response);
+            source.fireEvent(event);
+        }
+    }
+
+    public static Type<UnauthorizedHandler<?>> getType() {
+        return TYPE != null ? TYPE : (TYPE = new Type<UnauthorizedHandler<?>>());
+    }
 }

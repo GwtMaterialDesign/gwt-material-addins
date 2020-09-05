@@ -91,14 +91,16 @@ public class ReCaptcha extends MaterialWidget {
 
     private RecaptchaTheme theme = RecaptchaTheme.LIGHT;
     private RecaptchaType type = RecaptchaType.IMAGE;
-    private Functions.Func callback;
+    private Functions.Func1<String> dataCallback;
+    private Functions.Func expiredCallback;
+    private Functions.Func errorCallback;
     private JsReCaptcha reCaptcha;
 
     public void load(RecaptchaApi recaptchaApi) {
         String uid = DOM.createUniqueId();
         setId(uid);
 
-        reCaptcha = JsReCaptcha.initReCaptcha(uid, recaptchaApi.getApiKey(), callback, theme.getTheme(), type.getType());
+        reCaptcha = JsReCaptcha.initReCaptcha(uid, recaptchaApi.getApiKey(), dataCallback, expiredCallback, errorCallback, theme.getTheme(), type.getType());
     }
 
     @Override
@@ -123,12 +125,37 @@ public class ReCaptcha extends MaterialWidget {
     /**
      * Set a callback method once reCaptcha is confirmed and validated
      */
-    public void setCallback(Functions.Func callback) {
-        this.callback = callback;
+    public void setDataCallback(Functions.Func1<String> callback) {
+        this.dataCallback = callback;
     }
 
-    public Functions.Func getCallback() {
-        return callback;
+    public Functions.Func1<String> getDataCallback() {
+        return dataCallback;
+    }
+
+    public Functions.Func getExpiredCallback() {
+        return expiredCallback;
+    }
+
+    /**
+     * Optional. The name of your callback function, executed when the reCAPTCHA response expires and the user needs to
+     * re-verify.
+     */
+    public void setExpiredCallback(Functions.Func expiredCallback) {
+        this.expiredCallback = expiredCallback;
+    }
+
+    public Functions.Func getErrorCallback() {
+        return errorCallback;
+    }
+
+    /**
+     * Optional. The name of your callback function, executed when reCAPTCHA encounters an error (usually network
+     * connectivity) and cannot continue until connectivity is restored. If you specify a function here, you are
+     * responsible for informing the user that they should retry.
+     */
+    public void setErrorCallback(Functions.Func errorCallback) {
+        this.errorCallback = errorCallback;
     }
 
     /**
@@ -151,5 +178,13 @@ public class ReCaptcha extends MaterialWidget {
 
     public RecaptchaType getType() {
         return type;
+    }
+
+    /**
+     * Will get the response
+     * @return
+     */
+    public String getResponse() {
+        return reCaptcha.getResponse();
     }
 }

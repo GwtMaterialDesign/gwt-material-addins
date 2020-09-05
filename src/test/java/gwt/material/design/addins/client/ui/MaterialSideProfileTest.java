@@ -19,13 +19,12 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
-import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.sideprofile.MaterialSideProfile;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.MaterialLabel;
 
-public class MaterialSideProfileTest extends MaterialWidgetTest<MaterialSideProfile> {
+public class MaterialSideProfileTest extends AddinsWidgetTestCase<MaterialSideProfile> {
 
     final static String URL = "someurl";
     final static String RESULT_ATTRIBUTE = "background-image: url(" + URL + "); background-size: cover;";

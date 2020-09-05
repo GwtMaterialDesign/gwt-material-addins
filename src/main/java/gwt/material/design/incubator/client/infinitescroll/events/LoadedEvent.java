@@ -22,24 +22,25 @@ package gwt.material.design.incubator.client.infinitescroll.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-
-import java.util.List;
+import gwt.material.design.client.data.loader.LoadResult;
 //@formatter:off
 
 /**
+ * Fired whenever the data is loaded.
+ *
  * @author kevzlou7979
  */
 public class LoadedEvent<T> extends GwtEvent<LoadedEvent.LoadHandler<T>> {
 
-    private List<T> data;
+    private LoadResult<T> result;
     private static Type<LoadHandler<?>> TYPE;
 
-    public LoadedEvent(List<T> data) {
-        this.data = data;
+    public LoadedEvent(LoadResult<T> result) {
+        this.result = result;
     }
 
-    public static void fire(HasHandlers source, List<?> data) {
-        source.fireEvent(new LoadedEvent(data));
+    public static void fire(HasHandlers source, LoadResult<?> result) {
+        source.fireEvent(new LoadedEvent(result));
     }
 
     @Override
@@ -56,8 +57,8 @@ public class LoadedEvent<T> extends GwtEvent<LoadedEvent.LoadHandler<T>> {
         handler.onItemLoaded(this);
     }
 
-    public List<T> getData() {
-        return data;
+    public LoadResult<T> getResult() {
+        return result;
     }
 
     public interface LoadHandler<T> extends EventHandler {

@@ -1,26 +1,26 @@
-<img src="http://i.imgur.com/k7iZMbE.png" />
+<img src="https://i.imgur.com/bO2kFKs.png" width="120px"/>
 
 # gwt-material-addins 
 
-[![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins) [![Join the chat at https://gitter.im/GwtMaterialDesign/gwt-material-addins](https://badges.gitter.im/GwtMaterialDesign/gwt-material-addins.svg)](https://gitter.im/GwtMaterialDesign/gwt-material-addins?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins.svg?branch=master)](https://travis-ci.org/GwtMaterialDesign/gwt-material-addins) [![Join us](https://img.shields.io/badge/slack-channel-purple)](https://gmd-project.slack.com)
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
-## Current Version 2.1
+## Current Version 2.4.0
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.1</version>
+    <version>2.4.0</version>
 </dependency>
 ```
 
-## Snapshot Version 2.2-SNAPSHOT
+## Snapshot Version 2.5.0-SNAPSHOT
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.5.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -110,6 +110,3 @@ We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apid
   - Inline Search
   - Timer (Infinite)
   - Toggle
-
-##Follow Us
-<a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a>

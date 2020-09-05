@@ -76,12 +76,11 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     }
 
 
-    private CircularProgressLabel label = new CircularProgressLabel();
+    private final CircularProgressLabel label = new CircularProgressLabel();
+    private final JsCircularProgressOptions options = JsCircularProgressOptions.create();
     private Color fillColor = Color.BLUE;
     private Color emptyFillColor = Color.GREY_LIGHTEN_2;
-
     private ToggleStyleMixin<MaterialWidget> responsiveMixin;
-    private JsCircularProgressOptions options = JsCircularProgressOptions.create();
     private FontSizeMixin<MaterialWidget> fontSizeMixin;
 
     public MaterialCircularProgress() {
@@ -92,11 +91,20 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
     protected void onLoad() {
         super.onLoad();
 
+        load();
+    }
 
-        label.setSize(getSize(), isResponsive());
-        add(label);
+    @Override
+    public void load() {
+        if (!label.isAttached()) {
+            add(label);
+            label.setSize(getSize(), isResponsive());
+        }
+        loadHandlers();
+        Scheduler.get().scheduleDeferred(() -> $(getElement()).circleProgress(options));
+    }
 
-
+    public void loadHandlers() {
         $(getElement()).on(CircularProgressEvents.PROGRESS, (e, progress, step) -> {
             ProgressEvent.fire(this, (double) progress, (double) step);
             return true;
@@ -110,13 +118,6 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
             CompleteEvent.fire(this, getValue());
             return true;
         });
-
-        load();
-    }
-
-    @Override
-    public void load() {
-        Scheduler.get().scheduleDeferred(() -> $(getElement()).circleProgress(options));
     }
 
     @Override
@@ -128,6 +129,11 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     @Override
     public void unload() {
+
+        if (label.isAttached()) {
+            label.removeFromParent();
+        }
+
         $(getElement()).off(CircularProgressEvents.START);
         $(getElement()).off(CircularProgressEvents.PROGRESS);
         $(getElement()).off(CircularProgressEvents.COMPLETED);
@@ -135,8 +141,15 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     @Override
     public void reload() {
+        reload(false);
+    }
+
+    public void reload(boolean redraw) {
         unload();
         load();
+        if (redraw) {
+            redraw();
+        }
     }
 
     @Override
@@ -259,7 +272,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
      * else set it to the default size = 100
      **/
     public void setResponsive(boolean responsive) {
-        options.size = responsive == true ? 1000 : 100;
+        options.size = responsive ? 1000 : 100;
         getResponsiveMixin().setOn(responsive);
     }
 
@@ -269,7 +282,7 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     public ToggleStyleMixin<MaterialWidget> getResponsiveMixin() {
         if (responsiveMixin == null) {
-            responsiveMixin = new ToggleStyleMixin(this, AddinsCssName.RESPONSIVE);
+            responsiveMixin = new ToggleStyleMixin<>(this, AddinsCssName.RESPONSIVE);
         }
         return responsiveMixin;
     }

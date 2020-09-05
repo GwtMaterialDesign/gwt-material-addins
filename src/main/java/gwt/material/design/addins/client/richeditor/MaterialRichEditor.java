@@ -32,17 +32,18 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.richeditor.base.HasPasteHandlers;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
 import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
-import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.HasPasteHandlers;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.base.JsLoader;
+import gwt.material.design.client.events.PasteEvent;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -73,7 +74,8 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  * @see <a href="https://github.com/Cerealkillerway/materialNote">1.2.1</a>
  */
 //@formatter:on
-public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>, HasPasteHandlers, HasPlaceholder, HasHTML  {
+public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>,
+    HasPasteHandlers, HasPlaceholder, HasHTML {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -118,7 +120,6 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
 
     @Override
     public void load() {
-
         JsRichEditor jsRichEditor = $(getElement());
 
         options.toolbar = manager.getToolbars();
@@ -129,23 +130,28 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
 
         // Events
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_BLUR, event -> {
-            fireEvent(new BlurEvent() {});
+            fireEvent(new BlurEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_FOCUS, event -> {
-            fireEvent(new FocusEvent() {});
+            fireEvent(new FocusEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYUP, event -> {
-            fireEvent(new KeyUpEvent() {});
+            fireEvent(new KeyUpEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_KEYDOWN, event -> {
-            fireEvent(new KeyDownEvent() {});
+            fireEvent(new KeyDownEvent() {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_PASTE, event -> {
-            fireEvent(new PasteEvent() {});
+            fireEvent(new PasteEvent(getValue()) {
+            });
             return true;
         });
         jsRichEditor.on(RichEditorEvents.MATERIALNOTE_CHANGE, event -> {
@@ -154,6 +160,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         });
 
         checkContainer();
+        AddinsDarkThemeReloader.get().reload(MaterialRichEditorDarkTheme.class);
     }
 
     @Override
@@ -264,11 +271,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     protected void adjustFullScreen(MaterialDialog dialog) {
         getEditor().find("div[data-event='fullscreen']").off("click").on("click", (e, param1) -> {
             dialog.setFullscreen(toggleFullScreen);
-            if (toggleFullScreen) {
-                toggleFullScreen = false;
-            } else {
-                toggleFullScreen = true;
-            }
+            toggleFullScreen = !toggleFullScreen;
             return true;
         });
     }
@@ -408,7 +411,7 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     }
 
     @Override
-    public HandlerRegistration addPasteHandler(final PasteEvent.PasteHandler handler) {
+    public HandlerRegistration addPasteHandler(final PasteEvent.PasteEventHandler handler) {
         return addHandler(handler, PasteEvent.TYPE);
     }
 }

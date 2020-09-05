@@ -23,6 +23,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
+//@formatter:off
+
+/**
+ * Debug Client Bundle for {@link InfiniteScrollPanel}
+ *
+ * @author kevzlou7979
+ */
 public interface InfiniteScrollDebugClientBundle extends ClientBundle {
     InfiniteScrollDebugClientBundle INSTANCE = GWT.create(InfiniteScrollDebugClientBundle.class);
 

@@ -1,1 +1,0 @@
-.async-button.active{background:#fff;position:relative;padding-left:60px;transition:.4s all}.async-button .spinner-layer{display:none;position:absolute;width:20px;height:20px;top:8px;z-index:1003;left:20px}.async-button.active .spinner-layer{display:block}.async-button.active i,.async-button.active span{color:#000!important}

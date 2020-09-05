@@ -34,4 +34,14 @@ public interface FileUploaderEvents extends DragEvents, DropEvents {
     String CANCELED = "canceled";
     String MAX_FILES_REACHED = "maxfilesreached";
     String MAX_FILES_EXCEEDED = "maxfilesexceeded";
+    String ERROR = "error";
+    String THUMBNAIL = "thumbnail";
+    String PROCESSING = "processing";
+    String PROCESSING_MULTIPLE = "processingmultiple";
+    String SENDING_MULTIPLE = "sendingmultiple";
+    String SUCCESS_MULTIPLE = "successmultiple";
+    String COMPLETE_MULTIPLE = "completemultiple";
+    String CANCELED_MULTIPLE = "canceledmultiple";
+    String RESET = "reset";
+    String QUEUE_COMPLETE = "queuecomplete";
 }

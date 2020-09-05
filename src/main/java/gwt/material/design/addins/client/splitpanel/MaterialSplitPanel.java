@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.splitpanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
@@ -29,8 +30,7 @@ import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.base.mixin.ColorsMixin;
-import gwt.material.design.client.base.mixin.CssNameMixin;
+import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -102,6 +102,8 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
         options.dock = getDock().getCssName();
         options.orientation = getAxis().getCssName();
         touchSplitter = $(getElement()).touchSplit(options);
+        applySplitterLineColor(splitterLineColor);
+        AddinsDarkThemeReloader.get().reload(MaterialSplitPanelDarkTheme.class);
     }
 
     public TouchSplitter getTouchSplitter() {
@@ -315,21 +317,13 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
      */
     public void setSplitterLineColor(Color splitterLineColor) {
         this.splitterLineColor = splitterLineColor;
-
-        if (isAttached()) {
-            applySplitterLineColor(splitterLineColor);
-        } else {
-            registerHandler(addAttachHandler(attachEvent -> applySplitterLineColor(splitterLineColor)));
-        }
     }
 
     protected void applySplitterLineColor(Color splitterLineColor) {
-        JQueryElement splitterBar = $(getElement()).find(".splitter-bar");
-        if (splitterBar != null) {
-            if (splitterLineColor != null) {
-                splitterBar.addClass(splitterLineColor.getCssName());
-            } else {
-                splitterBar.removeClass(splitterLineColor.getCssName());
+        if (splitterLineColor != null) {
+            JQueryElement splitterBar = $(getElement()).find("> .splitter-bar");
+            if (splitterBar != null) {
+                splitterBar.css("backgroundColor", ColorHelper.setupComputedBackgroundColor(splitterLineColor));
             }
         }
     }

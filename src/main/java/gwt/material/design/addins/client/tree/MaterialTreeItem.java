@@ -162,6 +162,16 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         return image.getResource();
     }
 
+    @Override
+    public void setAlt(String alt) {
+        image.setAlt(alt);
+    }
+
+    @Override
+    public String getAlt() {
+        return image.getAlt();
+    }
+
     public MaterialWidget getDivHeader() {
         return divHeader;
     }
