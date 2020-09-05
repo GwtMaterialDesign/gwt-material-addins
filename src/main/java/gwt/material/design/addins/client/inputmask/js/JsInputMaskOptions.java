@@ -44,20 +44,38 @@ public class JsInputMaskOptions {
     public boolean selectOnFocus;
 
     @JsProperty
-    public Functions.Func1<Object> onComplete;
+    public CompleteCallback onComplete;
 
     @JsProperty
-    public Functions.Func1<Object> onKeyPress;
+    public KeyPressCallback onKeyPress;
 
     @JsProperty
-    public Functions.Func1<Object> onChange;
+    public ChangeCallback onChange;
 
     @JsProperty
-    public Func4<Object, Event, Functions.Func, String[]> onInvalid;
+    public InvalidCallback onInvalid;
 
     @FunctionalInterface
     @JsFunction
-    public interface Func4<A, B, C, D> {
-        void call(A param1, B param2, C param3, D param4);
+    public interface InvalidCallback {
+        void call(Object val, Event event, Functions.Func function, InputMaskError[] error, JsInputMaskOptions options);
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface CompleteCallback {
+        void call(Object param1);
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface KeyPressCallback {
+        void call(Object param1);
+    }
+
+    @FunctionalInterface
+    @JsFunction
+    public interface ChangeCallback {
+        void call(Object param1);
     }
 }

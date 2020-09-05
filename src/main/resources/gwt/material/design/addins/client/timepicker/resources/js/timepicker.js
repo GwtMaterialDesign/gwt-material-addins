@@ -314,6 +314,15 @@
         this.g = g;
         this.canvas = canvas;
 
+
+        // Chrome 73 suggested solution for Timepicker being fubared when opening.
+        // Refer to https://github.com/GwtMaterialDesign/gwt-material/commit/0670c85ce2a1ee2c28be906fb12f4c0435321ce6
+        document.querySelector("#" + $(input).attr("id")).addEventListener('pointerdown', function(event) {
+            if (event.target && event.target.setPointerCapture) {
+                event.target.setPointerCapture(event.pointerId)
+            }
+        });
+
         raiseCallback(this.options.init);
     }
 

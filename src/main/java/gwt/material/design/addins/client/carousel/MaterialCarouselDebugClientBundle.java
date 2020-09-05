@@ -40,4 +40,7 @@ public interface MaterialCarouselDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/custom.css")
     TextResource customCssDebug();
+
+    @Source("resources/css/slick-dark.css")
+    TextResource carouselDarkCss();
 }

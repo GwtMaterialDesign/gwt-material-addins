@@ -22,20 +22,21 @@ package gwt.material.design.addins.client.inputmask.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.inputmask.js.InputMaskError;
 
 public class InvalidEvent<T> extends GwtEvent<InvalidEvent.InvalidHandler> {
 
     public static final Type<InvalidEvent.InvalidHandler> TYPE = new Type<>();
-    private T result;
-    private String error;
+    private final T result;
+    private final InputMaskError[] error;
 
-    public InvalidEvent(T result, String error) {
+    public InvalidEvent(T result, InputMaskError[] error) {
         this.result = result;
         this.error = error;
     }
 
-    public static void fire(HasHandlers source, Object result, String error) {
-        source.fireEvent(new InvalidEvent(result, error));
+    public static void fire(HasHandlers source, Object result, InputMaskError[] error) {
+        source.fireEvent(new InvalidEvent<>(result, error));
     }
 
     @Override
@@ -52,11 +53,11 @@ public class InvalidEvent<T> extends GwtEvent<InvalidEvent.InvalidHandler> {
         return result;
     }
 
-    public String getError() {
+    public InputMaskError[] getError() {
         return error;
     }
 
     public interface InvalidHandler extends EventHandler {
-        void onInvalid(InvalidEvent event);
+        void onInvalid(InvalidEvent<?> event);
     }
 }

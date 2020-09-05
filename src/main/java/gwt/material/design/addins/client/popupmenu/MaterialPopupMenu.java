@@ -27,6 +27,7 @@ import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.ui.html.UnorderedList;
@@ -41,7 +42,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author Ben Dol
  */
 public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
-        HasCloseHandlers<MaterialPopupMenu> {
+        HasCloseHandlers<MaterialPopupMenu>, HasOpenClose {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -173,6 +174,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
         return addHandler(selectionHandler, SelectionEvent.getType());
     }
 
+    @Override
     public void open() {
         setVisible(true);
         Scheduler.get().scheduleDeferred(() -> setFocus(true));
@@ -184,9 +186,15 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
         OpenEvent.fire(this, this);
     }
 
+    @Override
     public void close() {
         setVisible(false);
         CloseEvent.fire(this, this);
+    }
+
+    @Override
+    public boolean isOpen() {
+        return isVisible();
     }
 
     public Object getSelected() {

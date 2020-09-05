@@ -19,15 +19,21 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
-public class MaterialFloatInputMask extends MaterialInputMask<Float> {
+import gwt.material.design.client.base.NumberBox;
+import gwt.material.design.client.ui.MaterialFloatBox;
 
-    @Override
-    public Float getValue() {
-        return Float.parseFloat(getCleanValue());
+public class MaterialFloatInputMask extends AbstractInputMask<Float> {
+
+    public MaterialFloatInputMask() {
+        super(new NumberBox<>(new NumberBox.NumberHandler<>(new MaterialFloatBox())));
     }
 
     @Override
-    public void setValue(Float value) {
-        super.setValue(Float.parseFloat(getCleanValue()));
+    public Float getValue() {
+        String cleanValue = getCleanValue();
+        if (cleanValue != null) {
+            return Float.parseFloat(cleanValue);
+        }
+        return null;
     }
 }

@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * Swipe Event for Carousel component
+ * Fires after swipe/drag
  *
  * @author kevzlou7979
  */

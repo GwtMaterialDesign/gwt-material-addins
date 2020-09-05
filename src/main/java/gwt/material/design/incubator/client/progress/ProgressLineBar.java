@@ -25,6 +25,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.Map;
  * current progress is.
  *
  * <p><i>
- *     Note: This component is under the incubation process and subject to change.
+ * Note: This component is under the incubation process and subject to change.
  * </i></p>
  *
  * @author kevzlou7979
@@ -76,6 +77,8 @@ public class ProgressLineBar<T> extends MaterialWidget {
                 item.setActive(true);
             }
         }
+
+        IncubatorDarkThemeReloader.get().reload(ProgressLineBarDarkTheme.class);
     }
 
     public void addOption(T option) {

@@ -19,15 +19,16 @@
  */
 package gwt.material.design.addins.client.inputmask.events;
 
+import com.google.gwt.event.logical.shared.HasInitializeHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public interface HasInputMaskHandlers {
+public interface HasInputMaskHandlers extends HasInitializeHandlers {
 
     HandlerRegistration addCompleteHandler(CompleteEvent.CompleteHandler handler);
 
-    HandlerRegistration addChangeHandler(ChangeEvent.ChangeHandler handler);
+    HandlerRegistration addMaskChangeHandler(MaskChangeEvent.MaskChangeHandler handler);
 
     HandlerRegistration addInvalidHandler(InvalidEvent.InvalidHandler handler);
 
-    HandlerRegistration addKeyPressHandler(KeyPressEvent.KeyPressHandler handler);
+    HandlerRegistration addMaskKeyPressHandler(MaskKeyPressEvent.MaskKeyPressHandler handler);
 }

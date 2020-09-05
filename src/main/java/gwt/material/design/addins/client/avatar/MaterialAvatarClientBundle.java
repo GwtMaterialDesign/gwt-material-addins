@@ -32,7 +32,7 @@ public interface MaterialAvatarClientBundle extends ClientBundle {
 
     MaterialAvatarClientBundle INSTANCE = GWT.create(MaterialAvatarClientBundle.class);
 
-    @Source("resources/js/jdenticon-1.3.2.min.js")
+    @Source("resources/js/jdenticon-2.2.0.min.js")
     TextResource jdenticonJs();
 
     @Source("resources/js/md5.min.js")

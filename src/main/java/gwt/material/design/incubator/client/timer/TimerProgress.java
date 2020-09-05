@@ -29,6 +29,7 @@ import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 
@@ -84,6 +85,8 @@ public class TimerProgress extends MaterialWidget implements HasDurationTransiti
         add(fill);
         $(fill.getElement()).css("animation-duration", duration + "ms");
         $(fill.getElement()).css("-webkit-animation-duration", duration + "ms");
+
+        IncubatorDarkThemeReloader.get().reload(TimerProgressDarkTheme.class);
     }
 
     public MaterialPanel getFill() {

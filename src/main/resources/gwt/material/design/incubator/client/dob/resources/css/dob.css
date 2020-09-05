@@ -1,0 +1,13 @@
+.dob-container {
+    padding: 0px !important;
+}
+
+.dob-container input {
+    text-align: center;
+}
+
+.dob-container.no-labels .dob-month,
+.dob-container.no-labels .dob-day,
+.dob-container.no-labels .dob-year {
+    margin-top: 0px !important;
+}

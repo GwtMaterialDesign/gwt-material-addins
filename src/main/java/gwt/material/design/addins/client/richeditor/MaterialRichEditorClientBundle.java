@@ -32,10 +32,12 @@ interface MaterialRichEditorClientBundle extends ClientBundle {
 
     MaterialRichEditorClientBundle INSTANCE = GWT.create(MaterialRichEditorClientBundle.class);
 
-    @Source("resources/js/material_note.min.js")
+    @Source("resources/js/material-note.min.js")
     TextResource richEditorJs();
 
-    @Source("resources/css/material_note.min.css")
+    @Source("resources/css/material-note.min.css")
     TextResource richEditorCss();
 
+    @Source("resources/css/material-note-dark.min.css")
+    TextResource richEditorDarkCss();
 }

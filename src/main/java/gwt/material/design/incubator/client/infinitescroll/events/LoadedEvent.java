@@ -22,7 +22,7 @@ package gwt.material.design.incubator.client.infinitescroll.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
-import gwt.material.design.incubator.client.infinitescroll.data.LoadResult;
+import gwt.material.design.client.data.loader.LoadResult;
 //@formatter:off
 
 /**

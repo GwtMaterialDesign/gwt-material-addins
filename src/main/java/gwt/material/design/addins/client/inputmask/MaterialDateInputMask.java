@@ -23,7 +23,7 @@ import gwt.material.design.addins.client.inputmask.base.DateInputParser;
 
 import java.util.Date;
 
-public class MaterialDateInputMask extends MaterialInputMask<Date> {
+public class MaterialDateInputMask extends AbstractInputMask<Date> {
 
     private String format = "MM/dd/yyyy";
     private DateInputParser dateInputParser = new DateInputParser(this);
@@ -39,12 +39,21 @@ public class MaterialDateInputMask extends MaterialInputMask<Date> {
         return dateInputParser.parseDate(format);
     }
 
+    @Override
+    public void setMask(String mask) {
+        this.format = mask
+                    .replace("m", "M")
+                    .replace("Y", "y")
+                    .replace("D", "d");
+        parseFormatToMask(mask);
+    }
+
     protected void parseFormatToMask(String format) {
         String dateFormatMask = format.toLowerCase()
                 .replace("m", "0")
                 .replace("d", "0")
                 .replace("y", "0");
-        setMask(dateFormatMask);
+        super.setMask(dateFormatMask);
     }
 
     public String getFormat() {

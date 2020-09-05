@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.addins.client.subheader.js.JsSubHeader;
 import gwt.material.design.client.base.HasType;
@@ -105,6 +106,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements JsLoad
                 $(getElement()).find(".top_holder").css("display", "none");
             }
         }
+        AddinsDarkThemeReloader.get().reload(MaterialSubheaderDarkTheme.class);
     }
 
     @Override

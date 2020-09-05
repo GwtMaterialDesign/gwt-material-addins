@@ -38,4 +38,6 @@ public interface MaterialComboBoxClientBundle extends ClientBundle {
     @Source("resources/css/select2.min.css")
     TextResource select2Css();
 
+    @Source("resources/css/select2-dark.min.css")
+    TextResource select2DarkCss();
 }

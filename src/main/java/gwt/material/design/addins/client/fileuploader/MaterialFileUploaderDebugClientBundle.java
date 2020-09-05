@@ -37,4 +37,7 @@ interface MaterialFileUploaderDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/dropzone.css")
     TextResource dropzoneCssDebug();
+
+    @Source("resources/css/dropzone-dark.css")
+    TextResource dropzoneDarkCss();
 }

@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
 
 /**
- * Init Event for Carousel component
+ * When Slick initializes for the first time callback. Note that this event should be defined before initializing the slider.
  *
  * @author kevzlou7979
  */

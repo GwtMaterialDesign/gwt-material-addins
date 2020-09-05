@@ -37,4 +37,7 @@ interface MaterialTimePickerDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/timepicker.css")
     TextResource timepickerCssDebug();
+
+    @Source("resources/css/timepicker-dark.css")
+    TextResource timepickerDarkCssDebug();
 }

@@ -37,4 +37,7 @@ public interface MaterialComboBoxDebugClientBundle extends ClientBundle {
 
     @Source("resources/css/select2.css")
     TextResource select2DebugCss();
+
+    @Source("resources/css/select2-dark.css")
+    TextResource select2DarkDebugCss();
 }

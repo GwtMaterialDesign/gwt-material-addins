@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.docviewer.MaterialDocViewer;
 
 /**
@@ -28,7 +28,7 @@ import gwt.material.design.addins.client.docviewer.MaterialDocViewer;
  *
  * @author kevzlou7979
  */
-public class MaterialDocViewerTest extends MaterialWidgetTest<MaterialDocViewer> {
+public class MaterialDocViewerTest extends AddinsWidgetTestCase<MaterialDocViewer> {
 
     @Override
     protected MaterialDocViewer createWidget() {

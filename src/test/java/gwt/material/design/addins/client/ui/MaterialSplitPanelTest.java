@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.splitpanel.MaterialSplitPanel;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.client.constants.Axis;
@@ -30,7 +30,7 @@ import gwt.material.design.client.ui.MaterialPanel;
  *
  * @author kevzlou7979
  */
-public class MaterialSplitPanelTest extends MaterialWidgetTest<MaterialSplitPanel> {
+public class MaterialSplitPanelTest extends AddinsWidgetTestCase<MaterialSplitPanel> {
 
     @Override
     protected MaterialSplitPanel createWidget() {

@@ -19,15 +19,21 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
-public class MaterialIntegerInputMask extends MaterialInputMask<Integer> {
+import gwt.material.design.client.base.NumberBox;
+import gwt.material.design.client.ui.MaterialIntegerBox;
 
-    @Override
-    public Integer getValue() {
-        return Integer.parseInt(getCleanValue());
+public class MaterialIntegerInputMask extends AbstractInputMask<Integer> {
+
+    public MaterialIntegerInputMask() {
+        super(new NumberBox<>(new NumberBox.NumberHandler<>(new MaterialIntegerBox())));
     }
 
     @Override
-    public void setValue(Integer value) {
-        super.setValue(Integer.parseInt(getCleanValue()));
+    public Integer getValue() {
+        String cleanValue = getCleanValue();
+        if (cleanValue != null && !cleanValue.isEmpty()) {
+            return Integer.parseInt(cleanValue);
+        }
+        return null;
     }
 }

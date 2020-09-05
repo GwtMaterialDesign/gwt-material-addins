@@ -21,9 +21,8 @@ package gwt.material.design.incubator.client.infinitescroll;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.constants.TextAlign;
+import gwt.material.design.client.constants.OverlayOption;
 import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 //@formatter:off
@@ -36,11 +35,14 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 public class InfiniteScrollLoader extends MaterialWidget {
 
     private String message = "Loading";
-    private Span label = new Span();
     private InfiniteScrollPanel parent;
+    private MaterialLoader loader;
+    OverlayOption option = OverlayOption.create();
 
     public InfiniteScrollLoader() {
         super(Document.get().createDivElement(), IncubatorCssName.INFINITE_SCROLL_LOADER);
+
+        setupLoader();
     }
 
     public InfiniteScrollLoader(String message) {
@@ -49,25 +51,17 @@ public class InfiniteScrollLoader extends MaterialWidget {
         this.message = message;
     }
 
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        setTextAlign(TextAlign.CENTER);
-
-        label.setText(message);
-        label.setFontSize("1.2em");
-        label.setLineHeight(12);
-
-        add(label);
+    protected void setupLoader() {
+        loader = new MaterialLoader();
+        loader.setContainer(this);
+        loader.setMessage(message);
     }
 
     /**
      * Will attach a loader to it's parent
      */
     public void show() {
-        MaterialLoader.loading(true, this);
+        loader.show();
         parent.add(this);
     }
 
@@ -75,7 +69,7 @@ public class InfiniteScrollLoader extends MaterialWidget {
      * Will detach a loader to it's parent
      */
     public void hide() {
-        MaterialLoader.loading(false);
+        loader.hide();
         removeFromParent();
     }
 

@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.webp.MaterialWebpImage;
 
 /**
@@ -27,7 +27,7 @@ import gwt.material.design.addins.client.webp.MaterialWebpImage;
  *
  * @author kevzlou7979
  */
-public class MaterialWebpImageTest extends MaterialWidgetTest<MaterialWebpImage> {
+public class MaterialWebpImageTest extends AddinsWidgetTestCase<MaterialWebpImage> {
 
     static final String URL = "sample.webp";
     static final String FALLBACK_URL = "sample.png";

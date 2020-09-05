@@ -83,6 +83,7 @@ public class ExpandableInlineSearch extends InlineSearch {
         return getToggleStyleMixin().isOn();
     }
 
+    @Override
     public void close() {
         getToggleStyleMixin().setOn(false);
         super.setWidth("0px");

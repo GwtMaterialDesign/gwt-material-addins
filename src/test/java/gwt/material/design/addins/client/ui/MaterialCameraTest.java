@@ -19,7 +19,7 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.camera.MaterialCameraCapture;
 
 /**
@@ -27,7 +27,7 @@ import gwt.material.design.addins.client.camera.MaterialCameraCapture;
  *
  * @author kevzlou7979
  */
-public class MaterialCameraTest extends MaterialWidgetTest<MaterialCameraCapture> {
+public class MaterialCameraTest extends AddinsWidgetTestCase<MaterialCameraCapture> {
 
     @Override
     protected MaterialCameraCapture createWidget() {

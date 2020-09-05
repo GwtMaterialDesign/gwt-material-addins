@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.dom.client.Style;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.circularprogress.MaterialCircularProgress;
 import gwt.material.design.addins.client.circularprogress.events.CompleteEvent;
@@ -30,7 +30,7 @@ import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.ui.html.Span;
 
-public class MaterialCircularProgressTest extends MaterialWidgetTest<MaterialCircularProgress> {
+public class MaterialCircularProgressTest extends AddinsWidgetTestCase<MaterialCircularProgress> {
 
     @Override
     protected MaterialCircularProgress createWidget() {

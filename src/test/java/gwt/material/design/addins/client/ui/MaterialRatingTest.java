@@ -19,9 +19,8 @@
  */
 package gwt.material.design.addins.client.ui;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.rating.MaterialRating;
 import gwt.material.design.client.constants.IconType;
@@ -32,7 +31,7 @@ import gwt.material.design.client.ui.MaterialIcon;
  *
  * @author kevzlou7979
  */
-public class MaterialRatingTest extends MaterialWidgetTest<MaterialRating> {
+public class MaterialRatingTest extends AddinsWidgetTestCase<MaterialRating> {
 
     @Override
     protected MaterialRating createWidget() {

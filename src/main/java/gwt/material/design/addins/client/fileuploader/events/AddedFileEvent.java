@@ -21,7 +21,7 @@ package gwt.material.design.addins.client.fileuploader.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import gwt.material.design.addins.client.fileuploader.base.HasFileUpload;
+import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 
 public class AddedFileEvent<T> extends GwtEvent<AddedFileEvent.AddedFileHandler<T>> {
 
@@ -31,7 +31,7 @@ public class AddedFileEvent<T> extends GwtEvent<AddedFileEvent.AddedFileHandler<
         void onAddedFile(AddedFileEvent<T> event);
     }
 
-    public static <T> void fire(HasFileUpload<T> source, T target) {
+    public static <T> void fire(HasFileUploadHandlers<T> source, T target) {
         if (TYPE != null) {
             AddedFileEvent<T> event = new AddedFileEvent<T>(target);
             source.fireEvent(event);

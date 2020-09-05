@@ -19,7 +19,7 @@
  */
 package gwt.material.design.incubator.client.ui;
 
-import gwt.material.design.incubator.client.MaterialWidgetTest;
+import gwt.material.design.incubator.client.ui.base.MaterialWidgetTest;
 import gwt.material.design.incubator.client.google.recaptcha.ReCaptcha;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaTheme;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaType;
@@ -47,9 +47,9 @@ public class ReCaptchaTest extends MaterialWidgetTest<ReCaptcha> {
         assertEquals(reCaptcha.getTheme(), RecaptchaTheme.DARK);
 
         // Check Callback
-        final Functions.Func callback = () -> {};
-        reCaptcha.setCallback(callback);
-        assertEquals(reCaptcha.getCallback(), callback);
+        final Functions.Func1<String> callback = (response) -> {};
+        reCaptcha.setDataCallback(callback);
+        assertEquals(reCaptcha.getDataCallback(), callback);
 
         // Check Type
         // Expected by default - IMAGE

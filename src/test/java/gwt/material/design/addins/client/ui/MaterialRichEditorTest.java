@@ -26,8 +26,8 @@ import com.google.gwt.event.shared.GwtEvent;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.richeditor.MaterialRichEditor;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
-import gwt.material.design.addins.client.richeditor.events.PasteEvent;
 import gwt.material.design.addins.client.ui.base.AbstractValueWidgetTest;
+import gwt.material.design.client.events.PasteEvent;
 
 /**
  * Test case for rich editor component
@@ -167,7 +167,8 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         // Paste Event
         final boolean[] isPasteEventFired = {false};
         editor.addPasteHandler(event -> isPasteEventFired[0] = true);
-        editor.fireEvent(new PasteEvent() {});
+        editor.fireEvent(new PasteEvent("Test") {
+        });
         assertTrue(isPasteEventFired[0]);
         // Blur Event
         final boolean[] isBlurEventFired = {false};
@@ -177,7 +178,8 @@ public class MaterialRichEditorTest extends AbstractValueWidgetTest<MaterialRich
         // Focus Event
         final boolean[] isFocusEventFired = {false};
         editor.addFocusHandler(event -> isFocusEventFired[0] = true);
-        editor.fireEvent(new FocusEvent() {});
+        editor.fireEvent(new FocusEvent() {
+        });
         fireFocusEvent(editor);
         // KeyUp Event
         final boolean[] isKeyUpEventFired = {false};

@@ -34,7 +34,4 @@ interface MaterialLiveStampDebugClientBundle extends ClientBundle {
 
     @Source("resources/js/livestamp.js")
     TextResource liveStampDebugJs();
-
-    @Source("resources/js/moment.js")
-    TextResource momentDebugJs();
 }

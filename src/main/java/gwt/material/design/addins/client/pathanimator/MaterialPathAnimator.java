@@ -23,7 +23,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
 import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
 import gwt.material.design.addins.client.pathanimator.base.PathStylerMixin;
@@ -34,6 +33,7 @@ import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.OffsetPosition;
+import gwt.material.design.client.ui.animate.debugger.AnimationGlobalConfig;
 import gwt.material.design.jquery.client.api.Functions;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -143,20 +143,22 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
     public void animate() {
         detectOutOfScopeElement(targetElement, () -> {
             $("document").ready(() -> {
-                onStartAnimateCallback();
-                JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-                    if (animateCallback != null) {
-                        animateCallback.call();
-                    } else {
-                        // For default animateCallback when animateCallback is null
-                        targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                        targetElement.getStyle().setOpacity(1);
-                    }
+                if (AnimationGlobalConfig.ENABLE_ANIMATION) {
+                    onStartAnimateCallback();
+                    JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+                        if (animateCallback != null) {
+                            animateCallback.call();
+                        } else {
+                            // For default animateCallback when animateCallback is null
+                            targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                            targetElement.getStyle().setOpacity(1);
+                        }
 
-                    if (completedCallback != null) {
-                        completedCallback.call();
-                    }
-                });
+                        onCompleteCallback();
+                    });
+                } else {
+                    onCompleteCallback();
+                }
             });
         });
     }
@@ -167,13 +169,17 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
     public void reverseAnimate() {
         onStartAnimateCallback();
         $("document").ready(() -> {
-            if (reverseCallback != null) {
-                reverseCallback.call();
+            if (AnimationGlobalConfig.ENABLE_ANIMATION) {
+                if (reverseCallback != null) {
+                    reverseCallback.call();
+                } else {
+                    targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
+                    targetElement.getStyle().setOpacity(0);
+                }
+                detectOutOfScopeElement(sourceElement, () -> JsPathAnimator.cta(targetElement, sourceElement, options, () -> onCompleteCallback()));
             } else {
-                targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
-                targetElement.getStyle().setOpacity(0);
+                onCompleteCallback();
             }
-            detectOutOfScopeElement(sourceElement, () -> JsPathAnimator.cta(targetElement, sourceElement, options, () -> onCompleteCallback()));
         });
     }
 
@@ -183,12 +189,14 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
      * of {@link OffsetPosition#MIDDLE}.
      */
     protected void detectOutOfScopeElement(Element element, Functions.Func callback) {
-        if (scrollHelper.isInViewPort(element)) {
-            callback.call();
-        } else {
-            scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
-            scrollHelper.setCompleteCallback(() -> callback.call());
-            scrollHelper.scrollTo(element);
+        if (element != null) {
+            if (scrollHelper.isInViewPort(element)) {
+                callback.call();
+            } else {
+                scrollHelper.setOffsetPosition(OffsetPosition.MIDDLE);
+                scrollHelper.setCompleteCallback(() -> callback.call());
+                scrollHelper.scrollTo(element);
+            }
         }
     }
 
@@ -319,7 +327,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
 
     @Override
     public void setDuration(int duration) {
-        options.duration = duration / 1000.0;
+        options.duration = (duration * AnimationGlobalConfig.SPEED.getValue()) / 1000.0;
     }
 
     @Override
@@ -331,7 +339,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
      * Duration (in milliseconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
      */
     public void setTargetShowDuration(int targetShowDuration) {
-        options.targetShowDuration = targetShowDuration / 1000.0;
+        options.targetShowDuration = (targetShowDuration * AnimationGlobalConfig.SPEED.getValue()) / 1000.0;
     }
 
     public int getTargetShowDuration() {
@@ -342,7 +350,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
      * Extra duration (in milliseconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
      */
     public void setExtraTransitionDuration(int extraTransitionDuration) {
-        options.extraTransitionDuration = extraTransitionDuration / 1000.0;
+        options.extraTransitionDuration = (extraTransitionDuration * AnimationGlobalConfig.SPEED.getValue()) / 1000.0;
     }
 
     public int getExtraTransitionDuration() {

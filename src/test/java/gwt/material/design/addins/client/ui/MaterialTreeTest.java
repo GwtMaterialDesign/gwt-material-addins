@@ -22,7 +22,7 @@ package gwt.material.design.addins.client.ui;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.tree.MaterialTree;
 import gwt.material.design.addins.client.tree.MaterialTreeItem;
@@ -37,7 +37,7 @@ import gwt.material.design.client.ui.html.Span;
  *
  * @author kevzlou7979
  */
-public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
+public class MaterialTreeTest extends AddinsWidgetTestCase<MaterialTree> {
 
     final static int NUMBER_OF_ITEM = 5;
     final static String TEXT = "sometext";
@@ -215,6 +215,7 @@ public class MaterialTreeTest extends MaterialWidgetTest<MaterialTree> {
         assertEquals(0, tree.getWidgetCount());
 
         MaterialTreeItem item = new MaterialTreeItem();
+        item.setText("Tree Item");
         tree.add(item);
         assertEquals(1, tree.getWidgetCount());
 

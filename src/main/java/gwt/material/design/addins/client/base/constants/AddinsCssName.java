@@ -75,6 +75,7 @@ public interface AddinsCssName {
     String SUCCESS = "success";
     String ERROR = "error";
     String STEPPER = "stepper";
+    String STEP_HEADER = "step-header";
     String FEEDBACK = "feedback";
     String SUBHEADER = "subheader";
     String CONTAINER1 = "container1";
@@ -122,4 +123,7 @@ public interface AddinsCssName {
     String WIDE = "wide";
     String BRIDGE_PATH = "bridge-path";
     String INTERACT_IGNORED_CONTENT = "interact-ignored-content";
+    String FIXED_STEP_WIDTH = "fixed-step-width";
+    String CONTINUOUS_SLIDER = "rkmd-slider slider-continuous";
+
 }

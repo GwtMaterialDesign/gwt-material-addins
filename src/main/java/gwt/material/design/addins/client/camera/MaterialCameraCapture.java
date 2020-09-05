@@ -33,6 +33,7 @@ import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.Captur
 import gwt.material.design.addins.client.camera.events.CameraCaptureHandler;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.jscore.client.api.Navigator;
 import gwt.material.design.jscore.client.api.media.*;
 
@@ -106,7 +107,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
     protected CameraFacingMode facingMode = CameraFacingMode.FRONT;
     private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
-    private MaterialWidget overlayPanel = new MaterialWidget(Document.get().createDivElement());
+    private MaterialPanel overlayPanel;
 
     public MaterialCameraCapture() {
         super(Document.get().createDivElement(), "camera-wrapper");
@@ -118,13 +119,6 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
 
         setLayoutPosition(Style.Position.RELATIVE);
         add(video);
-
-        overlayPanel.setLayoutPosition(Style.Position.FIXED);
-        overlayPanel.setTop(0);
-        overlayPanel.setLeft(0);
-        overlayPanel.setBottom(0);
-        overlayPanel.setRight(0);
-        add(overlayPanel);
 
         load();
     }
@@ -240,19 +234,28 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
             mediaTrackConstraints.facingMode = facingMode.getName();
             constraints.video = mediaTrackConstraints;
 
-            Navigator.mediaDevices.getUserMedia(constraints).then(streamObj -> {
+            Navigator.mediaDevices.getUserMedia(constraints).then((streamObj) -> {
                 mediaStream = (MediaStream) streamObj;
-                if (URL.createObjectURL(mediaStream) != null) {
-                    $(video).attr("src", URL.createObjectURL(mediaStream));
-                } else if (WebkitURL.createObjectURL(mediaStream) != null) {
-                    $(video).attr("src", WebkitURL.createObjectURL(mediaStream));
+
+                if (mediaStream != null) {
+                    try {
+                        video.setPropertyObject("srcObject", mediaStream);
+                    } catch (Exception exception) {
+                        if (URL.createObjectURL(mediaStream) != null) {
+                            $(video).attr("src", URL.createObjectURL(mediaStream));
+                        } else if (WebkitURL.createObjectURL(mediaStream) != null) {
+                            $(video).attr("src", WebkitURL.createObjectURL(mediaStream));
+                        }
+                    } finally {
+                        if (video instanceof VideoElement) {
+                            ((VideoElement) video).play();
+                        }
+                    }
                 }
-                if (video instanceof VideoElement) {
-                    ((VideoElement) video).play();
-                }
+
                 onCameraCaptureLoad();
                 return null;
-            }).catchException(error -> {
+            }).fail((e, error) -> {
                 GWT.log("MaterialCameraCapture: An error occured! " + error);
                 onCameraCaptureError(error.toString());
                 return null;
@@ -286,21 +289,21 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
      */
     public static boolean isSupported() {
         return Navigator.webkitGetUserMedia != null
-                || Navigator.getUserMedia != null
-                || Navigator.mozGetUserMedia != null
-                || Navigator.msGetUserMedia != null;
+            || Navigator.getUserMedia != null
+            || Navigator.mozGetUserMedia != null
+            || Navigator.msGetUserMedia != null;
     }
 
     public void addOverlay(MaterialWidget overlay) {
-        overlayPanel.add(overlay);
+        getOverlayPanel().add(overlay);
     }
 
     public void removeOverlay(MaterialWidget overlay) {
-        overlayPanel.remove(overlay);
+        getOverlayPanel().remove(overlay);
     }
 
     public void clearOverlays() {
-        overlayPanel.clear();
+        getOverlayPanel().clear();
     }
 
     public MaterialWidget getVideo() {
@@ -309,6 +312,19 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
 
     public void setVideo(MaterialWidget video) {
         this.video = video;
+    }
+
+    public MaterialPanel getOverlayPanel() {
+        if (overlayPanel == null && overlayPanel.isAttached()) {
+            overlayPanel = new MaterialPanel();
+            overlayPanel.setLayoutPosition(Style.Position.FIXED);
+            overlayPanel.setTop(0);
+            overlayPanel.setLeft(0);
+            overlayPanel.setBottom(0);
+            overlayPanel.setRight(0);
+            add(overlayPanel);
+        }
+        return overlayPanel;
     }
 
     /**

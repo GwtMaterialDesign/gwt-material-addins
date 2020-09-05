@@ -34,4 +34,7 @@ interface MaterialTreeClientBundle extends ClientBundle {
 
     @Source("resources/css/tree.min.css")
     TextResource treeCss();
+
+    @Source("resources/css/tree-dark.min.css")
+    TextResource treeDarkCss();
 }

@@ -20,16 +20,15 @@
 package gwt.material.design.addins.client.ui;
 
 import com.google.gwt.user.client.ui.RootPanel;
-import gwt.material.design.addins.client.MaterialWidgetTest;
+import gwt.material.design.addins.client.ui.base.AddinsWidgetTestCase;
 import gwt.material.design.addins.client.overlay.MaterialOverlay;
 import gwt.material.design.addins.client.overlay.MaterialOverlayTab;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaterialOverlayTabTest extends MaterialWidgetTest<MaterialOverlayTab> {
+public class MaterialOverlayTabTest extends AddinsWidgetTestCase<MaterialOverlayTab> {
 
     private MaterialButton activator;
 

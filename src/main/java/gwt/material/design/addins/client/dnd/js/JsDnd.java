@@ -40,6 +40,9 @@ public class JsDnd extends JQueryElement {
     public native JsDnd draggable(JsDragOptions options);
 
     @JsMethod
+    public native JsDnd resizable(JsResizableOptions options);
+
+    @JsMethod
     public native JsDnd dropzone(JsDropOptions options);
 
     @JsMethod

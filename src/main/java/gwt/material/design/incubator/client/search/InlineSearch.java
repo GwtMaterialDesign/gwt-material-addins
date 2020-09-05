@@ -28,6 +28,7 @@ import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.ui.MaterialSearch;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
+import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.search.constants.Theme;
 
 /**
@@ -82,6 +83,8 @@ public class InlineSearch extends MaterialSearch {
             blurHandler = null;
             return true;
         });
+
+        IncubatorDarkThemeReloader.get().reload(InlineSearchDarkTheme.class);
     }
 
     public void setTheme(Theme theme) {

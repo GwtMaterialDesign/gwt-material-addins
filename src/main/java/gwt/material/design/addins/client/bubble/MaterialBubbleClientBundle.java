@@ -37,4 +37,7 @@ interface MaterialBubbleClientBundle extends ClientBundle {
 
     @Source("resources/css/bubble.min.css")
     TextResource bubbleCss();
+
+    @Source("resources/css/bubble-dark.min.css")
+    TextResource bubbleDarkCss();
 }
