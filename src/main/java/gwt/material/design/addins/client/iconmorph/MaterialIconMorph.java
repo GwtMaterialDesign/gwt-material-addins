@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.iconmorph;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
@@ -29,6 +30,8 @@ import gwt.material.design.client.base.TransitionConfig;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.ui.MaterialIcon;
+
+import static gwt.material.design.jquery.client.api.JQuery.$;
 
 //@formatter:off
 
@@ -67,28 +70,56 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
         }
     }
 
-    private CssNameMixin<MaterialIconMorph, IconSize> sizeMixin;
-    private MaterialIcon source, target;
+    protected static final String ICON_MORPH = "icon-morph";
+    protected static final String MORPHED = "morphed";
+    protected CssNameMixin<MaterialIconMorph, IconSize> sizeMixin;
+    protected String customSize;
+    protected MaterialIcon source, target;
 
     public MaterialIconMorph() {
-        super(Document.get().createDivElement(), AddinsCssName.ANIM_CONTAINER);
-        getElement().setAttribute("onclick", "this.classList.toggle('morphed')");
+        super(Document.get().createDivElement(), AddinsCssName.ANIM_CONTAINER, ICON_MORPH);
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
 
-        if (getWidgetCount() >= 2) {
+        addClickHandler(event -> {
+            $(getElement()).toggleClass(MORPHED);
+            IconMorphedEvent.fire(this, getElement().hasClassName(MORPHED));
+        });
+
+        // Check if we add the source and target icons thru ui binder
+        if (source == null && target == null && getWidgetCount() == 2) {
             source = (MaterialIcon) getWidget(0);
-            source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);
             target = (MaterialIcon) getWidget(1);
-            target.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.TARGET);
+        } else {
+            // Set container dimension
+            setWidth(customSize);
+            setHeight(customSize);
+            // Set source size
+            source.setWidth(customSize);
+            source.setHeight(customSize);
+            source.setFontSize(customSize);
+            // Set target size
+            target.setWidth(customSize);
+            target.setHeight(customSize);
+            target.setFontSize(customSize);
+
+            add(target);
+            add(source);
         }
+
+        source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);
+        target.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.TARGET);
     }
 
     public void setIconSize(IconSize size) {
         getSizeMixin().setCssName(size);
+    }
+
+    public void setCustomSize(String customSize) {
+        this.customSize = customSize;
     }
 
     @Override
@@ -99,6 +130,14 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
     @Override
     public int getDuration() {
         return 0;
+    }
+
+    public void setSource(MaterialIcon source) {
+        this.source = source;
+    }
+
+    public void setTarget(MaterialIcon target) {
+        this.target = target;
     }
 
     public MaterialIcon getSource() {
@@ -114,5 +153,9 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
             sizeMixin = new CssNameMixin<>(this);
         }
         return sizeMixin;
+    }
+
+    public HandlerRegistration addIconMorphedHandler(IconMorphedEvent.IconMorphedHandler handler) {
+        return addHandler(handler, IconMorphedEvent.TYPE);
     }
 }
