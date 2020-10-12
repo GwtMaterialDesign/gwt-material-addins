@@ -1,6 +1,6 @@
 .material-carousel .carousel-next-arrow,
 .material-carousel .carousel-prev-arrow,
-.slick-dots li.slick-active{
+ul.slick-dots li.slick-active{
     background-color: #bb86fc;
 }
 
@@ -9,6 +9,6 @@
     color: black;
 }
 
-.slick-dots li {
+ul.slick-dots li {
     background-color: rgba(187, 134, 252, 0.23);
 }
