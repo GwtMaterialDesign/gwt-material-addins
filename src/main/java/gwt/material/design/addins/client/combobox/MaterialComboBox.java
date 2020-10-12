@@ -99,7 +99,7 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  */
 //@formatter:on
 public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
-    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel, HasOpenClose {
+    HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel, HasOpenClose, HasSingleValue<T> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -583,17 +583,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return getValue();
     }
 
-    /**
-     * Only return a single value even if multi support is activate.
-     */
-    public T getSingleValue() {
-        List<T> values = getSelectedValue();
-        if (values != null && !values.isEmpty()) {
-            return values.get(0);
-        }
-        return null;
-    }
-
     @Override
     public void setValue(List<T> value) {
         setValue(value, false);
@@ -603,8 +592,42 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
      * Set the selected value using a single item, generally used
      * in single selection mode.
      */
+    @Override
     public void setSingleValue(T value) {
         setValue(Collections.singletonList(value));
+    }
+
+    /**
+     * Set the selected value using a single item, generally used
+     * in single selection mode.
+     */
+    @Override
+    public void setSingleValue(T value, boolean fireEvents) {
+        int index = this.values.indexOf(value);
+        if (index < 0 && value instanceof String) {
+            index = getIndexByString((String) value);
+        }
+
+        if (index > -1) {
+            List<T> before = getValue();
+            setSelectedIndex(index);
+
+            if (fireEvents) {
+                ValueChangeEvent.fireIfNotEqual(this, before, Collections.singletonList(value));
+            }
+        }
+    }
+
+    /**
+     * Only return a single value even if multi support is activate.
+     */
+    @Override
+    public T getSingleValue() {
+        List<T> values = getSelectedValue();
+        if (values != null && !values.isEmpty()) {
+            return values.get(0);
+        }
+        return null;
     }
 
     @Override
@@ -621,26 +644,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             }
         } else {
             setValues(values, fireEvents);
-        }
-    }
-
-    /**
-     * Set the selected value using a single item, generally used
-     * in single selection mode.
-     */
-    public void setSingleValue(T value, boolean fireEvents) {
-        int index = this.values.indexOf(value);
-        if (index < 0 && value instanceof String) {
-            index = getIndexByString((String) value);
-        }
-
-        if (index > -1) {
-            List<T> before = getValue();
-            setSelectedIndex(index);
-
-            if (fireEvents) {
-                ValueChangeEvent.fireIfNotEqual(this, before, Collections.singletonList(value));
-            }
         }
     }
 

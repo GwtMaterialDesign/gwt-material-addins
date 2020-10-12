@@ -61,7 +61,7 @@ import static gwt.material.design.incubator.client.daterange.js.JsDateRangePicke
 
 
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
-    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel {
+    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel, HasSingleValue<Date> {
 
     static {
         if (AddinsIncubator.isDebug()) {
@@ -487,14 +487,17 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         super.setValue(value, fireEvents);
     }
 
+    @Override
     public void setSingleValue(Date value) {
         setValue(new Date[]{value}, false);
     }
 
+    @Override
     public void setSingleValue(Date value, boolean fireEvents) {
         setValue(new Date[]{value}, fireEvents);
     }
 
+    @Override
     public Date getSingleValue() {
         if (getValue().length >= 1) {
             return getValue()[0];

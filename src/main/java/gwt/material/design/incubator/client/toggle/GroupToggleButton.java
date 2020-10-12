@@ -28,6 +28,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.base.HasSingleValue;
 import gwt.material.design.client.base.HasStatusText;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
@@ -67,7 +68,7 @@ import java.util.List;
  */
 //@formatter:on
 public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<T>,
-    HasStatusText {
+    HasStatusText, HasSingleValue<T> {
 
     static {
         IncubatorWidget.showWarning(GroupToggleButton.class);
@@ -179,6 +180,7 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         return items;
     }
 
+    @Override
     public T getSingleValue() {
 
         if (getSelectedIndexes().size() == 0) {
@@ -188,10 +190,12 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
         return values.get(getSelectedIndexes().get(0));
     }
 
+    @Override
     public void setSingleValue(T value) {
         setSingleValue(value, false);
     }
 
+    @Override
     public void setSingleValue(T value, boolean fireEvents) {
         setValue(Arrays.asList(value), fireEvents);
     }
