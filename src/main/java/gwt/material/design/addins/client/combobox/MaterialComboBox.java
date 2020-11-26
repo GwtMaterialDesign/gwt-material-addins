@@ -1225,6 +1225,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return getAsyncWidgetMixin().getAsyncCallback();
     }
 
+    public List<T> getOptions() {
+        return values;
+    }
+
     @Override
     public void setAsyncDisplayLoader(AsyncDisplayLoader displayLoader) {
         getAsyncWidgetMixin().setAsyncDisplayLoader(displayLoader);
