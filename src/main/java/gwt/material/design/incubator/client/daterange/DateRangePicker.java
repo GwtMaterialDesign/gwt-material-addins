@@ -510,8 +510,8 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
      */
     public void setDateInputValue(Date creationDate, Date endDate, String format) {
         if (dateInput != null && creationDate != null && endDate != null && format != null && !format.isEmpty()) {
-            dateInput.setValue(DateTimeFormat.getFormat(format).format(creationDate) + " - " +
-                DateTimeFormat.getFormat(format).format(endDate));
+            dateInput.setValue(getOptions().singleDatePicker ? DateTimeFormat.getFormat(format).format(creationDate) :
+                DateTimeFormat.getFormat(format).format(creationDate) + " - " + DateTimeFormat.getFormat(format).format(endDate));
         } else {
             clearInputValue();
         }
