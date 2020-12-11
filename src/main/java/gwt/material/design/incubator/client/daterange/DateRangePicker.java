@@ -62,6 +62,8 @@ import static gwt.material.design.incubator.client.daterange.js.JsDateRangePicke
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
     HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel, HasSingleValue<Date> {
 
+    private static final String DATE_RANGE_STYLENAME = "date-range-picker";
+
     static {
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
@@ -78,16 +80,17 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
     }
 
-    private static final String DATE_INPUT_FORMAT = "MM/dd/yyyy";
-    private static final String DATE_RANGE_STYLENAME = "date-range-picker";
-    private ScrollHelper scrollHelper = new ScrollHelper();
-    private TextBox dateInput = new TextBox();
-    private Label label = new Label();
-    private MaterialLabel errorLabel = new MaterialLabel();
-    private MaterialIcon icon = new MaterialIcon();
-    private DateRangeOptions options = new DateRangeOptions();
+    private final ScrollHelper scrollHelper = new ScrollHelper();
+    private final TextBox dateInput = new TextBox();
+    private final Label label = new Label();
+    private final MaterialLabel errorLabel = new MaterialLabel();
+    private final MaterialIcon icon = new MaterialIcon();
+    private final DateRangeOptions options = new DateRangeOptions();
+
     private boolean open;
     private double addedOffsetHeight = 480;
+    private String format = "MM/dd/yyyy";
+    private String betweenDelimiter = "-";
     private Date startDate;
     private Date endDate;
     private Date[] value;
@@ -511,14 +514,14 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     public void setDateInputValue(Date creationDate, Date endDate, String format) {
         if (dateInput != null && creationDate != null && endDate != null && format != null && !format.isEmpty()) {
             dateInput.setValue(getOptions().singleDatePicker ? DateTimeFormat.getFormat(format).format(creationDate) :
-                DateTimeFormat.getFormat(format).format(creationDate) + " - " + DateTimeFormat.getFormat(format).format(endDate));
+                DateTimeFormat.getFormat(format).format(creationDate) + " " + betweenDelimiter + " " + DateTimeFormat.getFormat(format).format(endDate));
         } else {
             clearInputValue();
         }
     }
 
     public void setDateInputValue(Date creationDate, Date endDate) {
-        setDateInputValue(creationDate, endDate, DATE_INPUT_FORMAT);
+        setDateInputValue(creationDate, endDate, format);
     }
 
     public void clearInputValue() {
@@ -685,6 +688,22 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     @Override
     public void setNativeBrowserStyle(boolean nativeBrowserStyle) {
         getNativeBrowserStyleMixin().setNativeBrowserStyle(nativeBrowserStyle);
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public String getBetweenDelimiter() {
+        return betweenDelimiter;
+    }
+
+    public void setBetweenDelimiter(String betweenDelimiter) {
+        this.betweenDelimiter = betweenDelimiter;
     }
 
     @Override
