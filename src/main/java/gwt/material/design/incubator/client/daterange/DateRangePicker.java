@@ -23,12 +23,12 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
+import gwt.material.design.addins.client.moment.Moment;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
@@ -89,8 +89,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     private boolean open;
     private double addedOffsetHeight = 480;
-    private String format = "MM/dd/yyyy";
-    private String betweenDelimiter = "-";
     private Date startDate;
     private Date endDate;
     private Date[] value;
@@ -427,7 +425,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     @Override
     public void setLocale(DateRangeLocale locale) {
-        options.setLocale(locale != null ? locale : false);
+        options.setLocale(locale);
     }
 
     @Override
@@ -511,17 +509,17 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
      * Call this if you have defined {@link DateRangePicker#setAutoUpdateInput(boolean)} to false.
      * This will be required in order to update the input date textfield manually.
      */
-    public void setDateInputValue(Date creationDate, Date endDate, String format) {
-        if (dateInput != null && creationDate != null && endDate != null && format != null && !format.isEmpty()) {
-            dateInput.setValue(getOptions().singleDatePicker ? DateTimeFormat.getFormat(format).format(creationDate) :
-                DateTimeFormat.getFormat(format).format(creationDate) + " " + betweenDelimiter + " " + DateTimeFormat.getFormat(format).format(endDate));
+    public void setDateInputValue(Date creationDate, Date endDate) {
+        if (dateInput != null && creationDate != null && endDate != null) {
+            String betweenDelimiter = options != null && options.locale != null ? options.locale.getToLabel() : "-";
+            String format = options != null && options.locale != null ? options.locale.getFormat() : "MM/DD/YYYY";
+            String creationDateFormatted = Moment.moment(creationDate.getTime()).format(format);
+            String endDateFormatted = Moment.moment(endDate.getTime()).format(format);
+            dateInput.setValue(getOptions().singleDatePicker ? creationDateFormatted :
+                creationDateFormatted + " " + betweenDelimiter + " " + endDateFormatted);
         } else {
             clearInputValue();
         }
-    }
-
-    public void setDateInputValue(Date creationDate, Date endDate) {
-        setDateInputValue(creationDate, endDate, format);
     }
 
     public void clearInputValue() {
@@ -688,22 +686,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     @Override
     public void setNativeBrowserStyle(boolean nativeBrowserStyle) {
         getNativeBrowserStyleMixin().setNativeBrowserStyle(nativeBrowserStyle);
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public String getBetweenDelimiter() {
-        return betweenDelimiter;
-    }
-
-    public void setBetweenDelimiter(String betweenDelimiter) {
-        this.betweenDelimiter = betweenDelimiter;
     }
 
     @Override

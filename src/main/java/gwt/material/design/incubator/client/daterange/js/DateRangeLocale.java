@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,14 +20,10 @@
 package gwt.material.design.incubator.client.daterange.js;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.json.client.JSONString;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-
-import java.util.List;
 
 /**
  * @author kevzlou7979
@@ -122,8 +118,64 @@ public class DateRangeLocale {
             GWT.log("Months must be equal to seven (12) months", new IllegalArgumentException());
         }
     }
+
     @JsOverlay
     public final void setFirstDay(String firstDay) {
         this.firstDay = firstDay;
+    }
+
+    @JsOverlay
+    public final String getFormat() {
+        return format;
+    }
+
+    @JsOverlay
+    public final String getSeparator() {
+        return separator;
+    }
+
+    @JsOverlay
+    public final String getApplyLabel() {
+        return applyLabel;
+    }
+
+    @JsOverlay
+    public final String getCancelLabel() {
+        return cancelLabel;
+    }
+
+    @JsOverlay
+    public final String getFromLabel() {
+        return fromLabel;
+    }
+
+    @JsOverlay
+    public final String getToLabel() {
+        return toLabel;
+    }
+
+    @JsOverlay
+    public final String getCustomRangeLabel() {
+        return customRangeLabel;
+    }
+
+    @JsOverlay
+    public final String getWeekLabel() {
+        return weekLabel;
+    }
+
+    @JsOverlay
+    public final LocaleString[] getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
+    @JsOverlay
+    public final LocaleString[] getMonthNames() {
+        return monthNames;
+    }
+
+    @JsOverlay
+    public final String getFirstDay() {
+        return firstDay;
     }
 }
