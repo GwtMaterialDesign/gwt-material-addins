@@ -24,22 +24,20 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.TextBox;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
+import gwt.material.design.addins.client.inputmask.MaterialInputMask;
 import gwt.material.design.addins.client.moment.Moment;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.helper.ScrollHelper;
-import gwt.material.design.client.base.mixin.FieldTypeMixin;
-import gwt.material.design.client.base.mixin.NativeBrowserStyleMixin;
-import gwt.material.design.client.base.mixin.ReadOnlyMixin;
-import gwt.material.design.client.base.mixin.StatusTextMixin;
+import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.*;
+import gwt.material.design.client.events.RegexValidationEvent;
 import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
@@ -60,7 +58,7 @@ import java.util.Date;
 import static gwt.material.design.incubator.client.daterange.js.JsDateRangePicker.$;
 
 public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes,
-    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel, HasSingleValue<Date> {
+    HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel, HasSingleValue<Date>, HasRegex {
 
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
 
@@ -81,7 +79,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     private final ScrollHelper scrollHelper = new ScrollHelper();
-    private final TextBox dateInput = new TextBox();
+    private final MaterialInputMask dateInput = new MaterialInputMask();
     private final Label label = new Label();
     private final MaterialLabel errorLabel = new MaterialLabel();
     private final MaterialIcon icon = new MaterialIcon();
@@ -89,14 +87,16 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     private boolean open;
     private double addedOffsetHeight = 480;
+    private String mask;
     private Date startDate;
     private Date endDate;
     private Date[] value;
 
     private FieldTypeMixin<DateRangePicker> fieldTypeMixin;
     private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
-    private ReadOnlyMixin<DateRangePicker, TextBox> readOnlyMixin;
+    private ReadOnlyMixin<DateRangePicker, MaterialInputMask> readOnlyMixin;
     private NativeBrowserStyleMixin<DateRangePicker> nativeBrowserStyleMixin;
+    private RegexMixin<MaterialInputMask> regexMixin;
 
     public DateRangePicker() {
         super(Document.get().createDivElement(), CssName.INPUT_FIELD, DATE_RANGE_STYLENAME);
@@ -111,6 +111,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     protected void load() {
 
+        applyMasking();
         add(dateInput);
         add(label);
         add(errorLabel);
@@ -186,6 +187,12 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         setId(DOM.createUniqueId());
 
         IncubatorDarkThemeReloader.get().reload(DateRangeDarkTheme.class);
+    }
+
+    protected void applyMasking() {
+        if (mask != null) {
+            dateInput.setMask(mask);
+        }
     }
 
     protected void detectPosition() {
@@ -265,7 +272,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     public JsDateRangePicker getInputElement() {
-        return $(dateInput.getElement());
+        return $(dateInput.getValueBoxBase().getElement());
     }
 
     protected JsDateRangeMethod getMethodProvider() {
@@ -511,15 +518,18 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
      */
     public void setDateInputValue(Date creationDate, Date endDate) {
         if (dateInput != null && creationDate != null && endDate != null) {
-            String betweenDelimiter = options != null && options.locale != null ? options.locale.getToLabel() : "-";
-            String format = options != null && options.locale != null ? options.locale.getFormat() : "MM/DD/YYYY";
-            String creationDateFormatted = Moment.moment(creationDate.getTime()).format(format);
-            String endDateFormatted = Moment.moment(endDate.getTime()).format(format);
+            String betweenDelimiter = options != null && options.locale != null && options.locale.getToLabel() != null ? options.locale.getToLabel() : " - ";
+            String creationDateFormatted = Moment.moment(creationDate.getTime()).format(getFormat());
+            String endDateFormatted = Moment.moment(endDate.getTime()).format(getFormat());
             dateInput.setValue(getOptions().singleDatePicker ? creationDateFormatted :
                 creationDateFormatted + " " + betweenDelimiter + " " + endDateFormatted);
         } else {
             clearInputValue();
         }
+    }
+
+    public String getFormat() {
+        return options != null && options.locale != null ? options.locale.getFormat() : "MM/DD/YYYY";
     }
 
     public void clearInputValue() {
@@ -531,7 +541,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return value;
     }
 
-    public TextBox getDateInput() {
+    public MaterialInputMask getDateInput() {
         return dateInput;
     }
 
@@ -670,7 +680,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     @Override
     public void setPlaceholder(String placeholder) {
-        dateInput.getElement().setAttribute("placeholder", placeholder);
+        dateInput.setPlaceholder(placeholder);
     }
 
     @Override
@@ -686,6 +696,29 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     @Override
     public void setNativeBrowserStyle(boolean nativeBrowserStyle) {
         getNativeBrowserStyleMixin().setNativeBrowserStyle(nativeBrowserStyle);
+    }
+
+    @Override
+    public void setRegex(String regex) {
+        getRegexMixin().setRegex(regex);
+    }
+
+    @Override
+    public void setRegex(String regex, String replaceRegex) {
+        getRegexMixin().setRegex(regex, replaceRegex);
+    }
+
+    @Override
+    public String getRegex() {
+        return getRegexMixin().getRegex();
+    }
+
+    public String getMask() {
+        return mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = mask;
     }
 
     @Override
@@ -743,6 +776,11 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return addHandler(handler, ValueChangeEvent.getType());
     }
 
+    @Override
+    public HandlerRegistration addRegexValidationHandler(RegexValidationEvent.RegexValidationHandler handler) {
+        return addHandler(handler, RegexValidationEvent.getType());
+    }
+
     protected FieldTypeMixin<DateRangePicker> getFieldTypeMixin() {
         if (fieldTypeMixin == null) {
             fieldTypeMixin = new FieldTypeMixin<>(this);
@@ -758,7 +796,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         return statusTextMixin;
     }
 
-    protected ReadOnlyMixin<DateRangePicker, TextBox> getReadOnlyMixin() {
+    protected ReadOnlyMixin<DateRangePicker, MaterialInputMask> getReadOnlyMixin() {
         if (readOnlyMixin == null) {
             readOnlyMixin = new ReadOnlyMixin<>(this, dateInput);
         }
@@ -770,5 +808,12 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             nativeBrowserStyleMixin = new NativeBrowserStyleMixin<>(this);
         }
         return nativeBrowserStyleMixin;
+    }
+
+    protected RegexMixin<MaterialInputMask> getRegexMixin() {
+        if (regexMixin == null) {
+            regexMixin = new RegexMixin<>(dateInput);
+        }
+        return regexMixin;
     }
 }
