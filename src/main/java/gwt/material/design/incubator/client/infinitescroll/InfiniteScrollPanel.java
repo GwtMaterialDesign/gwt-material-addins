@@ -143,7 +143,7 @@ public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteSc
     protected void load(int offset, int limit) {
         if (!completed) {
             LoadingEvent.fire(this, offset, offset + (limit - 1));
-            dataSource.load(new LoadConfig<>(offset, limit, null, null), new LoadCallback<T>() {
+            dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
                     LoadedEvent.fire(InfiniteScrollPanel.this, loadResult);
