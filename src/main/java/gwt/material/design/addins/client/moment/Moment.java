@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import com.google.gwt.core.client.JsDate;
 import gwt.material.design.addins.client.moment.option.CalendarFormat;
 import gwt.material.design.addins.client.moment.option.CreationData;
 import gwt.material.design.addins.client.moment.option.Duration;
+import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.*;
 
@@ -915,4 +916,31 @@ public class Moment {
 
     @JsMethod
     public native static Moment invalid(Object object);
+
+    /**
+     * Plugins for JDateParser
+     * @see <a href="https://github.com/MadMG/moment-jdateformatparser">Documentation</a>
+     * Formats the moment with a java date format.
+     * Note: You must inject the js resource independently @see {@link MomentClientBundle#momentJDateConverterJs()}
+     */
+    @JsMethod
+    public native String formatWithJDF(String format);
+
+    /**
+     * Plugins for JDateParser
+     * @see <a href="https://github.com/MadMG/moment-jdateformatparser">Documentation</a>
+     * Translates the java date format to a momentjs format.
+     * Note: You must inject the js resource independently @see {@link MomentClientBundle#momentJDateConverterJs()}
+     */
+    @JsMethod
+    public native String toMomentFormatString(String format);
+
+    /**
+     * Plugins for JDateParser
+     * @see <a href="https://github.com/MadMG/moment-jdateformatparser">Documentation</a>
+     * Translates the momentjs format to a java date format.
+     * Note: You must inject the js resource independently @see {@link MomentClientBundle#momentJDateConverterJs()}
+     */
+    @JsMethod
+    public native String toJDFString(String format);
 }

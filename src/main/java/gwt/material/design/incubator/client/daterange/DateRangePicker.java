@@ -65,11 +65,13 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     static {
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
+            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentJDateConverterDebugJs());
             MaterialDesignBase.injectDebugJs(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs());
             MaterialDesignBase.injectCss(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugCss());
             MaterialDesignBase.injectCss(DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss());
         } else {
             MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJs());
+            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJDateConverterJs());
             MaterialDesignBase.injectJs(DateRangeClientBundle.INSTANCE.dateRangePickerJs());
             MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerCss());
             MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss());
@@ -110,7 +112,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     protected void load() {
-
         applyMasking();
         add(dateInput);
         add(label);
@@ -528,8 +529,32 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         }
     }
 
+    /**
+     * Set the format of the date range picker
+     *
+     * @param format Java Date format using {@link java.text.SimpleDateFormat}.
+     */
+    public void setFormat(String format) {
+        if (options.locale == null) {
+            options.locale = new DateRangeLocale();
+        }
+        options.locale.setFormat(format);
+    }
+
+    /**
+     * Set the format of the date range picker
+     *
+     * @param format Moment js native format
+     */
+    public void setMomentJsDateFormat(String format) {
+        if (options.locale == null) {
+            options.locale = new DateRangeLocale();
+        }
+        options.locale.setMomentJsDateFormat(format);
+    }
+
     public String getFormat() {
-        return options != null && options.locale != null ? options.locale.getFormat() : "MM/DD/YYYY";
+        return options != null && options.locale != null && options.locale.getFormat() != null ? options.locale.getFormat() : "MM/dd/yyyy";
     }
 
     public void clearInputValue() {

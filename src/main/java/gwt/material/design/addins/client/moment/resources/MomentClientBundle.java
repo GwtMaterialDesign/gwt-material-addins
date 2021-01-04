@@ -29,4 +29,7 @@ public interface MomentClientBundle extends ClientBundle {
 
     @Source("js/moment.min.js")
     TextResource momentJs();
+
+    @Source("js/moment-jdateformatparser.min.js")
+    TextResource momentJDateConverterJs();
 }

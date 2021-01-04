@@ -20,6 +20,7 @@
 package gwt.material.design.incubator.client.daterange.js;
 
 import com.google.gwt.core.client.GWT;
+import gwt.material.design.addins.client.moment.Moment;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
@@ -67,6 +68,11 @@ public class DateRangeLocale {
 
     @JsOverlay
     public final void setFormat(String format) {
+        this.format = Moment.moment().toMomentFormatString(format);
+    }
+
+    @JsOverlay
+    public final void setMomentJsDateFormat(String format) {
         this.format = format;
     }
 
