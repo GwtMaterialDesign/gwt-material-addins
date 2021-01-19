@@ -1,17 +1,1 @@
-.simple-keyboard {
-    background-color: #515151;
-}
-
-.simple-keyboard .hg-button {
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-}
-
-.simple-keyboard .hg-button:active {
-    background: #1c4995;
-    color: white;
-}
-
-.simple-keyboard + .simple-keyboard-preview {
-    background: #1c4995;
-}
+.simple-keyboard{background-color:#515151}.simple-keyboard .hg-button{background:rgba(0,0,0,.5);color:#fff}.simple-keyboard .hg-button:active{background:#1c4995;color:#fff}.simple-keyboard+.simple-keyboard-preview{background:#1c4995}
