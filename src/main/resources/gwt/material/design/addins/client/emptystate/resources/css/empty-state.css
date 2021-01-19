@@ -17,10 +17,6 @@
     z-index: 1;
 }
 
-.empty-state span:first-child {
+.empty-state h4 {
     overflow-wrap: break-word;
-}
-
-.empty-state span:nth-child(2) {
-    word-break: break-all;
 }
