@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -118,7 +118,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         add(errorLabel);
 
         getInputElement().daterangepicker(options, (startDate, endDate) -> {
-            setValue(new Date[]{new Date(startDate.format()), new Date(endDate.format())}, true);
+            setValue(new Date[]{new Date(startDate.toString()), new Date(endDate.toString())}, true);
         });
 
         getInputElement().on(DateRangeEvents.UPDATE_CALENDAR, (e, picker) -> {
