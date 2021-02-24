@@ -89,7 +89,5 @@ public class MaterialIconMorphTest extends AddinsWidgetTestCase<MaterialIconMorp
         // when / then
         fireClickEvent(iconMorph);
         assertTrue(isClicked[0]);
-        assertTrue(iconMorph.getElement().hasAttribute("onclick"));
-        assertEquals("this.classList.toggle('morphed')", iconMorph.getElement().getAttribute("onclick"));
     }
 }

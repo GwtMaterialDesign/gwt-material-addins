@@ -90,28 +90,42 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
         }));
 
         // Check if we add the source and target icons thru ui binder
-        if (source == null && target == null && getWidgetCount() == 2) {
-            source = (MaterialIcon) getWidget(0);
-            target = (MaterialIcon) getWidget(1);
-        } else {
-            // Set container dimension
-            setWidth(customSize);
-            setHeight(customSize);
-            // Set source size
-            source.setWidth(customSize);
-            source.setHeight(customSize);
-            source.setFontSize(customSize);
-            // Set target size
-            target.setWidth(customSize);
-            target.setHeight(customSize);
-            target.setFontSize(customSize);
-
-            add(target);
-            add(source);
+        if (source == null && target == null) {
+            if (getWidgetCount() == 2) {
+                source = (MaterialIcon) getWidget(0);
+                target = (MaterialIcon) getWidget(1);
+            }
         }
 
-        source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);
-        target.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.TARGET);
+        if (source != null) {
+            source.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.SOURCE);
+            if (!source.isAttached()) add(source);
+        }
+        if (target != null) {
+            target.addStyleName(AddinsCssName.ICONS + " " + AddinsCssName.TARGET);
+            if (!target.isAttached()) add(target);
+        }
+
+        applyCustomSize(customSize);
+    }
+
+    protected void applyCustomSize(String customSize) {
+        if (customSize != null) {
+            setWidth(customSize);
+            setHeight(customSize);
+
+            if (source != null) {
+                source.setWidth(customSize);
+                source.setHeight(customSize);
+                source.setFontSize(customSize);
+            }
+
+            if (target != null) {
+                target.setWidth(customSize);
+                target.setHeight(customSize);
+                target.setFontSize(customSize);
+            }
+        }
     }
 
     public void reset() {

@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.daterange.js;
 
+import com.google.gwt.core.client.JsDate;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.moment.Moment;
 import gwt.material.design.incubator.client.daterange.DateRangeOptions;
@@ -34,7 +35,7 @@ import jsinterop.annotations.JsType;
  * @author kevzlou7979
  */
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
-public class JsDateRangePicker {
+public class JsDateRangePicker extends DateRangeOptions {
 
     @JsMethod(name = "$", namespace = JsPackage.GLOBAL)
     public static native JsDateRangePicker $(JQueryElement element);
@@ -49,7 +50,7 @@ public class JsDateRangePicker {
     public native void daterangepicker(DateRangeOptions options);
 
     @JsMethod
-    public native void daterangepicker(DateRangeOptions options, Functions.Func2<Moment, Moment> callback);
+    public native void daterangepicker(DateRangeOptions options, Functions.Func2<Object, Object> callback);
 
     @JsMethod
     public native void daterangepicker();
