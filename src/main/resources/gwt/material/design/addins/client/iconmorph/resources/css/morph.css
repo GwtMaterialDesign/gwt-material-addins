@@ -12,7 +12,7 @@
     -moz-transition: .3s;
     -webkit-transition: .3s;
     position: absolute;
-    font-size: 4em !important;
+    font-size: 4em;
     height: 1em;
     width: 1em;
     position: absolute;
@@ -65,11 +65,11 @@
 }
 
 .anim-container.tiny .icons{
-    font-size: 2em !important;
+    font-size: 2em;
 }
 .anim-container.medium .icons{
-    font-size: 8em !important;
+    font-size: 8em;
 }
 .anim-container.large .icons{
-    font-size: 12em !important;
+    font-size: 12em;
 }

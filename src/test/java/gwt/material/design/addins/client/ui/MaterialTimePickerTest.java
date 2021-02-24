@@ -150,14 +150,7 @@ public class MaterialTimePickerTest extends AbstractValueWidgetTest<MaterialTime
     @Override
     public void testEnabled() {
         // given
-        MaterialTimePicker timePicker = getWidget(false);
-
-        // when / then
-        checkEnabled(timePicker, timePicker.getTimeInput());
-
-        // Standard
-        // given
-        attachWidget();
+        MaterialTimePicker timePicker = getWidget();
 
         // when / then
         checkEnabled(timePicker, timePicker.getTimeInput());

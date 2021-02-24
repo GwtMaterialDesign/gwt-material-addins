@@ -66,7 +66,7 @@ import gwt.material.design.client.ui.html.Div;
  */
 // @formatter:on
 public class MaterialStep extends MaterialWidget implements HasActive, HasTitle, HasStatusText, HasAxis,
-        HasSelectionHandlers<MaterialStep> {
+    HasSelectionHandlers<MaterialStep> {
 
     private int step;
     private String title;
@@ -255,6 +255,11 @@ public class MaterialStep extends MaterialWidget implements HasActive, HasTitle,
 
     @Override
     public void setStatusDisplayPosition(Position position) {
+        // Nothing for now
+    }
+
+    @Override
+    public void setStatusShowByDefault(boolean showByDefault) {
         // Nothing for now
     }
 

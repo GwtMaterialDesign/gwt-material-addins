@@ -467,6 +467,11 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
         getCurrentStep().setStatusDisplayPosition(position);
     }
 
+    @Override
+    public void setStatusShowByDefault(boolean showByDefault) {
+        getCurrentStep().setStatusShowByDefault(showByDefault);
+    }
+
     /**
      * Get feedback message.
      */

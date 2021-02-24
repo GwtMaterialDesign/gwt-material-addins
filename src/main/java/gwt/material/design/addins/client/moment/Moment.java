@@ -24,10 +24,11 @@ import com.google.gwt.core.client.JsDate;
 import gwt.material.design.addins.client.moment.option.CalendarFormat;
 import gwt.material.design.addins.client.moment.option.CreationData;
 import gwt.material.design.addins.client.moment.option.Duration;
+import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.*;
 
-@JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
+@JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class Moment {
 
     @JsOverlay
@@ -49,48 +50,48 @@ public class Moment {
 
     // Parse : String
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String value);
 
     // Parse : String + Format
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String format);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String format, String locale);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String format, Boolean strict);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String format, String locale, Boolean strict);
 
     // Parse : String + Formats
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String[] format);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String[] format, String locale);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String[] format, Boolean strict);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String date, String[] format, String locale, Boolean strict);
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(String s, JavaScriptObject special_format);
 
     // Parse : Special Formats
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(JavaScriptObject object);
 
     // Parse : Unix Timestamp (milliseconds)
 
-    @JsMethod(namespace = "moment")
+    @JsMethod(namespace = JsPackage.GLOBAL)
     public static native Moment moment(double milliseconds);
 
     // Parse : Unix Timestamp (seconds)
@@ -915,4 +916,31 @@ public class Moment {
 
     @JsMethod
     public native static Moment invalid(Object object);
+
+    /**
+     * Plugins for JDateParser
+     * @see <a href="https://github.com/MadMG/moment-jdateformatparser">Documentation</a>
+     * Formats the moment with a java date format.
+     * Note: You must inject the js resource independently @see {@link MomentClientBundle#momentJDateConverterJs()}
+     */
+    @JsMethod
+    public native String formatWithJDF(String format);
+
+    /**
+     * Plugins for JDateParser
+     * @see <a href="https://github.com/MadMG/moment-jdateformatparser">Documentation</a>
+     * Translates the java date format to a momentjs format.
+     * Note: You must inject the js resource independently @see {@link MomentClientBundle#momentJDateConverterJs()}
+     */
+    @JsMethod
+    public native String toMomentFormatString(String format);
+
+    /**
+     * Plugins for JDateParser
+     * @see <a href="https://github.com/MadMG/moment-jdateformatparser">Documentation</a>
+     * Translates the momentjs format to a java date format.
+     * Note: You must inject the js resource independently @see {@link MomentClientBundle#momentJDateConverterJs()}
+     */
+    @JsMethod
+    public native String toJDFString(String format);
 }

@@ -27,7 +27,7 @@ import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
-import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
@@ -53,7 +53,7 @@ import static gwt.material.design.client.js.JsMaterialElement.$;
  *
  * @author kevzlou7979
  */
-public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfiniteScrollHandlers<T> {
+public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteScrollHandlers<T> {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
@@ -143,7 +143,7 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     protected void load(int offset, int limit) {
         if (!completed) {
             LoadingEvent.fire(this, offset, offset + (limit - 1));
-            dataSource.load(new LoadConfig<>(offset, limit, null, null), new LoadCallback<T>() {
+            dataSource.load(new LoadConfig<>(offset, limit), new LoadCallback<T>() {
                 @Override
                 public void onSuccess(LoadResult<T> loadResult) {
                     LoadedEvent.fire(InfiniteScrollPanel.this, loadResult);
@@ -166,9 +166,9 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
      * Will render the provided data result with the provided {@link Renderer}.
      * This method will also check if recycling is enabled (You can turn on recycling by setting {@link this#setRecycleManager(RecycleManager)}.
      */
-    private void render(List<T> data) {
+    private void render(List<T> models) {
         List<Widget> widgets = new ArrayList<>();
-        for (T model : data) {
+        for (T model : models) {
             Widget widget = renderer.render(model);
             widget.getElement().setId("item-" + itemCount);
             add(widget);
@@ -186,6 +186,9 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
             int height = $(widgets.get(0).getElement()).outerHeight();
             getElement().getStyle().setHeight(height, Style.Unit.PX);
         }
+
+        // Fire an event
+        WidgetRenderedEvent.fire(this, widgets);
     }
 
     /**
@@ -372,6 +375,11 @@ public class InfiniteScrollPanel<T> extends MaterialPanel implements HasInfinite
     @Override
     public HandlerRegistration addLoadingHandler(LoadingEvent.LoadingHandler handler) {
         return addHandler(handler, LoadingEvent.getType());
+    }
+
+    @Override
+    public HandlerRegistration addDataRenderedHandler(WidgetRenderedEvent.WidgetsRenderedHandler<T> handler) {
+        return addHandler(handler, WidgetRenderedEvent.getType());
     }
 
     @Override
