@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.popupmenu;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -42,7 +41,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author Ben Dol
  */
 public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
-        HasCloseHandlers<MaterialPopupMenu>, HasOpenClose {
+    HasCloseHandlers<MaterialPopupMenu>, HasOpenClose {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -56,6 +55,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     private int popupY;
     private String id;
     private Object selected;
+    private boolean autoClose = true;
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
@@ -73,12 +73,16 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     public void load() {
         $(this).attr("tabindex", "0");
         $(this).on("blur", e -> {
-            close();
+            if (autoClose) {
+                close();
+            }
             return true;
         });
 
         $("*").on("scroll." + id, e -> {
-            close();
+            if (autoClose) {
+                close();
+            }
             return true;
         });
 
@@ -91,7 +95,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     protected void onUnload() {
         super.onUnload();
 
-       unload();
+        unload();
     }
 
     @Override
@@ -169,6 +173,14 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
         setTop(popupY);
     }
 
+    public boolean isAutoClose() {
+        return autoClose;
+    }
+
+    public void setAutoClose(boolean autoClose) {
+        this.autoClose = autoClose;
+    }
+
     @Override
     public HandlerRegistration addSelectionHandler(SelectionHandler<Element> selectionHandler) {
         return addHandler(selectionHandler, SelectionEvent.getType());
@@ -177,7 +189,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     @Override
     public void open() {
         setVisible(true);
-        Scheduler.get().scheduleDeferred(() -> setFocus(true));
+        /*Scheduler.get().scheduleDeferred(() -> setFocus(true));*/
 
         // Check if dropdown is out of the container (Left)
         if ($(this).width() + $(this).offset().left > body().width()) {
