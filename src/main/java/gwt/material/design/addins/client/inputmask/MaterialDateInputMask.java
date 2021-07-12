@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.InitializeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -78,6 +79,14 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
             .replace("d", "0")
             .replace("y", "0");
         inputMask.setMask(dateFormatMask);
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 
     @Override
@@ -227,6 +236,11 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
     @Override
     public boolean isToggleReadOnly() {
         return inputMask.isToggleReadOnly();
+    }
+
+    @Override
+    public HandlerRegistration addFocusHandler(FocusHandler handler) {
+        return inputMask.addFocusHandler(handler);
     }
 
     @Override

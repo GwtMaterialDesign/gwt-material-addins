@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
@@ -220,12 +221,20 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        body().on(ComboBoxEvents.FOCUS, getSelectContainerSelector(), (e, param1) -> {
+            if (!e.getCurrentTarget().getClassName().contains("select2-container--focus")) {
+                DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this, getElement());
+            }
+            return false;
+        });
+
         displayArrowForAllowClearOption(false);
 
         if (getTextColor() != null) {
             $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
         }
 
+        addFocusHandler(event -> open());
         getStatusTextMixin().getStatusDisplayMixin().setContainer(new MaterialWidget($(getElement())));
         AddinsDarkThemeReloader.get().reload(MaterialComboBoxDarkTheme.class);
     }
@@ -1236,6 +1245,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public JsComboBox getJsComboBox() {
         return $(listbox.getElement());
+    }
+
+    public String getSelectContainerSelector() {
+        return "#" + getId() + " .select2.select2-container";
     }
 
     @Override
