@@ -35,4 +35,5 @@ public interface ComboBoxEvents {
     String CLOSING = "select2:closing";
     String CLEAR = "select2:clear";
     String CLEARING = "select2:clearing";
+    String FOCUS = "focus";
 }
