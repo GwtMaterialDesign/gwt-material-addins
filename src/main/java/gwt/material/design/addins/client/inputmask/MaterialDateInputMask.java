@@ -229,6 +229,16 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
     }
 
     @Override
+    public void setRequired(boolean required) {
+        inputMask.setRequired(required);
+    }
+
+    @Override
+    public boolean isRequired() {
+        return inputMask.isRequired();
+    }
+
+    @Override
     public void setToggleReadOnly(boolean toggle) {
         inputMask.setToggleReadOnly(toggle);
     }

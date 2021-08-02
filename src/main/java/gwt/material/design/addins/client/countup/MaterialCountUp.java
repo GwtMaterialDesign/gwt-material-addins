@@ -64,8 +64,10 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
 
     static {
         if (MaterialAddins.isDebug()) {
+            MaterialDesignBase.injectCss(MaterialCountUpDebugClientBundle.INSTANCE.countUpCssDebug());
             MaterialDesignBase.injectDebugJs(MaterialCountUpDebugClientBundle.INSTANCE.countUpJsDebug());
         } else {
+            MaterialDesignBase.injectCss(MaterialCountUpClientBundle.INSTANCE.countUpCss());
             MaterialDesignBase.injectJs(MaterialCountUpClientBundle.INSTANCE.countUpJs());
         }
     }
@@ -77,6 +79,8 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
 
     public MaterialCountUp() {
         super(Document.get().createLabelElement());
+
+        addStyleName("count-up");
     }
 
     public void start() {
