@@ -34,8 +34,4 @@ public interface MaterialAvatarClientBundle extends ClientBundle {
 
     @Source("resources/js/jdenticon-2.2.0.min.js")
     TextResource jdenticonJs();
-
-    @Source("resources/js/md5.min.js")
-    TextResource md5Js();
-
 }

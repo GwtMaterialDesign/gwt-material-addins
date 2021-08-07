@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.avatar;
+package gwt.material.design.addins.client.md5;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -28,10 +28,10 @@ import com.google.gwt.resources.client.TextResource;
  *
  * @author kevzlou7979
  */
-public interface MaterialAvatarDebugClientBundle extends ClientBundle {
+public interface Md5DebugClientBundle extends ClientBundle {
 
-    MaterialAvatarDebugClientBundle INSTANCE = GWT.create(MaterialAvatarDebugClientBundle.class);
+    Md5DebugClientBundle INSTANCE = GWT.create(Md5DebugClientBundle.class);
 
-    @Source("resources/js/jdenticon-2.2.0.js")
-    TextResource jdenticonDebugJs();
+    @Source("resources/js/md5.js")
+    TextResource md5DebugJs();
 }

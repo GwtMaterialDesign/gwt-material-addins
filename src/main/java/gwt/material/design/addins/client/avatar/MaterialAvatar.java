@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.avatar.js.AvatarOptions;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
+import gwt.material.design.addins.client.md5.Md5ClientBundle;
+import gwt.material.design.addins.client.md5.Md5DebugClientBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.JsLoader;
@@ -59,10 +61,10 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     static {
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
-            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.md5DebugJs());
+            MaterialDesignBase.injectDebugJs(Md5DebugClientBundle.INSTANCE.md5DebugJs());
         } else {
             MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
-            MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.md5Js());
+            MaterialDesignBase.injectJs(Md5ClientBundle.INSTANCE.md5Js());
         }
     }
 

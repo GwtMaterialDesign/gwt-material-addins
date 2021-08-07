@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,21 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.avatar;
+package gwt.material.design.addins.client.md5;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 /**
- * Client Bundle for Avatar component
+ * Client Bundle for Avatar  component
  *
  * @author kevzlou7979
  */
-public interface MaterialAvatarDebugClientBundle extends ClientBundle {
+public interface Md5ClientBundle extends ClientBundle {
 
-    MaterialAvatarDebugClientBundle INSTANCE = GWT.create(MaterialAvatarDebugClientBundle.class);
+    Md5ClientBundle INSTANCE = GWT.create(Md5ClientBundle.class);
 
-    @Source("resources/js/jdenticon-2.2.0.js")
-    TextResource jdenticonDebugJs();
+    @Source("resources/js/md5.min.js")
+    TextResource md5Js();
+
 }
