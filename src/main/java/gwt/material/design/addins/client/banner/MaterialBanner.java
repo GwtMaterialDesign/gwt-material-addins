@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * GwtMaterial
+ * %%
+ * Copyright (C) 2015 - 2021 GwtMaterialDesign
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package gwt.material.design.addins.client.banner;
 
 import com.google.gwt.dom.client.Document;
@@ -6,11 +25,9 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.banner.event.HasBannerHandlers;
-import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasOpenClose;
@@ -64,7 +81,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         add(messageLabel);
         add(actions);
 
-        calculateTranslateY();
+
         updateTransition();
 
         AddinsDarkThemeReloader.get().reload(MaterialBannerDarkTheme.class);
@@ -83,7 +100,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     public void open() {
         getOpenMixin().setOn(true);
         OpenEvent.fire(this, getMessage());
-        pushTargetContainer(translateY);
+        calculateTranslateY();
     }
 
     @Override
@@ -101,6 +118,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     protected void calculateTranslateY() {
         translateY = $(getElement()).outerHeight(true);
         setTransform("translateY(" + -translateY + "px)");
+        pushTargetContainer(translateY);
     }
 
     protected void pushTargetContainer(int translateY) {
@@ -161,7 +179,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         return targetContainer;
     }
 
-    public void setTargetContainer(MaterialWidget targetContainer) {
+    public void setTargetContainer(Widget targetContainer) {
         this.targetContainer = targetContainer;
     }
 
