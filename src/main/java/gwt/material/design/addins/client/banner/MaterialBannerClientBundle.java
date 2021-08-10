@@ -34,4 +34,7 @@ public interface MaterialBannerClientBundle extends ClientBundle {
 
     @Source("resources/css/banner.min.css")
     TextResource bannerCss();
+
+    @Source("resources/css/banner-dark.min.css")
+    TextResource bannerDarkCss();
 }

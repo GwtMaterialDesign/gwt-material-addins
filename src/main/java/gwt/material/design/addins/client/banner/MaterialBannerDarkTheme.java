@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2019 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,22 +19,12 @@
  */
 package gwt.material.design.addins.client.banner;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.dark.AddinsWidgetDarkTheme;
 
-/**
- * Client Bundle for Avatar component
- *
- * @author kevzlou7979
- */
-public interface MaterialBannerDebugClientBundle extends ClientBundle {
+public class MaterialBannerDarkTheme extends AddinsWidgetDarkTheme {
 
-    MaterialBannerDebugClientBundle INSTANCE = GWT.create(MaterialBannerDebugClientBundle.class);
-
-    @Source("resources/css/banner.css")
-    TextResource bannerDebugCss();
-
-    @Source("resources/css/banner-dark.css")
-    TextResource bannerDarkCss();
+    public MaterialBannerDarkTheme() {
+        super(MaterialAddins.isDebug() ? MaterialBannerDebugClientBundle.INSTANCE.bannerDarkCss() : MaterialBannerClientBundle.INSTANCE.bannerDarkCss());
+    }
 }

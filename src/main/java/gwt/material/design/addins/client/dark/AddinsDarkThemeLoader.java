@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.dark;
 
 import gwt.material.design.addins.client.autocomplete.MaterialAutoCompleteDarkTheme;
+import gwt.material.design.addins.client.banner.MaterialBannerDarkTheme;
 import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
 import gwt.material.design.addins.client.carousel.MaterialCarouselDarkTheme;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDarkTheme;
@@ -40,6 +41,7 @@ public class AddinsDarkThemeLoader extends DarkThemeLoader {
     public AddinsDarkThemeLoader() {
         super(new MaterialAutoCompleteDarkTheme(),
             new MaterialBubbleDarkTheme(),
+            new MaterialBannerDarkTheme(),
             new MaterialComboBoxDarkTheme(),
             new MaterialCarouselDarkTheme(),
             new MaterialFileUploaderDarkTheme(),

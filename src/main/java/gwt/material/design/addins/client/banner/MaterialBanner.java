@@ -6,9 +6,12 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.banner.event.HasBannerHandlers;
+import gwt.material.design.addins.client.bubble.MaterialBubbleDarkTheme;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.MaterialWidget;
@@ -27,7 +30,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     private final MaterialPanel actions;
     private int translateY = 0;
     private int durationInMillis = 300;
-    private MaterialWidget targetContainer;
+    private Widget targetContainer;
 
     private ToggleStyleMixin<MaterialBanner> openMixin;
 
@@ -63,6 +66,8 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
 
         calculateTranslateY();
         updateTransition();
+
+        AddinsDarkThemeReloader.get().reload(MaterialBannerDarkTheme.class);
     }
 
     @Override
@@ -100,14 +105,14 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
 
     protected void pushTargetContainer(int translateY) {
         if (targetContainer != null) {
-            targetContainer.setTransform("translateY(" + translateY + "px)");
+            $(targetContainer.getElement()).css("transform", "translateY(" + translateY + "px)");
         }
     }
 
     protected void updateTransition() {
         $(getElement()).css("transition", "all " + durationInMillis + "ms ease");
         if (targetContainer != null) {
-            $(targetContainer).css("transition", "all " + durationInMillis + "ms ease");
+            $(targetContainer.getElement()).css("transition", "all " + durationInMillis + "ms ease");
         }
     }
 
@@ -152,7 +157,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         return messageLabel;
     }
 
-    public MaterialWidget getTargetContainer() {
+    public Widget getTargetContainer() {
         return targetContainer;
     }
 
