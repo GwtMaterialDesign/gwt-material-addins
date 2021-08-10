@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@
 package gwt.material.design.addins.client.banner;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -45,9 +46,9 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     private final MaterialIcon icon;
     private final MaterialLabel messageLabel;
     private final MaterialPanel actions;
-    private int translateY = 0;
+    private int offsetTop = 0;
     private int durationInMillis = 300;
-    private Widget targetContainer;
+    private Element targetElement;
 
     private ToggleStyleMixin<MaterialBanner> openMixin;
 
@@ -81,8 +82,7 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         add(messageLabel);
         add(actions);
 
-
-        updateTransition();
+        close();
 
         AddinsDarkThemeReloader.get().reload(MaterialBannerDarkTheme.class);
     }
@@ -97,40 +97,45 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     }
 
     @Override
+    public boolean isOpen() {
+        return false;
+    }
+
+    @Override
     public void open() {
         getOpenMixin().setOn(true);
+
+        setTop(offsetTop);
+        pushTargetContainer(getOuterHeight());
         OpenEvent.fire(this, getMessage());
-        calculateTranslateY();
+    }
+
+    public void open(Element targetElement) {
+        setTargetElement(targetElement);
+        open();
     }
 
     @Override
     public void close() {
         getOpenMixin().setOn(false);
-        CloseEvent.fire(this, getMessage());
+
+        setTop(-getOuterHeight());
         pushTargetContainer(0);
-    }
 
-    @Override
-    public boolean isOpen() {
-        return false;
-    }
-
-    protected void calculateTranslateY() {
-        translateY = $(getElement()).outerHeight(true);
-        setTransform("translateY(" + -translateY + "px)");
-        pushTargetContainer(translateY);
+        CloseEvent.fire(this, getMessage());
     }
 
     protected void pushTargetContainer(int translateY) {
-        if (targetContainer != null) {
-            $(targetContainer.getElement()).css("transform", "translateY(" + translateY + "px)");
+        updateTransition();
+        if (targetElement != null) {
+            $(targetElement).css("transform", "translateY(" + translateY + "px)");
         }
     }
 
     protected void updateTransition() {
         $(getElement()).css("transition", "all " + durationInMillis + "ms ease");
-        if (targetContainer != null) {
-            $(targetContainer.getElement()).css("transition", "all " + durationInMillis + "ms ease");
+        if (targetElement != null) {
+            $(targetElement).css("transition", "all " + durationInMillis + "ms ease");
         }
     }
 
@@ -175,12 +180,28 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         return messageLabel;
     }
 
-    public Widget getTargetContainer() {
-        return targetContainer;
+    public void setTargetContainer(Widget targetContainer) {
+        this.targetElement = targetContainer.getElement();
     }
 
-    public void setTargetContainer(Widget targetContainer) {
-        this.targetContainer = targetContainer;
+    public Element getTargetElement() {
+        return targetElement;
+    }
+
+    public void setTargetElement(Element targetElement) {
+        this.targetElement = targetElement;
+    }
+
+    public int getOffsetTop() {
+        return offsetTop;
+    }
+
+    public void setOffsetTop(int offsetTop) {
+        this.offsetTop = offsetTop;
+    }
+
+    public int getOuterHeight() {
+        return $(getElement()).outerHeight(true);
     }
 
     public ToggleStyleMixin<MaterialBanner> getOpenMixin() {
