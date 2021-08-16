@@ -26,6 +26,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.banner.event.HasBannerHandlers;
@@ -39,6 +40,10 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
 public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasBannerHandlers {
@@ -48,9 +53,9 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     private final MaterialPanel actions;
     private int offsetTop = 0;
     private int durationInMillis = 300;
-    private Element targetElement;
+    private List<Element> targetPushElements;
 
-    private ToggleStyleMixin<MaterialBanner> openMixin;
+    private ToggleStyleMixin<Widget> openMixin;
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -72,6 +77,8 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
 
         actions = new MaterialPanel();
         actions.addStyleName("actions");
+
+        targetPushElements = new ArrayList<>();
     }
 
     @Override
@@ -104,38 +111,29 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     @Override
     public void open() {
         getOpenMixin().setOn(true);
-
         setTop(offsetTop);
-        pushTargetContainer(getOuterHeight());
+        pushTargetElements(getOuterHeight());
         OpenEvent.fire(this, getMessage());
     }
 
-    public void open(Element targetElement) {
-        setTargetElement(targetElement);
+    public void open(Element... targetElements) {
+        setTargetPushElements(Arrays.asList(targetElements));
         open();
     }
 
     @Override
     public void close() {
         getOpenMixin().setOn(false);
-
         setTop(-getOuterHeight());
-        pushTargetContainer(0);
-
+        pushTargetElements(0);
         CloseEvent.fire(this, getMessage());
     }
 
-    protected void pushTargetContainer(int translateY) {
-        updateTransition();
-        if (targetElement != null) {
-            $(targetElement).css("transform", "translateY(" + translateY + "px)");
-        }
-    }
-
-    protected void updateTransition() {
+    protected void pushTargetElements(int translateY) {
         $(getElement()).css("transition", "all " + durationInMillis + "ms ease");
-        if (targetElement != null) {
-            $(targetElement).css("transition", "all " + durationInMillis + "ms ease");
+        for (Element element : targetPushElements) {
+            $(element).css("transition", "all " + durationInMillis + "ms ease");
+            $(element).css("transform", "translateY(" + translateY + "px)");
         }
     }
 
@@ -180,16 +178,12 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         return messageLabel;
     }
 
-    public void setTargetContainer(Widget targetContainer) {
-        this.targetElement = targetContainer.getElement();
+    public List<Element> getTargetPushElements() {
+        return targetPushElements;
     }
 
-    public Element getTargetElement() {
-        return targetElement;
-    }
-
-    public void setTargetElement(Element targetElement) {
-        this.targetElement = targetElement;
+    public void setTargetPushElements(List<Element> targetPushElements) {
+        this.targetPushElements = targetPushElements;
     }
 
     public int getOffsetTop() {
@@ -204,9 +198,9 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
         return $(getElement()).outerHeight(true);
     }
 
-    public ToggleStyleMixin<MaterialBanner> getOpenMixin() {
+    public ToggleStyleMixin<Widget> getOpenMixin() {
         if (openMixin == null) {
-            openMixin = new ToggleStyleMixin<>(this, "open");
+            openMixin = new ToggleStyleMixin<>(RootPanel.get(), "banner-open");
         }
         return openMixin;
     }
