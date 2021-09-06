@@ -59,6 +59,7 @@ import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -234,7 +235,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
         }
 
-        addFocusHandler(event -> open());
+        addFocusHandler(event -> {
+            if (!isMultiple()) {
+                open();
+            }
+        });
         getStatusTextMixin().getStatusDisplayMixin().setContainer(new MaterialWidget($(getElement())));
         AddinsDarkThemeReloader.get().reload(MaterialComboBoxDarkTheme.class);
     }
