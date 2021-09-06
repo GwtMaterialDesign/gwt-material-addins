@@ -2,7 +2,7 @@
  * #%L
  * GwtMaterial
  * %%
- * Copyright (C) 2015 - 2017 GwtMaterialDesign
+ * Copyright (C) 2015 - 2021 GwtMaterialDesign
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.combobox.events;
+package gwt.material.design.addins.client.banner;
 
-/**
- * Events for Combobox
- *
- * @author kevzlou7979
- */
-public interface ComboBoxEvents {
+import gwt.material.design.client.ui.MaterialPanel;
 
-    String CHANGE = "change";
-    String SELECT = "select2:select";
-    String UNSELECT = "select2:unselect";
-    String OPEN = "select2:open";
-    String OPENING = "select2:opening";
-    String CLOSE = "select2:close";
-    String CLOSING = "select2:closing";
-    String CLEAR = "select2:clear";
-    String CLEARING = "select2:clearing";
-    String FOCUS = "focus";
+public class MaterialBannerActions extends MaterialPanel {
+
+    public MaterialBannerActions() {
+        super();
+    }
 }

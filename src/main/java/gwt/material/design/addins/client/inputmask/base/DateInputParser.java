@@ -24,7 +24,7 @@ import gwt.material.design.addins.client.inputmask.AbstractInputMask;
 
 import java.util.Date;
 
-public class DateInputParser<T extends AbstractInputMask> {
+public class DateInputParser<T extends AbstractInputMask<String>> {
 
     private final T valuebox;
 
@@ -33,16 +33,22 @@ public class DateInputParser<T extends AbstractInputMask> {
     }
 
     public Date parseDate(String format) {
-        if (isValid(format)) {
+        if (validate(format)) {
             valuebox.clearStatusText();
             return DateTimeFormat.getFormat(format).parse(valuebox.getText());
         }
         return null;
     }
 
-    protected boolean isValid(String format) {
+    public void setValue(String format, Date value) {
+        if (value != null) {
+            valuebox.setValue(DateTimeFormat.getFormat(format).format(value), true);
+        }
+    }
+
+    public boolean validate(String format) {
         if (valuebox.getText() != null && !valuebox.getText().isEmpty()
-                && valuebox.getMask() != null && format != null) {
+            && valuebox.getMask() != null && format != null) {
             format = format.toLowerCase();
             String dateString = valuebox.getText();
             String month = dateString.substring(format.indexOf("m"), format.indexOf("m") + 2);
@@ -50,16 +56,21 @@ public class DateInputParser<T extends AbstractInputMask> {
             String year = dateString.substring(format.indexOf("y"), format.lastIndexOf("y") + 1);
 
             boolean validLeapYear = validateLeapYear(day, month, Integer.parseInt(year));
-            if(!validLeapYear) {
+            if (!validLeapYear) {
                 valuebox.setErrorText("Not a valid date");
             }
 
-            return validate(month, getMonthRegex(), getMothDoesNotMatchError())
-                    && validate(day, getDayRegex(), getDayDoesNotMatchError())
-                    && validate(year, getYearRegex(), getYearDoesNotMatchError())
-                    && validLeapYear;
+            boolean valid = validate(month, getMonthRegex(), getMothDoesNotMatchError())
+                && validate(day, getDayRegex(), getDayDoesNotMatchError())
+                && validate(year, getYearRegex(), getYearDoesNotMatchError())
+                && validLeapYear;
+
+            if (valid) {
+                valuebox.clearStatusText();
+            }
+
+            return valid;
         }
-        valuebox.setErrorText("Text input must not be empty or null");
         return false;
     }
 
@@ -70,9 +81,9 @@ public class DateInputParser<T extends AbstractInputMask> {
 
     protected boolean validateLeapYear(String day, String month, int year) {
         if (day.equals("31") &&
-                (month.equals("4") || month.equals("6") || month.equals("9") ||
-                        month.equals("11") || month.equals("04") || month.equals("06") ||
-                        month.equals("09"))) {
+            (month.equals("4") || month.equals("6") || month.equals("9") ||
+                month.equals("11") || month.equals("04") || month.equals("06") ||
+                month.equals("09"))) {
             return false;
         } else if (month.equals("2") || month.equals("02")) {
             if (year % 4 == 0) {

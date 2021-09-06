@@ -17,23 +17,24 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.combobox.events;
+package gwt.material.design.addins.client.banner;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
- * Events for Combobox
+ * Client Bundle for Avatar component
  *
  * @author kevzlou7979
  */
-public interface ComboBoxEvents {
+public interface MaterialBannerDebugClientBundle extends ClientBundle {
 
-    String CHANGE = "change";
-    String SELECT = "select2:select";
-    String UNSELECT = "select2:unselect";
-    String OPEN = "select2:open";
-    String OPENING = "select2:opening";
-    String CLOSE = "select2:close";
-    String CLOSING = "select2:closing";
-    String CLEAR = "select2:clear";
-    String CLEARING = "select2:clearing";
-    String FOCUS = "focus";
+    MaterialBannerDebugClientBundle INSTANCE = GWT.create(MaterialBannerDebugClientBundle.class);
+
+    @Source("resources/css/banner.css")
+    TextResource bannerDebugCss();
+
+    @Source("resources/css/banner-dark.css")
+    TextResource bannerDarkCss();
 }

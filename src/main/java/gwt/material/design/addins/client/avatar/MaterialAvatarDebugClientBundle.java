@@ -34,7 +34,4 @@ public interface MaterialAvatarDebugClientBundle extends ClientBundle {
 
     @Source("resources/js/jdenticon-2.2.0.js")
     TextResource jdenticonDebugJs();
-
-    @Source("resources/js/md5.js")
-    TextResource md5DebugJs();
 }

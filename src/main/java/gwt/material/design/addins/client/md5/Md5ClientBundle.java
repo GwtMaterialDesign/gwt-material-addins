@@ -17,23 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package gwt.material.design.addins.client.combobox.events;
+package gwt.material.design.addins.client.md5;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
- * Events for Combobox
+ * Client Bundle for Avatar  component
  *
  * @author kevzlou7979
  */
-public interface ComboBoxEvents {
+public interface Md5ClientBundle extends ClientBundle {
 
-    String CHANGE = "change";
-    String SELECT = "select2:select";
-    String UNSELECT = "select2:unselect";
-    String OPEN = "select2:open";
-    String OPENING = "select2:opening";
-    String CLOSE = "select2:close";
-    String CLOSING = "select2:closing";
-    String CLEAR = "select2:clear";
-    String CLEARING = "select2:clearing";
-    String FOCUS = "focus";
+    Md5ClientBundle INSTANCE = GWT.create(Md5ClientBundle.class);
+
+    @Source("resources/js/md5.min.js")
+    TextResource md5Js();
+
 }

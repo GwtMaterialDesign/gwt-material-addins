@@ -1,0 +1,12 @@
+.banner {
+    background: #363636;
+    border: none;
+}
+
+.banner button {
+    color: #bb86fc;
+}
+
+.banner i.banner-icon {
+    background: #bb86fc;
+}

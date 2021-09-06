@@ -23,6 +23,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
@@ -58,6 +59,7 @@ import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -220,12 +222,24 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
+        body().on(ComboBoxEvents.FOCUS, getSelectContainerSelector(), (e, param1) -> {
+            if (!e.getCurrentTarget().getClassName().contains("select2-container--focus")) {
+                DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this, getElement());
+            }
+            return false;
+        });
+
         displayArrowForAllowClearOption(false);
 
         if (getTextColor() != null) {
             $(getElement()).find(".select2-selection__rendered").css("color", getTextColor().getCssName());
         }
 
+        addFocusHandler(event -> {
+            if (!isMultiple()) {
+                open();
+            }
+        });
         getStatusTextMixin().getStatusDisplayMixin().setContainer(new MaterialWidget($(getElement())));
         AddinsDarkThemeReloader.get().reload(MaterialComboBoxDarkTheme.class);
     }
@@ -1236,6 +1250,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public JsComboBox getJsComboBox() {
         return $(listbox.getElement());
+    }
+
+    public String getSelectContainerSelector() {
+        return "#" + getId() + " .select2.select2-container";
     }
 
     @Override
