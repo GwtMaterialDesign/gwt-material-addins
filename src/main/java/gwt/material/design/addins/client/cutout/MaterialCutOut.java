@@ -102,6 +102,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private String viewportOverflow;
     private Element targetElement;
     private Element focusElement;
+    private boolean scrollIntoView = true;
+    private boolean absolute;
     private int duration = 500;
 
     public MaterialCutOut() {
@@ -130,12 +132,18 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      */
     @Override
     public void open() {
+        open(false);
+    }
+
+    public void open(boolean absolute) {
+        this.absolute = absolute;
+
         setCutOutStyle();
 
         if (targetElement == null) {
             throw new IllegalStateException("The target element should be set before calling open().");
         }
-        targetElement.scrollIntoView();
+        if (scrollIntoView) targetElement.scrollIntoView();
 
         if (computedBackgroundColor == null) {
             setupComputedBackgroundColor();
@@ -174,7 +182,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             focusElement.getStyle().clearProperty("webkitBorderTopLeftRadius");
             focusElement.getStyle().clearProperty("borderTopLeftRadius");
         }
-        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle);
+        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, absolute);
 
         setupWindowHandlers();
         getElement().getStyle().clearDisplay();
@@ -377,8 +385,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
-    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle) {
-        float top = relativeTo.getOffsetTop() - (Math.max($("html").scrollTop(), $("body").scrollTop()));
+    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle, boolean absolute) {
+        float top = (absolute ? relativeTo.getAbsoluteTop() : relativeTo.getOffsetTop()) - (Math.max($("html").scrollTop(), $("body").scrollTop()));
         float left = relativeTo.getAbsoluteLeft();
 
         float width = relativeTo.getOffsetWidth();
@@ -415,8 +423,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      */
     protected void setupWindowHandlers() {
 
-        registerHandler(Window.addResizeHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle)));
-        registerHandler(Window.addWindowScrollHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle)));
+        registerHandler(Window.addResizeHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, absolute)));
+        registerHandler(Window.addWindowScrollHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, absolute)));
     }
 
     protected void setupTransition() {
@@ -472,6 +480,14 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     @Override
     public int getDuration() {
         return duration;
+    }
+
+    public boolean isScrollIntoView() {
+        return scrollIntoView;
+    }
+
+    public void setScrollIntoView(boolean scrollIntoView) {
+        this.scrollIntoView = scrollIntoView;
     }
 
     @Override

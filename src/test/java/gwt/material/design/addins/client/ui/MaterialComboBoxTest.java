@@ -19,9 +19,11 @@
  */
 package gwt.material.design.addins.client.ui;
 
+import com.google.gwt.event.dom.client.HasAllFocusHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
@@ -375,5 +377,10 @@ public class MaterialComboBoxTest extends AbstractValueWidgetTest<MaterialComboB
 
         comboBox.setLanguage(languageOptions);
         assertEquals(languageOptions, comboBox.getLanguage());
+    }
+
+    @Override
+    protected <H extends HasAllFocusHandlers & HasEnabled> void checkFocusAndBlurEvents(H widget) {
+
     }
 }
