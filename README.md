@@ -6,12 +6,12 @@
 
 Gwt Material Design Extra Components for https://github.com/GwtMaterialDesign/gwt-material <br>
 
-## Current Version 2.5.0
+## Current Version 2.5.0-rc1
 ```xml
 <dependency>
     <groupId>com.github.gwtmaterialdesign</groupId>
     <artifactId>gwt-material-addins</artifactId>
-    <version>2.5.0</version>
+    <version>2.5.0-rc1</version>
 </dependency>
 ```
 
@@ -110,6 +110,3 @@ We created [Java Docs](http://gwtmaterialdesign.github.io/gwt-material-demo/apid
   - Inline Search
   - Timer (Infinite)
   - Toggle
-
-## Follow Us
-<a href="https://plus.google.com/u/0/communities/108005250093449814286"> Google Plus</a> 
