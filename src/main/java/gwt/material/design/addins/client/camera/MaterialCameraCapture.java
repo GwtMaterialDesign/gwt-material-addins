@@ -337,6 +337,14 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
     }
 
     /**
+     * Set the resolution the camera
+     * @see CameraResolution
+     */
+    public void setResolution(CameraResolution resolution) {
+        setResolution(resolution.getWidth(), resolution.getHeight());
+    }
+
+    /**
      * Set the facing mode of the camera (Best usecase for Mobile Devices)
      */
     public void setFacingMode(CameraFacingMode facingMode) {
