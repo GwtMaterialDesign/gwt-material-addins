@@ -51,7 +51,13 @@ public class Dropzone extends JQueryElement {
     }
 
     @JsMethod
-    public native void on(String events, Functions.Func2<File, Object> callback);
+    public native void on(String events, Functions.Func2<Object, Object> callback);
+
+    @JsMethod
+    public native void emit(String method, Object file);
+
+    @JsMethod
+    public native void addFile(Object file);
 
     @JsMethod
     public native void removeEventListeners();

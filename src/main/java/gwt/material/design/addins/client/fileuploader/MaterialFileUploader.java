@@ -28,16 +28,14 @@ import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
+import gwt.material.design.addins.client.fileuploader.base.FileProvider;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
 import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
 import gwt.material.design.addins.client.fileuploader.events.*;
-import gwt.material.design.addins.client.fileuploader.js.Dropzone;
-import gwt.material.design.addins.client.fileuploader.js.File;
-import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
-import gwt.material.design.addins.client.fileuploader.js.Response;
+import gwt.material.design.addins.client.fileuploader.js.*;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -79,6 +77,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/enyo/dropzone">Dropzone 4.3.0</a>
  */
 //@formatter:on
+//TODO: Reworked File casting issue
 public class MaterialFileUploader extends MaterialWidget implements JsLoader, HasFileUploadHandlers<UploadFile> {
 
     static {
@@ -91,14 +90,16 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         }
     }
 
-    private boolean preview = true;
-    private boolean enabled = true;
+    protected boolean preview = true;
+    protected boolean enabled = true;
 
-    private int totalFiles = 0;
-    private Object globalResponse;
-    private Dropzone uploader;
-    private MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
-    private JsFileUploaderOptions options = new JsFileUploaderOptions();
+    protected int totalFiles = 0;
+    protected Object globalResponse;
+    protected boolean allowClickable = true;
+    protected Dropzone uploader;
+    protected FileProvider fileProvider;
+    protected MaterialUploadPreview uploadPreview = new MaterialUploadPreview();
+    protected JsFileUploaderOptions options = new JsFileUploaderOptions();
 
     public MaterialFileUploader() {
         super(Document.get().createDivElement(), AddinsCssName.FILEUPLOADER);
@@ -125,7 +126,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
         if (getWidgetCount() > 1) {
             uploadPreview.getUploadCollection().setId(DOM.createUniqueId());
-            if (options.clickable == null) {
+            if (options.clickable == null && isAllowClickable()) {
                 String clickable = DOM.createUniqueId();
                 options.clickable = "#" + clickable;
                 if (getWidget(1) instanceof MaterialUploadLabel) {
@@ -231,10 +232,9 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
 
         uploader.on(FileUploaderEvents.ADDED_FILE, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             AddedFileEvent.fire(this, convertUploadFile(file));
             totalFiles++;
-
             if (isPreview()) {
                 $(uploadedFiles).html("Uploaded files " + totalFiles);
                 getUploadPreview().getUploadHeader().getProgress().setPercent(0);
@@ -243,7 +243,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
 
         uploader.on(FileUploaderEvents.REMOVED_FILE, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             RemovedFileEvent.fire(this, convertUploadFile(file));
             totalFiles -= 1;
             $(uploadedFiles).html("Uploaded files " + totalFiles);
@@ -253,9 +253,11 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             }
         });
 
-        uploader.on(FileUploaderEvents.ERROR, (file, response) -> {
+        uploader.on(FileUploaderEvents.ERROR, (object, response) -> {
             int code = 200;
             String statusText = "";
+
+            File file = generateFile(object);
 
             if (file.xhr != null) {
                 code = file.xhr.status;
@@ -305,12 +307,13 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
 
         uploader.on(FileUploaderEvents.SENDING, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             SendingEvent.fire(this, convertUploadFile(file),
                 new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
-        uploader.on(FileUploaderEvents.SUCCESS, (file, response) -> {
+        uploader.on(FileUploaderEvents.SUCCESS, (object, response) -> {
+            File file = generateFile(object);
             globalResponse = response;
             String message = getResponseMessage(response);
             SuccessEvent.fire(this, convertUploadFile(file),
@@ -318,24 +321,24 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
 
         uploader.on(FileUploaderEvents.COMPLETE, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             String message = getResponseMessage(globalResponse);
             CompleteEvent.fire(this, convertUploadFile(file),
                 new UploadResponse(file.xhr.status, file.xhr.statusText, message));
         });
 
         uploader.on(FileUploaderEvents.CANCELED, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             CanceledEvent.fire(this, convertUploadFile(file));
         });
 
         uploader.on(FileUploaderEvents.MAX_FILES_REACHED, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             MaxFilesReachedEvent.fire(this, convertUploadFile(file));
         });
 
         uploader.on(FileUploaderEvents.MAX_FILES_EXCEEDED, object -> {
-            File file = (File) object;
+            File file = generateFile(object);
             MaterialToast.fireToast("You have reached the maximum files to be uploaded.");
             MaxFilesExceededEvent.fire(this, convertUploadFile(file));
         });
@@ -418,6 +421,17 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         return !getElement().hasClassName(CssName.DISABLED);
     }
 
+    protected File generateFile(Object object) {
+        if (object instanceof File) {
+            return (File) object;
+        } else {
+            if (fileProvider != null) {
+                return fileProvider.provide(object);
+            }
+        }
+        return null;
+    }
+
     /**
      * Converts a Native File Object to Upload File object
      */
@@ -457,6 +471,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
      */
     public void processQueue() {
         uploader.processQueue();
+    }
+
+    public void addFile(Object object) {
+        uploader.addFile(object);
     }
 
     /**
@@ -1161,6 +1179,14 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         return options.forceFallback;
     }
 
+    public boolean isAllowClickable() {
+        return allowClickable;
+    }
+
+    public void setAllowClickable(boolean allowClickable) {
+        this.allowClickable = allowClickable;
+    }
+
     /**
      * If true the fallback will be forced. This is very useful to test your server implementations first and make sure
      * that everything works as expected without dropzone if you experience problems, and to test how your fallbacks will look.
@@ -1168,6 +1194,14 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
      */
     public void setForceFallback(boolean forceFallback) {
         options.forceFallback = forceFallback;
+    }
+
+    public FileProvider getFileProvider() {
+        return fileProvider;
+    }
+
+    public void setFileProvider(FileProvider fileProvider) {
+        this.fileProvider = fileProvider;
     }
 
     @Override
