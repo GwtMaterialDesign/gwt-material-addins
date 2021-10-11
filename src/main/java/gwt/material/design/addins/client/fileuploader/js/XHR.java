@@ -27,11 +27,11 @@ import jsinterop.annotations.JsType;
 public class XHR {
 
     @JsProperty
-    public int status = 0;
+    public int status;
 
     @JsProperty
-    public String statusText = "";
+    public String statusText;
 
     @JsProperty
-    public String responseText = "";
+    public String responseText;
 }
