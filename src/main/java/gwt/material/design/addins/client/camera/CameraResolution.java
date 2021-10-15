@@ -65,4 +65,13 @@ public enum CameraResolution {
     public int getHeight() {
         return height;
     }
+
+    public static CameraResolution get(String name) {
+        for (CameraResolution value : values()) {
+            if (name.toUpperCase().equals(value.name())) {
+                return value;
+            }
+        }
+        return HD;
+    }
 }
