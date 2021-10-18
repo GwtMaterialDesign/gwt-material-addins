@@ -27,6 +27,14 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, name = "Blob", namespace = JsPackage.GLOBAL)
 public class Blob {
 
+    public Blob() {
+    }
+
+    public Blob(Object[] arr) {}
+
+    public Blob(Object[] blob, String name) {
+    }
+
     @JsProperty
     public String name;
 
