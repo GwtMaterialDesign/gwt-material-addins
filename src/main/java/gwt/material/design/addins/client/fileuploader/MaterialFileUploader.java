@@ -35,7 +35,10 @@ import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
 import gwt.material.design.addins.client.fileuploader.events.*;
-import gwt.material.design.addins.client.fileuploader.js.*;
+import gwt.material.design.addins.client.fileuploader.js.Dropzone;
+import gwt.material.design.addins.client.fileuploader.js.File;
+import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
+import gwt.material.design.addins.client.fileuploader.js.Response;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -464,6 +467,13 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             responses.add(new UploadResponse(file.xhr.status, file.xhr.statusText));
         }
         return responses;
+    }
+
+    /**
+     * Will Open the Upload Dialog Dynamically
+     */
+    public void open() {
+        uploader.hiddenFileInput.click();
     }
 
     /**

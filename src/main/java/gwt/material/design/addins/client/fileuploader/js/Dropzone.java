@@ -22,10 +22,7 @@ package gwt.material.design.addins.client.fileuploader.js;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
-import jsinterop.annotations.JsFunction;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
+import jsinterop.annotations.*;
 
 import java.util.List;
 
@@ -49,6 +46,9 @@ public class Dropzone extends JQueryElement {
     public interface ProgressCallback {
         void call(Double uploadProgress, Integer totalBytes, Integer totalBytesSent);
     }
+
+    @JsProperty
+    public JQueryElement hiddenFileInput;
 
     @JsMethod
     public native void on(String events, Functions.Func2<Object, Object> callback);
