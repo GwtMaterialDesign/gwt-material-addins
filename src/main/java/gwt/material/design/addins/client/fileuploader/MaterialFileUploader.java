@@ -35,10 +35,7 @@ import gwt.material.design.addins.client.fileuploader.base.UploadResponse;
 import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
 import gwt.material.design.addins.client.fileuploader.events.*;
-import gwt.material.design.addins.client.fileuploader.js.Dropzone;
-import gwt.material.design.addins.client.fileuploader.js.File;
-import gwt.material.design.addins.client.fileuploader.js.JsFileUploaderOptions;
-import gwt.material.design.addins.client.fileuploader.js.Response;
+import gwt.material.design.addins.client.fileuploader.js.*;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -325,9 +322,14 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
         uploader.on(FileUploaderEvents.COMPLETE, object -> {
             File file = generateFile(object);
+            XHR xhr = file.xhr;
+            UploadResponse response = null;
             String message = getResponseMessage(globalResponse);
-            CompleteEvent.fire(this, convertUploadFile(file),
-                new UploadResponse(file.xhr.status, file.xhr.statusText, message));
+
+            if (xhr != null) {
+                response = new UploadResponse(file.xhr.status, file.xhr.statusText, message);
+            }
+            CompleteEvent.fire(this, convertUploadFile(file), response);
         });
 
         uploader.on(FileUploaderEvents.CANCELED, object -> {
@@ -464,7 +466,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
     protected List<UploadResponse> generateUploadResponse(File[] files) {
         List<UploadResponse> responses = new ArrayList<>();
         for (File file : files) {
-            responses.add(new UploadResponse(file.xhr.status, file.xhr.statusText));
+            XHR xhr = file.xhr;
+            if (xhr != null) {
+                responses.add(new UploadResponse(xhr.status, xhr.statusText));
+            }
         }
         return responses;
     }
