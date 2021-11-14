@@ -110,6 +110,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
     private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
     private MaterialPanel overlayPanel;
+    private boolean autoPlay = true;
 
     public MaterialCameraCapture() {
         super(Document.get().createDivElement(), "camera-wrapper");
@@ -127,7 +128,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
 
     @Override
     public void load() {
-        play();
+        if (autoPlay) play();
     }
 
     @Override
@@ -327,6 +328,14 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
             add(overlayPanel);
         }
         return overlayPanel;
+    }
+
+    public boolean isAutoPlay() {
+        return autoPlay;
+    }
+
+    public void setAutoPlay(boolean autoPlay) {
+        this.autoPlay = autoPlay;
     }
 
     /**
