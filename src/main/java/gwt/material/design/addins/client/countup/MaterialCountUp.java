@@ -144,7 +144,10 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
      */
     public void setValue(Double value, boolean fireEvents, boolean autoStart) {
         super.setValue(value, fireEvents);
-        setEndValue(value);
+
+        if (value != null) {
+            setEndValue(value);
+        }
 
         if (autoStart) {
             start();

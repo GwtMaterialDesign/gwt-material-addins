@@ -59,7 +59,6 @@ import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -282,6 +281,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void reset() {
         super.reset();
+        setSelectedIndex(0);
         displayArrowForAllowClearOption(false);
     }
 
