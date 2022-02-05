@@ -154,10 +154,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
         if (uploadCollection != null) {
             initDropzone(getElement(),
-                uploadCollection.getItem().getElement(),
-                uploadCollection.getId(),
-                uploadCollection.getElement(),
-                uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+                    uploadCollection.getItem().getElement(),
+                    uploadCollection.getId(),
+                    uploadCollection.getElement(),
+                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
         }
     }
 
@@ -309,7 +309,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         uploader.on(FileUploaderEvents.SENDING, object -> {
             File file = generateFile(object);
             SendingEvent.fire(this, convertUploadFile(file),
-                new UploadResponse(file.xhr.status, file.xhr.statusText));
+                    new UploadResponse(file.xhr.status, file.xhr.statusText));
         });
 
         uploader.on(FileUploaderEvents.SUCCESS, (object, response) -> {
@@ -317,7 +317,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             globalResponse = response;
             String message = getResponseMessage(response);
             SuccessEvent.fire(this, convertUploadFile(file),
-                new UploadResponse(file.xhr.status, file.xhr.statusText, message));
+                    new UploadResponse(file.xhr.status, file.xhr.statusText, message));
         });
 
         uploader.on(FileUploaderEvents.COMPLETE, object -> {
@@ -478,7 +478,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
      * Will Open the Upload Dialog Dynamically
      */
     public void open() {
-        uploader.hiddenFileInput.click();
+        String uid = options.clickable;
+        if (uid != null && !uid.isEmpty()) {
+            $(uid).click();
+        }
     }
 
     /**
