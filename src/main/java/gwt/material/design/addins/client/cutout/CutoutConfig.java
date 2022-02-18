@@ -21,8 +21,9 @@ package gwt.material.design.addins.client.cutout;
 
 public class CutoutConfig {
 
-    private boolean absolute;
-    private int addedOffsetTop;
+    protected boolean absolute;
+    protected int addedOffsetTop;
+    protected int width;
 
     public CutoutConfig() {
     }
@@ -34,6 +35,14 @@ public class CutoutConfig {
     public CutoutConfig(boolean absolute, int addedOffsetTop) {
         this.absolute = absolute;
         this.addedOffsetTop = addedOffsetTop;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public boolean isAbsolute() {

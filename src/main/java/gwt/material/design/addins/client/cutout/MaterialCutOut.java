@@ -388,13 +388,13 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle, CutoutConfig config) {
         boolean absolute = config != null && config.isAbsolute();
         int addedOffsetTop = config != null ? config.getAddedOffsetTop() : 0;
-
+        int overrideWidth = config != null ? config.getWidth() : 0;
         float top = (absolute ? relativeTo.getAbsoluteTop() : relativeTo.getOffsetTop()) - (Math.max($("html").scrollTop(), $("body").scrollTop()));
         top = top + addedOffsetTop;
 
         float left = relativeTo.getAbsoluteLeft();
 
-        float width = relativeTo.getOffsetWidth();
+        float width = overrideWidth > 0 ? overrideWidth : relativeTo.getOffsetWidth();
         float height = relativeTo.getOffsetHeight();
 
         if (circle) {
