@@ -317,7 +317,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             globalResponse = response;
             String message = getResponseMessage(response);
             SuccessEvent.fire(this, convertUploadFile(file),
-                    new UploadResponse(file.xhr.status, file.xhr.statusText, message));
+                    new UploadResponse(file.xhr.responseText, file.xhr.status, file.xhr.statusText, message));
         });
 
         uploader.on(FileUploaderEvents.COMPLETE, object -> {

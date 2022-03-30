@@ -26,6 +26,7 @@ package gwt.material.design.addins.client.fileuploader.base;
  */
 public class UploadResponse {
 
+    private String response;
     private int code;
     private String message;
     private String body;
@@ -39,6 +40,21 @@ public class UploadResponse {
         this.code = code;
         this.message = message;
         this.body = body;
+    }
+
+    public UploadResponse(String response, int code, String message, String body) {
+        this.response = response;
+        this.code = code;
+        this.message = message;
+        this.body = body;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 
     public int getCode() {
