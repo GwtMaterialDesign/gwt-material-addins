@@ -27,10 +27,7 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.TextMixin;
-import gwt.material.design.client.constants.Color;
-import gwt.material.design.client.constants.IconPosition;
-import gwt.material.design.client.constants.IconSize;
-import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 
@@ -144,5 +141,15 @@ public class MaterialNote extends MaterialWidget implements HasIcon {
     @Override
     public String getCustomIconType() {
         return icon.getCustomIconType();
+    }
+
+    @Override
+    public void setIconDisplay(IconDisplay iconDisplay) {
+        icon.setIconDisplay(iconDisplay);
+    }
+
+    @Override
+    public IconDisplay getIconDisplay() {
+        return icon.getIconDisplay();
     }
 }

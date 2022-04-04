@@ -679,6 +679,16 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     @Override
+    public void setIconDisplay(IconDisplay iconDisplay) {
+        icon.setIconDisplay(iconDisplay);
+    }
+
+    @Override
+    public IconDisplay getIconDisplay() {
+        return icon.getIconDisplay();
+    }
+
+    @Override
     public void setReadOnly(boolean value) {
         getReadOnlyMixin().setReadOnly(value);
     }
