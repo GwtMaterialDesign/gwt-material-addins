@@ -105,9 +105,11 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
     public void setValue(Date date, boolean fireEvents) {
         this.date = date;
 
-        getElement().setAttribute("data-livestamp", date.toString());
+        if (date != null) {
+            getElement().setAttribute("data-livestamp", date.toString());
 
-        super.setValue(date, fireEvents);
+            super.setValue(date, fireEvents);
+        }
     }
 
     @Override
