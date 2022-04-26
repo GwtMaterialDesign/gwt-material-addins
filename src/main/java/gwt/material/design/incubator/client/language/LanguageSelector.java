@@ -91,13 +91,7 @@ public class LanguageSelector extends MaterialWidget
 
         // Register Value Change Handler
         registerHandler(addValueChangeHandler(event -> {
-            Language language = event.getValue();
-
-            if (this.language != language) {
-                // Navigate to selected language value / locale and reload the browser
-                String param = Window.Location.createUrlBuilder().setParameter("locale", language.getValue()).buildString();
-                Window.Location.replace(param);
-            }
+            update(event.getValue());
         }));
 
         // Get the current locale inside the browser url
@@ -113,6 +107,12 @@ public class LanguageSelector extends MaterialWidget
         } else {
             GWT.log("Please add at least one language for this selector.");
         }
+    }
+
+    protected void update(Language language) {
+        // Navigate to selected language value / locale and reload the browser
+        String param = Window.Location.createUrlBuilder().setParameter("locale", language.getValue()).buildString();
+        Window.Location.replace(param);
     }
 
     /**
@@ -169,6 +169,7 @@ public class LanguageSelector extends MaterialWidget
         }
 
         if (fireEvents) {
+            update(language);
             ValueChangeEvent.fire(this, language);
         }
     }
