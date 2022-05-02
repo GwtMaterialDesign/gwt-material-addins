@@ -64,13 +64,13 @@ public class LanguageSelector extends MaterialWidget
         }
     }
 
-    private MaterialImage imageActivator = new MaterialImage();
-    private MaterialLink textActivator = new MaterialLink();
-    private MaterialDropDown dropdown = new MaterialDropDown();
-    private List<Language> languages = new ArrayList<>();
-    private Language language;
-    private boolean lazyLoaded;
-    private CssTypeMixin<LanguageSelectorType, LanguageSelector> typeMixin;
+    protected MaterialImage imageActivator = new MaterialImage();
+    protected MaterialLink textActivator = new MaterialLink();
+    protected MaterialDropDown dropdown = new MaterialDropDown();
+    protected List<Language> languages = new ArrayList<>();
+    protected Language language;
+    protected boolean lazyLoaded;
+    protected CssTypeMixin<LanguageSelectorType, LanguageSelector> typeMixin;
 
     public LanguageSelector() {
         super(Document.get().createDivElement(), IncubatorCssName.LANGUAGE_SELECTOR);
@@ -112,7 +112,7 @@ public class LanguageSelector extends MaterialWidget
     protected void update(Language language) {
         // Navigate to selected language value / locale and reload the browser
         String param = Window.Location.createUrlBuilder().setParameter("locale", language.getValue()).buildString();
-        Window.Location.replace(param);
+        Window.Location.assign(param);
     }
 
     /**
