@@ -31,7 +31,7 @@ public class MaterialDoubleInputMask extends AbstractInputMask<Double> {
     @Override
     public Double getValue() {
         String cleanValue = getCleanValue();
-        if (cleanValue != null) {
+        if (cleanValue != null && !cleanValue.isEmpty()) {
             return Double.parseDouble(cleanValue);
         }
         return null;

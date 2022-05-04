@@ -31,7 +31,7 @@ public class MaterialLongInputMask extends AbstractInputMask<Long> {
     @Override
     public Long getValue() {
         String cleanValue = getCleanValue();
-        if (cleanValue != null) {
+        if (cleanValue != null && !cleanValue.isEmpty()) {
             return Long.parseLong(cleanValue);
         }
         return null;
