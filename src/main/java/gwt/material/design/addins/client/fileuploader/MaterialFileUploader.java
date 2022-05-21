@@ -45,6 +45,7 @@ import gwt.material.design.client.events.*;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jscore.client.api.media.MediaStream;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -498,7 +499,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
     /**
      * Manually enqueue file when option autoQueue is disabled
      */
-    public void enqueueFile(File file) {
+    public void enqueueFile(Object file) {
         uploader.enqueueFile(file);
     }
 
@@ -1163,6 +1164,18 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         options.hiddenInputContainer = hiddenInputContainer;
     }
 
+    public void setAccept(Functions.Func2<Object, Object> accept) {
+        options.accept = accept;
+    }
+
+    public void setResizeFunction(Functions.FuncRet1<Object> function) {
+        options.resize = function;
+    }
+
+    public Functions.Func2<Object, Object> getAccept() {
+        return options.accept;
+    }
+
     public Object getCapture() {
         return options.capture;
     }
@@ -1220,6 +1233,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
 
     public void setFileProvider(FileProvider fileProvider) {
         this.fileProvider = fileProvider;
+    }
+
+    public void done() {
+        uploader.done();
     }
 
     @Override

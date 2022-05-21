@@ -35,6 +35,9 @@ public class Dropzone extends JQueryElement {
     public Dropzone(Element e, JsFileUploaderOptions options) {
     }
 
+    @JsProperty
+    public Object[] files;
+
     @JsMethod
     public  native void on(String events, Functions.Func1<Object> callback);
 
@@ -69,7 +72,7 @@ public class Dropzone extends JQueryElement {
     public native void removeAllFiles();
 
     @JsMethod
-    public native void enqueueFile(File file);
+    public native void enqueueFile(Object file);
 
     @JsMethod
     public native void destroy();
@@ -100,4 +103,7 @@ public class Dropzone extends JQueryElement {
 
     @JsMethod
     public native void enable();
+
+    @JsMethod
+    public native void done();
 }
