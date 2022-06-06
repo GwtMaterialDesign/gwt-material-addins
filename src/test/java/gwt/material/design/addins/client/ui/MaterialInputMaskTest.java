@@ -31,7 +31,7 @@ public class MaterialInputMaskTest extends MaterialValueBoxTest<AbstractInputMas
 
     final static String MASK_REGEX = "000.000.000.000";
     final static String VALUE = "123456789098";
-    final static String EXPECTED_VALUE = "123.456.789.098";
+    final static String EXPECTED_VALUE = "123456789098";
 
     @Override
     protected AbstractInputMask createWidget() {
