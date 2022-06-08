@@ -76,7 +76,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     }
 
     private String mask;
-    private JsInputMaskOptions options = new JsInputMaskOptions();
+    protected JsInputMaskOptions options = new JsInputMaskOptions();
 
     public AbstractInputMask() {
         super((ValueBoxBase<T>) new TextBox());
