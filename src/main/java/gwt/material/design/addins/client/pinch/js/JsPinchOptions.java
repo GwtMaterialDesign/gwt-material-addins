@@ -19,7 +19,9 @@
  */
 package gwt.material.design.addins.client.pinch.js;
 
+import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
@@ -30,5 +32,20 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, name = "Object", namespace = JsPackage.GLOBAL)
 public class JsPinchOptions {
 
-    //TODO: Methods
+    @JsProperty
+    public Integer tapZoomFactor;
+
+    @JsProperty
+    public boolean lockDragAxis;
+
+    @JsProperty
+    public Functions.Func2<JsPinchZoom, Object> onZoomStart;
+
+    @JsProperty
+    public Functions.Func2<JsPinchZoom, Object> onZoomEnd;
+
+    @JsProperty
+    public Functions.Func2<JsPinchZoom, Object> onDoubleTap;
+
+    //TODO: Populate all options & events
 }

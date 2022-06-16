@@ -6,6 +6,7 @@ import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pinch.events.HasPinchZoomHandlers;
 import gwt.material.design.addins.client.pinch.events.OnZoomEndEvent;
 import gwt.material.design.addins.client.pinch.events.OnZoomStartEvent;
+import gwt.material.design.addins.client.pinch.js.JsPinchOptions;
 import gwt.material.design.addins.client.pinch.js.JsPinchZoom;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.ui.MaterialImage;
@@ -24,6 +25,8 @@ public class PinchZoomPanel extends MaterialPanel implements HasPinchZoomHandler
         }
     }
 
+    protected JsPinchOptions options = new JsPinchOptions();
+
     public PinchZoomPanel() {
 
     }
@@ -36,18 +39,36 @@ public class PinchZoomPanel extends MaterialPanel implements HasPinchZoomHandler
     }
 
     protected void load() {
-        jsPinchZoom = new JsPinchZoom(getElement());
-        jsPinchZoom.onZoomStart = (param1, param2) -> {
+
+        options.onZoomStart = (param1, param2) -> {
             fireEvent(new OnZoomStartEvent());
         };
 
-        jsPinchZoom.onZoomEnd = (param1, param2) -> {
+        options.onZoomEnd = (param1, param2) -> {
             fireEvent(new OnZoomEndEvent());
         };
 
-        jsPinchZoom.onDoubleTap = (param1, param2) -> {
-            MaterialToast.fireToast("TABS");
+        options.onDoubleTap = (param1, param2) -> {
+            
         };
+
+        jsPinchZoom = new JsPinchZoom(getElement(), options);
+    }
+
+    public void setTapZoomFactor(Integer tapZoomFactor) {
+        options.tapZoomFactor = tapZoomFactor;
+    }
+
+    public Integer getTapZoomFactor() {
+        return options.tapZoomFactor;
+    }
+
+    public void setLockDragAxis(Boolean lockDragAxis) {
+        options.lockDragAxis = lockDragAxis;
+    }
+
+    public boolean isLockDragAxis() {
+        return options.lockDragAxis;
     }
 
     public void enable() {

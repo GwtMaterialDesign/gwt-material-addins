@@ -1,27 +1,17 @@
 package gwt.material.design.addins.client.pinch.js;
 
-import gwt.material.design.jquery.client.api.Functions;
-import jsinterop.annotations.*;
+import jsinterop.annotations.JsConstructor;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "PinchZoom", namespace = JsPackage.GLOBAL)
 public class JsPinchZoom {
 
     @JsConstructor
-    public JsPinchZoom(Object element) {
+    public JsPinchZoom(Object element, JsPinchOptions options) {
 
     }
-
-    @JsProperty
-    public Integer tapZoomFactor;
-
-    @JsProperty
-    public Functions.Func2<JsPinchZoom, Object> onZoomStart;
-
-    @JsProperty
-    public Functions.Func2<JsPinchZoom, Object> onZoomEnd;
-
-    @JsProperty
-    public Functions.Func2<JsPinchZoom, Object> onDoubleTap;
 
     /**
      * Enables all gesture capturing (is enabled by default)
