@@ -62,10 +62,10 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
 
     static {
         if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
+            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentLocale());
             MaterialDesignBase.injectDebugJs(MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugJs());
         } else {
-            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJs());
+            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentWithLocale());
             MaterialDesignBase.injectJs(MaterialLiveStampClientBundle.INSTANCE.liveStampJs());
         }
     }
