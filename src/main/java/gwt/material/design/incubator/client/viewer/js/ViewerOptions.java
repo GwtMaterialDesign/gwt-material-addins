@@ -20,9 +20,12 @@
 package gwt.material.design.incubator.client.viewer.js;
 
 import gwt.material.design.jquery.client.api.Functions;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+
+import java.util.Arrays;
 
 /**
  * Options for Image Viewer
@@ -34,5 +37,170 @@ public class ViewerOptions {
 
     @JsProperty
     public Integer tapZoomFactor;
+
+    @JsProperty
+    public String className;
+
+    @JsProperty
+    public String container;
+
+    @JsProperty
+    public Functions.FuncRet2<Object, Boolean> filter;
+
+    @JsProperty
+    public Boolean fullScreen;
+
+    @JsProperty
+    public Arrays inheritedAttributes;
+
+    @JsProperty
+    public Integer initialViewIndex;
+
+    @JsProperty
+    public Boolean inline;
+
+    @JsProperty
+    public Integer interval;
+
+    @JsProperty
+    public Boolean keyboard;
+
+    @JsProperty
+    public Boolean focus;
+
+    @JsProperty
+    public Boolean loading;
+
+    @JsProperty
+    public Boolean loop;
+
+    @JsProperty
+    public Integer minWidth;
+
+    @JsProperty
+    public Integer minHeight;
+
+    @JsProperty
+    public Boolean movable;
+
+    @JsProperty
+    public Boolean rotatable;
+
+    @JsProperty
+    public Boolean scalable;
+
+    @JsProperty
+    public Boolean zoomable;
+
+    @JsProperty
+    public Boolean zoomOnTouch;
+
+    @JsProperty
+    public Boolean zoomOnWheel;
+
+    @JsProperty
+    public Boolean slideOnTouch;
+
+    @JsProperty
+    public Boolean toggleOnDblclick;
+
+    @JsProperty
+    public Boolean tooltip;
+
+    @JsProperty
+    public Boolean transition;
+
+    @JsProperty
+    public Integer zIndex;
+
+    @JsProperty
+    public Integer zIndexInline;
+
+    @JsProperty
+    public Integer zoomRatio;
+
+    @JsProperty
+    public Integer minZoomRatio;
+
+    @JsProperty
+    public Integer maxZoomRatio;
+
+    @JsProperty
+    public Functions.FuncRet2<Object, Object> url;
+
+    @JsProperty
+    public Functions.Func1 ready;
+
+    @JsProperty
+    public Functions.Func1 show;
+
+    @JsProperty
+    public Functions.Func1 shown;
+
+    @JsProperty
+    public Functions.Func1 hide;
+
+    @JsProperty
+    public Functions.Func1 hidden;
+
+    @JsProperty
+    public Functions.Func1 view;
+
+    @JsProperty
+    public Functions.Func1 viewed;
+
+    @JsProperty
+    public Functions.Func1 move;
+
+    @JsProperty
+    public Functions.Func1 moved;
+
+    @JsProperty
+    public Functions.Func1 rotate;
+
+    @JsProperty
+    public Functions.Func1 rotated;
+
+    @JsProperty
+    public Functions.Func1 scale;
+
+    @JsProperty
+    public Functions.Func1 scaled;
+
+    @JsProperty
+    public Functions.Func1 zoomed;
+
+    @JsProperty
+    public Functions.Func1 play;
+
+    @JsProperty
+    public Functions.Func1 stop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

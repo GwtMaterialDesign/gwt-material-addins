@@ -23,6 +23,7 @@ import com.google.gwt.user.client.Element;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.incubator.client.viewer.js.JsImageViewer;
+import gwt.material.design.incubator.client.viewer.js.ViewerMethod;
 import gwt.material.design.incubator.client.viewer.js.ViewerOptions;
 
 public class ImageViewer {
@@ -34,6 +35,7 @@ public class ImageViewer {
 
     protected JsImageViewer viewer;
     protected ViewerOptions options = new ViewerOptions();
+    protected ViewerMethod methods = new ViewerMethod();
     protected MaterialImage image = new MaterialImage();
 
     public ImageViewer() {
@@ -57,5 +59,13 @@ public class ImageViewer {
 
     public void setOptions(ViewerOptions options) {
         this.options = options;
+    }
+
+    public ViewerMethod getMethods() {
+        return methods;
+    }
+
+    public void setMethods(ViewerMethod methods) {
+        this.methods = methods;
     }
 }
