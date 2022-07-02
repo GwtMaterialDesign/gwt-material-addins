@@ -396,7 +396,7 @@
 
   var REGEXP_SPACES = /\s\s*/; // Misc
 
-  var BUTTONS = ['zoom-in', 'zoom-out', 'one-to-one', 'reset', 'prev', 'play', 'next', 'rotate-left', 'rotate-right', 'flip-horizontal', 'flip-vertical'];
+  var BUTTONS = ['zoom-in', 'zoom-out', 'one-to-one', 'reset', 'prev','next', 'play', 'rotate-left', 'rotate-right', 'flip-horizontal', 'flip-vertical'];
 
   /**
    * Check if the given value is a string.
