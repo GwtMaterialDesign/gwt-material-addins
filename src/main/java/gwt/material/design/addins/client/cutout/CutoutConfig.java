@@ -24,6 +24,8 @@ public class CutoutConfig {
     protected boolean absolute;
     protected int addedOffsetTop;
     protected int width;
+    protected int maxHeight = 0;
+    protected int maxWidth = 0;
 
     public CutoutConfig() {
     }
@@ -41,23 +43,44 @@ public class CutoutConfig {
         return width;
     }
 
-    public void setWidth(int width) {
+    public <M extends CutoutConfig> M setWidth(int width) {
         this.width = width;
+        return (M) this;
     }
 
     public boolean isAbsolute() {
         return absolute;
     }
 
-    public void setAbsolute(boolean absolute) {
+    public <M extends CutoutConfig> M setAbsolute(boolean absolute) {
         this.absolute = absolute;
+        return (M) this;
     }
 
     public int getAddedOffsetTop() {
         return addedOffsetTop;
     }
 
-    public void setAddedOffsetTop(int addedOffsetTop) {
+    public <M extends CutoutConfig> M setAddedOffsetTop(int addedOffsetTop) {
         this.addedOffsetTop = addedOffsetTop;
+        return (M) this;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
+    }
+
+    public <M extends CutoutConfig> M setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
+        return (M) this;
+    }
+
+    public int getMaxWidth() {
+        return maxWidth;
+    }
+
+    public <M extends CutoutConfig> M setMaxWidth(int maxWidth) {
+        this.maxWidth = maxWidth;
+        return (M) this;
     }
 }

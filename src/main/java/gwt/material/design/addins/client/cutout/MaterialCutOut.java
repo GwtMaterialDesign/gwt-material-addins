@@ -389,6 +389,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         boolean absolute = config != null && config.isAbsolute();
         int addedOffsetTop = config != null ? config.getAddedOffsetTop() : 0;
         int overrideWidth = config != null ? config.getWidth() : 0;
+        int maxHeight = config != null ? config.getMaxHeight() : 0;
+        int maxWidth = config != null ? config.getMaxWidth() : 0;
         float top = (absolute ? relativeTo.getAbsoluteTop() : relativeTo.getOffsetTop()) - (Math.max($("html").scrollTop(), $("body").scrollTop()));
         top = top + addedOffsetTop;
 
@@ -414,7 +416,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         top -= padding;
         left -= padding;
         width += padding * 2;
+        width = maxWidth > 0 ? maxWidth : width;
         height += padding * 2;
+        height = maxHeight > 0 ? maxHeight : height;
 
         $(cutOut).css("top", top + "px");
         $(cutOut).css("left", left + "px");
