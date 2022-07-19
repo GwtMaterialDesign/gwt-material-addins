@@ -255,6 +255,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
         });
 
         uploader.on(FileUploaderEvents.ERROR, (object, response) -> {
+            UploadResponse uploadResponse = new UploadResponse();
             int code = 200;
             String statusText = "";
 
@@ -263,6 +264,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             if (file.xhr != null) {
                 code = file.xhr.status;
                 statusText = file.xhr.statusText;
+                uploadResponse.setXhr(file.xhr);
             }
 
             String body = "";
@@ -289,8 +291,10 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
                 globalResponse = response;
             }
 
-
-            ErrorEvent.fire(this, convertUploadFile(file), new UploadResponse(code, statusText, body));
+            uploadResponse.setCode(code);
+            uploadResponse.setMessage(statusText);
+            uploadResponse.setBody(body);
+            ErrorEvent.fire(this, convertUploadFile(file), uploadResponse);
         });
 
         uploader.on(FileUploaderEvents.TOTAL_UPLOAD_PROGRESS, (progress, totalBytes, totalBytesSent) -> {

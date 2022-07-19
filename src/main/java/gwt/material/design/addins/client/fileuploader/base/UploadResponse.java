@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.fileuploader.base;
 
+import gwt.material.design.addins.client.fileuploader.js.XHR;
+
 /**
  * Upload Response with Code (e.g 404, 503, 200) and message ("File Upload url not found etc."
  *
@@ -30,6 +32,10 @@ public class UploadResponse {
     private int code;
     private String message;
     private String body;
+    private XHR xhr;
+
+    public UploadResponse() {
+    }
 
     public UploadResponse(int code, String message) {
         this.code = code;
@@ -79,5 +85,13 @@ public class UploadResponse {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public XHR getXhr() {
+        return xhr;
+    }
+
+    public void setXhr(XHR xhr) {
+        this.xhr = xhr;
     }
 }
