@@ -46,11 +46,15 @@ public class ImageViewer {
     }
 
     public void destroy() {
-        viewer.destroy();
+        if (viewer != null) {
+            viewer.destroy();
+        }
     }
 
     public void update() {
-        viewer.update();
+        if (viewer != null) {
+            viewer.update();
+        }
     }
 
     public ViewerOptions getOptions() {
