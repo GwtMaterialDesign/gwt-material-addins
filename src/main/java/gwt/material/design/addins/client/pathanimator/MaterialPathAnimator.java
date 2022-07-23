@@ -143,7 +143,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
     public void animate() {
         detectOutOfScopeElement(targetElement, () -> {
             $("document").ready(() -> {
-                if (AnimationGlobalConfig.ENABLE_ANIMATION) {
+                if (AnimationGlobalConfig.isEnableAnimation()) {
                     onStartAnimateCallback();
                     JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
                         if (animateCallback != null) {
@@ -169,7 +169,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
     public void reverseAnimate() {
         onStartAnimateCallback();
         $("document").ready(() -> {
-            if (AnimationGlobalConfig.ENABLE_ANIMATION) {
+            if (AnimationGlobalConfig.isEnableAnimation()) {
                 if (reverseCallback != null) {
                     reverseCallback.call();
                 } else {
@@ -327,7 +327,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
 
     @Override
     public void setDuration(int duration) {
-        options.duration = (duration * AnimationGlobalConfig.SPEED.getValue()) / 1000.0;
+        options.duration = (duration * AnimationGlobalConfig.getSpeed().getValue()) / 1000.0;
     }
 
     @Override
@@ -339,7 +339,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
      * Duration (in milliseconds) of targetElement to become visible, if hidden initially. The library will automatically try to figure this out from the element's computed styles. Default is 0 seconds.
      */
     public void setTargetShowDuration(int targetShowDuration) {
-        options.targetShowDuration = (targetShowDuration * AnimationGlobalConfig.SPEED.getValue()) / 1000.0;
+        options.targetShowDuration = (targetShowDuration * AnimationGlobalConfig.getSpeed().getValue()) / 1000.0;
     }
 
     public int getTargetShowDuration() {
@@ -350,7 +350,7 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
      * Extra duration (in milliseconds) of targetElement to provide visual continuity between the animation and the rendering of the targetElement. Default is 1 second
      */
     public void setExtraTransitionDuration(int extraTransitionDuration) {
-        options.extraTransitionDuration = (extraTransitionDuration * AnimationGlobalConfig.SPEED.getValue()) / 1000.0;
+        options.extraTransitionDuration = (extraTransitionDuration * AnimationGlobalConfig.getSpeed().getValue()) / 1000.0;
     }
 
     public int getExtraTransitionDuration() {

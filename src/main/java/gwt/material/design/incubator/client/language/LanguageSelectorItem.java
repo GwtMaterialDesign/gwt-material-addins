@@ -90,7 +90,9 @@ public class LanguageSelectorItem extends MaterialWidget {
     public void setLanguage(Language language) {
         this.language = language;
         this.label.setText(language.getName());
-        this.image.setUrl(language.getImage());
+        if (language.getImage() != null && !language.getImage().isEmpty()) {
+            this.image.setUrl(language.getImage());
+        }
     }
 
     /**

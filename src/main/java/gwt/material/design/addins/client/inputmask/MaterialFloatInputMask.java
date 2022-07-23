@@ -31,7 +31,7 @@ public class MaterialFloatInputMask extends AbstractInputMask<Float> {
     @Override
     public Float getValue() {
         String cleanValue = getCleanValue();
-        if (cleanValue != null) {
+        if (cleanValue != null && !cleanValue.isEmpty()) {
             return Float.parseFloat(cleanValue);
         }
         return null;

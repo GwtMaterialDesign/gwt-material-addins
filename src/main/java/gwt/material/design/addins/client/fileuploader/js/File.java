@@ -19,29 +19,19 @@
  */
 package gwt.material.design.addins.client.fileuploader.js;
 
-import com.google.gwt.dom.client.Element;
 import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, name = "File", namespace = JsPackage.GLOBAL)
-public class File {
+public class File extends Blob {
 
-    @JsProperty
-    public String name;
+    public File() {
+    }
 
-    @JsProperty
-    public String lastModifiedDate;
+    public File(Object[] arr) {
+        super(arr);
+    }
 
-    @JsProperty
-    public String size;
-
-    @JsProperty
-    public String type;
-
-    @JsProperty
-    public XHR xhr;
-
-    @JsProperty
-    public Element previewElement;
+    public File(Object[] blob, String name) {
+    }
 }

@@ -30,6 +30,9 @@ public interface MomentClientDebugBundle extends ClientBundle {
     @Source("js/moment.js")
     TextResource momentDebugJs();
 
+    @Source("js/moment-with-locales.js")
+    TextResource momentLocale();
+
     @Source("js/moment-jdateformatparser.js")
     TextResource momentJDateConverterDebugJs();
 }

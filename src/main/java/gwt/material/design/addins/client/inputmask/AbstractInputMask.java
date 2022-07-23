@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.inputmask.events.*;
+import gwt.material.design.addins.client.inputmask.js.JsInputMask;
 import gwt.material.design.addins.client.inputmask.js.JsInputMaskOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
@@ -75,7 +76,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     }
 
     private String mask;
-    private JsInputMaskOptions options = new JsInputMaskOptions();
+    protected JsInputMaskOptions options = new JsInputMaskOptions();
 
     public AbstractInputMask() {
         super((ValueBoxBase<T>) new TextBox());
@@ -195,8 +196,6 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     @Override
     public void setValue(T value) {
         super.setValue(value);
-
-        $(valueBoxBase.getElement()).trigger("input", null);
     }
 
     @Override

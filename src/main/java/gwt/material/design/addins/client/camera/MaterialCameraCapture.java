@@ -25,8 +25,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.camera.base.HasCameraActions;
-import gwt.material.design.addins.client.camera.base.HasCameraCaptureHandlers;
+import gwt.material.design.addins.client.camera.base.*;
 import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent.CaptureStatus;
@@ -36,6 +35,9 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.jscore.client.api.Navigator;
 import gwt.material.design.jscore.client.api.media.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static gwt.material.design.addins.client.camera.JsCamera.$;
 
@@ -108,6 +110,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
     private MediaStream mediaStream;
     private MaterialWidget video = new MaterialWidget(Document.get().createVideoElement());
     private MaterialPanel overlayPanel;
+    private boolean autoPlay = true;
 
     public MaterialCameraCapture() {
         super(Document.get().createDivElement(), "camera-wrapper");
@@ -125,7 +128,7 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
 
     @Override
     public void load() {
-        play();
+        if (autoPlay) play();
     }
 
     @Override
@@ -327,6 +330,14 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
         return overlayPanel;
     }
 
+    public boolean isAutoPlay() {
+        return autoPlay;
+    }
+
+    public void setAutoPlay(boolean autoPlay) {
+        this.autoPlay = autoPlay;
+    }
+
     /**
      * Set the resolution of the camera
      */
@@ -334,6 +345,15 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
         this.width = width;
         this.height = height;
         reload();
+    }
+
+    /**
+     * Set the resolution the camera
+     *
+     * @see CameraResolution
+     */
+    public void setResolution(CameraResolution resolution) {
+        setResolution(resolution.getWidth(), resolution.getHeight());
     }
 
     /**
@@ -372,5 +392,52 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
                 handler.onCameraCaptureChange(event);
             }
         }, CameraCaptureEvent.getType());
+    }
+
+    public static void isSupported(CameraSupportCallback callback) {
+        if (isSupported()) {
+            checkRegisteredCamera(devices -> {
+                if (devices.size() > 0) {
+                    checkAllowedCamera(callback::call);
+                } else {
+                    callback.call(false);
+                }
+            });
+        } else {
+            callback.call(false);
+        }
+    }
+
+    public static void checkRegisteredCamera(RegisteredCameraCallback callback) {
+        Navigator.mediaDevices.enumerateDevices().then(param1 -> {
+            List<MediaDeviceInfo> cameraDevices = new ArrayList<>();
+            Object[] objects = (Object[]) param1;
+            if (objects != null) {
+                for (Object object : objects) {
+                    if (object instanceof MediaDeviceInfo) {
+                        if (((MediaDeviceInfo) object).kind.equals("videoinput")) {
+                            cameraDevices.add((MediaDeviceInfo) object);
+                        }
+                    }
+                }
+            }
+            callback.call(cameraDevices);
+            return true;
+        }).fail((e, param1) -> {
+            callback.call(new ArrayList<>());
+            return false;
+        });
+    }
+
+    public static void checkAllowedCamera(AllowedCameraCallback callback) {
+        Constraints constraints = new Constraints();
+        constraints.video = true;
+        Navigator.mediaDevices.getUserMedia(constraints).then(param11 -> {
+            callback.call(true);
+            return true;
+        }).fail((e, param11) -> {
+            callback.call(false);
+            return false;
+        });
     }
 }

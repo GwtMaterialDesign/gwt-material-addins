@@ -164,6 +164,16 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
         return icon.getCustomIconType();
     }
 
+    @Override
+    public void setIconDisplay(IconDisplay iconDisplay) {
+        icon.setIconDisplay(iconDisplay);
+    }
+
+    @Override
+    public IconDisplay getIconDisplay() {
+        return icon.getIconDisplay();
+    }
+
     public Div getContainer() {
         return container;
     }

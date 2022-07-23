@@ -22,12 +22,9 @@ package gwt.material.design.addins.client.fileuploader.js;
 
 
 import gwt.material.design.jquery.client.api.Functions;
-import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-
-import java.util.List;
 
 /**
  * Options for file uploader component
@@ -65,6 +62,12 @@ public class JsFileUploaderOptions {
 
     @JsProperty
     public String clickable;
+
+    @JsProperty
+    public Functions.Func2<Object, Object> accept;
+
+    @JsProperty
+    public Functions.FuncRet1<Object> resize;
 
     @JsProperty
     public boolean withCredentials;

@@ -22,10 +22,7 @@ package gwt.material.design.addins.client.fileuploader.js;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
-import jsinterop.annotations.JsFunction;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
+import jsinterop.annotations.*;
 
 import java.util.List;
 
@@ -37,6 +34,9 @@ public class Dropzone extends JQueryElement {
 
     public Dropzone(Element e, JsFileUploaderOptions options) {
     }
+
+    @JsProperty
+    public Object[] files;
 
     @JsMethod
     public  native void on(String events, Functions.Func1<Object> callback);
@@ -50,8 +50,17 @@ public class Dropzone extends JQueryElement {
         void call(Double uploadProgress, Integer totalBytes, Integer totalBytesSent);
     }
 
+    @JsProperty
+    public JQueryElement hiddenFileInput;
+
     @JsMethod
-    public native void on(String events, Functions.Func2<File, Object> callback);
+    public native void on(String events, Functions.Func2<Object, Object> callback);
+
+    @JsMethod
+    public native void emit(String method, Object file);
+
+    @JsMethod
+    public native void addFile(Object file);
 
     @JsMethod
     public native void removeEventListeners();
@@ -63,7 +72,7 @@ public class Dropzone extends JQueryElement {
     public native void removeAllFiles();
 
     @JsMethod
-    public native void enqueueFile(File file);
+    public native void enqueueFile(Object file);
 
     @JsMethod
     public native void destroy();
@@ -94,4 +103,7 @@ public class Dropzone extends JQueryElement {
 
     @JsMethod
     public native void enable();
+
+    @JsMethod
+    public native void done();
 }

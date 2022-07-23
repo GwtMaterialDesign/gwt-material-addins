@@ -123,8 +123,9 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
 
     @Override
     public void close() {
+        int outerHeight = getOuterHeight();
         getOpenMixin().setOn(false);
-        setTop(-getOuterHeight());
+        setTop(outerHeight > 0 ? -outerHeight : -64);
         pushTargetElements(0);
         CloseEvent.fire(this, getMessage());
     }

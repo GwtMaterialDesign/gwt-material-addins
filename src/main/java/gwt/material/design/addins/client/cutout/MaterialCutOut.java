@@ -103,7 +103,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     private Element targetElement;
     private Element focusElement;
     private boolean scrollIntoView = true;
-    private boolean absolute;
+    private CutoutConfig config = new CutoutConfig();
     private int duration = 500;
 
     public MaterialCutOut() {
@@ -132,11 +132,11 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      */
     @Override
     public void open() {
-        open(false);
+        open(new CutoutConfig());
     }
 
-    public void open(boolean absolute) {
-        this.absolute = absolute;
+    public void open(CutoutConfig config) {
+        this.config = config;
 
         setCutOutStyle();
 
@@ -182,7 +182,7 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
             focusElement.getStyle().clearProperty("webkitBorderTopLeftRadius");
             focusElement.getStyle().clearProperty("borderTopLeftRadius");
         }
-        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, absolute);
+        setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, config);
 
         setupWindowHandlers();
         getElement().getStyle().clearDisplay();
@@ -385,11 +385,18 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
     /**
      * Setups the cut out position when the screen changes size or is scrolled.
      */
-    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle, boolean absolute) {
+    protected void setupCutOutPosition(Element cutOut, Element relativeTo, int padding, boolean circle, CutoutConfig config) {
+        boolean absolute = config != null && config.isAbsolute();
+        int addedOffsetTop = config != null ? config.getAddedOffsetTop() : 0;
+        int overrideWidth = config != null ? config.getWidth() : 0;
+        int maxHeight = config != null ? config.getMaxHeight() : 0;
+        int maxWidth = config != null ? config.getMaxWidth() : 0;
         float top = (absolute ? relativeTo.getAbsoluteTop() : relativeTo.getOffsetTop()) - (Math.max($("html").scrollTop(), $("body").scrollTop()));
+        top = top + addedOffsetTop;
+
         float left = relativeTo.getAbsoluteLeft();
 
-        float width = relativeTo.getOffsetWidth();
+        float width = overrideWidth > 0 ? overrideWidth : relativeTo.getOffsetWidth();
         float height = relativeTo.getOffsetHeight();
 
         if (circle) {
@@ -409,7 +416,9 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
         top -= padding;
         left -= padding;
         width += padding * 2;
+        width = maxWidth > 0 ? maxWidth : width;
         height += padding * 2;
+        height = maxHeight > 0 ? maxHeight : height;
 
         $(cutOut).css("top", top + "px");
         $(cutOut).css("left", left + "px");
@@ -423,8 +432,8 @@ public class MaterialCutOut extends MaterialWidget implements HasCloseHandlers<M
      */
     protected void setupWindowHandlers() {
 
-        registerHandler(Window.addResizeHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, absolute)));
-        registerHandler(Window.addWindowScrollHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, absolute)));
+        registerHandler(Window.addResizeHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, config)));
+        registerHandler(Window.addWindowScrollHandler(event -> setupCutOutPosition(focusElement, targetElement, cutOutPadding, circle, config)));
     }
 
     protected void setupTransition() {
