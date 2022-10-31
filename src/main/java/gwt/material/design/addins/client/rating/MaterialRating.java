@@ -29,6 +29,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
+import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
@@ -103,7 +104,7 @@ import java.util.List;
  *
  * @author gilberto-torrezan
  */
-public class MaterialRating extends MaterialWidget implements HasValue<Integer> {
+public class MaterialRating extends AbstractValueWidget<Integer>  {
 
     private boolean editable = true;
     private int currentRating = 0;
