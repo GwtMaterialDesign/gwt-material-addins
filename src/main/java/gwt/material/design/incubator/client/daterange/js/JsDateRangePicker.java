@@ -53,6 +53,9 @@ public class JsDateRangePicker extends DateRangeOptions {
     public native void daterangepicker(DateRangeOptions options, Functions.Func2<Object, Object> callback);
 
     @JsMethod
+    public native void daterangepicker(DateRangeOptions options, Functions.Func3<Object, Object, String> callback);
+
+    @JsMethod
     public native void daterangepicker();
 
     @JsMethod

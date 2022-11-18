@@ -93,6 +93,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     private Date startDate;
     private Date endDate;
     private Date[] value;
+    private String predefinedLabel;
 
     private FieldTypeMixin<DateRangePicker> fieldTypeMixin;
     private StatusTextMixin<AbstractValueWidget, MaterialLabel> statusTextMixin;
@@ -117,7 +118,8 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         add(label);
         add(errorLabel);
 
-        getInputElement().daterangepicker(options, (startDate, endDate) -> {
+        getInputElement().daterangepicker(options, (startDate, endDate, label) -> {
+            this.predefinedLabel = label;
             setValue(new Date[]{new Date(startDate.toString()), new Date(endDate.toString())}, true);
         });
 
@@ -754,6 +756,10 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
 
     public void setMask(String mask) {
         this.mask = mask;
+    }
+
+    public String getPredefinedLabel() {
+        return predefinedLabel;
     }
 
     @Override
