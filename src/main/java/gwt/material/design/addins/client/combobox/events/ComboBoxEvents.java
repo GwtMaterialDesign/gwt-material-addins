@@ -19,6 +19,8 @@
  */
 package gwt.material.design.addins.client.combobox.events;
 
+import gwt.material.design.jquery.client.api.Event;
+
 /**
  * Events for Combobox
  *
@@ -36,4 +38,5 @@ public interface ComboBoxEvents {
     String CLEAR = "select2:clear";
     String CLEARING = "select2:clearing";
     String FOCUS = "focus";
+    String KEYUP = "keyup";
 }
