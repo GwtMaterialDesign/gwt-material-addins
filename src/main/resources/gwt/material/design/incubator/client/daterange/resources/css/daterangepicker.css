@@ -333,8 +333,12 @@
   display: block;
 }
 
-.date-range-picker.range-label {
+.date-range-picker.range-label.single {
   max-width: 200px;
+}
+
+.date-range-picker.range-label {
+  max-width: 280px;
   height: 48px;
 }
 
