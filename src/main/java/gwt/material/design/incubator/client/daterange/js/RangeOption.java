@@ -45,6 +45,7 @@ public class RangeOption {
         range.Last7Days = new Moment[]{moment().subtract(6, "days"), moment()};
         range.Last30Days = new Moment[]{moment().subtract(29, "days"), moment()};
         range.ThisMonth = new Moment[]{moment().startOf("month"), moment().endOf("month")};
+        //TODO: Bug -> Last Month -> (
         range.LastMonth = new Moment[]{moment().subtract(1, "month"), moment().startOf("month")};
         return range;
     }

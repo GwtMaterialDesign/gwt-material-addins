@@ -157,7 +157,6 @@
     border: 1px solid transparent;
     white-space: nowrap;
     cursor: pointer;
-    padding: unset;
 }
 
 .daterangepicker .calendar-table {
@@ -321,6 +320,37 @@
 .daterangepicker .ranges li.active {
     background-color: #08c;
     color: #fff;
+}
+
+.date-range-picker i.calendar {
+    display: none;
+    position: absolute;
+    right: 28px;
+    top: 10px;
+}
+
+.date-range-picker.range-label i.calendar {
+    display: block;
+}
+
+.date-range-picker.range-label.single {
+    max-width: 200px;
+}
+
+.date-range-picker.range-label {
+    max-width: 280px;
+    height: 48px;
+}
+
+.date-range-picker.range-label input {
+    cursor: pointer;
+}
+
+.date-range-picker.range-label:hover {
+    background: #e8f1fd;
+    border-radius: 8px;
+    color: #3181eb;
+    cursor: pointer;
 }
 
 /*  Larger Screen Styling */
