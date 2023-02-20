@@ -265,10 +265,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
         jsComboBox.off(ComboBoxEvents.UNSELECT);
+        jsComboBox.off(ComboBoxEvents.OPENING);
         jsComboBox.off(ComboBoxEvents.OPEN);
+        jsComboBox.off(ComboBoxEvents.CLOSING);
         jsComboBox.off(ComboBoxEvents.CLOSE);
         jsComboBox.off(ComboBoxEvents.CLEAR);
         jsComboBox.off(ComboBoxEvents.CLEARING);
+        jsComboBox.off(ComboBoxEvents.FOCUS);
+        jsComboBox.off(ComboBoxEvents.KEYUP);
         body().off("focus");
         jsComboBox.select2("destroy");
     }
