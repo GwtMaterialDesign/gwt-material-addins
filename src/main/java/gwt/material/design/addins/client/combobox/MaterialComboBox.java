@@ -118,6 +118,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private int selectedIndex;
     private boolean open;
     private boolean suppressChangeEvent;
+    private boolean enableFocus;
     protected List<T> values = new ArrayList<>();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
@@ -224,12 +225,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
-        body().on(ComboBoxEvents.FOCUS, getSelectContainerSelector(), (e, param1) -> {
-            if (!e.getCurrentTarget().getClassName().contains("select2-container--focus")) {
-                DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this, getElement());
-            }
-            return false;
-        });
+        if (enableFocus) {
+            body().on(ComboBoxEvents.FOCUS, getSelectContainerSelector(), (e, param1) -> {
+                if (!e.getCurrentTarget().getClassName().contains("select2-container--focus")) {
+                    DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this, getElement());
+                }
+                return false;
+            });
+        }
 
         body().on(ComboBoxEvents.KEYUP, getSearchFieldElement(), e -> {
             KeyEvent keyEvent = (KeyEvent) e;
@@ -1266,6 +1269,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public void setSearchInputValue(String value) {
         $(getSearchFieldElement()).val(value);
+    }
+
+    public boolean isEnableFocus() {
+        return enableFocus;
+    }
+
+    public void setEnableFocus(boolean enableFocus) {
+        this.enableFocus = enableFocus;
     }
 
     @Override
