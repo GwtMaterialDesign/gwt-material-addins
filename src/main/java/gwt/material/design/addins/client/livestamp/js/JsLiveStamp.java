@@ -43,5 +43,5 @@ public class JsLiveStamp extends JQueryElement {
     public static native JsLiveStamp $(String selector);
 
     @JsMethod
-    public native JsLiveStamp livestamp(int currentMillis);
+    public native JsLiveStamp livestamp(String method);
 }

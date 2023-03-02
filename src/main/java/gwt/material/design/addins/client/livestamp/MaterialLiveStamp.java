@@ -19,15 +19,13 @@
  */
 package gwt.material.design.addins.client.livestamp;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.livestamp.js.JsLiveStamp;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.JsLoader;
 
 import java.util.Date;
 
@@ -56,9 +54,9 @@ import java.util.Date;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#livestamp">Material Live Stamp</a>
  * @see <a href="https://github.com/mattbradley/livestampjs">LiveStamp 1.1.2</a>
  */
-public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLoader {
+public class MaterialLiveStamp extends AbstractValueWidget<Date> {
 
-    private Date date = new Date();
+    private Date value = new Date();
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -75,45 +73,31 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> implements JsLo
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
+    protected void onUnload() {
+        super.onUnload();
 
-        load();
+        destroy();
     }
 
     @Override
-    public void load() {
-        if (date != null) {
-            setValue(date);
+    public void setValue(Date value, boolean fireEvents) {
+        super.setValue(value, fireEvents);
+        this.value = value;
+
+        if (value != null) {
+            getElement().setAttribute("data-livestamp", value.toString());
         } else {
-            GWT.log("You must specify the date value.", new IllegalStateException());
+            destroy();
         }
     }
 
-    @Override
-    public void unload() {
-        getElement().removeAttribute("data-livestamp");
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
-    }
-
-    @Override
-    public void setValue(Date date, boolean fireEvents) {
-        this.date = date;
-
-        if (date != null) {
-            getElement().setAttribute("data-livestamp", date.toString());
-
-            super.setValue(date, fireEvents);
-        }
+    public void destroy() {
+        JsLiveStamp.$(getElement()).livestamp("destroy");
+        getElement().setInnerText("-");
     }
 
     @Override
     public Date getValue() {
-        return date;
+        return value;
     }
 }
