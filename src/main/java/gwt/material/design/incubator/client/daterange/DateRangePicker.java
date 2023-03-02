@@ -780,6 +780,15 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     }
 
     @Override
+    public void reset() {
+        super.reset();
+
+        setAutoUpdateInput(false);
+        getDateInput().clear();
+        reload();
+    }
+
+    @Override
     public boolean isNativeBrowserStyle() {
         return getNativeBrowserStyleMixin().isNativeBrowserStyle();
     }
