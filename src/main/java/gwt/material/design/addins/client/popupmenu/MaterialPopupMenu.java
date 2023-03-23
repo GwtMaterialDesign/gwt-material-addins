@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.popupmenu;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -56,6 +57,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     private String id;
     private Object selected;
     private boolean autoClose = true;
+    private boolean autoFocus = false;
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
@@ -189,7 +191,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     @Override
     public void open() {
         setVisible(true);
-        /*Scheduler.get().scheduleDeferred(() -> setFocus(true));*/
+        if (autoFocus) Scheduler.get().scheduleDeferred(() -> setFocus(true));
 
         // Check if dropdown is out of the container (Left)
         if ($(this).width() + $(this).offset().left > body().width()) {
@@ -215,6 +217,14 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
 
     public void setSelected(Object selected) {
         this.selected = selected;
+    }
+
+    public boolean isAutoFocus() {
+        return autoFocus;
+    }
+
+    public void setAutoFocus(boolean autoFocus) {
+        this.autoFocus = autoFocus;
     }
 
     @Override
