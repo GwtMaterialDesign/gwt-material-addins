@@ -57,7 +57,6 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     private String id;
     private Object selected;
     private boolean autoClose = true;
-    private boolean autoFocus = false;
 
     public MaterialPopupMenu() {
         id = DOM.createUniqueId();
@@ -74,8 +73,10 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     @Override
     public void load() {
         $(this).attr("tabindex", "0");
-        $(this).on("blur", e -> {
-            if (autoClose) {
+
+        $(window()).off().on("mouseup", e -> {
+            boolean closest = $(e.target).closest("#" + id).length() == 0;
+            if (autoClose && closest) {
                 close();
             }
             return true;
@@ -191,7 +192,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     @Override
     public void open() {
         setVisible(true);
-        if (autoFocus) Scheduler.get().scheduleDeferred(() -> setFocus(true));
+        Scheduler.get().scheduleDeferred(() -> setFocus(true));
 
         // Check if dropdown is out of the container (Left)
         if ($(this).width() + $(this).offset().left > body().width()) {
@@ -217,14 +218,6 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
 
     public void setSelected(Object selected) {
         this.selected = selected;
-    }
-
-    public boolean isAutoFocus() {
-        return autoFocus;
-    }
-
-    public void setAutoFocus(boolean autoFocus) {
-        this.autoFocus = autoFocus;
     }
 
     @Override
