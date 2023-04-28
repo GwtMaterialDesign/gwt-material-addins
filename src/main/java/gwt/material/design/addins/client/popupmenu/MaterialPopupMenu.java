@@ -74,7 +74,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     public void load() {
         $(this).attr("tabindex", "0");
 
-        $(window()).off().on("mouseup", e -> {
+        $(this).off("mouseup").on("mouseup", e -> {
             boolean closest = $(e.target).closest("#" + id).length() == 0;
             if (autoClose && closest) {
                 close();
