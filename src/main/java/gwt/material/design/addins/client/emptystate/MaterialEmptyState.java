@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.emptystate;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.client.MaterialDesignBase;
@@ -28,9 +29,7 @@ import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.HasTitle;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.MaterialIcon;
-import gwt.material.design.client.ui.MaterialLoader;
-import gwt.material.design.client.ui.MaterialTitle;
+import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Div;
 
 //@formatter:off
@@ -65,6 +64,7 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     private boolean loading;
     private MaterialIcon icon = new MaterialIcon();
     private MaterialTitle title = new MaterialTitle();
+    private MaterialPanel actions = new MaterialPanel();
     private Div container = new Div();
 
     public MaterialEmptyState() {
@@ -91,6 +91,8 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
         container.setWidth("100%");
         container.setStyleName(CssName.VALIGN + " " + CssName.CENTER);
         container.add(title);
+        actions.addStyleName("actions");
+        container.add(actions);
         title.insert(icon, 0);
     }
 
@@ -176,6 +178,12 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
 
     public Div getContainer() {
         return container;
+    }
+
+    public void addAction(Widget widget) {
+        if (widget != null) {
+            actions.add(widget);
+        }
     }
 
     public boolean isLoading() {

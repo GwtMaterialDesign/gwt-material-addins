@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.popupmenu;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -72,8 +73,10 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     @Override
     public void load() {
         $(this).attr("tabindex", "0");
-        $(this).on("blur", e -> {
-            if (autoClose) {
+
+        $(this).off("mouseup").on("mouseup", e -> {
+            boolean closest = $(e.target).closest("#" + id).length() == 0;
+            if (autoClose && closest) {
                 close();
             }
             return true;
@@ -189,7 +192,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     @Override
     public void open() {
         setVisible(true);
-        /*Scheduler.get().scheduleDeferred(() -> setFocus(true));*/
+        Scheduler.get().scheduleDeferred(() -> setFocus(true));
 
         // Check if dropdown is out of the container (Left)
         if ($(this).width() + $(this).offset().left > body().width()) {

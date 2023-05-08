@@ -101,9 +101,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
 
     @Override
     public void load() {
-        if (mask == null || mask.isEmpty()) {
-            GWT.log("You must provide a mask pattern in order to mask your field");
-        } else {
+        if (mask != null && !mask.isEmpty()) {
             load(mask);
         }
     }

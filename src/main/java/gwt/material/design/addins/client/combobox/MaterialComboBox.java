@@ -24,6 +24,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
@@ -59,12 +60,14 @@ import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
 import gwt.material.design.jquery.client.api.Event;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
+import gwt.material.design.jquery.client.api.KeyEvent;
 
 import java.util.*;
 
@@ -115,6 +118,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     private int selectedIndex;
     private boolean open;
     private boolean suppressChangeEvent;
+    private boolean enableFocus;
     protected List<T> values = new ArrayList<>();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
@@ -221,11 +225,19 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             return true;
         });
 
-        body().on(ComboBoxEvents.FOCUS, getSelectContainerSelector(), (e, param1) -> {
-            if (!e.getCurrentTarget().getClassName().contains("select2-container--focus")) {
-                DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this, getElement());
-            }
-            return false;
+        if (enableFocus) {
+            body().on(ComboBoxEvents.FOCUS, getSelectContainerSelector(), (e, param1) -> {
+                if (!e.getCurrentTarget().getClassName().contains("select2-container--focus")) {
+                    DomEvent.fireNativeEvent(Document.get().createFocusEvent(), this, getElement());
+                }
+                return false;
+            });
+        }
+
+        body().on(ComboBoxEvents.KEYUP, getSearchFieldElement(), e -> {
+            KeyEvent keyEvent = (KeyEvent) e;
+            DomEvent.fireNativeEvent(Document.get().createKeyUpEvent(keyEvent.ctrlKey, keyEvent.altKey, keyEvent.shiftKey, Boolean.parseBoolean(keyEvent.metaKey), keyEvent.keyCode), this, getElement());
+            return true;
         });
 
         displayArrowForAllowClearOption(false);
@@ -256,10 +268,14 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         jsComboBox.off(ComboBoxEvents.CHANGE);
         jsComboBox.off(ComboBoxEvents.SELECT);
         jsComboBox.off(ComboBoxEvents.UNSELECT);
+        jsComboBox.off(ComboBoxEvents.OPENING);
         jsComboBox.off(ComboBoxEvents.OPEN);
+        jsComboBox.off(ComboBoxEvents.CLOSING);
         jsComboBox.off(ComboBoxEvents.CLOSE);
         jsComboBox.off(ComboBoxEvents.CLEAR);
         jsComboBox.off(ComboBoxEvents.CLEARING);
+        jsComboBox.off(ComboBoxEvents.FOCUS);
+        jsComboBox.off(ComboBoxEvents.KEYUP);
         body().off("focus");
         jsComboBox.select2("destroy");
     }
@@ -1243,6 +1259,26 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         return values;
     }
 
+    public void focusSearchInput() {
+        $(getSearchFieldElement()).focus();
+    }
+
+    public void setSearchInputPlaceholder(String placeholder) {
+        $(getSearchFieldElement()).attr("placeholder", placeholder);
+    }
+
+    public void setSearchInputValue(String value) {
+        $(getSearchFieldElement()).val(value);
+    }
+
+    public boolean isEnableFocus() {
+        return enableFocus;
+    }
+
+    public void setEnableFocus(boolean enableFocus) {
+        this.enableFocus = enableFocus;
+    }
+
     @Override
     public void setAsyncDisplayLoader(AsyncDisplayLoader displayLoader) {
         getAsyncWidgetMixin().setAsyncDisplayLoader(displayLoader);
@@ -1254,6 +1290,10 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public String getSelectContainerSelector() {
         return "#" + getId() + " .select2.select2-container";
+    }
+
+    public String getSearchFieldElement() {
+        return "#" + getId() + " .select2-search__field";
     }
 
     @Override

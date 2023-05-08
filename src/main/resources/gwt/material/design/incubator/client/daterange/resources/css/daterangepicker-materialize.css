@@ -271,13 +271,6 @@ button.cancelBtn:hover {
         margin-top: 12px;
     }
 
-    .daterangepicker:not(.single) .calendar-table th.next,
-    .daterangepicker:not(.single) .calendar-table th.prev {
-        top: 0px;
-        position: fixed;
-        margin: 12px;
-    }
-
     .daterangepicker:not(.single) td.active,
     .daterangepicker:not(.single) td.active:hover,
     .daterangepicker:not(.single) td.in-range.active:not(.off) {
@@ -381,6 +374,15 @@ button.cancelBtn:hover {
         text-transform: uppercase;
         font-weight: bold;
     }
+
+    .daterangepicker:not(.single) .drp-calendar.left,
+    .daterangepicker:not(.single) .drp-calendar.right {
+        padding: 0px !important;
+    }
+
+    .daterangepicker:not(.single) .calendar-table td {
+        line-height: 36px !important;
+    }
 }
 
 /** Tablet Queries **/
@@ -394,5 +396,10 @@ button.cancelBtn:hover {
         position: absolute;
         left: 0;
         margin-left: 0px;
+    }
+
+    .daterangepicker:not(.single) .calendar-table th.next,
+    .daterangepicker:not(.single) .calendar-table th.prev{
+        top: 0px;
     }
 }
