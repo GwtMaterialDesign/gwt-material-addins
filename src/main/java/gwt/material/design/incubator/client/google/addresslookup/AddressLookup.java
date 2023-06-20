@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.google.addresslookup;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.client.constants.Autocomplete;
 import gwt.material.design.client.ui.MaterialTextBox;
@@ -83,6 +84,7 @@ public class AddressLookup extends MaterialTextBox
     public AddressLookup() {
         setPlaceholder("");
         setAutocomplete(Autocomplete.OFF);
+        addStyleName("address-lookup");
     }
 
     /**
@@ -102,8 +104,10 @@ public class AddressLookup extends MaterialTextBox
     }
 
     public void load() {
-        addressLookup = new JsAddressLookup(valueBoxBase.getElement(), options);
-        addressLookup.addListener(AddressLookupEvents.PLACE_CHANGED, () -> PlaceChangedEvent.fire(AddressLookup.this));
+        Scheduler.get().scheduleDeferred(() -> {
+            addressLookup = new JsAddressLookup(valueBoxBase.getElement(), options);
+            addressLookup.addListener(AddressLookupEvents.PLACE_CHANGED, () -> PlaceChangedEvent.fire(AddressLookup.this));
+        });
     }
 
     /**
