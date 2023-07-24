@@ -52,6 +52,7 @@
 
                         if (from != to) {
                             var e = $.Event('change.livestamp');
+                            $this.removeClass("stamp-loading");
                             $this.trigger(e, [from, to]);
                             if (!e.isDefaultPrevented())
                                 $this.html(to);
