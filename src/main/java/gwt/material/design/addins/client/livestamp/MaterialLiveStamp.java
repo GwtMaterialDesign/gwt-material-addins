@@ -76,15 +76,19 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> {
 
     }
 
-    protected void loading() {
-        getElement().setInnerText("-");
-        addStyleName("stamp-loading");
+    protected void loading(boolean show) {
+        if (show) {
+            getElement().setInnerText("-");
+            addStyleName("stamp-loading");
+        } else {
+            removeStyleName("stamp-loading");
+        }
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        loading();
+        loading(true);
     }
 
     @Override
@@ -104,6 +108,7 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> {
         } else {
             destroy();
         }
+        loading(false);
     }
 
     public void destroy() {
