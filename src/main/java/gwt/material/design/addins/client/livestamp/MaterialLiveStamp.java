@@ -26,6 +26,7 @@ import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.constants.Color;
 
 import java.util.Date;
 
@@ -62,14 +63,32 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> {
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentLocale());
             MaterialDesignBase.injectDebugJs(MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugJs());
+            MaterialDesignBase.injectCss(MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugCss());
         } else {
             MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentWithLocale());
             MaterialDesignBase.injectJs(MaterialLiveStampClientBundle.INSTANCE.liveStampJs());
+            MaterialDesignBase.injectCss(MaterialLiveStampClientBundle.INSTANCE.liveStampCss());
         }
     }
 
     public MaterialLiveStamp() {
         super(Document.get().createSpanElement());
+
+    }
+
+    protected void loading(boolean show) {
+        if (show) {
+            getElement().setInnerText("-");
+            addStyleName("stamp-loading");
+        } else {
+            removeStyleName("stamp-loading");
+        }
+    }
+
+    @Override
+    protected void onLoad() {
+        super.onLoad();
+        loading(true);
     }
 
     @Override
@@ -89,6 +108,7 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> {
         } else {
             destroy();
         }
+        loading(false);
     }
 
     public void destroy() {
