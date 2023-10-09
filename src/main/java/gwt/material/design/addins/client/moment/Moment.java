@@ -944,13 +944,5 @@ public class Moment {
     @JsMethod
     public native String toJDFString(String format);
 
-    /** This may require the moment-timezone.js **/
-    @JsMethod(namespace = "moment.tz")
-    public static native String guess();
-
-    @JsMethod(namespace = "moment")
-    public static native Moment tz(String timezone);
-
-    @JsMethod(namespace = "moment")
-    public static native Moment tz(Long date, String timezone);
+    public native MomentTimezone tz(String timeZone);
 }
