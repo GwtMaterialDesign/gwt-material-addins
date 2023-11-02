@@ -35,4 +35,7 @@ public interface MomentClientBundle extends ClientBundle {
 
     @Source("js/moment-with-locales.min.js")
     TextResource momentWithLocale();
+
+    @Source("js/moment.timezone.min.js")
+    TextResource momentWithTimezone();
 }

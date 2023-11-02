@@ -24,6 +24,7 @@ import com.google.gwt.core.client.JsDate;
 import gwt.material.design.addins.client.moment.option.CalendarFormat;
 import gwt.material.design.addins.client.moment.option.CreationData;
 import gwt.material.design.addins.client.moment.option.Duration;
+import gwt.material.design.addins.client.moment.option.LocaleOptions;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.jquery.client.api.Functions;
 import jsinterop.annotations.*;
@@ -943,4 +944,9 @@ public class Moment {
      */
     @JsMethod
     public native String toJDFString(String format);
+
+    public native MomentTimezone tz(String timeZone);
+
+    @JsMethod(namespace = "moment")
+    public static native void updateLocale(String locale, LocaleOptions localeOptions);
 }
