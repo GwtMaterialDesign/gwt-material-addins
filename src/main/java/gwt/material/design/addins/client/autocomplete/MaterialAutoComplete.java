@@ -308,8 +308,11 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
     protected void unloadHandlers() {
         removeHandler(itemBoxBlurHandler);
+        itemBoxBlurHandler = null;
         removeHandler(itemBoxKeyDownHandler);
+        itemBoxKeyDownHandler = null;
         removeHandler(itemBoxClickHandler);
+        itemBoxClickHandler = null;
     }
 
     /**
@@ -319,6 +322,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
 
         if (itemBoxKeyDownHandler != null) {
             itemBoxKeyDownHandler.removeHandler();
+            itemBoxKeyDownHandler = null;
         }
 
         list.setStyleName(AddinsCssName.MULTIVALUESUGGESTBOX_LIST);
