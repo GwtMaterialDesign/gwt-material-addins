@@ -91,7 +91,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
 
         initializeSelectionEvent();
 
-        close();
+        setVisible(false);
     }
 
     @Override
