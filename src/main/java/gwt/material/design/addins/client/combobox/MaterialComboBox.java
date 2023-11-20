@@ -29,7 +29,6 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.AddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.combobox.async.DefaultComboBoxDisplayLoader;
@@ -103,15 +102,15 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="https://github.com/select2/select2">Select2 4.0.3</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends AddinsValueWidget<List<T>> implements JsLoader, HasPlaceholder,
+public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
         HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel, HasOpenClose, HasSingleValue<T> {
 
     static {
         if (MaterialAddins.isDebug()) {
-            //MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
+            MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
             MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
         } else {
-            //MaterialDesignBase.injectJs(MaterialComboBoxClientBundle.INSTANCE.select2Js());
+            MaterialDesignBase.injectJs(MaterialComboBoxClientBundle.INSTANCE.select2Js());
             MaterialDesignBase.injectCss(MaterialComboBoxClientBundle.INSTANCE.select2Css());
         }
     }
@@ -147,22 +146,18 @@ public class MaterialComboBox<T> extends AddinsValueWidget<List<T>> implements J
 
     @Override
     protected void onLoad() {
-        if (!isDependencyLoaded()) {
-            getDependencyMixin().install(getClass(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
-        } else {
-            label.setInitialClasses(AddinsCssName.SELECT2LABEL);
-            addWidget(listbox);
-            addWidget(label);
-            addWidget(errorLabel);
-            errorLabel.setMarginTop(8);
-            listbox.setGwtDisplay(Style.Display.BLOCK);
+        label.setInitialClasses(AddinsCssName.SELECT2LABEL);
+        addWidget(listbox);
+        addWidget(label);
+        addWidget(errorLabel);
+        errorLabel.setMarginTop(8);
+        listbox.setGwtDisplay(Style.Display.BLOCK);
 
-            super.onLoad();
+        super.onLoad();
 
-            load();
+        load();
 
-            registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
-        }
+        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
     }
 
     @Override
