@@ -26,7 +26,6 @@ import gwt.material.design.client.base.HasDependency;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.mixin.DependencyCallback;
 import gwt.material.design.client.base.mixin.DependencyMixin;
-import gwt.material.design.client.ui.MaterialToast;
 
 public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T> implements HasDependency, JsLoader {
 
@@ -38,42 +37,36 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
 
     public AbstractAddinsValueWidget(Element element, String... initialClass) {
         super(element, initialClass);
-    }
-
-    @Override
-    public void onDependencyLoaded() {
-
+        getDependencyMixin().setDebug(MaterialAddins.isDebug());
     }
 
     public boolean isDependencyLoaded() {
         return getDependencyMixin().isDependencyLoaded(getClass());
     }
 
-    protected void install(TextResource minifiedJs, TextResource debugJs, TextResource minifiedCss, TextResource debugCss) {
-        installJs(minifiedJs, debugJs);
-        installCss(minifiedCss, debugCss);
+    @Override
+    public void install(TextResource minifiedJs, TextResource debugJs, TextResource minifiedCss, TextResource debugCss) {
+        getDependencyMixin().install(minifiedJs, debugJs, minifiedCss, debugCss);
     }
 
-    protected void installJs(TextResource minifiedJs, TextResource debugJs) {
-        if (!isDependencyLoaded()) {
-            getDependencyMixin().installJs(minifiedJs, debugJs, new DependencyCallback() {
-                @Override
-                public void onSuccess() {
-                    load();
-                }
-
-                @Override
-                public void onError(String error) {
-                    MaterialToast.fireToast("Error injecting the Dependency url : " + error);
-                }
-            });
-        }
+    @Override
+    public void setDebug(boolean debug) {
+        getDependencyMixin().setDebug(debug);
     }
 
-    protected void installCss(TextResource minifiedCss, TextResource debugCss) {
-        if (!isDependencyLoaded()) {
-            getDependencyMixin().installCss(minifiedCss, debugCss);
-        }
+    @Override
+    public DependencyCallback getCallback() {
+        return getDependencyMixin().getCallback();
+    }
+
+    @Override
+    public boolean isDependencyLoaded(Class<?> loaderClass) {
+        return getDependencyMixin().isDependencyLoaded(loaderClass);
+    }
+
+    @Override
+    public void setDependencyLoaded(Class<?> loaderClass, boolean loaded) {
+        getDependencyMixin().setDependencyLoaded(loaderClass, loaded);
     }
 
     public DependencyMixin getDependencyMixin() {
