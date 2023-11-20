@@ -21,14 +21,13 @@ package gwt.material.design.addins.client.circularprogress;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.circularprogress.events.*;
 import gwt.material.design.addins.client.circularprogress.js.JsCircularProgressOptions;
 import gwt.material.design.addins.client.circularprogress.ui.CircularProgressLabel;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.FontSizeMixin;
@@ -63,18 +62,7 @@ import static gwt.material.design.addins.client.circularprogress.js.JsCircularPr
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#circularprogress">Material Circular Progress</a>
  * @see <a href="https://github.com/kottenator/jquery-circle-progress">jquery-circle-progress 1.2.2</a>
  */
-public class MaterialCircularProgress extends AbstractValueWidget<Double> implements JsLoader, HasCircularProgressHandlers {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugJs());
-            MaterialDesignBase.injectCss(MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugCss());
-        } else {
-            MaterialDesignBase.injectJs(MaterialCircularProgressClientBundle.INSTANCE.circularProgressJs());
-            MaterialDesignBase.injectCss(MaterialCircularProgressClientBundle.INSTANCE.circularProgressCss());
-        }
-    }
-
+public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> implements HasCircularProgressHandlers {
 
     private final CircularProgressLabel label = new CircularProgressLabel();
     private final JsCircularProgressOptions options = JsCircularProgressOptions.create();
@@ -85,13 +73,11 @@ public class MaterialCircularProgress extends AbstractValueWidget<Double> implem
 
     public MaterialCircularProgress() {
         super(Document.get().createDivElement(), AddinsCssName.CIRCULAR_PROGRESS);
-    }
 
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
+        install(MaterialCircularProgressClientBundle.INSTANCE.circularProgressJs(),
+                MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugJs(),
+                MaterialCircularProgressClientBundle.INSTANCE.circularProgressCss(),
+                MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugCss());
     }
 
     @Override
