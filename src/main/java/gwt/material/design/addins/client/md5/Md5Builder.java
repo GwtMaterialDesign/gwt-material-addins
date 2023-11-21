@@ -86,7 +86,7 @@ public class Md5Builder implements HasDependency, JsLoader {
 
     @Override
     public void unload() {
-
+        Md5.destroy();
     }
 
     public String convert() {

@@ -49,4 +49,7 @@ public class Md5 {
 
     @JsMethod(namespace = "md5")
     public static native String base64(String message);
+
+    @JsMethod(namespace = "md5")
+    public static native void destroy();
 }
