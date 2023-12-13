@@ -20,16 +20,15 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.TextResource;
 import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.HasDependency;
-import gwt.material.design.client.base.JsLoader;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.client.base.mixin.DependencyCallback;
-import gwt.material.design.client.base.mixin.DependencyMixin;
+import gwt.material.design.client.ui.MaterialToast;
 
-public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T> implements HasDependency, JsLoader {
+public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T> implements HasDependency {
 
-    protected DependencyMixin dependencyMixin;
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     public AbstractAddinsValueWidget(Element element) {
         super(element);
@@ -37,46 +36,29 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
 
     public AbstractAddinsValueWidget(Element element, String... initialClass) {
         super(element, initialClass);
-        getDependencyMixin().setDebug(MaterialAddins.isDebug());
-    }
-
-    public boolean isDependencyLoaded() {
-        return getDependencyMixin().isDependencyLoaded(getClass());
     }
 
     @Override
-    public void install(TextResource minifiedJs, TextResource debugJs, TextResource minifiedCss, TextResource debugCss) {
-        getDependencyMixin().install(minifiedJs, debugJs, minifiedCss, debugCss);
+    protected void onLoad() {
+        getDependencyMixin().install(this::internalLoad);
     }
+
+    public abstract void internalLoad();
 
     @Override
-    public void install(TextResource minifiedJs, TextResource debugJs) {
-        getDependencyMixin().install(minifiedJs, debugJs);
+    protected void onUnload() {
+        super.onUnload();
+
+        unload();
     }
 
-    @Override
-    public void setDebug(boolean debug) {
-        getDependencyMixin().setDebug(debug);
-    }
+    public void unload() {}
 
-    @Override
-    public DependencyCallback getCallback() {
-        return getDependencyMixin().getCallback();
-    }
+    public void reload() {}
 
-    @Override
-    public boolean isDependencyLoaded(Class<?> loaderClass) {
-        return getDependencyMixin().isDependencyLoaded(loaderClass);
-    }
-
-    @Override
-    public void setDependencyLoaded(Class<?> loaderClass, boolean loaded) {
-        getDependencyMixin().setDependencyLoaded(loaderClass, loaded);
-    }
-
-    public DependencyMixin getDependencyMixin() {
+    public DependencyMixin<HasDependency> getDependencyMixin() {
         if (dependencyMixin == null) {
-            dependencyMixin = new DependencyMixin(this);
+            dependencyMixin = new DependencyMixin<>(this);
         }
         return dependencyMixin;
     }

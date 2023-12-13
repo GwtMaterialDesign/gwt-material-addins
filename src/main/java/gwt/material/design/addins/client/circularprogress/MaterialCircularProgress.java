@@ -22,17 +22,19 @@ package gwt.material.design.addins.client.circularprogress;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.circularprogress.events.*;
 import gwt.material.design.addins.client.circularprogress.js.JsCircularProgressOptions;
 import gwt.material.design.addins.client.circularprogress.ui.CircularProgressLabel;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.FontSizeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static gwt.material.design.addins.client.circularprogress.js.JsCircularProgress.$;
 
@@ -73,15 +75,10 @@ public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> 
 
     public MaterialCircularProgress() {
         super(Document.get().createDivElement(), AddinsCssName.CIRCULAR_PROGRESS);
-
-        install(MaterialCircularProgressClientBundle.INSTANCE.circularProgressJs(),
-                MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugJs(),
-                MaterialCircularProgressClientBundle.INSTANCE.circularProgressCss(),
-                MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugCss());
     }
 
     @Override
-    public void load() {
+    public void internalLoad() {
         if (!label.isAttached()) {
             add(label);
             label.setSize(getSize(), isResponsive());
@@ -107,15 +104,7 @@ public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> 
     }
 
     @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        unload();
-    }
-
-    @Override
     public void unload() {
-
         if (label.isAttached()) {
             label.removeFromParent();
         }
@@ -132,7 +121,7 @@ public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> 
 
     public void reload(boolean redraw) {
         unload();
-        load();
+        internalLoad();
         if (redraw) {
             redraw();
         }
@@ -264,6 +253,23 @@ public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> 
 
     public CircularProgressLabel getLabel() {
         return label;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        List<DependencyResource> resources = new ArrayList<>();
+        resources.add(new DependencyResource(MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugJs(), true));
+        resources.add(new DependencyResource(MaterialCircularProgressClientBundle.INSTANCE.circularProgressJs(), false));
+        return resources;
+    }
+
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        List<DependencyResource> resources = new ArrayList<>();
+        resources.add(new DependencyResource(MaterialCircularProgressClientBundle.INSTANCE.circularProgressCss(), true));
+        resources.add(new DependencyResource(MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugCss(), false));
+        return resources;
     }
 
     public ToggleStyleMixin<MaterialWidget> getResponsiveMixin() {

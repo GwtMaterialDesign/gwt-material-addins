@@ -16,32 +16,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * #L%
- */
+ *//*
+
 package gwt.material.design.addins.client.md5;
 
 import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.client.base.HasDependency;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.mixin.DependencyCallback;
-import gwt.material.design.client.base.mixin.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 
-public class Md5Builder implements HasDependency, JsLoader {
+import java.util.List;
 
-    protected DependencyMixin<Md5Builder> dependencyMixin;
+public class Md5Converter implements HasDependency, JsLoader {
+
+    protected static Md5Converter instance;
+    protected DependencyMixin<Md5Converter> dependencyMixin;
     protected String message;
-    protected String converted = "";
     protected Md5Function function;
+    protected Md5ConvertCallback callback;
 
-    public Md5Builder(String message, Md5Function function) {
+    public Md5Converter() {}
+
+    public void convert(String message, Md5Function function, Md5ConvertCallback callback) {
         this.message = message;
+        this.callback = callback;
         this.function = function;
         install(Md5ClientBundle.INSTANCE.md5Js(), Md5DebugClientBundle.INSTANCE.md5DebugJs());
     }
 
-    public Md5Builder(String message) {
-        this.message = message;
-        this.function = Md5Function.HEX;
-        install(Md5ClientBundle.INSTANCE.md5Js(), Md5DebugClientBundle.INSTANCE.md5DebugJs());
+    public void convert(String message, Md5ConvertCallback callback) {
+        convert(message, Md5Function.HEX, callback);
     }
 
     @Override
@@ -62,35 +67,37 @@ public class Md5Builder implements HasDependency, JsLoader {
 
     @Override
     public void load() {
-        switch (function) {
-            case HEX:
-                converted = Md5.hex(message);
-                break;
-            case ARRAY:
-                converted = String.valueOf(Md5.array(message));
-                break;
-            case DIGEST:
-                converted = String.valueOf(Md5.digest(message));
-                break;
-            case ARRAY_BUFFER:
-                converted = (String) Md5.arrayBuffer(message);
-                break;
-            case BUFFER:
-                converted = (String) Md5.buffer(message);
-                break;
-            case BASE_64:
-                converted = Md5.base64(message);
-                break;
+        if (callback != null) {
+            String converted = "";
+            switch (function) {
+                case HEX:
+                    converted = Md5.hex(message);
+                    break;
+                case ARRAY:
+                    converted = String.valueOf(Md5.array(message));
+                    break;
+                case DIGEST:
+                    converted = String.valueOf(Md5.digest(message));
+                    break;
+                case ARRAY_BUFFER:
+                    converted = (String) Md5.arrayBuffer(message);
+                    break;
+                case BUFFER:
+                    converted = (String) Md5.buffer(message);
+                    break;
+                case BASE_64:
+                    converted = Md5.base64(message);
+                    break;
+            }
+            callback.call(converted);
+        } else {
+            throw new RuntimeException("Md5 convert callback must be defined");
         }
     }
 
     @Override
     public void unload() {
         Md5.destroy();
-    }
-
-    public String convert() {
-        return converted;
     }
 
     @Override
@@ -104,8 +111,8 @@ public class Md5Builder implements HasDependency, JsLoader {
     }
 
     @Override
-    public boolean isDependencyLoaded(Class<?> loaderClass) {
-        return getDependencyMixin().isDependencyLoaded(loaderClass);
+    public boolean isInstalled(Class<?> loaderClass) {
+        return getDependencyMixin().isInstalled(loaderClass);
     }
 
     @Override
@@ -113,10 +120,28 @@ public class Md5Builder implements HasDependency, JsLoader {
         getDependencyMixin().setDependencyLoaded(loaderClass, loaded);
     }
 
-    public DependencyMixin<Md5Builder> getDependencyMixin() {
+    @Override
+    public void internalLoad() {
+
+    }
+
+    @Override
+    public List<TextResource> getJsDependencies() {
+        return null;
+    }
+
+    public static Md5Converter get() {
+        if (instance == null) {
+            instance = new Md5Converter();
+        }
+        return instance;
+    }
+
+    public DependencyMixin<Md5Converter> getDependencyMixin() {
         if (dependencyMixin == null) {
             dependencyMixin = new DependencyMixin<>(this);
         }
         return dependencyMixin;
     }
 }
+*/
