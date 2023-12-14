@@ -44,6 +44,7 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.js.Window;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -176,8 +177,6 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
                 }
             }
         }));
-
-        AddinsDarkThemeReloader.get().reload(MaterialWindowDarkTheme.class);
     }
 
     @Override
@@ -487,6 +486,11 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
 
     public MaterialDnd getDnd() {
         return dnd;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialWindowDarkTheme.class;
     }
 
     @Override
