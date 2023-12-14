@@ -33,8 +33,8 @@ public interface MaterialCircularProgressClientBundle extends ClientBundle {
     MaterialCircularProgressClientBundle INSTANCE = GWT.create(MaterialCircularProgressClientBundle.class);
 
     @Source("resources/js/circleprogress.min.js")
-    TextResource circularProgressJs();
+    TextResource circularProgressMinifiedJs();
 
     @Source("resources/css/circleprogress.min.css")
-    TextResource circularProgressCss();
+    TextResource circularProgressMinifiedCss();
 }

@@ -33,7 +33,7 @@ import gwt.material.design.client.base.mixin.FontSizeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static gwt.material.design.addins.client.circularprogress.js.JsCircularProgress.$;
@@ -257,19 +257,13 @@ public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> 
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        List<DependencyResource> resources = new ArrayList<>();
-        resources.add(new DependencyResource(MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugJs(), true));
-        resources.add(new DependencyResource(MaterialCircularProgressClientBundle.INSTANCE.circularProgressJs(), false));
-        return resources;
+        return Collections.singletonList(new DependencyResource(MaterialCircularProgressClientBundle.INSTANCE.circularProgressMinifiedJs(), MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugJs()));
     }
-
 
     @Override
     public List<DependencyResource> getCssDependencies() {
-        List<DependencyResource> resources = new ArrayList<>();
-        resources.add(new DependencyResource(MaterialCircularProgressClientBundle.INSTANCE.circularProgressCss(), true));
-        resources.add(new DependencyResource(MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugCss(), false));
-        return resources;
+        return Collections.singletonList(new DependencyResource(MaterialCircularProgressClientBundle.INSTANCE.circularProgressMinifiedCss(),
+                MaterialCircularProgressDebugClientBundle.INSTANCE.circularProgressDebugCss()));
     }
 
     public ToggleStyleMixin<MaterialWidget> getResponsiveMixin() {

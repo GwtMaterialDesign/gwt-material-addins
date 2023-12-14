@@ -4,30 +4,30 @@ import com.google.gwt.resources.client.TextResource;
 
 public class DependencyResource {
 
-    private TextResource resource;
-    private boolean debug;
+    private TextResource minified;
+    private TextResource debug;
 
     public DependencyResource() {
     }
 
-    public DependencyResource(TextResource resource, boolean debug) {
-        this.resource = resource;
+    public DependencyResource(TextResource minified, TextResource debug) {
+        this.minified = minified;
         this.debug = debug;
     }
 
-    public TextResource getResource() {
-        return resource;
+    public TextResource getMinified() {
+        return minified;
     }
 
-    public void setResource(TextResource resource) {
-        this.resource = resource;
+    public void setMinified(TextResource minified) {
+        this.minified = minified;
     }
 
-    public boolean isDebug() {
+    public TextResource getDebug() {
         return debug;
     }
 
-    public void setDebug(boolean debug) {
+    public void setDebug(TextResource debug) {
         this.debug = debug;
     }
 }

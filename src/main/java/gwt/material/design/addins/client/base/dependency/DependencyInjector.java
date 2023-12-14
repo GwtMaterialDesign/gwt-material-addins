@@ -10,17 +10,21 @@ import java.util.List;
 
 public class DependencyInjector {
 
-    public static void installJs(DependencyResource dep, DependencyCallback callback) {
+    public static void installJs(List<DependencyResource> resources, DependencyCallback callback) {
         try {
-            TextResource resource = dep.getResource();
-            String text = resource.getText() + (dep.isDebug() ?
-                    "//# sourceURL=" + resource.getName() + ".js" : "");
+            for (DependencyResource dep : resources) {
+                TextResource resource = MaterialAddins.isDebug() ? dep.getDebug() : dep.getMinified();
+                String text = resource.getText() + (MaterialAddins.isDebug() ?
+                        "//# sourceURL=" + resource.getName() + ".js" : "");
 
-            // Inject the script resource
-            ScriptInjector.fromString(text)
-                    .setWindow(ScriptInjector.TOP_WINDOW)
-                    .setRemoveTag(!dep.isDebug())
-                    .inject();
+                // Inject the script resource
+                ScriptInjector.fromString(text)
+                        .setWindow(ScriptInjector.TOP_WINDOW)
+                        .setRemoveTag(!MaterialAddins.isDebug())
+                        .inject();
+
+
+            }
             if (callback != null) callback.onSuccess();
         } catch (RuntimeException e) {
             if (callback != null) callback.onError(e.getMessage());
@@ -28,26 +32,12 @@ public class DependencyInjector {
     }
 
     public static void installCss(List<DependencyResource> cssDependencies) {
-        DependencyResource dep = getMinifiedOrDebugResource(cssDependencies);
-        if (dep != null && dep.getResource() != null) {
-            StyleInjector.inject(dep.getResource().getText());
-        }
-    }
-
-    public static DependencyResource getMinifiedOrDebugResource(List<DependencyResource> resources) {
-        if (MaterialAddins.isDebug()) {
-            for (DependencyResource resource : resources) {
-                if (resource.isDebug()) {
-                    return resource;
-                }
-            }
-        } else {
-            for (DependencyResource resource : resources) {
-                if (!resource.isDebug()) {
-                    return resource;
-                }
+        for (DependencyResource dep : cssDependencies) {
+            if (MaterialAddins.isDebug()) {
+                StyleInjector.inject(dep.getDebug().getText());
+            } else {
+                StyleInjector.inject(dep.getMinified().getText());
             }
         }
-        return null;
     }
 }

@@ -46,10 +46,9 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
     }
 
     public void installJs(List<DependencyResource> resources, InstallCallback callback) {
-        DependencyResource resource = DependencyInjector.getMinifiedOrDebugResource(resources);
-        if (resource != null) {
+        if (resources != null) {
             this.callbacks.add(lib.getClass(), callback);
-            DependencyInjector.installJs(resource, new DependencyCallback() {
+            DependencyInjector.installJs(resources, new DependencyCallback() {
                 @Override
                 public void onSuccess() {
                     callbacks.installed(lib.getClass(), true);
