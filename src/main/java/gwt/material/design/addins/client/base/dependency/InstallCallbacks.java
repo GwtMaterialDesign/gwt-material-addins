@@ -1,11 +1,13 @@
 package gwt.material.design.addins.client.base.dependency;
 
+import com.google.gwt.core.client.GWT;
+
 import java.util.*;
 
 public class InstallCallbacks {
 
-    private Map<Class<? extends HasDependency>, List<InstallCallback>> callbacksMap = new LinkedHashMap<>();
-    private Map<Class<? extends HasDependency>, Boolean> installedMap = new HashMap<>();
+    private static Map<Class<? extends HasDependency>, List<InstallCallback>> callbacksMap = new LinkedHashMap<>();
+    private static Map<Class<? extends HasDependency>, Boolean> installedMap = new HashMap<>();
 
     public InstallCallbacks() {
     }
@@ -30,6 +32,7 @@ public class InstallCallbacks {
     }
 
     public boolean isInstalled(Class<? extends HasDependency> lib) {
-        return installedMap.get(lib) != null && installedMap.get(lib) != null;
+        Boolean installed = installedMap.get(lib);
+        return installed != null ? installed : false;
     }
 }

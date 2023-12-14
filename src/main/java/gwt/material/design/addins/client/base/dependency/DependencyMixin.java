@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.base.dependency;
 
+import com.google.gwt.core.client.GWT;
 import gwt.material.design.client.base.mixin.DependencyCallback;
 
 import java.util.List;
@@ -33,11 +34,14 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
     }
 
     public void install(InstallCallback callback) {
-        if (isInstalled(lib)) {
-            callback.installed();
-        } else {
-            installJs(lib.getJsDependencies(), callback);
-            DependencyInjector.installCss(lib.getCssDependencies());
+        if (lib != null && callback != null) {
+            if (isInstalled(lib)) {
+                callback.installed();
+            } else {
+                GWT.log("Installing Dependency [" + lib.getClass().getSimpleName() + "]");
+                installJs(lib.getJsDependencies(), callback);
+                installCss(lib.getCssDependencies());
+            }
         }
     }
 
@@ -56,6 +60,7 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
                         }
                         callbacks.get(lib.getClass()).clear();
                     }
+                    GWT.log("Successfully Installed [" + lib.getClass().getSimpleName() + "]");
                 }
 
                 @Override
@@ -64,6 +69,10 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
                 }
             });
         }
+    }
+
+    public void installCss(List<DependencyResource> resources) {
+        DependencyInjector.installCss(resources);
     }
 
     public boolean isInstalled(T lib) {
