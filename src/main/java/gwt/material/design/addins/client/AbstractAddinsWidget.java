@@ -1,14 +1,9 @@
 package gwt.material.design.addins.client;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.banner.MaterialBannerDarkTheme;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.client.theme.dark.DarkThemeLoader;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 public abstract class AbstractAddinsWidget extends MaterialWidget implements HasDependency {
@@ -28,6 +23,9 @@ public abstract class AbstractAddinsWidget extends MaterialWidget implements Has
 
     public AbstractAddinsWidget(Element element, String... initialClass) {
         super(element, initialClass);
+    }
+
+    public AbstractAddinsWidget(String window) {
     }
 
     @Override

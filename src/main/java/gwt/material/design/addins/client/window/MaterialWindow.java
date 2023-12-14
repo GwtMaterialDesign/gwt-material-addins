@@ -28,13 +28,13 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.dnd.MaterialDnd;
 import gwt.material.design.addins.client.dnd.constants.Restriction;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -48,6 +48,9 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -84,16 +87,8 @@ import gwt.material.design.client.ui.animate.MaterialAnimation;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
-public class MaterialWindow extends MaterialPanel implements JsLoader,
+public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
     HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>, HasOpenClose {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialWindowClientBundle.INSTANCE.windowCss());
-        }
-    }
 
     private static MaterialPanel windowOverlay;
     private static int windowCount = 0;
@@ -133,9 +128,7 @@ public class MaterialWindow extends MaterialPanel implements JsLoader,
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         load();
     }
 
@@ -494,5 +487,10 @@ public class MaterialWindow extends MaterialPanel implements JsLoader,
 
     public MaterialDnd getDnd() {
         return dnd;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialWindowClientBundle.INSTANCE.windowCss(), MaterialWindowDebugClientBundle.INSTANCE.windowCssDebug()));
     }
 }

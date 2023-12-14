@@ -23,11 +23,13 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -63,16 +65,8 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
 // @formatter:on
-public class MaterialTree extends MaterialWidget implements HasCloseHandlers<MaterialTreeItem>,
+public class MaterialTree extends AbstractAddinsWidget implements HasCloseHandlers<MaterialTreeItem>,
     HasOpenHandlers<MaterialTreeItem>, HasSelectionHandlers<MaterialTreeItem> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialTreeClientBundle.INSTANCE.treeCss());
-        }
-    }
 
     private MaterialTreeItem selectedItem;
 
@@ -81,9 +75,7 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         // Ensure all children know we are the root.
         for (Widget child : getChildren()) {
             if (child instanceof MaterialTreeItem) {
@@ -231,5 +223,10 @@ public class MaterialTree extends MaterialWidget implements HasCloseHandlers<Mat
                 }
             }
         }, SelectionEvent.getType());
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialTreeClientBundle.INSTANCE.treeCss(), MaterialTreeDebugClientBundle.INSTANCE.treeCssDebug()));
     }
 }

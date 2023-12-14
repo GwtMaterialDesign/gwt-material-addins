@@ -28,8 +28,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.constants.State;
@@ -39,10 +40,8 @@ import gwt.material.design.addins.client.stepper.events.PreviousEvent;
 import gwt.material.design.addins.client.stepper.events.StartEvent;
 import gwt.material.design.addins.client.stepper.mixin.HasStepperTransition;
 import gwt.material.design.addins.client.stepper.mixin.StepperTransitionMixin;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasAxis;
 import gwt.material.design.client.base.HasStatusText;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.mixin.StatusDisplayMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
@@ -54,6 +53,9 @@ import gwt.material.design.client.js.Window;
 import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -86,16 +88,9 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="https://material.io/guidelines/components/steppers.html">Material Design Specification</a>
  */
 // @formatter:on
-public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
+public class MaterialStepper extends AbstractAddinsWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
     HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
 
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(MaterialStepperClientBundle.INSTANCE.stepperCss());
-        }
-    }
 
     private int currentStepIndex = 0;
     private int totalSteps;
@@ -117,9 +112,7 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         if (getChildren().size() != 0) {
             StartEvent.fire(MaterialStepper.this);
             goToStep(currentStepIndex + 1);
@@ -620,5 +613,10 @@ public class MaterialStepper extends MaterialWidget implements HasAxis, HasStatu
             toggleFixedStepWidth = new ToggleStyleMixin<>(this, AddinsCssName.FIXED_STEP_WIDTH);
         }
         return toggleFixedStepWidth;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialStepperClientBundle.INSTANCE.stepperCss(), MaterialStepperDebugClientBundle.INSTANCE.stepperDebugCss()));
     }
 }

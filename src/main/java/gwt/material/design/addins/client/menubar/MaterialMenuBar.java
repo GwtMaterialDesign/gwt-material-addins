@@ -20,10 +20,12 @@
 package gwt.material.design.addins.client.menubar;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -65,15 +67,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://material.io/guidelines/components/menus.html">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialMenuBar extends MaterialWidget {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialMenuBarDebugClientBundle.INSTANCE.menubarCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialMenuBarClientBundle.INSTANCE.menubarCss());
-        }
-    }
+public class MaterialMenuBar extends AbstractAddinsWidget {
 
     private String minHeight;
 
@@ -82,16 +76,19 @@ public class MaterialMenuBar extends MaterialWidget {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         $(getElement()).find(".dropdown-content li")
-            .css("minHeight", minHeight)
-            .css("lineHeight", minHeight)
-            .css("maxHeight", minHeight);
+                .css("minHeight", minHeight)
+                .css("lineHeight", minHeight)
+                .css("maxHeight", minHeight);
     }
 
     public void setItemHeight(String minHeight) {
         this.minHeight = minHeight;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialMenuBarClientBundle.INSTANCE.menubarCss(), MaterialMenuBarDebugClientBundle.INSTANCE.menubarCssDebug()));
     }
 }

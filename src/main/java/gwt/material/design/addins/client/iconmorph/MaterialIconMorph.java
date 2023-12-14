@@ -21,15 +21,17 @@ package gwt.material.design.addins.client.iconmorph;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.HasDurationTransition;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.TransitionConfig;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.constants.IconSize;
 import gwt.material.design.client.ui.MaterialIcon;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -60,15 +62,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://material.io/guidelines/motion/creative-customization.html#creative-customization-icons">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialIconMorph extends MaterialWidget implements HasDurationTransition {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialIconMorphClientBundle.INSTANCE.morphCss());
-        }
-    }
+public class MaterialIconMorph extends AbstractAddinsWidget implements HasDurationTransition {
 
     protected static final String ICON_MORPH = "icon-morph";
     protected static final String MORPHED = "morphed";
@@ -81,9 +75,7 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         registerHandler(addClickHandler(event -> {
             $(getElement()).toggleClass(MORPHED);
             IconMorphedEvent.fire(this, getElement().hasClassName(MORPHED));
@@ -175,5 +167,10 @@ public class MaterialIconMorph extends MaterialWidget implements HasDurationTran
 
     public HandlerRegistration addIconMorphedHandler(IconMorphedEvent.IconMorphedHandler handler) {
         return addHandler(handler, IconMorphedEvent.TYPE);
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialIconMorphClientBundle.INSTANCE.morphCss(), MaterialIconMorphDebugClientBundle.INSTANCE.morphCssDebug()));
     }
 }

@@ -22,18 +22,14 @@ package gwt.material.design.addins.client.note;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.TextMixin;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
