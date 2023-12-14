@@ -21,8 +21,10 @@ package gwt.material.design.addins.client.note;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.MaterialWidget;
@@ -30,6 +32,10 @@ import gwt.material.design.client.base.mixin.TextMixin;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -54,15 +60,7 @@ import gwt.material.design.client.ui.MaterialLabel;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#note">Note</a>
  */
 //@formatter:on
-public class MaterialNote extends MaterialWidget implements HasIcon {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialNoteDebugClientBundle.INSTANCE.noteCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialNoteClientBundle.INSTANCE.noteCss());
-        }
-    }
+public class MaterialNote extends AbstractAddinsWidget implements HasIcon {
 
     private MaterialIcon icon = new MaterialIcon(IconType.STAR);
     private MaterialLabel lblMessage = new MaterialLabel();
@@ -73,9 +71,7 @@ public class MaterialNote extends MaterialWidget implements HasIcon {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(icon);
         add(lblMessage);
     }
@@ -151,5 +147,10 @@ public class MaterialNote extends MaterialWidget implements HasIcon {
     @Override
     public IconDisplay getIconDisplay() {
         return icon.getIconDisplay();
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialNoteClientBundle.INSTANCE.noteCss(), MaterialNoteDebugClientBundle.INSTANCE.noteCssDebug()));
     }
 }
