@@ -57,7 +57,7 @@ public abstract class AbstractAddinsWidget extends MaterialWidget implements Has
         });
     }
 
-    protected abstract void internalLoad();
+    protected void internalLoad() {}
 
     @Override
     protected void onUnload() {

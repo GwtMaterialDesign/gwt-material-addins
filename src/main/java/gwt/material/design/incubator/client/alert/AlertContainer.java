@@ -45,10 +45,6 @@ import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
  */
 public class AlertContainer extends MaterialWidget {
 
-    static {
-        Alert.loadResources();
-    }
-
     public AlertContainer() {
         super(Document.get().createDivElement(), IncubatorCssName.ALERT_CONTAINER);
     }

@@ -22,8 +22,10 @@ package gwt.material.design.addins.client.emptystate;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.HasTitle;
@@ -31,6 +33,9 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.ui.*;
 import gwt.material.design.client.ui.html.Div;
+
+import java.util.Arrays;
+import java.util.List;
 
 //@formatter:off
 
@@ -51,15 +56,7 @@ import gwt.material.design.client.ui.html.Div;
  * @see <a href="https://material.io/guidelines/patterns/empty-states.html">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTitle {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialEmptyStateDebugClientBundle.INSTANCE.emptyStateDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(MaterialEmptyStateClientBundle.INSTANCE.emptyStateCss());
-        }
-    }
+public class MaterialEmptyState extends AbstractAddinsWidget implements HasIcon, HasTitle {
 
     private boolean loading;
     private MaterialIcon icon = new MaterialIcon();
@@ -193,5 +190,10 @@ public class MaterialEmptyState extends MaterialWidget implements HasIcon, HasTi
     public void setLoading(boolean loading) {
         this.loading = loading;
         MaterialLoader.loading(loading, icon);
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Arrays.asList(new DependencyResource(MaterialEmptyStateClientBundle.INSTANCE.emptyStateCss(), MaterialEmptyStateDebugClientBundle.INSTANCE.emptyStateDebugCss()));
     }
 }

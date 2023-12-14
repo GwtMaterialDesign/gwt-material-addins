@@ -24,6 +24,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.note.MaterialNote;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasInOutDurationTransition;
@@ -37,6 +38,8 @@ import gwt.material.design.client.constants.IconType;
 import gwt.material.design.incubator.client.alert.constants.AlertType;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.jquery.client.api.Functions;
+
+import java.util.List;
 
 //@formatter:off
 
@@ -61,22 +64,8 @@ import gwt.material.design.jquery.client.api.Functions;
  */
 public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenClose, HasOpenHandlers, HasCloseHandlers, HasInOutDurationTransition {
 
-    private static boolean resourcesLoaded = false;
-
     static {
         IncubatorWidget.showWarning(Alert.class);
-        loadResources();
-    }
-
-    static void loadResources() {
-        if (!resourcesLoaded) {
-            if (MaterialAddins.isDebug()) {
-                MaterialDesignBase.injectCss(AlertDebugClientBundle.INSTANCE.alertDebugCss());
-            } else {
-                MaterialDesignBase.injectCss(AlertClientBundle.INSTANCE.alertCss());
-            }
-            resourcesLoaded = true;
-        }
     }
 
     private CssTypeMixin<AlertType, Alert> cssTypeMixin;
@@ -192,6 +181,14 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenCl
     @Override
     public int getOutDuration() {
         return outDuration;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        List<DependencyResource> resources = super.getCssDependencies();
+        resources.add(new DependencyResource(AlertClientBundle.INSTANCE.alertCss(), AlertDebugClientBundle.INSTANCE.alertDebugCss()));
+        resources.add(new DependencyResource());
+        return resources;
     }
 
     @Override

@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.docviewer;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.MaterialWidget;
 
@@ -49,7 +50,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#docviewer">Doc Viewer</a>
  */
 //@formatter:on
-public class MaterialDocViewer extends AbstractValueWidget<String> {
+public class MaterialDocViewer extends AbstractAddinsValueWidget<String> {
 
     private String url;
     private boolean embedded = true;

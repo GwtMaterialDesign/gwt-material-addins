@@ -48,7 +48,9 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
         });
     }
 
-    protected abstract void internalLoad();
+    protected void internalLoad() {
+
+    }
 
     @Override
     protected void onUnload() {

@@ -25,8 +25,10 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.pathanimator.MaterialPathAnimator;
 import gwt.material.design.client.MaterialDesignBase;
@@ -35,7 +37,12 @@ import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialIcon;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -64,16 +71,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<MaterialOverlay>,
+public class MaterialOverlay extends AbstractAddinsWidget implements HasOpenHandlers<MaterialOverlay>,
         HasCloseHandlers<MaterialOverlay>, HasDurationTransition, HasOpenClose {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialOverlayDebugClientBundle.INSTANCE.overlayCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialOverlayClientBundle.INSTANCE.overlayCss());
-        }
-    }
 
     private Element sourceElement;
     private MaterialPathAnimator animator = new MaterialPathAnimator();
@@ -93,13 +92,6 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
         this(backgroundColor);
         setVisibility(visibility);
         setOpacity(opacity);
-    }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        AddinsDarkThemeReloader.get().reload(MaterialOverlayDarkTheme.class);
     }
 
     public void open(MaterialWidget source) {
@@ -266,5 +258,15 @@ public class MaterialOverlay extends MaterialWidget implements HasOpenHandlers<M
 
     public MaterialIcon getMinimizeIcon() {
         return minimizeIcon;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialOverlayDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialOverlayClientBundle.INSTANCE.overlayCss(), MaterialOverlayDebugClientBundle.INSTANCE.overlayCssDebug()));
     }
 }
