@@ -27,12 +27,14 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialIcon;
 
 import java.util.LinkedList;
@@ -104,7 +106,7 @@ import java.util.List;
  *
  * @author gilberto-torrezan
  */
-public class MaterialRating extends AbstractValueWidget<Integer>  {
+public class MaterialRating extends AbstractAddinsValueWidget<Integer> {
 
     private boolean editable = true;
     private int currentRating = 0;
@@ -143,7 +145,6 @@ public class MaterialRating extends AbstractValueWidget<Integer>  {
         super.onLoad();
 
         revalidateLayout();
-        AddinsDarkThemeReloader.get().reload(MaterialRatingDarkTheme.class);
     }
 
     /**
@@ -340,6 +341,11 @@ public class MaterialRating extends AbstractValueWidget<Integer>  {
      */
     public boolean isEditable() {
         return editable;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialRatingDarkTheme.class;
     }
 
     @Override

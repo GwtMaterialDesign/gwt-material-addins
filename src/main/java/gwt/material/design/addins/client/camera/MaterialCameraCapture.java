@@ -25,6 +25,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.camera.base.*;
 import gwt.material.design.addins.client.camera.constants.CameraFacingMode;
 import gwt.material.design.addins.client.camera.events.CameraCaptureEvent;
@@ -101,7 +102,7 @@ import static gwt.material.design.addins.client.camera.JsCamera.$;
  * @author kevzlou7979
  */
 // @formatter:on
-public class MaterialCameraCapture extends MaterialWidget implements JsLoader, HasCameraCaptureHandlers, HasCameraActions {
+public class MaterialCameraCapture extends AbstractAddinsWidget implements HasCameraCaptureHandlers, HasCameraActions {
 
     protected int width = 1280;
     protected int height = 720;
@@ -117,36 +118,16 @@ public class MaterialCameraCapture extends MaterialWidget implements JsLoader, H
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         setLayoutPosition(Style.Position.RELATIVE);
         add(video);
 
-        load();
-    }
-
-    @Override
-    public void load() {
         if (autoPlay) play();
-    }
-
-    @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        unload();
     }
 
     @Override
     public void unload() {
         stop();
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     @Override

@@ -27,22 +27,20 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.constants.RespondTo;
 import gwt.material.design.addins.client.carousel.events.*;
 import gwt.material.design.addins.client.carousel.js.JsCarouselOptions;
 import gwt.material.design.addins.client.carousel.ui.NextArrow;
 import gwt.material.design.addins.client.carousel.ui.PreviousArrow;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasType;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -50,6 +48,8 @@ import gwt.material.design.client.ui.MaterialTab;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
@@ -87,22 +87,10 @@ import static gwt.material.design.addins.client.carousel.js.JsCarousel.$;
  * @see <a href="https://github.com/kenwheeler/slick">SlickJs 1.6.0</a>
  */
 //@formatter:on
-public class MaterialCarousel extends MaterialWidget implements JsLoader, HasType<CarouselType>, HasCarouselEvents, HasValue<List<String>> {
+public class MaterialCarousel extends AbstractAddinsWidget implements HasType<CarouselType>, HasCarouselEvents, HasValue<List<String>> {
 
     static int TABLET_SETTINGS = 0;
     static int MOBILE_SETTINGS = 1;
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialCarouselDebugClientBundle.INSTANCE.customCssDebug());
-            MaterialDesignBase.injectCss(MaterialCarouselDebugClientBundle.INSTANCE.carouselCssDebug());
-            MaterialDesignBase.injectDebugJs(MaterialCarouselDebugClientBundle.INSTANCE.carouselJsDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialCarouselClientBundle.INSTANCE.customCss());
-            MaterialDesignBase.injectCss(MaterialCarouselClientBundle.INSTANCE.carouselCss());
-            MaterialDesignBase.injectJs(MaterialCarouselClientBundle.INSTANCE.carouselJs());
-        }
-    }
 
     private final MaterialPanel container = new MaterialPanel();
     private final NextArrow nextArrow = new NextArrow();
@@ -121,9 +109,7 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
     private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         container.setId(uniqueId);
         wrapper.setStyleName(AddinsCssName.MATERIAL_CAROUSEL_CONTAINER);
         wrapper.add(container);
@@ -132,11 +118,6 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         super.add(previousArrow);
         super.add(wrapper);
 
-        load();
-    }
-
-    @Override
-    public void load() {
         loadHandlers();
 
         if (nextArrow != null) {
@@ -148,8 +129,22 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         }
 
         $(container.getElement()).slick(options);
+    }
 
-        AddinsDarkThemeReloader.get().reload(MaterialCarouselDarkTheme.class);
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialCarouselDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialCarouselClientBundle.INSTANCE.carouselJs(), MaterialCarouselDebugClientBundle.INSTANCE.carouselJsDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Arrays.asList(new DependencyResource(MaterialCarouselClientBundle.INSTANCE.customCss(), MaterialCarouselDebugClientBundle.INSTANCE.customCssDebug()),
+                new DependencyResource(MaterialCarouselClientBundle.INSTANCE.carouselCss(), MaterialCarouselDebugClientBundle.INSTANCE.carouselCssDebug()));
     }
 
     protected void loadHandlers() {
@@ -227,12 +222,6 @@ public class MaterialCarousel extends MaterialWidget implements JsLoader, HasTyp
         element.off(CarouselEvents.SWIPE);
 
         destroy();
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     public void destroy() {

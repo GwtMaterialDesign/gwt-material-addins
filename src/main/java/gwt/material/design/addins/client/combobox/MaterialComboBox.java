@@ -29,8 +29,10 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.combobox.async.DefaultComboBoxDisplayLoader;
 import gwt.material.design.addins.client.combobox.events.ComboBoxEvents;
 import gwt.material.design.addins.client.combobox.events.HasComboBoxHandlers;
@@ -59,6 +61,7 @@ import gwt.material.design.client.events.ClearEvent;
 import gwt.material.design.client.events.ClearingEvent;
 import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
@@ -102,18 +105,8 @@ import static gwt.material.design.addins.client.combobox.js.JsComboBox.$;
  * @see <a href="https://github.com/select2/select2">Select2 4.0.3</a>
  */
 //@formatter:on
-public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements JsLoader, HasPlaceholder,
+public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> implements HasPlaceholder,
         HasComboBoxHandlers<T>, HasReadOnly, HasFieldTypes, IsAsyncWidget<MaterialComboBox, List<T>>, HasLabel, HasOpenClose, HasSingleValue<T> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
-            MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
-        } else {
-            MaterialDesignBase.injectJs(MaterialComboBoxClientBundle.INSTANCE.select2Js());
-            MaterialDesignBase.injectCss(MaterialComboBoxClientBundle.INSTANCE.select2Css());
-        }
-    }
 
     private int selectedIndex;
     private boolean open;
@@ -145,7 +138,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     }
 
     @Override
-    protected void onLoad() {
+    protected void internalLoad() {
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
         addWidget(listbox);
         addWidget(label);
@@ -153,15 +146,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         errorLabel.setMarginTop(8);
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
-        super.onLoad();
-
-        load();
-
-        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
-    }
-
-    @Override
-    public void load() {
         JsComboBox jsComboBox = getJsComboBox();
         jsComboBox.select2(options);
         setId(DOM.createUniqueId());
@@ -252,14 +236,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             }
         });
         getStatusTextMixin().getStatusDisplayMixin().setContainer(new MaterialWidget($(getElement())));
-        AddinsDarkThemeReloader.get().reload(MaterialComboBoxDarkTheme.class);
-    }
-
-    @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        unload();
+        registerHandler(addSelectionHandler(valueChangeEvent -> $(getElement()).find("input").val("")));
     }
 
     @Override
@@ -286,12 +263,6 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public void destroy() {
         getJsComboBox().select2("destroy");
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     @Override
@@ -1294,6 +1265,21 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
 
     public String getSearchFieldElement() {
         return "#" + getId() + " .select2-search__field";
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialComboBoxClientBundle.INSTANCE.select2Js(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs()));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialComboBoxClientBundle.INSTANCE.select2Css(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss()));
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialComboBoxDarkTheme.class;
     }
 
     @Override

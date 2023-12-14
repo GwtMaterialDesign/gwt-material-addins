@@ -21,6 +21,8 @@ package gwt.material.design.incubator.client.animation.checkmark;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDelayTransition;
 import gwt.material.design.client.base.MaterialWidget;
@@ -32,15 +34,11 @@ import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
-public class CheckMark extends MaterialWidget implements HasDelayTransition {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(CheckMarkClientDebugBundle.INSTANCE.checkMarkDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(CheckMarkClientBundle.INSTANCE.checkMarkCss());
-        }
-    }
+public class CheckMark extends AbstractAddinsWidget implements HasDelayTransition {
 
     static String CHECK_MARK = "check-mark";
     static String HIDE = "hide";
@@ -104,5 +102,10 @@ public class CheckMark extends MaterialWidget implements HasDelayTransition {
     @Override
     public int getDelay() {
         return delayInMillis;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(CheckMarkClientBundle.INSTANCE.checkMarkCss(), CheckMarkClientDebugBundle.INSTANCE.checkMarkDebugCss()));
     }
 }

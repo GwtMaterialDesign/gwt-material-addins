@@ -26,9 +26,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.autocomplete.constants.AutocompleteType;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
@@ -37,6 +39,7 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.ProgressType;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialChip;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialProgress;
@@ -160,16 +163,8 @@ import java.util.Map.Entry;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#!autocomplete">Material AutoComplete</a>
  */
 // @formatter:on
-public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
+public class MaterialAutoComplete extends AbstractAddinsValueWidget<List<? extends Suggestion>> implements HasPlaceholder,
     HasProgress, HasType<AutocompleteType>, HasSelectionHandlers<Suggestion>, HasReadOnly, HasFieldTypes, HasLabel {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss());
-        }
-    }
 
     private int limit = 0;
     private boolean directInputAllowed = true;
@@ -225,9 +220,7 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
     private HandlerRegistration itemBoxKeyDownHandler, itemBoxBlurHandler, itemBoxClickHandler;
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         loadHandlers();
     }
 
@@ -295,8 +288,16 @@ public class MaterialAutoComplete extends AbstractValueWidget<List<? extends Sug
         if (itemBox != null && itemBox.isAttached()) {
             itemBox.getElement().setAttribute("autocomplete", "off");
         }
+    }
 
-        AddinsDarkThemeReloader.get().reload(MaterialAutoCompleteDarkTheme.class);
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialAutocompleteClientBundle.INSTANCE.autocompleteCss(), MaterialAutocompleteDebugClientBundle.INSTANCE.autocompleteCssDebug()));
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialAutoCompleteDarkTheme.class;
     }
 
     @Override
