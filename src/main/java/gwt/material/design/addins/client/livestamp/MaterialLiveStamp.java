@@ -20,15 +20,18 @@
 package gwt.material.design.addins.client.livestamp;
 
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.livestamp.js.JsLiveStamp;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.constants.Color;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 //@formatter:off
 
@@ -55,25 +58,12 @@ import java.util.Date;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#livestamp">Material Live Stamp</a>
  * @see <a href="https://github.com/mattbradley/livestampjs">LiveStamp 1.1.2</a>
  */
-public class MaterialLiveStamp extends AbstractValueWidget<Date> {
+public class MaterialLiveStamp extends AbstractAddinsValueWidget<Date> {
 
     private Date value = new Date();
 
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentLocale());
-            MaterialDesignBase.injectDebugJs(MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugJs());
-            MaterialDesignBase.injectCss(MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugCss());
-        } else {
-            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentWithLocale());
-            MaterialDesignBase.injectJs(MaterialLiveStampClientBundle.INSTANCE.liveStampJs());
-            MaterialDesignBase.injectCss(MaterialLiveStampClientBundle.INSTANCE.liveStampCss());
-        }
-    }
-
     public MaterialLiveStamp() {
         super(Document.get().createSpanElement());
-
     }
 
     protected void loading(boolean show) {
@@ -86,8 +76,7 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
+    protected void internalLoad() {
         loading(true);
     }
 
@@ -119,5 +108,16 @@ public class MaterialLiveStamp extends AbstractValueWidget<Date> {
     @Override
     public Date getValue() {
         return value;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Arrays.asList(new DependencyResource(MomentClientBundle.INSTANCE.momentLocaleJs(), MomentClientDebugBundle.INSTANCE.momentLocaleDebugJs()),
+                new DependencyResource(MaterialLiveStampClientBundle.INSTANCE.liveStampJs(), MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugJs()));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialLiveStampClientBundle.INSTANCE.liveStampCss(), MaterialLiveStampDebugClientBundle.INSTANCE.liveStampDebugCss()));
     }
 }

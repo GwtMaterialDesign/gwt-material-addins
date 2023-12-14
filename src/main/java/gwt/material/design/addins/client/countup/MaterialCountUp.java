@@ -19,13 +19,20 @@
  */
 package gwt.material.design.addins.client.countup;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.countup.js.CountUp;
 import gwt.material.design.addins.client.countup.js.JsCountUpOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.AbstractValueWidget;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.Functions;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -60,21 +67,9 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="https://github.com/inorganik/countUp.js">CountUpJs 1.9.0</a>
  */
 //@formatter:on
-public class MaterialCountUp extends AbstractValueWidget<Double> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialCountUpDebugClientBundle.INSTANCE.countUpCssDebug());
-            MaterialDesignBase.injectDebugJs(MaterialCountUpDebugClientBundle.INSTANCE.countUpJsDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialCountUpClientBundle.INSTANCE.countUpCss());
-            MaterialDesignBase.injectJs(MaterialCountUpClientBundle.INSTANCE.countUpJs());
-        }
-    }
+public class MaterialCountUp extends AbstractAddinsValueWidget<Double> {
 
     private CountUp countUp;
-
-
     private JsCountUpOptions options = JsCountUpOptions.create();
 
     public MaterialCountUp() {
@@ -83,7 +78,8 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
         addStyleName("count-up");
     }
 
-    public void start() {
+    @Override
+    protected void internalLoad() {
         countUp = new CountUp(getElement(), getStartValue(), getEndValue(), getDecimals(), getDuration(), options);
         countUp.start(getCallback());
     }
@@ -95,6 +91,10 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
         if (countUp != null) {
             countUp.pauseResume();
         }
+    }
+
+    public void start() {
+        getDependencyMixin().install(this::internalLoad);
     }
 
     /**
@@ -236,5 +236,15 @@ public class MaterialCountUp extends AbstractValueWidget<Double> {
      */
     public void setCallback(Functions.Func callback) {
         options.callback = callback;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialCountUpClientBundle.INSTANCE.countUpCss(), MaterialCountUpDebugClientBundle.INSTANCE.countUpCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialCountUpClientBundle.INSTANCE.countUpJs(), MaterialCountUpDebugClientBundle.INSTANCE.countUpJsDebug()));
     }
 }
