@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,25 +28,26 @@ import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.banner.event.HasBannerHandlers;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasOpenClose;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
-public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasBannerHandlers {
+public class MaterialBanner extends AbstractAddinsWidget implements HasOpenClose, HasBannerHandlers {
 
     private final MaterialIcon icon;
     private final MaterialLabel messageLabel;
@@ -56,14 +57,6 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     private List<Element> targetPushElements;
 
     private ToggleStyleMixin<Widget> openMixin;
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialBannerDebugClientBundle.INSTANCE.bannerDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(MaterialBannerClientBundle.INSTANCE.bannerCss());
-        }
-    }
 
     public MaterialBanner() {
         super(Document.get().createDivElement(), "banner");
@@ -82,16 +75,12 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(icon);
         add(messageLabel);
         add(actions);
 
         close();
-
-        AddinsDarkThemeReloader.get().reload(MaterialBannerDarkTheme.class);
     }
 
     @Override
@@ -197,6 +186,17 @@ public class MaterialBanner extends MaterialWidget implements HasOpenClose, HasB
 
     public int getOuterHeight() {
         return $(getElement()).outerHeight(true);
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialBannerClientBundle.INSTANCE.bannerMinifiedCss(),
+                MaterialBannerDebugClientBundle.INSTANCE.bannerDebugCss()));
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialBannerDarkTheme.class;
     }
 
     public ToggleStyleMixin<Widget> getOpenMixin() {

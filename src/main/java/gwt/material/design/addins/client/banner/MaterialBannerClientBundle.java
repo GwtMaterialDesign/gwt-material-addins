@@ -33,7 +33,7 @@ public interface MaterialBannerClientBundle extends ClientBundle {
     MaterialBannerClientBundle INSTANCE = GWT.create(MaterialBannerClientBundle.class);
 
     @Source("resources/css/banner.min.css")
-    TextResource bannerCss();
+    TextResource bannerMinifiedCss();
 
     @Source("resources/css/banner-dark.min.css")
     TextResource bannerDarkCss();

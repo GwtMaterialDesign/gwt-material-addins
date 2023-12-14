@@ -78,7 +78,7 @@ public class MaterialCircularProgress extends AbstractAddinsValueWidget<Double> 
     }
 
     @Override
-    public void internalLoad() {
+    protected void internalLoad() {
         if (!label.isAttached()) {
             add(label);
             label.setSize(getSize(), isResponsive());

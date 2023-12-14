@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +20,12 @@
 package gwt.material.design.addins.client;
 
 import com.google.gwt.dom.client.Element;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.client.base.mixin.DependencyCallback;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialToast;
 
 public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T> implements HasDependency {
@@ -40,10 +42,13 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
 
     @Override
     protected void onLoad() {
-        getDependencyMixin().install(this::internalLoad);
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
     }
 
-    public abstract void internalLoad();
+    protected abstract void internalLoad();
 
     @Override
     protected void onUnload() {
@@ -52,9 +57,11 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
         unload();
     }
 
-    public void unload() {}
+    public void unload() {
+    }
 
-    public void reload() {}
+    public void reload() {
+    }
 
     public DependencyMixin<HasDependency> getDependencyMixin() {
         if (dependencyMixin == null) {

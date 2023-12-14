@@ -20,7 +20,11 @@
 package gwt.material.design.addins.client.base.dependency;
 
 import com.google.gwt.core.client.GWT;
+import gwt.material.design.addins.client.banner.MaterialBannerDarkTheme;
+import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.mixin.DependencyCallback;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.List;
 
@@ -41,37 +45,49 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
                 GWT.log("Installing Dependency [" + lib.getClass().getSimpleName() + "]");
                 installJs(lib.getJsDependencies(), callback);
                 installCss(lib.getCssDependencies());
+                installDarkTheme(lib.getDarkTheme());
             }
         }
     }
 
     public void installJs(List<DependencyResource> resources, InstallCallback callback) {
         if (resources != null) {
-            this.callbacks.add(lib.getClass(), callback);
-            DependencyInjector.installJs(resources, new DependencyCallback() {
-                @Override
-                public void onSuccess() {
-                    callbacks.installed(lib.getClass(), true);
-                    List<InstallCallback> installCallbacks = callbacks.get(lib.getClass());
-                    if (installCallbacks != null) {
-                        for (InstallCallback installCallback : installCallbacks) {
-                            installCallback.installed();
+            if (!resources.isEmpty()) {
+                this.callbacks.add(lib.getClass(), callback);
+                DependencyInjector.installJs(resources, new DependencyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        callbacks.installed(lib.getClass(), true);
+                        List<InstallCallback> installCallbacks = callbacks.get(lib.getClass());
+                        if (installCallbacks != null) {
+                            for (InstallCallback installCallback : installCallbacks) {
+                                installCallback.installed();
+                            }
+                            callbacks.get(lib.getClass()).clear();
                         }
-                        callbacks.get(lib.getClass()).clear();
+                        GWT.log("Successfully Installed [" + lib.getClass().getSimpleName() + "]");
                     }
-                    GWT.log("Successfully Installed [" + lib.getClass().getSimpleName() + "]");
-                }
 
-                @Override
-                public void onError(String error) {
-                    throw new RuntimeException("Widget Dependency for [" + lib.getClass().getSimpleName() + "] is not successfully installed." + error);
-                }
-            });
+                    @Override
+                    public void onError(String error) {
+                        throw new RuntimeException("Widget Dependency for [" + lib.getClass().getSimpleName() + "] is not successfully installed." + error);
+                    }
+                });
+            } else {
+                callback.installed();
+            }
         }
     }
 
     public void installCss(List<DependencyResource> resources) {
         DependencyInjector.installCss(resources);
+        if (lib.getJsDependencies() == null || lib.getJsDependencies().isEmpty()) {
+            callbacks.installed(lib.getClass(), true);
+        }
+    }
+
+    public void installDarkTheme(Class<? extends DarkThemeLoader> darkTheme) {
+        AddinsDarkThemeReloader.get().reload(darkTheme);
     }
 
     public boolean isInstalled(T lib) {

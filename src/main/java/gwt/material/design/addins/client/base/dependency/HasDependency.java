@@ -19,16 +19,23 @@
  */
 package gwt.material.design.addins.client.base.dependency;
 
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public interface HasDependency {
 
-    List<DependencyResource> getJsDependencies();
+    default List<DependencyResource> getJsDependencies() {
+        return new ArrayList<>();
+    }
 
     default List<DependencyResource> getCssDependencies() {
         return new ArrayList<>();
+    }
+
+    default Class<? extends DarkThemeLoader> getDarkTheme() {
+        return null;
     }
 
 }
