@@ -20,11 +20,12 @@
 package gwt.material.design.addins.client.dragula;
 
 import com.google.gwt.dom.client.Element;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.dragula.js.JsDragula;
 import gwt.material.design.addins.client.dragula.js.JsDragulaOptions;
 import gwt.material.design.client.MaterialDesignBase;
 
-public class MaterialDragula {
+public class MaterialDragula extends AbstractAddinsWidget {
 
     static {
         MaterialDesignBase.injectJs(MaterialDragulaClientBundle.INSTANCE.dragulaJs());

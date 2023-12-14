@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.dnd;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.dnd.constants.DragEvents;
@@ -64,7 +65,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="https://github.com/taye/interact.js">InteractJs 1.2.6</a>
  */
 //@formatter:on
-public class MaterialDnd {
+public class MaterialDnd extends AbstractAddinsWidget {
 
     static {
         if (MaterialAddins.isDebug()) {
