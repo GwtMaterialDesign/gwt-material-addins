@@ -20,23 +20,19 @@
 package gwt.material.design.incubator.client.placeholder;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.loadingstate.LoadingStatePanel;
 
-public class PlaceholderItem extends MaterialWidget {
+import java.util.Collections;
+import java.util.List;
+
+public class PlaceholderItem extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(LoadingStatePanel.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(PlaceholderDebugClientBundle.INSTANCE.contentPlaceholder());
-        } else {
-            MaterialDesignBase.injectCss(PlaceholderClientBundle.INSTANCE.contentPlaceholderCss());
-        }
     }
 
     public PlaceholderItem() {
@@ -44,9 +40,7 @@ public class PlaceholderItem extends MaterialWidget {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        IncubatorDarkThemeReloader.get().reload(PlaceholderDarkTheme.class);
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(PlaceholderClientBundle.INSTANCE.contentPlaceholderCss(), PlaceholderDebugClientBundle.INSTANCE.contentPlaceholder()));
     }
 }

@@ -21,12 +21,11 @@ package gwt.material.design.incubator.client.progress;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,15 +41,10 @@ import java.util.Map;
  *
  * @author kevzlou7979
  */
-public class ProgressLineBar<T> extends MaterialWidget {
+public class ProgressLineBar<T> extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(ProgressLineBar.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(ProgressLineBarDebugClientBundle.INSTANCE.progressLineBarDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(ProgressLineBarClientBundle.INSTANCE.progressLineBarCss());
-        }
     }
 
     private Map<T, ProgressLineBarItem> options = new HashMap<>();
@@ -61,9 +55,7 @@ public class ProgressLineBar<T> extends MaterialWidget {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         double width = 100.00 / options.keySet().size();
 
         for (T value : options.keySet()) {
@@ -77,8 +69,6 @@ public class ProgressLineBar<T> extends MaterialWidget {
                 item.setActive(true);
             }
         }
-
-        IncubatorDarkThemeReloader.get().reload(ProgressLineBarDarkTheme.class);
     }
 
     public void addOption(T option) {
@@ -106,5 +96,10 @@ public class ProgressLineBar<T> extends MaterialWidget {
             return;
         }
         options.get(index).setActive(true);
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(ProgressLineBarClientBundle.INSTANCE.progressLineBarCss(), ProgressLineBarDebugClientBundle.INSTANCE.progressLineBarDebugCss()));
     }
 }

@@ -20,13 +20,14 @@
 package gwt.material.design.incubator.client.question.base;
 
 import com.google.gwt.dom.client.Document;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
-public class QuestionItem<T> extends AbstractValueWidget<T> {
+public class QuestionItem<T> extends AbstractAddinsValueWidget<T> {
 
     private T value;
     private MaterialPanel wrapper = new MaterialPanel();
@@ -42,22 +43,16 @@ public class QuestionItem<T> extends AbstractValueWidget<T> {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         wrapper.setInitialClasses(IncubatorCssName.QUESTION_WRAPPER);
         questionLabel.setInitialClasses(IncubatorCssName.QUESTION_LABEL);
 
         add(questionLabel);
         add(wrapper);
 
-        load();
+        registerHandler(addValidationChangedHandler(event -> QuestionItem.this.valid = event.isValid()));
 
         wrapper.add(errorLabel);
-    }
-
-    protected void load() {
-        registerHandler(addValidationChangedHandler(event -> QuestionItem.this.valid = event.isValid()));
     }
 
     public void setQuestion(String question) {
