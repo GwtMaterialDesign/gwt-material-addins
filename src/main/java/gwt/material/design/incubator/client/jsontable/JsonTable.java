@@ -27,6 +27,8 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.JsLoader;
@@ -39,6 +41,9 @@ import gwt.material.design.incubator.client.jsontable.js.JsTable;
 import gwt.material.design.incubator.client.jsontable.js.JsTableOptions;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
+import java.util.Collections;
+import java.util.List;
+
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
 /**
@@ -50,15 +55,13 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  */
-public class JsonTable extends MaterialWidget implements HasSelectionHandlers<Element>, HasType<JsonTableType>, JsLoader {
+public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandlers<Element>, HasType<JsonTableType>, JsLoader {
 
     static {
         if (AddinsIncubator.isDebug()) {
             MaterialDesign.injectJs(JsonTableClientDebugBundle.INSTANCE.jsonTableDebugJs());
-            MaterialDesign.injectCss(JsonTableClientDebugBundle.INSTANCE.jsonTableDebugCss());
         } else {
             MaterialDesign.injectJs(JsonTableClientBundle.INSTANCE.jsonTableJs());
-            MaterialDesign.injectCss(JsonTableClientBundle.INSTANCE.jsonTableCss());
         }
     }
 
@@ -71,9 +74,7 @@ public class JsonTable extends MaterialWidget implements HasSelectionHandlers<El
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         load();
     }
 
@@ -160,5 +161,10 @@ public class JsonTable extends MaterialWidget implements HasSelectionHandlers<El
             typeMixin = new CssTypeMixin<>(this);
         }
         return typeMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(JsonTableClientBundle.INSTANCE.jsonTableCss(),JsonTableClientDebugBundle.INSTANCE.jsonTableDebugCss()));
     }
 }

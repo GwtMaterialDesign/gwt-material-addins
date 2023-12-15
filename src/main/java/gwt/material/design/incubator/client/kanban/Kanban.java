@@ -22,10 +22,11 @@ package gwt.material.design.incubator.client.kanban;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesign;
-import gwt.material.design.client.base.MaterialWidget;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.incubator.client.AddinsIncubator;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.kanban.js.JKanban;
 import gwt.material.design.incubator.client.kanban.js.KanbanBoard;
 import gwt.material.design.incubator.client.kanban.js.KanbanItem;
@@ -33,6 +34,7 @@ import gwt.material.design.incubator.client.kanban.js.KanbanOptions;
 import gwt.material.design.incubator.client.kanban.util.KanbanResponsiveLoader;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
@@ -43,7 +45,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979@gmail.com
  * @see <a href="https://github.com/riktar/jkanban">Documentation</a>
  */
-public class Kanban extends MaterialWidget {
+public class Kanban extends AbstractAddinsWidget {
 
     private boolean responsive = true;
     private JKanban kanban;
@@ -61,21 +63,13 @@ public class Kanban extends MaterialWidget {
     static {
         if (AddinsIncubator.isDebug()) {
             MaterialDesign.injectDebugJs(KanbanClientDebugBundle.INSTANCE.jkanbanJs());
-            MaterialDesign.injectCss(KanbanClientDebugBundle.INSTANCE.jskanbanCss());
         } else {
             MaterialDesign.injectJs(KanbanClientBundle.INSTANCE.jkanbanJs());
-            MaterialDesign.injectCss(KanbanClientBundle.INSTANCE.jskanbanCss());
         }
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    public void load() {
+    protected void internalLoad() {
         setId(DOM.createUniqueId());
         kanbanOptions = getOptions();
         kanbanOptions.setElement("#" + getId());
@@ -87,7 +81,6 @@ public class Kanban extends MaterialWidget {
             responsiveLoader.unload();
         }
 
-        IncubatorDarkThemeReloader.get().reload(KanbanDarkTheme.class);
     }
 
     /**
@@ -212,4 +205,13 @@ public class Kanban extends MaterialWidget {
         return responsiveLoader.isResponsive();
     }
 
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return KanbanDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(KanbanClientBundle.INSTANCE.jskanbanCss(), KanbanClientDebugBundle.INSTANCE.jskanbanCss()));
+    }
 }

@@ -27,7 +27,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasValue;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.HasActivates;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
@@ -36,11 +37,11 @@ import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.ui.MaterialDropDown;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.client.ui.MaterialLink;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,16 +53,11 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class LanguageSelector extends MaterialWidget
+public class LanguageSelector extends AbstractAddinsWidget
         implements HasValue<Language>, HasType<LanguageSelectorType> {
 
     static {
         IncubatorWidget.showWarning(LanguageSelector.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(LanguageSelectorDebugClientBundle.INSTANCE.languageSelectorDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(LanguageSelectorClientBundle.INSTANCE.languageSelectorCss());
-        }
     }
 
     protected MaterialImage imageActivator = new MaterialImage();
@@ -78,9 +74,7 @@ public class LanguageSelector extends MaterialWidget
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         dropdown.clear();
         dropdown.setConstrainWidth(false);
         add(dropdown);
@@ -222,5 +216,10 @@ public class LanguageSelector extends MaterialWidget
             typeMixin = new CssTypeMixin<>(this);
         }
         return typeMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(LanguageSelectorClientBundle.INSTANCE.languageSelectorCss(), LanguageSelectorDebugClientBundle.INSTANCE.languageSelectorDebugCss()));
     }
 }

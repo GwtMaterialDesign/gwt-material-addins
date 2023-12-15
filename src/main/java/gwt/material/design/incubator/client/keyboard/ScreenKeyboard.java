@@ -22,15 +22,19 @@ package gwt.material.design.incubator.client.keyboard;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesign;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.incubator.client.keyboard.events.*;
 import gwt.material.design.incubator.client.keyboard.js.Keyboard;
 import gwt.material.design.incubator.client.keyboard.js.KeyboardOptions;
 import gwt.material.design.incubator.client.keyboard.js.SimpleKeyboard;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQuery;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * On Screen Keyboard support
@@ -40,11 +44,9 @@ import gwt.material.design.jquery.client.api.JQuery;
  * @see <a href="https://franciscohodge.com/projects/simple-keyboard/documentation/">Documentation</a>
  * @see <a href="https://franciscohodge.com/projects/simple-keyboard/demos/">Demos</a>
  */
-public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardHandlers {
+public class ScreenKeyboard extends AbstractAddinsWidget implements HasScreenKeyboardHandlers {
 
     static {
-        MaterialDesign.injectCss(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss());
-        MaterialDesign.injectCss(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss());
         MaterialDesign.injectDebugJs(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs());
     }
 
@@ -57,14 +59,9 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
         super(Document.get().createDivElement(), "simple-keyboard");
     }
 
+
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    protected void load() {
+    protected void internalLoad() {
         // Initial SimpleKeyboard Defaults
         SimpleKeyboard simpleKeyboard = (SimpleKeyboard) JQuery.window().getPropertyObject(SIMPLE_KEYBOARD_PROPERTY);
         JQuery.window().setPropertyObject(KEYBOARD_PROPERTY, simpleKeyboard._default);
@@ -82,8 +79,6 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
             // Construct Keyboard with required options
             keyboard = new Keyboard(options);
         }
-
-        IncubatorDarkThemeReloader.get().reload(ScreenKeyboardDarkTheme.class);
     }
 
     /**
@@ -227,5 +222,16 @@ public class ScreenKeyboard extends MaterialWidget implements HasScreenKeyboardH
     @Override
     public HandlerRegistration addInitHandler(InitEvent.InitHandler handler) {
         return addHandler(handler, InitEvent.getType());
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return ScreenKeyboardDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Arrays.asList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss(),ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss()),
+                new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss(),ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss()));
     }
 }
