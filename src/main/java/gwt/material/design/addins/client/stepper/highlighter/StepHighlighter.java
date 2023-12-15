@@ -20,21 +20,14 @@
 package gwt.material.design.addins.client.stepper.highlighter;
 
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class StepHighlighter {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(StepHighlighterDebugClientBundle.INSTANCE.stepHighlighterDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(StepHighlighterClientBundle.INSTANCE.stepHighlighterCss());
-        }
-    }
+public class StepHighlighter extends AbstractAddinsWidget {
 
     protected static final String HIGHLIGHT = "highlight";
     protected int currentIndex = 0;
@@ -94,5 +87,10 @@ public class StepHighlighter {
 
     public void unregisterAll() {
         widgets.forEach(widget -> unregister(widget));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(StepHighlighterClientBundle.INSTANCE.stepHighlighterCss(), StepHighlighterDebugClientBundle.INSTANCE.stepHighlighterDebugCss()));
     }
 }

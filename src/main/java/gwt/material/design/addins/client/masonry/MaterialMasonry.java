@@ -120,7 +120,7 @@ public class MaterialMasonry extends AbstractAddinsWidget implements JsLoader, H
 
     @Override
     public void load() {
-        
+
     }
 
     @Override

@@ -28,8 +28,10 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
@@ -37,10 +39,16 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialInput;
+import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.html.Label;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
 
@@ -68,16 +76,14 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @see <a href="https://github.com/weareoutman/clockpicker">ClockPicker 0.0.7</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsLoader, HasPlaceholder, HasOpenClose,
+public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implements JsLoader, HasPlaceholder, HasOpenClose,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
-            MaterialDesignBase.injectCss(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug());
         } else {
             MaterialDesignBase.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
-            MaterialDesignBase.injectCss(MaterialTimePickerClientBundle.INSTANCE.timepickerCss());
         }
     }
 
@@ -112,9 +118,7 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         setUniqueId(DOM.createUniqueId());
         timeInput.setType(InputType.TEXT);
         container.add(timeInput);
@@ -123,11 +127,6 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
         add(container);
         timeInput.getElement().setAttribute("type", "text");
 
-        load();
-    }
-
-    @Override
-    public void load() {
         options.beforeShow = this::beforeShow;
         options.afterShow = this::afterShow;
         options.afterHide = this::afterHide;
@@ -139,6 +138,11 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", event.getOrientation().getCssName());
         }));
         AddinsDarkThemeReloader.get().reload(MaterialTimePickerDarkTheme.class);
+    }
+
+    @Override
+    public void load() {
+
     }
 
     @Override
@@ -539,5 +543,16 @@ public class MaterialTimePicker extends AbstractValueWidget<Date> implements JsL
     @Override
     public HandlerRegistration addOpenHandler(final OpenHandler<Date> handler) {
         return addHandler(handler, OpenEvent.getType());
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialTimePickerDarkTheme.class;
+    }
+
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialTimePickerClientBundle.INSTANCE.timepickerCss(), MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug()));
     }
 }

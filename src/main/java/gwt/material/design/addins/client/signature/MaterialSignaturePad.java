@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.signature.events.HasSignatureHandlers;
@@ -32,7 +33,6 @@ import gwt.material.design.addins.client.signature.events.SignatureStartEvent;
 import gwt.material.design.addins.client.signature.js.JsSignaturePadOptions;
 import gwt.material.design.addins.client.signature.js.SignaturePad;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
@@ -55,7 +55,7 @@ import gwt.material.design.client.base.viewport.WidthBoundary;
  * @see <a href="https://github.com/szimek/signature_pad">LiveStamp SignaturePad 2.3.0</a>
  */
 //@formatter:on
-public class MaterialSignaturePad extends AbstractValueWidget<String> implements JsLoader, HasSignaturePadOptions, HasSignatureHandlers {
+public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> implements JsLoader, HasSignaturePadOptions, HasSignatureHandlers {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -73,13 +73,6 @@ public class MaterialSignaturePad extends AbstractValueWidget<String> implements
     private SignaturePad signaturePad;
     private JsSignaturePadOptions options = JsSignaturePadOptions.create();
 
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        resizeCanvas();
-        load();
-    }
 
     /**
      * <b>Handling high DPI screens</b>
@@ -104,7 +97,8 @@ public class MaterialSignaturePad extends AbstractValueWidget<String> implements
     }
 
     @Override
-    public void load() {
+    protected void internalLoad() {
+        resizeCanvas();
         getSignaturePad().on();
     }
 
@@ -113,6 +107,11 @@ public class MaterialSignaturePad extends AbstractValueWidget<String> implements
         super.onUnload();
 
         unload();
+    }
+
+    @Override
+    public void load() {
+
     }
 
     @Override
