@@ -24,8 +24,9 @@ import gwt.material.design.client.ui.MaterialToast;
 public class Md5Tester {
 
     public static void main(String[] args) {
-       /* Md5Converter.get().convert("john.doe@gmail.com", converted -> {
-            MaterialToast.fireToast(converted);
-        });*/
+        Md5Converter.get().convert("john.doe@gmail.com").then(converted -> {
+            MaterialToast.fireToast("Converted: " + converted);
+            return null;
+        });
     }
 }
