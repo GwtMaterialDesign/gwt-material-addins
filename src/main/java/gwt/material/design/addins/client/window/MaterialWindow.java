@@ -88,8 +88,7 @@ import java.util.List;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
-public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
-    HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>, HasOpenClose {
+public class MaterialWindow extends AbstractAddinsWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>, HasOpenClose {
 
     private static MaterialPanel windowOverlay;
     private static int windowCount = 0;
@@ -130,11 +129,6 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
 
     @Override
     protected void internalLoad() {
-        load();
-    }
-
-    @Override
-    public void load() {
         // Update UI
         content.setStyleName(AddinsCssName.CONTENT);
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
@@ -177,16 +171,6 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
                 }
             }
         }));
-    }
-
-    @Override
-    public void unload() {
-
-    }
-
-    @Override
-    public void reload() {
-
     }
 
     /**

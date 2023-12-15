@@ -97,6 +97,6 @@ public class MaterialDragula extends AbstractAddinsWidget {
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return Collections.singletonList(new DependencyResource(MaterialDragulaClientBundle.INSTANCE.dragulaJs(), MaterialDragulaClientBundle.INSTANCE.dragulaJs()));
+        return Collections.singletonList(new DependencyResource(MaterialDragulaClientBundle.INSTANCE.dragulaJs(), MaterialDragulaClientBundle.INSTANCE.dragulaDebugJs()));
     }
 }
