@@ -22,12 +22,9 @@ package gwt.material.design.addins.client.waterfall;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
 
@@ -64,14 +61,6 @@ import java.util.List;
  */
 //@formatter:on
 public class MaterialWaterfall extends AbstractAddinsWidget {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
-        }
-    }
 
     private Functions.Func openCallback;
     private Functions.Func closeCallback;
@@ -140,6 +129,11 @@ public class MaterialWaterfall extends AbstractAddinsWidget {
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialWaterfallClientBundle.INSTANCE.waterfallCss(), MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialWaterfallClientBundle.INSTANCE.waterfallJs(), MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug()));
     }
 
 }

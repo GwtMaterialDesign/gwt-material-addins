@@ -25,7 +25,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.gesture.velocity.js.JsTransitionOptions;
@@ -33,7 +32,6 @@ import gwt.material.design.addins.client.gesture.velocity.js.JsVelocity;
 import gwt.material.design.addins.client.gesture.velocity.js.JsVelocityOptions;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.*;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -74,14 +72,6 @@ import static gwt.material.design.addins.client.gesture.hammer.js.JsHammer.$;
  */
 //@formatter:on
 public class MaterialSwipeablePanel extends AbstractAddinsWidget implements HasSwipeableHandler<Widget> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialSwipeableClientBundle.INSTANCE.swipeableJs());
-        }
-    }
 
     public MaterialSwipeablePanel() {
         super(Document.get().createDivElement(), AddinsCssName.SWIPEABLE);
@@ -273,5 +263,10 @@ public class MaterialSwipeablePanel extends AbstractAddinsWidget implements HasS
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialSwipeableClientBundle.INSTANCE.swipeableCss(), MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSwipeableClientBundle.INSTANCE.swipeableJs(), MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug()));
     }
 }

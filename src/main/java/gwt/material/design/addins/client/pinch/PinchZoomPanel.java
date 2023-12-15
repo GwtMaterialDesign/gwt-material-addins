@@ -21,25 +21,19 @@ package gwt.material.design.addins.client.pinch;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.pinch.events.HasPinchZoomHandlers;
 import gwt.material.design.addins.client.pinch.events.OnZoomEndEvent;
 import gwt.material.design.addins.client.pinch.events.OnZoomStartEvent;
 import gwt.material.design.addins.client.pinch.js.JsPinchOptions;
 import gwt.material.design.addins.client.pinch.js.JsPinchZoom;
-import gwt.material.design.client.MaterialDesignBase;
+
+import java.util.Collections;
+import java.util.List;
 
 public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoomHandlers {
 
     protected JsPinchZoom jsPinchZoom;
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(PinchDebugClientBundle.INSTANCE.pinchJs());
-        } else {
-            MaterialDesignBase.injectJs(PinchClientBundle.INSTANCE.pinchJs());
-        }
-    }
 
     protected JsPinchOptions options = new JsPinchOptions();
 
@@ -96,5 +90,10 @@ public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoom
     @Override
     public HandlerRegistration addOnZoomEndHandler(OnZoomEndEvent.OnZoomEndHandler handler) {
         return addHandler(handler, OnZoomEndEvent.TYPE);
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(PinchClientBundle.INSTANCE.pinchJs(), PinchDebugClientBundle.INSTANCE.pinchJs()));
     }
 }

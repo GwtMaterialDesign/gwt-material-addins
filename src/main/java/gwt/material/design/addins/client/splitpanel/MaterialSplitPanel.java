@@ -22,14 +22,12 @@ package gwt.material.design.addins.client.splitpanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
 import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
@@ -74,14 +72,6 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
  */
 //@formatter:on
 public class MaterialSplitPanel extends AbstractAddinsWidget {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
-        } else {
-            MaterialDesignBase.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());
-        }
-    }
 
     private TouchSplitter touchSplitter;
     private JsSplitPanelOptions options = JsSplitPanelOptions.create();
@@ -325,5 +315,10 @@ public class MaterialSplitPanel extends AbstractAddinsWidget {
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialSplitPanelClientBundle.INSTANCE.splitPanelCss(), MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs(), MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs()));
     }
 }

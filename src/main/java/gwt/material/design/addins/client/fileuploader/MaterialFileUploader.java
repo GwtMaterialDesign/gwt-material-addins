@@ -26,7 +26,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.fileuploader.base.FileProvider;
@@ -37,7 +36,6 @@ import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.addins.client.fileuploader.js.*;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.events.*;
@@ -80,14 +78,6 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
 //@formatter:on
 //TODO: Reworked File casting issue
 public class MaterialFileUploader extends AbstractAddinsWidget implements HasFileUploadHandlers<UploadFile> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs());
-        }
-    }
 
     protected boolean preview = true;
     protected boolean enabled = true;
@@ -1419,6 +1409,11 @@ public class MaterialFileUploader extends AbstractAddinsWidget implements HasFil
     @Override
     public Class<? extends DarkThemeLoader> getDarkTheme() {
         return MaterialFileUploaderDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs(), MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug()));
     }
 
     @Override

@@ -20,18 +20,13 @@ package gwt.material.design.addins.client.rating;
  * #L%
  */
 
-import com.gargoylesoftware.htmlunit.Page;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HasValue;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
-import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;

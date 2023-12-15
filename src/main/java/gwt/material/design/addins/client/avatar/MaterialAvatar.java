@@ -21,12 +21,14 @@ package gwt.material.design.addins.client.avatar;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.avatar.js.AvatarOptions;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.md5.Md5ClientBundle;
 import gwt.material.design.addins.client.md5.Md5DebugClientBundle;
-import gwt.material.design.client.MaterialDesignBase;
+
+import java.util.Arrays;
+import java.util.List;
 
 //@formatter:off
 
@@ -56,16 +58,6 @@ import gwt.material.design.client.MaterialDesignBase;
  */
 //@formatter:on
 public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
-            MaterialDesignBase.injectDebugJs(Md5DebugClientBundle.INSTANCE.md5DebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
-            MaterialDesignBase.injectJs(Md5ClientBundle.INSTANCE.md5Js());
-        }
-    }
 
     private String value;
     private AvatarOptions options;
@@ -135,6 +127,12 @@ public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
     public int getWidth() {
         String width = getElement().getAttribute("width");
         return width != null ? Integer.parseInt(width) : 0;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Arrays.asList(new DependencyResource(MaterialAvatarClientBundle.INSTANCE.jdenticonJs(), MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs()),
+                new DependencyResource(Md5ClientBundle.INSTANCE.md5Js(),Md5DebugClientBundle.INSTANCE.md5DebugJs()));
     }
 
     public int getHeight() {

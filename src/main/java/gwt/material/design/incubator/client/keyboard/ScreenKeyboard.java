@@ -24,7 +24,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.incubator.client.keyboard.events.*;
 import gwt.material.design.incubator.client.keyboard.js.Keyboard;
@@ -34,6 +33,7 @@ import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQuery;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,10 +45,6 @@ import java.util.List;
  * @see <a href="https://franciscohodge.com/projects/simple-keyboard/demos/">Demos</a>
  */
 public class ScreenKeyboard extends AbstractAddinsWidget implements HasScreenKeyboardHandlers {
-
-    static {
-        MaterialDesign.injectDebugJs(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs());
-    }
 
     private static final String KEYBOARD_PROPERTY = "Keyboard";
     private static final String SIMPLE_KEYBOARD_PROPERTY = "SimpleKeyboard";
@@ -233,5 +229,10 @@ public class ScreenKeyboard extends AbstractAddinsWidget implements HasScreenKey
     public List<DependencyResource> getCssDependencies() {
         return Arrays.asList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss(),ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss()),
                 new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss(),ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs(), ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs()));
     }
 }

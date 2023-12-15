@@ -29,10 +29,8 @@ import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.jsontable.constants.JsonTableType;
 import gwt.material.design.incubator.client.jsontable.js.JsTable;
@@ -54,14 +52,6 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author kevzlou7979
  */
 public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandlers<Element>, HasType<JsonTableType> {
-
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesign.injectJs(JsonTableClientDebugBundle.INSTANCE.jsonTableDebugJs());
-        } else {
-            MaterialDesign.injectJs(JsonTableClientBundle.INSTANCE.jsonTableJs());
-        }
-    }
 
     private JSONValue value;
     private JsTableOptions options = JsTableOptions.create();
@@ -153,5 +143,10 @@ public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandl
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(JsonTableClientBundle.INSTANCE.jsonTableCss(),JsonTableClientDebugBundle.INSTANCE.jsonTableDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(JsonTableClientBundle.INSTANCE.jsonTableJs(),JsonTableClientDebugBundle.INSTANCE.jsonTableDebugJs()));
     }
 }

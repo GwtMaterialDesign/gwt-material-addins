@@ -21,11 +21,9 @@ package gwt.material.design.addins.client.bubble;
 
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
@@ -70,14 +68,6 @@ public class MaterialBubble extends AbstractAddinsWidget implements HasPosition 
     private MaterialWidget triangle = new MaterialWidget(Document.get().createDivElement());
     private CssNameMixin<MaterialWidget, Position> positionMixin;
     private JsBubbleOptions options = new JsBubbleOptions();
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialBubbleClientBundle.INSTANCE.bubbleJs());
-        }
-    }
 
     public MaterialBubble() {
         super(Document.get().createSpanElement(), AddinsCssName.BUBBLE);
@@ -141,6 +131,11 @@ public class MaterialBubble extends AbstractAddinsWidget implements HasPosition 
     @Override
     public Class<? extends DarkThemeLoader> getDarkTheme() {
         return MaterialBubbleDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialBubbleClientBundle.INSTANCE.bubbleJs(), MaterialBubbleDebugClientBundle.INSTANCE.bubbleJsDebug()));
     }
 
     @Override

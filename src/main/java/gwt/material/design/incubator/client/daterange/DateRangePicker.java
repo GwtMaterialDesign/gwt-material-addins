@@ -32,7 +32,6 @@ import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
 import gwt.material.design.addins.client.moment.Moment;
 import gwt.material.design.addins.client.moment.resources.MomentClientBundle;
 import gwt.material.design.addins.client.moment.resources.MomentClientDebugBundle;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.base.mixin.*;
@@ -45,7 +44,6 @@ import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.html.Label;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeType;
@@ -66,20 +64,6 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
     HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel, HasSingleValue<Date>, HasRegex {
 
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
-
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
-            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentJDateConverterDebugJs());
-            MaterialDesignBase.injectDebugJs(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJs());
-            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJDateConverterJs());
-            MaterialDesignBase.injectJs(DateRangeClientBundle.INSTANCE.dateRangePickerJs());
-
-        }
-        MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
-    }
 
     private final ScrollHelper scrollHelper = new ScrollHelper();
     private final MaterialTextBox dateInput = new MaterialTextBox();
@@ -895,5 +879,13 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
         return Arrays.asList(new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs()),
                 new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss()),
                 new DependencyResource(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Arrays.asList(new DependencyResource(MomentClientBundle.INSTANCE.momentJs(),MomentClientDebugBundle.INSTANCE.momentDebugJs()),
+                new DependencyResource(MomentClientBundle.INSTANCE.momentJDateConverterJs(),MomentClientDebugBundle.INSTANCE.momentJDateConverterDebugJs()),
+                new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerJs(), DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs()),
+                new DependencyResource(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs()));
     }
 }

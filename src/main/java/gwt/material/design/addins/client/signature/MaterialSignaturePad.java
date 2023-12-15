@@ -24,17 +24,19 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.signature.events.HasSignatureHandlers;
 import gwt.material.design.addins.client.signature.events.SignatureClearEvent;
 import gwt.material.design.addins.client.signature.events.SignatureEndEvent;
 import gwt.material.design.addins.client.signature.events.SignatureStartEvent;
 import gwt.material.design.addins.client.signature.js.JsSignaturePadOptions;
 import gwt.material.design.addins.client.signature.js.SignaturePad;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.viewport.ViewPort;
 import gwt.material.design.client.base.viewport.WidthBoundary;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -55,15 +57,6 @@ import gwt.material.design.client.base.viewport.WidthBoundary;
  */
 //@formatter:on
 public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> implements HasSignaturePadOptions, HasSignatureHandlers {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialSignaturePadDebugClientBundle.INSTANCE.signaturePadDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialSignaturePadClientBundle.INSTANCE.signaturePadJs());
-        }
-    }
-
 
     public MaterialSignaturePad() {
         super(Document.get().createCanvasElement(), AddinsCssName.SIGNATURE_PAD);
@@ -270,5 +263,10 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
 
         // Will set the value internally from signaturepad component
         fromDataUrl(value);
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSignaturePadClientBundle.INSTANCE.signaturePadJs(),MaterialSignaturePadDebugClientBundle.INSTANCE.signaturePadDebugJs()));
     }
 }

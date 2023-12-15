@@ -31,7 +31,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
@@ -39,7 +38,6 @@ import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEve
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPasteHandlers;
 import gwt.material.design.client.base.HasPlaceholder;
 import gwt.material.design.client.events.PasteEvent;
@@ -79,14 +77,6 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 //@formatter:on
 public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implements HasValueChangeHandlers<String>,
     HasPasteHandlers, HasPlaceholder, HasHTML {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
-        }
-    }
 
     private String html;
     private ToolBarManager manager = new ToolBarManager();
@@ -408,5 +398,10 @@ public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implem
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialRichEditorClientBundle.INSTANCE.richEditorCss(), MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialRichEditorClientBundle.INSTANCE.richEditorJs(), MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs()));
     }
 }

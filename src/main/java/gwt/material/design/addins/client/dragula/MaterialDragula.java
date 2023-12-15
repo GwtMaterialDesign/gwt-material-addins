@@ -21,15 +21,14 @@ package gwt.material.design.addins.client.dragula;
 
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dragula.js.JsDragula;
 import gwt.material.design.addins.client.dragula.js.JsDragulaOptions;
-import gwt.material.design.client.MaterialDesignBase;
+
+import java.util.Collections;
+import java.util.List;
 
 public class MaterialDragula extends AbstractAddinsWidget {
-
-    static {
-        MaterialDesignBase.injectJs(MaterialDragulaClientBundle.INSTANCE.dragulaJs());
-    }
 
     private JsDragulaOptions options = JsDragulaOptions.create();
     private JsDragula dragula;
@@ -94,5 +93,10 @@ public class MaterialDragula extends AbstractAddinsWidget {
 
     public void setDragula(JsDragula dragula) {
         this.dragula = dragula;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialDragulaClientBundle.INSTANCE.dragulaJs(), MaterialDragulaClientBundle.INSTANCE.dragulaJs()));
     }
 }

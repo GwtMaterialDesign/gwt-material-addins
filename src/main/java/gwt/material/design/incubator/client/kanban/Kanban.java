@@ -24,9 +24,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.kanban.js.JKanban;
 import gwt.material.design.incubator.client.kanban.js.KanbanBoard;
 import gwt.material.design.incubator.client.kanban.js.KanbanItem;
@@ -57,14 +55,6 @@ public class Kanban extends AbstractAddinsWidget {
         super(Document.get().createDivElement(), "kanban");
 
         responsiveLoader = new KanbanResponsiveLoader(this);
-    }
-
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesign.injectDebugJs(KanbanClientDebugBundle.INSTANCE.jkanbanJs());
-        } else {
-            MaterialDesign.injectJs(KanbanClientBundle.INSTANCE.jkanbanJs());
-        }
     }
 
     @Override
@@ -210,5 +200,10 @@ public class Kanban extends AbstractAddinsWidget {
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(KanbanClientBundle.INSTANCE.jskanbanCss(), KanbanClientDebugBundle.INSTANCE.jskanbanCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(KanbanClientBundle.INSTANCE.jkanbanJs(), KanbanClientDebugBundle.INSTANCE.jkanbanJs()));
     }
 }

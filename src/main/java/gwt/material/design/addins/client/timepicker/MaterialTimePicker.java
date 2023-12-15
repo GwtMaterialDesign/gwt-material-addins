@@ -29,12 +29,10 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.*;
 import gwt.material.design.client.base.mixin.*;
 import gwt.material.design.client.constants.*;
@@ -77,14 +75,6 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
 //@formatter:on
 public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implements HasPlaceholder, HasOpenClose,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes, HasLabel {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialTimePickerClientBundle.INSTANCE.timepickerJs());
-        }
-    }
 
     private boolean open;
     private Date time;
@@ -540,5 +530,10 @@ public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implemen
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialTimePickerClientBundle.INSTANCE.timepickerCss(), MaterialTimePickerDebugClientBundle.INSTANCE.timepickerCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialTimePickerClientBundle.INSTANCE.timepickerJs(), MaterialTimePickerDebugClientBundle.INSTANCE.timepickerJsDebug()));
     }
 }
