@@ -19,27 +19,23 @@
  */
 package gwt.material.design.incubator.client.loadingdot;
 
-import gwt.material.design.client.MaterialDesign;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.loadingstate.LoadingStatePanel;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A loader extension https://nzbin.github.io/three-dots/
  */
-public class LoadingDots extends MaterialPanel implements HasType<LoadingDotsType> {
+public class LoadingDots extends AbstractAddinsWidget implements HasType<LoadingDotsType> {
 
     static {
         IncubatorWidget.showWarning(LoadingStatePanel.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesign.injectCss(LoadingDotClientBundle.INSTANCE.threeDots());
-        } else {
-            MaterialDesign.injectCss(LoadingDotDebugClientBundle.INSTANCE.threeDots());
-        }
-
     }
 
     private CssTypeMixin<LoadingDotsType, LoadingDots> typeMixin;
@@ -63,5 +59,10 @@ public class LoadingDots extends MaterialPanel implements HasType<LoadingDotsTyp
             typeMixin = new CssTypeMixin(this);
         }
         return typeMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(LoadingDotClientBundle.INSTANCE.threeDots(),LoadingDotDebugClientBundle.INSTANCE.threeDots()));
     }
 }

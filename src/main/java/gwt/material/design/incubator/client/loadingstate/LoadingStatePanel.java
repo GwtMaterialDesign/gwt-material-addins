@@ -20,8 +20,9 @@
 package gwt.material.design.incubator.client.loadingstate;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
@@ -31,7 +32,6 @@ import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.animate.MaterialAnimation;
 import gwt.material.design.client.ui.animate.Transition;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
 import gwt.material.design.incubator.client.loadingstate.constants.State;
@@ -39,6 +39,9 @@ import gwt.material.design.incubator.client.loadingstate.events.ErrorEvent;
 import gwt.material.design.incubator.client.loadingstate.events.HasLoadingStateHandler;
 import gwt.material.design.incubator.client.loadingstate.events.LoadingEvent;
 import gwt.material.design.incubator.client.loadingstate.events.SuccessEvent;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An extension to {@link MaterialPanel} that defines
@@ -50,15 +53,10 @@ import gwt.material.design.incubator.client.loadingstate.events.SuccessEvent;
  *
  * @author kevzlou7979
  */
-public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateHandler {
+public class LoadingStatePanel extends AbstractAddinsWidget implements HasLoadingStateHandler {
 
     static {
         IncubatorWidget.showWarning(LoadingStatePanel.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(LoadingStatePanelDebugClientBundle.INSTANCE.loadingStateDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(LoadingStatePanelClientBundle.INSTANCE.loadingStateCss());
-        }
     }
 
     private State state;
@@ -71,9 +69,7 @@ public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateH
     public LoadingStatePanel() {}
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         setVisible(false);
         addStyleName(IncubatorCssName.LOADING_STATE);
         lblTitle.addStyleName(CssName.TITLE);
@@ -160,5 +156,10 @@ public class LoadingStatePanel extends MaterialPanel implements HasLoadingStateH
     @Override
     public HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler) {
         return addHandler(handler, ErrorEvent.getType());
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(LoadingStatePanelClientBundle.INSTANCE.loadingStateCss(), LoadingStatePanelDebugClientBundle.INSTANCE.loadingStateDebugCss()));
     }
 }
