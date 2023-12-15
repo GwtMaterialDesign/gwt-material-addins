@@ -23,6 +23,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.masonry.events.HasMasonryHandler;
@@ -36,7 +37,6 @@ import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.MaterialRow;
 
 import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
 
@@ -70,7 +70,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition, HasMasonryHandler {
+public class MaterialMasonry extends AbstractAddinsWidget implements JsLoader, HasDurationTransition, HasMasonryHandler {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -96,10 +96,9 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
+    protected void internalLoad() {
+        masonryElement = $(getElement());
+        masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
 
         masonryElement.on(MasonryEvents.REMOVE_COMPLETE, (e, param1) -> {
             RemoveCompleteEvent.fire(this, target);
@@ -113,16 +112,15 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
     }
 
     @Override
-    public void load() {
-        masonryElement = $(getElement());
-        masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
-    }
-
-    @Override
     protected void onUnload() {
         super.onUnload();
 
         unload();
+    }
+
+    @Override
+    public void load() {
+        
     }
 
     @Override

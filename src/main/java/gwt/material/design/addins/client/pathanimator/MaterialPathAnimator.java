@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.pathanimator;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
 import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
@@ -64,7 +65,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/chinchang/cta.js">CTAJs 0.3.2</a>
  */
 //@formatter:on
-public class MaterialPathAnimator implements HasDurationTransition, HasPathStyles {
+public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDurationTransition, HasPathStyles {
 
     static {
         if (MaterialAddins.isDebug()) {

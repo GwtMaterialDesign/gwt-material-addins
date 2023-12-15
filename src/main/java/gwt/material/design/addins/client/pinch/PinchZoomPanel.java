@@ -20,7 +20,7 @@
 package gwt.material.design.addins.client.pinch;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.pinch.events.HasPinchZoomHandlers;
 import gwt.material.design.addins.client.pinch.events.OnZoomEndEvent;
@@ -28,11 +28,8 @@ import gwt.material.design.addins.client.pinch.events.OnZoomStartEvent;
 import gwt.material.design.addins.client.pinch.js.JsPinchOptions;
 import gwt.material.design.addins.client.pinch.js.JsPinchZoom;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.ui.MaterialImage;
-import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.client.ui.MaterialToast;
 
-public class PinchZoomPanel extends MaterialPanel implements HasPinchZoomHandlers {
+public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoomHandlers {
 
     protected JsPinchZoom jsPinchZoom;
 
@@ -51,9 +48,7 @@ public class PinchZoomPanel extends MaterialPanel implements HasPinchZoomHandler
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         load();
     }
 
