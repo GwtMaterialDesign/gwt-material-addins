@@ -24,6 +24,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
@@ -38,15 +40,15 @@ import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.constants.*;
 import gwt.material.design.client.events.RegexValidationEvent;
 import gwt.material.design.client.js.Window;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialTextBox;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
-import gwt.material.design.incubator.client.daterange.constants.DateRangeType;
 import gwt.material.design.incubator.client.daterange.constants.DateRangeElementSelector;
+import gwt.material.design.incubator.client.daterange.constants.DateRangeType;
 import gwt.material.design.incubator.client.daterange.events.SelectionEvent;
 import gwt.material.design.incubator.client.daterange.events.*;
 import gwt.material.design.incubator.client.daterange.js.*;
@@ -54,11 +56,13 @@ import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQuery;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static gwt.material.design.incubator.client.daterange.js.JsDateRangePicker.$;
 
-public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes, HasType<DateRangeType>,
+public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implements HasDateRangeHandlers, HasFieldTypes, HasType<DateRangeType>,
     HasDateRangeOptions, HasIcon, HasReadOnly, HasPlaceholder, HasNativeBrowserStyle, HasLabel, HasSingleValue<Date>, HasRegex {
 
     private static final String DATE_RANGE_STYLENAME = "date-range-picker";
@@ -68,17 +72,13 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentJDateConverterDebugJs());
             MaterialDesignBase.injectDebugJs(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs());
-            MaterialDesignBase.injectCss(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugCss());
-            MaterialDesignBase.injectCss(DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss());
         } else {
             MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJs());
             MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJDateConverterJs());
             MaterialDesignBase.injectJs(DateRangeClientBundle.INSTANCE.dateRangePickerJs());
-            MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerCss());
-            MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss());
+
         }
         MaterialDesignBase.injectDebugJs(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs());
-        MaterialDesignBase.injectCss(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss());
     }
 
     private final ScrollHelper scrollHelper = new ScrollHelper();
@@ -111,9 +111,10 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         calendar.addStyleName("calendar");
     }
 
+
     @Override
-    protected void onLoad() {
-        super.onLoad();
+    protected void internalLoad() {
+        super.internalLoad();
 
         load();
     }
@@ -199,7 +200,6 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         add(calendar);
         getHandlerRegistry().registerHandler(Window.addResizeHandler(event -> detectPosition()));
         setId(DOM.createUniqueId());
-        IncubatorDarkThemeReloader.get().reload(DateRangeDarkTheme.class);
     }
 
 
@@ -262,7 +262,7 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
         super.onUnload();
     }
 
-    protected void unload() {
+    public void unload() {
         getInputElement().off(DateRangeEvents.OPEN);
         getInputElement().off(DateRangeEvents.CLOSE);
         getInputElement().off(DateRangeEvents.CLOSE_CALENDAR);
@@ -896,5 +896,17 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
             typeMixin = new CssTypeMixin<>(this);
         }
         return typeMixin;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return DateRangeDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Arrays.asList(new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs()),
+                new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss()),
+                new DependencyResource(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss()));
     }
 }

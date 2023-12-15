@@ -21,8 +21,8 @@ package gwt.material.design.incubator.client.google.recaptcha;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.google.recaptcha.api.RecaptchaApi;
@@ -74,7 +74,7 @@ import gwt.material.design.jquery.client.api.Functions;
  * @author kevzlou7979
  */
 //@formatter:on
-public class ReCaptcha extends MaterialWidget {
+public class ReCaptcha extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(ReCaptcha.class);
@@ -187,4 +187,5 @@ public class ReCaptcha extends MaterialWidget {
     public String getResponse() {
         return reCaptcha.getResponse();
     }
+
 }

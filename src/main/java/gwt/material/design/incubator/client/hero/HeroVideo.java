@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.SourceElement;
 import com.google.gwt.dom.client.VideoElement;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
@@ -30,15 +32,13 @@ import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 
-public class HeroVideo extends MaterialWidget implements JsLoader {
+import java.util.Collections;
+import java.util.List;
+
+public class HeroVideo extends AbstractAddinsWidget implements JsLoader {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(HeroVideoDebugClientBundle.INSTANCE.heroVideoDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(HeroVideoClientBundle.INSTANCE.heroVideoCss());
-        }
     }
 
 
@@ -53,11 +53,10 @@ public class HeroVideo extends MaterialWidget implements JsLoader {
         super(Document.get().createVideoElement(), "hero-video");
     }
 
+
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-
+    protected void internalLoad() {
+        load();
     }
 
     @Override
@@ -132,5 +131,10 @@ public class HeroVideo extends MaterialWidget implements JsLoader {
     public void setSrc(String src) {
         this.src = src;
         reload();
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(HeroVideoClientBundle.INSTANCE.heroVideoCss(), HeroVideoDebugClientBundle.INSTANCE.heroVideoDebugCss()));
     }
 }

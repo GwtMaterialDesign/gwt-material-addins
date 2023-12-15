@@ -21,14 +21,18 @@ package gwt.material.design.addins.client.waterfall;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.waterfall.js.JsWaterfall;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -59,15 +63,13 @@ import gwt.material.design.jquery.client.api.Functions;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
  */
 //@formatter:on
-public class MaterialWaterfall extends MaterialWidget implements JsLoader {
+public class MaterialWaterfall extends AbstractAddinsWidget implements JsLoader {
 
     static {
         if (MaterialAddins.isDebug()) {
             MaterialDesignBase.injectDebugJs(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallJsDebug());
-            MaterialDesignBase.injectCss(MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug());
         } else {
             MaterialDesignBase.injectJs(MaterialWaterfallClientBundle.INSTANCE.waterfallJs());
-            MaterialDesignBase.injectCss(MaterialWaterfallClientBundle.INSTANCE.waterfallCss());
         }
     }
 
@@ -87,7 +89,7 @@ public class MaterialWaterfall extends MaterialWidget implements JsLoader {
     }
 
     @Override
-    protected void onLoad() {
+    protected void internalLoad() {
         if (openCallback == null) {
             openCallback = () -> {
                 for (Widget w : getChildren()) {
@@ -106,14 +108,15 @@ public class MaterialWaterfall extends MaterialWidget implements JsLoader {
             offset = getOffsetHeight();
         }
 
-        super.onLoad();
+        super.internalLoad();
 
-        load();
+        JsWaterfall.initWaterfall(getElement().getOffsetHeight(), openCallback::call, closeCallback::call, offset);
     }
+
 
     @Override
     public void load() {
-        JsWaterfall.initWaterfall(getElement().getOffsetHeight(), openCallback::call, closeCallback::call, offset);
+
     }
 
     @Override
@@ -148,5 +151,9 @@ public class MaterialWaterfall extends MaterialWidget implements JsLoader {
         this.offset = offset;
     }
 
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialWaterfallClientBundle.INSTANCE.waterfallCss(), MaterialWaterfallDebugClientBundle.INSTANCE.waterfallCssDebug()));
+    }
 
 }
