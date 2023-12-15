@@ -20,11 +20,9 @@
 package gwt.material.design.addins.client.base.dependency;
 
 import com.google.gwt.core.client.GWT;
-import gwt.material.design.addins.client.banner.MaterialBannerDarkTheme;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.mixin.DependencyCallback;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
-import gwt.material.design.client.ui.MaterialToast;
 
 import java.util.List;
 

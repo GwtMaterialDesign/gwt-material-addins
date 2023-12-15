@@ -27,6 +27,9 @@ public interface MaterialDragulaClientBundle extends ClientBundle {
 
     MaterialDragulaClientBundle INSTANCE = GWT.create(MaterialDragulaClientBundle.class);
 
-    @Source("resources/js/dragula.js")
+    @Source("resources/js/dragula.min.js")
     TextResource dragulaJs();
+
+    @Source("resources/js/dragula.js")
+    TextResource dragulaDebugJs();
 }

@@ -44,6 +44,7 @@ import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.WavesType;
 import gwt.material.design.client.js.Window;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialPanel;
@@ -87,8 +88,7 @@ import java.util.List;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#window">Material Window</a>
  */
 //@formatter:on
-public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
-    HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>, HasOpenClose {
+public class MaterialWindow extends AbstractAddinsWidget implements HasCloseHandlers<Boolean>, HasOpenHandlers<Boolean>, HasOpenClose {
 
     private static MaterialPanel windowOverlay;
     private static int windowCount = 0;
@@ -129,11 +129,6 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
 
     @Override
     protected void internalLoad() {
-        load();
-    }
-
-    @Override
-    public void load() {
         // Update UI
         content.setStyleName(AddinsCssName.CONTENT);
         toolbar.setStyleName(AddinsCssName.WINDOW_TOOLBAR);
@@ -176,18 +171,6 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
                 }
             }
         }));
-
-        AddinsDarkThemeReloader.get().reload(MaterialWindowDarkTheme.class);
-    }
-
-    @Override
-    public void unload() {
-
-    }
-
-    @Override
-    public void reload() {
-
     }
 
     /**
@@ -487,6 +470,11 @@ public class MaterialWindow extends AbstractAddinsWidget implements JsLoader,
 
     public MaterialDnd getDnd() {
         return dnd;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialWindowDarkTheme.class;
     }
 
     @Override

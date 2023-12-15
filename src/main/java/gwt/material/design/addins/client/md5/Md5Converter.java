@@ -16,118 +16,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * #L%
- *//*
-
+ */
 package gwt.material.design.addins.client.md5;
 
-import com.google.gwt.resources.client.TextResource;
-import gwt.material.design.addins.client.base.dependency.HasDependency;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.mixin.DependencyCallback;
+import elemental2.promise.Promise;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Md5Converter implements HasDependency, JsLoader {
+public class Md5Converter implements HasDependency {
 
     protected static Md5Converter instance;
     protected DependencyMixin<Md5Converter> dependencyMixin;
     protected String message;
     protected Md5Function function;
-    protected Md5ConvertCallback callback;
 
-    public Md5Converter() {}
+    public Md5Converter() {
+    }
 
-    public void convert(String message, Md5Function function, Md5ConvertCallback callback) {
+    public Promise<String> convert(String message, Md5Function function) {
         this.message = message;
-        this.callback = callback;
         this.function = function;
-        install(Md5ClientBundle.INSTANCE.md5Js(), Md5DebugClientBundle.INSTANCE.md5DebugJs());
+
+        return new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                String converted = "";
+                switch (function) {
+                    case HEX:
+                        converted = Md5.hex(message);
+                        break;
+                    case ARRAY:
+                        converted = String.valueOf(Md5.array(message));
+                        break;
+                    case DIGEST:
+                        converted = String.valueOf(Md5.digest(message));
+                        break;
+                    case ARRAY_BUFFER:
+                        converted = (String) Md5.arrayBuffer(message);
+                        break;
+                    case BUFFER:
+                        converted = (String) Md5.buffer(message);
+                        break;
+                    case BASE_64:
+                        converted = Md5.base64(message);
+                        break;
+                }
+                resolve.onInvoke(converted);
+            });
+        });
     }
 
-    public void convert(String message, Md5ConvertCallback callback) {
-        convert(message, Md5Function.HEX, callback);
+    public Promise<String> convert(String message) {
+        return convert(message, Md5Function.HEX);
     }
 
-    @Override
-    public void install(TextResource minifiedJs, TextResource debugJs, TextResource minifiedCss, TextResource debugCss) {
-        getDependencyMixin().install(minifiedJs, debugJs, minifiedCss, debugCss);
-    }
-
-    @Override
-    public void install(TextResource minifiedJs, TextResource debugJs) {
-        getDependencyMixin().install(minifiedJs, debugJs);
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
-    }
-
-    @Override
-    public void load() {
-        if (callback != null) {
-            String converted = "";
-            switch (function) {
-                case HEX:
-                    converted = Md5.hex(message);
-                    break;
-                case ARRAY:
-                    converted = String.valueOf(Md5.array(message));
-                    break;
-                case DIGEST:
-                    converted = String.valueOf(Md5.digest(message));
-                    break;
-                case ARRAY_BUFFER:
-                    converted = (String) Md5.arrayBuffer(message);
-                    break;
-                case BUFFER:
-                    converted = (String) Md5.buffer(message);
-                    break;
-                case BASE_64:
-                    converted = Md5.base64(message);
-                    break;
-            }
-            callback.call(converted);
-        } else {
-            throw new RuntimeException("Md5 convert callback must be defined");
-        }
-    }
-
-    @Override
     public void unload() {
         Md5.destroy();
-    }
-
-    @Override
-    public void setDebug(boolean debug) {
-        getDependencyMixin().setDebug(debug);
-    }
-
-    @Override
-    public DependencyCallback getCallback() {
-        return getDependencyMixin().getCallback();
-    }
-
-    @Override
-    public boolean isInstalled(Class<?> loaderClass) {
-        return getDependencyMixin().isInstalled(loaderClass);
-    }
-
-    @Override
-    public void setDependencyLoaded(Class<?> loaderClass, boolean loaded) {
-        getDependencyMixin().setDependencyLoaded(loaderClass, loaded);
-    }
-
-    @Override
-    public void internalLoad() {
-
-    }
-
-    @Override
-    public List<TextResource> getJsDependencies() {
-        return null;
     }
 
     public static Md5Converter get() {
@@ -143,5 +90,9 @@ public class Md5Converter implements HasDependency, JsLoader {
         }
         return dependencyMixin;
     }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(Md5ClientBundle.INSTANCE.md5Js(), Md5DebugClientBundle.INSTANCE.md5DebugJs()));
+    }
 }
-*/
