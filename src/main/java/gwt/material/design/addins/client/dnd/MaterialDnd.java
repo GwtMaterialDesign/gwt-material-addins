@@ -162,7 +162,6 @@ public class MaterialDnd extends AbstractAddinsWidget {
     protected MaterialDnd resizable() {
         if (jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
-
         }
         jsDnd.off(ResizeEvents.RESIZE_MOVE).on(ResizeEvents.RESIZE_MOVE, e -> {
             resizeEventDispatcher.fireResizeMoveEvent();

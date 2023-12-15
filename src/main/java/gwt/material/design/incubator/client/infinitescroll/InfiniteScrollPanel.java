@@ -112,14 +112,10 @@ public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasI
             completed = true;
         }));
 
-        load();
-    }
-
-    /**
-     * Will load the initial data and initialize the buffer top and bottom
-     * of the scroll panel providing a target threshold on scrolling both top / bottom positions.
-     */
-    protected void load() {
+        /**
+         * Will load the initial data and initialize the buffer top and bottom
+         * of the scroll panel providing a target threshold on scrolling both top / bottom positions.
+         */
         if (loader == null) {
             setInfiniteScrollLoader(new InfiniteScrollLoader());
         }
@@ -221,14 +217,6 @@ public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasI
         if (isEnableRecycling()) {
             recycleManager.unload();
         }
-    }
-
-    /**
-     * Will reload the entire ScrollPanel setup
-     */
-    public void reload() {
-        unload();
-        load();
     }
 
     /**

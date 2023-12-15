@@ -34,7 +34,6 @@ import gwt.material.design.addins.client.masonry.js.JsMasonry;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 
@@ -70,7 +69,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
-public class MaterialMasonry extends AbstractAddinsWidget implements JsLoader, HasDurationTransition, HasMasonryHandler {
+public class MaterialMasonry extends AbstractAddinsWidget implements HasDurationTransition, HasMasonryHandler {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -116,11 +115,6 @@ public class MaterialMasonry extends AbstractAddinsWidget implements JsLoader, H
         super.onUnload();
 
         unload();
-    }
-
-    @Override
-    public void load() {
-
     }
 
     @Override

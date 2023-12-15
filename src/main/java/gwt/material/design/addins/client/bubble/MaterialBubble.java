@@ -27,7 +27,6 @@ import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.bubble.js.JsBubbleOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPosition;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.CssNameMixin;
@@ -66,7 +65,7 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#bubble">Material Bubble</a>
  */
 //@formatter:on
-public class MaterialBubble extends AbstractAddinsWidget implements JsLoader, HasPosition {
+public class MaterialBubble extends AbstractAddinsWidget implements HasPosition {
 
     private MaterialWidget triangle = new MaterialWidget(Document.get().createDivElement());
     private CssNameMixin<MaterialWidget, Position> positionMixin;
@@ -101,29 +100,12 @@ public class MaterialBubble extends AbstractAddinsWidget implements JsLoader, Ha
 
     @Override
     protected void internalLoad() {
-        load();
-    }
-
-    @Override
-    public void load() {
         $(getElement()).bubble(options);
     }
 
     @Override
     protected void onUnload() {
         super.onUnload();
-
-        unload();
-    }
-
-    @Override
-    public void unload() {
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     @Override

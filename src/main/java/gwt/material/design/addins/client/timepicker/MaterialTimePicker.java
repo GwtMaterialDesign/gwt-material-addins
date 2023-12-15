@@ -32,7 +32,6 @@ import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.timepicker.js.JsTimePicker;
 import gwt.material.design.addins.client.timepicker.js.JsTimePickerOptions;
 import gwt.material.design.client.MaterialDesignBase;
@@ -76,7 +75,7 @@ import static gwt.material.design.addins.client.timepicker.js.JsTimePicker.$;
  * @see <a href="https://github.com/weareoutman/clockpicker">ClockPicker 0.0.7</a>
  */
 //@formatter:on
-public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implements JsLoader, HasPlaceholder, HasOpenClose,
+public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implements HasPlaceholder, HasOpenClose,
         HasCloseHandlers<Date>, HasOpenHandlers<Date>, HasIcon, HasReadOnly, HasFieldTypes, HasLabel {
 
     static {
@@ -137,12 +136,6 @@ public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implemen
         registerHandler(addOrientationChangeHandler(event -> {
             JsTimePicker.$(timeInput.getElement()).lolliclock("setOrientation", event.getOrientation().getCssName());
         }));
-        AddinsDarkThemeReloader.get().reload(MaterialTimePickerDarkTheme.class);
-    }
-
-    @Override
-    public void load() {
-
     }
 
     @Override
@@ -155,12 +148,6 @@ public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implemen
     @Override
     public void unload() {
         $(timeInput.getElement()).lolliclock("remove");
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     /**
@@ -549,7 +536,6 @@ public class MaterialTimePicker extends AbstractAddinsValueWidget<Date> implemen
     public Class<? extends DarkThemeLoader> getDarkTheme() {
         return MaterialTimePickerDarkTheme.class;
     }
-
 
     @Override
     public List<DependencyResource> getCssDependencies() {

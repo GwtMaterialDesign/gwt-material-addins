@@ -31,8 +31,6 @@ import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.HasType;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
@@ -55,7 +53,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  *
  * @author kevzlou7979
  */
-public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandlers<Element>, HasType<JsonTableType>, JsLoader {
+public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandlers<Element>, HasType<JsonTableType> {
 
     static {
         if (AddinsIncubator.isDebug()) {
@@ -75,11 +73,6 @@ public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandl
 
     @Override
     protected void internalLoad() {
-        load();
-    }
-
-    @Override
-    public void load() {
         if (value != null) {
             setId(DOM.createUniqueId());
             options.id = "#" + getId();
@@ -103,12 +96,6 @@ public class JsonTable extends AbstractAddinsWidget implements HasSelectionHandl
     @Override
     public void unload() {
         $("tr").off("mousedown");
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     /**

@@ -38,7 +38,6 @@ import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEven
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.addins.client.fileuploader.js.*;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.events.*;
@@ -80,7 +79,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  */
 //@formatter:on
 //TODO: Reworked File casting issue
-public class MaterialFileUploader extends AbstractAddinsWidget implements JsLoader, HasFileUploadHandlers<UploadFile> {
+public class MaterialFileUploader extends AbstractAddinsWidget implements HasFileUploadHandlers<UploadFile> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -121,8 +120,7 @@ public class MaterialFileUploader extends AbstractAddinsWidget implements JsLoad
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
+    protected void internalLoad() {
 
         if (getWidgetCount() > 1) {
             uploadPreview.getUploadCollection().setId(DOM.createUniqueId());
@@ -140,17 +138,19 @@ public class MaterialFileUploader extends AbstractAddinsWidget implements JsLoad
             if (!isPreview()) {
                 uploadPreview.setDisplay(Display.NONE);
             }
-            load();
+            MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
+            if (uploadCollection != null) {
+                initDropzone(getElement(),
+                        uploadCollection.getItem().getElement(),
+                        uploadCollection.getId(),
+                        uploadCollection.getElement(),
+                        uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+            }
         } else {
             GWT.log("You don't have any child widget to use as a upload label");
         }
 
         setEnabled(enabled);
-    }
-
-    @Override
-    protected void internalLoad() {
-       load();
     }
 
     @Override
@@ -160,30 +160,11 @@ public class MaterialFileUploader extends AbstractAddinsWidget implements JsLoad
     }
 
     @Override
-    public void load() {
-        MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
-        if (uploadCollection != null) {
-            initDropzone(getElement(),
-                    uploadCollection.getItem().getElement(),
-                    uploadCollection.getId(),
-                    uploadCollection.getElement(),
-                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
-        }
-    }
-
-    @Override
     public void unload() {
         if (uploader != null) {
             uploader.destroy();
         }
     }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
-    }
-
 
     /**
      * Intialize the dropzone component with element and form url to provide a

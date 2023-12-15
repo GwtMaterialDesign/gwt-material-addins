@@ -27,7 +27,6 @@ import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.addins.client.md5.Md5ClientBundle;
 import gwt.material.design.addins.client.md5.Md5DebugClientBundle;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 
 //@formatter:off
 
@@ -56,7 +55,7 @@ import gwt.material.design.client.base.JsLoader;
  * @see <a href="https://github.com/dmester/jdenticon">Jdenticon 1.3.2</a>
  */
 //@formatter:on
-public class MaterialAvatar extends AbstractAddinsValueWidget<String> implements JsLoader {
+public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -81,28 +80,11 @@ public class MaterialAvatar extends AbstractAddinsValueWidget<String> implements
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    @Override
-    public void load() {
+    protected void internalLoad() {
         if (options != null) {
             JsAvatar.config = options;
         }
         JsAvatar.jdenticon();
-    }
-
-    @Override
-    public void unload() {
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     @Override

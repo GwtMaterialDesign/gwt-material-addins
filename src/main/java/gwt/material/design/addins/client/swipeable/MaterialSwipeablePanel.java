@@ -34,7 +34,6 @@ import gwt.material.design.addins.client.gesture.velocity.js.JsVelocityOptions;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.*;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
@@ -74,7 +73,7 @@ import static gwt.material.design.addins.client.gesture.hammer.js.JsHammer.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
  */
 //@formatter:on
-public class MaterialSwipeablePanel extends AbstractAddinsWidget implements JsLoader, HasSwipeableHandler<Widget> {
+public class MaterialSwipeablePanel extends AbstractAddinsWidget implements HasSwipeableHandler<Widget> {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -169,23 +168,12 @@ public class MaterialSwipeablePanel extends AbstractAddinsWidget implements JsLo
     }
 
     @Override
-    public void load() {
-
-    }
-
-    @Override
     public void unload() {
         for (Widget widget : getChildren()) {
             JQueryElement element = $(widget.getElement());
             element.off("pan");
             element.off("panend");
         }
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     protected JsVelocityOptions buildVelocityOption(double translateX) {

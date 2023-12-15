@@ -30,7 +30,6 @@ import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
 import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
 import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
@@ -74,7 +73,7 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
  * @see <a href="https://github.com/colelawrence/Touch-Splitter-jQuery">TouchSplitterJQuery 0.5.1</a>
  */
 //@formatter:on
-public class MaterialSplitPanel extends AbstractAddinsWidget implements JsLoader {
+public class MaterialSplitPanel extends AbstractAddinsWidget {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -114,11 +113,6 @@ public class MaterialSplitPanel extends AbstractAddinsWidget implements JsLoader
     }
 
     @Override
-    public void load() {
-
-    }
-
-    @Override
     public void unload() {
         destroy();
     }
@@ -133,12 +127,6 @@ public class MaterialSplitPanel extends AbstractAddinsWidget implements JsLoader
         } else {
             GWT.log("Please initialize the touchsplitter.", new IllegalStateException());
         }
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     /**

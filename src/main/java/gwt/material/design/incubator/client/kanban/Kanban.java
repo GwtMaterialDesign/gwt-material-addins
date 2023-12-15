@@ -53,7 +53,6 @@ public class Kanban extends AbstractAddinsWidget {
     private KanbanResponsiveLoader responsiveLoader;
     private List<KanbanBoard> boards;
 
-
     public Kanban() {
         super(Document.get().createDivElement(), "kanban");
 
@@ -80,7 +79,6 @@ public class Kanban extends AbstractAddinsWidget {
         } else {
             responsiveLoader.unload();
         }
-
     }
 
     /**
@@ -100,7 +98,6 @@ public class Kanban extends AbstractAddinsWidget {
     public void addItem(String boardId, KanbanItem item) {
         kanban.addElement(boardId, item);
     }
-
 
     /**
      * Add formItem as html element into the board with ID boardID

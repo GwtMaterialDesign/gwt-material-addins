@@ -49,11 +49,6 @@ public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoom
 
     @Override
     protected void internalLoad() {
-        load();
-    }
-
-    protected void load() {
-
         options.onZoomStart = (param1, param2) -> {
             fireEvent(new OnZoomStartEvent());
         };
@@ -63,7 +58,7 @@ public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoom
         };
 
         options.onDoubleTap = (param1, param2) -> {
-            
+
         };
 
         jsPinchZoom = new JsPinchZoom(getElement(), options);

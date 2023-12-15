@@ -42,7 +42,6 @@ import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasPasteHandlers;
 import gwt.material.design.client.base.HasPlaceholder;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.events.PasteEvent;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialDialog;
@@ -78,7 +77,7 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  * @see <a href="https://github.com/Cerealkillerway/materialNote">1.2.1</a>
  */
 //@formatter:on
-public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>,
+public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implements HasValueChangeHandlers<String>,
     HasPasteHandlers, HasPlaceholder, HasHTML {
 
     static {
@@ -88,7 +87,6 @@ public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implem
             MaterialDesignBase.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
         }
     }
-
 
     private String html;
     private ToolBarManager manager = new ToolBarManager();
@@ -164,11 +162,6 @@ public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implem
     }
 
     @Override
-    public void load() {
-
-    }
-
-    @Override
     public void unload() {
         JsRichEditor jsRichEditor = $(getElement());
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_BLUR);
@@ -178,12 +171,6 @@ public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implem
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
         jsRichEditor.destroy();
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     public ToolbarButton[] getStyleOptions() {

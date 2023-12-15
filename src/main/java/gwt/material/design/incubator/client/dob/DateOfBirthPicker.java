@@ -152,7 +152,6 @@ public class DateOfBirthPicker extends AbstractAddinsValueWidget<Date> implement
         getToggleStyleMixin().setOn(!showFieldLabels);
     }
 
-
     public void reload() {
         setupHandlers();
     }

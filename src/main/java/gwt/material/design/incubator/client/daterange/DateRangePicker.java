@@ -111,15 +111,8 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
         calendar.addStyleName("calendar");
     }
 
-
     @Override
     protected void internalLoad() {
-        super.internalLoad();
-
-        load();
-    }
-
-    protected void load() {
         add(dateInput);
         add(label);
         add(errorLabel);
@@ -192,16 +185,15 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
         });
 
         addClickHandler(clickEvent -> {
-           if (getType() == DateRangeType.LABEL) {
-               open();
-           }
+            if (getType() == DateRangeType.LABEL) {
+                open();
+            }
         });
 
         add(calendar);
         getHandlerRegistry().registerHandler(Window.addResizeHandler(event -> detectPosition()));
         setId(DOM.createUniqueId());
     }
-
 
     protected void detectPosition() {
         if (!isInVerticalViewPort()) {
@@ -272,11 +264,6 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
         getInputElement().off(DateRangeEvents.NEXT);
         getInputElement().off(DateRangeEvents.PREV);
         getInputElement().off(DateRangeEvents.UPDATE_CALENDAR);
-    }
-
-    public void reload() {
-        unload();
-        load();
     }
 
     public JsDateRangePicker getInputElement() {

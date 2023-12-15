@@ -25,22 +25,17 @@ import com.google.gwt.dom.client.VideoElement;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 
 import java.util.Collections;
 import java.util.List;
 
-public class HeroVideo extends AbstractAddinsWidget implements JsLoader {
+public class HeroVideo extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
     }
-
 
     private boolean loop = true;
     private boolean autoplay = true;
@@ -53,14 +48,8 @@ public class HeroVideo extends AbstractAddinsWidget implements JsLoader {
         super(Document.get().createVideoElement(), "hero-video");
     }
 
-
     @Override
     protected void internalLoad() {
-        load();
-    }
-
-    @Override
-    public void load() {
         VideoElement element = getElement().cast();
         element.setLoop(loop);
         element.setAutoplay(autoplay);
@@ -76,12 +65,6 @@ public class HeroVideo extends AbstractAddinsWidget implements JsLoader {
     @Override
     public void unload() {
         getElement().removeAllChildren();
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     public boolean isLoop() {

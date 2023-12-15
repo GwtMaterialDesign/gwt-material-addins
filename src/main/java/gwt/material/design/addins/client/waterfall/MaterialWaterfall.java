@@ -63,7 +63,7 @@ import java.util.List;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#waterfall">Material Waterfall</a>
  */
 //@formatter:on
-public class MaterialWaterfall extends AbstractAddinsWidget implements JsLoader {
+public class MaterialWaterfall extends AbstractAddinsWidget {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -108,15 +108,7 @@ public class MaterialWaterfall extends AbstractAddinsWidget implements JsLoader 
             offset = getOffsetHeight();
         }
 
-        super.internalLoad();
-
         JsWaterfall.initWaterfall(getElement().getOffsetHeight(), openCallback::call, closeCallback::call, offset);
-    }
-
-
-    @Override
-    public void load() {
-
     }
 
     @Override
@@ -130,12 +122,6 @@ public class MaterialWaterfall extends AbstractAddinsWidget implements JsLoader 
     public void unload() {
         closeCallback = null;
         openCallback = null;
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     public void setCallbacks(Functions.Func openCallback, Functions.Func closeCallback) {

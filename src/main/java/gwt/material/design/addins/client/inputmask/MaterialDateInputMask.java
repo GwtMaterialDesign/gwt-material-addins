@@ -55,9 +55,7 @@ public class MaterialDateInputMask extends AbstractAddinsValueWidget<Date>
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(inputMask);
         inputMask.addValueChangeHandler(event -> {
             inputParser.validate(format);
