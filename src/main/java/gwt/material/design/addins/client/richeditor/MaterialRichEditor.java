@@ -30,23 +30,24 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HasHTML;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.richeditor.base.ToolBarManager;
 import gwt.material.design.addins.client.richeditor.base.constants.RichEditorEvents;
 import gwt.material.design.addins.client.richeditor.base.constants.ToolbarButton;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditor;
 import gwt.material.design.addins.client.richeditor.js.JsRichEditorOptions;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasPasteHandlers;
 import gwt.material.design.client.base.HasPlaceholder;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.events.PasteEvent;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialDialog;
 import gwt.material.design.client.ui.MaterialDialogContent;
 import gwt.material.design.jquery.client.api.JQueryElement;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
 
@@ -74,19 +75,8 @@ import static gwt.material.design.addins.client.richeditor.js.JsRichEditor.$;
  * @see <a href="https://github.com/Cerealkillerway/materialNote">1.2.1</a>
  */
 //@formatter:on
-public class MaterialRichEditor extends AbstractValueWidget<String> implements JsLoader, HasValueChangeHandlers<String>,
+public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implements HasValueChangeHandlers<String>,
     HasPasteHandlers, HasPlaceholder, HasHTML {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs());
-            MaterialDesignBase.injectCss(MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss());
-        } else {
-            MaterialDesignBase.injectJs(MaterialRichEditorClientBundle.INSTANCE.richEditorJs());
-            MaterialDesignBase.injectCss(MaterialRichEditorClientBundle.INSTANCE.richEditorCss());
-        }
-    }
-
 
     private String html;
     private ToolBarManager manager = new ToolBarManager();
@@ -110,16 +100,8 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-
+    protected void internalLoad() {
         setHTML(html);
-    }
-
-    @Override
-    public void load() {
         JsRichEditor jsRichEditor = $(getElement());
 
         options.toolbar = manager.getToolbars();
@@ -160,7 +142,6 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         });
 
         checkContainer();
-        AddinsDarkThemeReloader.get().reload(MaterialRichEditorDarkTheme.class);
     }
 
     @Override
@@ -180,12 +161,6 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
         jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
         jsRichEditor.destroy();
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     public ToolbarButton[] getStyleOptions() {
@@ -413,5 +388,20 @@ public class MaterialRichEditor extends AbstractValueWidget<String> implements J
     @Override
     public HandlerRegistration addPasteHandler(final PasteEvent.PasteEventHandler handler) {
         return addHandler(handler, PasteEvent.TYPE);
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialRichEditorDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialRichEditorClientBundle.INSTANCE.richEditorCss(), MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialRichEditorClientBundle.INSTANCE.richEditorJs(), MaterialRichEditorDebugClientBundle.INSTANCE.richEditorDebugJs()));
     }
 }

@@ -22,9 +22,9 @@ package gwt.material.design.addins.client.inputmask;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.InitializeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.inputmask.base.DateInputParser;
 import gwt.material.design.addins.client.inputmask.events.*;
 import gwt.material.design.client.base.*;
@@ -36,7 +36,7 @@ import gwt.material.design.client.events.ToggleReadOnlyEvent;
 
 import java.util.Date;
 
-public class MaterialDateInputMask extends AbstractValueWidget<Date>
+public class MaterialDateInputMask extends AbstractAddinsValueWidget<Date>
     implements HasFieldTypes, HasLabel, HasInputMaskHandlers, HasPlaceholder, HasReadOnly, HasActive, HasToggleReadOnlyHandler, HasAutocomplete, HasPasteHandlers, HasFieldSensitivity {
 
     private String format = "YYYY-mm-dd";
@@ -55,9 +55,7 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(inputMask);
         inputMask.addValueChangeHandler(event -> {
             inputParser.validate(format);

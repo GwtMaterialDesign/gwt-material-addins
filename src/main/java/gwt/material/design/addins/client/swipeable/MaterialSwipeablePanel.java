@@ -24,19 +24,20 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.gesture.velocity.js.JsTransitionOptions;
 import gwt.material.design.addins.client.gesture.velocity.js.JsVelocity;
 import gwt.material.design.addins.client.gesture.velocity.js.JsVelocityOptions;
 import gwt.material.design.addins.client.swipeable.base.HasSwipeableHandler;
 import gwt.material.design.addins.client.swipeable.events.*;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.addins.client.gesture.hammer.js.JsHammer.$;
 
@@ -70,17 +71,7 @@ import static gwt.material.design.addins.client.gesture.hammer.js.JsHammer.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#swipeable">Material Swipeable</a>
  */
 //@formatter:on
-public class MaterialSwipeablePanel extends MaterialWidget implements JsLoader, HasSwipeableHandler<Widget> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug());
-            MaterialDesignBase.injectCss(MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialSwipeableClientBundle.INSTANCE.swipeableJs());
-            MaterialDesignBase.injectCss(MaterialSwipeableClientBundle.INSTANCE.swipeableCss());
-        }
-    }
+public class MaterialSwipeablePanel extends AbstractAddinsWidget implements HasSwipeableHandler<Widget> {
 
     public MaterialSwipeablePanel() {
         super(Document.get().createDivElement(), AddinsCssName.SWIPEABLE);
@@ -97,14 +88,7 @@ public class MaterialSwipeablePanel extends MaterialWidget implements JsLoader, 
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    @Override
-    public void load() {
+    protected void internalLoad() {
         for (Widget w : getChildren()) {
             if (!w.getStyleName().contains(AddinsCssName.IGNORED)) {
                 load(w.getElement(), w);
@@ -180,12 +164,6 @@ public class MaterialSwipeablePanel extends MaterialWidget implements JsLoader, 
             element.off("pan");
             element.off("panend");
         }
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     protected JsVelocityOptions buildVelocityOption(double translateX) {
@@ -280,5 +258,15 @@ public class MaterialSwipeablePanel extends MaterialWidget implements JsLoader, 
     @Override
     public HandlerRegistration addOnEndSwipeRightHandler(OnEndSwipeRightEvent.OnEndSwipeRightHandler<Widget> handler) {
         return addHandler(handler, OnEndSwipeRightEvent.getType());
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSwipeableClientBundle.INSTANCE.swipeableCss(), MaterialSwipeableDebugClientBundle.INSTANCE.swipeableCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSwipeableClientBundle.INSTANCE.swipeableJs(), MaterialSwipeableDebugClientBundle.INSTANCE.swipeableJsDebug()));
     }
 }

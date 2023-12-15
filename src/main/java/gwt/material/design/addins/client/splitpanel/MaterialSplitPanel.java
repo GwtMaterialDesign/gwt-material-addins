@@ -21,19 +21,21 @@ package gwt.material.design.addins.client.splitpanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
 import gwt.material.design.addins.client.splitpanel.js.TouchSplitter;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.jquery.client.api.JQueryElement;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
 
@@ -69,17 +71,7 @@ import static gwt.material.design.addins.client.splitpanel.js.JsSplitPanel.$;
  * @see <a href="https://github.com/colelawrence/Touch-Splitter-jQuery">TouchSplitterJQuery 0.5.1</a>
  */
 //@formatter:on
-public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugJs());
-            MaterialDesignBase.injectCss(MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss());
-        } else {
-            MaterialDesignBase.injectDebugJs(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs());
-            MaterialDesignBase.injectCss(MaterialSplitPanelClientBundle.INSTANCE.splitPanelCss());
-        }
-    }
+public class MaterialSplitPanel extends AbstractAddinsWidget {
 
     private TouchSplitter touchSplitter;
     private JsSplitPanelOptions options = JsSplitPanelOptions.create();
@@ -91,14 +83,7 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    @Override
-    public void load() {
+    protected void internalLoad() {
         options.dock = getDock().getCssName();
         options.orientation = getAxis().getCssName();
         touchSplitter = $(getElement()).touchSplit(options);
@@ -132,12 +117,6 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
         } else {
             GWT.log("Please initialize the touchsplitter.", new IllegalStateException());
         }
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     /**
@@ -326,5 +305,20 @@ public class MaterialSplitPanel extends MaterialWidget implements JsLoader {
                 splitterBar.css("backgroundColor", ColorHelper.setupComputedBackgroundColor(splitterLineColor));
             }
         }
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialSplitPanelDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSplitPanelClientBundle.INSTANCE.splitPanelCss(), MaterialSplitPanelDebugClientBundle.INSTANCE.splitPanelDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs(), MaterialSplitPanelClientBundle.INSTANCE.splitPanelJs()));
     }
 }

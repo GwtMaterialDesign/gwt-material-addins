@@ -25,9 +25,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.fileuploader.base.FileProvider;
 import gwt.material.design.addins.client.fileuploader.base.HasFileUploadHandlers;
 import gwt.material.design.addins.client.fileuploader.base.UploadFile;
@@ -36,18 +36,16 @@ import gwt.material.design.addins.client.fileuploader.constants.FileMethod;
 import gwt.material.design.addins.client.fileuploader.constants.FileUploaderEvents;
 import gwt.material.design.addins.client.fileuploader.events.*;
 import gwt.material.design.addins.client.fileuploader.js.*;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.Display;
 import gwt.material.design.client.events.*;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.jquery.client.api.Functions;
 import gwt.material.design.jquery.client.api.JQueryElement;
-import gwt.material.design.jscore.client.api.media.MediaStream;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -79,17 +77,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  */
 //@formatter:on
 //TODO: Reworked File casting issue
-public class MaterialFileUploader extends MaterialWidget implements JsLoader, HasFileUploadHandlers<UploadFile> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug());
-            MaterialDesignBase.injectCss(MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneCssDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs());
-            MaterialDesignBase.injectCss(MaterialFileUploaderClientBundle.INSTANCE.dropzoneCss());
-        }
-    }
+public class MaterialFileUploader extends AbstractAddinsWidget implements HasFileUploadHandlers<UploadFile> {
 
     protected boolean preview = true;
     protected boolean enabled = true;
@@ -122,8 +110,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
+    protected void internalLoad() {
 
         if (getWidgetCount() > 1) {
             uploadPreview.getUploadCollection().setId(DOM.createUniqueId());
@@ -141,25 +128,19 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             if (!isPreview()) {
                 uploadPreview.setDisplay(Display.NONE);
             }
-            load();
+            MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
+            if (uploadCollection != null) {
+                initDropzone(getElement(),
+                        uploadCollection.getItem().getElement(),
+                        uploadCollection.getId(),
+                        uploadCollection.getElement(),
+                        uploadPreview.getUploadHeader().getUploadedFiles().getElement());
+            }
         } else {
             GWT.log("You don't have any child widget to use as a upload label");
         }
 
         setEnabled(enabled);
-        AddinsDarkThemeReloader.get().reload(MaterialFileUploaderDarkTheme.class);
-    }
-
-    @Override
-    public void load() {
-        MaterialUploadCollection uploadCollection = uploadPreview.getUploadCollection();
-        if (uploadCollection != null) {
-            initDropzone(getElement(),
-                    uploadCollection.getItem().getElement(),
-                    uploadCollection.getId(),
-                    uploadCollection.getElement(),
-                    uploadPreview.getUploadHeader().getUploadedFiles().getElement());
-        }
     }
 
     @Override
@@ -174,13 +155,6 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             uploader.destroy();
         }
     }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
-    }
-
 
     /**
      * Intialize the dropzone component with element and form url to provide a
@@ -1430,5 +1404,20 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
                 handler.onQueueComplete(event);
             }
         }, QueueCompleteEvent.getType());
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialFileUploaderDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialFileUploaderClientBundle.INSTANCE.dropzoneJs(), MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneJsDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialFileUploaderClientBundle.INSTANCE.dropzoneCss(), MaterialFileUploaderDebugClientBundle.INSTANCE.dropzoneCssDebug()));
     }
 }

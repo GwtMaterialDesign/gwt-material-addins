@@ -24,13 +24,11 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.combobox.async.DefaultComboBoxDisplayLoader;
@@ -44,8 +42,6 @@ import gwt.material.design.addins.client.combobox.js.LanguageOptions;
 import gwt.material.design.addins.client.combobox.js.options.Data;
 import gwt.material.design.addins.client.combobox.js.options.Params;
 import gwt.material.design.addins.client.combobox.js.options.Template;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.async.AsyncWidgetCallback;
 import gwt.material.design.client.async.IsAsyncWidget;
 import gwt.material.design.client.async.loader.AsyncDisplayLoader;
@@ -63,7 +59,6 @@ import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -465,7 +460,6 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
     public String getLabel() {
         return label.getText();
     }
-
 
     @Override
     public String getPlaceholder() {

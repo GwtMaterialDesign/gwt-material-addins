@@ -22,19 +22,19 @@ package gwt.material.design.incubator.client.infinitescroll;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
-import gwt.material.design.client.ui.MaterialRow;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
 import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
 import gwt.material.design.incubator.client.infinitescroll.recycle.RecyclePosition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static gwt.material.design.client.js.JsMaterialElement.$;
@@ -53,15 +53,10 @@ import static gwt.material.design.client.js.JsMaterialElement.$;
  *
  * @author kevzlou7979
  */
-public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteScrollHandlers<T> {
+public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasInfiniteScrollHandlers<T> {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(InfiniteScrollDebugClientBundle.INSTANCE.infiniteScrollDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(InfiniteScrollClientBundle.INSTANCE.infiniteScrollCss());
-        }
     }
 
     private static final String INFINITE_SCROLL_PANEL = "infinite-scroll-panel";
@@ -91,9 +86,7 @@ public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteSc
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         // Will setup the scroll events to determine if scrolls top / bottom.
         $(getElement()).scroll((e, param1) -> {
             if (!isLoading()) {
@@ -119,14 +112,10 @@ public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteSc
             completed = true;
         }));
 
-        load();
-    }
-
-    /**
-     * Will load the initial data and initialize the buffer top and bottom
-     * of the scroll panel providing a target threshold on scrolling both top / bottom positions.
-     */
-    protected void load() {
+        /**
+         * Will load the initial data and initialize the buffer top and bottom
+         * of the scroll panel providing a target threshold on scrolling both top / bottom positions.
+         */
         if (loader == null) {
             setInfiniteScrollLoader(new InfiniteScrollLoader());
         }
@@ -228,14 +217,6 @@ public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteSc
         if (isEnableRecycling()) {
             recycleManager.unload();
         }
-    }
-
-    /**
-     * Will reload the entire ScrollPanel setup
-     */
-    public void reload() {
-        unload();
-        load();
     }
 
     /**
@@ -395,5 +376,10 @@ public class InfiniteScrollPanel<T> extends MaterialRow implements HasInfiniteSc
     @Override
     public HandlerRegistration addErrorHandler(ErrorEvent.ErrorHandler handler) {
         return addHandler(handler, ErrorEvent.getType());
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(InfiniteScrollClientBundle.INSTANCE.infiniteScrollCss(), InfiniteScrollDebugClientBundle.INSTANCE.infiniteScrollDebugCss()));
     }
 }

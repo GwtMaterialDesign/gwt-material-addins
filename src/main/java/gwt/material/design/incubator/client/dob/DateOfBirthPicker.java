@@ -22,10 +22,10 @@ package gwt.material.design.incubator.client.dob;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.combobox.MaterialComboBox;
 import gwt.material.design.addins.client.inputmask.MaterialIntegerInputMask;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasFieldTypes;
 import gwt.material.design.client.base.HasReadOnly;
 import gwt.material.design.client.base.mixin.FieldTypeMixin;
@@ -34,20 +34,13 @@ import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.FieldType;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.constants.TextAlign;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.matcher.DateMonthMatcher;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
-public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasFieldTypes, HasReadOnly {
-
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(DateOfBirthPickerDebugClientBundle.INSTANCE.dobDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(DateOfBirthPickerClientBundle.INSTANCE.dobCss());
-        }
-    }
+public class DateOfBirthPicker extends AbstractAddinsValueWidget<Date> implements HasFieldTypes, HasReadOnly {
 
     private boolean showFieldLabels;
     private Date value;
@@ -137,9 +130,7 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(month);
         add(day);
         add(year);
@@ -374,5 +365,10 @@ public class DateOfBirthPicker extends AbstractValueWidget<Date> implements HasF
             toggleStyleMixin = new ToggleStyleMixin<>(this, "no-labels");
         }
         return toggleStyleMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(DateOfBirthPickerClientBundle.INSTANCE.dobCss(), DateOfBirthPickerDebugClientBundle.INSTANCE.dobDebugCss()));
     }
 }

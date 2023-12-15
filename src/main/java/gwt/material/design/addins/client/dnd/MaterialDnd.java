@@ -21,8 +21,9 @@ package gwt.material.design.addins.client.dnd;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.dnd.constants.DragEvents;
 import gwt.material.design.addins.client.dnd.constants.DropEvents;
 import gwt.material.design.addins.client.dnd.constants.ResizeEvents;
@@ -36,8 +37,10 @@ import gwt.material.design.addins.client.dnd.js.JsDnd;
 import gwt.material.design.addins.client.dnd.js.JsDragOptions;
 import gwt.material.design.addins.client.dnd.js.JsDropOptions;
 import gwt.material.design.addins.client.dnd.js.JsResizableOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.MaterialWidget;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -64,15 +67,7 @@ import gwt.material.design.client.base.MaterialWidget;
  * @see <a href="https://github.com/taye/interact.js">InteractJs 1.2.6</a>
  */
 //@formatter:on
-public class MaterialDnd {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialDndDebugClientBundle.INSTANCE.dndDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialDndClientBundle.INSTANCE.dndJs());
-        }
-    }
+public class MaterialDnd extends AbstractAddinsWidget {
 
     private JsDnd jsDnd;
     private final MaterialWidget target;
@@ -161,7 +156,6 @@ public class MaterialDnd {
     protected MaterialDnd resizable() {
         if (jsDnd == null) {
             jsDnd = JsDnd.interact(target.getElement());
-
         }
         jsDnd.off(ResizeEvents.RESIZE_MOVE).on(ResizeEvents.RESIZE_MOVE, e -> {
             resizeEventDispatcher.fireResizeMoveEvent();
@@ -302,5 +296,10 @@ public class MaterialDnd {
 
     public void setResizableOptions(JsResizableOptions resizableOptions) {
         this.resizableOptions = resizableOptions;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialDndClientBundle.INSTANCE.dndJs(), MaterialDndDebugClientBundle.INSTANCE.dndDebugJs()));
     }
 }

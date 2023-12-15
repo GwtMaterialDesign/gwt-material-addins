@@ -23,20 +23,21 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.masonry.events.HasMasonryHandler;
 import gwt.material.design.addins.client.masonry.events.LayoutCompleteEvent;
 import gwt.material.design.addins.client.masonry.events.MasonryEvents;
 import gwt.material.design.addins.client.masonry.events.RemoveCompleteEvent;
 import gwt.material.design.addins.client.masonry.js.JsMasonry;
 import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.MaterialRow;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
 
@@ -70,17 +71,7 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
-public class MaterialMasonry extends MaterialRow implements JsLoader, HasDurationTransition, HasMasonryHandler {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug());
-            MaterialDesignBase.injectDebugJs(MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug());
-        } else {
-            MaterialDesignBase.injectJs(MaterialMasonryClientBundle.INSTANCE.masonryJs());
-            MaterialDesignBase.injectJs(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs());
-        }
-    }
+public class MaterialMasonry extends AbstractAddinsWidget implements HasDurationTransition, HasMasonryHandler {
 
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
     private JsMasonryOptions options = JsMasonryOptions.create();
@@ -96,10 +87,9 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
+    protected void internalLoad() {
+        masonryElement = $(getElement());
+        masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
 
         masonryElement.on(MasonryEvents.REMOVE_COMPLETE, (e, param1) -> {
             RemoveCompleteEvent.fire(this, target);
@@ -110,12 +100,6 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
             LayoutCompleteEvent.fire(this);
             return true;
         });
-    }
-
-    @Override
-    public void load() {
-        masonryElement = $(getElement());
-        masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
     }
 
     @Override
@@ -405,5 +389,11 @@ public class MaterialMasonry extends MaterialRow implements JsLoader, HasDuratio
     @Override
     public HandlerRegistration addRemoveCompleteHandler(RemoveCompleteEvent.RemoveCompleteHandler handler) {
         return addHandler(handler, RemoveCompleteEvent.TYPE);
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Arrays.asList(new DependencyResource(MaterialMasonryClientBundle.INSTANCE.masonryJs(), MaterialMasonryDebugClientBundle.INSTANCE.masonryJsDebug()),
+                new DependencyResource(MaterialMasonryClientBundle.INSTANCE.imageLoadedJs(), MaterialMasonryDebugClientBundle.INSTANCE.imageLoadedJsDebug()));
     }
 }

@@ -20,14 +20,15 @@
 package gwt.material.design.addins.client.avatar;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.avatar.js.AvatarOptions;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.md5.Md5ClientBundle;
 import gwt.material.design.addins.client.md5.Md5DebugClientBundle;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.AbstractValueWidget;
-import gwt.material.design.client.base.JsLoader;
+
+import java.util.Arrays;
+import java.util.List;
 
 //@formatter:off
 
@@ -56,17 +57,7 @@ import gwt.material.design.client.base.JsLoader;
  * @see <a href="https://github.com/dmester/jdenticon">Jdenticon 1.3.2</a>
  */
 //@formatter:on
-public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoader {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs());
-            MaterialDesignBase.injectDebugJs(Md5DebugClientBundle.INSTANCE.md5DebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialAvatarClientBundle.INSTANCE.jdenticonJs());
-            MaterialDesignBase.injectJs(Md5ClientBundle.INSTANCE.md5Js());
-        }
-    }
+public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
 
     private String value;
     private AvatarOptions options;
@@ -81,28 +72,11 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    @Override
-    public void load() {
+    protected void internalLoad() {
         if (options != null) {
             JsAvatar.config = options;
         }
         JsAvatar.jdenticon();
-    }
-
-    @Override
-    public void unload() {
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     @Override
@@ -153,6 +127,12 @@ public class MaterialAvatar extends AbstractValueWidget<String> implements JsLoa
     public int getWidth() {
         String width = getElement().getAttribute("width");
         return width != null ? Integer.parseInt(width) : 0;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Arrays.asList(new DependencyResource(MaterialAvatarClientBundle.INSTANCE.jdenticonJs(), MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs()),
+                new DependencyResource(Md5ClientBundle.INSTANCE.md5Js(),Md5DebugClientBundle.INSTANCE.md5DebugJs()));
     }
 
     public int getHeight() {

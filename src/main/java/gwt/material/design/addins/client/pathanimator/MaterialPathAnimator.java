@@ -22,19 +22,22 @@ package gwt.material.design.addins.client.pathanimator;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
 import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
 import gwt.material.design.addins.client.pathanimator.base.PathStylerMixin;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.OffsetPosition;
 import gwt.material.design.client.ui.animate.debugger.AnimationGlobalConfig;
 import gwt.material.design.jquery.client.api.Functions;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -64,15 +67,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/chinchang/cta.js">CTAJs 0.3.2</a>
  */
 //@formatter:on
-public class MaterialPathAnimator implements HasDurationTransition, HasPathStyles {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs());
-        }
-    }
+public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDurationTransition, HasPathStyles {
 
     private ScrollHelper scrollHelper;
     private Element sourceElement;
@@ -411,5 +406,10 @@ public class MaterialPathAnimator implements HasDurationTransition, HasPathStyle
             stylerMixin = new PathStylerMixin<>(this);
         }
         return stylerMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs(), MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs()));
     }
 }

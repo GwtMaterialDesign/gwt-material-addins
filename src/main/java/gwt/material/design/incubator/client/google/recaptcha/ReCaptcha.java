@@ -21,15 +21,17 @@ package gwt.material.design.incubator.client.google.recaptcha;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.google.recaptcha.api.RecaptchaApi;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaTheme;
 import gwt.material.design.incubator.client.google.recaptcha.constants.RecaptchaType;
 import gwt.material.design.incubator.client.google.recaptcha.js.JsReCaptcha;
 import gwt.material.design.jquery.client.api.Functions;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -74,15 +76,10 @@ import gwt.material.design.jquery.client.api.Functions;
  * @author kevzlou7979
  */
 //@formatter:on
-public class ReCaptcha extends MaterialWidget {
+public class ReCaptcha extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(ReCaptcha.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectDebugJs(ReCaptchaDebugClientBundle.INSTANCE.recaptchaDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(ReCaptchaClientBundle.INSTANCE.recaptchaJs());
-        }
     }
 
     public ReCaptcha() {
@@ -186,5 +183,10 @@ public class ReCaptcha extends MaterialWidget {
      */
     public String getResponse() {
         return reCaptcha.getResponse();
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(ReCaptchaClientBundle.INSTANCE.recaptchaJs(), ReCaptchaDebugClientBundle.INSTANCE.recaptchaDebugJs()));
     }
 }

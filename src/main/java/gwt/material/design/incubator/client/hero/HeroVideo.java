@@ -23,24 +23,19 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.SourceElement;
 import com.google.gwt.dom.client.VideoElement;
 import com.google.gwt.user.client.DOM;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
-import gwt.material.design.client.base.MaterialWidget;
-import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.InfiniteScrollPanel;
 
-public class HeroVideo extends MaterialWidget implements JsLoader {
+import java.util.Collections;
+import java.util.List;
+
+public class HeroVideo extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(HeroVideoDebugClientBundle.INSTANCE.heroVideoDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(HeroVideoClientBundle.INSTANCE.heroVideoCss());
-        }
     }
-
 
     private boolean loop = true;
     private boolean autoplay = true;
@@ -54,14 +49,7 @@ public class HeroVideo extends MaterialWidget implements JsLoader {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-
-    }
-
-    @Override
-    public void load() {
+    protected void internalLoad() {
         VideoElement element = getElement().cast();
         element.setLoop(loop);
         element.setAutoplay(autoplay);
@@ -77,12 +65,6 @@ public class HeroVideo extends MaterialWidget implements JsLoader {
     @Override
     public void unload() {
         getElement().removeAllChildren();
-    }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
     }
 
     public boolean isLoop() {
@@ -132,5 +114,10 @@ public class HeroVideo extends MaterialWidget implements JsLoader {
     public void setSrc(String src) {
         this.src = src;
         reload();
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(HeroVideoClientBundle.INSTANCE.heroVideoCss(), HeroVideoDebugClientBundle.INSTANCE.heroVideoDebugCss()));
     }
 }
