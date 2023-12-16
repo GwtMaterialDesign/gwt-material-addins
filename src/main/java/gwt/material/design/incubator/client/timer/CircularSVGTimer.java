@@ -20,10 +20,12 @@
 package gwt.material.design.incubator.client.timer;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.incubator.client.AddinsIncubator;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -38,15 +40,10 @@ import gwt.material.design.incubator.client.base.IncubatorWidget;
  * @author kevzlou7979
  */
 //@formatter:on
-public class CircularSVGTimer extends ComplexPanel {
+public class CircularSVGTimer extends AbstractAddinsWidget {
 
     static {
         IncubatorWidget.showWarning(CircularSVGTimer.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(TimerProgressDebugClientBundle.INSTANCE.circularTimerDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(TimerProgressClientBundle.INSTANCE.circularTimerCss());
-        }
     }
 
     private static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
@@ -72,9 +69,7 @@ public class CircularSVGTimer extends ComplexPanel {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         getElement().setAttribute("class", "spinner");
     }
 
@@ -83,4 +78,9 @@ public class CircularSVGTimer extends ComplexPanel {
                                                   final String name)/*-{
         return document.createElementNS(ns, name);
     }-*/;
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(TimerProgressClientBundle.INSTANCE.circularTimerCss(), TimerProgressDebugClientBundle.INSTANCE.circularTimerDebugCss()));
+    }
 }

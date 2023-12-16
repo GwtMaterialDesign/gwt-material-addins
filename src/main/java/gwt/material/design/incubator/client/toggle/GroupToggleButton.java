@@ -25,23 +25,23 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsValueWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.AbstractValueWidget;
 import gwt.material.design.client.base.HasSingleValue;
 import gwt.material.design.client.base.HasStatusText;
 import gwt.material.design.client.base.mixin.StatusTextMixin;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeLoader;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 //@formatter:off
@@ -67,16 +67,11 @@ import java.util.List;
  * @author kevzlou7979
  */
 //@formatter:on
-public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implements HasSelectionHandlers<T>,
+public class GroupToggleButton<T> extends AbstractAddinsValueWidget<List<T>> implements HasSelectionHandlers<T>,
     HasStatusText, HasSingleValue<T> {
 
     static {
         IncubatorWidget.showWarning(GroupToggleButton.class);
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(GroupToggleButtonDebugClientBundle.INSTANCE.groupToggleDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(GroupToggleButtonClientBundle.INSTANCE.groupToggleButtonCss());
-        }
     }
 
     private boolean multiple;
@@ -93,15 +88,12 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(label);
         add(wrapper);
         add(errorLabel);
 
         registerHandler(addSelectionHandler(selectionEvent -> ValueChangeEvent.fire(GroupToggleButton.this, getValue())));
-        IncubatorDarkThemeReloader.get().reload(GroupToggleDarkTheme.class);
     }
 
     public ToggleButton addItem(String text) {
@@ -293,5 +285,15 @@ public class GroupToggleButton<T> extends AbstractValueWidget<List<T>> implement
             statusTextMixin = new StatusTextMixin<>(this, errorLabel);
         }
         return statusTextMixin;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return GroupToggleDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(GroupToggleButtonClientBundle.INSTANCE.groupToggleButtonCss(), GroupToggleButtonDebugClientBundle.INSTANCE.groupToggleDebugCss()));
     }
 }

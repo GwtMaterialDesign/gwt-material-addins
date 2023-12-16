@@ -20,16 +20,18 @@
 package gwt.material.design.incubator.client.timer;
 
 import com.google.gwt.dom.client.Document;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.HasDurationTransition;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.ColorsMixin;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialPanel;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
 
@@ -56,7 +58,7 @@ import static gwt.material.design.addins.client.bubble.js.JsBubble.$;
  * @author kevzlou7979
  */
 //@formatter:on
-public class TimerProgress extends MaterialWidget implements HasDurationTransition {
+public class TimerProgress extends AbstractAddinsWidget implements HasDurationTransition {
 
     private MaterialPanel fill = new MaterialPanel();
     private ColorsMixin<TimerProgress> emptyFillColorMixin;
@@ -64,11 +66,6 @@ public class TimerProgress extends MaterialWidget implements HasDurationTransiti
 
     static {
         IncubatorWidget.showWarning(TimerProgress.class);
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(TimerProgressDebugClientBundle.INSTANCE.timerDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(TimerProgressClientBundle.INSTANCE.timerCss());
-        }
     }
 
     private int duration = 1000;
@@ -79,14 +76,10 @@ public class TimerProgress extends MaterialWidget implements HasDurationTransiti
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         add(fill);
         $(fill.getElement()).css("animation-duration", duration + "ms");
         $(fill.getElement()).css("-webkit-animation-duration", duration + "ms");
-
-        IncubatorDarkThemeReloader.get().reload(TimerProgressDarkTheme.class);
     }
 
     public MaterialPanel getFill() {
@@ -137,5 +130,15 @@ public class TimerProgress extends MaterialWidget implements HasDurationTransiti
             fillColorMixin = new ColorsMixin(fill);
         }
         return fillColorMixin;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return TimerProgressDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(TimerProgressClientBundle.INSTANCE.timerCss(), TimerProgressDebugClientBundle.INSTANCE.timerDebugCss()));
     }
 }

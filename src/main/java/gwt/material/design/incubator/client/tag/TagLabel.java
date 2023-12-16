@@ -40,7 +40,7 @@ public class TagLabel extends AbstractAddinsWidget implements HasSize {
         addStyleName("tag-label");
         setPosition(TagPosition.LEFT);
     }
-    
+
     @Override
     public void setSize(Size size) {
         getSizeMixin().setStyle(size.getCssName());
