@@ -94,6 +94,6 @@ public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoom
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return Collections.singletonList(new DependencyResource(PinchClientBundle.INSTANCE.pinchJs(), PinchDebugClientBundle.INSTANCE.pinchJs()));
+        return Collections.singletonList(new DependencyResource(PinchClientBundle.INSTANCE.pinchJs(), PinchDebugClientBundle.INSTANCE.pinchDebugJs()));
     }
 }

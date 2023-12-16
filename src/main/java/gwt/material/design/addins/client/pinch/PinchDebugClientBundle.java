@@ -28,5 +28,5 @@ public interface PinchDebugClientBundle extends ClientBundle {
     PinchDebugClientBundle INSTANCE = GWT.create(PinchDebugClientBundle.class);
 
     @Source("resources/js/pinch.js")
-    TextResource pinchJs();
+    TextResource pinchDebugJs();
 }

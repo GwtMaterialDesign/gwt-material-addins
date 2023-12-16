@@ -23,15 +23,15 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.HasIcon;
 import gwt.material.design.client.base.HasTitle;
-import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.*;
-import gwt.material.design.client.ui.*;
+import gwt.material.design.client.ui.MaterialIcon;
+import gwt.material.design.client.ui.MaterialLoader;
+import gwt.material.design.client.ui.MaterialPanel;
+import gwt.material.design.client.ui.MaterialTitle;
 import gwt.material.design.client.ui.html.Div;
 
 import java.util.Arrays;
@@ -80,9 +80,7 @@ public class MaterialEmptyState extends AbstractAddinsWidget implements HasIcon,
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         setTextAlign(TextAlign.CENTER);
         add(container);
         container.setWidth("100%");
