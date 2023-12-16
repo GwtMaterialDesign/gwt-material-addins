@@ -23,6 +23,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 
 import java.util.Collections;
@@ -96,6 +97,11 @@ public class ProgressLineBar<T> extends AbstractAddinsWidget {
             return;
         }
         options.get(index).setActive(true);
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return ProgressLineBarDarkTheme.class;
     }
 
     @Override

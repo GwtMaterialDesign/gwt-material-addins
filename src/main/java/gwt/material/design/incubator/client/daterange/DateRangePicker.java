@@ -876,7 +876,7 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
 
     @Override
     public List<DependencyResource> getCssDependencies() {
-        return Arrays.asList(new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs()),
+        return Arrays.asList(new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugCss()),
                 new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss()),
                 new DependencyResource(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss()));
     }

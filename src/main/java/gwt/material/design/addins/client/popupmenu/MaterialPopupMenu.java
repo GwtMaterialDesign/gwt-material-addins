@@ -24,14 +24,15 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.HasOpenClose;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.CssName;
-import gwt.material.design.client.ui.html.UnorderedList;
 import gwt.material.design.jquery.client.api.JQueryElement;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
@@ -41,16 +42,8 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author Mark Kevin
  * @author Ben Dol
  */
-public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
+public class MaterialPopupMenu extends AbstractAddinsWidget implements HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
     HasCloseHandlers<MaterialPopupMenu>, HasOpenClose {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialPopupMenuDebugClientBundle.INSTANCE.menuCssDebug());
-        } else {
-            MaterialDesignBase.injectCss(MaterialPopupMenuClientBundle.INSTANCE.menuCss());
-        }
-    }
 
     private int popupX;
     private int popupY;
@@ -64,14 +57,7 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        load();
-    }
-
-    @Override
-    public void load() {
+    protected void internalLoad() {
         $(this).attr("tabindex", "0");
 
         $(this).off("mouseup").on("mouseup", e -> {
@@ -109,13 +95,6 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
         $(this).off("." + id);
         $("*").off("." + id);
     }
-
-    @Override
-    public void reload() {
-        unload();
-        load();
-    }
-
 
     private void initializeSelectionEvent() {
         // Initialization of Selection event
@@ -250,5 +229,10 @@ public class MaterialPopupMenu extends UnorderedList implements JsLoader, HasSel
 
     public int getPopupY() {
         return popupY;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialPopupMenuClientBundle.INSTANCE.menuCss(), MaterialPopupMenuDebugClientBundle.INSTANCE.menuCssDebug()));
     }
 }

@@ -227,12 +227,12 @@ public class ScreenKeyboard extends AbstractAddinsWidget implements HasScreenKey
 
     @Override
     public List<DependencyResource> getCssDependencies() {
-        return Arrays.asList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss(),ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss()),
-                new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss(),ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss()));
+        return Arrays.asList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCss(), ScreenKeyboardClientDebugBundle.INSTANCE.screenKeyboardDebugCss()),
+                new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardCustomCss(),ScreenKeyboardClientDebugBundle.INSTANCE.screenKeyboardCustomDebugCss()));
     }
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return Collections.singletonList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs(), ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs()));
+        return Collections.singletonList(new DependencyResource(ScreenKeyboardClientBundle.INSTANCE.screenKeyboardJs(), ScreenKeyboardClientDebugBundle.INSTANCE.screenKeyboardDebugJs()));
     }
 }

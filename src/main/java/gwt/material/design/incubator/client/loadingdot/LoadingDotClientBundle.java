@@ -27,5 +27,5 @@ public interface LoadingDotClientBundle extends ClientBundle {
     LoadingDotClientBundle INSTANCE = GWT.create(LoadingDotClientBundle.class);
 
     @Source("resources/css/three-dots.min.css")
-    TextResource threeDots();
+    TextResource threeDotsMinifiedCss();
 }

@@ -27,7 +27,7 @@ public interface PlaceholderDebugClientBundle extends ClientBundle {
     PlaceholderDebugClientBundle INSTANCE = GWT.create(PlaceholderDebugClientBundle.class);
 
     @Source("resources/css/content-placeholder.css")
-    TextResource contentPlaceholder();
+    TextResource contentPlaceholderDebugCss();
 
     @Source("resources/css/content-placeholder-dark.css")
     TextResource contentPlaceholderDarkCss();

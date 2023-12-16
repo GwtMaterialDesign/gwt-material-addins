@@ -27,5 +27,5 @@ public interface LoadingDotDebugClientBundle extends ClientBundle {
     LoadingDotDebugClientBundle INSTANCE = GWT.create(LoadingDotDebugClientBundle.class);
 
     @Source("resources/css/three-dots.css")
-    TextResource threeDots();
+    TextResource threeDotsDebugCss();
 }

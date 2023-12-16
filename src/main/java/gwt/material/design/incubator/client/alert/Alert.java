@@ -187,7 +187,6 @@ public class Alert extends MaterialNote implements HasType<AlertType>, HasOpenCl
     public List<DependencyResource> getCssDependencies() {
         List<DependencyResource> resources = super.getCssDependencies();
         resources.add(new DependencyResource(AlertClientBundle.INSTANCE.alertCss(), AlertDebugClientBundle.INSTANCE.alertDebugCss()));
-        resources.add(new DependencyResource());
         return resources;
     }
 

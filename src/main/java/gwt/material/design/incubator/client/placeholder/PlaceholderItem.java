@@ -41,6 +41,6 @@ public class PlaceholderItem extends AbstractAddinsWidget {
 
     @Override
     public List<DependencyResource> getCssDependencies() {
-        return Collections.singletonList(new DependencyResource(PlaceholderClientBundle.INSTANCE.contentPlaceholderCss(), PlaceholderDebugClientBundle.INSTANCE.contentPlaceholder()));
+        return Collections.singletonList(new DependencyResource(PlaceholderClientBundle.INSTANCE.contentPlaceholderCss(), PlaceholderDebugClientBundle.INSTANCE.contentPlaceholderDebugCss()));
     }
 }

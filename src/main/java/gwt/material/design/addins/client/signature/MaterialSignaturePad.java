@@ -65,7 +65,6 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
     private SignaturePad signaturePad;
     private JsSignaturePadOptions options = JsSignaturePadOptions.create();
 
-
     /**
      * <b>Handling high DPI screens</b>
      * <p>

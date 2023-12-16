@@ -63,6 +63,6 @@ public class LoadingDots extends AbstractAddinsWidget implements HasType<Loading
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return Collections.singletonList(new DependencyResource(LoadingDotClientBundle.INSTANCE.threeDots(),LoadingDotDebugClientBundle.INSTANCE.threeDots()));
+        return Collections.singletonList(new DependencyResource(LoadingDotClientBundle.INSTANCE.threeDotsMinifiedCss(),LoadingDotDebugClientBundle.INSTANCE.threeDotsDebugCss()));
     }
 }

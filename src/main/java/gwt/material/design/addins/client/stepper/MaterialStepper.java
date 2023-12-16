@@ -31,7 +31,6 @@ import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandle
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.stepper.base.HasStepsHandler;
 import gwt.material.design.addins.client.stepper.constants.State;
 import gwt.material.design.addins.client.stepper.events.CompleteEvent;
@@ -50,6 +49,7 @@ import gwt.material.design.client.constants.Axis;
 import gwt.material.design.client.constants.Position;
 import gwt.material.design.client.constants.StatusDisplayType;
 import gwt.material.design.client.js.Window;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialLoader;
 import gwt.material.design.client.ui.animate.Transition;
 import gwt.material.design.client.ui.html.Div;
@@ -91,7 +91,6 @@ import java.util.List;
 public class MaterialStepper extends AbstractAddinsWidget implements HasAxis, HasStatusText, SelectionHandler<MaterialStep>,
     HasSelectionChangedHandlers, HasStepsHandler, HasStepperTransition {
 
-
     private int currentStepIndex = 0;
     private int totalSteps;
     private boolean stepSkippingAllowed = true;
@@ -120,7 +119,6 @@ public class MaterialStepper extends AbstractAddinsWidget implements HasAxis, Ha
 
         setDetectOrientation(detectOrientation);
         updateStepWidth();
-        AddinsDarkThemeReloader.get().reload(MaterialStepperDarkTheme.class);
     }
 
     public void updateStepWidth() {
@@ -613,6 +611,11 @@ public class MaterialStepper extends AbstractAddinsWidget implements HasAxis, Ha
             toggleFixedStepWidth = new ToggleStyleMixin<>(this, AddinsCssName.FIXED_STEP_WIDTH);
         }
         return toggleFixedStepWidth;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialStepperDarkTheme.class;
     }
 
     @Override

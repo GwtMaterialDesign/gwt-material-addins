@@ -29,6 +29,7 @@ import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.helper.ColorHelper;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.Color;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.html.Div;
 import gwt.material.design.client.ui.html.Span;
 import gwt.material.design.incubator.client.AddinsIncubator;
@@ -102,6 +103,11 @@ public class CheckMark extends AbstractAddinsWidget implements HasDelayTransitio
     @Override
     public int getDelay() {
         return delayInMillis;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return CheckMarkDarkTheme.class;
     }
 
     @Override
