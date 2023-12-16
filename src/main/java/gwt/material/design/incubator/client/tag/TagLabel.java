@@ -19,23 +19,17 @@
  */
 package gwt.material.design.incubator.client.tag;
 
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.HasSize;
 import gwt.material.design.client.base.mixin.StyleMixin;
 import gwt.material.design.client.constants.Size;
-import gwt.material.design.client.ui.MaterialLabel;
-import gwt.material.design.incubator.client.AddinsIncubator;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
-public class TagLabel extends MaterialLabel implements HasSize {
+import java.util.Collections;
+import java.util.List;
 
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(TagDebugClientBundle.INSTANCE.tagDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(TagClientBundle.INSTANCE.tagCss());
-        }
-    }
+public class TagLabel extends AbstractAddinsWidget implements HasSize {
 
     private StyleMixin<TagLabel> sizeMixin;
     private StyleMixin<TagLabel> positionMixin;
@@ -46,14 +40,7 @@ public class TagLabel extends MaterialLabel implements HasSize {
         addStyleName("tag-label");
         setPosition(TagPosition.LEFT);
     }
-
-    @Override
-    protected void onLoad() {
-        super.onLoad();
-
-        IncubatorDarkThemeReloader.get().reload(TagLabelDarkTheme.class);
-    }
-
+    
     @Override
     public void setSize(Size size) {
         getSizeMixin().setStyle(size.getCssName());
@@ -84,5 +71,15 @@ public class TagLabel extends MaterialLabel implements HasSize {
             positionMixin = new StyleMixin<>(this);
         }
         return positionMixin;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return TagLabelDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(TagClientBundle.INSTANCE.tagCss(), TagDebugClientBundle.INSTANCE.tagDebugCss()));
     }
 }

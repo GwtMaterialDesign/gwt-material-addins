@@ -20,16 +20,18 @@
 package gwt.material.design.incubator.client.search;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialSearch;
-import gwt.material.design.incubator.client.base.IncubatorWidget;
-import gwt.material.design.incubator.client.dark.IncubatorDarkThemeReloader;
 import gwt.material.design.incubator.client.search.constants.Theme;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Extension to {@link MaterialSearch} which provides an inline
@@ -41,20 +43,11 @@ import gwt.material.design.incubator.client.search.constants.Theme;
  *
  * @author kevzlou7979
  */
-public class InlineSearch extends MaterialSearch {
+public class InlineSearch extends AbstractAddinsWidget {
 
     private HandlerRegistration focusHandler;
     private HandlerRegistration blurHandler;
     private CssNameMixin<InlineSearch, Theme> cssNameMixin;
-
-    static {
-        IncubatorWidget.showWarning(InlineSearch.class);
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(InlineSearchDebugClientBundle.INSTANCE.inlineSearchDebugCss());
-        } else {
-            MaterialDesignBase.injectCss(InlineSearchClientBundle.INSTANCE.inlineSearchCss());
-        }
-    }
 
     public InlineSearch() {
         this(AddinsCssName.FIXED_INLINE_SEARCH);
@@ -67,9 +60,7 @@ public class InlineSearch extends MaterialSearch {
     }
 
     @Override
-    protected void onLoad() {
-        super.onLoad();
-
+    protected void internalLoad() {
         ViewPort.when(Resolution.ALL_MOBILE).then(portChange -> {
             focusHandler = registerHandler(addFocusHandler(focusEvent -> addStyleName(AddinsCssName.WIDE)));
             blurHandler = registerHandler(addBlurHandler(blurEvent -> removeStyleName(AddinsCssName.WIDE)));
@@ -83,8 +74,6 @@ public class InlineSearch extends MaterialSearch {
             blurHandler = null;
             return true;
         });
-
-        IncubatorDarkThemeReloader.get().reload(InlineSearchDarkTheme.class);
     }
 
     public void setTheme(Theme theme) {
@@ -96,5 +85,15 @@ public class InlineSearch extends MaterialSearch {
             cssNameMixin = new CssNameMixin<>(this);
         }
         return cssNameMixin;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return InlineSearchDarkTheme.class;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(InlineSearchClientBundle.INSTANCE.inlineSearchCss(), InlineSearchDebugClientBundle.INSTANCE.inlineSearchDebugCss()));
     }
 }

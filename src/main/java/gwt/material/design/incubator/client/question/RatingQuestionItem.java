@@ -19,8 +19,7 @@
  */
 package gwt.material.design.incubator.client.question;
 
-import gwt.material.design.addins.client.MaterialAddins;
-import gwt.material.design.client.MaterialDesign;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.ui.MaterialLabel;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.incubator.client.base.constants.IncubatorCssName;
@@ -30,18 +29,11 @@ import gwt.material.design.incubator.client.toggle.GroupToggleButton;
 import gwt.material.design.incubator.client.toggle.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class RatingQuestionItem extends QuestionItem<Rating> {
-
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesign.injectCss(RatingQuestionDebugClientBundle.INSTANCE.questionItemDebugCss());
-        } else {
-            MaterialDesign.injectCss(RatingQuestionClientBundle.INSTANCE.questionItemCss());
-        }
-    }
 
     private boolean required;
     private MaterialPanel labelPanel = new MaterialPanel();
@@ -55,7 +47,7 @@ public class RatingQuestionItem extends QuestionItem<Rating> {
     }
 
     @Override
-    protected void load() {
+    protected void internalLoad() {
         labelPanel.setInitialClasses(IncubatorCssName.LABEL_PANEL);
 
         labelPanel.add(lowLabel);
@@ -128,5 +120,10 @@ public class RatingQuestionItem extends QuestionItem<Rating> {
 
     public void setRequired(boolean required) {
         this.required = required;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(RatingQuestionClientBundle.INSTANCE.questionItemCss(), RatingQuestionDebugClientBundle.INSTANCE.questionItemDebugCss()));
     }
 }
