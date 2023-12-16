@@ -32,8 +32,8 @@ public interface ImageViewerDebugClientBundle extends ClientBundle {
     ImageViewerDebugClientBundle INSTANCE = GWT.create(ImageViewerDebugClientBundle.class);
 
     @Source("resources/css/viewer.css")
-    TextResource viewerCss();
+    TextResource viewerDebugCss();
 
     @Source("resources/js/viewer.js")
-    TextResource viewerJs();
+    TextResource viewerDebugJs();
 }

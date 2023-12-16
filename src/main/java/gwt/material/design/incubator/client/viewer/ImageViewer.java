@@ -20,18 +20,17 @@
 package gwt.material.design.incubator.client.viewer;
 
 import com.google.gwt.user.client.Element;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.incubator.client.viewer.js.JsImageViewer;
 import gwt.material.design.incubator.client.viewer.js.ViewerMethod;
 import gwt.material.design.incubator.client.viewer.js.ViewerOptions;
 
-public class ImageViewer {
+import java.util.Collections;
+import java.util.List;
 
-    static {
-        MaterialDesignBase.injectCss(ImageViewerDebugClientBundle.INSTANCE.viewerCss());
-        MaterialDesignBase.injectJs(ImageViewerDebugClientBundle.INSTANCE.viewerJs());
-    }
+public class ImageViewer extends AbstractAddinsWidget {
 
     protected JsImageViewer viewer;
     protected ViewerOptions options = new ViewerOptions();
@@ -71,5 +70,15 @@ public class ImageViewer {
 
     public void setMethods(ViewerMethod methods) {
         this.methods = methods;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(ImageViewerClientBundle.INSTANCE.viewerCss(), ImageViewerDebugClientBundle.INSTANCE.viewerDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(ImageViewerClientBundle.INSTANCE.viewerJs(), ImageViewerDebugClientBundle.INSTANCE.viewerDebugJs()));
     }
 }
