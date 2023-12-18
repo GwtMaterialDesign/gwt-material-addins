@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.dnd;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
 import elemental2.promise.Promise;
+import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
@@ -92,9 +93,6 @@ public class MaterialDnd implements HasDependency {
     }
 
     public Promise<MaterialDnd> draggable() {
-        return draggable(JsDragOptions.create());
-    }
-    public Promise<MaterialDnd> draggable(JsDragOptions dragOptions) {
         Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
             getDependencyMixin().install(() -> {
                 if (jsDnd == null) {
@@ -125,11 +123,15 @@ public class MaterialDnd implements HasDependency {
         return promise;
     }
 
-    public Promise<MaterialDnd> dropzone() {
-        return dropzone(JsDropOptions.create());
+    public static Promise<MaterialDnd> draggable(MaterialWidget target) {
+        return draggable(target, JsDragOptions.create());
     }
 
-    public Promise<MaterialDnd> dropzone(JsDropOptions dropOptions) {
+    public static Promise<MaterialDnd> draggable(MaterialWidget target, JsDragOptions options) {
+        return new MaterialDnd(target).draggable(options);
+    }
+
+    protected Promise<MaterialDnd> dropzone() {
         Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
             getDependencyMixin().install(() -> {
                 if (jsDnd == null) {
@@ -165,11 +167,7 @@ public class MaterialDnd implements HasDependency {
         return promise;
     }
 
-    public Promise<MaterialDnd> resizable() {
-        return resizable(JsResizableOptions.create());
-    }
-
-    public Promise<MaterialDnd> resizable(JsResizableOptions resizableOptions) {
+    protected Promise<MaterialDnd> resizable() {
         Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
             getDependencyMixin().install(() -> {
                 if (jsDnd == null) {
@@ -180,9 +178,10 @@ public class MaterialDnd implements HasDependency {
                     return true;
                 });
                 jsDnd.resizable(resizableOptions);
-                resolve.onInvoke(this);
             });
+            resolve.onInvoke(this);
         });
+
         return promise;
     }
 
@@ -204,6 +203,48 @@ public class MaterialDnd implements HasDependency {
         jsDnd.off(DropEvents.DROP_ACTIVATE);
         jsDnd.off(DropEvents.DROP);
         jsDnd.off(DropEvents.DROP_DEACTIVATE);
+    }
+
+    public Promise<MaterialDnd> draggable(JsDragOptions options) {
+        dragOptions = options;
+        if (target.isAttached()) {
+            return draggable();
+        } else {
+            target.registerHandler(target.addAttachHandler(event -> draggable(), true));
+        }
+        return null;
+    }
+
+    public Promise<MaterialDnd> dropzone(JsDropOptions options) {
+        dropOptions = options;
+        if (target.isAttached()) {
+           return dropzone();
+        } else {
+            target.registerHandler(target.addAttachHandler(event -> dropzone(), true));
+        }
+        return null;
+    }
+
+    public Promise<MaterialDnd> resizable(JsResizableOptions options) {
+        resizableOptions = options;
+        if (target.isAttached()) {
+            return resizable();
+        } else {
+            target.registerHandler(target.addAttachHandler(event -> resizable(), true));
+        }
+        return null;
+    }
+
+    public static Promise<MaterialDnd> dropzone(MaterialWidget target) {
+        return dropzone(target, JsDropOptions.create());
+    }
+
+    public static Promise<MaterialDnd> dropzone(MaterialWidget target, JsDropOptions options) {
+        return new MaterialDnd(target).dropzone(options);
+    }
+
+    public static Promise<MaterialDnd> resizable(MaterialWidget target, JsResizableOptions resizableOptions) {
+        return new MaterialDnd(target).resizable(resizableOptions);
     }
 
     public void ignoreFrom(UIObject uiObject) {

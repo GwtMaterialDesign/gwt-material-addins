@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,11 +65,12 @@ public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
     protected void checkDropzone(MaterialPanel panel) {
         final String ACCEPT = "accept";
         final double OVERLAP = 20;
-        MaterialDnd dnd = new MaterialDnd(panel);
-        dnd.dropzone(JsDropOptions.create(ACCEPT, OVERLAP));
-        JsDropOptions options = dnd.getDropOptions();
-        assertEquals(ACCEPT, options.accept);
-        assertEquals(OVERLAP, options.overlap);
+        MaterialDnd.dropzone(panel, JsDropOptions.create(ACCEPT, OVERLAP)).then(dnd -> {
+            JsDropOptions options = dnd.getDropOptions();
+            assertEquals(ACCEPT, options.accept);
+            assertEquals(OVERLAP, options.overlap);
+            return null;
+        });
     }
 
     public void testAxis() {
@@ -84,11 +85,12 @@ public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
     protected void checkAxis(MaterialPanel panel) {
         final String VERTICAL_AXIS = "y";
         final String HORIZONTAL_AXIS = "x";
-        MaterialDnd dnd = new MaterialDnd(panel);
-        dnd.draggable(JsDragOptions.create(Axis.VERTICAL));
-        assertEquals(VERTICAL_AXIS, dnd.getDragOptions().axis);
-        dnd.getDragOptions().axis = HORIZONTAL_AXIS;
-        assertEquals(HORIZONTAL_AXIS, dnd.getDragOptions().axis);
+        MaterialDnd.draggable(panel, JsDragOptions.create(Axis.VERTICAL)).then(dnd -> {
+            assertEquals(VERTICAL_AXIS, dnd.getDragOptions().axis);
+            dnd.getDragOptions().axis = HORIZONTAL_AXIS;
+            assertEquals(HORIZONTAL_AXIS, dnd.getDragOptions().axis);
+            return null;
+        });
     }
 
     public void testInertia() {
@@ -108,11 +110,12 @@ public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
     }
 
     protected void checkInertia(MaterialPanel panel) {
-        MaterialDnd dnd = new MaterialDnd(panel);
-        dnd.draggable(JsDragOptions.create(true));
-        assertTrue(dnd.getDragOptions().inertia);
-        dnd.getDragOptions().inertia = false;
-        assertFalse(dnd.getDragOptions().inertia);
+        MaterialDnd.draggable(panel, JsDragOptions.create(true)).then(dnd -> {
+            assertTrue(dnd.getDragOptions().inertia);
+            dnd.getDragOptions().inertia = false;
+            assertFalse(dnd.getDragOptions().inertia);
+            return null;
+        });
     }
 
     public void testRestriction() {
@@ -144,23 +147,24 @@ public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
         restriction.setTop(20);
         restriction.setEndOnly(true);
         restriction.setRestriction(Restriction.Restrict.PARENT);
-        MaterialDnd dnd = new MaterialDnd(panel);
-        dnd.draggable(JsDragOptions.create(restriction));
-        dnd.ignoreFrom(ignoredWidgets);
-        JsDragOptions options = dnd.getDragOptions();
+        MaterialDnd.draggable(panel, JsDragOptions.create(restriction)).then(dnd -> {
+            dnd.ignoreFrom(ignoredWidgets);
+            JsDragOptions options = dnd.getDragOptions();
 
-        // then
-        assertEquals(panel, dnd.getTarget());
-        assertEquals(Double.valueOf(20), options.restrict.elementRect.top);
-        assertEquals(Double.valueOf(20), options.restrict.elementRect.left);
-        assertEquals(Double.valueOf(20), options.restrict.elementRect.right);
-        assertEquals(Double.valueOf(20), options.restrict.elementRect.bottom);
-        assertEquals(Restriction.Restrict.PARENT, options.restrict.restriction);
-        assertTrue(options.restrict.endOnly);
-        assertEquals(2, dnd.getIgnoreFrom().length);
-        for (Element element : dnd.getIgnoreFrom()) {
-            assertTrue(element.hasClassName(AddinsCssName.INTERACT_IGNORED_CONTENT));
-        }
+            // then
+            assertEquals(panel, dnd.getTarget());
+            assertEquals(Double.valueOf(20), options.restrict.elementRect.top);
+            assertEquals(Double.valueOf(20), options.restrict.elementRect.left);
+            assertEquals(Double.valueOf(20), options.restrict.elementRect.right);
+            assertEquals(Double.valueOf(20), options.restrict.elementRect.bottom);
+            assertEquals(Restriction.Restrict.PARENT, options.restrict.restriction);
+            assertTrue(options.restrict.endOnly);
+            assertEquals(2, dnd.getIgnoreFrom().length);
+            for (Element element : dnd.getIgnoreFrom()) {
+                assertTrue(element.hasClassName(AddinsCssName.INTERACT_IGNORED_CONTENT));
+            }
+            return null;
+        });
     }
 
     public void testDropEvents() {
@@ -180,8 +184,7 @@ public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
     }
 
     protected void checkDropEvents(MaterialPanel panel) {
-        MaterialDnd dnd = new MaterialDnd(panel);
-        dnd.draggable();
+        MaterialDnd.draggable(panel);
         // Drop Activate Event
         final boolean[] isDropActivateFired = {false};
         panel.addDropActivateHandler(event -> isDropActivateFired[0] = true);
@@ -219,8 +222,7 @@ public class MaterialDndTest extends AddinsWidgetTestCase<MaterialPanel> {
     }
 
     protected void checkDragEvents(MaterialPanel panel) {
-        MaterialDnd dnd = new MaterialDnd(panel);
-        dnd.draggable();
+        MaterialDnd.draggable(panel);
         // Drag Start Event
         final boolean[] isDragStartFired = {false};
         panel.addDragStartHandler(event -> isDragStartFired[0] = true);
