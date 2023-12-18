@@ -20,23 +20,33 @@
 package gwt.material.design.addins.client.dragula;
 
 import com.google.gwt.dom.client.Element;
+import elemental2.promise.Promise;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.dragula.js.JsDragula;
 import gwt.material.design.addins.client.dragula.js.JsDragulaOptions;
 
 import java.util.Collections;
 import java.util.List;
 
-public class MaterialDragula extends AbstractAddinsWidget {
+public class MaterialDragula implements HasDependency {
 
+    private DependencyMixin<MaterialDragula> dependencyMixin;
     private JsDragulaOptions options = JsDragulaOptions.create();
     private JsDragula dragula;
 
     public MaterialDragula() {}
 
-    public void apply(Element... elements) {
-        dragula = JsDragula.dragula(elements, options);
+    public Promise<MaterialDragula> apply(Element... elements) {
+        Promise<MaterialDragula> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                dragula = JsDragula.dragula(elements, options);
+                resolve.onInvoke(this);
+            });
+        });
+        return promise;
     }
 
     public String getDirection() {
@@ -98,5 +108,12 @@ public class MaterialDragula extends AbstractAddinsWidget {
     @Override
     public List<DependencyResource> getJsDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialDragulaClientBundle.INSTANCE.dragulaJs(), MaterialDragulaClientBundle.INSTANCE.dragulaDebugJs()));
+    }
+
+    public DependencyMixin<MaterialDragula> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }

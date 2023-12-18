@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.pathanimator;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
+import elemental2.promise.Promise;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
@@ -92,8 +93,8 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param source Source element to apply the Path Animator
      * @param target Target element to apply the Path Animator
      */
-    public static void animate(Element source, final Element target) {
-        animate(source, target, null);
+    public static Promise<MaterialPathAnimator> animate(Element source, final Element target) {
+        return animate(source, target, null);
     }
 
     /**
@@ -102,8 +103,8 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param source Source widget to apply the Path Animator
      * @param target Target widget to apply the Path Animator
      */
-    public static void animate(Widget source, final Widget target) {
-        animate(source.getElement(), target.getElement());
+    public static Promise<MaterialPathAnimator> animate(Widget source, final Widget target) {
+        return animate(source.getElement(), target.getElement());
     }
 
     /**
@@ -113,8 +114,8 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param target   Target widget to apply the Path Animator
      * @param callback The callback method to be called when the path animator is applied
      */
-    public static void animate(Widget source, Widget target, Functions.Func callback) {
-        animate(source.getElement(), target.getElement(), callback);
+    public static Promise<MaterialPathAnimator> animate(Widget source, Widget target, Functions.Func callback) {
+        return animate(source.getElement(), target.getElement(), callback);
     }
 
     /**
@@ -124,58 +125,69 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param targetElement   Target widget to apply the Path Animator
      * @param animateCallback The callback method to be called when the path animator is applied
      */
-    public static void animate(Element sourceElement, Element targetElement, Functions.Func animateCallback) {
+    public static Promise<MaterialPathAnimator> animate(Element sourceElement, Element targetElement, Functions.Func animateCallback) {
         MaterialPathAnimator animator = new MaterialPathAnimator();
         animator.setSourceElement(sourceElement);
         animator.setTargetElement(targetElement);
         animator.setAnimateCallback(animateCallback);
-        animator.animate();
+        return animator.animate();
     }
 
     /**
      * Animate the path animator
      */
-    public void animate() {
-        detectOutOfScopeElement(targetElement, () -> {
-            $("document").ready(() -> {
-                if (AnimationGlobalConfig.isEnableAnimation()) {
-                    onStartAnimateCallback();
-                    JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-                        if (animateCallback != null) {
-                            animateCallback.call();
-                        } else {
-                            // For default animateCallback when animateCallback is null
-                            targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                            targetElement.getStyle().setOpacity(1);
-                        }
+    public Promise<MaterialPathAnimator> animate() {
+        Promise<MaterialPathAnimator> promise = new Promise<>((resolve, reject) -> {
+            detectOutOfScopeElement(targetElement, () -> {
+                $("document").ready(() -> {
+                    if (AnimationGlobalConfig.isEnableAnimation()) {
+                        onStartAnimateCallback();
+                        JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+                            if (animateCallback != null) {
+                                animateCallback.call();
+                            } else {
+                                // For default animateCallback when animateCallback is null
+                                targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                                targetElement.getStyle().setOpacity(1);
+                            }
 
+                            onCompleteCallback();
+                        });
+                    } else {
                         onCompleteCallback();
-                    });
-                } else {
-                    onCompleteCallback();
-                }
+                    }
+                });
             });
+            resolve.onInvoke(this);
         });
+        return promise;
     }
 
     /**
      * Reverse the Animation
      */
-    public void reverseAnimate() {
-        onStartAnimateCallback();
-        $("document").ready(() -> {
-            if (AnimationGlobalConfig.isEnableAnimation()) {
-                if (reverseCallback != null) {
-                    reverseCallback.call();
-                } else {
-                    targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
-                    targetElement.getStyle().setOpacity(0);
-                }
-                detectOutOfScopeElement(sourceElement, () -> JsPathAnimator.cta(targetElement, sourceElement, options, () -> onCompleteCallback()));
-            } else {
-                onCompleteCallback();
-            }
+    public Promise<MaterialPathAnimator> reverseAnimate() {
+        Promise<MaterialPathAnimator> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                onStartAnimateCallback();
+                $("document").ready(() -> {
+                    if (AnimationGlobalConfig.isEnableAnimation()) {
+                        if (reverseCallback != null) {
+                            reverseCallback.call();
+                        } else {
+                            targetElement.getStyle().setVisibility(Style.Visibility.HIDDEN);
+                            targetElement.getStyle().setOpacity(0);
+                        }
+                        detectOutOfScopeElement(sourceElement, () -> JsPathAnimator.cta(targetElement, sourceElement, options, () -> onCompleteCallback()));
+                    } else {
+                        onCompleteCallback();
+                    }
+                });
+                resolve.onInvoke(this);
+            });
         });
+
+        return promise;
     }
 
     /**
@@ -213,8 +225,8 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param sourceElement Source element to apply the Path Animator
      * @param targetElement Target element to apply the Path Animator
      */
-    public static void reverseAnimate(final Element sourceElement, final Element targetElement) {
-        reverseAnimate(sourceElement, targetElement, null);
+    public static Promise<MaterialPathAnimator> reverseAnimate(final Element sourceElement, final Element targetElement) {
+        return reverseAnimate(sourceElement, targetElement, null);
     }
 
     /**
@@ -223,8 +235,8 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param source Source widget to apply the Path Animator
      * @param target Target widget to apply the Path Animator
      */
-    public static void reverseAnimate(final Widget source, final Widget target) {
-        reverseAnimate(source.getElement(), target.getElement());
+    public static Promise<MaterialPathAnimator> reverseAnimate(final Widget source, final Widget target) {
+        return reverseAnimate(source.getElement(), target.getElement());
     }
 
     /**
@@ -234,8 +246,8 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param target          Target widget to apply the Path Animator
      * @param reverseCallback The reverse callback method to be called when the path animator is applied
      */
-    public static void reverseAnimate(Widget source, Widget target, Functions.Func reverseCallback) {
-        reverseAnimate(source.getElement(), target.getElement(), reverseCallback);
+    public static Promise<MaterialPathAnimator> reverseAnimate(Widget source, Widget target, Functions.Func reverseCallback) {
+        return reverseAnimate(source.getElement(), target.getElement(), reverseCallback);
     }
 
     /**
@@ -245,12 +257,12 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      * @param targetElement   Target element to apply the Path Animator
      * @param reverseCallback The reverse callback method to be called when the path animator is applied
      */
-    public static void reverseAnimate(Element sourceElement, Element targetElement, Functions.Func reverseCallback) {
+    public static Promise<MaterialPathAnimator> reverseAnimate(Element sourceElement, Element targetElement, Functions.Func reverseCallback) {
         MaterialPathAnimator animator = new MaterialPathAnimator();
         animator.setSourceElement(sourceElement);
         animator.setTargetElement(targetElement);
         animator.setReverseCallback(reverseCallback);
-        animator.reverseAnimate();
+        return animator.reverseAnimate();
     }
 
     /**
