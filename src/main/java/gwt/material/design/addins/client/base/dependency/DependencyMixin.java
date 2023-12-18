@@ -63,7 +63,6 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
                             }
                             callbacks.get(lib.getClass()).clear();
                         }
-                        GWT.log("Successfully Installed [" + lib.getClass().getSimpleName() + "]");
                     }
 
                     @Override

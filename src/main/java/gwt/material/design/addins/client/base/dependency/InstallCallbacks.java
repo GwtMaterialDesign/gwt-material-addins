@@ -48,6 +48,7 @@ public class InstallCallbacks {
 
     public void installed(Class<? extends HasDependency> lib, boolean installed) {
         installedMap.put(lib, installed);
+        GWT.log("Successfully Installed [" + lib.getSimpleName() + "]");
     }
 
     public boolean isInstalled(Class<? extends HasDependency> lib) {
