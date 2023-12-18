@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.subheader;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.AbstractIconButton;
@@ -58,6 +59,8 @@ import java.util.List;
 //@formatter:on
 public class MaterialSubHeader extends AbstractIconButton implements HasDependency {
 
+    private DependencyMixin<MaterialSubHeader> dependencyMixin;
+
     public MaterialSubHeader() {
         super(AddinsCssName.SUBHEADER);
     }
@@ -70,6 +73,11 @@ public class MaterialSubHeader extends AbstractIconButton implements HasDependen
     public MaterialSubHeader(String text, Color textColor) {
         this(text);
         setTextColor(textColor);
+    }
+
+    @Override
+    protected void onLoad() {
+        getDependencyMixin().install(super::onLoad);
     }
 
     @Override
@@ -87,5 +95,12 @@ public class MaterialSubHeader extends AbstractIconButton implements HasDependen
     public List<DependencyResource> getJsDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs(),
                 MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug()));
+    }
+
+    public DependencyMixin<MaterialSubHeader> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }

@@ -32,9 +32,7 @@ import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Collections;
 import java.util.List;
-
 import static gwt.material.design.jquery.client.api.JQuery.$;
-
 
 public class ContinuousRangeSlider extends MaterialRange implements HasDependency, HasType<ContinuousRangeSliderType> {
 

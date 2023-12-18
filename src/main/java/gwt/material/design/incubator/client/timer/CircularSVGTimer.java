@@ -25,7 +25,6 @@ import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
-
 import java.util.Collections;
 import java.util.List;
 

@@ -19,6 +19,7 @@
  */
 package gwt.material.design.incubator.client.loadingdot;
 
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.HasType;
@@ -39,10 +40,17 @@ public class LoadingDots extends MaterialPanel implements HasDependency, HasType
         IncubatorWidget.showWarning(LoadingStatePanel.class);
     }
 
+    private DependencyMixin<LoadingDots> dependencyMixin;
+
     private CssTypeMixin<LoadingDotsType, LoadingDots> typeMixin;
 
     public LoadingDots() {
         setType(LoadingDotsType.PULSE);
+    }
+
+    @Override
+    protected void onLoad() {
+        getDependencyMixin().install(super::onLoad);
     }
 
     @Override
@@ -65,5 +73,12 @@ public class LoadingDots extends MaterialPanel implements HasDependency, HasType
     @Override
     public List<DependencyResource> getJsDependencies() {
         return Collections.singletonList(new DependencyResource(LoadingDotClientBundle.INSTANCE.threeDotsMinifiedCss(),LoadingDotDebugClientBundle.INSTANCE.threeDotsDebugCss()));
+    }
+
+    public DependencyMixin<LoadingDots> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }
