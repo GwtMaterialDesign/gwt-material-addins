@@ -21,7 +21,6 @@ package gwt.material.design.addins.client.cropper;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
@@ -32,12 +31,9 @@ import gwt.material.design.addins.client.cropper.events.HasCropEvents;
 import gwt.material.design.addins.client.cropper.js.JsCropper;
 import gwt.material.design.addins.client.cropper.js.JsCropperDimension;
 import gwt.material.design.addins.client.cropper.js.JsCropperOptions;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.jquery.client.api.Functions;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
