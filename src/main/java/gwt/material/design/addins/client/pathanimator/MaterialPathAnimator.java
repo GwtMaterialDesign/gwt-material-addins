@@ -24,7 +24,9 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
 import elemental2.promise.Promise;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.pathanimator.base.HasPathStyles;
 import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
 import gwt.material.design.addins.client.pathanimator.base.PathStylerMixin;
@@ -68,7 +70,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="https://github.com/chinchang/cta.js">CTAJs 0.3.2</a>
  */
 //@formatter:on
-public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDurationTransition, HasPathStyles {
+public class MaterialPathAnimator implements HasDependency, HasDurationTransition, HasPathStyles {
 
     private ScrollHelper scrollHelper;
     private Element sourceElement;
@@ -76,6 +78,7 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
     private Functions.Func animateCallback, startAnimateCallback, reverseCallback, completedCallback;
     private JsPathAnimatorOptions options = JsPathAnimatorOptions.create();
     private PathStylerMixin<MaterialPathAnimator> stylerMixin;
+    private DependencyMixin<MaterialPathAnimator> dependencyMixin;
 
     public MaterialPathAnimator() {
         this.scrollHelper = new ScrollHelper();
@@ -138,27 +141,29 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
      */
     public Promise<MaterialPathAnimator> animate() {
         Promise<MaterialPathAnimator> promise = new Promise<>((resolve, reject) -> {
-            detectOutOfScopeElement(targetElement, () -> {
-                $("document").ready(() -> {
-                    if (AnimationGlobalConfig.isEnableAnimation()) {
-                        onStartAnimateCallback();
-                        JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
-                            if (animateCallback != null) {
-                                animateCallback.call();
-                            } else {
-                                // For default animateCallback when animateCallback is null
-                                targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
-                                targetElement.getStyle().setOpacity(1);
-                            }
+            getDependencyMixin().install(() -> {
+                detectOutOfScopeElement(targetElement, () -> {
+                    $("document").ready(() -> {
+                        if (AnimationGlobalConfig.isEnableAnimation()) {
+                            onStartAnimateCallback();
+                            JsPathAnimator.cta(sourceElement, targetElement, options, () -> {
+                                if (animateCallback != null) {
+                                    animateCallback.call();
+                                } else {
+                                    // For default animateCallback when animateCallback is null
+                                    targetElement.getStyle().setVisibility(Style.Visibility.VISIBLE);
+                                    targetElement.getStyle().setOpacity(1);
+                                }
 
+                                onCompleteCallback();
+                            });
+                        } else {
                             onCompleteCallback();
-                        });
-                    } else {
-                        onCompleteCallback();
-                    }
+                        }
+                    });
                 });
+                resolve.onInvoke(this);
             });
-            resolve.onInvoke(this);
         });
         return promise;
     }
@@ -423,5 +428,12 @@ public class MaterialPathAnimator extends AbstractAddinsWidget implements HasDur
     @Override
     public List<DependencyResource> getJsDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialPathAnimatorClientBundle.INSTANCE.pathanimatorJs(), MaterialPathAnimatorDebugClientBundle.INSTANCE.pathanimatorDebugJs()));
+    }
+
+    public DependencyMixin<MaterialPathAnimator> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }

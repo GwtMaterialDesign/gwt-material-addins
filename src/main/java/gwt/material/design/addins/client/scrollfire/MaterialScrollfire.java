@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,10 @@ package gwt.material.design.addins.client.scrollfire;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import elemental2.promise.Promise;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.scrollfire.js.JsScrollfire;
 import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.jquery.client.api.Functions;
@@ -54,7 +57,7 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#scrollfire">Material Scrollfire</a>
  */
 //@formatter:on
-public class MaterialScrollfire {
+public class MaterialScrollfire implements HasDependency {
 
     static {
         if (MaterialAddins.isDebug()) {
@@ -67,6 +70,7 @@ public class MaterialScrollfire {
     private int offset = 100;
     private Element element;
     private Functions.Func callback;
+    private DependencyMixin<MaterialScrollfire> dependencyMixin;
 
     public MaterialScrollfire() {
     }
@@ -77,15 +81,23 @@ public class MaterialScrollfire {
 
     /**
      * Executes callback method depending on how far into the page you've scrolled
+     *
+     * @return
      */
-    public void apply() {
-        if (element != null) {
-            String uid = DOM.createUniqueId();
-            element.setId(uid);
-            JsScrollfire.apply("#" + uid, offset, callback::call);
-        } else {
-            GWT.log("You must set the element before applying the scrollfire", new IllegalStateException());
-        }
+    public Promise<MaterialScrollfire> apply() {
+        Promise<MaterialScrollfire> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                if (element != null) {
+                    String uid = DOM.createUniqueId();
+                    element.setId(uid);
+                    JsScrollfire.apply("#" + uid, offset, callback::call);
+                } else {
+                    GWT.log("You must set the element before applying the scrollfire", new IllegalStateException());
+                }
+                resolve.onInvoke(this);
+            });
+        });
+        return promise;
     }
 
     /**
@@ -94,8 +106,8 @@ public class MaterialScrollfire {
      * @param element  Target element that is being tracked
      * @param callback The method to be called when the scrollfire is applied
      */
-    public static void apply(Element element, Functions.Func callback) {
-        apply(element, 100, callback);
+    public static Promise<MaterialScrollfire> apply(Element element, Functions.Func callback) {
+        return apply(element, 100, callback);
     }
 
     /**
@@ -105,19 +117,19 @@ public class MaterialScrollfire {
      * @param offset   If this is 0, the callback will be fired when the selector element is at the very bottom of the user's window.
      * @param callback The method to be called when the scrollfire is applied
      */
-    public static void apply(Element element, int offset, Functions.Func callback) {
+    public static Promise<MaterialScrollfire> apply(Element element, int offset, Functions.Func callback) {
         MaterialScrollfire scrollfire = new MaterialScrollfire();
         scrollfire.setElement(element);
         scrollfire.setCallback(callback);
         scrollfire.setOffset(offset);
-        scrollfire.apply();
+        return scrollfire.apply();
     }
 
     /**
      * Executes callback method depending on how far into the page you've scrolled
      */
-    public static void apply(String selector, Functions.Func callback) {
-        apply($(selector).asElement(), 100, callback);
+    public static Promise<MaterialScrollfire> apply(String selector, Functions.Func callback) {
+        return apply($(selector).asElement(), 100, callback);
     }
 
     /**
@@ -160,5 +172,12 @@ public class MaterialScrollfire {
      */
     public void setCallback(Functions.Func callback) {
         this.callback = callback;
+    }
+
+    public DependencyMixin<MaterialScrollfire> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }
