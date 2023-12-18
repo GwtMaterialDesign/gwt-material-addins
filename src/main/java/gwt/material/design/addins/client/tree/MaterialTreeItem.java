@@ -27,6 +27,8 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.tree.base.HasTreeItems;
 import gwt.material.design.addins.client.webp.HasWebpFallback;
 import gwt.material.design.addins.client.webp.MaterialWebpImage;
@@ -67,8 +69,9 @@ import java.util.List;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#treeview">Tree View</a>
  */
 // @formatter:on
-public class MaterialTreeItem extends AbstractIconButton implements HasImage, HasTreeItems, HasWebpFallback {
+public class MaterialTreeItem extends AbstractIconButton implements HasDependency, HasImage, HasTreeItems, HasWebpFallback {
 
+    protected DependencyMixin<HasDependency> dependencyMixin;
     private boolean hide = true;
     private MaterialWidget divHeader = new MaterialWidget(Document.get().createDivElement());
     private Span span;
@@ -122,8 +125,13 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
 
     @Override
     protected void onLoad() {
-        super.onLoad();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
 
+    protected void internalLoad() {
         if(image != null) {
             divHeader.add(image);
         }
@@ -342,4 +350,12 @@ public class MaterialTreeItem extends AbstractIconButton implements HasImage, Ha
         }
         return image;
     }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
+    }
+
 }

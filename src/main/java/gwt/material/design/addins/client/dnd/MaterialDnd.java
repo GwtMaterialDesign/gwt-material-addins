@@ -131,6 +131,11 @@ public class MaterialDnd implements HasDependency {
         return new MaterialDnd(target).draggable(options);
     }
 
+    public Promise<MaterialDnd> draggable(JsDragOptions options) {
+        dragOptions = options;
+        return draggable();
+    }
+
     protected Promise<MaterialDnd> dropzone() {
         Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
             getDependencyMixin().install(() -> {
@@ -185,6 +190,15 @@ public class MaterialDnd implements HasDependency {
         return promise;
     }
 
+    public Promise<MaterialDnd> resizable(JsResizableOptions options) {
+        resizableOptions = options;
+        return resizable();
+    }
+
+    public static Promise<MaterialDnd> resizable(MaterialWidget target, JsResizableOptions resizableOptions) {
+        return new MaterialDnd(target).resizable(resizableOptions);
+    }
+
     public void unload() {
         unloadDragEvents();
         unloadDropEvents();
@@ -205,34 +219,9 @@ public class MaterialDnd implements HasDependency {
         jsDnd.off(DropEvents.DROP_DEACTIVATE);
     }
 
-    public Promise<MaterialDnd> draggable(JsDragOptions options) {
-        dragOptions = options;
-        if (target.isAttached()) {
-            return draggable();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> draggable(), true));
-        }
-        return null;
-    }
-
     public Promise<MaterialDnd> dropzone(JsDropOptions options) {
         dropOptions = options;
-        if (target.isAttached()) {
-           return dropzone();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> dropzone(), true));
-        }
-        return null;
-    }
-
-    public Promise<MaterialDnd> resizable(JsResizableOptions options) {
-        resizableOptions = options;
-        if (target.isAttached()) {
-            return resizable();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> resizable(), true));
-        }
-        return null;
+        return dropzone();
     }
 
     public static Promise<MaterialDnd> dropzone(MaterialWidget target) {
@@ -241,10 +230,6 @@ public class MaterialDnd implements HasDependency {
 
     public static Promise<MaterialDnd> dropzone(MaterialWidget target, JsDropOptions options) {
         return new MaterialDnd(target).dropzone(options);
-    }
-
-    public static Promise<MaterialDnd> resizable(MaterialWidget target, JsResizableOptions resizableOptions) {
-        return new MaterialDnd(target).resizable(resizableOptions);
     }
 
     public void ignoreFrom(UIObject uiObject) {

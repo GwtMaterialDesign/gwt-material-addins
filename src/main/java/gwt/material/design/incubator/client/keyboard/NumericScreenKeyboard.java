@@ -19,23 +19,39 @@
  */
 package gwt.material.design.incubator.client.keyboard;
 
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.incubator.client.keyboard.js.KeyboardLayout;
 
-public class NumericScreenKeyboard extends ScreenKeyboard {
+public class NumericScreenKeyboard extends ScreenKeyboard implements HasDependency {
+
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     public NumericScreenKeyboard() {
         super();
     }
 
     @Override
-    protected void load() {
-        super.load();
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
 
+    protected void internalLoad() {
         KeyboardLayout layout = new KeyboardLayout();
         layout.setDefaultLayout(new String[]{"1 2 3", "4 5 6", "7 8 9", "{shift} 0 -", "{bksp}"});
         layout.setShiftLayout(new String[]{"! / #", "$ % ^", "& * (", "{shift} ) +", "{bksp}"});
         options.setLayout(layout);
         options.setTheme("hg-theme-default hg-layout-numeric numeric-theme");
         updateOptions(options);
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }

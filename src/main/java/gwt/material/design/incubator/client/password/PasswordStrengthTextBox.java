@@ -19,34 +19,34 @@
  */
 package gwt.material.design.incubator.client.password;
 
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.constants.InputType;
 import gwt.material.design.client.ui.MaterialTextBox;
-import gwt.material.design.incubator.client.AddinsIncubator;
 import gwt.material.design.incubator.client.password.js.JsPasswordStrengthMeter;
 import gwt.material.design.incubator.client.password.js.PasswordStrengthOptions;
 
+import java.util.Collections;
+import java.util.List;
+
 import static gwt.material.design.incubator.client.password.js.JsPasswordStrengthMeter.$;
 
-public class PasswordStrengthTextBox extends MaterialTextBox {
+public class PasswordStrengthTextBox extends MaterialTextBox implements HasDependency {
 
-    static {
-        if (AddinsIncubator.isDebug()) {
-            MaterialDesignBase.injectCss(PasswordStrengthTextBoxDebugClientBundle.INSTANCE.pwdStrengthMeterDebugCss());
-            MaterialDesignBase.injectDebugJs(PasswordStrengthTextBoxDebugClientBundle.INSTANCE.pwdStrengthMeterDebugJs());
-        } else {
-            MaterialDesignBase.injectCss(PasswordStrengthTextBoxClientBundle.INSTANCE.pwdStrengthMeterCss());
-            MaterialDesignBase.injectJs(PasswordStrengthTextBoxClientBundle.INSTANCE.pwdStrengthMeterJs());
-        }
-    }
-
+    protected DependencyMixin<HasDependency> dependencyMixin;
     protected PasswordStrengthOptions options = new PasswordStrengthOptions();
     protected JsPasswordStrengthMeter strengthMeter;
 
     @Override
     protected void onLoad() {
-        super.onLoad();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
 
+    protected void internalLoad() {
         setType(InputType.PASSWORD);
         strengthMeter = $(valueBoxBase.getElement());
         strengthMeter.pwdstrength(options);
@@ -75,5 +75,22 @@ public class PasswordStrengthTextBox extends MaterialTextBox {
 
     public void setOptions(PasswordStrengthOptions options) {
         this.options = options;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(PasswordStrengthTextBoxClientBundle.INSTANCE.pwdStrengthMeterCss(), PasswordStrengthTextBoxDebugClientBundle.INSTANCE.pwdStrengthMeterDebugCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(PasswordStrengthTextBoxClientBundle.INSTANCE.pwdStrengthMeterJs(), PasswordStrengthTextBoxClientBundle.INSTANCE.pwdStrengthMeterJs()));
     }
 }

@@ -23,15 +23,18 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.addins.client.subheader.js.JsSubHeader;
 import gwt.material.design.client.base.HasType;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static gwt.material.design.client.js.JsMaterialElement.$;
@@ -64,14 +67,11 @@ import static gwt.material.design.client.js.JsMaterialElement.$;
  * @see <a href="http://gwtmaterialdesign.github.io/gwt-material-demo/#subheaders">Material Subheader</a>
  */
 //@formatter:on
-public class MaterialSubHeaderContainer extends MaterialWidget implements JsLoader, HasType<SubHeaderType> {
-
-    static {
-        MaterialSubHeader.loadResources();
-    }
+public class MaterialSubHeaderContainer extends MaterialWidget implements HasDependency, HasType<SubHeaderType> {
 
     private CssTypeMixin<SubHeaderType, MaterialSubHeaderContainer> typeMixin;
     private List<MaterialSubHeader> subHeaders = new ArrayList<>();
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     public MaterialSubHeaderContainer() {
         super(Document.get().createDivElement(), AddinsCssName.CONTAINER1);
@@ -84,13 +84,13 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements JsLoad
 
     @Override
     protected void onLoad() {
-        super.onLoad();
-
-        load();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
     }
 
-    @Override
-    public void load() {
+    protected void internalLoad() {
         if (getType() == SubHeaderType.PINNED) {
             String subHeaderClass = DOM.createUniqueId();
             for (Widget w : getChildren()) {
@@ -116,15 +116,14 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements JsLoad
         unload();
     }
 
-    @Override
+
     public void unload() {
         subHeaders.clear();
     }
 
-    @Override
     public void reload() {
         unload();
-        load();
+        internalLoad();
     }
 
     @Override
@@ -142,5 +141,24 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements JsLoad
             typeMixin = new CssTypeMixin<>(this);
         }
         return typeMixin;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss(),
+                MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs(),
+                MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug()));
     }
 }

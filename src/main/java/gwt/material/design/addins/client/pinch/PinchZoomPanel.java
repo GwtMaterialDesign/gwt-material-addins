@@ -20,18 +20,22 @@
 package gwt.material.design.addins.client.pinch;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.pinch.events.HasPinchZoomHandlers;
 import gwt.material.design.addins.client.pinch.events.OnZoomEndEvent;
 import gwt.material.design.addins.client.pinch.events.OnZoomStartEvent;
 import gwt.material.design.addins.client.pinch.js.JsPinchOptions;
 import gwt.material.design.addins.client.pinch.js.JsPinchZoom;
+import gwt.material.design.client.ui.MaterialPanel;
 
 import java.util.Collections;
 import java.util.List;
 
-public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoomHandlers {
+public class PinchZoomPanel extends MaterialPanel implements HasDependency, HasPinchZoomHandlers {
+
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     protected JsPinchZoom jsPinchZoom;
 
@@ -42,6 +46,13 @@ public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoom
     }
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         options.onZoomStart = (param1, param2) -> {
             fireEvent(new OnZoomStartEvent());
@@ -95,5 +106,12 @@ public class PinchZoomPanel extends AbstractAddinsWidget implements HasPinchZoom
     @Override
     public List<DependencyResource> getJsDependencies() {
         return Collections.singletonList(new DependencyResource(PinchClientBundle.INSTANCE.pinchJs(), PinchDebugClientBundle.INSTANCE.pinchDebugJs()));
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }

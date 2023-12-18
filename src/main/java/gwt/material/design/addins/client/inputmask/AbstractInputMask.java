@@ -19,20 +19,21 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.InitializeEvent;
 import com.google.gwt.event.logical.shared.InitializeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueBoxBase;
-import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.inputmask.events.*;
-import gwt.material.design.addins.client.inputmask.js.JsInputMask;
 import gwt.material.design.addins.client.inputmask.js.JsInputMaskOptions;
-import gwt.material.design.client.MaterialDesignBase;
-import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.constants.InputType;
 import gwt.material.design.client.ui.MaterialValueBox;
+
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
 
@@ -65,16 +66,9 @@ import static gwt.material.design.addins.client.inputmask.js.JsInputMask.$;
  */
 //@formatter:on
 public class AbstractInputMask<T> extends MaterialValueBox<T>
-    implements JsLoader, HasInputMaskHandlers {
+    implements HasDependency, HasInputMaskHandlers {
 
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectDebugJs(MaterialInputMaskDebugClientBundle.INSTANCE.inputMaskDebugJs());
-        } else {
-            MaterialDesignBase.injectJs(MaterialInputMaskClientBundle.INSTANCE.inputMaskJs());
-        }
-    }
-
+    protected DependencyMixin<HasDependency> dependencyMixin;
     private String mask;
     protected JsInputMaskOptions options = new JsInputMaskOptions();
 
@@ -94,22 +88,22 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
 
     @Override
     protected void onLoad() {
-        super.onLoad();
-
-        load();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
     }
 
-    @Override
-    public void load() {
+    public void internalLoad() {
         if (mask != null && !mask.isEmpty()) {
-            load(mask);
+            internalLoad(mask);
         }
     }
 
     /**
      * Mask the input field with given mask value.
      */
-    public void load(String mask) {
+    public void internalLoad(String mask) {
         options.onComplete = cep -> CompleteEvent.fire(this, cep);
         options.onKeyPress = cep -> MaskKeyPressEvent.fire(this, cep);
         options.onChange = cep -> MaskChangeEvent.fire(this, cep);
@@ -125,15 +119,13 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
         unload();
     }
 
-    @Override
     public void unload() {
         $(valueBoxBase.getElement()).unmask();
     }
 
-    @Override
     public void reload() {
         unload();
-        load();
+        internalLoad();
     }
 
     public String getMask() {
@@ -191,6 +183,13 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
         return valueBoxBase.getText();
     }
 
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
+    }
+
     @Override
     public void setValue(T value) {
         super.setValue(value);
@@ -219,5 +218,16 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     @Override
     public HandlerRegistration addInitializeHandler(InitializeHandler handler) {
         return addHandler(handler, InitializeEvent.getType());
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialInputMaskClientBundle.INSTANCE.inputMaskJs(),
+                MaterialInputMaskDebugClientBundle.INSTANCE.inputMaskDebugJs()));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return HasDependency.super.getCssDependencies();
     }
 }

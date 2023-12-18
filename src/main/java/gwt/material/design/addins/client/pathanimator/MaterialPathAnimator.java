@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.pathanimator;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
@@ -32,6 +33,8 @@ import gwt.material.design.addins.client.pathanimator.base.PathStyleProperty;
 import gwt.material.design.addins.client.pathanimator.base.PathStylerMixin;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimator;
 import gwt.material.design.addins.client.pathanimator.js.JsPathAnimatorOptions;
+import gwt.material.design.client.JQueryProvider;
+import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.helper.ScrollHelper;
 import gwt.material.design.client.constants.Color;
@@ -81,7 +84,7 @@ public class MaterialPathAnimator implements HasDependency, HasDurationTransitio
     private DependencyMixin<MaterialPathAnimator> dependencyMixin;
 
     public MaterialPathAnimator() {
-        this.scrollHelper = new ScrollHelper();
+
     }
 
     public MaterialPathAnimator(Element sourceElement, Element targetElement) {
@@ -142,6 +145,7 @@ public class MaterialPathAnimator implements HasDependency, HasDurationTransitio
     public Promise<MaterialPathAnimator> animate() {
         Promise<MaterialPathAnimator> promise = new Promise<>((resolve, reject) -> {
             getDependencyMixin().install(() -> {
+                this.scrollHelper = new ScrollHelper();
                 detectOutOfScopeElement(targetElement, () -> {
                     $("document").ready(() -> {
                         if (AnimationGlobalConfig.isEnableAnimation()) {
@@ -174,6 +178,7 @@ public class MaterialPathAnimator implements HasDependency, HasDurationTransitio
     public Promise<MaterialPathAnimator> reverseAnimate() {
         Promise<MaterialPathAnimator> promise = new Promise<>((resolve, reject) -> {
             getDependencyMixin().install(() -> {
+                this.scrollHelper = new ScrollHelper();
                 onStartAnimateCallback();
                 $("document").ready(() -> {
                     if (AnimationGlobalConfig.isEnableAnimation()) {

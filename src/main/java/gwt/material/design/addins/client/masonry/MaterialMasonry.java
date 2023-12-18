@@ -23,9 +23,10 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.masonry.events.HasMasonryHandler;
 import gwt.material.design.addins.client.masonry.events.LayoutCompleteEvent;
 import gwt.material.design.addins.client.masonry.events.MasonryEvents;
@@ -35,6 +36,7 @@ import gwt.material.design.addins.client.masonry.js.JsMasonryOptions;
 import gwt.material.design.client.base.HasDurationTransition;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.ui.MaterialRow;
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,8 +73,9 @@ import static gwt.material.design.addins.client.masonry.js.JsMasonry.$;
  * @see <a href="https://github.com/desandro/masonry">Masonry 4.0.0</a>
  */
 //@formatter:on
-public class MaterialMasonry extends AbstractAddinsWidget implements HasDurationTransition, HasMasonryHandler {
+public class MaterialMasonry extends MaterialRow implements HasDependency, HasDurationTransition, HasMasonryHandler {
 
+    protected DependencyMixin<HasDependency> dependencyMixin;
     private MaterialWidget sizerDiv = new MaterialWidget(Document.get().createDivElement());
     private JsMasonryOptions options = JsMasonryOptions.create();
     private JsMasonry masonryElement;
@@ -87,6 +90,13 @@ public class MaterialMasonry extends AbstractAddinsWidget implements HasDuration
     }
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         masonryElement = $(getElement());
         masonryElement.imagesLoaded(() -> masonryElement.masonry(options));
@@ -109,7 +119,6 @@ public class MaterialMasonry extends AbstractAddinsWidget implements HasDuration
         unload();
     }
 
-    @Override
     public void unload() {
         if (masonryElement != null) {
             masonryElement.masonry("destroy");
@@ -118,7 +127,6 @@ public class MaterialMasonry extends AbstractAddinsWidget implements HasDuration
         }
     }
 
-    @Override
     public void reload() {
         if (masonryElement != null) {
             layout();
@@ -379,6 +387,13 @@ public class MaterialMasonry extends AbstractAddinsWidget implements HasDuration
      */
     public void setTransitionDuration(String transitionDuration) {
         options.transitionDuration = transitionDuration;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 
     @Override

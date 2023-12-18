@@ -20,9 +20,10 @@
 package gwt.material.design.incubator.client.loadingstate;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.constants.Color;
 import gwt.material.design.client.constants.CssName;
 import gwt.material.design.client.constants.IconType;
@@ -53,7 +54,7 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class LoadingStatePanel extends AbstractAddinsWidget implements HasLoadingStateHandler {
+public class LoadingStatePanel extends MaterialPanel implements HasDependency, HasLoadingStateHandler {
 
     static {
         IncubatorWidget.showWarning(LoadingStatePanel.class);
@@ -65,10 +66,18 @@ public class LoadingStatePanel extends AbstractAddinsWidget implements HasLoadin
     private MaterialLabel lblDescription = new MaterialLabel();
     private MaterialLoader loader = new MaterialLoader();
     private boolean animation = true;
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     public LoadingStatePanel() {}
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         setVisible(false);
         addStyleName(IncubatorCssName.LOADING_STATE);
@@ -141,6 +150,13 @@ public class LoadingStatePanel extends AbstractAddinsWidget implements HasLoadin
 
     public State getState() {
         return state;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 
     @Override

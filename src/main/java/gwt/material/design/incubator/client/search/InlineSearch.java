@@ -20,9 +20,10 @@
 package gwt.material.design.incubator.client.search;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.mixin.CssNameMixin;
 import gwt.material.design.client.base.viewport.Resolution;
 import gwt.material.design.client.base.viewport.ViewPort;
@@ -43,11 +44,12 @@ import java.util.List;
  *
  * @author kevzlou7979
  */
-public class InlineSearch extends AbstractAddinsWidget {
+public class InlineSearch extends MaterialSearch implements HasDependency {
 
     private HandlerRegistration focusHandler;
     private HandlerRegistration blurHandler;
     private CssNameMixin<InlineSearch, Theme> cssNameMixin;
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     public InlineSearch() {
         this(AddinsCssName.FIXED_INLINE_SEARCH);
@@ -60,6 +62,13 @@ public class InlineSearch extends AbstractAddinsWidget {
     }
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         ViewPort.when(Resolution.ALL_MOBILE).then(portChange -> {
             focusHandler = registerHandler(addFocusHandler(focusEvent -> addStyleName(AddinsCssName.WIDE)));
@@ -85,6 +94,13 @@ public class InlineSearch extends AbstractAddinsWidget {
             cssNameMixin = new CssNameMixin<>(this);
         }
         return cssNameMixin;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 
     @Override

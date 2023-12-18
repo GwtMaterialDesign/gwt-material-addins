@@ -47,7 +47,7 @@ public class TagLabel extends MaterialLabel implements HasDependency, HasSize {
 
     @Override
     protected void onLoad() {
-        getDependencyMixin().install(super::onLoad);
+        getDependencyMixin().install(() -> super.onLoad());
     }
 
     @Override

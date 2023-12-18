@@ -24,11 +24,13 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.constants.CssName;
+import gwt.material.design.client.ui.html.UnorderedList;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
 import java.util.Collections;
@@ -42,9 +44,10 @@ import static gwt.material.design.jquery.client.api.JQuery.$;
  * @author Mark Kevin
  * @author Ben Dol
  */
-public class MaterialPopupMenu extends AbstractAddinsWidget implements HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
+public class MaterialPopupMenu extends UnorderedList implements HasDependency, HasSelectionHandlers<Element>, HasOpenHandlers<MaterialPopupMenu>,
     HasCloseHandlers<MaterialPopupMenu>, HasOpenClose {
 
+    protected DependencyMixin<HasDependency> dependencyMixin;
     private int popupX;
     private int popupY;
     private String id;
@@ -57,6 +60,13 @@ public class MaterialPopupMenu extends AbstractAddinsWidget implements HasSelect
     }
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         $(this).attr("tabindex", "0");
 
@@ -87,7 +97,6 @@ public class MaterialPopupMenu extends AbstractAddinsWidget implements HasSelect
         unload();
     }
 
-    @Override
     public void unload() {
         $(".popup-menu li").off("mouseleave");
         $(".popup-menu li").off("click");
@@ -234,5 +243,12 @@ public class MaterialPopupMenu extends AbstractAddinsWidget implements HasSelect
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialPopupMenuClientBundle.INSTANCE.menuCss(), MaterialPopupMenuDebugClientBundle.INSTANCE.menuCssDebug()));
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }
