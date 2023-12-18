@@ -21,9 +21,11 @@ package gwt.material.design.addins.client.dnd;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.UIObject;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
+import elemental2.promise.Promise;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.dnd.constants.DragEvents;
 import gwt.material.design.addins.client.dnd.constants.DropEvents;
 import gwt.material.design.addins.client.dnd.constants.ResizeEvents;
@@ -67,7 +69,7 @@ import java.util.List;
  * @see <a href="https://github.com/taye/interact.js">InteractJs 1.2.6</a>
  */
 //@formatter:on
-public class MaterialDnd extends AbstractAddinsWidget {
+public class MaterialDnd implements HasDependency {
 
     private JsDnd jsDnd;
     private final MaterialWidget target;
@@ -80,6 +82,7 @@ public class MaterialDnd extends AbstractAddinsWidget {
     private DragEventDispatcher dragEventDispatcher;
     private DropEventDispatcher dropEventDispatcher;
     private ResizeEventDispatcher resizeEventDispatcher;
+    private DependencyMixin<MaterialDnd> dependencyMixin;
 
     public MaterialDnd(MaterialWidget target) {
         this.target = target;
@@ -88,81 +91,99 @@ public class MaterialDnd extends AbstractAddinsWidget {
         this.resizeEventDispatcher = new ResizeEventDispatcher(target);
     }
 
-    public MaterialDnd draggable() {
-        if (jsDnd == null) {
-            jsDnd = JsDnd.interact(target.getElement());
+    public Promise<MaterialDnd> draggable() {
+        return draggable(JsDragOptions.create());
+    }
+    public Promise<MaterialDnd> draggable(JsDragOptions dragOptions) {
+        Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                if (jsDnd == null) {
+                    jsDnd = JsDnd.interact(target.getElement());
 
-            // Events
-            jsDnd.off(DragEvents.DRAG_START).on(DragEvents.DRAG_START, event -> {
-                dragEventDispatcher.fireDragStartEvent();
-                return true;
-            });
-            jsDnd.off(DragEvents.DRAG_MOVE).on(DragEvents.DRAG_MOVE, (event) -> {
-                if (dragMoveListener == null) {
-                    dragMoveListener = new DefaultDragMoveEventListener();
+                    // Events
+                    jsDnd.off(DragEvents.DRAG_START).on(DragEvents.DRAG_START, event -> {
+                        dragEventDispatcher.fireDragStartEvent();
+                        return true;
+                    });
+                    jsDnd.off(DragEvents.DRAG_MOVE).on(DragEvents.DRAG_MOVE, (event) -> {
+                        if (dragMoveListener == null) {
+                            dragMoveListener = new DefaultDragMoveEventListener();
+                        }
+                        dragMoveListener.register((InteractDragEvent) event);
+                        dragEventDispatcher.fireDragMoveEvent();
+                        return true;
+                    });
+                    jsDnd.off(DragEvents.DRAG_END).on(DragEvents.DRAG_END, event -> {
+                        dragEventDispatcher.fireDragEndEvent();
+                        return true;
+                    });
                 }
-                dragMoveListener.register((InteractDragEvent) event);
-                dragEventDispatcher.fireDragMoveEvent();
-                return true;
+                jsDnd.draggable(dragOptions);
+                resolve.onInvoke(this);
             });
-            jsDnd.off(DragEvents.DRAG_END).on(DragEvents.DRAG_END, event -> {
-                dragEventDispatcher.fireDragEndEvent();
-                return true;
-            });
-        }
-        jsDnd.draggable(dragOptions);
-        return this;
-    }
-
-    public static MaterialDnd draggable(MaterialWidget target) {
-        return draggable(target, JsDragOptions.create());
-    }
-
-    public static MaterialDnd draggable(MaterialWidget target, JsDragOptions options) {
-        return new MaterialDnd(target).draggable(options);
-    }
-
-    protected MaterialDnd dropzone() {
-        if (jsDnd == null) {
-            jsDnd = JsDnd.interact(target.getElement());
-
-            // Events
-            jsDnd.off(DropEvents.DROP_ACTIVATE).on(DropEvents.DROP_ACTIVATE, event -> {
-                dropEventDispatcher.fireDropActiveEvent();
-                return true;
-            });
-            jsDnd.off(DragEvents.DRAG_ENTER).on(DragEvents.DRAG_ENTER, event -> {
-                dragEventDispatcher.fireDragEnterEvent(event.getRelatedTarget());
-                return true;
-            });
-            jsDnd.off(DragEvents.DRAG_LEAVE).on(DragEvents.DRAG_LEAVE, event -> {
-                dragEventDispatcher.fireDragLeaveEvent(event.getRelatedTarget());
-                return true;
-            });
-            jsDnd.off(DropEvents.DROP).on(DropEvents.DROP, event -> {
-                dropEventDispatcher.fireDropEvent(event.getRelatedTarget());
-                return true;
-            });
-            jsDnd.off(DropEvents.DROP_DEACTIVATE).on(DropEvents.DROP_DEACTIVATE, event -> {
-                dropEventDispatcher.fireDropDeactivateEvent();
-                return true;
-            });
-        }
-
-        jsDnd.dropzone(dropOptions);
-        return this;
-    }
-
-    protected MaterialDnd resizable() {
-        if (jsDnd == null) {
-            jsDnd = JsDnd.interact(target.getElement());
-        }
-        jsDnd.off(ResizeEvents.RESIZE_MOVE).on(ResizeEvents.RESIZE_MOVE, e -> {
-            resizeEventDispatcher.fireResizeMoveEvent();
-            return true;
         });
-        jsDnd.resizable(resizableOptions);
-        return this;
+        return promise;
+    }
+
+    public Promise<MaterialDnd> dropzone() {
+        return dropzone(JsDropOptions.create());
+    }
+
+    public Promise<MaterialDnd> dropzone(JsDropOptions dropOptions) {
+        Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                if (jsDnd == null) {
+                    jsDnd = JsDnd.interact(target.getElement());
+
+                    // Events
+                    jsDnd.off(DropEvents.DROP_ACTIVATE).on(DropEvents.DROP_ACTIVATE, event -> {
+                        dropEventDispatcher.fireDropActiveEvent();
+                        return true;
+                    });
+                    jsDnd.off(DragEvents.DRAG_ENTER).on(DragEvents.DRAG_ENTER, event -> {
+                        dragEventDispatcher.fireDragEnterEvent(event.getRelatedTarget());
+                        return true;
+                    });
+                    jsDnd.off(DragEvents.DRAG_LEAVE).on(DragEvents.DRAG_LEAVE, event -> {
+                        dragEventDispatcher.fireDragLeaveEvent(event.getRelatedTarget());
+                        return true;
+                    });
+                    jsDnd.off(DropEvents.DROP).on(DropEvents.DROP, event -> {
+                        dropEventDispatcher.fireDropEvent(event.getRelatedTarget());
+                        return true;
+                    });
+                    jsDnd.off(DropEvents.DROP_DEACTIVATE).on(DropEvents.DROP_DEACTIVATE, event -> {
+                        dropEventDispatcher.fireDropDeactivateEvent();
+                        return true;
+                    });
+                }
+
+                jsDnd.dropzone(dropOptions);
+                resolve.onInvoke(this);
+            });
+        });
+        return promise;
+    }
+
+    public Promise<MaterialDnd> resizable() {
+        return resizable(JsResizableOptions.create());
+    }
+
+    public Promise<MaterialDnd> resizable(JsResizableOptions resizableOptions) {
+        Promise<MaterialDnd> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(() -> {
+                if (jsDnd == null) {
+                    jsDnd = JsDnd.interact(target.getElement());
+                }
+                jsDnd.off(ResizeEvents.RESIZE_MOVE).on(ResizeEvents.RESIZE_MOVE, e -> {
+                    resizeEventDispatcher.fireResizeMoveEvent();
+                    return true;
+                });
+                jsDnd.resizable(resizableOptions);
+                resolve.onInvoke(this);
+            });
+        });
+        return promise;
     }
 
     public void unload() {
@@ -183,48 +204,6 @@ public class MaterialDnd extends AbstractAddinsWidget {
         jsDnd.off(DropEvents.DROP_ACTIVATE);
         jsDnd.off(DropEvents.DROP);
         jsDnd.off(DropEvents.DROP_DEACTIVATE);
-    }
-
-    public MaterialDnd draggable(JsDragOptions options) {
-        dragOptions = options;
-        if (target.isAttached()) {
-            draggable();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> draggable(), true));
-        }
-        return this;
-    }
-
-    public MaterialDnd dropzone(JsDropOptions options) {
-        dropOptions = options;
-        if (target.isAttached()) {
-            dropzone();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> dropzone(), true));
-        }
-        return this;
-    }
-
-    public MaterialDnd resizable(JsResizableOptions options) {
-        resizableOptions = options;
-        if (target.isAttached()) {
-            resizable();
-        } else {
-            target.registerHandler(target.addAttachHandler(event -> resizable(), true));
-        }
-        return this;
-    }
-
-    public static MaterialDnd dropzone(MaterialWidget target) {
-        return dropzone(target, JsDropOptions.create());
-    }
-
-    public static MaterialDnd dropzone(MaterialWidget target, JsDropOptions options) {
-        return new MaterialDnd(target).dropzone(options);
-    }
-
-    public static MaterialDnd resizable(MaterialWidget target, JsResizableOptions resizableOptions) {
-        return new MaterialDnd(target).resizable(resizableOptions);
     }
 
     public void ignoreFrom(UIObject uiObject) {
@@ -301,5 +280,12 @@ public class MaterialDnd extends AbstractAddinsWidget {
     @Override
     public List<DependencyResource> getJsDependencies() {
         return Collections.singletonList(new DependencyResource(MaterialDndClientBundle.INSTANCE.dndJs(), MaterialDndDebugClientBundle.INSTANCE.dndDebugJs()));
+    }
+
+    public DependencyMixin<MaterialDnd> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }
