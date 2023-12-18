@@ -20,17 +20,21 @@
 package gwt.material.design.incubator.client.tag;
 
 import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.HasSize;
 import gwt.material.design.client.base.mixin.StyleMixin;
 import gwt.material.design.client.constants.Size;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
+import gwt.material.design.client.ui.MaterialLabel;
 
 import java.util.Collections;
 import java.util.List;
 
-public class TagLabel extends AbstractAddinsWidget implements HasSize {
+public class TagLabel extends MaterialLabel implements HasDependency, HasSize {
 
+    private DependencyMixin<TagLabel> dependencyMixin;
     private StyleMixin<TagLabel> sizeMixin;
     private StyleMixin<TagLabel> positionMixin;
 
@@ -39,6 +43,11 @@ public class TagLabel extends AbstractAddinsWidget implements HasSize {
 
         addStyleName("tag-label");
         setPosition(TagPosition.LEFT);
+    }
+
+    @Override
+    protected void onLoad() {
+        getDependencyMixin().install(super::onLoad);
     }
 
     @Override
@@ -81,5 +90,12 @@ public class TagLabel extends AbstractAddinsWidget implements HasSize {
     @Override
     public List<DependencyResource> getCssDependencies() {
         return Collections.singletonList(new DependencyResource(TagClientBundle.INSTANCE.tagCss(), TagDebugClientBundle.INSTANCE.tagDebugCss()));
+    }
+
+    public DependencyMixin<TagLabel> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }
