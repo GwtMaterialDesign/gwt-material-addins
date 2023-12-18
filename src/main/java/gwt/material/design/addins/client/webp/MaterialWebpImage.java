@@ -21,10 +21,9 @@ package gwt.material.design.addins.client.webp;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
-import gwt.material.design.client.base.mixin.AttributeMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.ui.MaterialImage;
-import gwt.material.design.client.ui.MaterialToast;
-import gwt.material.design.jquery.client.api.Functions;
 
 //@formatter:off
 
@@ -47,15 +46,21 @@ import gwt.material.design.jquery.client.api.Functions;
  * @author kevzlou7979
  */
 //@formatter:on
-public class MaterialWebpImage extends MaterialImage implements HasWebpFallback {
+public class MaterialWebpImage extends MaterialImage implements HasDependency, HasWebpFallback {
 
     private String fallbackUrl;
     private String fallbackExtension;
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     @Override
     protected void onLoad() {
-        super.onLoad();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
 
+    protected void internalLoad() {
         checkWebpSupport();
     }
 
@@ -116,5 +121,12 @@ public class MaterialWebpImage extends MaterialImage implements HasWebpFallback 
             setUrl(getFallbackUrl());
         });
         add(image);
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }

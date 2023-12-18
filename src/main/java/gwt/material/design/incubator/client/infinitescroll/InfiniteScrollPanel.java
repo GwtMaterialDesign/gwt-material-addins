@@ -22,12 +22,14 @@ package gwt.material.design.incubator.client.infinitescroll;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.data.DataSource;
 import gwt.material.design.client.data.loader.LoadCallback;
 import gwt.material.design.client.data.loader.LoadConfig;
 import gwt.material.design.client.data.loader.LoadResult;
+import gwt.material.design.client.ui.MaterialRow;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 import gwt.material.design.incubator.client.infinitescroll.events.*;
 import gwt.material.design.incubator.client.infinitescroll.recycle.RecycleManager;
@@ -53,7 +55,7 @@ import static gwt.material.design.client.js.JsMaterialElement.$;
  *
  * @author kevzlou7979
  */
-public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasInfiniteScrollHandlers<T> {
+public class InfiniteScrollPanel<T> extends MaterialRow implements HasDependency, HasInfiniteScrollHandlers<T> {
 
     static {
         IncubatorWidget.showWarning(InfiniteScrollPanel.class);
@@ -65,6 +67,7 @@ public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasI
     private InfiniteScrollLoadConfig loadConfig;
     private Renderer<T> renderer;
     private RecycleManager recycleManager;
+    protected DependencyMixin<HasDependency> dependencyMixin;
     private int offset = 0;
     private int limit = 0;
     private int bufferTop = 20;
@@ -86,6 +89,13 @@ public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasI
     }
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         // Will setup the scroll events to determine if scrolls top / bottom.
         $(getElement()).scroll((e, param1) -> {
@@ -351,6 +361,13 @@ public class InfiniteScrollPanel<T> extends AbstractAddinsWidget implements HasI
 
     public int getLimit() {
         return limit;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 
     @Override

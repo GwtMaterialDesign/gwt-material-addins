@@ -19,31 +19,26 @@
  */
 package gwt.material.design.addins.client.range;
 
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.range.js.JsContinuousRange;
-import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
 import gwt.material.design.client.ui.MaterialPanel;
 import gwt.material.design.client.ui.MaterialRange;
 import gwt.material.design.jquery.client.api.JQueryElement;
 
+import java.util.Collections;
+import java.util.List;
+
 import static gwt.material.design.jquery.client.api.JQuery.$;
 
 
-public class ContinuousRangeSlider extends MaterialRange implements HasType<ContinuousRangeSliderType> {
+public class ContinuousRangeSlider extends MaterialRange implements HasDependency, HasType<ContinuousRangeSliderType> {
 
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesign.injectCss(ContinuousRangeSliderDebugClientBundle.INSTANCE.continuousRangeCss());
-            MaterialDesign.injectDebugJs(ContinuousRangeSliderDebugClientBundle.INSTANCE.continuousRangeJs());
-
-        } else {
-            MaterialDesign.injectCss(ContinuousRangeSliderClientBundle.INSTANCE.continuousRangeCss());
-            MaterialDesign.injectDebugJs(ContinuousRangeSliderDebugClientBundle.INSTANCE.continuousRangeJs());
-        }
-    }
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     protected CssTypeMixin<ContinuousRangeSliderType, ContinuousRangeSlider> typeMixin;
 
@@ -53,8 +48,13 @@ public class ContinuousRangeSlider extends MaterialRange implements HasType<Cont
 
     @Override
     protected void onLoad() {
-        super.onLoad();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
 
+    protected void internalLoad() {
         setType(ContinuousRangeSliderType.SHADOW);
         $(getElement()).on("slider-change", (event, o) -> {
             setValue(Integer.parseInt(getRangeInputElement().getValue()), true, false);
@@ -126,5 +126,22 @@ public class ContinuousRangeSlider extends MaterialRange implements HasType<Cont
             typeMixin = new CssTypeMixin<>(this, getRangeContainer());
         }
         return typeMixin;
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(ContinuousRangeSliderDebugClientBundle.INSTANCE.continuousRangeCss(), ContinuousRangeSliderClientBundle.INSTANCE.continuousRangeCss()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(ContinuousRangeSliderDebugClientBundle.INSTANCE.continuousRangeJs(), ContinuousRangeSliderDebugClientBundle.INSTANCE.continuousRangeJs()));
     }
 }

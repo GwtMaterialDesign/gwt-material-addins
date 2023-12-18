@@ -20,8 +20,10 @@
 package gwt.material.design.incubator.client.timer;
 
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.AbstractAddinsWidget;
+import com.google.gwt.user.client.ui.ComplexPanel;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.incubator.client.base.IncubatorWidget;
 
 import java.util.Collections;
@@ -40,13 +42,14 @@ import java.util.List;
  * @author kevzlou7979
  */
 //@formatter:on
-public class CircularSVGTimer extends AbstractAddinsWidget {
+public class CircularSVGTimer extends ComplexPanel implements HasDependency {
 
     static {
         IncubatorWidget.showWarning(CircularSVGTimer.class);
     }
 
     private static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+    protected DependencyMixin<HasDependency> dependencyMixin;
 
     public CircularSVGTimer() {
         setElement(createElementNS(SVG_NAMESPACE, "svg"));
@@ -69,6 +72,13 @@ public class CircularSVGTimer extends AbstractAddinsWidget {
     }
 
     @Override
+    protected void onLoad() {
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
+    }
+
     protected void internalLoad() {
         getElement().setAttribute("class", "spinner");
     }
@@ -78,6 +88,13 @@ public class CircularSVGTimer extends AbstractAddinsWidget {
                                                   final String name)/*-{
         return document.createElementNS(ns, name);
     }-*/;
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
+    }
 
     @Override
     public List<DependencyResource> getCssDependencies() {

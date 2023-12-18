@@ -21,11 +21,14 @@ package gwt.material.design.addins.client.subheader;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import gwt.material.design.addins.client.MaterialAddins;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
-import gwt.material.design.client.MaterialDesignBase;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.client.base.AbstractIconButton;
 import gwt.material.design.client.constants.Color;
+
+import java.util.Collections;
+import java.util.List;
 
 //@formatter:off
 
@@ -53,26 +56,7 @@ import gwt.material.design.client.constants.Color;
  * @see <a href="https://material.io/guidelines/components/subheaders.html">Material Design Specification</a>
  */
 //@formatter:on
-public class MaterialSubHeader extends AbstractIconButton {
-
-    private static boolean resourcesLoaded = false;
-
-    static {
-        loadResources();
-    }
-
-    static void loadResources() {
-        if (!resourcesLoaded) {
-            if (MaterialAddins.isDebug()) {
-                MaterialDesignBase.injectDebugJs(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug());
-                MaterialDesignBase.injectCss(MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug());
-            } else {
-                MaterialDesignBase.injectJs(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs());
-                MaterialDesignBase.injectCss(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss());
-            }
-            resourcesLoaded = true;
-        }
-    }
+public class MaterialSubHeader extends AbstractIconButton implements HasDependency {
 
     public MaterialSubHeader() {
         super(AddinsCssName.SUBHEADER);
@@ -91,5 +75,17 @@ public class MaterialSubHeader extends AbstractIconButton {
     @Override
     protected Element createElement() {
         return Document.get().createDivElement();
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSubHeaderClientBundle.INSTANCE.subheaderCss(),
+                MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderCssDebug()));
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialSubHeaderClientBundle.INSTANCE.subheaderJs(),
+                MaterialSubHeaderDebugClientBundle.INSTANCE.subheaderJsDebug()));
     }
 }

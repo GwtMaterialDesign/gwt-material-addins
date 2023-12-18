@@ -26,6 +26,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.combobox.MaterialComboBoxClientBundle;
 import gwt.material.design.addins.client.combobox.MaterialComboBoxDebugClientBundle;
 import gwt.material.design.addins.client.combobox.js.JsComboBox;
 import gwt.material.design.addins.client.combobox.js.JsComboBoxOptions;
@@ -878,7 +879,7 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
     public List<DependencyResource> getCssDependencies() {
         return Arrays.asList(new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugCss()),
                 new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss(),DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss()),
-                new DependencyResource(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss()));
+                new DependencyResource(MaterialComboBoxClientBundle.INSTANCE.select2Css(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugCss()));
     }
 
     @Override
@@ -886,6 +887,6 @@ public class DateRangePicker extends AbstractAddinsValueWidget<Date[]> implement
         return Arrays.asList(new DependencyResource(MomentClientBundle.INSTANCE.momentJs(),MomentClientDebugBundle.INSTANCE.momentDebugJs()),
                 new DependencyResource(MomentClientBundle.INSTANCE.momentJDateConverterJs(),MomentClientDebugBundle.INSTANCE.momentJDateConverterDebugJs()),
                 new DependencyResource(DateRangeClientBundle.INSTANCE.dateRangePickerJs(), DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs()),
-                new DependencyResource(MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs()));
+                new DependencyResource(MaterialComboBoxClientBundle.INSTANCE.select2Js(), MaterialComboBoxDebugClientBundle.INSTANCE.select2DebugJs()));
     }
 }
