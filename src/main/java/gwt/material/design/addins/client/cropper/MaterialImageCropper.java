@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,9 @@ package gwt.material.design.addins.client.cropper;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.addins.client.base.dependency.DependencyMixin;
+import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.HasDependency;
 import gwt.material.design.addins.client.cropper.constants.Shape;
 import gwt.material.design.addins.client.cropper.constants.Type;
 import gwt.material.design.addins.client.cropper.events.CropEvent;
@@ -33,6 +36,10 @@ import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.JsLoader;
 import gwt.material.design.client.ui.MaterialImage;
 import gwt.material.design.jquery.client.api.Functions;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static gwt.material.design.addins.client.cropper.js.JsCropper.$;
 
@@ -61,18 +68,9 @@ import static gwt.material.design.addins.client.cropper.js.JsCropper.$;
  * @see <a href="https://github.com/Foliotek/Croppie">Croppie 2.5.0</a>
  */
 //@formatter:on
-public class MaterialImageCropper extends MaterialImage implements JsLoader, HasCropEvents {
+public class MaterialImageCropper extends MaterialImage implements HasDependency, HasCropEvents {
 
-    static {
-        if (MaterialAddins.isDebug()) {
-            MaterialDesignBase.injectCss(MaterialImageCropperDebugClientBundle.INSTANCE.imageCropperDebugCss());
-            MaterialDesignBase.injectDebugJs(MaterialImageCropperDebugClientBundle.INSTANCE.imageCropperDebugJs());
-        } else {
-            MaterialDesignBase.injectCss(MaterialImageCropperClientBundle.INSTANCE.imageCropperCss());
-            MaterialDesignBase.injectJs(MaterialImageCropperClientBundle.INSTANCE.imageCropperJs());
-        }
-    }
-
+    protected DependencyMixin<HasDependency> dependencyMixin;
     private JsCropperOptions options = JsCropperOptions.create();
     private JsCropper cropper;
 
@@ -95,13 +93,13 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
 
     @Override
     protected void onLoad() {
-        super.onLoad();
-
-        load();
+        getDependencyMixin().install(() -> {
+            internalLoad();
+            super.onLoad();
+        });
     }
 
-    @Override
-    public void load() {
+    public void internalLoad() {
         cropper = $(getElement()).croppie(options);
     }
 
@@ -112,7 +110,6 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
         unload();
     }
 
-    @Override
     public void unload() {
         destroy();
     }
@@ -128,10 +125,9 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
         }
     }
 
-    @Override
     public void reload() {
         unload();
-        load();
+        internalLoad();
     }
 
     /**
@@ -302,5 +298,24 @@ public class MaterialImageCropper extends MaterialImage implements JsLoader, Has
     @Override
     public HandlerRegistration addCropHandler(CropEvent.CropHandler handler) {
         return addHandler(handler, CropEvent.TYPE);
+    }
+
+    @Override
+    public List<DependencyResource> getJsDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialImageCropperClientBundle.INSTANCE.imageCropperJs(),
+                MaterialImageCropperDebugClientBundle.INSTANCE.imageCropperDebugJs()));
+    }
+
+    @Override
+    public List<DependencyResource> getCssDependencies() {
+        return Collections.singletonList(new DependencyResource(MaterialImageCropperClientBundle.INSTANCE.imageCropperCss(),
+                MaterialImageCropperDebugClientBundle.INSTANCE.imageCropperDebugCss()));
+    }
+
+    public DependencyMixin<HasDependency> getDependencyMixin() {
+        if (dependencyMixin == null) {
+            dependencyMixin = new DependencyMixin<>(this);
+        }
+        return dependencyMixin;
     }
 }
