@@ -44,9 +44,6 @@ public abstract class AbstractAddinsWidget extends MaterialWidget implements Has
         super(element, initialClass);
     }
 
-    public AbstractAddinsWidget(String window) {
-    }
-
     @Override
     protected void onLoad() {
         getDependencyMixin().install(() -> {

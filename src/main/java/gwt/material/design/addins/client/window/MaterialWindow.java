@@ -25,6 +25,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -106,7 +107,7 @@ public class MaterialWindow extends AbstractAddinsWidget implements HasCloseHand
     private ToggleStyleMixin<MaterialWindow> openMixin;
 
     public MaterialWindow() {
-        super(AddinsCssName.WINDOW);
+        super(DOM.createDiv(), AddinsCssName.WINDOW);
     }
 
     public MaterialWindow(String title) {
