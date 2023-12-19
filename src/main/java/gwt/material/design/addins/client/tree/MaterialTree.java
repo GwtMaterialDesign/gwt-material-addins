@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
 import java.util.Collections;
 import java.util.List;
@@ -96,8 +96,6 @@ public class MaterialTree extends AbstractAddinsWidget implements HasCloseHandle
             }
             setSelectedItem(treeItem);
         }));
-
-        AddinsDarkThemeReloader.get().reload(MaterialTreeDarkTheme.class);
     }
 
     @Override
@@ -223,6 +221,11 @@ public class MaterialTree extends AbstractAddinsWidget implements HasCloseHandle
                 }
             }
         }, SelectionEvent.getType());
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialTreeDarkTheme.class;
     }
 
     @Override

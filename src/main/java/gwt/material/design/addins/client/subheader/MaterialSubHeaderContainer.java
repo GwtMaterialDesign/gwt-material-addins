@@ -26,12 +26,12 @@ import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.subheader.constants.SubHeaderType;
 import gwt.material.design.addins.client.subheader.js.JsSubHeader;
 import gwt.material.design.client.base.HasType;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.client.base.mixin.CssTypeMixin;
+import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,7 +106,6 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasDep
                 $(getElement()).find(".top_holder").css("display", "none");
             }
         }
-        AddinsDarkThemeReloader.get().reload(MaterialSubheaderDarkTheme.class);
     }
 
     @Override
@@ -148,6 +147,11 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasDep
             dependencyMixin = new DependencyMixin<>(this);
         }
         return dependencyMixin;
+    }
+
+    @Override
+    public Class<? extends DarkThemeLoader> getDarkTheme() {
+        return MaterialSubheaderDarkTheme.class;
     }
 
     @Override

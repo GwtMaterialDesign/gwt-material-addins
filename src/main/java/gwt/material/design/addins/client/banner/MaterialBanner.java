@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.banner.event.HasBannerHandlers;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.HasOpenClose;
 import gwt.material.design.client.base.mixin.ToggleStyleMixin;
 import gwt.material.design.client.constants.IconType;
