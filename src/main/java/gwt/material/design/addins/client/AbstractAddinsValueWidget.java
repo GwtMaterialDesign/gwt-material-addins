@@ -59,8 +59,8 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
     }
 
     public void reload() {
-        onLoad();
         unload();
+        onLoad();
     }
 
     public DependencyMixin<HasDependency> getDependencyMixin() {

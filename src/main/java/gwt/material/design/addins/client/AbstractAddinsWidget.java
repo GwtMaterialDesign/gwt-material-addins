@@ -63,7 +63,10 @@ public abstract class AbstractAddinsWidget extends MaterialWidget implements Has
 
     public void unload() {}
 
-    public void reload() {}
+    public void reload() {
+        unload();
+        onLoad();
+    }
 
     public DependencyMixin<HasDependency> getDependencyMixin() {
         if (dependencyMixin == null) {

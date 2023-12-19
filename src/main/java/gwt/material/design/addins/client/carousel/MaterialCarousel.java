@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
+import elemental2.promise.Promise;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
+import gwt.material.design.addins.client.base.dependency.InstallCallback;
 import gwt.material.design.addins.client.carousel.constants.CarouselType;
 import gwt.material.design.addins.client.carousel.constants.RespondTo;
 import gwt.material.design.addins.client.carousel.events.*;
@@ -92,6 +94,7 @@ public class MaterialCarousel extends AbstractAddinsWidget implements HasType<Ca
     static int TABLET_SETTINGS = 0;
     static int MOBILE_SETTINGS = 1;
 
+    private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
     private final MaterialPanel container = new MaterialPanel();
     private final NextArrow nextArrow = new NextArrow();
     private final PreviousArrow previousArrow = new PreviousArrow();
@@ -105,8 +108,6 @@ public class MaterialCarousel extends AbstractAddinsWidget implements HasType<Ca
         super(Document.get().createDivElement(), AddinsCssName.MATERIAL_CAROUSEL);
         uniqueId = DOM.createUniqueId();
     }
-
-    private final ToggleStyleMixin<MaterialCarousel> fsMixin = new ToggleStyleMixin<>(this, CssName.FULLSCREEN);
 
     @Override
     protected void internalLoad() {
@@ -252,11 +253,14 @@ public class MaterialCarousel extends AbstractAddinsWidget implements HasType<Ca
     /**
      * Returns the current slide index
      */
-    public int getCurrentSlideIndex() {
-        if (command("slickCurrentSlide").toString() != null) {
-            return Integer.parseInt(command("slickCurrentSlide").toString());
-        }
-        return -1;
+    public Promise<Integer> getCurrentSlideIndex() {
+        Promise<Integer> promise = new Promise<>((resolve, reject) -> {
+            command("slickCurrentSlide").then(p0 -> {
+                resolve.onInvoke(Integer.parseInt((String) p0));
+                return null;
+            });
+        });
+        return promise;
     }
 
     /**
@@ -315,13 +319,19 @@ public class MaterialCarousel extends AbstractAddinsWidget implements HasType<Ca
         command("slickUnfilter");
     }
 
-    protected Object command(String action, Object... params) {
-        if (container == null) {
-            GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
-        } else {
-            return $("#" + uniqueId).slick(action, params);
-        }
-        return null;
+    protected Promise<Object> command(String action, Object... params) {
+        Promise<Object> promise = new Promise<>((resolve, reject) -> {
+            getDependencyMixin().install(new InstallCallback() {
+                @Override
+                public void installed() {
+                    if (container == null) {
+                        GWT.log("Your carousel container is not yet initialized", new IllegalStateException());
+                    }
+                    resolve.onInvoke($("#" + uniqueId).slick(action, params));
+                }
+            });
+        });
+        return promise;
     }
 
     /**
