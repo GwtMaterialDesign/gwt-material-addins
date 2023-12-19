@@ -23,7 +23,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
-import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.addins.client.splitpanel.constants.Dock;
 import gwt.material.design.addins.client.splitpanel.constants.Side;
 import gwt.material.design.addins.client.splitpanel.js.JsSplitPanelOptions;
@@ -88,7 +87,6 @@ public class MaterialSplitPanel extends AbstractAddinsWidget {
         options.orientation = getAxis().getCssName();
         touchSplitter = $(getElement()).touchSplit(options);
         applySplitterLineColor(splitterLineColor);
-        AddinsDarkThemeReloader.get().reload(MaterialSplitPanelDarkTheme.class);
     }
 
     public TouchSplitter getTouchSplitter() {
