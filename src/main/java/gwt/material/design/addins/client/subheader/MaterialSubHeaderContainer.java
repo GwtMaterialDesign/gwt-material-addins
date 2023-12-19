@@ -114,8 +114,7 @@ public class MaterialSubHeaderContainer extends MaterialWidget implements HasDep
 
         unload();
     }
-
-
+    
     public void unload() {
         subHeaders.clear();
     }
