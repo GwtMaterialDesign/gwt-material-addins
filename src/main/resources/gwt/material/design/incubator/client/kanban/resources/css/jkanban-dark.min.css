@@ -1,7 +1,1 @@
-.kanban-board {
-    background: #2f2f2f;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-}
-.kanban-item {
-    background: #1e1e1e;
-}
+.kanban-board {background: #2f2f2f;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);}.kanban-item {background: #1e1e1e;}

@@ -1,4 +1,4 @@
-.bubble{
+.bubble {
     margin-left: 60px;
     float: left;
     background: #f3f3f3;
@@ -15,30 +15,31 @@
     z-index: 1;
     font-size: 0.9rem;
 }
-.triangle{
+.triangle {
     position: absolute;
     z-index: 998;
     border: 6px solid transparent;
     opacity: 0.8;
 }
-.triangle.right{
+.triangle.right {
     top: 15px;
     right: -12px;
-    border-left-color: #f3f3f3;
+    border-left-color: #d0d0d0;
 }
-.triangle.left{
+.triangle.left {
     top: 15px;
     left: -12px;
-    border-right-color: #f3f3f3;
+    border-right-color: #d0d0d0;
 }
-.triangle.top, .triangle.bottom{
+.triangle.bottom,
+.triangle.top {
     left: calc(50% - 4px);
 }
-.triangle.top{
+.triangle.top {
     top: -12px;
-    border-bottom-color: #f3f3f3;
+    border-bottom-color: #d0d0d0;
 }
-.triangle.bottom{
+.triangle.bottom {
     bottom: -12px;
-    border-top-color: #f3f3f3;
+    border-top-color: #d0d0d0;
 }
