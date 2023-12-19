@@ -25,6 +25,7 @@ import gwt.material.design.addins.client.avatar.js.AvatarOptions;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.md5.Md5ClientBundle;
+import gwt.material.design.addins.client.md5.Md5Converter;
 import gwt.material.design.addins.client.md5.Md5DebugClientBundle;
 
 import java.util.Arrays;
@@ -105,7 +106,10 @@ public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
     @Override
     public void setValue(String value, boolean fireEvents) {
         super.setValue(value, fireEvents);
-        getElement().setAttribute("data-jdenticon-hash", generateHashCode(value));
+        new Md5Converter().convert(value).then(converted -> {
+            getElement().setAttribute("data-jdenticon-hash", converted);
+            return null;
+        });
     }
 
     @Override
@@ -131,8 +135,8 @@ public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return Arrays.asList(new DependencyResource(MaterialAvatarClientBundle.INSTANCE.jdenticonJs(), MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs()),
-                new DependencyResource(Md5ClientBundle.INSTANCE.md5Js(),Md5DebugClientBundle.INSTANCE.md5DebugJs()));
+        return Arrays.asList(new DependencyResource(Md5ClientBundle.INSTANCE.md5Js(),Md5DebugClientBundle.INSTANCE.md5DebugJs(), 0),
+                new DependencyResource(MaterialAvatarClientBundle.INSTANCE.jdenticonJs(), MaterialAvatarDebugClientBundle.INSTANCE.jdenticonDebugJs(), 1));
     }
 
     public int getHeight() {
@@ -152,13 +156,6 @@ public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
         reload();
     }
 
-    /**
-     * Generate hash code - needed by jdenticon to generate avatar.
-     */
-    protected String generateHashCode(String value) {
-        this.value = value;
-        return JsAvatar.md5(value);
-    }
 
     public AvatarOptions getOptions() {
         return options;

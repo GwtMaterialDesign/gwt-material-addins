@@ -24,6 +24,8 @@ import gwt.material.design.addins.client.dark.AddinsDarkThemeReloader;
 import gwt.material.design.client.base.mixin.DependencyCallback;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DependencyMixin<T extends HasDependency> implements HasDependency {
@@ -93,7 +95,9 @@ public class DependencyMixin<T extends HasDependency> implements HasDependency {
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return lib.getJsDependencies();
+        List<DependencyResource> dependencies = lib.getJsDependencies();
+        Collections.sort(dependencies, Comparator.comparing(DependencyResource::getOrder));
+        return dependencies;
     }
 
     @Override

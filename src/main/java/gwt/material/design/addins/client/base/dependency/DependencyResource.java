@@ -25,6 +25,7 @@ public class DependencyResource {
 
     private TextResource minified;
     private TextResource debug;
+    private int order;
 
     public DependencyResource() {
     }
@@ -32,6 +33,12 @@ public class DependencyResource {
     public DependencyResource(TextResource minified, TextResource debug) {
         this.minified = minified;
         this.debug = debug;
+    }
+
+    public DependencyResource(TextResource minified, TextResource debug, int order) {
+        this.minified = minified;
+        this.debug = debug;
+        this.order = order;
     }
 
     public TextResource getMinified() {
@@ -48,5 +55,13 @@ public class DependencyResource {
 
     public void setDebug(TextResource debug) {
         this.debug = debug;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }
