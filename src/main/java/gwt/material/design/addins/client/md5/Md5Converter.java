@@ -35,6 +35,7 @@ public class Md5Converter implements HasDependency {
     protected Md5Function function;
 
     public Md5Converter() {
+
     }
 
     public Promise<String> convert(String message, Md5Function function) {

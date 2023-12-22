@@ -28,6 +28,7 @@ import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.RootPanel;
 import gwt.material.design.addins.client.AbstractAddinsValueWidget;
 import gwt.material.design.addins.client.base.constants.AddinsCssName;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
