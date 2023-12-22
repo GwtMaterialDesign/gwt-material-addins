@@ -45,7 +45,6 @@ public class JsComboBoxOptions {
     @JsOverlay
     public static final JsComboBoxOptions create() {
         JsComboBoxOptions options = new JsComboBoxOptions();
-        options.dropdownParent = $("body");
         options.closeOnSelect = true;
         return options;
     }

@@ -39,8 +39,8 @@ public abstract class AbstractAddinsValueWidget<T> extends AbstractValueWidget<T
     @Override
     protected void onLoad() {
         getDependencyMixin().install(() -> {
-            internalLoad();
             super.onLoad();
+            internalLoad();
         });
     }
 

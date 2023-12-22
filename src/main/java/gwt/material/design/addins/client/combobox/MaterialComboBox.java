@@ -59,6 +59,7 @@ import gwt.material.design.client.events.ClosingEvent;
 import gwt.material.design.client.events.OpeningEvent;
 import gwt.material.design.client.theme.dark.DarkThemeLoader;
 import gwt.material.design.client.ui.MaterialLabel;
+import gwt.material.design.client.ui.MaterialToast;
 import gwt.material.design.client.ui.html.Label;
 import gwt.material.design.client.ui.html.OptGroup;
 import gwt.material.design.client.ui.html.Option;
@@ -134,6 +135,9 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
 
     @Override
     protected void internalLoad() {
+        if (options.dropdownParent == null) {
+            options.dropdownParent = $("body");
+        }
         label.setInitialClasses(AddinsCssName.SELECT2LABEL);
         addWidget(listbox);
         addWidget(label);
@@ -165,6 +169,7 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
 
         jsComboBox.on(ComboBoxEvents.OPENING, (e, param1) -> {
             OpeningEvent.fire(this);
+            MaterialToast.fireToast("ASDSADASDAS");
             return true;
         });
 
@@ -316,7 +321,7 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
     }
 
     public boolean isInitialized() {
-        return getJsComboBox().hasClass("select2-hidden-accessible");
+        return listbox.getElement().hasClassName("select2-hidden-accessible");
     }
 
     public void addWidget(Widget widget) {
@@ -531,9 +536,9 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
      */
     public void setMultiple(boolean multiple) {
         if (multiple) {
-            getJsComboBox().attr("multiple", "multiple");
+            listbox.getElement().setAttribute("multiple", "multiple");
         } else {
-            getJsComboBox().removeAttr("multiple");
+            listbox.getElement().removeAttribute("multiple");
         }
     }
 
@@ -677,13 +682,15 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
      * combobox and build options into it.
      */
     public void setValues(List<T> values, boolean fireEvents) {
-        String[] stringValues = new String[values.size()];
-        for (int i = 0; i < values.size(); i++) {
-            stringValues[i] = keyFactory.generateKey(values.get(i));
-        }
-        suppressChangeEvent = !fireEvents;
-        getJsComboBox().val(stringValues).trigger("change", selectedIndex);
-        suppressChangeEvent = false;
+        getDependencyMixin().install(() -> {
+            String[] stringValues = new String[values.size()];
+            for (int i = 0; i < values.size(); i++) {
+                stringValues[i] = keyFactory.generateKey(values.get(i));
+            }
+            suppressChangeEvent = !fireEvents;
+            getJsComboBox().val(stringValues).trigger("change", selectedIndex);
+            suppressChangeEvent = false;
+        });
     }
 
     /**
@@ -705,14 +712,16 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
      */
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
-        if (values.size() > 0) {
-            T value = values.get(selectedIndex);
-            if (value != null || isAllowBlank()) {
-                getJsComboBox().val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
-            } else {
-                GWT.log("Value index is not found.", new IndexOutOfBoundsException());
+        getDependencyMixin().install(() -> {
+            if (values.size() > 0) {
+                T value = values.get(selectedIndex);
+                if (value != null || isAllowBlank()) {
+                    getJsComboBox().val(keyFactory.generateKey(value)).trigger("change.select2", selectedIndex);
+                } else {
+                    GWT.log("Value index is not found.", new IndexOutOfBoundsException());
+                }
             }
-        }
+        });
     }
 
     /**
@@ -730,8 +739,10 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
     }
 
     public void unselect() {
-        getJsComboBox().val("").change();
-        getJsComboBox().trigger(new Event(ComboBoxEvents.UNSELECT));
+        getDependencyMixin().install(() -> {
+            getJsComboBox().val("").change();
+            getJsComboBox().trigger(new Event(ComboBoxEvents.UNSELECT));
+        });
     }
 
     /**

@@ -47,8 +47,8 @@ public abstract class AbstractAddinsWidget extends MaterialWidget implements Has
     @Override
     protected void onLoad() {
         getDependencyMixin().install(() -> {
-            internalLoad();
             super.onLoad();
+            internalLoad();
         });
     }
 
