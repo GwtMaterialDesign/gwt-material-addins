@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.sprout.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.sprout.js.ProgressData;
 
 public class ProgressEvent extends GwtEvent<ProgressEvent.ProgressHandler> {
 
@@ -29,10 +30,15 @@ public class ProgressEvent extends GwtEvent<ProgressEvent.ProgressHandler> {
         void onProgress(ProgressEvent event);
     }
 
+    private ProgressData progressData;
     public static final Type<ProgressHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new ProgressEvent());
+    public ProgressEvent(ProgressData progressData) {
+        this.progressData = progressData;
+    }
+
+    public static void fire(ProgressData percentage, HasHandlers source) {
+        source.fireEvent(new ProgressEvent(percentage));
     }
 
     @Override
@@ -43,5 +49,9 @@ public class ProgressEvent extends GwtEvent<ProgressEvent.ProgressHandler> {
     @Override
     protected void dispatch(ProgressHandler handler) {
         handler.onProgress(this);
+    }
+
+    public ProgressData getProgressData() {
+        return progressData;
     }
 }

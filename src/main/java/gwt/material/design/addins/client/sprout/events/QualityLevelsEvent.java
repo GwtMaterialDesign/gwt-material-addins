@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.sprout.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.sprout.js.QualityLevel;
 
 public class QualityLevelsEvent extends GwtEvent<QualityLevelsEvent.QualityLevelsHandler> {
 
@@ -29,10 +30,15 @@ public class QualityLevelsEvent extends GwtEvent<QualityLevelsEvent.QualityLevel
         void onQualityLevels(QualityLevelsEvent event);
     }
 
+    private QualityLevel level;
     public static final Type<QualityLevelsHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new QualityLevelsEvent());
+    public QualityLevelsEvent(QualityLevel level) {
+        this.level = level;
+    }
+
+    public static void fire(QualityLevel level, HasHandlers source) {
+        source.fireEvent(new QualityLevelsEvent(level));
     }
 
     @Override
@@ -43,5 +49,9 @@ public class QualityLevelsEvent extends GwtEvent<QualityLevelsEvent.QualityLevel
     @Override
     protected void dispatch(QualityLevelsHandler handler) {
         handler.onQualityLevels(this);
+    }
+
+    public QualityLevel getLevel() {
+        return level;
     }
 }

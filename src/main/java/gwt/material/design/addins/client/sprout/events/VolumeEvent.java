@@ -29,10 +29,15 @@ public class VolumeEvent extends GwtEvent<VolumeEvent.VolumeHandler> {
         void onVolumeHandler(VolumeEvent event);
     }
 
+    private float volume;
     public static final Type<VolumeHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new VolumeEvent());
+    public VolumeEvent(float volume) {
+        this.volume = volume;
+    }
+
+    public static void fire(float volume, HasHandlers source) {
+        source.fireEvent(new VolumeEvent(volume));
     }
 
     @Override
@@ -43,5 +48,9 @@ public class VolumeEvent extends GwtEvent<VolumeEvent.VolumeHandler> {
     @Override
     protected void dispatch(VolumeHandler handler) {
         handler.onVolumeHandler(this);
+    }
+
+    public float getVolume() {
+        return volume;
     }
 }

@@ -5,8 +5,7 @@ import com.google.gwt.user.client.DOM;
 import gwt.material.design.addins.client.AbstractAddinsWidget;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.sprout.events.*;
-import gwt.material.design.addins.client.sprout.js.JsSproutOptions;
-import gwt.material.design.addins.client.sprout.js.JsSproutPlayer;
+import gwt.material.design.addins.client.sprout.js.*;
 import gwt.material.design.client.MaterialDesign;
 import gwt.material.design.client.base.MaterialWidget;
 import gwt.material.design.jquery.client.api.Functions;
@@ -27,40 +26,40 @@ public class SproutVideo extends AbstractAddinsWidget implements HasSproutEvents
     @Override
     protected void internalLoad() {
         player = new JsSproutPlayer(options);
-        bind("play", param1 -> {
+        bind("play", event -> {
             PlayEvent.fire(this);
         });
-        bind("pause", param1 -> {
+        bind("pause", event -> {
             PauseEvent.fire(this);
         });
-        bind("loading", param1 -> {
-            LoadingEvent.fire(this);
+        bind("loading", percentage -> {
+            LoadingEvent.fire((Float) percentage, this);
         });
-        bind("progress", param1 -> {
-            ProgressEvent.fire(this);
+        bind("progress", data -> {
+            ProgressEvent.fire((ProgressData) data, this);
         });
-        bind("completed", param1 -> {
+        bind("completed", event -> {
             CompletedEvent.fire(this);
         });
-        bind("volume", param1 -> {
-            VolumeEvent.fire(this);
+        bind("volume", data -> {
+            VolumeEvent.fire((Float) data, this);
         });
-        bind("ready", param1 -> {
-            ReadyEvent.fire(this);
+        bind("ready", data -> {
+            ReadyEvent.fire((ReadyData) data,this);
         });
-        bind("rateChange", param1 -> {
-            RateChangeEvent.fire(this);
+        bind("rateChange", data -> {
+            RateChangeEvent.fire((Float) data, this);
         });
-        bind("qualityLevels", param1 -> {
-            QualityLevelsEvent.fire(this);
+        bind("qualityLevels", data -> {
+            QualityLevelsEvent.fire((QualityLevel) data,this);
         });
-        bind("qualityLevelChange", param1 -> {
-            QualityLevelChangeEvent.fire(this);
+        bind("qualityLevelChange", data -> {
+            QualityLevelChangeEvent.fire((Integer) data, this);
         });
-        bind("switchvideo", param1 -> {
-            SwitchVideoEvent.fire(this);
+        bind("switchvideo", data -> {
+            SwitchVideoEvent.fire((SwitchData) data, this);
         });
-        bind("playlistcomplete", param1 -> {
+        bind("playlistcomplete", event -> {
             PlaylistCompleteEvent.fire(this);
         });
     }

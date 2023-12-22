@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.sprout.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.sprout.js.ReadyData;
 
 public class ReadyEvent extends GwtEvent<ReadyEvent.ReadyHandler> {
 
@@ -29,10 +30,15 @@ public class ReadyEvent extends GwtEvent<ReadyEvent.ReadyHandler> {
         void onReady(ReadyEvent event);
     }
 
+    private ReadyData data;
     public static final Type<ReadyHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new ReadyEvent());
+    public ReadyEvent(ReadyData data) {
+        this.data = data;
+    }
+
+    public static void fire(ReadyData data, HasHandlers source) {
+        source.fireEvent(new ReadyEvent(data));
     }
 
     @Override
@@ -43,5 +49,9 @@ public class ReadyEvent extends GwtEvent<ReadyEvent.ReadyHandler> {
     @Override
     protected void dispatch(ReadyHandler handler) {
         handler.onReady(this);
+    }
+
+    public ReadyData getData() {
+        return data;
     }
 }

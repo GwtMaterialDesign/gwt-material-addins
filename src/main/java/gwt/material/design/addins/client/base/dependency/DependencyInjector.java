@@ -23,12 +23,18 @@ import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.resources.client.TextResource;
 import gwt.material.design.addins.client.MaterialAddins;
+import gwt.material.design.client.MaterialDesignBase;
 import gwt.material.design.client.base.mixin.DependencyCallback;
 
 import java.util.List;
 
 public class DependencyInjector {
 
+    /**
+     * This is not been tested on Asynchronous injection. The fromString is a synchronous call that library is loaded and ready.
+     * @param resources
+     * @param callback
+     */
     public static void installJs(List<DependencyResource> resources, DependencyCallback callback) {
         try {
             for (DependencyResource dep : resources) {
@@ -41,8 +47,7 @@ public class DependencyInjector {
                         .setWindow(ScriptInjector.TOP_WINDOW)
                         .setRemoveTag(!MaterialAddins.isDebug())
                         .inject();
-
-
+                MaterialDesignBase.injectJs(resource);
             }
             if (callback != null) callback.onSuccess();
         } catch (RuntimeException e) {

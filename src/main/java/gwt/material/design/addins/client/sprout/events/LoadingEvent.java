@@ -29,10 +29,15 @@ public class LoadingEvent extends GwtEvent<LoadingEvent.LoadingHandler> {
         void onLoading(LoadingEvent event);
     }
 
+    private float percentage;
     public static final Type<LoadingHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new LoadingEvent());
+    public LoadingEvent(float percentage) {
+        this.percentage = percentage;
+    }
+
+    public static void fire(float percentage, HasHandlers source) {
+        source.fireEvent(new LoadingEvent(percentage));
     }
 
     @Override
@@ -43,5 +48,9 @@ public class LoadingEvent extends GwtEvent<LoadingEvent.LoadingHandler> {
     @Override
     protected void dispatch(LoadingHandler handler) {
         handler.onLoading(this);
+    }
+
+    public float getPercentage() {
+        return percentage;
     }
 }

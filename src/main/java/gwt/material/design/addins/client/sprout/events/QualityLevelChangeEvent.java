@@ -29,10 +29,15 @@ public class QualityLevelChangeEvent extends GwtEvent<QualityLevelChangeEvent.Qu
         void onQualityLevelChange(QualityLevelChangeEvent event);
     }
 
+    private int value;
     public static final Type<QualityLevelChangeHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new QualityLevelChangeEvent());
+    public QualityLevelChangeEvent(int value) {
+        this.value = value;
+    }
+
+    public static void fire(int value, HasHandlers source) {
+        source.fireEvent(new QualityLevelChangeEvent(value));
     }
 
     @Override
@@ -43,5 +48,9 @@ public class QualityLevelChangeEvent extends GwtEvent<QualityLevelChangeEvent.Qu
     @Override
     protected void dispatch(QualityLevelChangeHandler handler) {
         handler.onQualityLevelChange(this);
+    }
+
+    public int getValue() {
+        return value;
     }
 }

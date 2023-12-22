@@ -29,10 +29,15 @@ public class RateChangeEvent extends GwtEvent<RateChangeEvent.RateChangeHandler>
         void onRateChange(RateChangeEvent event);
     }
 
+    private float value;
     public static final Type<RateChangeHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new RateChangeEvent());
+    public RateChangeEvent(float value) {
+        this.value = value;
+    }
+
+    public static void fire(float value, HasHandlers source) {
+        source.fireEvent(new RateChangeEvent(value));
     }
 
     @Override
@@ -43,5 +48,9 @@ public class RateChangeEvent extends GwtEvent<RateChangeEvent.RateChangeHandler>
     @Override
     protected void dispatch(RateChangeHandler handler) {
         handler.onRateChange(this);
+    }
+
+    public float getValue() {
+        return value;
     }
 }

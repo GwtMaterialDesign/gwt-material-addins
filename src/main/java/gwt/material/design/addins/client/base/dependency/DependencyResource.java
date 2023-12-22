@@ -21,6 +21,7 @@ package gwt.material.design.addins.client.base.dependency;
 
 import com.google.gwt.resources.client.TextResource;
 
+//TODO TextDependencyResource / UrlDependencyResource extends AnbstractResource
 public class DependencyResource {
 
     private TextResource minified;

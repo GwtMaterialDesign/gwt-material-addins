@@ -22,6 +22,7 @@ package gwt.material.design.addins.client.sprout.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HasHandlers;
+import gwt.material.design.addins.client.sprout.js.SwitchData;
 
 public class SwitchVideoEvent extends GwtEvent<SwitchVideoEvent.SwitchVideoHandler> {
 
@@ -29,10 +30,15 @@ public class SwitchVideoEvent extends GwtEvent<SwitchVideoEvent.SwitchVideoHandl
         void onSwitchVideo(SwitchVideoEvent event);
     }
 
+    private SwitchData data;
     public static final Type<SwitchVideoHandler> TYPE = new Type<>();
 
-    public static void fire(HasHandlers source) {
-        source.fireEvent(new SwitchVideoEvent());
+    public SwitchVideoEvent(SwitchData data) {
+        this.data = data;
+    }
+
+    public static void fire(SwitchData data, HasHandlers source) {
+        source.fireEvent(new SwitchVideoEvent(data));
     }
 
     @Override
@@ -43,5 +49,9 @@ public class SwitchVideoEvent extends GwtEvent<SwitchVideoEvent.SwitchVideoHandl
     @Override
     protected void dispatch(SwitchVideoHandler handler) {
         handler.onSwitchVideo(this);
+    }
+
+    public SwitchData getData() {
+        return data;
     }
 }
