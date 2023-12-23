@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,12 +58,12 @@ import java.util.List;
 //@formatter:on
 public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> implements HasSignaturePadOptions, HasSignatureHandlers {
 
+    private SignaturePad signaturePad;
+    private JsSignaturePadOptions options = JsSignaturePadOptions.create();
+
     public MaterialSignaturePad() {
         super(Document.get().createCanvasElement(), AddinsCssName.SIGNATURE_PAD);
     }
-
-    private SignaturePad signaturePad;
-    private JsSignaturePadOptions options = JsSignaturePadOptions.create();
 
     /**
      * <b>Handling high DPI screens</b>
@@ -84,13 +84,19 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
         element.setWidth((int) (getOffsetWidth() * ratio));
         element.setHeight((int) (getOffsetHeight() * ratio));
         element.getContext2d().scale(ratio, ratio);
-        getSignaturePad().clear();
+        if (signaturePad != null)  signaturePad.clear();
     }
 
     @Override
     protected void internalLoad() {
+        options.onBegin = () -> SignatureStartEvent.fire(this);
+        options.onEnd = () -> {
+            SignatureEndEvent.fire(this);
+            ValueChangeEvent.fire(this, signaturePad.toDataURL());
+        };
+        signaturePad = new SignaturePad(getElement(), options);
         resizeCanvas();
-        getSignaturePad().on();
+        signaturePad.on();
     }
 
     @Override
@@ -102,7 +108,7 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
 
     @Override
     public void unload() {
-        getSignaturePad().off();
+        if (signaturePad != null) signaturePad.off();
     }
 
     @Override
@@ -118,33 +124,17 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
 
     @Override
     public boolean isEmpty() {
-        return getSignaturePad().isEmpty();
+        return signaturePad.isEmpty();
     }
 
     @Override
     public void fromDataUrl(String url) {
-        getSignaturePad().fromDataURL(url);
+        if (signaturePad != null) signaturePad.fromDataURL(url);
     }
 
     @Override
     public String toDataUrl() {
-        return getSignaturePad().toDataURL();
-    }
-
-    public SignaturePad getSignaturePad() {
-        if (signaturePad == null) {
-            options.onBegin = () -> SignatureStartEvent.fire(this);
-            options.onEnd = () -> {
-                SignatureEndEvent.fire(this);
-                ValueChangeEvent.fire(this, getSignaturePad().toDataURL());
-            };
-            signaturePad = new SignaturePad(getElement(), options);
-        }
-        return signaturePad;
-    }
-
-    public void setSignaturePad(SignaturePad signaturePad) {
-        this.signaturePad = signaturePad;
+        return signaturePad != null ? signaturePad.toDataURL() : "";
     }
 
     @Override
@@ -253,7 +243,7 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
 
     @Override
     public String getValue() {
-        return getSignaturePad().toDataURL();
+        return signaturePad.toDataURL();
     }
 
     @Override
@@ -266,6 +256,6 @@ public class MaterialSignaturePad extends AbstractAddinsValueWidget<String> impl
 
     @Override
     public List<DependencyResource> getJsDependencies() {
-        return Collections.singletonList(new DependencyResource(MaterialSignaturePadClientBundle.INSTANCE.signaturePadJs(),MaterialSignaturePadDebugClientBundle.INSTANCE.signaturePadDebugJs()));
+        return Collections.singletonList(new DependencyResource(MaterialSignaturePadClientBundle.INSTANCE.signaturePadJs(), MaterialSignaturePadDebugClientBundle.INSTANCE.signaturePadDebugJs()));
     }
 }
