@@ -27,50 +27,45 @@ import gwt.material.design.addins.client.base.dependency.HasDependency;
 import java.util.Collections;
 import java.util.List;
 
-public class Md5Converter implements HasDependency {
+public class Md5Util implements HasDependency {
 
-    protected static Md5Converter instance;
-    protected DependencyMixin<Md5Converter> dependencyMixin;
+    protected static Md5Util instance = new Md5Util();
+    protected DependencyMixin<Md5Util> dependencyMixin;
     protected String message;
     protected Md5Function function;
 
-    public Md5Converter() {
-
+    public Md5Util() {
+        getDependencyMixin().install(() -> {});
     }
 
-    public Promise<String> convert(String message, Md5Function function) {
+    public String convert(String message, Md5Function function) {
         this.message = message;
         this.function = function;
-
-        return new Promise<>((resolve, reject) -> {
-            getDependencyMixin().install(() -> {
-                String converted = "";
-                switch (function) {
-                    case HEX:
-                        converted = Md5.hex(message);
-                        break;
-                    case ARRAY:
-                        converted = String.valueOf(Md5.array(message));
-                        break;
-                    case DIGEST:
-                        converted = String.valueOf(Md5.digest(message));
-                        break;
-                    case ARRAY_BUFFER:
-                        converted = (String) Md5.arrayBuffer(message);
-                        break;
-                    case BUFFER:
-                        converted = (String) Md5.buffer(message);
-                        break;
-                    case BASE_64:
-                        converted = Md5.base64(message);
-                        break;
-                }
-                resolve.onInvoke(converted);
-            });
-        });
+        String converted = "";
+        switch (function) {
+            case HEX:
+                converted = Md5.hex(message);
+                break;
+            case ARRAY:
+                converted = String.valueOf(Md5.array(message));
+                break;
+            case DIGEST:
+                converted = String.valueOf(Md5.digest(message));
+                break;
+            case ARRAY_BUFFER:
+                converted = (String) Md5.arrayBuffer(message);
+                break;
+            case BUFFER:
+                converted = (String) Md5.buffer(message);
+                break;
+            case BASE_64:
+                converted = Md5.base64(message);
+                break;
+        }
+        return converted;
     }
 
-    public Promise<String> convert(String message) {
+    public String convert(String message) {
         return convert(message, Md5Function.HEX);
     }
 
@@ -78,14 +73,7 @@ public class Md5Converter implements HasDependency {
         Md5.destroy();
     }
 
-    public static Md5Converter get() {
-        if (instance == null) {
-            instance = new Md5Converter();
-        }
-        return instance;
-    }
-
-    public DependencyMixin<Md5Converter> getDependencyMixin() {
+    public DependencyMixin<Md5Util> getDependencyMixin() {
         if (dependencyMixin == null) {
             dependencyMixin = new DependencyMixin<>(this);
         }

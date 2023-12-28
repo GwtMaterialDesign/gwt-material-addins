@@ -25,7 +25,7 @@ import gwt.material.design.addins.client.avatar.js.AvatarOptions;
 import gwt.material.design.addins.client.avatar.js.JsAvatar;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.md5.Md5ClientBundle;
-import gwt.material.design.addins.client.md5.Md5Converter;
+import gwt.material.design.addins.client.md5.Md5Util;
 import gwt.material.design.addins.client.md5.Md5DebugClientBundle;
 
 import java.util.Arrays;
@@ -106,10 +106,7 @@ public class MaterialAvatar extends AbstractAddinsValueWidget<String> {
     @Override
     public void setValue(String value, boolean fireEvents) {
         super.setValue(value, fireEvents);
-        new Md5Converter().convert(value).then(converted -> {
-            getElement().setAttribute("data-jdenticon-hash", converted);
-            return null;
-        });
+        getElement().setAttribute("data-jdenticon-hash", new Md5Util().convert(value));
     }
 
     @Override
