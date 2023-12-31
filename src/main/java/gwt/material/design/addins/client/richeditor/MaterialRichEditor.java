@@ -145,22 +145,17 @@ public class MaterialRichEditor extends AbstractAddinsValueWidget<String> implem
     }
 
     @Override
-    protected void onUnload() {
-        super.onUnload();
-
-        unload();
-    }
-
-    @Override
     public void unload() {
-        JsRichEditor jsRichEditor = $(getElement());
-        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_BLUR);
-        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_FOCUS);
-        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYUP);
-        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYDOWN);
-        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
-        jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
-        jsRichEditor.destroy();
+        getDependencyMixin().install(() -> {
+            JsRichEditor jsRichEditor = $(getElement());
+            jsRichEditor.off(RichEditorEvents.MATERIALNOTE_BLUR);
+            jsRichEditor.off(RichEditorEvents.MATERIALNOTE_FOCUS);
+            jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYUP);
+            jsRichEditor.off(RichEditorEvents.MATERIALNOTE_KEYDOWN);
+            jsRichEditor.off(RichEditorEvents.MATERIALNOTE_PASTE);
+            jsRichEditor.off(RichEditorEvents.MATERIALNOTE_CHANGE);
+            jsRichEditor.destroy();
+        });
     }
 
     public ToolbarButton[] getStyleOptions() {
