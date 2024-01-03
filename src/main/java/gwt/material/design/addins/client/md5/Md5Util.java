@@ -19,7 +19,6 @@
  */
 package gwt.material.design.addins.client.md5;
 
-import elemental2.promise.Promise;
 import gwt.material.design.addins.client.base.dependency.DependencyMixin;
 import gwt.material.design.addins.client.base.dependency.DependencyResource;
 import gwt.material.design.addins.client.base.dependency.HasDependency;
@@ -29,16 +28,16 @@ import java.util.List;
 
 public class Md5Util implements HasDependency {
 
-    protected static Md5Util instance = new Md5Util();
     protected DependencyMixin<Md5Util> dependencyMixin;
     protected String message;
     protected Md5Function function;
 
     public Md5Util() {
-        getDependencyMixin().install(() -> {});
+
     }
 
     public String convert(String message, Md5Function function) {
+        install();
         this.message = message;
         this.function = function;
         String converted = "";
@@ -63,6 +62,10 @@ public class Md5Util implements HasDependency {
                 break;
         }
         return converted;
+    }
+
+    public void install() {
+        getDependencyMixin().install(() -> {});
     }
 
     public String convert(String message) {
