@@ -169,7 +169,6 @@ public class MaterialComboBox<T> extends AbstractAddinsValueWidget<List<T>> impl
 
         jsComboBox.on(ComboBoxEvents.OPENING, (e, param1) -> {
             OpeningEvent.fire(this);
-            MaterialToast.fireToast("ASDSADASDAS");
             return true;
         });
 
