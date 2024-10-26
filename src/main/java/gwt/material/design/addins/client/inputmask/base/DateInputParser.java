@@ -50,7 +50,7 @@ public class DateInputParser<T extends AbstractInputMask<String>> {
         if (valuebox.getText() != null && !valuebox.getText().isEmpty()
             && valuebox.getMask() != null && format != null) {
             format = format.toLowerCase();
-            String dateString = valuebox.getText();
+            String dateString = valuebox.getValueWithMask();
             String month = dateString.substring(format.indexOf("m"), format.indexOf("m") + 2);
             String day = dateString.substring(format.indexOf("d"), format.indexOf("d") + 2);
             String year = dateString.substring(format.indexOf("y"), format.lastIndexOf("y") + 1);

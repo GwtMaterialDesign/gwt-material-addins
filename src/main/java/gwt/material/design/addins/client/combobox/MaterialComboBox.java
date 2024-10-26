@@ -627,6 +627,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         setValue(Collections.singletonList(value));
     }
 
+    public void setSingleValue(T value, String text, boolean addAsDefault) {
+        setValue(Collections.singletonList(value));
+        addItem(text, value);
+    }
+
     /**
      * Set the selected value using a single item, generally used
      * in single selection mode.
