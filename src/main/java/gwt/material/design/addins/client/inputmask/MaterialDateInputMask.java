@@ -52,8 +52,8 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
         inputParser = new DateInputParser(inputMask);
         inputMask.setPlaceholder(format.toUpperCase());
         setMask(format);
-
         setValidateOnBlur(true);
+        addStyleName("input-field date-mask");
     }
 
     @Override
