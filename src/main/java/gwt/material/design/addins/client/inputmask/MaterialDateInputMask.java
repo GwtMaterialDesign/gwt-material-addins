@@ -41,9 +41,9 @@ import java.util.List;
 public class MaterialDateInputMask extends AbstractValueWidget<Date>
     implements HasFieldTypes, HasLabel, HasInputMaskHandlers, HasPlaceholder, HasReadOnly, HasActive, HasToggleReadOnlyHandler, HasAutocomplete, HasPasteHandlers, HasFieldSensitivity {
 
-    private String format = "YYYY-mm-dd";
-    private MaterialInputMask inputMask;
-    private DateInputParser inputParser;
+    protected String format = "YYYY-mm-dd";
+    protected MaterialInputMask inputMask;
+    protected DateInputParser inputParser;
 
     public MaterialDateInputMask() {
         super(DOM.createDiv());
@@ -218,6 +218,22 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
     @Override
     public HandlerRegistration addPasteHandler(PasteEvent.PasteEventHandler handler) {
         return inputMask.addPasteHandler(handler);
+    }
+
+    public DateInputParser getInputParser() {
+        return inputParser;
+    }
+
+    public void setInputParser(DateInputParser inputParser) {
+        this.inputParser = inputParser;
+    }
+
+    public MaterialInputMask getInputMask() {
+        return inputMask;
+    }
+
+    public void setInputMask(MaterialInputMask inputMask) {
+        this.inputMask = inputMask;
     }
 
     @Override

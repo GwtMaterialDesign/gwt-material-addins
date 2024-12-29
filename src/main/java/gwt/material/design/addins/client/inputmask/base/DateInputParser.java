@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class DateInputParser<T extends AbstractInputMask<String>> {
 
-    private final T valuebox;
+    protected final T valuebox;
 
     public DateInputParser(T valuebox) {
         this.valuebox = valuebox;
@@ -43,6 +43,8 @@ public class DateInputParser<T extends AbstractInputMask<String>> {
     public void setValue(String format, Date value) {
         if (value != null) {
             valuebox.setValue(DateTimeFormat.getFormat(format).format(value), true);
+        } else {
+            valuebox.clear();
         }
     }
 
