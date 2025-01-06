@@ -49,29 +49,33 @@ public class DateInputParser<T extends AbstractInputMask<String>> {
     }
 
     public boolean validate(String format) {
-        if (valuebox.getText() != null && !valuebox.getText().isEmpty()
-            && valuebox.getMask() != null && format != null) {
-            format = format.toLowerCase();
-            String dateString = valuebox.getValueWithMask();
-            String month = dateString.substring(format.indexOf("m"), format.indexOf("m") + 2);
-            String day = dateString.substring(format.indexOf("d"), format.indexOf("d") + 2);
-            String year = dateString.substring(format.indexOf("y"), format.lastIndexOf("y") + 1);
+        try {
+            if (valuebox.getText() != null && !valuebox.getText().isEmpty()
+                && valuebox.getMask() != null && format != null) {
+                format = format.toLowerCase();
+                String dateString = valuebox.getValueWithMask();
+                String month = dateString.substring(format.indexOf("m"), format.indexOf("m") + 2);
+                String day = dateString.substring(format.indexOf("d"), format.indexOf("d") + 2);
+                String year = dateString.substring(format.indexOf("y"), format.lastIndexOf("y") + 1);
 
-            boolean validLeapYear = validateLeapYear(day, month, Integer.parseInt(year));
-            if (!validLeapYear) {
-                valuebox.setErrorText("Not a valid date");
+                boolean validLeapYear = validateLeapYear(day, month, Integer.parseInt(year));
+                if (!validLeapYear) {
+                    valuebox.setErrorText("Not a valid date");
+                }
+
+                boolean valid = validate(month, getMonthRegex(), getMothDoesNotMatchError())
+                    && validate(day, getDayRegex(), getDayDoesNotMatchError())
+                    && validate(year, getYearRegex(), getYearDoesNotMatchError())
+                    && validLeapYear;
+
+                if (valid) {
+                    valuebox.clearStatusText();
+                }
+
+                return valid;
             }
-
-            boolean valid = validate(month, getMonthRegex(), getMothDoesNotMatchError())
-                && validate(day, getDayRegex(), getDayDoesNotMatchError())
-                && validate(year, getYearRegex(), getYearDoesNotMatchError())
-                && validLeapYear;
-
-            if (valid) {
-                valuebox.clearStatusText();
-            }
-
-            return valid;
+        } catch (Exception e) {
+            valuebox.setErrorText("Not a valid date");
         }
         return false;
     }
