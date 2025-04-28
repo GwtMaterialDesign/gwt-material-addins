@@ -944,9 +944,7 @@ public class Moment {
      */
     @JsMethod
     public native String toJDFString(String format);
-
     public native MomentTimezone tz(String timeZone);
-
     @JsMethod(namespace = "moment")
     public static native void updateLocale(String locale, LocaleOptions localeOptions);
 }

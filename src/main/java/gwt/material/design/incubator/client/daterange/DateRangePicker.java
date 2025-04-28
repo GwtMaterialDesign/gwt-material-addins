@@ -66,13 +66,17 @@ public class DateRangePicker extends AbstractValueWidget<Date[]> implements HasD
     static {
         if (AddinsIncubator.isDebug()) {
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentDebugJs());
+            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentLocale());
             MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentJDateConverterDebugJs());
+            MaterialDesignBase.injectDebugJs(MomentClientDebugBundle.INSTANCE.momentWithTimezone());
             MaterialDesignBase.injectDebugJs(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugJs());
             MaterialDesignBase.injectCss(DateRangeClientDebugBundle.INSTANCE.dateRangePickerDebugCss());
             MaterialDesignBase.injectCss(DateRangeClientDebugBundle.INSTANCE.dateRangePickerOverrideDebugCss());
         } else {
             MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJs());
+            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentWithLocale());
             MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentJDateConverterJs());
+            MaterialDesignBase.injectJs(MomentClientBundle.INSTANCE.momentWithTimezone());
             MaterialDesignBase.injectJs(DateRangeClientBundle.INSTANCE.dateRangePickerJs());
             MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerCss());
             MaterialDesignBase.injectCss(DateRangeClientBundle.INSTANCE.dateRangePickerOverrideCss());

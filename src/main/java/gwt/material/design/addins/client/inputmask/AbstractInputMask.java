@@ -76,6 +76,7 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     }
 
     private String mask;
+    protected boolean autoReload;
     protected JsInputMaskOptions options = new JsInputMaskOptions();
 
     public AbstractInputMask() {
@@ -194,6 +195,21 @@ public class AbstractInputMask<T> extends MaterialValueBox<T>
     @Override
     public void setValue(T value) {
         super.setValue(value);
+    }
+
+    @Override
+    public void setValue(T value, boolean fireEvents) {
+        super.setValue(value, fireEvents);
+
+        if (autoReload) reload();
+    }
+
+    public boolean isAutoReload() {
+        return autoReload;
+    }
+
+    public void setAutoReload(boolean autoReload) {
+        this.autoReload = autoReload;
     }
 
     @Override

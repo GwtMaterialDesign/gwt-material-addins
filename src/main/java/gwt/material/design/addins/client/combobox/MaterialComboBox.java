@@ -122,6 +122,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     protected List<T> values = new ArrayList<>();
     private Label label = new Label();
     private MaterialLabel errorLabel = new MaterialLabel();
+    private MaterialLabel helperText = new MaterialLabel();
     protected MaterialWidget listbox = new MaterialWidget(Document.get().createSelectElement());
     private KeyFactory<T, String> keyFactory = new AllowBlankKeyFactory<>();
     private JsComboBoxOptions options = JsComboBoxOptions.create();
@@ -150,6 +151,8 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         addWidget(listbox);
         addWidget(label);
         addWidget(errorLabel);
+        helperText.addStyleName("help-description");
+
         errorLabel.setMarginTop(8);
         listbox.setGwtDisplay(Style.Display.BLOCK);
 
@@ -341,7 +344,7 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
         final Iterator<Widget> it = iterator();
         while (it.hasNext()) {
             final Widget widget = it.next();
-            if (widget != label && widget != errorLabel && widget != listbox) {
+            if (widget != label && widget != errorLabel && widget != listbox && widget != helperText) {
                 it.remove();
             }
         }
@@ -625,6 +628,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
     @Override
     public void setSingleValue(T value) {
         setValue(Collections.singletonList(value));
+    }
+
+    public void setSingleValue(T value, String text, boolean addAsDefault) {
+        setValue(Collections.singletonList(value));
+        addItem(text, value);
     }
 
     /**
@@ -1375,5 +1383,11 @@ public class MaterialComboBox<T> extends AbstractValueWidget<List<T>> implements
             asyncWidgetMixin = new AsyncWidgetMixin<>(this);
         }
         return asyncWidgetMixin;
+    }
+
+    @Override
+    public void setHelperText(String helperText) {
+        this.helperText.setText(helperText);
+        addWidget(this.helperText);
     }
 }

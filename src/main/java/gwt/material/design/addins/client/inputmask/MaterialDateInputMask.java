@@ -19,6 +19,7 @@
  */
 package gwt.material.design.addins.client.inputmask;
 
+import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.InitializeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -35,13 +36,14 @@ import gwt.material.design.client.events.SensitivityChangedEvent;
 import gwt.material.design.client.events.ToggleReadOnlyEvent;
 
 import java.util.Date;
+import java.util.List;
 
 public class MaterialDateInputMask extends AbstractValueWidget<Date>
     implements HasFieldTypes, HasLabel, HasInputMaskHandlers, HasPlaceholder, HasReadOnly, HasActive, HasToggleReadOnlyHandler, HasAutocomplete, HasPasteHandlers, HasFieldSensitivity {
 
-    private String format = "YYYY-mm-dd";
-    private MaterialInputMask inputMask;
-    private DateInputParser inputParser;
+    protected String format = "YYYY-mm-dd";
+    protected MaterialInputMask inputMask;
+    protected DateInputParser inputParser;
 
     public MaterialDateInputMask() {
         super(DOM.createDiv());
@@ -50,8 +52,8 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
         inputParser = new DateInputParser(inputMask);
         inputMask.setPlaceholder(format.toUpperCase());
         setMask(format);
-
         setValidateOnBlur(true);
+        addStyleName("input-field date-mask");
     }
 
     @Override
@@ -63,6 +65,16 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
             inputParser.validate(format);
             ValueChangeEvent.fire(this, getValue());
         });
+    }
+
+    @Override
+    public void setErrorText(String errorText) {
+        inputMask.setErrorText(errorText);
+    }
+
+    @Override
+    public void clearErrorText() {
+        inputMask.clearErrorText();
     }
 
     public void setMask(String mask) {
@@ -206,6 +218,22 @@ public class MaterialDateInputMask extends AbstractValueWidget<Date>
     @Override
     public HandlerRegistration addPasteHandler(PasteEvent.PasteEventHandler handler) {
         return inputMask.addPasteHandler(handler);
+    }
+
+    public DateInputParser getInputParser() {
+        return inputParser;
+    }
+
+    public void setInputParser(DateInputParser inputParser) {
+        this.inputParser = inputParser;
+    }
+
+    public MaterialInputMask getInputMask() {
+        return inputMask;
+    }
+
+    public void setInputMask(MaterialInputMask inputMask) {
+        this.inputMask = inputMask;
     }
 
     @Override

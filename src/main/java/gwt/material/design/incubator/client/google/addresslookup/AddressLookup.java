@@ -168,10 +168,13 @@ public class AddressLookup extends MaterialTextBox
      * Will identify the {@link GeocoderAddressComponent} and will return it's value based on {@link AddressComponentType}
      */
     public GeocoderAddressComponent getAddressComponent(AddressComponentType addressComponentType) {
-        for (GeocoderAddressComponent component : getPlace().getAddressComponents()) {
-            for (String type : component.getTypes()) {
-                if (addressComponentType.getName().equals(type)) {
-                    return component;
+        PlaceResult place = getPlace();
+        if (place != null) {
+            for (GeocoderAddressComponent component : getPlace().getAddressComponents()) {
+                for (String type : component.getTypes()) {
+                    if (addressComponentType.getName().equals(type)) {
+                        return component;
+                    }
                 }
             }
         }
