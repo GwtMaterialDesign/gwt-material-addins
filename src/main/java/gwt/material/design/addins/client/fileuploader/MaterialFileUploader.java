@@ -450,7 +450,7 @@ public class MaterialFileUploader extends MaterialWidget implements JsLoader, Ha
             Date lastModifiedDate = new Date();
             // Avoid parsing error on last modified date
             if (file.lastModifiedDate != null && !file.lastModifiedDate.isEmpty()) {
-                lastModifiedDate = new Date(file.lastModifiedDate);
+                lastModifiedDate = new Date((long) file.lastModified);
             }
             return new UploadFile(file.name, lastModifiedDate, Double.parseDouble(file.size), file.type);
         }

@@ -42,6 +42,9 @@ public class Blob {
     public String lastModifiedDate;
 
     @JsProperty
+    public double lastModified;
+
+    @JsProperty
     public String size;
 
     @JsProperty
